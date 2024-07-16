@@ -1,0 +1,15 @@
+[project]
+name = "xaal.knx"
+version = "0.1"
+description = "xAAL devices for KNX bus"
+readme = "README.rst"
+authors = [ { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" } ]
+license = { text = "GPL License"}
+classifiers = ["Programming Language :: Python",
+"Topic :: Software Development :: Libraries :: Python Modules"]
+keywords = ["xaal", "knx"]
+dependencies = ["xaal.lib", "gevent"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.knx"]
