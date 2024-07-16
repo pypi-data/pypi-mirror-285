@@ -1,0 +1,1 @@
+from ._scaling import get_real_resolution,get_scaling,get_screen_size,get_desktop_path
