@@ -1,0 +1,34 @@
+site_name: Phaistos
+theme:
+  name: material
+  highlightjs: true
+  hljs_languages:
+    - yaml
+    - python
+  favicon: assets/images/favicon.ico
+  palette:
+    scheme: slate
+    primary: black
+    accent: lime
+  text: Fira Sans
+  code: Fira Mono
+plugins:
+  - mkdocstrings
+nav:
+  - Welcome: index.md
+  - Main Features: main-features.md
+  - Installation: installation.md
+  - Transpiling schemas:
+    - Defining a Schema: schema.md
+    - Using the Transpiler: transpiler.md
+  - Managing schemas:
+    - Using validation mechanisms: manager.md
+    - Skipping the autodiscovery: noauto.md
+  - Other features:
+    - Logging: logging.md
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

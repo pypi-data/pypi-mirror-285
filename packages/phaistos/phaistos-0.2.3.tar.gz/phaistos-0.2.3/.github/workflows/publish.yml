@@ -1,0 +1,36 @@
+name: Build and publish Phaistos
+run-name: Publish Phaistos distributions to PyPI and TestPyPI 🐍
+on:
+  push:
+    tags:
+      - "v*"
+concurrency:
+  group: ${{ github.ref }}-publish
+  cancel-in-progress: true
+
+jobs:
+  build-and-publish:
+    name: Build Phaistos package 📦
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_VERSION_REF: ${{ github.event.ref }}
+    steps:
+    - name: Get release version from ref
+      id: get_release_version
+      run: echo "RELEASE_VERSION=$(echo $RELEASE_VERSION_REF | cut -d '/' -f 3)" >> $GITHUB_ENV
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.12"
+    - name: Print the release version
+      run: echo "Releasing version $RELEASE_VERSION"
+    - name: Install pypa/build
+      run: python -m pip install build --user
+    - name: Build a binary wheel and a source tarball
+      run: python3 -m build --sdist --wheel --outdir dist/ .
+    - name: Publish distribution 📦 to PyPI
+      if: startsWith(github.ref, 'refs/tags')
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_TOKEN }}

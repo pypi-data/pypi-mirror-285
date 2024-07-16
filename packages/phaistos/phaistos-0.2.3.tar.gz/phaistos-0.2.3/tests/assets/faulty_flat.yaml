@@ -1,0 +1,40 @@
+underscore_in_name: &underscore_in_name
+  validator:
+    mode: after
+    source: |
+      if value.startswith('_'):
+        raise ValueError(f'{info.field_name} cannot start with underscore')
+
+_valid: false
+_expected_failures:
+  - FaultyFlat
+  - database
+  - table
+version: v1
+name: FaultyFlat
+description: Mock configuration for data validation tests
+validator: 
+  mode: after
+  source: |
+    full_address = f'{host}:{port}/{database}/{table}'
+    if '_' in full_address:
+      raise ValueError('Underscore is not allowed in the address')
+properties:
+  host:
+    type: str
+    description: Hostname of the server
+    default: localhost
+  port:
+    type: int
+    description: Port number of the server
+    default: 8080
+  database:
+    type: str
+    description: Name of the database
+    default: _db # This should raise an error
+    <<: *underscore_in_name
+  table:
+    type: str
+    description: Name of the table
+    default: _table # This should raise an error
+    <<: *underscore_in_name
