@@ -1,0 +1,41 @@
+Metadata-Version: 2.3
+Name: feditest
+Version: 0.3
+Summary: Testing federated protocols
+Project-URL: Fediverse Developer Network, https://fedidevs.org/
+Project-URL: Documentation, https://fedidevs.org/projects/testing/feditest/
+Project-URL: Homepage, https://github.com/fediverse-devnet/feditest
+Project-URL: Issues, https://github.com/fediverse-devnet/feditest/issues
+Author-email: Johannes Ernst <git@j12t.org>, Steve Bate <svc-github@stevebate.net>
+License-File: LICENSE
+Classifier: Development Status :: 1 - Planning
+Classifier: Environment :: Console
+Classifier: Framework :: Pytest
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Testing
+Requires-Python: >=3.11
+Requires-Dist: httpx
+Requires-Dist: jinja2
+Requires-Dist: langcodes
+Requires-Dist: msgspec
+Requires-Dist: multidict
+Requires-Dist: pyhamcrest
+Requires-Dist: pytest
+Description-Content-Type: text/markdown
+
+# Feditest: test federated protocols such as those in the Fediverse
+
+This repo contains:
+
+* the FediTest test framework
+
+which allows you to define and run test plans that involve constellations of servers (like Fediverse instances) whose communication you want to test.
+
+The actual tests for the Fediverse are in their own [repository](https://github.com/fediverse-devnet/feditest-tests-fediverse).
+
+For more details, check out [feditest.org](https://feditest.org/) and find us on Matrix in [#fediverse-testing:matrix.org](https://matrix.to/#/%23fediverse-testing:matrix.org).
+
