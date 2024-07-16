@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Test Report</title>
+    <style>body {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  /* do not increase min-width as some may use split screens */
+  min-width: 800px;
+  color: #999;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+}
+
+h2 {
+  font-size: 16px;
+  color: black;
+}
+
+p {
+  color: black;
+}
+
+a {
+  color: #999;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/******************************
+ * SUMMARY INFORMATION
+ ******************************/
+#environment td {
+  padding: 5px;
+  border: 1px solid #E6E6E6;
+}
+#environment tr:nth-child(odd) {
+  background-color: #f6f6f6;
+}
+
+/******************************
+ * TEST RESULT COLORS
+ ******************************/
+span.passed,
+.passed .col-result {
+  color: green;
+}
+
+span.skipped,
+span.xfailed,
+span.rerun,
+.skipped .col-result,
+.xfailed .col-result,
+.rerun .col-result {
+  color: orange;
+}
+
+span.error,
+span.failed,
+span.xpassed,
+.error .col-result,
+.failed .col-result,
+.xpassed .col-result {
+  color: red;
+}
+
+/******************************
+ * RESULTS TABLE
+ *
+ * 1. Table Layout
+ * 2. Extra
+ * 3. Sorting items
+ *
+ ******************************/
+/*------------------
+ * 1. Table Layout
+ *------------------*/
+#results-table {
+  border: 1px solid #e6e6e6;
+  color: #999;
+  font-size: 12px;
+  width: 100%;
+}
+#results-table th,
+#results-table td {
+  padding: 5px;
+  border: 1px solid #E6E6E6;
+  text-align: left;
+}
+#results-table th {
+  font-weight: bold;
+}
+
+/*------------------
+ * 2. Extra
+ *------------------*/
+.log {
+  background-color: #e6e6e6;
+  border: 1px solid #e6e6e6;
+  color: black;
+  display: block;
+  font-family: "Courier New", Courier, monospace;
+  height: 230px;
+  overflow-y: scroll;
+  padding: 5px;
+  white-space: pre-wrap;
+}
+.log:only-child {
+  height: inherit;
+}
+
+div.image {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin-left: 5px;
+  overflow: hidden;
+  width: 320px;
+}
+div.image img {
+  width: 320px;
+}
+
+div.video {
+  border: 1px solid #e6e6e6;
+  float: right;
+  height: 240px;
+  margin-left: 5px;
+  overflow: hidden;
+  width: 320px;
+}
+div.video video {
+  overflow: hidden;
+  width: 320px;
+  height: 240px;
+}
+
+.collapsed {
+  display: none;
+}
+
+.expander::after {
+  content: " (show details)";
+  color: #BBB;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.collapser::after {
+  content: " (hide details)";
+  color: #BBB;
+  font-style: italic;
+  cursor: pointer;
+}
+
+/*------------------
+ * 3. Sorting items
+ *------------------*/
+.sortable {
+  cursor: pointer;
+}
+
+.sort-icon {
+  font-size: 0px;
+  float: left;
+  margin-right: 5px;
+  margin-top: 5px;
+  /*triangle*/
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+}
+.inactive .sort-icon {
+  /*finish triangle*/
+  border-top: 8px solid #E6E6E6;
+}
+.asc.active .sort-icon {
+  /*finish triangle*/
+  border-bottom: 8px solid #999;
+}
+.desc.active .sort-icon {
+  /*finish triangle*/
+  border-top: 8px solid #999;
+}
+</style></head>
+  <body onLoad="init()">
+    <script>/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this file,
+ * You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+function toArray(iter) {
+    if (iter === null) {
+        return null;
+    }
+    return Array.prototype.slice.call(iter);
+}
+
+function find(selector, elem) { // eslint-disable-line no-redeclare
+    if (!elem) {
+        elem = document;
+    }
+    return elem.querySelector(selector);
+}
+
+function findAll(selector, elem) {
+    if (!elem) {
+        elem = document;
+    }
+    return toArray(elem.querySelectorAll(selector));
+}
+
+function sortColumn(elem) {
+    toggleSortStates(elem);
+    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    let key;
+    if (elem.classList.contains('result')) {
+        key = keyResult;
+    } else if (elem.classList.contains('links')) {
+        key = keyLink;
+    } else {
+        key = keyAlpha;
+    }
+    sortTable(elem, key(colIndex));
+}
+
+function showAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(showExtras);
+}
+
+function hideAllExtras() { // eslint-disable-line no-unused-vars
+    findAll('.col-result').forEach(hideExtras);
+}
+
+function showExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.remove('collapsed');
+    expandcollapse.classList.remove('expander');
+    expandcollapse.classList.add('collapser');
+}
+
+function hideExtras(colresultElem) {
+    const extras = colresultElem.parentNode.nextElementSibling;
+    const expandcollapse = colresultElem.firstElementChild;
+    extras.classList.add('collapsed');
+    expandcollapse.classList.remove('collapser');
+    expandcollapse.classList.add('expander');
+}
+
+function showFilters() {
+    const filterItems = document.getElementsByClassName('filter');
+    for (let i = 0; i < filterItems.length; i++)
+        filterItems[i].hidden = false;
+}
+
+function addCollapse() {
+    // Add links for show/hide all
+    const resulttable = find('table#results-table');
+    const showhideall = document.createElement('p');
+    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
+                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    resulttable.parentElement.insertBefore(showhideall, resulttable);
+
+    // Add show/hide link to each result
+    findAll('.col-result').forEach(function(elem) {
+        const collapsed = getQueryParameter('collapsed') || 'Passed';
+        const extras = elem.parentNode.nextElementSibling;
+        const expandcollapse = document.createElement('span');
+        if (extras.classList.contains('collapsed')) {
+            expandcollapse.classList.add('expander');
+        } else if (collapsed.includes(elem.innerHTML)) {
+            extras.classList.add('collapsed');
+            expandcollapse.classList.add('expander');
+        } else {
+            expandcollapse.classList.add('collapser');
+        }
+        elem.appendChild(expandcollapse);
+
+        elem.addEventListener('click', function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
+                showExtras(event.currentTarget);
+            } else {
+                hideExtras(event.currentTarget);
+            }
+        });
+    });
+}
+
+function getQueryParameter(name) {
+    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+
+function init () { // eslint-disable-line no-unused-vars
+    resetSortHeaders();
+
+    addCollapse();
+
+    showFilters();
+
+    sortColumn(find('.initial-sort'));
+
+    findAll('.sortable').forEach(function(elem) {
+        elem.addEventListener('click',
+            function() {
+                sortColumn(elem);
+            }, false);
+    });
+}
+
+function sortTable(clicked, keyFunc) {
+    const rows = findAll('.results-table-row');
+    const reversed = !clicked.classList.contains('asc');
+    const sortedRows = sort(rows, keyFunc, reversed);
+    /* Whole table is removed here because browsers acts much slower
+     * when appending existing elements.
+     */
+    const thead = document.getElementById('results-table-head');
+    document.getElementById('results-table').remove();
+    const parent = document.createElement('table');
+    parent.id = 'results-table';
+    parent.appendChild(thead);
+    sortedRows.forEach(function(elem) {
+        parent.appendChild(elem);
+    });
+    document.getElementsByTagName('BODY')[0].appendChild(parent);
+}
+
+function sort(items, keyFunc, reversed) {
+    const sortArray = items.map(function(item, i) {
+        return [keyFunc(item), i];
+    });
+
+    sortArray.sort(function(a, b) {
+        const keyA = a[0];
+        const keyB = b[0];
+
+        if (keyA == keyB) return 0;
+
+        if (reversed) {
+            return keyA < keyB ? 1 : -1;
+        } else {
+            return keyA > keyB ? 1 : -1;
+        }
+    });
+
+    return sortArray.map(function(item) {
+        const index = item[1];
+        return items[index];
+    });
+}
+
+function keyAlpha(colIndex) {
+    return function(elem) {
+        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+    };
+}
+
+function keyLink(colIndex) {
+    return function(elem) {
+        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
+        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+    };
+}
+
+function keyResult(colIndex) {
+    return function(elem) {
+        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+            'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+    };
+}
+
+function resetSortHeaders() {
+    findAll('.sort-icon').forEach(function(elem) {
+        elem.parentNode.removeChild(elem);
+    });
+    findAll('.sortable').forEach(function(elem) {
+        const icon = document.createElement('div');
+        icon.className = 'sort-icon';
+        icon.textContent = 'vvv';
+        elem.insertBefore(icon, elem.firstChild);
+        elem.classList.remove('desc', 'active');
+        elem.classList.add('asc', 'inactive');
+    });
+}
+
+function toggleSortStates(elem) {
+    //if active, toggle between asc and desc
+    if (elem.classList.contains('active')) {
+        elem.classList.toggle('asc');
+        elem.classList.toggle('desc');
+    }
+
+    //if inactive, reset all other functions and add ascending active
+    if (elem.classList.contains('inactive')) {
+        resetSortHeaders();
+        elem.classList.remove('inactive');
+        elem.classList.add('active');
+    }
+}
+
+function isAllRowsHidden(value) {
+    return value.hidden == false;
+}
+
+function filterTable(elem) { // eslint-disable-line no-unused-vars
+    const outcomeAtt = 'data-test-result';
+    const outcome = elem.getAttribute(outcomeAtt);
+    const classOutcome = outcome + ' results-table-row';
+    const outcomeRows = document.getElementsByClassName(classOutcome);
+
+    for(let i = 0; i < outcomeRows.length; i++){
+        outcomeRows[i].hidden = !elem.checked;
+    }
+
+    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
+    const allRowsHidden = rows.length == 0 ? true : false;
+    const notFoundMessage = document.getElementById('not-found-message');
+    notFoundMessage.hidden = !allRowsHidden;
+}
+</script>
+    <h1>report.html</h1>
+    <p>Report generated on 02-Jun-2021 at 15:36:53 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a> v3.1.1</p>
+    <h2>Environment</h2>
+    <table id="environment">
+      <tr>
+        <td>JAVA_HOME</td>
+        <td>C:\Program Files\Java\jre1.8.0_271</td></tr>
+      <tr>
+        <td>Packages</td>
+        <td>{"pluggy": "0.13.1", "py": "1.10.0", "pytest": "6.2.4"}</td></tr>
+      <tr>
+        <td>Platform</td>
+        <td>Windows-10-10.0.18362-SP0</td></tr>
+      <tr>
+        <td>Plugins</td>
+        <td>{"html": "3.1.1", "metadata": "1.11.0"}</td></tr>
+      <tr>
+        <td>Python</td>
+        <td>3.6.10</td></tr></table>
+    <h2>Summary</h2>
+    <p>7 tests ran in 107.46 seconds. </p>
+    <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter" data-test-result="passed" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="passed">7 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="skipped">0 skipped</span>, <input checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true" class="filter" data-test-result="error" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xfailed">0 expected failures</span>, <input checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox" onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>
+    <h2>Results</h2>
+    <table id="results-table">
+      <thead id="results-table-head">
+        <tr>
+          <th class="sortable result initial-sort" col="result">Result</th>
+          <th class="sortable" col="name">Test</th>
+          <th class="sortable" col="duration">Duration</th>
+          <th class="sortable links" col="links">Links</th></tr>
+        <tr hidden="true" id="not-found-message">
+          <th colspan="4">No results found. Try to check the filters</th></tr></thead>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_table_user_log.py::test_table_user_log_run</td>
+          <td class="col-duration">12.82</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>Going to create spark session
+<br/> -----------------------------Captured stderr setup------------------------------ <br/>21/06/02 15:35:11 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+Using Spark&#x27;s default log4j profile: org/apache/spark/log4j-defaults.properties
+Setting default log level to &quot;WARN&quot;.
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).
+<br/> ------------------------------Captured stdout call------------------------------ <br/>######### Read logs into a dataframe  
+data/test/log_sample.log.gz
+######### Select all required fields to store into userlog 
+######### User_id definition ########################################
+######### Additional features   #####################################
+######### Add Bucketing   ##########################################
+Size log 1001
+######### Writing on disk with partition of ipHashBucket 
+                                                                         0                            1
+loggedtimestamp                                2015-07-22T09:00:28.019143Z  2015-07-22T09:00:27.824580Z
+loggeddate                                                      2015-07-22                   2015-07-22
+hour                                                                     9                            9
+minute                                                                   0                            0
+elb                                                       marketpalce-shop                         None
+sourceIP                                                   123.242.248.130                203.91.211.44
+request_processing_time                                           0.000022                         None
+backend_processing_time                                           0.026109                         None
+elb_status_code                                                        200                         None
+backend_status_code                                                    200                         None
+received_bytes                                                           0                         None
+sent_bytes                                                             699                         None
+URL                      https://paytm.com:443/shop/authresponse?code=f...                         None
+user_agent               Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKi...                         None
+os                                                                 Windows                             
+device                                                               Other                             
+browser                                                             Chrome                             
+user_id                                                    123.242.248.130                203.91.211.44
+sourceIPPrefix                                                 123.242.248                   203.91.211
+useragenthash                                                    217164113                           42
+ts                                                              1437588028                   1437588027
+IPHashBucket                                                            25                           25
+<br/> ------------------------------Captured stderr call------------------------------ <br/>[Stage 2:&gt;                                                          (0 + 1) / 1]                                                                                [Stage 3:&gt;                                                          (0 + 1) / 1]                                                                                21/06/02 15:35:20 WARN Utils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting &#x27;spark.debug.maxToStringFields&#x27; in SparkEnv.conf.
+<br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_table_user_session_log.py::test_table_user_session_log</td>
+          <td class="col-duration">30.73</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>Going to execute table_user_session_log_run
+###### Generate  user_session_id,  is_new_session from user_log #######################
+[&#x27;loggedtimestamp&#x27;, &#x27;hour&#x27;, &#x27;minute&#x27;, &#x27;elb&#x27;, &#x27;sourceIP&#x27;, &#x27;request_processing_time&#x27;, &#x27;backend_processing_time&#x27;, &#x27;elb_status_code&#x27;, &#x27;backend_status_code&#x27;, &#x27;received_bytes&#x27;, &#x27;sent_bytes&#x27;, &#x27;URL&#x27;, &#x27;user_agent&#x27;, &#x27;os&#x27;, &#x27;device&#x27;, &#x27;browser&#x27;, &#x27;user_id&#x27;, &#x27;sourceIPPrefix&#x27;, &#x27;useragenthash&#x27;, &#x27;ts&#x27;, &#x27;IPHashBucket&#x27;, &#x27;loggeddate&#x27;]
+                                                                 0                                                  1
+user_id                                              1.187.217.224                                      1.187.217.224
+loggedtimestamp                        2015-07-22T09:00:28.784397Z                        2015-07-22T09:00:29.938427Z
+ts                                                      1437588028                                         1437588029
+sourceIP                                             1.187.217.224                                      1.187.217.224
+user_agent       Mozilla/5.0 (Linux; U; Android 4.4.2; en-US; A...  Mozilla/5.0 (Linux; U; Android 4.4.2; en-US; A...
+useragenthash                                            236440475                                          236440475
+URL              https://paytm.com:443/shop/authresponse?code=8...                    https://paytm.com:443/shop/cart
+os                                                         Android                                            Android
+device                                               Aqua Star 5.0                                      Aqua Star 5.0
+last_event                                                    None                        2015-07-22T09:00:28.784397Z
+loggeddate                                              2015-07-22                                         2015-07-22
+hour                                                             9                                                  9
+IPHashBucket                                                     8                                                  8
+user_session_id          1.187.217.224_2015-07-22T09:00:28.784397Z          1.187.217.224_2015-07-22T09:00:28.784397Z
+###### Statistics per user_session :  sessionduration, start, end, ... ###################
+                                                          0                                        1
+user_session_id   14.141.115.46_2015-07-22T09:00:29.935999Z  1.39.35.172_2015-07-22T09:00:28.563787Z
+user_id                                       14.141.115.46                              1.39.35.172
+sourceIP                                      14.141.115.46                              1.39.35.172
+IPHashBucket                                              1                                        4
+starttimestamp                  2015-07-22T09:00:29.935999Z              2015-07-22T09:00:28.563787Z
+endtimestamp                    2015-07-22T09:00:30.266162Z              2015-07-22T09:00:28.563787Z
+session_duration                                          1                                        0
+n_unique_url                                              2                                        1
+n_events                                                  2                                        1
+<br/> -----------------------------Captured stderr setup------------------------------ <br/>21/06/02 15:35:23 WARN FileUtil: Failed to delete file or dir [D:\_devs\Python01\gitdev\arepo\zesresr\output\test\tables\usersession\_temporary]: it still exists.
+[Stage 39:&gt;                                                         (0 + 1) / 8][Stage 39:=======&gt;                                                  (1 + 1) / 8][Stage 39:==============&gt;                                           (2 + 1) / 8][Stage 39:=====================&gt;                                    (3 + 1) / 8][Stage 39:=============================&gt;                            (4 + 1) / 8][Stage 39:====================================&gt;                     (5 + 1) / 8][Stage 39:===========================================&gt;              (6 + 1) / 8][Stage 39:==================================================&gt;       (7 + 1) / 8]                                                                                <br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_table_user_session_log.py::test_table_user_session_log_stats</td>
+          <td class="col-duration">16.95</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>[Stage 61:======================================&gt;                (70 + 1) / 100]                                                                                [Stage 63:=====================================================&gt; (98 + 1) / 100]                                                                                [Stage 65:==========&gt;                                              (2 + 1) / 11][Stage 65:===============&gt;                                         (3 + 1) / 11][Stage 65:====================&gt;                                    (4 + 1) / 11][Stage 65:=========================&gt;                               (5 + 1) / 11][Stage 65:===============================&gt;                         (6 + 1) / 11][Stage 65:====================================&gt;                    (7 + 1) / 11][Stage 65:==============================================&gt;          (9 + 1) / 11][Stage 65:==================================================&gt;     (10 + 1) / 11]                                                                                [Stage 66:===============&gt;                                         (3 + 1) / 11][Stage 66:====================&gt;                                    (4 + 1) / 11][Stage 66:=========================&gt;                               (5 + 1) / 11][Stage 66:===============================&gt;                         (6 + 1) / 11][Stage 66:=========================================&gt;               (8 + 1) / 11][Stage 66:==============================================&gt;          (9 + 1) / 11][Stage 66:==================================================&gt;     (10 + 1) / 11]                                                                                [Stage 68:===============&gt;                                         (3 + 1) / 11][Stage 68:=========================&gt;                               (5 + 1) / 11][Stage 68:===============================&gt;                         (6 + 1) / 11][Stage 68:====================================&gt;                    (7 + 1) / 11][Stage 68:=========================================&gt;               (8 + 1) / 11][Stage 68:==================================================&gt;     (10 + 1) / 11]                                                                                [Stage 69:===============&gt;                                         (3 + 1) / 11][Stage 69:====================&gt;                                    (4 + 1) / 11][Stage 69:=========================&gt;                               (5 + 1) / 11][Stage 69:===============================&gt;                         (6 + 1) / 11][Stage 69:====================================&gt;                    (7 + 1) / 11][Stage 69:=========================================&gt;               (8 + 1) / 11][Stage 69:==============================================&gt;          (9 + 1) / 11]                                                                                [Stage 72:===============&gt;                                         (3 + 1) / 11][Stage 72:====================&gt;                                    (4 + 1) / 11][Stage 72:=========================&gt;                               (5 + 1) / 11][Stage 72:====================================&gt;                    (7 + 1) / 11][Stage 72:=========================================&gt;               (8 + 1) / 11][Stage 72:==============================================&gt;          (9 + 1) / 11]                                                                                [Stage 73:====================&gt;                                    (4 + 1) / 11][Stage 73:=========================&gt;                               (5 + 1) / 11][Stage 73:===============================&gt;                         (6 + 1) / 11][Stage 73:====================================&gt;                    (7 + 1) / 11][Stage 73:=========================================&gt;               (8 + 1) / 11][Stage 73:==============================================&gt;          (9 + 1) / 11]                                                                                [Stage 75:===============&gt;                                         (3 + 1) / 11][Stage 75:====================&gt;                                    (4 + 1) / 11][Stage 75:===============================&gt;                         (6 + 1) / 11][Stage 75:====================================&gt;                    (7 + 1) / 11][Stage 75:=========================================&gt;               (8 + 1) / 11][Stage 75:==================================================&gt;     (10 + 1) / 11]                                                                                [Stage 76:==========&gt;                                              (2 + 1) / 11][Stage 76:====================&gt;                                    (4 + 1) / 11][Stage 76:=========================&gt;                               (5 + 1) / 11][Stage 76:===============================&gt;                         (6 + 1) / 11][Stage 76:====================================&gt;                    (7 + 1) / 11][Stage 76:=========================================&gt;               (8 + 1) / 11][Stage 76:==============================================&gt;          (9 + 1) / 11]                                                                                <br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_table_user_session_stats.py::test_table_user_session_stats</td>
+          <td class="col-duration">24.76</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> -----------------------------Captured stdout setup------------------------------ <br/>Going to execute table_user_session_stats_run
+######  Load usersessionstats table
+###### 1) Get the avg, min and max session duration whole users.
++--------------------+--------------------+--------------------+
+|min_session_duration|max_session_duration|avg_session_duration|
++--------------------+--------------------+--------------------+
+|                   0|                   2|  0.2743764172335601|
++--------------------+--------------------+--------------------+
+
+None
+###### 2) Get Unique URL count per session 
++--------------------+------------+
+|     user_session_id|n_unique_url|
++--------------------+------------+
+|223.196.243.127_2...|           3|
+|122.180.141.102_2...|           1|
+|203.200.232.121_2...|           3|
+|122.169.170.254_2...|           2|
+|203.123.182.161_2...|           1|
+|122.177.211.114_2...|           1|
+|111.119.231.194_2...|           1|
+|114.143.246.178_2...|           1|
+|117.205.160.216_2...|           1|
+|121.244.199.142_2...|           1|
++--------------------+------------+
+only showing top 10 rows
+
+None
+###### 3) Most Engaged : users with longest session duration
++---------------+--------------------+--------------------+--------------------+
+|        user_id|min_session_duration|max_session_duration|avg_session_duration|
++---------------+--------------------+--------------------+--------------------+
+|   203.91.192.5|                   2|                   2|                 2.0|
+|117.240.248.194|                   2|                   2|                 2.0|
+|   14.102.53.58|                   2|                   2|                 2.0|
+| 115.248.71.233|                   2|                   2|                 2.0|
+| 122.15.156.144|                   2|                   2|                 2.0|
+|106.216.149.189|                   2|                   2|                 2.0|
+|    59.94.7.155|                   2|                   2|                 2.0|
+|  117.211.83.18|                   2|                   2|                 2.0|
+| 114.31.251.116|                   2|                   2|                 2.0|
+|   170.74.56.80|                   2|                   2|                 2.0|
++---------------+--------------------+--------------------+--------------------+
+only showing top 10 rows
+
+Top 10 most engaged users None
+<br/> -----------------------------Captured stderr setup------------------------------ <br/>[Stage 81:===============&gt;                                         (3 + 1) / 11][Stage 81:====================&gt;                                    (4 + 1) / 11][Stage 81:===============================&gt;                         (6 + 1) / 11][Stage 81:====================================&gt;                    (7 + 1) / 11][Stage 81:=========================================&gt;               (8 + 1) / 11][Stage 81:==================================================&gt;     (10 + 1) / 11]                                                                                [Stage 83:===============&gt;                                         (3 + 1) / 11][Stage 83:====================&gt;                                    (4 + 1) / 11][Stage 83:===============================&gt;                         (6 + 1) / 11][Stage 83:====================================&gt;                    (7 + 1) / 11][Stage 83:=========================================&gt;               (8 + 1) / 11][Stage 83:==================================================&gt;     (10 + 1) / 11]                                                                                [Stage 86:==========&gt;                                              (2 + 1) / 11][Stage 86:====================&gt;                                    (4 + 1) / 11][Stage 86:=========================&gt;                               (5 + 1) / 11][Stage 86:====================================&gt;                    (7 + 1) / 11][Stage 86:=========================================&gt;               (8 + 1) / 11][Stage 86:==============================================&gt;          (9 + 1) / 11]                                                                                [Stage 88:===============&gt;                                         (3 + 1) / 11][Stage 88:====================&gt;                                    (4 + 1) / 11][Stage 88:=========================&gt;                               (5 + 1) / 11][Stage 88:===============================&gt;                         (6 + 1) / 11][Stage 88:====================================&gt;                    (7 + 1) / 11][Stage 88:=========================================&gt;               (8 + 1) / 11][Stage 88:==============================================&gt;          (9 + 1) / 11]                                                                                [Stage 92:===================&gt;                                      (1 + 1) / 3][Stage 92:======================================&gt;                   (2 + 1) / 3]                                                                                [Stage 93:==========&gt;                                              (2 + 1) / 11][Stage 93:===============&gt;                                         (3 + 1) / 11][Stage 93:====================&gt;                                    (4 + 1) / 11][Stage 93:=========================&gt;                               (5 + 1) / 11][Stage 93:===============================&gt;                         (6 + 1) / 11][Stage 93:====================================&gt;                    (7 + 1) / 11][Stage 93:=========================================&gt;               (8 + 1) / 11][Stage 93:==============================================&gt;          (9 + 1) / 11][Stage 93:==================================================&gt;     (10 + 1) / 11]                                                                                <br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_table_user_session_stats.py::test_table_user_session_stats_ip</td>
+          <td class="col-duration">9.24</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stderr call------------------------------ <br/>[Stage 115:===================&gt;                                     (2 + 1) / 6][Stage 115:============================&gt;                            (3 + 1) / 6][Stage 115:======================================&gt;                  (4 + 1) / 6]                                                                                [Stage 116:===================&gt;                                     (2 + 1) / 6][Stage 116:============================&gt;                            (3 + 1) / 6][Stage 116:===============================================&gt;         (5 + 1) / 6]                                                                                [Stage 118:============================&gt;                            (3 + 1) / 6][Stage 118:======================================&gt;                  (4 + 1) / 6]                                                                                [Stage 119:======================================&gt;                  (4 + 1) / 6][Stage 119:===============================================&gt;         (5 + 1) / 6]                                                                                [Stage 122:======================================&gt;                  (4 + 1) / 6]                                                                                [Stage 123:============================&gt;                            (3 + 1) / 6][Stage 123:======================================&gt;                  (4 + 1) / 6]                                                                                [Stage 125:============================&gt;                            (3 + 1) / 6][Stage 125:===============================================&gt;         (5 + 1) / 6]                                                                                [Stage 126:===================&gt;                                     (2 + 1) / 6][Stage 126:============================&gt;                            (3 + 1) / 6][Stage 126:======================================&gt;                  (4 + 1) / 6]                                                                                <br/></div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_utils.py::test_config_load</td>
+          <td class="col-duration">0.00</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="empty log">No log output captured.</div></td></tr></tbody>
+      <tbody class="passed results-table-row">
+        <tr>
+          <td class="col-result">Passed</td>
+          <td class="col-name">tests/test_utils.py::test_spark_check</td>
+          <td class="col-duration">9.31</td>
+          <td class="col-links"></td></tr>
+        <tr>
+          <td class="extra" colspan="4">
+            <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>                      0              1
+ipaddr    1.187.217.224  1.187.236.169
+ts           1437588028     1437588030
+duration            100            200
+                      0              1
+ipaddr    1.187.217.224  1.187.236.169
+ts           1437588028     1437588030
+duration            100            200
++-------------+----------+--------+
+|ipaddr       |ts        |duration|
++-------------+----------+--------+
+|1.187.217.224|1437588028|100     |
+|1.187.236.169|1437588030|200     |
++-------------+----------+--------+
+only showing top 2 rows
+
+<br/> ------------------------------Captured stderr call------------------------------ <br/>[Stage 132:&gt;                                                        (0 + 1) / 1]                                                                                [Stage 141:&gt;                                                        (0 + 1) / 1]                                                                                [Stage 150:&gt;                (0 + 0) / 1][Stage 151:&gt;                (0 + 1) / 1][Stage 150:&gt;                                                        (0 + 1) / 1]                                                                                <br/></div></td></tr></tbody></table></body></html>

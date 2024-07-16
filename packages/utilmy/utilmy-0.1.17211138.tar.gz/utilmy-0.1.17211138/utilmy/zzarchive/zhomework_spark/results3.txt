@@ -1,0 +1,233 @@
+D:\_devs\Python01\gitdev\arepo\zesresr (main -> origin)                                                                                      
+λ  python main.py  --config_path  config/config.yaml                                                                                         
+Using config/config.yaml                                                                                                                     
+21/06/04 03:17:30 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable                                                                                                                                            
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties                                                              
+Setting default log level to "WARN".                                                                                                         
+To adjust logging level use sc.setLogLevel(newLevel). For SparkR, use setLogLevel(newLevel).                                                 
+21/06/04 03:17:31 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.                                           
+######  Load usersessionstats table                                                                                                          
+###### 2) Get the avg, min and max session duration whole users.                                                                             
++--------------------+--------------------+--------------------+----------+                                                                  
+|min_session_duration|max_session_duration|avg_session_duration|n_sessions|                                                                  
++--------------------+--------------------+--------------------+----------+                                                                  
+|                   0|                1164|   83.24408329888384|    116112|                                                                  
++--------------------+--------------------+--------------------+----------+                                                                  
+                                                                                                                                             
+None                                                                                                                                         
+###### 3) Get Unique URL count per session                                                                                                   
++--------------------+------------+                                                                                                          
+|     user_session_id|n_unique_url|                                                                                                          
++--------------------+------------+                                                                                                          
+|119.81.61.166_201...|        8016|                                                                                                          
+|106.186.23.95_201...|        4656|                                                                                                          
+|52.74.219.71_2015...|        3998|                                                                                                          
+|119.81.61.166_201...|        3928|                                                                                                          
+|119.81.61.166_201...|        3637|                                                                                                          
+|52.74.219.71_2015...|        3601|                                                                                                          
+|119.81.61.166_201...|        3334|                                                                                                          
+|52.74.219.71_2015...|        3282|                                                                                                          
+|119.81.61.166_201...|        2841|                                                                                                          
+|119.81.61.166_201...|        2786|                                                                                                          
+|106.51.132.54_201...|        2597|                                                                                                          
+|52.74.219.71_2015...|        2196|                                                                                                          
+|106.186.23.95_201...|        2112|                                                                                                          
+|54.169.20.106_201...|        1896|                                                                                                          
+|52.74.219.71_2015...|        1731|                                                                                                          
++--------------------+------------+                                                                                                          
+only showing top 15 rows                                                                                                                     
+                                                                                                                                             
+None                                                                                                                                         
+###### 4) Most Engaged : users with longest session duration                                                                                 
++---------------+--------------------+--------------------+--------------------+                                                             
+|        user_id|min_session_duration|max_session_duration|avg_session_duration|                                                             
++---------------+--------------------+--------------------+--------------------+                                                             
+|   125.19.44.66|                   0|                1164|            316.8125|                                                             
+|  106.186.23.95|                 117|                1164|  390.45454545454544|                                                             
+|   8.37.225.122|                  63|                1164|               444.0|                                                             
+|  115.248.37.69|                  11|                1164|   326.1666666666667|                                                             
+|   52.74.219.71|                   7|                1164|   375.9166666666667|                                                             
+|  119.81.61.166|                   7|                1164|   384.6666666666667|                                                             
+|213.239.204.204|                   2|                1162|   373.1666666666667|                                                             
+|  54.251.151.39|                   0|                1162|               360.6|                                                             
+|  196.15.16.102|                   2|                1162|               317.6|                                                             
+|   59.144.58.37|                   0|                1162|  276.61538461538464|                                                             
++---------------+--------------------+--------------------+--------------------+                                                             
+only showing top 10 rows                                                                                                                     
+                                                                                                                                             
+Top 10 most engaged users None
+
+
+
+
+
+
+
+
+
+                                                                                                               
+######  Load Raw features table and Preprocesss #################                                                                            
+########## Load userssionsta  ###############################################                                                                
+########## coly: label  #####################################################                                                                
+########## Numerical features : T  ##########################################                                                                
+########## Auto-Regressive features : T-1  ##################################                                                                
+########## Auto-Regressive features : T-2  ##################################                                                                
+######### Categorical Variables  ############################################                                                                
++--------------------+-------------+-------------+-------+------+----+--------------------+--------------------+----------------+------------+--------+------------+-----+-----------------+-------------+---------------------+-----------------+-------------+---------------------+------+----------+--------------+----------------+                                                                                               
+|     user_session_id|      user_id|     sourceIP|     os|device|hour|      starttimestamp|        endtimestamp|session_duration|n_unique_url|n_events|IPHashBucket|label|n_unique_url_lag1|n_events_lag1|session_duration_lag1|n_unique_url_lag2|n_events_lag2|session_duration_lag2|os_enc|device_enc|       os_1hot|     device_1hot|                                                                                               
++--------------------+-------------+-------------+-------+------+----+--------------------+--------------------+----------------+------------+--------+------------+-----+-----------------+-------------+---------------------+-----------------+-------------+---------------------+------+----------+--------------+----------------+                                                                                               
+|1.186.108.242_201...|1.186.108.242|1.186.108.242|Windows| Other|  16|2015-07-22T16:22:...|2015-07-22T16:22:...|               3|           3|       3|          12|    6|             null|         null|                 null|             null|         null|                 null|   0.0|       0.0|(32,[0],[1.0])|(1464,[0],[1.0])|                                                                                               
++--------------------+-------------+-------------+-------+------+----+--------------------+--------------------+----------------+------------+--------+------------+-----+-----------------+-------------+---------------------+-----------------+-------------+---------------------+------+----------+--------------+----------------+                                                                                               
+only showing top 1 row                                                                                                                       
+                                                                                                                                             
+None                                                                                                                                         
+######### Merge  ############################################################                                                                
+                                                                       0                                                  1                  
+user_session_id                  1.186.79.11_2015-07-22T16:11:36.857234Z            1.186.79.11_2015-07-22T16:44:04.817748Z                  
+user_id                                                      1.186.79.11                                        1.186.79.11                  
+sourceIP                                                     1.186.79.11                                        1.186.79.11                  
+os                                                               Windows                                            Windows                  
+device                                                             Other                                              Other                  
+hour                                                                  16                                                 16                  
+starttimestamp                               2015-07-22T16:11:36.857234Z                        2015-07-22T16:44:04.817748Z                  
+endtimestamp                                 2015-07-22T16:13:26.692033Z                        2015-07-22T16:44:04.817748Z                  
+session_duration                                                     110                                                  0                  
+n_unique_url                                                          64                                                  1                  
+n_events                                                              66                                                  1                  
+IPHashBucket                                                          12                                                 12                  
+label                                                                  0                                                 72                  
+n_unique_url_lag1                                                     80                                                 64                  
+n_events_lag1                                                         80                                                 66                  
+session_duration_lag1                                                  6                                                110                  
+n_unique_url_lag2                                                      3                                                 80                  
+n_events_lag2                                                          3                                                 80                  
+session_duration_lag2                                                  3                                                  6                  
+os_enc                                                                 0                                                  0                  
+device_enc                                                             0                                                  0                  
+os_1hot                (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+device_1hot            (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+features               (64.0, 66.0, 110.0, 80.0, 80.0, 6.0, 3.0, 3.0,...  (1.0, 1.0, 0.0, 64.0, 66.0, 110.0, 80.0, 80.0,...                  
+[Stage 34:>                                                         (0 + 1) / 8]21/06/04 03:19:29 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeSystemBLAS                                                                                                
+21/06/04 03:19:29 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeRefBLAS                                      
+21/06/04 03:20:38 WARN Utils: Truncated the string representation of a plan since it was too large. This behavior can be adjusted by setting 
+'spark.debug.maxToStringFields' in SparkEnv.conf.                                                                                            
+RMSE_train 166.18303497157004                                                                                                                
+RMSE_test 166.0938044859328                                                                                                                  
+                                                                       0                                                  1                  
+user_session_id                  1.186.79.11_2015-07-22T16:11:36.857234Z            1.186.79.11_2015-07-22T16:44:04.817748Z                  
+user_id                                                      1.186.79.11                                        1.186.79.11                  
+sourceIP                                                     1.186.79.11                                        1.186.79.11                  
+os                                                               Windows                                            Windows                  
+device                                                             Other                                              Other                  
+hour                                                                  16                                                 16                  
+starttimestamp                               2015-07-22T16:11:36.857234Z                        2015-07-22T16:44:04.817748Z                  
+endtimestamp                                 2015-07-22T16:13:26.692033Z                        2015-07-22T16:44:04.817748Z                  
+session_duration                                                     110                                                  0                  
+n_unique_url                                                          64                                                  1                  
+n_events                                                              66                                                  1                  
+IPHashBucket                                                          12                                                 12                  
+label                                                                  0                                                 72                  
+n_unique_url_lag1                                                     80                                                 64                  
+n_events_lag1                                                         80                                                 66                  
+session_duration_lag1                                                  6                                                110                  
+n_unique_url_lag2                                                      3                                                 80                  
+n_events_lag2                                                          3                                                 80                  
+session_duration_lag2                                                  3                                                  6                  
+os_enc                                                                 0                                                  0                  
+device_enc                                                             0                                                  0                  
+os_1hot                (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+device_1hot            (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+features               (64.0, 66.0, 110.0, 80.0, 80.0, 6.0, 3.0, 3.0,...  (1.0, 1.0, 0.0, 64.0, 66.0, 110.0, 80.0, 80.0,...                  
+prediction                                                        90.691                                            85.1012                  
+                            0            1                                                                                                   
+user_id           1.186.79.11  1.186.79.11                                                                                                   
+session_duration          110            0                                                                                                   
+label                       0           72                                                                                                   
+prediction             90.691      85.1012
+
+
+
+
+
+
+
+######  Load Raw features table and Preprocesss #################                                                                            
+########## Load userssionsta  ###############################################                                                                
+########## coly: label  #####################################################                                                                
+########## Numerical features : T  ##########################################                                                                
+########## Auto-Regressive features : T-1  ##################################                                                                
+########## Auto-Regressive features : T-2  ##################################                                                                
+######### Categorical Variables  ############################################                                                                
++--------------------+-------------+-------------+-------+------+----+--------------------+--------------------+----------------+------------+--------+------------+-----+-----------------+-------------+---------------------+-----------------+-------------+---------------------+------+----------+--------------+----------------+                                                                                               
+|     user_session_id|      user_id|     sourceIP|     os|device|hour|      starttimestamp|        endtimestamp|session_duration|n_unique_url|n_events|IPHashBucket|label|n_unique_url_lag1|n_events_lag1|session_duration_lag1|n_unique_url_lag2|n_events_lag2|session_duration_lag2|os_enc|device_enc|       os_1hot|     device_1hot|                                                                                               
++--------------------+-------------+-------------+-------+------+----+--------------------+--------------------+----------------+------------+--------+------------+-----+-----------------+-------------+---------------------+-----------------+-------------+---------------------+------+----------+--------------+----------------+                                                                                               
+|1.186.108.242_201...|1.186.108.242|1.186.108.242|Windows| Other|  16|2015-07-22T16:22:...|2015-07-22T16:22:...|               3|           3|       3|          12|   80|             null|         null|                 null|             null|         null|                 null|   0.0|       0.0|(32,[0],[1.0])|(1464,[0],[1.0])|                                                                                               
++--------------------+-------------+-------------+-------+------+----+--------------------+--------------------+----------------+------------+--------+------------+-----+-----------------+-------------+---------------------+-----------------+-------------+---------------------+------+----------+--------------+----------------+                                                                                               
+only showing top 1 row                                                                                                                       
+                                                                                                                                             
+None                                                                                                                                         
+######### Merge  ############################################################                                                                
+                                                                       0                                                  1                  
+user_session_id                  1.186.79.11_2015-07-22T16:11:36.857234Z            1.186.79.11_2015-07-22T16:44:04.817748Z                  
+user_id                                                      1.186.79.11                                        1.186.79.11                  
+sourceIP                                                     1.186.79.11                                        1.186.79.11                  
+os                                                               Windows                                            Windows                  
+device                                                             Other                                              Other                  
+hour                                                                  16                                                 16                  
+starttimestamp                               2015-07-22T16:11:36.857234Z                        2015-07-22T16:44:04.817748Z                  
+endtimestamp                                 2015-07-22T16:13:26.692033Z                        2015-07-22T16:44:04.817748Z                  
+session_duration                                                     110                                                  0                  
+n_unique_url                                                          64                                                  1                  
+n_events                                                              66                                                  1                  
+IPHashBucket                                                          12                                                 12                  
+label                                                                  1                                                 63                  
+n_unique_url_lag1                                                     80                                                 64                  
+n_events_lag1                                                         80                                                 66                  
+session_duration_lag1                                                  6                                                110                  
+n_unique_url_lag2                                                      3                                                 80                  
+n_events_lag2                                                          3                                                 80                  
+session_duration_lag2                                                  3                                                  6                  
+os_enc                                                                 0                                                  0                  
+device_enc                                                             0                                                  0                  
+os_1hot                (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+device_1hot            (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+features               (64.0, 66.0, 110.0, 80.0, 80.0, 6.0, 3.0, 3.0,...  (1.0, 1.0, 0.0, 64.0, 66.0, 110.0, 80.0, 80.0,...                  
+RMSE_train 46.45965066603986                                                                                                                 
+RMSE_test 23.780115622701583                                                                                                                 
+                                                                       0                                                  1                  
+user_session_id                  1.186.79.11_2015-07-22T16:11:36.857234Z            1.186.79.11_2015-07-22T16:44:04.817748Z                  
+user_id                                                      1.186.79.11                                        1.186.79.11                  
+sourceIP                                                     1.186.79.11                                        1.186.79.11                  
+os                                                               Windows                                            Windows                  
+device                                                             Other                                              Other                  
+hour                                                                  16                                                 16                  
+starttimestamp                               2015-07-22T16:11:36.857234Z                        2015-07-22T16:44:04.817748Z                  
+endtimestamp                                 2015-07-22T16:13:26.692033Z                        2015-07-22T16:44:04.817748Z                  
+session_duration                                                     110                                                  0                  
+n_unique_url                                                          64                                                  1                  
+n_events                                                              66                                                  1                  
+IPHashBucket                                                          12                                                 12                  
+label                                                                  1                                                 63                  
+n_unique_url_lag1                                                     80                                                 64                  
+n_events_lag1                                                         80                                                 66                  
+session_duration_lag1                                                  6                                                110                  
+n_unique_url_lag2                                                      3                                                 80                  
+n_events_lag2                                                          3                                                 80                  
+session_duration_lag2                                                  3                                                  6                  
+os_enc                                                                 0                                                  0                  
+device_enc                                                             0                                                  0                  
+os_1hot                (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+device_1hot            (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...  (1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, ...                  
+features               (64.0, 66.0, 110.0, 80.0, 80.0, 6.0, 3.0, 3.0,...  (1.0, 1.0, 0.0, 64.0, 66.0, 110.0, 80.0, 80.0,...                  
+prediction                                                       46.2238                                            23.6274                  
+                            0            1                                                                                                   
+user_id           1.186.79.11  1.186.79.11                                                                                                   
+session_duration          110            0                                                                                                   
+label                       1           63                                                                                                   
+prediction            46.2238      23.6274                                                                                                   
+                                                                                                                                             
+SUCCESS: The process with PID 14628 (child process of PID 16596) has been terminated.                                                        
+SUCCESS: The process with PID 16596 (child process of PID 6492) has been terminated.                                                         
+SUCCESS: The process with PID 6492 (child process of PID 19348) has been terminated.                                                         
+D:\_devs\Python01\gitdev\arepo\zesresr (main -> origin)                                                                                      
+λ 

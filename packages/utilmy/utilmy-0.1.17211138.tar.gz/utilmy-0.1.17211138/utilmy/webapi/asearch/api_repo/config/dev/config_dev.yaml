@@ -1,0 +1,35 @@
+profile_name: 'dev'    ###  Profile for cloud service
+
+
+#### Service Parameters  ###########################################
+service:
+  host:  0.0.0.0    
+  port:     7919    
+  workers: 1
+  debug: true
+  reload: true
+  max_size_bytes_image: 1000000
+  storage_name: "diskcache"
+  version: "v1"
+
+
+######################################################################
+engine:
+  ocr:
+    tessaract:
+       timeout: 60 
+
+
+######################################################################
+diskcache:
+  cache_path : "/tmp/diskcache/"
+  cache_max_size: 1000000000
+
+
+redis:
+  user:   user
+  host:   127.0.0.1
+  port:   6379
+  ports:  '6379'
+
+
