@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: google-fhir-core
+Version: 0.11.0
+Summary: Core components for working with FHIR.
+Home-page: https://github.com/google/fhir-py
+Download-URL: https://github.com/google/fhir-py/releases
+Author: Google LLC
+Author-email: google-fhir-pypi@google.com
+License: Apache 2.0
+Keywords: google,fhir,python,healthcare
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8, <3.12
+Description-Content-Type: text/markdown
+Requires-Dist: absl-py ~=1.1
+Requires-Dist: antlr4-python3-runtime ~=4.9.3
+Requires-Dist: immutabledict ~=2.2
+Requires-Dist: protobuf ~=3.19
+Requires-Dist: python-dateutil ~=2.8
+Requires-Dist: stringcase ==1.2.0
+Requires-Dist: backports.zoneinfo ~=0.2.1 ; python_version < "3.9"
+Provides-Extra: bigquery
+Requires-Dist: google-cloud-bigquery ~=3.1 ; extra == 'bigquery'
+Requires-Dist: sqlalchemy-bigquery ~=1.4 ; extra == 'bigquery'
+Requires-Dist: sqlalchemy ~=1.4 ; extra == 'bigquery'
+Provides-Extra: spark
+Requires-Dist: pandas >=1.5 ; extra == 'spark'
+Requires-Dist: pyhive >=0.6 ; extra == 'spark'
+Requires-Dist: sqlalchemy ~=1.4 ; extra == 'spark'
+
+Core logic for working with FHIR data.
+
+Most users will not use this directly, but may use `google.fhir.views` or
+other higher-level libraries for working with FHIR data at scale.
