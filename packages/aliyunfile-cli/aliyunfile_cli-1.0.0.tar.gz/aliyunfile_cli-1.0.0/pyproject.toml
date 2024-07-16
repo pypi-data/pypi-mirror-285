@@ -1,0 +1,18 @@
+[project]
+name = "aliyunfile-cli"
+version = "1.0.0"
+description = "A simple cli tool for the sick aliyunfile"
+authors = [{name = "Han Yi <hanystudy@gmail.com>"}]
+maintainers = [{name = "Han Yi <hanystudy@gmail.com>"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+dependencies = [
+    "requests == 2.32.3",
+    "tqdm == 4.66.4",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+
+[project.scripts]
+alyf = "alyf:main"
