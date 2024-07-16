@@ -1,0 +1,24 @@
+{% extends "sphinx_rtd_theme/footer.html" %}
+
+{% block extrafooter %}
+
+  <div class="copyright">
+    {%- if build_id and build_url %}
+      Build <a href="{{ build_url }}">{{ build_id }}</a>.
+    {%- elif commit %}
+      Revision <code>{{ commit }}</code>.
+    {%- endif %}
+    {%- if last_updated %}
+      Last updated on {{ last_updated }}.
+    {%- endif %}
+    The
+    <a href="https://github.com/openwisp/openwisp-sphinx-theme">
+      OpenWISP Sphinx Theme
+    </a> is built with <a href="https://www.sphinx-doc.org/">Sphinx</a>
+    and based on the
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">
+      Sphinx Read The Docs
+    </a> theme.
+  </div>
+
+{% endblock %}
