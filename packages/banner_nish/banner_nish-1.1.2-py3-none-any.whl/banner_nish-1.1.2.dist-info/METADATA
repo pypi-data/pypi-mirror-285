@@ -1,0 +1,93 @@
+Metadata-Version: 2.1
+Name: banner_nish
+Version: 1.1.2
+Summary: Banner Output for Python
+Author-email: NishNovae <raecrowned@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/NishNovae/banner_nish
+Project-URL: Issues, https://github.com/NishNovae/banner_nish/issues
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyfiglet >=1.0.2
+
+# banner_nish
+```
+    _   ___      __
+   / | / (_)____/ /_
+  /  |/ / / ___/ __ \
+ / /|  / (__  ) / / /
+/_/ |_/_/____/_/ /_/
+```
+## Introduction
+Current latest release: v1.1.2 (2024. 07. 16)
+
+Nothing special; a practice on publishing python packages.
+
+## Installation
+```
+$ pip install banner-nish
+```
+Make sure you have the minimum python version to run it, which is `3.9`.
+
+## Usages
+As of `v1.1.2`, banner_nish has three functionalities which can be executed directly from the command line.
+
+- The `nish-banner` command prints out a slanted ASCII-based banner that says my username, Nish. This functionality is implemented via its dependency `pyfiglet`.
+
+- The `nish-pic` command prints out a pre-selected ASCII art image of a tiger.
+
+- The `nish-lottery` is a random number generator of six numbers, in the range between 1 and 46.
+
+An example execution looks like this:
+```
+$ nish-banner
+
+    _   ___      __
+   / | / (_)____/ /_
+  /  |/ / / ___/ __ \
+ / /|  / (__  ) / / /
+/_/ |_/_/____/_/ /_/
+
+```
+
+```
+$ nish-pic
+           ,''',
+         .' ., .',                                  ../'''',
+        .'. %%, %.',                            .,/' .,%   :
+       .'.% %%%,`%%%'.    .....,,,,,,.....   .,%%% .,%%'. .'
+       : %%% %%%%%%',:%%>>%>' .,>>%>>%>%>>%%>,.   `%%%',% :
+       : %%%%%%%'.,>>>%'   .,%>%>%'.,>%>%' . `%>>>,. `%%%:'
+       ` %%%%'.,>>%'  .,%>>%>%' .,%>%>%' .>>%,. `%%>>,. `%
+        `%'.,>>>%'.,%%%%%%%' .,%%>%%>%' >>%%>%>>%.`%% %% `,
+        ,`%% %%>>>%%%>>%%>%%>>%>>%>%%%  %%>%%>%%>>%>%%%' % %,
+      ,%>%'.>>%>%'%>>%%>%%%%>%'                 `%>%>>%%.`%>>%.
+    ,%%>' .>%>%'.%>%>>%%%>>%' ,%%>>%%>%>>%>>%>%%,.`%%%>%%. `%>%.
+   ` ,%' .>%%%'.%>%>>%' .,%%%%%%%%'          `%%%%%%.`%%>%% .%%>
+   .%>% .%%>' :%>>%%'.,%%%%%%%%%'.%%%%%' `%%%%.`%%%%%.%%%%> %%>%.
+  ,%>%' >>%%  >%' `%%%%'     `%%%%%%%'.,>,. `%%%%'     `%%%>>%%>%
+.%%>%' .%%>'  %>>%, %% oO ~ Oo %%%>>'.>>>>>>. `% oO ~ Oo'.%%%'%>%,
+%>'%> .%>%>%  %%>%%%'  `OoooO'.%%>>'.>>>%>>%>>.`%`OoooO'.%%>% '%>%
+%',%' %>%>%'  %>%>%>% .%,>,>,   `>'.>>%>%%>>>%>.`%,>,>' %%%%> .>%>,
+` %>% `%>>%%. `%%% %' >%%%%%%>,  ' >>%>>%%%>%>>> >>%%' ,%%>%'.%%>>%.
+ .%%'  %%%%>%.   `>%%. %>%%>>>%.>> >>>%>%%%%>%>>.>>>'.>%>%>' %>>%>%%
+ `.%%  `%>>%%>    %%>%  %>>>%%%>>'.>%>>>>%%%>>%>>.>',%>>%'  ,>%'>% '
+  %>'  %%%%%%'    `%%'  %%%%%> >' >>>>%>>%%>>%>>%> %%>%>' .%>%% .%%
+ %>%>, %>%%>>%%,  %>%>% `%%  %>>  >>>%>>>%%>>>>%>>  %%>>,%>%%'.%>%,
+%>%>%%, `%>%%>%>%, %>%%> ,%>%>>>.>>`.,.  `"   ..'>.%. % %>%>%'.%>%%;
+%'`%%>%  %%>%%  %>% %'.>%>>%>%%>>%::.  `,   /' ,%>>>%>. >%>%'.%>%'%'
+` .%>%'  >%%% %>%%'.>%>%;''.,>>%%>%%::.  ..'.,%>>%>%>,`%  %'.>%%' '
+  %>%>%% `%>  >%%'.%%>%>>%>%>%>>>%>%>>%,,::,%>>%%>%>>%>%% `>>%>'
+  %'`%%>%>>%  %>'.%>>%>%>>;'' ..,,%>%>%%/::%>%%>>%%,,.``% .%>%%
+  `    `%>%>>%%' %>%%>>%>>%>%>%>%%>%/'       `%>%%>%>>%%% ' .%'
+        %'  `%>% `%>%%;'' .,>>%>%/',;;;;;,;;;;,`%>%>%,`%'   '
+        `    `  ` `%>%%%>%%>%%;/ @a;;;;;;;;;;;a@  >%>%%'
+                   `/////////';, `@a@@a@@a@@aa@',;`//'
+                      `//////.;;,,............,,;;//'
+                          `////;;;;;;;;;;;;;;;;;/'
+                             `/////////////////'
+```
+```
+$ nish-lottery
+[15, 6, 17, 5, 13, 28]
+```
