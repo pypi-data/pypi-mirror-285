@@ -1,0 +1,1253 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" data-theme="dark">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Parameters &#8212; Clipp  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "dark";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.1/css/all.min.css?digest=8d27b9dea8ad943066ae" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.1/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="icon" sizes="32x32" type="image/jpg" href="_static/favicon.jpg" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae" />
+  <script src="_static/vendor/fontawesome/6.5.1/js/all.min.js?digest=8d27b9dea8ad943066ae"></script>
+
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'clipp';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Clipp" href="modules.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="dark">
+
+  
+  
+  <a id="pst-skip-link" class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
+    
+    <img src="_static/logo-dark.png" class="logo__image only-dark" alt="Clipp  documentation - Home"/>
+    <script>document.write(`<img src="_static/logo-light.png" class="logo__image only-light" alt="Clipp  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        Clipp
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="modules.html">
+                        Clipp
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Command</span></code></a></li>
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="modules.html" class="nav-link">Clipp</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Parameters</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <p id="module-clipp.__init__">A POSIX-compliant, CLI parser library for building CLI interfaces, designed
+to be flexible, intelligent, and uncompromisingly simple. Clipp aims to make
+code more reusable and easily scalable, without compromising performance.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clipp.__init__.Command">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prologue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epilogue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_Command</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.add_binary_flag">
+<span class="sig-name descname"><span class="pre">add_binary_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_binary_flag" title="Link to this definition">#</a></dt>
+<dd><p>Add a boolean flag to the group.</p>
+<p>The parser does not evaluate command-line arguments for boolean flags.
+Instead, their values are predetermined by <code class="docutils literal notranslate"><span class="pre">const</span></code> which expects a
+boolean value and is used to determine the option’s default value
+which is always the opposite of <code class="docutils literal notranslate"><span class="pre">const</span></code>. Thus, if <code class="docutils literal notranslate"><span class="pre">const</span></code> is
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, the default will be <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<section id="parameters">
+<h1>Parameters<a class="headerlink" href="#parameters" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id1"><span class="problematic" id="id2">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>const<span class="classifier"><cite>bool</cite>,</span></dt><dd><p>Default value used if the option IS encountered while parsing.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+<dt>required<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option is a required option.</p>
+</dd>
+<dt>is_global<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option can be used in a sub-command.
+Sub-commands can override universal options of their parents.</p>
+</dd>
+</dl>
+</section>
+<section id="raises">
+<h1>Raises<a class="headerlink" href="#raises" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.add_fast_flag">
+<span class="sig-name descname"><span class="pre">add_fast_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_fast_flag" title="Link to this definition">#</a></dt>
+<dd><p>Add a fast flag to the group.</p>
+<p>When a fast flag is encountered by the parser, a call to the option’s
+callback function is immediately triggered, followed by a call to
+<code class="docutils literal notranslate"><span class="pre">sys.exit</span></code>.</p>
+<p>The default –help option is an example of a fast flag. When any of the
+aliases for the option are encountered by the parser, the help
+message is immediately displayed, all other options are ignored,
+and the system exits.</p>
+<section id="id3">
+<h1>Parameters<a class="headerlink" href="#id3" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id4"><span class="problematic" id="id5">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
+the pre-processor.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+</dl>
+</section>
+<section id="id6">
+<h1>Raises<a class="headerlink" href="#id6" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.add_flag">
+<span class="sig-name descname"><span class="pre">add_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_flag" title="Link to this definition">#</a></dt>
+<dd><p>Add a flag to the group.</p>
+<p>The parser does not evaluate command-line arguments for flags.
+Instead, their values are predetermined by their <code class="docutils literal notranslate"><span class="pre">const</span></code> and
+<code class="docutils literal notranslate"><span class="pre">default</span></code> values.</p>
+<section id="id7">
+<h1>Parameters<a class="headerlink" href="#id7" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id8"><span class="problematic" id="id9">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>default<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option is NOT encountered while parsing.</p>
+</dd>
+<dt>const<span class="classifier"><cite>Any</cite></span></dt><dd><p>Default value used if the option IS encountered while parsing.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+<dt>required<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option is a required option.</p>
+</dd>
+<dt>is_global<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option can be used in a sub-command.
+Sub-commands can override universal options of their parents.</p>
+</dd>
+</dl>
+</section>
+<section id="id10">
+<h1>Raises<a class="headerlink" href="#id10" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.add_option">
+<span class="sig-name descname"><span class="pre">add_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quota</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_option" title="Link to this definition">#</a></dt>
+<dd><p>Add a non-positional option to the group.</p>
+<section id="id11">
+<h1>Parameters<a class="headerlink" href="#id11" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id12"><span class="problematic" id="id13">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>quota<span class="classifier">{<cite>int</cite>, ‘+’, ‘*’}, default 1</span></dt><dd><p>The number of arguments which the parser will attempt to consume.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
+<li><p><a href="#id14"><span class="problematic" id="id15">*</span></a>: Consume zero or more arguments (greedy).</p></li>
+<li><p>+: Consume one or more arguments (greedy).</p></li>
+</ul>
+</dd>
+<dt>choices<span class="classifier"><cite>Sequence</cite></span></dt><dd><p>An iterable containing the set of allowed strings for the parser
+to consume. Duplicates will be removed. A choice can be any
+string which does not contain a leading dash. This argument is
+only supported if <code class="docutils literal notranslate"><span class="pre">quota</span></code> is equal to one.</p>
+</dd>
+<dt>default<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option is NOT encountered while parsing.
+Defaults are only supported by options which accept one or fewer
+arguments. If no default is supplied to an option with a quota of
+zero-or-more (*) then the value returned by the parser will be an
+empty list. Defaults are ignored for options which are members of
+mutually exclusive groups.</p>
+</dd>
+<dt>const<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option IS encountered while parsing.
+<code class="docutils literal notranslate"><span class="pre">const</span></code> is only used in the case where an option expects one or
+fewer arguments but no arguments are consumed. If <code class="docutils literal notranslate"><span class="pre">const</span></code> is
+supplied to an option with a quota of zero-or-more (*) then the
+value returned by the parser will be an empty list.</p>
+</dd>
+<dt>dtype<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable which will be used to convert each of the tokens
+collected by the parser. Exceptions raised by this callback are not
+captured by <code class="docutils literal notranslate"><span class="pre">clipp</span></code>.</p>
+</dd>
+<dt>action<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable for post-processing tokens collected by the
+parser. For options which only consume a single token, the list
+of tokens is indexed and the retrieved value is passed to the
+callable. Otherwise, <code class="docutils literal notranslate"><span class="pre">action</span></code> will receive the entire list. The
+action is always called after tokens have been converted by
+calling <code class="docutils literal notranslate"><span class="pre">dtype</span></code>. Like <code class="docutils literal notranslate"><span class="pre">dtype</span></code>, exceptions raised by this
+callback are not captured by <code class="docutils literal notranslate"><span class="pre">clipp</span></code>.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+<dt>required<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option is a required option.</p>
+</dd>
+<dt>is_global<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option can be used in a sub-command.
+Sub-commands can override global options of their parents.</p>
+</dd>
+</dl>
+</section>
+<section id="id16">
+<h1>Raises<a class="headerlink" href="#id16" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is a string which is not equal to one of {‘*’, ‘+’}.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span></code> or <code class="docutils literal notranslate"><span class="pre">default</span></code> are not supported, given the quota.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> contains an invalid choice string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> is not supported, given the quota.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TypeError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is not a numeric type or a string type.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.add_parameter">
+<span class="sig-name descname"><span class="pre">add_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quota</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_parameter" title="Link to this definition">#</a></dt>
+<dd><p>Add a positional argument to the command.</p>
+<section id="id17">
+<h1>Parameters<a class="headerlink" href="#id17" title="Link to this heading">#</a></h1>
+<dl>
+<dt>name<span class="classifier"><cite>str</cite></span></dt><dd><p>The namespace ID for the argument. Positional argument names may
+contain only letters, numbers, and dashes (-). Leading or
+trailing dashes are disallowed.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>Alternative name for the argument, used as the argument’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>quota<span class="classifier">{<cite>int</cite>, ‘+’, ‘*’}, default 1</span></dt><dd><p>The number of arguments which the parser will attempt to consume.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
+<li><p><a href="#id18"><span class="problematic" id="id19">*</span></a>: Consume zero or more arguments (greedy).</p></li>
+<li><p>+: Consume one or more arguments (greedy).</p></li>
+<li><p>?: Consume zeror or exactly one argument.</p></li>
+</ul>
+</dd>
+<dt>choices<span class="classifier"><cite>Sequence</cite></span></dt><dd><p>An iterable containing the set of allowed strings for the parser
+to consume. There must be more than one choice. Duplicates will be
+removed. A choice can be any string which does not contain a
+leading dash. This parameter is only supported if <code class="docutils literal notranslate"><span class="pre">quota</span></code> is
+equal to one or ‘?’.</p>
+</dd>
+<dt>default<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option is NOT encountered while parsing.
+Defaults are only supported by options which accept one or fewer
+arguments. If no default is supplied to an option with a quota of
+zero-or-more (*) then the value returned by the parser will be an
+empty list.</p>
+</dd>
+<dt>dtype<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable which will be used to convert each of the tokens
+collected by the parser. Exceptions raised by this callback are not
+captured by <code class="docutils literal notranslate"><span class="pre">clipp</span></code>.</p>
+</dd>
+<dt>action<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable for post-processing tokens collected by the
+parser. For options which only consume a single token, the list
+of tokens is indexed and the retrieved value is passed to the
+callable. Otherwise, <code class="docutils literal notranslate"><span class="pre">action</span></code> will receive the entire list. The
+action is always called after tokens have been converted by
+calling <code class="docutils literal notranslate"><span class="pre">dtype</span></code>. Like <code class="docutils literal notranslate"><span class="pre">dtype</span></code>, exceptions raised by this
+callback are not captured by <code class="docutils literal notranslate"><span class="pre">clipp</span></code>.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The argument’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The argument’s usage string which defines its syntax. If no
+string is provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+</dl>
+</section>
+<section id="id20">
+<h1>Raises<a class="headerlink" href="#id20" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is not a valid positional argument name.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is a string which is not equal to one of
+{‘*’, ‘+’, ‘?’}.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">default</span></code> is not supported, given the quota.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> contains an invalid choice string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> is not supported, given the quota.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TypeError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is not a numeric type or a string type.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.add_subcommand">
+<span class="sig-name descname"><span class="pre">add_subcommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prologue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epilogue</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version_info</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.add_subcommand" title="Link to this definition">#</a></dt>
+<dd><p>Add the specified sub-command identified by <code class="docutils literal notranslate"><span class="pre">name</span></code> to the command.</p>
+<section id="id21">
+<h1>Parameters<a class="headerlink" href="#id21" title="Link to this heading">#</a></h1>
+<dl>
+<dt>name<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the sub-command. Unless overriden by <code class="docutils literal notranslate"><span class="pre">dest</span></code>, it is
+used as the key in the dictionary/namespace produced by the parser.</p>
+</dd>
+<dt>prologue<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The introductory text displayed in the command’s help message.</p>
+</dd>
+<dt>epilogue<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The text displayed at the bottom of the command’s help message.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The usage text displayed in the command’s help message.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The help message which is displayed when user’s invoke the
+help function by supplying the help option string in the terminal.</p>
+</dd>
+<dt>version_info<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The version info message which is displayed when user’s invoke the
+version info function by supplying the version option string in the
+terminal.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The namespace ID used by to parser to avoid naming conflicts with
+other commands while generating the return namespace. If <code class="docutils literal notranslate"><span class="pre">name</span></code>
+conflicts with the name of any other command in the command
+hierarchy, a unique <code class="docutils literal notranslate"><span class="pre">dest</span></code> must be provided.</p>
+</dd>
+</dl>
+</section>
+<section id="id22">
+<h1>Raises<a class="headerlink" href="#id22" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">name</span></code> interferes with the name of a another command in the
+command hierarchy and a non-unique <code class="docutils literal notranslate"><span class="pre">dest</span></code> has been supplied.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.format_help">
+<span class="sig-name descname"><span class="pre">format_help</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.format_help" title="Link to this definition">#</a></dt>
+<dd><p>Formats and returns the option’s help string.</p>
+<p>If a help string was explicitly supplied to the command, that is the
+string which is formatted. Otherwise, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will compile and format
+its own help string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.format_usage">
+<span class="sig-name descname"><span class="pre">format_usage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.format_usage" title="Link to this definition">#</a></dt>
+<dd><p>Formats and returns the command’s usage string.</p>
+<p>If a usage string was explicitly provided, it is wrapped to the width
+of the terminal and returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.format_version_info">
+<span class="sig-name descname"><span class="pre">format_version_info</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.format_version_info" title="Link to this definition">#</a></dt>
+<dd><p>Formats and returns the command’s version info string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.include">
+<span class="sig-name descname"><span class="pre">include</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.include" title="Link to this definition">#</a></dt>
+<dd><p>Include options from another option group.</p>
+<p>Relational group membership is maintained if more than one option from
+either a dependent or mutually exclusive group is added. If only one
+option from a given relational group is added, that option loses its
+status as a member of the relational group. For instance, if the option
+group being included has a mutually exclusive group comprised of –foo
+and –bar, but only –bar is included, then –bar will lose its status
+as a mutually exclusive option. The same rule applies to dependent
+groups.</p>
+<section id="id23">
+<h1>Parameters<a class="headerlink" href="#id23" title="Link to this heading">#</a></h1>
+<dl>
+<dt>option_group<span class="classifier"><cite>OptionGroup</cite></span></dt><dd><p>The group containing the options to be added.</p>
+</dd>
+<dt>aliases<span class="classifier"><cite>list[str]</cite>, optional.</span></dt><dd><p>Optional list of aliases referring to the options which should be
+added. If no list is provided, all options will be added.</p>
+</dd>
+</dl>
+</section>
+<section id="id24">
+<h1>Raises<a class="headerlink" href="#id24" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p>One or more of the options already exists in the group or has an
+alias which conflicts with an option which has already been added.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.remove" title="Link to this definition">#</a></dt>
+<dd><p>Remove an option or parameter from the command.</p>
+<section id="id25">
+<h1>Parameters<a class="headerlink" href="#id25" title="Link to this heading">#</a></h1>
+<dl>
+<dt>option_name<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the option to be removed. If the option has multiple
+aliases, the name can be any one of those aliases.</p>
+</dd>
+</dl>
+</section>
+<section id="id26">
+<h1>Raises<a class="headerlink" href="#id26" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is recognized by the command.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.set_help_flag">
+<span class="sig-name descname"><span class="pre">set_help_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.set_help_flag" title="Link to this definition">#</a></dt>
+<dd><p>Set the default help flag. If a help flag has already been set,
+it will be overridden.</p>
+<section id="id27">
+<h1>Parameters<a class="headerlink" href="#id27" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id28"><span class="problematic" id="id29">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
+the pre-processor.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+</dl>
+</section>
+<section id="id30">
+<h1>Raises<a class="headerlink" href="#id30" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.Command.set_version_flag">
+<span class="sig-name descname"><span class="pre">set_version_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.Command.set_version_flag" title="Link to this definition">#</a></dt>
+<dd><p>Set the default version info flag. If the flag has already been set,
+it will be overridden.</p>
+<section id="id31">
+<h1>Parameters<a class="headerlink" href="#id31" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id32"><span class="problematic" id="id33">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
+the pre-processor.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+</dl>
+</section>
+<section id="id34">
+<h1>Raises<a class="headerlink" href="#id34" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.Command.global_options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">global_options</span></span><a class="headerlink" href="#clipp.__init__.Command.global_options" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary-like view containing all global options.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.Command.local_options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_options</span></span><a class="headerlink" href="#clipp.__init__.Command.local_options" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary-like view containing all local options.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.Command.options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span><a class="headerlink" href="#clipp.__init__.Command.options" title="Link to this definition">#</a></dt>
+<dd><p>A context-dependent, dictionary-like view containing all global and
+local options.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.Command.parameters">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#clipp.__init__.Command.parameters" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary-like view containing all positional arguments.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">OptionGroup</span></span><a class="headerlink" href="#clipp.__init__.OptionGroup" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_OptionGroup</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.add_binary_flag">
+<span class="sig-name descname"><span class="pre">add_binary_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.add_binary_flag" title="Link to this definition">#</a></dt>
+<dd><p>Add a boolean flag to the group.</p>
+<p>The parser does not evaluate command-line arguments for boolean flags.
+Instead, their values are predetermined by <code class="docutils literal notranslate"><span class="pre">const</span></code> which expects a
+boolean value and is used to determine the option’s default value
+which is always the opposite of <code class="docutils literal notranslate"><span class="pre">const</span></code>. Thus, if <code class="docutils literal notranslate"><span class="pre">const</span></code> is
+<code class="docutils literal notranslate"><span class="pre">True</span></code>, the default will be <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+<section id="id35">
+<h1>Parameters<a class="headerlink" href="#id35" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id36"><span class="problematic" id="id37">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>const<span class="classifier"><cite>bool</cite>,</span></dt><dd><p>Default value used if the option IS encountered while parsing.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+<dt>required<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option is a required option.</p>
+</dd>
+<dt>is_global<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option can be used in a sub-command.
+Sub-commands can override universal options of their parents.</p>
+</dd>
+</dl>
+</section>
+<section id="id38">
+<h1>Raises<a class="headerlink" href="#id38" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.add_fast_flag">
+<span class="sig-name descname"><span class="pre">add_fast_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">callback</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.add_fast_flag" title="Link to this definition">#</a></dt>
+<dd><p>Add a fast flag to the group.</p>
+<p>When a fast flag is encountered by the parser, a call to the option’s
+callback function is immediately triggered, followed by a call to
+<code class="docutils literal notranslate"><span class="pre">sys.exit</span></code>.</p>
+<p>The default –help option is an example of a fast flag. When any of the
+aliases for the option are encountered by the parser, the help
+message is immediately displayed, all other options are ignored,
+and the system exits.</p>
+<section id="id39">
+<h1>Parameters<a class="headerlink" href="#id39" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id40"><span class="problematic" id="id41">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>callback<span class="classifier"><cite>Callable</cite></span></dt><dd><p>The function which is called when the option is encountered by
+the pre-processor.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+</dl>
+</section>
+<section id="id42">
+<h1>Raises<a class="headerlink" href="#id42" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.add_flag">
+<span class="sig-name descname"><span class="pre">add_flag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.add_flag" title="Link to this definition">#</a></dt>
+<dd><p>Add a flag to the group.</p>
+<p>The parser does not evaluate command-line arguments for flags.
+Instead, their values are predetermined by their <code class="docutils literal notranslate"><span class="pre">const</span></code> and
+<code class="docutils literal notranslate"><span class="pre">default</span></code> values.</p>
+<section id="id43">
+<h1>Parameters<a class="headerlink" href="#id43" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id44"><span class="problematic" id="id45">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>default<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option is NOT encountered while parsing.</p>
+</dd>
+<dt>const<span class="classifier"><cite>Any</cite></span></dt><dd><p>Default value used if the option IS encountered while parsing.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+<dt>required<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option is a required option.</p>
+</dd>
+<dt>is_global<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option can be used in a sub-command.
+Sub-commands can override universal options of their parents.</p>
+</dd>
+</dl>
+</section>
+<section id="id46">
+<h1>Raises<a class="headerlink" href="#id46" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.add_option">
+<span class="sig-name descname"><span class="pre">add_option</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">aliases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quota</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">choices</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">const</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">help</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">usage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">required</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_global</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.add_option" title="Link to this definition">#</a></dt>
+<dd><p>Add a non-positional option to the group.</p>
+<section id="id47">
+<h1>Parameters<a class="headerlink" href="#id47" title="Link to this heading">#</a></h1>
+<dl>
+<dt><a href="#id48"><span class="problematic" id="id49">*</span></a>aliases<span class="classifier"><cite>str</cite></span></dt><dd><p>The various aliases which can be used to invoke the option from the
+command-line.</p>
+</dd>
+<dt>dest<span class="classifier"><cite>str</cite> optional</span></dt><dd><p>Alternative name for the option, used as the option’s key in the
+namespace produced after parsing command-line arguments. If two
+or more options have the same <code class="docutils literal notranslate"><span class="pre">dest</span></code>, they will clobber each
+other in the namespace, which may or may not be desired.</p>
+</dd>
+<dt>quota<span class="classifier">{<cite>int</cite>, ‘+’, ‘*’}, default 1</span></dt><dd><p>The number of arguments which the parser will attempt to consume.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">int</span></code>: Consume exactly <code class="docutils literal notranslate"><span class="pre">quota</span></code> arguments.</p></li>
+<li><p><a href="#id50"><span class="problematic" id="id51">*</span></a>: Consume zero or more arguments (greedy).</p></li>
+<li><p>+: Consume one or more arguments (greedy).</p></li>
+</ul>
+</dd>
+<dt>choices<span class="classifier"><cite>Sequence</cite></span></dt><dd><p>An iterable containing the set of allowed strings for the parser
+to consume. Duplicates will be removed. A choice can be any
+string which does not contain a leading dash. This argument is
+only supported if <code class="docutils literal notranslate"><span class="pre">quota</span></code> is equal to one.</p>
+</dd>
+<dt>default<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option is NOT encountered while parsing.
+Defaults are only supported by options which accept one or fewer
+arguments. If no default is supplied to an option with a quota of
+zero-or-more (*) then the value returned by the parser will be an
+empty list. Defaults are ignored for options which are members of
+mutually exclusive groups.</p>
+</dd>
+<dt>const<span class="classifier"><cite>Any</cite>, optional</span></dt><dd><p>Default value used if the option IS encountered while parsing.
+<code class="docutils literal notranslate"><span class="pre">const</span></code> is only used in the case where an option expects one or
+fewer arguments but no arguments are consumed. If <code class="docutils literal notranslate"><span class="pre">const</span></code> is
+supplied to an option with a quota of zero-or-more (*) then the
+value returned by the parser will be an empty list.</p>
+</dd>
+<dt>dtype<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable which will be used to convert each of the tokens
+collected by the parser. Exceptions raised by this callback are not
+captured by <code class="docutils literal notranslate"><span class="pre">clipp</span></code>.</p>
+</dd>
+<dt>action<span class="classifier"><cite>Callable</cite>, optional</span></dt><dd><p>Optional callable for post-processing tokens collected by the
+parser. For options which only consume a single token, the list
+of tokens is indexed and the retrieved value is passed to the
+callable. Otherwise, <code class="docutils literal notranslate"><span class="pre">action</span></code> will receive the entire list. The
+action is always called after tokens have been converted by
+calling <code class="docutils literal notranslate"><span class="pre">dtype</span></code>. Like <code class="docutils literal notranslate"><span class="pre">dtype</span></code>, exceptions raised by this
+callback are not captured by <code class="docutils literal notranslate"><span class="pre">clipp</span></code>.</p>
+</dd>
+<dt>help<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s help string which defines its usage.</p>
+</dd>
+<dt>usage<span class="classifier"><cite>str</cite>, optional</span></dt><dd><p>The option’s usage string which defines its syntax. If no string is
+provided, <code class="docutils literal notranslate"><span class="pre">clipp</span></code> will attempt to infer the syntax.</p>
+</dd>
+<dt>required<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option is a required option.</p>
+</dd>
+<dt>is_global<span class="classifier"><cite>bool</cite>, default <cite>False</cite></span></dt><dd><p>Whether or not the option can be used in a sub-command.
+Sub-commands can override global options of their parents.</p>
+</dd>
+</dl>
+</section>
+<section id="id52">
+<h1>Raises<a class="headerlink" href="#id52" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">ValueError</span></code> :</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">alias</span></code> is not a valid short or long alias string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is a string which is not equal to one of {‘*’, ‘+’}.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span></code> or <code class="docutils literal notranslate"><span class="pre">default</span></code> are not supported, given the quota.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> contains an invalid choice string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">choices</span></code> is not supported, given the quota.</p></li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">TypeError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">quota</span></code> is not a numeric type or a string type.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.include">
+<span class="sig-name descname"><span class="pre">include</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_group</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.include" title="Link to this definition">#</a></dt>
+<dd><p>Include options from another option group.</p>
+<p>Relational group membership is maintained if more than one option from
+either a dependent or mutually exclusive group is added. If only one
+option from a given relational group is added, that option loses its
+status as a member of the relational group. For instance, if the option
+group being included has a mutually exclusive group comprised of –foo
+and –bar, but only –bar is included, then –bar will lose its status
+as a mutually exclusive option. The same rule applies to dependent
+groups.</p>
+<section id="id53">
+<h1>Parameters<a class="headerlink" href="#id53" title="Link to this heading">#</a></h1>
+<dl>
+<dt>option_group<span class="classifier"><cite>OptionGroup</cite></span></dt><dd><p>The group containing the options to be added.</p>
+</dd>
+<dt>aliases<span class="classifier"><cite>list[str]</cite>, optional.</span></dt><dd><p>Optional list of aliases referring to the options which should be
+added. If no list is provided, all options will be added.</p>
+</dd>
+</dl>
+</section>
+<section id="id54">
+<h1>Raises<a class="headerlink" href="#id54" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p>One or more of the options already exists in the group or has an
+alias which conflicts with an option which has already been added.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.remove">
+<span class="sig-name descname"><span class="pre">remove</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">option_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.OptionGroup.remove" title="Link to this definition">#</a></dt>
+<dd><p>Remove an option from the command.</p>
+<section id="id55">
+<h1>Parameters<a class="headerlink" href="#id55" title="Link to this heading">#</a></h1>
+<dl>
+<dt>option_name<span class="classifier"><cite>str</cite></span></dt><dd><p>The name of the option to be removed. If the option has multiple
+aliases, the name can be any one of those aliases.</p>
+</dd>
+</dl>
+</section>
+<section id="id56">
+<h1>Raises<a class="headerlink" href="#id56" title="Link to this heading">#</a></h1>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">KeyError</span></code> :</dt><dd><p><code class="docutils literal notranslate"><span class="pre">name</span></code> is recognized by the command.</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.global_options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">global_options</span></span><a class="headerlink" href="#clipp.__init__.OptionGroup.global_options" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary-like view containing all global options.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.local_options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">local_options</span></span><a class="headerlink" href="#clipp.__init__.OptionGroup.local_options" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary-like view containing all local options.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="clipp.__init__.OptionGroup.options">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">options</span></span><a class="headerlink" href="#clipp.__init__.OptionGroup.options" title="Link to this definition">#</a></dt>
+<dd><p>A context-dependent, dictionary-like view containing all global and
+local options.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clipp.__init__.fill_paragraph">
+<span class="sig-name descname"><span class="pre">fill_paragraph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">70</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subsequent_indent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#clipp.__init__.fill_paragraph" title="Link to this definition">#</a></dt>
+<dd><p>Multi-line text fill which retains leading indentation for each line.</p>
+<section id="id57">
+<h1>Parameters<a class="headerlink" href="#id57" title="Link to this heading">#</a></h1>
+<dl>
+<dt>text<span class="classifier"><cite>str</cite></span></dt><dd><p>The text to be filled (wrapped).</p>
+</dd>
+<dt>width<span class="classifier"><cite>int</cite></span></dt><dd><p>The maximum width for each line. If the width is longer than the
+terminal width, the terminal width will be used instead.</p>
+</dd>
+<dt>initial_indent<span class="classifier"><cite>str</cite></span></dt><dd><p>The indent for the first line of the string.</p>
+</dd>
+<dt>subsequent_indent<span class="classifier"><cite>str</cite></span></dt><dd><p>The indent for all lines following the first. This includes new lines
+generated by wrapping the text.</p>
+</dd>
+</dl>
+</section>
+<section id="returns">
+<h1>Returns<a class="headerlink" href="#returns" title="Link to this heading">#</a></h1>
+<p>The filled/wrapped text.</p>
+</section>
+</dd></dl>
+
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="modules.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Clipp</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#"><code class="docutils literal notranslate"><span class="pre">Command</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.add_binary_flag"><code class="docutils literal notranslate"><span class="pre">Command.add_binary_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.add_fast_flag"><code class="docutils literal notranslate"><span class="pre">Command.add_fast_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.add_flag"><code class="docutils literal notranslate"><span class="pre">Command.add_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.add_option"><code class="docutils literal notranslate"><span class="pre">Command.add_option()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.add_parameter"><code class="docutils literal notranslate"><span class="pre">Command.add_parameter()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.add_subcommand"><code class="docutils literal notranslate"><span class="pre">Command.add_subcommand()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.format_help"><code class="docutils literal notranslate"><span class="pre">Command.format_help()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.format_usage"><code class="docutils literal notranslate"><span class="pre">Command.format_usage()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.format_version_info"><code class="docutils literal notranslate"><span class="pre">Command.format_version_info()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.include"><code class="docutils literal notranslate"><span class="pre">Command.include()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.remove"><code class="docutils literal notranslate"><span class="pre">Command.remove()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.set_help_flag"><code class="docutils literal notranslate"><span class="pre">Command.set_help_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.set_version_flag"><code class="docutils literal notranslate"><span class="pre">Command.set_version_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.global_options"><code class="docutils literal notranslate"><span class="pre">Command.global_options</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.local_options"><code class="docutils literal notranslate"><span class="pre">Command.local_options</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.options"><code class="docutils literal notranslate"><span class="pre">Command.options</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.Command.parameters"><code class="docutils literal notranslate"><span class="pre">Command.parameters</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup"><code class="docutils literal notranslate"><span class="pre">OptionGroup</span></code></a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.add_binary_flag"><code class="docutils literal notranslate"><span class="pre">OptionGroup.add_binary_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.add_fast_flag"><code class="docutils literal notranslate"><span class="pre">OptionGroup.add_fast_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.add_flag"><code class="docutils literal notranslate"><span class="pre">OptionGroup.add_flag()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.add_option"><code class="docutils literal notranslate"><span class="pre">OptionGroup.add_option()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.include"><code class="docutils literal notranslate"><span class="pre">OptionGroup.include()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.remove"><code class="docutils literal notranslate"><span class="pre">OptionGroup.remove()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.global_options"><code class="docutils literal notranslate"><span class="pre">OptionGroup.global_options</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.local_options"><code class="docutils literal notranslate"><span class="pre">OptionGroup.local_options</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.OptionGroup.options"><code class="docutils literal notranslate"><span class="pre">OptionGroup.options</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#clipp.__init__.fill_paragraph"><code class="docutils literal notranslate"><span class="pre">fill_paragraph()</span></code></a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/clipp.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=8d27b9dea8ad943066ae"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=8d27b9dea8ad943066ae"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright Copyright (C) 2024, Ben Ohling.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.2.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
