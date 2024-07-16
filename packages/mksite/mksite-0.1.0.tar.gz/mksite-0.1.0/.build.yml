@@ -1,0 +1,12 @@
+image: alpine/edge
+packages:
+  - pipx
+sources:
+  - https://git.sr.ht/~loges/mksite
+tasks:
+  - lint: |
+      cd mksite
+      pipx run hatch run check
+  - test: |
+      cd mksite
+      pipx run hatch run cov
