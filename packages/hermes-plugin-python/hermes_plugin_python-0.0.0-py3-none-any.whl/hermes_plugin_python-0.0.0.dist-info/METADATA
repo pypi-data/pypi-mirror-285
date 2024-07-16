@@ -1,0 +1,105 @@
+Metadata-Version: 2.1
+Name: hermes-plugin-python
+Version: 0.0.0
+Summary: HERMES plugin for .toml files
+Author: Michael Fritzsche
+Author-email: Michael Meinel <michael.meinel@dlr.de>
+License: Apache-2.0
+Project-URL: Repository, https://github.com/hermes-hmc/hermes-plugin-python
+Keywords: publishing,metadata,automation
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Environment :: Plugins
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12.4
+Description-Content-Type: text/markdown
+Requires-Dist: hermes >=0.8.0
+Provides-Extra: dev
+Requires-Dist: pytest >=8.2.2 ; extra == 'dev'
+Requires-Dist: pytest-cov >=3.0.0 ; extra == 'dev'
+Requires-Dist: taskipy >=1.10.3 ; extra == 'dev'
+Requires-Dist: flake8 >=5.0.4 ; extra == 'dev'
+Requires-Dist: reuse >=1.1.2 ; extra == 'dev'
+
+
+# Hermes harvest plugin for .toml files
+This plugin enables the harvesting of metadata stored in the .toml file of the project. It is configured to automatically harvest from "pyproject.toml". Although it can be used for every .toml file it uses the fields commonly used in .toml files for python.
+
+
+## Authors
+
+- [@led02](https://www.github.com/led02)
+- [@notactuallyfinn](https://www.github.com/notactuallyfinn)
+
+
+## Related
+
+The hermes project
+
+[Github repository](https://github.com/hermes-hmc/hermes)
+
+The hermes harvest plugin for git
+
+[Github repository](https://github.com/hermes-hmc/hermes-git)
+## Run Locally
+
+Clone Hermes project
+
+```bash
+  git clone https://github.com/hermes-hmc/hermes.git
+```
+
+Go to the project directory
+
+```bash
+  cd your_other_folder
+```
+
+Make a python package out of it
+
+```bash
+  pip install .
+```
+
+Clone the project
+
+```bash
+  git clone https://github.com/hermes-hmc/hermes-python.git
+```
+
+Go to the project directory
+
+```bash
+  cd your_folder
+```
+
+Make a python package out of it
+
+```bash
+  pip install .
+```
+
+Go to the project folder you want to harvest
+
+```bash
+  cd your_project_to_harvest
+```
+
+Controll that you have a file named "hermes.toml" in your project with the following content.
+```
+  [harvest]
+  sources = ["cff", "toml"]
+
+  [deposit.invenio_rdm]
+  site_url = "https://sandbox.zenodo.org"
+  access_right = "open"
+```
+
+Run harvest command
+
+```bash
+  hermes harvest
+```
+
+![Logo](https://docs.software-metadata.pub/en/latest/_static/hermes-visual-blue.svg)
+
