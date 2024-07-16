@@ -1,0 +1,21 @@
+[package]
+name = "qdx-py"
+version = "0.13.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+name = "qdx_py"
+crate-type = ["rlib", "cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.21.1", features = ["serde", "experimental-declarative-modules"] }
+serde_json = "1.0.87"
+serde = { version = "1.0", features = ["derive"] }
+
+# We use git to fetch deps so that it doesn't get included in the maturin source export
+[dependencies.qdx-common]
+git = "ssh://git@github.com/talo/qdx-common.git"
+rev = "3e05779cb666f6846c65e9a5954cba8466dc32b1"
+features = ["serde"]
+default-features = false
