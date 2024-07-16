@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: maxim-py
+Version: 1.2.7
+Summary: Maxim Python Library
+Author: Maxim Engineering
+Author-email: <eng@getmaxim.ai>
+Keywords: python,prompts,logs,workflow,testing
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Description-Content-Type: text/markdown
+Provides-Extra: langchain
+License-File: LICENSE.txt
+
+
+# Maxim Python Library
+
+Python SDK to integrate Maxim AI. More info at [Maxim Site](https://getmaxim.ai). Maxim is an enterprise grade evaluation and monitoring platform for your GenAI applications.
+
+## Version changelog
+
+### v1.2.7
+
+- Bug fix where input sent with trace.config was getting overridden with None
+
+### v1.2.6
+
+- Adds `trace.set_input` and `trace.set_output` methods to control what to show in logs dashboard
+
+### v1.2.5
+
+- Removes one no_op command while creating spans
+- Minor bug fixes
+
+### v1.2.1
+
+- Fixed MaximLangchainTracer error logging flow.
+
+### v1.2.0
+
+- Adds langchain support
+- Adds local parsers to validate payloads on client side
+
+### v1.1.0
+
+- Minor bug fixes around log writer cleanup
+
+### v1.0.0
+
+- Public release
