@@ -1,0 +1,89 @@
+Metadata-Version: 2.1
+Name: realtime-client
+Version: 0.1.118
+Summary: 
+Author: Adapt
+Author-email: hello@getadapt.ai
+Requires-Python: >=3.9,<3.12
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Provides-Extra: plugins
+Provides-Extra: torch
+Requires-Dist: aiohttp (>=3.9.5,<4.0.0)
+Requires-Dist: aiortc (>=1.8.0,<2.0.0)
+Requires-Dist: click (>=8.1.7,<9.0.0)
+Requires-Dist: dill (>=0.3.8,<0.4.0)
+Requires-Dist: fastapi (>=0.110.2,<0.111.0)
+Requires-Dist: python-multipart (>=0.0.9,<0.0.10)
+Requires-Dist: realtime-aioice (>=0.9.0,<0.10.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: sentry-sdk (>=2.9.0,<3.0.0)
+Requires-Dist: setuptools (>=69.5.1,<70.0.0)
+Requires-Dist: urllib3 (<2.0)
+Requires-Dist: uvicorn (>=0.29.0,<0.30.0)
+Requires-Dist: websockets (>=12.0,<13.0)
+Description-Content-Type: text/markdown
+
+## Install
+
+You can install `realtime-client` SDK from pypi using
+
+```
+pip install realtime-client
+```
+
+This would install the core `realtime-client` package.
+You can read [docs](http://docs.getadapt.ai) to get started.
+
+
+### Usage
+
+You can read the [docs](http://docs.getadapt.ai) to learn more about the SDK.
+
+To deploy your realtime function on Adapt's infra, you can use the `realtime deploy` CLI.
+
+```
+# functions.py contains your realtime function code
+realtime deploy --api-key=<your-api-key> functions.py
+```
+
+[Contact us](mailto:contact@getadapt.ai) to get an API key and deploy.
+
+
+Once deployed, you can use the playground in the examples repo to test the deployed code.
+
+### Examples
+
+All the examples are available at https://github.com/xAlpha8/realtime-examples repo.
+To install the package so that all examples run, use
+
+```
+pip install "realtime-client[plugins]"
+```
+
+This will install all the additional libraries that are required for examples to work.
+
+## Development Environment
+
+To run the dev environment, do:
+
+```
+docker-compose run --service-ports --rm realtime-runner bash
+```
+
+If the container is not already running, you have to run on container start:
+
+```
+poetry install --only main
+```
+
+### Publishing
+
+```
+poetry build
+poetry publish
+```
+
+
