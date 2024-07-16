@@ -1,0 +1,24 @@
+[project]
+name = "banner_monk"
+version = "0.2.1"
+description = "Printing banner out"
+authors = [
+    {name = "thephunkmonk", email = "andrewchoi1218@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = "banner_monk.banner_monk:show"
+#script = package.pyfile:function_name
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/thephunkmonk/banner_monk"
+Issues = "https://github.com/thephunkmonk/banner_monk/issues"
