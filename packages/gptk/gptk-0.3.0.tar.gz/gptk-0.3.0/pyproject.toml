@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"] 
+build-backend = "hatchling.build"
+
+[project]
+name = "gptk"
+version = "0.3.0"
+authors = [
+  { name="J.T. Hartzfeld", email="johnathan.t.hartzfeld@gmail.com" },
+]
+description = "A General Python Tool Kit, suitable for most projects."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+dependencies = ["auto_all >= 1.4.1", "platformdirs >= 4.2.0", "pint >= 0.23"]
+classifiers = ["Programming Language :: Python :: 3",
+"License :: OSI Approved :: MIT License",
+"Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/JTHartzfeld/gptk"
+"Bug Tracker" = "https://github.com/JTHartzfeld/gptk/issues"
