@@ -1,0 +1,25 @@
+[project]
+name = "banner_minju210"
+version = "0.5.0"
+description = "Banner Output Program"
+authors = [
+    {name = "minju210", email = "juliana6190210@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+minju210-banner = 'banner_minju210.banner:show'
+minju210-pic = 'banner_minju210.banner:pic'
+minju210-lotto = 'banner_minju210.banner:lotto'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/minju210/banner_minju210"
+Issues = "https://github.com/minju210/banner_minju210/issues"
