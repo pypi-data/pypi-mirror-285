@@ -1,0 +1,25 @@
+[project]
+name = "banner_hun0219"
+version = "0.3.2"
+description = "banner output program"
+authors = [
+    {name = "hun0219", email = "gsw98000@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+hun0219-banner = 'banner_hun0219.banner:show'
+hun0219-pic = 'banner_hun0219.banner:pic'
+hun0219-lotto = 'banner_hun0219.banner:lotto'
+
+[project.urls]
+Homepage = "https://github.com/hun0219/banner_hun0219"
+Issues = "https://github.com/hun0219/banner_hun0219/issues"
+
+[tool.pdm]
+distribution = true
