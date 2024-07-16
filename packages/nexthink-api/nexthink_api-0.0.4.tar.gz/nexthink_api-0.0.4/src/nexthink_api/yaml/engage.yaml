@@ -1,0 +1,129 @@
+openapi: 3.0.1
+info:
+  title: Campaigns API
+  description: Send campaigns to users using the Nexthink public API.
+  version: 1.0.0
+servers:
+  - url: 'https://instance.api.region.nexthink.cloud'
+tags:
+  - name: Campaigns
+paths:
+  /api/v1/euf/campaign/trigger:
+    post:
+      summary: Trigger a campaign
+      description: Trigger the sending of a campaign to specific users.
+      operationId: triggerCampaign
+      parameters: []
+      requestBody:
+        description: The configuration of the campaign target.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TriggerRequest'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful triggering.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerSuccessResponse'
+        '400':
+          description: 'Bad request - Invalid request, see the error code for details.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerErrorResponse'
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TriggerErrorResponse'
+        '403':
+          description: Forbidden - Error response when no permissions.
+      security:
+        - BearerAuth: []
+components:
+  schemas:
+    TriggerErrorResponse:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          type: string
+          description: The error code returned to the client.
+          example: INVALID_CAMPAIGN_TRIGGER_TYPE
+        message:
+          type: string
+          description: The error message returned to the client.
+          example: Invalid campaign trigger type
+    TriggerRequest:
+      required:
+        - campaignNqlId
+        - expiresInMinutes
+        - userSid
+      type: object
+      properties:
+        campaignNqlId:
+          minLength: 1
+          type: string
+          description: The ID of the campaign to send.
+          example: '#general_survey'
+        userSid:
+          maxItems: 10000
+          minItems: 1
+          type: array
+          description: SIDs of users that the campaign should be sent to.
+          items:
+            type: string
+            description: SID of a user.
+            example: S-456-456-456
+        expiresInMinutes:
+          maximum: 525600
+          minimum: 1
+          type: integer
+          description: 'The number of minutes before the campaign response expires and will stop being shown to the users, starting from the current time. The expiration date and time is set at the time of the API call and is not influenced by the time at which the campaign is displayed to the user or by the user postponing the campaign.'
+          format: int32
+          example: 1440
+        parameters:
+          maxItems: 30
+          type: object
+          additionalProperties:
+            type: string
+          description: 'Key and value of the parameters within the campaign to be replaced to compose the final questions to be displayed. The provided keys must match exactly the IDs of all parameters of the campaign. In case a duplicated key is specified, only the latest value of the parameter will be taken into account.'
+          example:
+            param_id_1: Some value
+            param_id_2: Another value
+    TriggerResponseDetails:
+      required:
+        - userSid
+      type: object
+      properties:
+        requestId:
+          type: string
+          description: 'ID of the request created for the user that can be used to retrieve later the status and answers to the campaign, in case the request could be created successfully'
+        userSid:
+          type: string
+          description: SID of the user
+        message:
+          type: string
+          description: Reason why a request could not be created for that user SID
+    TriggerSuccessResponse:
+      required:
+        - requests
+      type: object
+      properties:
+        requests:
+          minItems: 1
+          type: array
+          description: Identifiers of the requests created for each user SID sent in the request or corresponding message in case of error. Duplicate SIDs in the API request are filtered out from the response list.
+          items:
+            $ref: '#/components/schemas/TriggerResponseDetails'
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: jwt

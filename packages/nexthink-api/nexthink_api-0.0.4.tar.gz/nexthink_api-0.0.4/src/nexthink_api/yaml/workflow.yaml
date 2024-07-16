@@ -1,0 +1,264 @@
+openapi: 3.0.1
+info:
+  title: Workflows
+  description: Trigger and query workflows using the Nexthink API.
+  version: 1.0.0
+servers:
+  - url: 'https://instance.api.region.nexthink.cloud'
+tags:
+  - name: Workflows
+    description: Workflows API.
+paths:
+  /api/v1/workflows/execute:
+    post:
+      summary: Trigger a workflow
+      description: Triggers the execution of a workflow.
+      operationId: executeEA
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: Source
+          in: header
+          required: false
+          schema:
+            type: string
+            nullable: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful execution response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResponse'
+        '400':
+          description: 'Bad request - invalid request, see error code for details'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - no valid authentication credentials.
+        '403':
+          description: No permission - no permission to execute workflow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/workflows:
+    get:
+      summary: List workflows
+      description: 'Retrieves the workflows, including their configuration information.'
+      operationId: getAllWorkflows
+      parameters:
+        - name: filter
+          in: query
+          required: false
+          explode: true
+          schema:
+            nullable: true
+            oneOf:
+              - $ref: '#/components/schemas/WorkflowFilter'
+        - name: Source
+          in: header
+          required: false
+          schema:
+            type: string
+            nullable: true
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of workflows and their configurations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+        '400':
+          description: 'Bad request - invalid request, see error code for details'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - no valid authentication credentials.
+        '403':
+          description: No permission - no permission to execute workflow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/workflows/details:
+    get:
+      summary: Get workflow
+      description: Retrieve the configuration of a specific workflow.
+      operationId: getWorkflow
+      parameters:
+        - name: nqlId
+          in: query
+          description: The NQL ID of the workflow.
+          required: true
+          schema:
+            type: string
+          example: '#ExampleWorkflow'
+        - name: Source
+          in: header
+          required: false
+          schema:
+            type: string
+            nullable: true
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Workflow configuration.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Workflow'
+        '400':
+          description: 'Bad request - invalid request, see error code for details'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Unauthorized - no valid authentication credentials.
+        '403':
+          description: No permission - no permission to execute workflow.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      required:
+        - code
+        - details
+      type: object
+      properties:
+        code:
+          minLength: 1
+          type: string
+        details:
+          type: string
+    ExecutionRequest:
+      required:
+        - workflowId
+      type: object
+      properties:
+        workflowId:
+          type: string
+          description: The ID of the workflow to execute.
+          example: '#workflow_example'
+        devices:
+          maxItems: 10000
+          type: array
+          description: Optional. Nexthink Collector IDs of the devices that the workflow should be executed on.
+          items:
+            type: string
+        params:
+          type: object
+          additionalProperties:
+            type: string
+          description: Any parameters to send to the workflow. Leave the object empty if there are none.
+    ExecutionResponse:
+      required:
+        - executionsUuids
+        - requestUuid
+      type: object
+      properties:
+        requestUuid:
+          minLength: 1
+          type: string
+          description: 'The request ID. Use this ID to query workflow executions in NQL (workflow.executions.request_id) '
+          example: 7fbd96a7-b717-43a7-8973-9c6adbca3a56
+        executionsUuids:
+          minItems: 1
+          type: array
+          description: A list of execution ID for each object targeted (workflow.executions.execution_id).
+          items:
+            type: string
+      description: Each request spawns one or more executions depending on the input. All executions have the same request ID and a unique execution ID.
+    Workflow:
+      required:
+        - description
+        - id
+        - lastUpdateTime
+        - name
+        - status
+        - triggerMethods
+        - uuid
+        - versions
+      type: object
+      properties:
+        id:
+          type: string
+        uuid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          $ref: '#/components/schemas/Workflow.Status'
+        lastUpdateTime:
+          type: string
+          format: date-time
+        triggerMethods:
+          $ref: '#/components/schemas/Workflow'
+        versions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Workflow'
+    Workflow.Status:
+      type: string
+      enum:
+        - ACTIVE
+        - INACTIVE
+    WorkflowFilter:
+      required:
+        - dependency
+        - fetchOnlyActiveWorkflows
+        - triggerMethod
+      type: object
+      properties:
+        dependency:
+          $ref: '#/components/schemas/WorkflowFilter.WorkflowDependency'
+        triggerMethod:
+          $ref: '#/components/schemas/WorkflowFilter.TriggerMethod'
+        fetchOnlyActiveWorkflows:
+          type: boolean
+    WorkflowFilter.TriggerMethod:
+      type: string
+      enum:
+        - API
+        - MANUAL
+        - MANUAL_MULTIPLE
+        - SCHEDULER
+    WorkflowFilter.WorkflowDependency:
+      type: string
+      enum:
+        - USER
+        - DEVICE
+        - USER_AND_DEVICE
+        - NONE

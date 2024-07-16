@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nexthink_api"
+authors = [{name = "Laurent Taupiac", email = "ltaupiac@lfdj.com"}]
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version"]
+description = "Python package for Nexthink API"
+requires-python = ">=3.10"
+keywords=["nexthink", "nql", "enrichment"]
+dependencies=[
+    "requests==2.31.0",
+    "urllib3",
+    "pydantic",
+    "pyyaml"
+]
+readme = "README.md"
+# long_description_content_type = "text/markdown"
+
+[tool.setuptools_scm]
+version_file = "src/nexthink_api/_version.py"
+git_describe_command="git describe --tags"
+
+[project.urls]
+Documentation = "https://developer.nexthink.com/docs/api/"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests/unit", "tests/integration"]
+env = [
+    "NEXTHINK_API_YAML=src/nexthink_api/yaml",
+    "NEXTHINK_API_TESTS_DATA=tests"
+]
+markers = [
+    "yaml: test with YAML file",
+]
+addopts = ["--assert=plain", "-ra", "--showlocals", "--strict-markers", "--strict-config"]
+xfail_strict = true 
+filterwarnings = ["error"]
+log_cli_level = "info"
+
+[pytest]
+mock_use_standalone_module = true
