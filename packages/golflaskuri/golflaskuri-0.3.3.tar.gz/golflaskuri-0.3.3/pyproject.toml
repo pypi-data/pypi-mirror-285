@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "golflaskuri"
+version = "0.3.3"
+description = ""
+authors = ["Panu Oksiala <panu@oksiala.fi>"]
+readme = "README.md"
+include = [
+    { path = "clubs", format = ["sdist", "wheel"] },
+    { path = "templates", format = ["sdist", "wheel"] }
+]
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.111.0"
+requests = "^2.32.3"
+
+[tool.poetry.group.dev.dependencies]
+uvicorn = "^0.30.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
