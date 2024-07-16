@@ -1,0 +1,18 @@
+[project]
+name = "mask_divide"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "GITSangWoo", email = "dogcenta@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+divide='mask_divide.divide:divide'
