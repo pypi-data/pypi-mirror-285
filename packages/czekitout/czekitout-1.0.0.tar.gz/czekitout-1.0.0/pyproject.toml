@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "czekitout"
+dynamic = ["version"]
+description = """
+Contains a collection of functions that facilitate validation, and \
+type-conversions, with useful error messages when exceptions are thrown.\
+"""
+readme = "README.md"
+authors = [
+    {name = "Matthew Fitzpatrick", email = "matthew.rc.fitzpatrick@gmail.com"}
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Natural Language :: English"
+]
+keywords = [
+    "type checking",
+    "type conversion"
+]
+dependencies = [
+    "numpy"
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+tests = [
+    "pytest-cov"
+]
+examples = [
+    "jupyter",
+    "ipympl"
+]
+docs = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinx-autodoc-typehints",
+    "numpydoc",
+    "docutils"
+]
+all = [
+    "czekitout[tests, examples, docs]"
+]
+
+[project.urls]
+Homepage = "https://mrfitzpa.github.io/czekitout"
+Repository = "https://github.com/mrfitzpa/czekitout"
+
+[tool.setuptools_scm]
+write_to = "czekitout/version.py"
+version_scheme = "post-release"
