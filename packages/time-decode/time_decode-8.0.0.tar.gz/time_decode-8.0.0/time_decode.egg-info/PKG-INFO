@@ -1,0 +1,137 @@
+Metadata-Version: 2.1
+Name: time-decode
+Version: 8.0.0
+Summary: Python 3 timestamp decode/encode tool
+Author-email: "Corey Forman (digitalsleuth)" <github@digitalsleuth.ca>
+Maintainer-email: "Corey Forman (digitalsleuth)" <github@digitalsleuth.ca>
+License: MIT License
+        
+        Copyright (c) 2023 Corey Forman
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/digitalsleuth/time_decode
+Project-URL: References, https://github.com/digitalsleuth/time_decode/blob/master/REFERENCES.md
+Keywords: digital forensics,dfir,timestamp,decode,encode
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PyQt6
+Requires-Dist: python-dateutil
+Requires-Dist: colorama
+Requires-Dist: pytz
+Requires-Dist: juliandate
+
+# Time Decode
+A Python 3 timestamp and date decoder/encoder. 
+
+I noticed a lack of timestamp conversion utilities in a number of different linux systems. Since I happen to use linux in my day-to-day work I thought this would help.
+
+This was developed with the Digital Forensics field in mind, so all of the testing has been done with the up-to-date SIFT Kit from SANS.
+If you have any questions, suggestions, helpful thoughts of any kind, please feel free to drop me a line.
+
+# Requirements
+For python3, dateutil does not come pre-installed as a module. It will need to be installed manually:
+
+`sudo apt-get install python3-dateutil` or `python3 -m pip install python-dateutil`
+
+# Install
+`python3 -m pip install time-decode` or `python3 -m pip install git+https://github.com/digitalsleuth/time_decode`
+
+This python script provides the following conversions from existing timestamps:
+
+- 128-bit SYSTEMTIME
+- 32-bit MS-DOS time, result is Local
+- Active Directory value
+- Apache Cookie
+- Apple Biome hex value
+- Apple Biome 64-bit decimal value
+- Bitwise decimal 10-digit
+- BPlist (as NSDate)
+- Cocoa Core (as NSDate)
+- DHCP6 DUID
+- Discord URL
+- exFAT
+- FAT Date + Time (wFat)
+- FILETIME
+- GMail Boundary
+- GMail Message ID
+- Google Chrome value
+- Google EI URL
+- GPS
+- GSM
+- HFS(+) BE, HFS Local, HFS+ UTC
+- HFS(+) LE, HFS Local, HFS+ UTC
+- Hotmail
+- iOS 11+ (as NSDate)
+- Julian Decimal date
+- Julian Hex date
+- KSUID 27-character
+- KSUID 9-digit
+- LEB128 hex
+- Mac Absolute Time (as NSDate)
+- Mac OS/HFS+ Decimal Time
+- Mastodon URL
+- Metasploit Payload UUID
+- Motorola's 6-byte
+- Mozilla's PRTime
+- MS Excel 1904 Date
+- .NET DateTime
+- Nokia 4-byte
+- Nokia 4-byte LE
+- Nokia S40 7-byte
+- Nokia S40 7-byte LE
+- OLE Automation Date
+- S32 Encoded (BlueSky Social)
+- Samsung/LG 4-byte
+- Semi-Octet decimal value
+- Sonyflake URL
+- Symantec's 6-byte AV
+- TikTok URL
+- Twitter URL
+- Unix Hex 32-bit BE
+- Unix Hex 32-bit LE
+- Unix Milliseconds
+- Unix Milliseconds (hex)
+- Unix Seconds
+- UUID
+- VMWare Snapshot (.vmsd)
+- Windows 64-bit Hex BE
+- Windows 64-bit Hex LE
+- Windows Cookie Date (Low,High)
+- Windows OLE 64-bit BE (SRUM as well)
+- Windows OLE 64-bit LE
+
+Note that HFS times are in Local Time, where HFS+ times are in UTC. MS-DOS 32 bit Hex values and MS-DOS FAT Date+Time are also in Local Time of the source generating the timestamp. All other times, unless expressly mentioned, are in UTC.
+
+I have added a feature to 'guess' in what format the timestamp is that you've provided. This will run the timestamp you provide against all methods, and provide an output if human-readable.
+There is also the ability to convert a date-time to all of the aforementioned timestamps. Simply use the following command:
+
+`time-decode --timestamp "2017-06-02 13:14:15.678"`
+or for timezones use:
+`time-decode --timestamp "2017-06-02 13:14:15 -5"`
+
+The date/time you enter should be in the "YYYY-mm-dd HH:MM:SS.sss" format with the double-quote included, but does not require milli/micro/nano seconds to work. (Double-quote required for Windows Python)
+If anyone has any other timestamps they think should be added to this tool, please let me know.
+
+References/Sources for all material can also be found in the docstrings in the python script.
