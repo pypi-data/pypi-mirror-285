@@ -1,0 +1,20 @@
+[project]
+name = "HaramSs_cmd"
+version = "0.2.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "HaramSs", email = "haram8274@gmail.com"},
+]
+dependencies = [
+    "HaramSs-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+cmd2 = 'haramss_cmd.cmd:call'
