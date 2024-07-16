@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: bullpenfi
+Version: 0.1.10
+Summary: A description of your package
+Home-page: https://github.com/yourusername/bullpenfi
+Author: Hongjun Wu
+Author-email: your-email@example.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: requests
+Requires-Dist: numpy
+
+# bullpenfi
+
+## Authentication
+
+Some functions in this package require authentication using an API key.
+
+### Usage Example
+
+```python
+from bullpenfi.module1 import example_function, restricted_function
+
+api_key = "your-valid-api-key-1"
+
+try:
+    print(example_function(api_key))
+    print(restricted_function(api_key))
+except PermissionError as e:
+    print(e)
+```
