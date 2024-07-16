@@ -1,0 +1,26 @@
+[project]
+name = "banner_hamsunwoo"
+version = "0.3.1"
+description = "Banner Output Program"
+authors = [
+    {name = "sunwoo", email = "summerham22@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+hamsunwoo-banner = 'banner_hamsunwoo.banner:show'
+hamsunwoo-pic = 'banner_hamsunwoo.banner:pic'
+hamsunwoo-lotto = 'banner_hamsunwoo.banner:lotto'
+
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Repository = "https://github.com/hamsunwoo/banner_hamsunwoo"
+Issues = "https://github.com/hamsunwoo/banner_hamsunwoo/issues"
