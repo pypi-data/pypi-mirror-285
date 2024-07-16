@@ -1,0 +1,59 @@
+Metadata-Version: 2.1
+Name: ewoksnotify
+Version: 0.1.2
+Summary: Ewoks common notification tools
+Home-page: https://gitlab.esrf.fr/workflow/ewoks/ewoksnotify/
+Author: ESRF
+Author-email: henri.payno@esrf.fr
+License: MIT
+Project-URL: Source, https://gitlab.esrf.fr/workflow/ewoks/ewoksnotify/
+Project-URL: Documentation, https://ewoksnotify.readthedocs.io/
+Project-URL: Tracker, https://gitlab.esrf.fr/workflow/ewoks/ewoksnotify/issues/
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: ewoks[orange]
+Provides-Extra: base
+Requires-Dist: silx; extra == "base"
+Provides-Extra: icat
+Requires-Dist: pyicat_plus; extra == "icat"
+Provides-Extra: tone
+Requires-Dist: chime; extra == "tone"
+Provides-Extra: full
+Requires-Dist: pyicat_plus; extra == "full"
+Requires-Dist: chime; extra == "full"
+Requires-Dist: PyQt5; extra == "full"
+Provides-Extra: test
+Requires-Dist: pyicat_plus; extra == "test"
+Requires-Dist: chime; extra == "test"
+Requires-Dist: PyQt5; extra == "test"
+Requires-Dist: pytest>=7; extra == "test"
+Requires-Dist: importlib_resources; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pyicat_plus; extra == "dev"
+Requires-Dist: chime; extra == "dev"
+Requires-Dist: PyQt5; extra == "dev"
+Requires-Dist: pytest>=7; extra == "dev"
+Requires-Dist: importlib_resources; extra == "dev"
+Requires-Dist: black>=22; extra == "dev"
+Requires-Dist: flake8>=4; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: pyicat_plus; extra == "doc"
+Requires-Dist: chime; extra == "doc"
+Requires-Dist: PyQt5; extra == "doc"
+Requires-Dist: pytest>=7; extra == "doc"
+Requires-Dist: importlib_resources; extra == "doc"
+Requires-Dist: sphinx>=4.5; extra == "doc"
+Requires-Dist: sphinx-autodoc-typehints>=1.16; extra == "doc"
+Requires-Dist: pydata_sphinx_theme; extra == "doc"
+Requires-Dist: nbsphinx; extra == "doc"
+Requires-Dist: sphinx-design; extra == "doc"
+Provides-Extra: orange
+Requires-Dist: Orange3; extra == "orange"
+
+# ewoksnotify
+
+Project to group some ewoks tasks that can be of general interest.
