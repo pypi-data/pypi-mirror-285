@@ -1,0 +1,37 @@
+Metadata-Version: 2.1
+Name: gwax
+Version: 0.0.3
+Summary: Gravitational-wave astronomy in JAX
+Author-email: Matthew Mould <mattdmould@gmail.com>
+Project-URL: Homepage, https://github.com/mdmould/gwax
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: jax>=0.4.30
+Requires-Dist: flowjax>=12.4.0
+Requires-Dist: equinox
+Requires-Dist: optax
+Requires-Dist: jax_tqdm>=0.2.1
+Requires-Dist: gwpopulation>=1.0.0
+
+# gwax
+
+Gravitational-wave astronomy in JAX.
+
+## Install
+
+1. Install JAX following their [instructions](https://github.com/google/jax#installation) for your platform and hardware.
+2. `pip install gwax`.
+
+## Usage
+
+See the [examples](https://github.com/mdmould/gwax/tree/main/examples).
+
+## Current limitations
+
+- `gwax` is being actively developed and the interface is likely to undergo breaking changes.
+- Currently the only thing implemented is variation inference of gravitational-wave populations.
+- Only univariate uniform priors are supported.

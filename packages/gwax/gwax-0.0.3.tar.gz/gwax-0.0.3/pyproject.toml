@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gwax"
+version = "0.0.3"
+authors = [
+  { name="Matthew Mould", email="mattdmould@gmail.com" },
+]
+description = "Gravitational-wave astronomy in JAX"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    'jax >= 0.4.30',
+    'flowjax >= 12.4.0',
+    'equinox',
+    'optax',
+    'jax_tqdm >= 0.2.1',
+    'gwpopulation >= 1.0.0',
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/mdmould/gwax"
