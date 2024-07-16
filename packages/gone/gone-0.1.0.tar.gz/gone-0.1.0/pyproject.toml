@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gone"
+dynamic = ["version"]
+description = ''
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+keywords = []
+authors = [
+    { name = "Robin van der Noord", email = "robinvandernoord@gmail.com" },
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "hatch",
+    # "python-semantic-release >= 8.0.0a5",
+    "black",
+    "su6[all]",
+]
+
+
+[project.urls]
+Documentation = "https://github.com/Robin van der Noord/gone#readme"
+Issues = "https://github.com/Robin van der Noord/gone/issues"
+Source = "https://github.com/Robin van der Noord/gone"
+
+[tool.hatch.version]
+path = "src/gone/__about__.py"
+
+[tool.semantic_release]
+branch = "master"
+version_variable = "src/gone/__about__.py:__version__"
+change_log = "CHANGELOG.md"
+upload_to_repository = false
+upload_to_release = false
+build_command = "hatch build"
+
+[tool.coverage.run]
+source_pkgs = ["gone", "tests"]
+branch = true
+parallel = true
+omit = [
+    "src/gone/__about__.py",
+]
+
+[tool.coverage.paths]
+gone = ["src/gone", "*/gone/src/gone"]
+tests = ["tests", "*/gone/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.su6]
+directory = "src"
+include = []
+exclude = []
+stop-after-first-failure = true
