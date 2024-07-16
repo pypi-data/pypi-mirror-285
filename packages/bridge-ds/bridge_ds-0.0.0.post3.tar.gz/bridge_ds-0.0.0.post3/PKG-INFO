@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: bridge-ds
+Version: 0.0.0.post3
+Summary: A Bridge to Datasets!
+Author-email: Guy Bukchin <bukchinguy@gmail.com>
+Maintainer-email: Guy Bukchin <bukchinguy@gmail.com>
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: tqdm
+Provides-Extra: vision
+Requires-Dist: scikit-image; extra == "vision"
+Requires-Dist: pillow; extra == "vision"
+Requires-Dist: holoviews; extra == "vision"
+Requires-Dist: panel; extra == "vision"
+Requires-Dist: hvplot; extra == "vision"
+Requires-Dist: albumentations; extra == "vision"
+Requires-Dist: tabulate; extra == "vision"
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: ipykernel; extra == "dev"
+Requires-Dist: testbook; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: nbsphinx; extra == "dev"
