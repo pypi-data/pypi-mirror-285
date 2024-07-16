@@ -1,0 +1,2 @@
+class NotLockedError(Exception):
+    pass
