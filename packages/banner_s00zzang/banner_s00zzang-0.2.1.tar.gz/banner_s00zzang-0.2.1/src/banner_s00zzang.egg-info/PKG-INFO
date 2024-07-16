@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: banner_s00zzang
+Version: 0.2.1
+Summary: Default template for PDM package
+Author-email: S00zzang <sujinpark8719561@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/S00zzang/banner_s00zzang
+Project-URL: Issues, https://github.com/S00zzang/banner_s00zzang/issues
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyfiglet>=1.0.2
+
+# banner_s00zzang
+
+## **Usage**
+안뇽.. Pyfiglet 사용법에 대해 알려줄게..~
+
+도움이 필요하다면 --help를 사용하면 돼.
+아마.. -f를 이용해 폰트를 바꾸는 것만 할 것 같긴 해......
+
+### Pyfiglet is also a library that can be used in python code:
+
+```py
+from pyfiglet import Figlet
+f = Figlet(font='slant')
+print(f.renderText('text to render'))
+```
+
+아니면..
+
+```py
+import pyfiglet
+f = pyfiglet.figlet_format("text to render", font="slant")
+print(f)
+```
+
+사용하고 싶은 폰트가 있으면 커맨드 라인에다가
+`pyfiglet -L <font file>`
+사용하면 돼..
+만일 안 된다면.. 
+`sudo pyfiglet -L <font file>`
+를 사용하도록...
+
+행집욕부~
