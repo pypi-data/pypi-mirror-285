@@ -1,0 +1,21 @@
+[project]
+name = "Seokxkyu_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "Seokxkyu", email = "kyuseok000@gmail.com"},
+]
+dependencies = [
+    "Seokxkyu-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[project.scripts]
+seokxkyu-cmd = 'seokxkyu_cmd.cmd:call'
+
+
+[tool.pdm]
+distribution = true
