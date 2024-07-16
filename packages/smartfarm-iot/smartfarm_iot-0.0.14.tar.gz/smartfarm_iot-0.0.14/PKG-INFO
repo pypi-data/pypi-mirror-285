@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: smartfarm_iot
+Version: 0.0.14
+Summary: A package for Smart Farm IoT data collection and publishing using Modbus TCP and MQTT
+Home-page: http://www.doctor-ag.com/
+Author: kimyuri
+Author-email: rikim94@naver.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+
+<img src="https://data.doctor-ag.com/static/assets/images/brand/drag-logo.png" alt="logo" width="150" height="150" style="margin-bottom: -60px;">
+
+[//]: # (![LOGO]&#40;./drag-logo.png&#41;)
+
+# [Dr.AG Smart Farm IoT Project](http://www.doctor-ag.com/)
+
+This project collects data from IoT devices in a smart farm using Modbus TCP protocol and publishes the data to an MQTT broker.
+
+## Project Structure
+
+- `config/`: Configuration files including farm information and device details.
+- `src/`: Source code for reading Modbus data and publishing to MQTT.
+- `logs/`: Directory for log files.
+- `requirements.txt`: Python dependencies.
+- `README.md`: Project documentation.
+
+## Setup
+
+1. Install the required Python packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+2. Configure your MQTT broker and device information in the `config` directory.
+
+3. Run the main program:
+    ```bash
+    ./run.sh
+    ```
+   
+## Building and Distributing the Package
+
+1. Install necessary packages:
+    ```bash
+    pip3 install setuptools wheel twine
+    ```
+   
+2. Increase version, build package, and upload PyPI:
+    ```bash
+    ./build.sh
+    ```
+   
+3. View at:
+   - https://pypi.org/project/smartfarm-iot
+   
+## Copyright
+
+ⓒ 2024. NDS all rights reserved.
+
+
+

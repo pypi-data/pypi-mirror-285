@@ -1,0 +1,10 @@
+tag_id,parent_tag_id,zone_id,room_id,data_type,mdbs_ip_adres,port,unit_id,reg_adres,data_format,scale_val,unit,remarks,grp_id,first_bit_order_id,enabled
+DRAG_EA_TAG_0001,null,DRAG_EA_ZA,DRAG_EA_ZA_R1,환경제어,gjl2.iptime.org,504,,,,,,환경제어,WRITE,LSB,TRUE
+DRAG_EA_TAG_0002,DRAG_EA_TAG_0001,DRAG_EA_ZA,DRAG_EA_ZA_R1,CO2,gjl2.iptime.org,504,2,40002,UINT16,1,,CO2,WRITE,LSB,TRUE
+DRAG_EA_TAG_0003,DRAG_EA_TAG_0001,DRAG_EA_ZA,DRAG_EA_ZA_R1,CO2 시작시간,gjl2.iptime.org,504,2,40003,UINT16,1,(hh:mm),CO2 시작시간,WRITE,LSB,TRUE
+DRAG_EA_TAG_0004,DRAG_EA_TAG_0001,DRAG_EA_ZA,DRAG_EA_ZA_R1,CO2 종료시간,gjl2.iptime.org,504,3,40004,UINT16,1,(hh:mm),CO2 종료시간,WRITE,LSB,FALSE
+DRAG_EA_TAG_0005,null,DRAG_EA_ZA,DRAG_EA_ZA_R1,항온항습기,gjl2.iptime.org,504,,,,,,항온항습기,WRITE,LSB,TRUE
+DRAG_EA_TAG_0006,DRAG_EA_TAG_0005,DRAG_EA_ZA,DRAG_EA_ZA_R1,시작시간,gjl2.iptime.org,504,5,40006,UINT16,,(hh:mm),항온항습기 시작시간,WRITE,LSB,TRUE
+DRAG_EA_TAG_0007,null,DRAG_EA_ZB,DRAG_EA_ZB_R1,온도,gjl2.iptime.org,504,3,40007,UINT16,1,lx,생육실 조도,READ1,LSB,FALSE
+DRAG_EA_TAG_0008,null,DRAG_EA_ZC,DRAG_EA_ZB_R2,C02센서 CO2값,gjl2.iptime.org,504,4,40008,UINT32,1,,저온 경보,ALARM,LSB,TRUE
+DRAG_EA_TAG_0009,null,DRAG_EA_ZC,DRAG_EA_ZB_R2,C02센서 습도값,gjl2.iptime.org,504,4,40009,UINT32,1,,저온 경보,ALARM,LSB,TRUE
