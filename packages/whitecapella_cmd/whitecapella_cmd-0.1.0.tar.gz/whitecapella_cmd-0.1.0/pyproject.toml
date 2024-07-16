@@ -1,0 +1,17 @@
+[project]
+name = "whitecapella_cmd"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "whitecapella1", email = "whitecapella@naver.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+whitecapella_cmd = 'whitecapella_cmd.cmd:call'
+
+[tool.pdm]
+distribution = true
