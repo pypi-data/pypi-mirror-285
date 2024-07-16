@@ -1,0 +1,20 @@
+[project]
+name = "hun0219_cmd"
+version = "0.2.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "hun0219", email = "gsw98000@gmail.com"},
+]
+dependencies = [
+    "hun0219-lotto>=0.1.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+hun0219_cmd = 'hun0219_cmd.cmd:call'
