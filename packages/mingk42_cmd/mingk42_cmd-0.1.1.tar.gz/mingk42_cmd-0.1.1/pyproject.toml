@@ -1,0 +1,19 @@
+[project]
+name = "mingk42_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "Mingk42", email = "xoals123456t@gmail.com"},
+]
+dependencies = [
+    "mingk42-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+mingk42-cmd = "mingk42_cmd.cmd:call"
+
+[tool.pdm]
+distribution = true
