@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %} {% endblock %} - Lython</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant&family=B612+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/highlight.js@11.3.1/dist/highlight.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@11.3.1/dist/styles/default.min.css">
+    <script>hljs.highlightAll();</script>
+</head>
+<body>
+<nav>
+    <h1><a href="{{ url_for('chat.index') }}">Lython</a></h1>
+    <h3>A Python Tutor, for a Loughlin Lion</h3>
+    <ul>
+        {% if g.user %}
+            <li><span>{{ g.user['username'] }}</span></li>
+            <li><a href="{{ url_for('chat.history') }}">History</a>
+             <li><a href="{{ url_for('rag_chat.rag_chat') }}">RAG</a>
+        <li><a href="{{ url_for('auth.logout') }}">Log Out</a>
+        {% else %}
+        <li><a href="{{ url_for('auth.register') }}">Register</a>
+        <li><a href="{{ url_for('auth.login') }}">Log In</a>
+        {% endif %}
+    </ul>
+</nav>
+<section class="content">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% for message in get_flashed_messages() %}
+        <div class="flash">{{ message }}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+</section>
+</body>
+</html>
