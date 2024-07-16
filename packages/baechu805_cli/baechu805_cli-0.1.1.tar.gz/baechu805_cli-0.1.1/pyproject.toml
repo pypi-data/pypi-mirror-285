@@ -1,0 +1,20 @@
+[project]
+name = "baechu805_cli"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "baechu805", email = "bjoo606@naver.com"},
+]
+dependencies = [
+    "baechu805-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+baechu805-cli = 'baechu805_cli.cli:call'
