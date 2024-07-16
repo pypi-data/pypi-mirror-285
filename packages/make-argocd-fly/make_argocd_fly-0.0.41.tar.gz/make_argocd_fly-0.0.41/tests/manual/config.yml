@@ -1,0 +1,95 @@
+envs:
+  management:
+    apps:
+      bootstrap: {}
+      core_deployer: {app_deployer: bootstrap, project: default, destination_namespace: kube-system}
+      service_deployer: {app_deployer: bootstrap, project: default, destination_namespace: kube-system}
+      app_1:
+        app_deployer: core_deployer
+        project: management
+        destination_namespace: kube-default
+        vars:
+          argocd:
+            target_revision: custom_revision
+      app_2:
+        app_deployer: core_deployer
+        project: management
+        destination_namespace: kube-default
+        vars:
+          argocd:
+            ignoreDifferences:
+              - group: apps
+                kind: Deployment
+                name: guestbook
+                namespace: default
+                jsonPointers:
+                  - /spec/replicas
+              - group: storage.k8s.io
+                kind: CSIDriver
+                jqPathExpressions:
+                  - .spec.seLinuxMount
+            finalizers: null
+      app_3: {app_deployer: service_deployer, project: management, destination_namespace: "${namespace}"}
+      app_4: {app_deployer: service_deployer, project: management, destination_namespace: kube-default, vars: {argocd: {ignoreDifferences: "${argocd_ignore_diff}"}}}
+      app_5: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+      app_6: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+      subdirectory/app_7: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+      subdirectory_2/app_8: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+      app_9: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+      app_10: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+      app_11: {app_deployer: service_deployer, project: management, destination_namespace: kube-default}
+    vars:
+      argocd:
+        api_server: management-api-server
+        sync_policy:
+          automated: null
+      json_var: json_management
+      parent_var:
+        env_specific_var: test_env_specific
+  external_1:
+    apps:
+      bootstrap: {}
+      unused_deployer: {app_deployer: bootstrap, project: default, destination_namespace: kube-system}
+      app_1: {app_deployer: core_deployer, app_deployer_env: management, project: external_1, destination_namespace: kube-default}
+      app_2: {app_deployer: core_deployer, app_deployer_env: management, project: management, destination_namespace: kube-default}
+      app_5: {app_deployer: service_deployer, app_deployer_env: management, project: external_1, destination_namespace: kube-default}
+      subdirectory/app_7: {app_deployer: service_deployer, app_deployer_env: management, project: management, destination_namespace: kube-default}
+      app_9: {app_deployer: service_deployer, app_deployer_env: management, project: management, destination_namespace: kube-default}
+    vars:
+      argocd:
+        api_server: external_1-api-server
+  external_2:
+    apps: {}
+    vars: {}
+
+vars:
+  argocd:
+    namespace: argocd
+    repo_url: url
+    target_revision: revision
+    sync_policy:
+      automated:
+        selfHeal: true
+        prune: true
+        allowEmpty: true
+      # https://www.arthurkoziel.com/fixing-argocd-crd-too-long-error/
+      syncOptions:
+        - ServerSideApply=true
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+  namespace: kube-default
+  version: 0.1.0
+  double_reference_version: ${reference_version}
+  reference_version: ${app[version]}
+  resource: Deployment_thanos.yml
+  app:
+    resource: ${resource}
+    version: 0.1.0
+  json_var: json
+  argocd_ignore_diff:
+    - group: apps
+      kind: Deployment
+      name: guestbook
+      namespace: default
+      jsonPointers:
+        - /spec/replicas
