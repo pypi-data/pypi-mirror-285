@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+import re
+import shlex
+import sys
+from pathlib import Path
+from subprocess import PIPE, run
+
+from .verify import verify
+
+
+def strip_ansi_codes(s):
+    return strip_crlf(re.sub(r"\x1B[@-_][0-?]*[ -/]*[@-~]", "", s))
+
+
+def strip_crlf(s):
+    return s.strip()
+
+
+def eformat(error, detail):
+    _, _, detail = detail.partition("--> ")
+    return f"{detail}{error}"
+
+
+def forge_errors(lines):
+    """return quickfix error list"""
+    errors = None
+    for i, line in enumerate(lines):
+        if errors is not None and (line.startswith("Error") or line.startswith("Warning")):
+            errors.append(eformat(line, lines[i + 1]))
+        if "Compiler run failed" in line:
+            errors = []
+    if errors is None:
+        errors = []
+    return errors
+
+
+def flake8_errors(lines):
+    return [line for line in lines if line]
+
+
+# awk -F: '/^error: cannot format/{\
+#    file=$2; error=$3; row=$4; col=$5; source=$6;
+#    gsub(/^.*cannot format\s/, "", file);\
+#    printf("%s:%d:%d: [black]%s: %s\n", file, row, col, error, source);
+# }'
+
+
+def black_errors(lines):
+    p = re.compile(r"^error: cannot format\s(.*)")
+    errors = []
+    for line in lines:
+        m = p.match(line)
+        if m:
+            line = m.groups()[0]
+            file, error, row, col, source = [f.strip() for f in line.split(":")[:5]]
+            line = f"{file}:{row}:{col}: [black]{error} {source}"
+            errors.append(line)
+
+    return [line for line in errors if line]
+
+
+def try_quickfix(errors):
+    if verify("fix"):
+        quickfix = Path(".quickfix")
+        quickfix.write_text("\n".join(errors))
+        run(["vim", "-q", str(quickfix)])
+        quickfix.unlink()
+    sys.exit(-1)
+
+
+formats = dict(forge=forge_errors, flake8=flake8_errors, black=black_errors)
+
+
+def vimfix(command, quiet, ignore_stderr, ignore_stdout, strip, fmt, output):
+    """run a command, check for compile errors, and optionally run vim quickfix"""
+
+    proc = run(shlex.split(command), stdout=PIPE, stderr=PIPE)
+
+    if proc.returncode != 0:
+        quiet = False
+
+    if not quiet:
+        sys.stdout.write(proc.stdout.decode())
+        sys.stdout.flush()
+
+    sys.stderr.write(proc.stderr.decode())
+    sys.stderr.flush()
+
+    if strip:
+        stripper = strip_ansi_codes
+    else:
+        stripper = strip_crlf
+
+    errors = []
+    if not ignore_stdout:
+        errors.extend(formats[fmt]([stripper(line) for line in proc.stdout.decode().split("\n")]))
+    if not ignore_stderr:
+        errors.extend(formats[fmt]([stripper(line) for line in proc.stderr.decode().split("\n")]))
+
+    if len(errors):
+        try_quickfix(errors)
+
+    if output is not None and proc.returncode == 0:
+        # write output file only if no errors
+        with output.open("wb") as ofp:
+            ofp.write(proc.stdout)
+
+    sys.exit(proc.returncode)
