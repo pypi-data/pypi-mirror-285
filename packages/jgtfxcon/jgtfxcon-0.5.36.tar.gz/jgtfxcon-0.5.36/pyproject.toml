@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jgtfxcon"
+version = "0.5.36"
+authors = [{ name = "Guillaume Isabelle", email = "jgi@jgwill.com" }]
+
+description = "PDS Services"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+  'pandas>=0.25.1',
+  'python-dotenv>=0.19.2',
+  'jgtutils>=0.1.112',
+  'jgtfx2console>=0.4.40',
+  'tlid',
+  'flask',
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/jgwill/jgtfxcon"
+"Bug Tracker" = "https://github.com/jgwill/jgtfxcon/issues"
+
+
+[project.scripts]
+jgtfxcli = "jgtfxcon.jgtfxcli:main"
