@@ -1,0 +1,51 @@
+[build-system]
+# Minimum requirements for the build system to execute.
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = 'mkdocs-material-joapuiib'
+dynamic = ['version']
+description = "Custom theme for MkDocs"
+readme = {file = 'README.md', content-type='text/markdown'}
+authors = [
+    {name = 'Joan Puigcerver', email = 'joapuiib@gmail.com'}
+]
+maintainers = [
+    {name = 'Joan Puigcerver', email = 'joapuiib@gmail.com'}
+]
+license = {file = 'LICENSE'}
+requires-python = '>=3.5'
+dependencies = [
+    'mkdocs>=1.6',
+    'mkdocs-material>=9.5.28',
+    'mkdocs-awesome-pages-plugin>=2.9.2',
+    'mkdocs-macros-plugin>=1.0.5',
+    'mkdocs-git-revision-date-localized-plugin>=1.2.6',
+    'mkdocs-static-i18n>=1.2.3'
+]
+
+# [project.urls]
+# 'Homepage' = ''
+# 'Repository' = ''
+# 'Issue Tracker' = ''
+
+[project.entry-points.'mkdocs.themes']
+material-joapuiib = 'material_joapuiib'
+
+[project.entry-points."mkdocs.plugins"]
+"material-joapuiib/enviorment" = "material_joapuiib.plugins.enviorment:EnviormentPlugin"
+"material-joapuiib/publish" = "material_joapuiib.plugins.publish:PublishPlugin"
+
+# [tool.setuptools]
+# license-files = ['LICENSE', 'bootswatch.LICENSE']
+
+[tool.setuptools.package-data]
+"*" = ['*.css', '*.yml']
+
+[tool.setuptools.dynamic]
+version = {attr = 'material_joapuiib.__version__'}
+
+[tool.setuptools.packages.find]
+include = ["material_joapuiib*"]
+exclude = ["site*", "tests*"]
