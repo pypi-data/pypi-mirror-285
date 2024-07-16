@@ -1,0 +1,17 @@
+[project]
+name = "power01_min"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "baechu805", email = "bjoo606@naver.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+min = "power01_min.min:min"
+
+[tool.pdm]
+distribution = true

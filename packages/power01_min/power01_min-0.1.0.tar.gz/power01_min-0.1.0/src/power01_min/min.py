@@ -1,0 +1,2 @@
+def min():
+    print("min")
