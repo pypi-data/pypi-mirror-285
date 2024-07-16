@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: ai-models-fourcastnet-gfs
+Version: 0.0.2
+Summary: An ai-models plugin to run FourCastNet
+Home-page: https://github.com/jacob-radford/ai-models-fourcastnet-gfs
+Author: Jacob Radford
+Author-email: jacob.t.radford@gmail.com
+License: Apache License Version 2.0
+Keywords: tool
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE_fourcastnet
+Requires-Dist: torch>=2.0.0
+Requires-Dist: timm>=0.6.13
+Requires-Dist: einops>=0.6.0
+Requires-Dist: ruamel.yaml>=0.17.21
+
+# ai-models-fourcastnet-gfs
+
+>
+> :warning: This plugin is now deprecated. Please use the newer version that can be found at https://github.com/jacob-radford/ai-models-gfs-fourcastnetv2
+> 
+
+`ai-models-fourcastnet-gfs` is an extension of the [ai-models-fourcastnet](https://github.com/ecmwf-lab/ai-models-fourcastnet) package, which itself is a plugin to run Nvidia's spherical harmonics tranformer with [ai-models](https://github.com/ecmwf-lab/ai-models).
+
+FourCastNet: A Global Data-driven High-resolution Weather Model using Adaptive Fourier Neural Operators
+https://arxiv.org/abs/2202.11214
+
+The FourCastNet code was developed by the authors of the preprint: Jaideep Pathak, Shashank Subramanian, Peter Harrington, Sanjeev Raja, Ashesh Chattopadhyay, Morteza Mardani, Thorsten Kurth, David Hall, Zongyi Li, Kamyar Azizzadenesheli, Pedram Hassanzadeh, Karthik Kashinath, Animashree Anandkumar.
+
+Version 0.1 of FourCastNet is used as default in ai-models.
+https://portal.nersc.gov/project/m4134/FCN_weights_v0.1/
+
+FourCastNet is released under **BSD 3-Clause License**, see [LICENSE_fourcastnet](LICENSE_fourcastnet) for more details.
