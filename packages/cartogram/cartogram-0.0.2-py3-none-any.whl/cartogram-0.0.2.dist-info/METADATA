@@ -1,0 +1,84 @@
+Metadata-Version: 2.1
+Name: cartogram
+Version: 0.0.2
+Summary: Compute continous cartograms (anamorphic maps)
+Author-email: Christoph Fink <christoph.fink@christophfink.com>
+License: GPL-3.0-or-later
+Project-URL: Documentation, https://python-cartogram.readthedocs.org/
+Project-URL: Repository, https://github.com/austromorph/python-cartogram
+Project-URL: Change log, https://github.com/austromorph/python-cartogram/blob/main/CHANGELOG.md
+Project-URL: Bug tracker, https://github.com/austromorph/python-cartogram/issues
+Keywords: cartography,geodata,geoinformation,visualisation
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: geopandas
+Requires-Dist: joblib
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: shapely
+Provides-Extra: docs
+Requires-Dist: folium ; extra == 'docs'
+Requires-Dist: GitPython ; extra == 'docs'
+Requires-Dist: jupyterlab-myst ; extra == 'docs'
+Requires-Dist: mapclassify ; extra == 'docs'
+Requires-Dist: matplotlib ; extra == 'docs'
+Requires-Dist: myst-nb ; extra == 'docs'
+Requires-Dist: nbsphinx ; extra == 'docs'
+Requires-Dist: pybtex-apa7-style ; extra == 'docs'
+Requires-Dist: sphinx ; extra == 'docs'
+Requires-Dist: sphinx-book-theme ; extra == 'docs'
+Requires-Dist: sphinx-design ; extra == 'docs'
+Requires-Dist: sphinxcontrib-bibtex ; extra == 'docs'
+Requires-Dist: sphinxcontrib-images ; extra == 'docs'
+Requires-Dist: xyzservices ; extra == 'docs'
+Provides-Extra: tests
+Requires-Dist: pytest ; extra == 'tests'
+Requires-Dist: pytest-asyncio ; extra == 'tests'
+Requires-Dist: pytest-lazy-fixtures ; extra == 'tests'
+
+# Compute continous cartograms (anamorphic maps)
+
+This is a Python package to compute cartograms from `geopandas.GeoDataFrames`, using the algorithm presented in [Dougenik et al. (1985)](http://www.tandfonline.com/doi/abs/10.1111/j.0033-0124.1985.00075.x). It is the ‘sister project’ and Python implementation of our [QGIS plugin](https://github.com/austromorph/cartogram3) which continues to be available.
+
+
+## Installation
+
+`cartogram` is available from the [PyPi package
+repository](https://pypi.org/project/cartogram), install it, for instance, using `pip`:
+
+```
+pip install cartogram
+```
+
+
+## Quick start
+
+### Input data
+
+You will need a polygon data set [in any format readable by
+`geopandas`](https://geopandas.org/en/stable/docs/user_guide/io.html) that
+features a numeric attribute column to use as the relative target values to base
+the cartogram distortion on. 
+
+If you want to have a quick try-out, see the population data for Austrian
+provinces in the [`tests/data`](tests/data) directory of this repository.
+
+### Cartogram creation
+
+```
+import cartogram
+import geopandas
+
+df = geopandas.read_file("input-data.gpkg")
+c = cartogram.Cartogram(df, column="population")
+
+c.to_file("output-data.gpkg")
+```
+
+## Documentation
+
+Find more detailed examples and an API reference at <https://python-cartogram.readthedocs.io/>.
