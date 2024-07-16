@@ -1,0 +1,409 @@
+openapi: 3.0.1
+x-stoplight:
+  id: 6103aca611ce5
+info:
+  title: NQL API
+  description: Execute NQL queries to initiate data transfers between systems.
+  version: 1.2.0
+servers:
+  - url: 'https://instance.api.region.nexthink.cloud'
+tags:
+  - name: Execute
+    description: Public NQL-API
+paths:
+  /api/v1/nql/execute:
+    post:
+      summary: Execute an NQL V1
+      description: Executes an NQL query and returns the results.
+      operationId: execute
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            nullable: false
+        - name: Accept
+          description: 'Set it to application/json for a JSON response, text/csv for a CSV response. If no value is set, application/json is used by default. Otherwise a 406 error (not acceptable) is returned.'
+          in: header
+          schema:
+            type: string
+            nullable: true
+            example: application/json
+      requestBody:
+        description: The configuration of the execution.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NqlApiExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NqlApiExecuteResponse'
+            text/csv:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to execute queries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - No query associated with that ID.
+        '406':
+          description: 'Not Acceptable. The Accept header should be "application/json", "text/csv" or empty.'
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable.
+  /api/v2/nql/execute:
+    post:
+      summary: Execute an NQL V2
+      description: Executes an NQL query and returns the results.
+      operationId: execute
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            nullable: false
+        - name: Accept
+          description: 'Set it to application/json for JSON response, text/csv for CSV response. If no value is set, application/json is used by default. Otherwise a 406 error (not acceptable) is returned.'
+          in: header
+          schema:
+            type: string
+            nullable: true
+            example: application/json
+      requestBody:
+        description: The configuration of the execution.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NqlApiExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NqlApiExecuteV2Response'
+            text/csv:
+              schema:
+                type: string
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to execute queries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - No query associated with that ID
+        '406':
+          description: 'Not Acceptable - The accept header should be "application/json", "text/csv" or empty'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable
+  /api/v1/nql/export:
+    post:
+      summary: Export an NQL
+      description: Starts the execution of a query that will finish with the export of the results to a file in S3. The service response contains an identifier that can be used in the "status" operation to obtain the URL of the file with the results.
+      operationId: export-post
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            nullable: false
+      requestBody:
+        description: The configuration of the execution
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NqlApiExecuteRequest'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NqlApiExportResponse'
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to execute queries
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - No query associated with that ID.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable.
+    get:
+      summary: Export an NQL
+      description: Starts the execution of a query that will finish with the export of the results to a file in S3. The service response contains an identifier that can be used in the "status" operation to obtain the URL of the file with the results.
+      operationId: export-get
+      parameters:
+        - name: queryId
+          in: query
+          description: Identifier of the query which is going to be executed.
+          required: true
+          schema:
+            type: string
+          example: '#my_query_id'
+        - name: parameters
+          in: query
+          description: 'Key and value of the parameters to be replaced within the NQL query in order to compose a final query for execution. Example: {\"alert_name\": \"my_alert\", \"alert_status\": \"Open\"}"'
+          required: false
+          schema:
+            type: object
+            additionalProperties:
+              type: string
+          example:
+            parameterName1: parameterValue1
+            parameterName2: parameterValue2
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            nullable: false
+      responses:
+        '200':
+          description: OK - Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NqlApiExportResponse'
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to execute queries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - No query associated with that ID.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable.
+  '/api/v1/nql/status/{exportId}':
+    get:
+      summary: Status of an export
+      description: Retrieve the status of an export given its identifier.
+      operationId: status
+      parameters:
+        - name: exportId
+          in: path
+          description: Export identifier
+          required: true
+          schema:
+            type: string
+            nullable: false
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            nullable: false
+      responses:
+        '200':
+          description: OK - Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NqlApiStatusResponse'
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to execute queries.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - No export associated with that ID.
+        '500':
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '503':
+          description: Service unavailable.
+components:
+  schemas:
+    DateTime:
+      type: object
+      properties:
+        year:
+          type: integer
+          format: int64
+        month:
+          type: integer
+          format: int64
+        day:
+          type: integer
+          format: int64
+        hour:
+          type: integer
+          format: int64
+        minute:
+          type: integer
+          format: int64
+        second:
+          type: integer
+          format: int64
+      x-stoplight:
+        id: 2c72s9fow40bb
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Message with the description of the error.
+        code:
+          type: integer
+          description: Error code
+          format: int32
+        source:
+          type: string
+          description: 'Source of the error, if any.'
+      x-stoplight:
+        id: r0y1dnsjirjmy
+    NqlApiExecuteRequest:
+      required:
+        - queryId
+      type: object
+      properties:
+        queryId:
+          maxLength: 255
+          minLength: 1
+          pattern: '^#[a-z0-9_]{2,255}$'
+          type: string
+          description: Identifier of the query which is going to be executed.
+          example: '#my_query_id'
+        parameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: 'Key and value of the parameters to be replaced within the NQL query in order to compose a final query for execution. Example: {\"alert_name\": \"my_alert\", \"alert_status\": \"Open\"}"'
+          example:
+            parameterName1: parameterValue1
+            parameterName2: parameterValue2
+      x-stoplight:
+        id: r75hyqegosy4j
+    NqlApiExecuteResponse:
+      type: object
+      properties:
+        queryId:
+          type: string
+          description: Identifier of the executed query
+        executedQuery:
+          type: string
+          description: Final query executed with the replaced parameters.
+        rows:
+          type: integer
+          description: Number of rows returned
+          format: int64
+        executionDateTime:
+          allOf:
+            - $ref: '#/components/schemas/DateTime'
+            - type: object
+              description: Date and time of the execution
+        headers:
+          type: array
+          description: Ordered list with the headers of the returned fields.
+          items:
+            type: string
+        data:
+          type: array
+          description: List of rows with the data returned by the query execution.
+          items:
+            type: array
+            items:
+              type: object
+      x-stoplight:
+        id: es31qjpdj6ogb
+    NqlApiExportResponse:
+      type: object
+      properties:
+        exportId:
+          type: string
+          description: Export identifier to be used in the "status" operation to know the state of the export and to retrieve the URL of the file with the results.
+    NqlApiStatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the export
+          enum:
+            - SUBMITTED
+            - IN_PROGRESS
+            - ERROR
+            - COMPLETED
+          nullable: false
+        resultsFileUrl:
+          type: string
+          description: URL of the file with the content once the export has been completed.
+          nullable: true
+        errorDescription:
+          type: string
+          description: Message with the description of the error.
+          nullable: true
+    NqlApiExecuteV2Response:
+      type: object
+      properties:
+        queryId:
+          type: string
+          description: Identifier of the executed query
+        executedQuery:
+          type: string
+          description: Final query executed with the parameters replaced
+        rows:
+          type: integer
+          description: Number of rows returned
+          format: int64
+        executionDateTime:
+          type: string
+          description: Date and time of the execution in ISO format
+          example: '2023-03-07T15:56:02'
+        data:
+          type: array
+          description: List of rows with the data returned by the query execution
+          items:
+            type: object
+            properties:
+              key1:
+                example: my-device
+              key2:
+                example: device-info
