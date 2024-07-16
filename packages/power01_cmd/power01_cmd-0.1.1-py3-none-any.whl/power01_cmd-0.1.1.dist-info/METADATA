@@ -1,0 +1,61 @@
+Metadata-Version: 2.1
+Name: power01_cmd
+Version: 0.1.1
+Summary: Default template for PDM package
+Author-email: sooj1n <sujin19371@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/sooj1n/power01_cmd
+Project-URL: Issues, https://github.com/sooj1n/power01_cmd/issues
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: power01-div >=0.1.0
+Requires-Dist: power01-mul >=0.1.0
+Requires-Dist: power01-plus >=0.1.0
+Requires-Dist: power01-min >=0.1.1
+
+# power01_cmd
+
+# 조 이름
+power01
+
+# 설치 방법
+```
+$ pip install power01_cmd
+```
+
+# 코드
+```
+from power01_plus.plus import plus
+from power01_min.min import minus
+from power01_mul.mul import mul
+from power01_div.div import div
+
+
+def call():
+    plus()
+    minus()
+    mul()
+    div()
+
+    print('success!!')
+```
+
+# 실행
+```
+$ cmd
+```
+
+# 결과
+```
+plus
+minus
+mul
+div
+success!!
+```
+
+# 참조
+- https://github.com/baechu805/power01_plus
+- https://github.com/baechu805/power01_min
+- https://github.com/sooj1n/power01_mul
+- https://github.com/sooj1n/power01_div
