@@ -1,0 +1,28 @@
+[project]
+name = "cliexercises"
+version = "2.5.0"
+authors = [
+  { name="Sundeep Agarwal", email="learnbyexample.net@gmail.com" },
+]
+description = "70+ beginner to intermediate level questions on CLI text processing tasks"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "textual>=0.63.6",
+]
+
+[project.scripts]
+cliexercises = "cliexercises.cli_exercises:main"
+
+[project.urls]
+"Source" = "https://github.com/learnbyexample/TUI-apps/tree/main/CLI-Exercises"
+"Issues" = "https://github.com/learnbyexample/TUI-apps/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
