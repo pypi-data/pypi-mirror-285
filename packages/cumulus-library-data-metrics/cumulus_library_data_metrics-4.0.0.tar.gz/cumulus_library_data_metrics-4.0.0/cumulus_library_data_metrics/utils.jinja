@@ -1,0 +1,326 @@
+-- Extracts the codes from a codeableConcept and returns a select with (id, codes).
+{% macro extract_codes(src, src_field, system=null, is_array=false) -%}
+(
+    -- Support both a list of systems or a single system
+    {%- if system is string %}
+        {%- set system_list = "('" + system + "')" %}
+    {%- elif system %}
+        {%- set system_list = "('" + system|join("', '") + "')" %}
+    {%- endif %}
+
+    -- Flatten codings of the provided system and recombine the codes as a list
+    SELECT
+        id,
+        ARRAY_AGG(c.coding.code) AS codes
+    FROM {{ src }},
+        {%- if is_array %}
+        UNNEST({{ src_field }}) AS cc (cc_row),
+        UNNEST(cc.cc_row.coding) AS c (coding)
+        {%- else %}
+        UNNEST({{ src_field }}.coding) AS c (coding)
+        {%- endif %}
+    WHERE
+        c.coding.code IS NOT NULL
+    {% if system_list %}
+        AND c.coding.system in {{ system_list }}
+    {% endif %}
+    GROUP BY id
+)
+{%- endmacro %}
+
+
+-- Extracts the codes from a codeableConcept and returns a flat select with (id, code).
+{% macro extract_codes_flat(src, src_field, system=null, is_array=false) -%}
+(
+    -- Support both a list of systems or a single system
+    {%- if system is string %}
+        {%- set system_list = "('" + system + "')" %}
+    {%- elif system %}
+        {%- set system_list = "('" + system|join("', '") + "')" %}
+    {%- endif %}
+
+    -- Flatten codings of the provided system and recombine the codes as a list
+    SELECT
+        id,
+        c.coding.system,
+        c.coding.code
+    FROM {{ src }},
+        {%- if is_array %}
+        UNNEST({{ src_field }}) AS cc (cc_row),
+        UNNEST(cc.cc_row.coding) AS c (coding)
+        {%- else %}
+        UNNEST({{ src_field }}.coding) AS c (coding)
+        {%- endif %}
+    WHERE
+        c.coding.code IS NOT NULL
+    {% if system_list %}
+        AND c.coding.system in {{ system_list }}
+    {% endif %}
+)
+{%- endmacro %}
+
+
+-- Extracts the status field and returns a select with (id, status).
+{% macro extract_status(src) -%}
+(
+    -- Annoyingly, allergies and conditions use a codeableConcept field.
+    {% set systems = {
+        'AllergyIntolerance': 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification',
+        'Condition': 'http://terminology.hl7.org/CodeSystem/condition-ver-status',
+    } %}
+
+    -- Check what kind of resource we are dealing with
+    {% if src in systems %}
+        {% set join_table = src + '_extract_status_tmp_codes' %}
+        WITH {{ join_table }} AS {{ extract_codes(src, 'verificationstatus', system=systems[src]) }}
+    {%- endif %}
+
+    -- Now extract the status
+    SELECT
+        src.id,
+        {% if join_table %}
+        ARRAY_JOIN(ARRAY_SORT(join_table.codes), '; ')
+
+        {% elif src == 'Patient' %}
+        {{ patient_active_status() }}
+
+        {% else %}
+        status
+        {%- endif %}
+
+        AS status
+    FROM {{ src }} AS src
+
+    {%- if join_table %}
+    JOIN {{ join_table }} AS join_table
+    ON src.id = join_table.id
+    {%- endif %}
+)
+{%- endmacro %}
+
+
+-- Extracts the category codes and returns a select with (id (string), category (string)).
+{% macro extract_category_codes(src, cat_field, cat_systems) -%}
+(
+{% if cat_systems %}
+    WITH
+    array_codes AS {{ extract_codes(src, cat_field, system=cat_systems, is_array=true) }}
+    SELECT id, {{ array_to_string('codes') }} AS category
+    FROM array_codes
+{% elif cat_field %}
+    SELECT id, {{ array_to_string(cat_field) }} AS category
+    FROM {{ src }}
+    WHERE {{ cat_field }} IS NOT NULL
+{% else %}
+    SELECT id, '' AS category FROM {{ src }} WHERE 1=0 -- empty table
+{% endif %}
+)
+{%- endmacro %}
+
+
+-- Quotes a field that may include keywords and periods (like src.end -> "src"."end")
+{% macro quote_field(field) -%}
+    "{{ field|replace('.', '"."') }}"
+{%- endmacro %}
+
+
+-- Extracts a date field from a list of choices and returns a DATE.
+{% macro coalesce_date(fields) -%}
+    date(from_iso8601_timestamp(
+        COALESCE(
+            "{{ fields|join('", "')|replace('.', '"."') }}"
+        )
+    ))
+{%- endmacro %}
+
+-- Extracts a date field from a list of choices, chops it to the period, and returns a string.
+{% macro get_date_string(fields, period) -%}
+    {% call coalesce_missing() %}
+        SUBSTR(
+            CAST(date_trunc('{{ period }}', {{ coalesce_date(fields) }}) AS VARCHAR),
+            1,
+            {% if period == 'year' %} 4 {% else %} 7 {% endif %}
+        )
+    {% endcall %}
+{%- endmacro %}
+
+
+{% macro coalesce_missing() -%}
+    {% if varargs %}
+        {% set arg = varargs[0] %}
+    {% else %}
+        {% set arg = caller() %}
+    {% endif %}
+
+    COALESCE(
+        {{ arg }},
+        'cumulus__none'
+    )
+{%- endmacro %}
+
+
+{% macro patient_active_status() -%}
+    CASE WHEN active IS NULL
+    THEN NULL
+    ELSE
+        CASE WHEN active
+        THEN 'active'
+        ELSE 'inactive'
+        END
+    END
+{%- endmacro %}
+
+
+{% macro is_reference_of_type(field, types, allow_contained=false) -%}
+(
+    {% if types is string %}
+        {% set types = [types] %}
+    {% endif %}
+    {{ field }} IS NOT NULL
+    AND (
+        {{ field }}.reference IS NOT NULL AND (
+            {% for type in types %}
+            REGEXP_LIKE({{ field }}.reference, '^{{ type }}/')
+            {%- if not loop.last %}OR{%- endif -%}
+            {%- endfor %}
+
+            {% if allow_contained %}
+            {# Validating the type further would be very hard (unnesting), so we don't here.
+               This is only used rarely (MedRequest, where the target must be Medication). #}
+            OR REGEXP_LIKE({{ field }}.reference, '^#')
+            {% endif %}
+        )
+        -- TODO: Should we allow this form? FHIR spec says yes... but not sure our SQL allows it
+        -- OR ({{ field }}.type IS NOT NULL AND {{ field }}.type = {{ type }})
+    )
+)
+{%- endmacro %}
+
+
+-- Abstracts whether we're doing a CUBE call or a simple GROUP BY.
+-- Designed to be used as a call block.
+{% macro make_counts(src_table, mode) -%}
+{% set cols = caller() %}
+SELECT
+    COUNT(DISTINCT id) AS cnt,
+    {{ cols }}
+FROM {{ src_table }}
+{% if mode == "cube" %}
+GROUP BY CUBE(
+{% else %}
+GROUP BY (
+{% endif %}
+    {{ cols }}
+)
+{%- endmacro %}
+
+
+-- Converts an array to a semicolon-delineated list, or cumulus__none
+-- Can be called with the name of the array to check ('list_field')
+-- or wrapped in a call block
+{% macro array_to_string() -%}
+    {% if varargs %}
+        {% set arg = varargs[0] %}
+    {% else %}
+        {% set arg = caller() %}
+    {% endif %}
+
+    {% call coalesce_missing() %}
+        -- Use nullif to convert empty arrays (which get joined into the empty string) into nulls
+        NULLIF(ARRAY_JOIN(ARRAY_SORT(ARRAY_DISTINCT({{ arg }})), '; '), '')
+    {% endcall %}
+{%- endmacro %}
+
+
+-- ** These next few macros check if an element is filled in.
+-- This is useful because some toplevel columns can be represented as present but with all nulls
+-- for the subfields instead of real data. That is, a CodeableConcept might look like
+-- {id=null, coding=null, text=null} in Athena instead of NULL.
+-- I'm not 100% on when that happens vs NULL - is there a difference for older data before
+-- we had a broader schema? It doesn't seem to happen for lists of concepts, at least.
+{% macro is_code_valid(field, allowed_values) -%}
+(
+    {# support a string like "active | inactive" copied straight from the FHIR spec #}
+    {% if allowed_values is string %}
+        {% set allowed_values = allowed_values.split(" | ") %}
+    {% endif %}
+    {{ field }} IS NOT NULL
+    AND {{ field }} IN ('{{ allowed_values|join("', '") }}')
+)
+{%- endmacro %}
+{% macro is_coding_valid(field) -%}
+(
+    {{ field }} IS NOT NULL
+    AND (
+        {{ field }}.code IS NOT NULL
+        OR {{ is_string_valid(field + '.display') }}
+    )
+)
+{%- endmacro %}
+{% macro is_concept_valid(field) -%}
+(
+    {{ field }} IS NOT NULL
+    AND (
+        {{ field }}.coding IS NOT NULL
+        OR {{ is_string_valid(field + '.text') }}
+    )
+)
+{%- endmacro %}
+{% macro is_period_valid(field) -%}
+(
+    {{ field }} IS NOT NULL
+    AND (
+        {{ field }}.start IS NOT NULL
+        OR {{ field }}."end" IS NOT NULL
+    )
+)
+{%- endmacro %}
+{% macro is_quantity_valid(field) -%}
+(
+    {{ field }} IS NOT NULL
+    AND (
+        {{ field }}."value" IS NOT NULL
+        -- TODO: re-enable once we can validate deep schemas (i.e. in Obs.component.valueQuantity)
+        -- OR {{ field }}.comparator IS NOT NULL
+        OR {{ field }}.unit IS NOT NULL
+        OR {{ field }}.system IS NOT NULL
+        OR {{ field }}.code IS NOT NULL
+    )
+)
+{%- endmacro %}
+{% macro is_reference_valid(field) -%}
+(
+    {{ field }} IS NOT NULL
+    AND (
+        {{ is_string_valid(field + '.reference') }}
+        OR {{ is_string_valid(field + '.display') }}
+    )
+)
+{%- endmacro %}
+-- Checks for NULL, empty, whitespace-only, and '\u0000' strings
+-- (We've seen Cerner give back strings with just a single NUL char.)
+{% macro is_string_valid(field) -%}
+(
+    {{ field }} IS NOT NULL
+    AND TRIM({{ field }}) <> ''
+    AND {{ field }} <> CHR(0)
+)
+{%- endmacro %}
+{% macro is_timing_valid(field, schema) -%}
+(
+    {{ field }} IS NOT NULL
+    AND (
+        {% if schema[field]["event"] %}
+        {{ field }}.event IS NOT NULL -- array
+        {% else %} FALSE {% endif %}
+
+        {% if schema[field]["repeat"] %}
+        OR {{ field }}.repeat IS NOT NULL
+        {% endif %}
+
+        {% if schema[field]["code"] %}
+        OR {{ is_concept_valid(field + '.code') }}
+        {% endif %}
+    )
+)
+{%- endmacro %}
