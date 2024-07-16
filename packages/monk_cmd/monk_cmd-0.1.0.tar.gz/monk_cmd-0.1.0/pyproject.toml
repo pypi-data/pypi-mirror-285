@@ -1,0 +1,17 @@
+[project]
+name = "monk_cmd"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "thephunkmonk", email = "andrewchoi1218@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+monk_cmd = 'monk_cmd.cmd:call'
+
+[tool.pdm]
+distribution = true 
