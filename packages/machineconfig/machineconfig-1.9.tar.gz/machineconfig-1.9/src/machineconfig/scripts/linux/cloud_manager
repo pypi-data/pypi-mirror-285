@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+. ~/scripts/activate_ve ve
+python -i -m machineconfig.scripts.python.cloud_manager "$@"
+deactivate || true
