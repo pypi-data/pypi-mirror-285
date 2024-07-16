@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: sub2sub
+Version: 2024.7.15
+Summary: s2s: utilities for Sub2Sub
+Home-page: https://github.com/fzhu2e/sub2sub-utils
+Author: Feng Zhu
+Author-email: fengzhu@ucar.edu
+License: MIT
+Keywords: Sub2Sub,OMIP
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: netCDF4
+Requires-Dist: xarray
+Requires-Dist: dask
+Requires-Dist: nc-time-axis
+Requires-Dist: colorama
+Requires-Dist: tqdm
+
+# sub2sub-utils
+
+Utilities for the Sub2Sub project.
+
+
+## Installation
+
+```
+git clone git@github.com:fzhu2e/sub2sub-utils.git
+cd sub2sub
+conda create -n sub2sub-env python=3.12
+conda install jupyter notebook xesmf
+pip install -e .    # install from the local directory as a dev mode
+```
+
+## Usage
+
+In a Python session or a Jupyter notebook:
+```
+import sub2sub as s2s
+```
