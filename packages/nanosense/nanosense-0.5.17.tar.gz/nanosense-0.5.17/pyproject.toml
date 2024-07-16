@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nanosense"
+version = "0.5.17"  # Update this manually when you release a new version
+description = "A comprehensive package for solid state nanopore data analysis and visualization."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Shankar Dutt", email = "shankar.dutt@anu.edu.au"},
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "PySide6",
+    "cryptography",
+    "matplotlib",
+    "neo",
+    "numpy",
+    "pyabf",
+    "scipy",
+    "joblib",
+    "bottleneck",
+    "ruptures",
+    "pywavelets",
+    "detecta",
+    "hmmlearn",
+    "scikit-learn",
+    "h5py",
+    "seaborn",
+    "pandas",
+    "tabulate",
+    "sktime",
+    "lightgbm",
+    "torch",
+    "torchvision",
+    "tensorflow",
+    "numexpr",
+    "uncertainties",
+    "pyqtgraph",
+    "pynvml",
+    "psutil",
+    "nvidia-ml-py3"
+]
+
+[project.urls]
+Homepage = "https://github.com/shankardutt/nanosense"
+
+[project.scripts]
+nanosense = "nanosense.nanosense:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
