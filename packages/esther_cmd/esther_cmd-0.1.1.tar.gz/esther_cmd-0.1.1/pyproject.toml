@@ -1,0 +1,20 @@
+[project]
+name = "esther_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "EstherCho-7", email = "dkgkqm777@gmail.com"},
+]
+dependencies = [
+	"esther_lotto >=0.2.0"
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+esther-cmd = 'esther_cmd.cmd:call'
