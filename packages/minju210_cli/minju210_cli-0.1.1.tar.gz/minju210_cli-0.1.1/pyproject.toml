@@ -1,0 +1,18 @@
+[project]
+name = "minju210_cli"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "minju210", email = "juliana6190210@gmail.com"},
+]
+dependencies = ["minju210-lotto>=0.2.0"]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+minju210-cli = 'minju210_cli.cli:call'
