@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Webpixels">
+    <title>AScript-Project</title>
+    <!-- Preloader -->
+    <style>
+        @keyframes hidePreloader {
+            0% {
+                width: 100%;
+                height: 100%;
+            }
+
+            100% {
+                width: 0;
+                height: 0;
+            }
+        }
+
+        body>div.preloader {
+            position: fixed;
+            background: white;
+            width: 100%;
+            height: 100%;
+            z-index: 1071;
+            opacity: 0;
+            transition: opacity .5s ease;
+            overflow: hidden;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:not(.loaded)>div.preloader {
+            opacity: 1;
+        }
+
+        body:not(.loaded) {
+            overflow: hidden;
+        }
+
+        body.loaded>div.preloader {
+            animation: hidePreloader .5s linear .5s forwards;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                document.querySelector('body').classList.add('loaded');
+            }, 300);
+        });
+    </script>
+    <!-- Favicon -->
+      <link rel="stylesheet" href="static/libs/quickwebsite/quick-website.css" crossorigin="anonymous">
+<!--      <link rel="stylesheet" href="./static/libs/bootstrap-icons/font/bootstrap-icons.css">-->
+
+       <script src="static/libs/jquery/jquery.js"></script>
+       <script src="static/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="bg-section-secondary">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <div style="display:none">
+        <!-- 文件上传 -->
+        <input type="file" id="fileupload" accept-charset="utf-8" name="avatar" hidden>
+
+    </div>
+    
+
+    <!-- alert -->
+    <!-- <div class="alert alert-success hide" role="alert">
+        <strong id="alertmsg">Heads up!</strong> This is a info alert with <a href="#" class="alert-link">an example
+            link</a> — check it out!
+    </div> -->
+
+    <!-- item dom -->
+    <div style="display:none">
+        <div class="col-md-4" id="model_item">
+            <div class="card shadow-none hover-shadow-lg">
+                <div class="p-4 d-flex ">
+
+                    <div>
+                        <div id="model_ico"
+                             class="icon icon-shape rounded-circle hover-shadow-sm text-white">
+                            <img id="module_ico" src="" class="img-fluid shadow rounded" >
+                        </div>
+
+                    </div>
+
+                    <div class="ml-4">
+                        <span id="model_item_name" class="h6">Test</span><span id="model_item_length"
+                            class="badge text-wrap font-italic">123</span>
+                        <p class="text-sm text-muted mb-0">
+                            <span id="model_item_time">2022</span>
+                        </p>
+                        <div class="d-flex right-0">
+                            <div>
+                                <div id="model_rename"
+                                    class="icon-sm icon-shape rounded-circle bg-info hover-shadow-lg text-white hover-scale-110">
+                                    <i data-feather="edit-2"></i>
+                                </div>
+                                <div id="model_delect"
+                                    class="icon-sm icon-shape rounded-circle bg-danger hover-shadow-lg ml-2 text-white hover-scale-110">
+                                    <i data-feather="trash-2"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- <div style="visibility:hidden">
+                        <div>
+                            <div id="model_rename"
+                                class="icon icon-shape rounded-circle bg-success hover-shadow-sm text-white">
+                                <i data-feather="edit-2"></i>
+                            </div>
+                            <div id="model_delect"
+                                class="icon icon-shape rounded-circle bg-danger hover-shadow-sm ml-2 text-white">
+                                <i data-feather="trash-2"></i>
+                            </div>
+                        </div>
+
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- 创建dialog -->
+    <div class="modal fade" id="create_model_dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="model_input_title">创建新工程</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input id="input_model_name" type="text" class="form-control is-valid" placeholder="工程名称">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" id="btn_create_model_mksure" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 创建成功提示 -->
+    <div class="modal modal-success fade" id="modal_success" tabindex="-1" role="dialog" aria-labelledby="modal_success"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6" id="modal_title_6">suucess create</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="fas fa-exclamation-circle fa-4x"></i>
+                        <h5 class="heading h4 mt-4">创建成功了</h5>
+                        <p>
+                            您已经创建了一个自动化工程,快使用Python 代码来编写您的自动化项目吧.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modal_success_enter" type="button" class="btn btn-sm btn-white" data-dismiss="modal">去研发</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- model_warning -->
+    <div class="modal modal-danger fade" id="model_warning" tabindex="-1" role="dialog" aria-labelledby="modal_5"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6" id="modal_title_waring">This is way to dangerous</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="fas fa-exclamation-circle fa-4x"></i>
+                        <h5 class="heading h4 mt-4" id="modal_content_waring">Should we stop now?</h5>
+                        <p id="modal_des_waring">
+                            You can easy create stackable modal boxes. For example, your inline content or Ajax response
+                            can contain a gallery:
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modal_sure_waring" class="btn btn-sm btn-white"
+                        data-dismiss="modal">Probably not</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="slice slice-lg pt-lg-6 pb-0 pb-lg-6 bg-section-secondary">
+        <div class="container">
+            <!-- Title -->
+            <!-- Section title -->
+            <div class="row mb-5 justify-content-center text-center">
+                <div class="col-lg-6">
+                    <button id="model_create" type="button" class="btn btn-success btn-icon"
+                        data-target="#create_model_dialog" data-toggle="modal">
+                        <span class="btn-inner--icon">
+                            <i data-feather="plus"></i>
+                        </span>
+                        <span class="btn-inner--text">创建新工程</span>
+                    </button>
+
+                    <button id="model_upload" type="button" class="btn btn-primary btn-icon">
+                        <span class="btn-inner--icon">
+                            <i data-feather="upload"></i>
+                        </span>
+                        <span class="btn-inner--text">上传工程包</span>
+                    </button>
+
+                    <h2 class=" mt-4">一个全新的 AScript IOS 工程</h2>
+                    <div class="mt-2">
+                        <p class="lead lh-180">以下是您创建的工程</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Card -->
+            <div class="row mt-5" id="models">
+
+            </div>
+        </div>
+    </section>
+
+    <script src="static/libs/feather-icons/dist/feather.min.js"></script>
+
+    <script>
+        feather.replace({
+            'width': '1em',
+            'height': '1em'
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            function loadModels() {
+                $.get("/api/module/list", {}, function (data, textStatus) {
+
+                    var item = $("#model_item");
+
+                    // alert(JSON.stringify(data.data))
+
+                    $("#models").empty();
+
+                    if(data.data.length<1){
+                        $("#model_create").click();
+                        return;
+                    }
+
+                    data.data.forEach(function (e) {
+                        var nm = item.clone(true);
+                        nm.find("#model_item_name").text(e.name);
+                        nm.find("#model_item_time").text(e.lastModified_format);
+                        nm.find("#model_item_length").text(e.length_format);
+                        nm.find("#model_rename").attr("data_name", e.name);
+                        nm.find("#model_delect").attr("data_name", e.name);
+                        nm.find("#module_ico").attr("src","./api/file/get?path=" +e.ico);
+
+                        nm.attr("data_name", e.name);
+
+
+                        nm.find("#model_rename").click(function (e) {
+                            let model_name = $(this).attr("data_name");
+                            e.stopPropagation();
+                            inputmodel("'" + model_name + "' 重命名为", "新的名称", "确定", function (e) {
+                                $.get("/api/module/rname", {
+                                    name: model_name,
+                                    rename: $("#input_model_name").val()
+                                }, function (data, textStatus) {
+                                    if (data.code == 1) {
+                                        loadModels();
+                                        // $('#modal_success').modal('show')
+                                    } else {
+                                        // $('#alert').alert();
+                                        alert(data.msg)
+                                    }
+                                }
+                                );
+                            });
+                        });
+
+
+                        $("#models").append(nm);
+
+                    });
+                }
+                );
+            }
+
+            loadModels();
+
+            function waring(title, content, des, btn, fun) {
+                $("#modal_sure_waring").text(btn);
+                $("#modal_sure_waring").unbind('click').bind('click',fun);
+                $("#modal_title_waring").text(title);
+                $("#modal_content_waring").text(content);
+                $("#modal_des_waring").text(des);
+
+                $('#model_warning').modal('show')
+            }
+
+            function inputmodel(title, des, btn, fun) {
+
+
+                $('#model_input_title').text(title)
+                $('#input_model_name').attr("place-holder", des);
+                $('#btn_create_model_mksure').text(btn);
+                $('#btn_create_model_mksure').unbind('click').bind('click',function (e) {
+                    $('#create_model_dialog').modal('hide')
+                    fun(e);
+                });
+
+
+
+                $('#create_model_dialog').modal('show')
+            }
+
+            $("#model_create").click(function (e) {
+                inputmodel("创建新工程", "工程名称", "确定", function (e) {
+                    // alert("0");
+                    $('#create_model_dialog').modal('hide')
+                        var name_model = $("#input_model_name").val();
+
+                        if(name_model.toLowerCase() ==="airscript"){
+                            waring("发生了一些错误","创建失败","名称不能为airscript","重试",function(e){
+                                    $('#create_model_dialog').modal('show')
+                            })
+                            return;
+                        }
+
+                        var regex = /[^a-zA-Z0-9\u4e00-\u9fff]/;  
+
+                        if(regex.test(name_model)){
+                            waring("发生了一些错误","创建失败","名称不能包含特殊字符","重试",function(e){
+                                    $('#create_model_dialog').modal('show')
+                            })
+                            return;
+                        }
+
+                        $.get("/api/module/create", {
+                            name: name_model
+                        }, function (data, textStatus) {
+                            if (data.code === 1) {
+                                loadModels();
+                                $("#modal_success_enter").attr("data_name",name_model);
+                                $('#modal_success').modal('show')
+                                
+                            } else {
+                                waring("发生了一些错误","创建失败",data.msg,"重试",function(e){
+                                    $('#create_model_dialog').modal('show')
+                                })
+                            }
+                        }
+                        );
+
+                });
+            });
+
+            $("#model_upload").click(function (e) {
+                uploadFile($("#fileupload"),"sdcard/1",function(){
+                    // init_module_filelist(modelObj.name);
+                    loadModels();
+                },"sdcard/airscript/model/")
+            });
+
+
+            $("#modal_success_enter").click(function(e){
+                let model_name = $(this).attr("data_name");
+                // window.(window.location.hostname+"/website/src/editoor.html")
+                window.location.href="./editor.html?module=" + model_name;
+            });
+
+
+            $("#model_delect").click(function (e) {
+                let model_name = $(this).attr("data_name");
+                waring("操作需要您谨慎", "您确定要删除‘" + model_name + "’吗?", "确认删除,该工程无法恢复.", "删除", function () {
+                    $.get("/api/module/remove", {
+                        name: model_name
+                    }, function (data, textStatus) {
+                        if (data.code == 1) {
+                            loadModels();
+                            // $('#modal_success').modal('show')
+                        } else {
+                            // $('#alert').alert();
+                            alert(data.msg)
+                        }
+                    }
+                    );
+                });
+
+                e.stopPropagation();
+            });
+
+            $("#model_item").click(function (e) {
+                let model_name = $(this).attr("data_name");
+                // window.(window.location.hostname+"/website/src/editoor.html")
+                window.location.href="./editor.html?module=" + model_name;
+
+            });
+
+        });
+    </script>
+</body>
+
+</html>
