@@ -1,0 +1,185 @@
+近红外连接库python版本
+==================
+
+目的
+-----
+外部设备通过该库连接近红外设备（第二代百导设备）完成打标功能以及获取测试数据
+
+## 工具版本
+
+### 设备版本
+
+​	2.0.0及以上
+
+### python版本
+
+- python：3.11.3
+- pip:     19.0.3
+- requests:2.21.0
+- urllib3:1.24.3
+- websockets:7.0
+
+安装与启动方法
+------------------
+```
+$pip install fnirs_v2_link
+```
+
+## 操作流程
+
+```
+选择病人信息（在近红外设备上操作）
+选择方案列表里面的扩展任务（在近红外设备上操作）
+校准（在近红外设备上操作）
+点击“测查开始”（在近红外设备上操作）
+开始测试（调start接口。在点击“测查开始”5S后调用才有效）
+测试
+结束测试（调stop接口）
+```
+
+## 接口说明
+
+1、操作接口
+
+> 具体见connection.py
+
+```python
+class Connection:
+	def start(self):
+        """
+        开始测试
+        :return:
+        """
+    def stop(self):
+        """
+        结束测试
+        :return:
+        """
+    def mark(self, mark):
+        """
+        科研mark
+        :return:
+        """    
+```
+
+2、数据接收
+
+> 说明：使用websocket接收数据
+>
+> 见fnirs_v2_link.py
+
+```python
+# orgin数据处理
+class OriginDataProcessing(threading.Thread):
+    _ws = None
+    running = False
+
+    def __init__(self):
+        super(DataProcessing, self).__init__()
+        self.running = True
+        try:
+            self._ws = create_connection(Connection().WS_GETDATA_URL)
+        except Exception as e:
+            self._ws = None
+            print('服务端未开启!')
+
+    def run(self):
+        if self._ws is None:
+            return
+        print('开始数据处理!')
+        while self.running:
+            result = self._ws.recv()  ##接收消息
+            if result is not None:
+                resultJson = json.loads(result)
+                # result = result.encode('utf-8')
+                # print(resultJson)
+                # 获取1通道690波长原始数据
+                print(resultJson["1"]["v690List"])
+                # print(resultJson)
+
+# HB/HBO数据处理                
+class HBDataProcessing(threading.Thread):
+    _ws = None
+    running = False
+
+    def __init__(self):
+        super(HBDataProcessing, self).__init__()
+        self.running = True
+        try:
+            self._ws = create_connection(Connection().WS_GET_PAGE_DATA_URL)
+        except Exception as e:
+            self._ws = None
+            print('服务端未开启!')
+
+    def run(self):
+        if self._ws is None:
+            return
+        print('开始数据处理!')
+        while self.running:
+            result = self._ws.recv()  ##接收消息
+            if result is not None:
+                resultJson = json.loads(result)
+                # result = result.encode('utf-8')
+                # print(resultJson)
+                # 获取1通道HB数据
+                print(resultJson["1"]["oxyList"])      
+```
+
+3、数据格式
+
+①orgin data数据格式
+
+```json
+{
+    "1":{
+        "v690List":[],
+        "v830List":[]
+    },
+    "2":{
+		"v690List":[],
+        "v830List":[]
+    },
+    //...
+    "106":{
+		"v690List":[],
+        "v830List":[]
+    }
+}
+```
+
+②HB/HBO data数据格式
+
+```json
+{
+    "resultData":{
+        "1":{
+            "oxyList":[],
+            "deOxyList":[]
+        },
+        "2":{
+            "oxyList":[],
+            "deOxyList":[]
+        },
+        //...
+        "106":{
+            "oxyList":[],
+            "deOxyList":[]
+        } 
+    },
+}
+```
+
+
+
+## 使用示例
+
+运行 fnirs_v2_link.py
+
+## 注意事项
+
+1、设备版本必须为`2.0.0及以上`
+
+2、使用该库时，运行python代码的电脑必须与近红外设备在一个网段中，其中设备ip为`192.168.8.1`，python所在电脑ip为`192.168.8.X`
+
+3、使用该库时，请`先在设备上``选择患者、方案（外部方案），并进行校准`，然后`点击开始`等待外部触发，见`操作流程`
+
