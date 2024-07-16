@@ -1,0 +1,23 @@
+[project]
+name = "banner_j25ng"
+version = "0.2.3"
+description = "Banner Output Program"
+authors = [
+    {name = "j25ng", email = "jsan2861@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_j25ng.banner:show' 
+
+[tool.pdm]
+distribution = true 
+
+[project.urls]
+Homepage = "https://github.com/j25ng/banner_j25ng"
+Issues = "https://github.com/j25ng/banner_j25ng/issues"

@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: banner_j25ng
+Version: 0.2.3
+Summary: Banner Output Program
+Author-email: j25ng <jsan2861@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/j25ng/banner_j25ng
+Project-URL: Issues, https://github.com/j25ng/banner_j25ng/issues
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyfiglet>=1.0.2
+
+# banner_j25ng
+
+```
+       _ ___   ______
+      (_)__ \ / ____/___  ____ _
+     / /__/ //___ \/ __ \/ __ `/
+    / // __/____/ / / / / /_/ /
+ __/ //____/_____/_/ /_/\__, /
+/___/                  /____/
+```
+
+# Usage
+## source code : banner.py
+```python
+from pyfiglet import Figlet
+
+def show():
+    f = Figlet(font='slant')
+    print(f.renderText('j25ng'))
+```
+
+## add pyproject.toml option
+```
+[project.scripts]
+show-banner = 'banner_j25ng.banner:show'
+```
+
+## install
+```bash
+$ pip install
+```
+
+## on shell
+```bash
+$ show-banner
+```
