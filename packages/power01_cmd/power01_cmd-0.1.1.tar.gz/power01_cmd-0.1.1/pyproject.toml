@@ -1,0 +1,27 @@
+[project]
+name = "power01_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "sooj1n", email = "sujin19371@gmail.com"},
+]
+dependencies = [
+    "power01-div>=0.1.0",
+    "power01-mul>=0.1.0",
+    "power01-plus>=0.1.0",
+    "power01-min>=0.1.1",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+cmd = 'power01_cmd.cmd:call'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/sooj1n/power01_cmd"
+Issues = "https://github.com/sooj1n/power01_cmd/issues"
+
