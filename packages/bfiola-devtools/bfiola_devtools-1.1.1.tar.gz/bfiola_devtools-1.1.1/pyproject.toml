@@ -1,0 +1,16 @@
+[project]
+name = "bfiola-devtools"
+version = "1.1.1"
+dependencies = [ "black", "build", "click", "isort", "packaging", "pydantic", "python-semantic-release", "toml", "twine",]
+
+[project.optional-dependencies]
+dev = []
+
+[project.scripts]
+devtools = "devtools:main"
+
+[tool.setuptools.package-data]
+devtools = [ "data/**/*",]
+
+[tool.setuptools.packages.find]
+include = [ "devtools",]
