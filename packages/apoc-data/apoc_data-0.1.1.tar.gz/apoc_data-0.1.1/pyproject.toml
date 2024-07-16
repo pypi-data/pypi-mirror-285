@@ -1,0 +1,28 @@
+[project]
+name = "apoc-data"
+version = "0.1.1"
+description = "Data from the Alaska Public Offices Commission."
+authors = [
+    { name = "Nick Crews", email = "nicholas.b.crews@gmail.com" },
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "playwright",
+    "ruff",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
