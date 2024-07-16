@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=67.6.1", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lightcurver"
+version = "1.0.9"
+authors = [{ name = "Frédéric Dux", email = "duxfrederic@gmail.com" }]
+description = "A thorough structure for precise photometry and deconvolution of time series of wide field images."
+readme = "README.md"
+keywords = ["photometry", "astronomy", "deconvolution", "PSF", "pipeline"]  
+classifiers = [] 
+dependencies = [
+    "pyyaml",
+    "matplotlib",
+    "astropy",
+    "numpy < 2.0.0",
+    "sep",
+    "scipy",
+    "ephem",
+    "pandas",
+    "shapely",
+    "astroquery",
+    "h5py",
+    "astroscrappy",
+    "starred-astro >= 1.4.2", 
+    "pytest",
+    "matplotlib",
+    "numpy",
+    "scipy",
+    "h5py",
+    "widefield_plate_solver", 
+    "photutils",
+    "astroalign",
+    "ruamel.yaml"
+]
+
+[project.urls]
+homepage = "https://duxfrederic.github.io/lightcurver/" 
+repository = "https://github.com/duxfrederic/lightcurver"
+
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
+
+[project.scripts]
+lc_init = "lightcurver.scripts.initialize:initialize"
+lc_run = "lightcurver.scripts.run:run"
+
+[tool.setuptools]
+packages.find = {where = ["."], include = ["lightcurver*"]}
+package-dir = {"" = "."}
+package-data = {"lightcurver" = ["pipeline/*.yaml", "pipeline/example_config_file/config.yaml"]}
+
