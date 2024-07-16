@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm", "wheel", "build"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+version_scheme = "post-release"
+local_scheme = "no-local-version"
+
+[project]
+dynamic=['version']
+name = "rpas_utils_lib"
+description = "This library offers some utilities for Remotely Piloted Aircraft Systems (RPAS) services"
+authors = [
+    { name = "Nuran Elsayed", email = "nuran@esbaar.com" },
+]
+keywords = ["kml", "visualize", "detections", "RPAS"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "geopy==2.3.0",
+    "httpx==0.27.0",
+    "lxml==4.9.2",
+    "numpy==1.24.1",
+    "opencv-python==4.8.0.74",
+    "pydantic==1.10.4",
+    "PyExifTool==0.5.5",
+    "pykml==0.2.0",
+    "requests==2.32.3",
+    "setuptools==70.1.0",
+    "Shapely==2.0.4",
+    "utm==0.7.0",
+]
+readme = "README.md"
+
+[project.urls]
+"Homepage" = "https://github.com/Nuran-A-Elsayed/rpas_utils_lib.git"
+"Repository" = "https://github.com/Nuran-A-Elsayed/rpas_utils_lib.git"
+"Documentation" = "https://github.com/Nuran-A-Elsayed/rpas_utils_lib.git/wiki"
+"Issue Tracker" = "https://github.com/Nuran-A-Elsayed/rpas_utils_lib.git/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "black",
+    "flake8",
+    "mypy",
+]
