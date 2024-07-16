@@ -1,0 +1,23 @@
+[project]
+name = "mo_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "oddsummer56", email = "oddsummer56@gmail.com"},
+]
+dependencies = [
+    "mo-plus>=0.1.0",
+    "mo-minus>=0.1.0",
+    "mo-divide>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+mo-cmd = "mo_cmd.cmd:call"
+
