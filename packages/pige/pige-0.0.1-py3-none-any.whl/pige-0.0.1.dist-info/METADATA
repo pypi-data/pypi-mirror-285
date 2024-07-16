@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: pige
+Version: 0.0.1
+Summary: PAI for RAG Evaluation
+Home-page: 
+Author: Winter.YU
+Author-email: winter741258@gmail.com
+License: Apache 2.0 License
+Keywords: embedding,transformer,pytorch,deep learning
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8.0
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: datasets
+Requires-Dist: ragas
+Requires-Dist: langchain-openai
+Requires-Dist: langchain-huggingface
+
+# Pige——PAI for RAG Evaluation
+
+```python
+from pige import critic_LLM, critic_Embedding, pige
+API_KEY = "your llm api key"
+base_url = "your llm server url"
+model_name = "your model name"
+llm = critic_LLM(api_key=API_KEY, base_url=base_url, model=model_name)
+embedding_path = "your local embedding path"
+embedding = critic_Embedding(model_path=embedding_path)
+metrics = ['faithfulness', 'answer_relevancy', 'context_precision', 'context_recall']
+data_samples = {
+    'question': ["What is the capital of France?"],
+    'contexts': [["Paris is the capital of France."]],
+    'answer': ["Paris"],
+    'ground_truth': ["Paris"]
+}
+res = pige(llm, embedding, data_samples, metrics)
+```
+
+## Data Format
+
+```json
+"question": List[str]
+
+"context": List[List[str]]
+
+"answer": List[str]
+
+"ground_truth": List[str]
+```
+
+## Output Format
+
+The output of pige is a dataframe, you can use pandas to process it.
+
+
+
+
+
+
