@@ -1,0 +1,16 @@
+
+{% if id is defined %}
+    {% if id is not none and "error" in id%}
+        <div class="container d-flex flex-column" style="height: 25vh; overflow-y: auto;">
+            {% for container_item in container_items %}
+                {{ container_item.render() }}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="container pt-3">
+            {% for container_item in container_items %}
+                {{ container_item.render() }}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endif %}
