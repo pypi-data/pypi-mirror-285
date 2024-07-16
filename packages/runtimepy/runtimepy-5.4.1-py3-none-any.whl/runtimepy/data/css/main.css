@@ -1,0 +1,52 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* This is the application container. */
+body > :first-child {
+  height: 100%;
+}
+
+#runtimepy {
+  height: 100%;
+}
+
+#runtimepy-splash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  opacity: 1.0;
+  background-color: var(--bs-secondary-bg-subtle);
+}
+
+.click-plot {
+  cursor: pointer;
+}
+
+.stale {
+  color: var(--bs-warning-text-emphasis) !important;
+}
+
+.slider {
+  min-width: 8em;
+}
+
+.toggle-value {
+  /* placeholder */
+}
+
+.window-button {
+  border-right: var(--bs-border-width) var(--bs-border-style) var(--bs-link-hover-color) !important;
+}
+
+canvas:focus {
+  outline: none;
+}
