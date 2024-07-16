@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "terminal-blackjack"
+version = "0.1.0"
+description = ""
+authors = ["GrimmTMM <themagnetboy1207@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+blackjack = "terminal_blackjack.game:main"
