@@ -1,0 +1,93 @@
+<html>
+<head>
+    <title>{{ course.name }}</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <style>
+        .th-Punainen {
+            background-color: #CD5C5C;
+            color: #212121;
+        }
+        .th-Keltainen {
+            background-color: #EEE8AA;
+            color: #212121;
+        }
+        .th-Sininen {
+            background-color: #4682B4;
+            color: #212121;
+        }
+        .th-Valkoinen {
+            background-color: #FFF5EE;
+            color: #212121;
+        }
+        </style>
+        <script defer data-domain="golf.atk.works" src="https://vakoilu.atk.works/js/script.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>{{ course.name }}</h1>
+        <table>
+            <tr>
+                <th scope="col">Nimi</th>
+                {% for tee in players[0].game_hcps %}
+                    <th scope="col" class="th-{{ tee.tee }}">{{ tee.tee[:3] + '.' }}</th>
+                {% endfor %}
+            </tr>
+            {% for player in players %}
+            <tr>
+                <th scope="row">{{ player.name|capitalize }} ({{ player.hcp }})</th>
+                {% for tee in player.game_hcps %}
+                    <td>{{ tee.hcp|round(0)|int }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    <a href="/?{{ hcp_query }}">Alkuun</a>
+    <h3>Scramblelaskuri</h3>
+    <form>
+        <input type="hidden" name="course_name" value="{{ course.name }}">
+        {% for player in players %}
+            {% set tee_var = player.name + '_tee' %}
+            {% set hcp_var = player.name + '_chp' %}
+            <input type="hidden" name="{{ hcp_var }}" value="{{ player.hcp }}">
+            <label for="{{ tee_var }}">{{ player.name|capitalize }}:</label>
+            <select id="{{ tee_var }}" name="{{ tee_var }}">
+                {% if player.tee_choice %}
+                    <option value="" disabled>Valitse</option>
+                {% else %}
+                    <option value="" disabled selected>Valitse</option>
+                {% endif %}
+                {% for tee in player.game_hcps %}
+                    {% if player.tee_choice == tee.tee %}
+                        <option value="{{ tee.tee }}" selected>{{ tee.tee }}</option>
+                    {% else %}
+                        <option value="{{ tee.tee }}">{{ tee.tee }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        {% endfor %}
+        <input type="submit" value="Laske">
+    </form>
+    {% if scramble_hcps %}
+    <h2>Scramble tasoitukset</h2>
+    <p>Scrambletasoitus on neljäsosa joukkueen pelitasoitusten summasta, kuitenkin enintään joukkueen parhaan pelaajan pelitasoitus</p>
+    {% for matchup in scramble_hcps %}
+
+    <table>
+        <tr>
+            {% for i in range(0,2) %}
+                <th scope="col">{{ matchup.teams[i] }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            {% for i in range(0,2) %}
+                <td>{{ matchup.hcps[i]|round(0)|int }}</td>
+            {% endfor %}
+    </table>
+    {% endfor %}
+    {% endif %}
+</body>
+<footer>
+    <p>This site does not use any cookies</p>
+    <p>© ATK Works 2024</p>
+</footer>
+</html>
