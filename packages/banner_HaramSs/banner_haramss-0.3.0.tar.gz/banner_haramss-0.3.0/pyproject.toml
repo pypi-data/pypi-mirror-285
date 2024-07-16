@@ -1,0 +1,23 @@
+[project]
+name = "banner_HaramSs"
+version = "0.3.0"
+description = "Banner Output Program"
+authors = [
+    {name = "HaramSs", email = "haram8274@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_haramss.banner:show'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/HaramSs/python"
+Issues = "https://github.com/HaramSs/python/issues"
