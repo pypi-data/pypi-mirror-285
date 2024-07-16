@@ -1,0 +1,23 @@
+[project]
+name = "banner_nicou11"
+version = "0.4.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "Nicou11", email = "lyoungin1204@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_nicou11.banner:show'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/nicou11/banner"
+Issues = "https://github.com/nicou11/banner/issues"
