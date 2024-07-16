@@ -1,0 +1,36 @@
+[project]
+name = "autora-synthetic"
+description = "AutoRA Synthetic Experiments"
+authors = []
+dynamic = ["version"]
+
+readme = "README.md"
+license = { file = "LICENSE" }
+
+# ADD NEW DEPENDENCIES HERE
+dependencies = [
+    "autora-core",
+]
+
+[project.optional-dependencies]
+dev = [
+    "autora-synthetic[test]",
+    "autora-core[dev]",
+    "autora-workflow",
+    "scikit-learn",
+]
+test = [
+    "pytest",
+    "hypothesis"
+]
+
+[project.urls]
+homepage = "http://www.empiricalresearch.ai"
+repository = "https://github.com/AutoResearch/autora-synthetic"
+documentation = "https://autoresearch.github.io/autora-synthetic/"
+
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
