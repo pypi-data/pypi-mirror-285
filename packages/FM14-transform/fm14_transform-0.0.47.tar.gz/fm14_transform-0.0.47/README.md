@@ -1,0 +1,1 @@
+Basic placeholder README for module that will transform FM14 SYNOP MOBIL TAC messages to BUFR4 and GeoJSON.
