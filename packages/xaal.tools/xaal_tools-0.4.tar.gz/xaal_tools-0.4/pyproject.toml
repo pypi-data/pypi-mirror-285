@@ -1,0 +1,29 @@
+[project]
+name = "xaal.tools"
+version = "0.4"
+description = "xAAL devices tools"
+readme = "README.rst"
+authors = [ { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" } ]
+license = { text = "GPL License"}
+classifiers = ["Programming Language :: Python",
+"Topic :: Software Development :: Libraries :: Python Modules"]
+keywords = ["xaal", "tools"]
+dependencies = ["xaal.lib", "colored==1.4.3"]
+
+[project.scripts]
+xaal-isalive = "xaal.tools.toolbox:is_alive"
+xaal-info = "xaal.tools.toolbox:info"
+xaal-walker = "xaal.tools.toolbox:walker"
+xaal-dumper = "xaal.tools.toolbox:dumper"
+xaal-log = "xaal.tools.toolbox:log"
+xaal-querydb = "xaal.tools.toolbox:query_db"
+xaal-cleandb = "xaal.tools.toolbox:clean_db"
+xaal-send = "xaal.tools.toolbox:send"
+xaal-tail = "xaal.tools.toolbox:tail"
+xaal-pkgrun = "xaal.tools.toolbox:pkgrun"
+xaal-keygen = "xaal.tools.keygen:main"
+xaal-uuidgen = "xaal.tools.uuidgen:main"
+xaal-shell = "xaal.tools.toolbox:shell"
+
+[tool.setuptools.packages.find]
+include = ["xaal.tools"]
