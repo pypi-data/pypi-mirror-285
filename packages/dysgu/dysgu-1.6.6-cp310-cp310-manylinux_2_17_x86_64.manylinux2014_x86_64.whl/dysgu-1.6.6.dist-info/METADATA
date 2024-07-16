@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: dysgu
+Version: 1.6.6
+Summary: Structural variant calling
+Author-email: Kez Cleal <clealk@cardiff.ac.uk>
+License: MIT
+Project-URL: Homepage, https://github.com/kcleal/dysgu
+Requires-Python: >=3.10
+License-File: LICENSE.md
+Requires-Dist: setuptools >=61.0
+Requires-Dist: cython
+Requires-Dist: click >=8.0
+Requires-Dist: numpy <2
+Requires-Dist: scipy
+Requires-Dist: pandas
+Requires-Dist: pysam >=0.22
+Requires-Dist: networkx >=2.4
+Requires-Dist: scikit-learn >=0.22
+Requires-Dist: sortedcontainers
+Requires-Dist: lightgbm
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: pytest-mock ; extra == 'test'
+
