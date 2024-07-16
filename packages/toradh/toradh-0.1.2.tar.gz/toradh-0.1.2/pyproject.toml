@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "toradh"
+version = "0.1.2"
+description = "Minimalistic library intended to bring better flow control to Python."
+authors = ["Santiago Bassani <santiago.bassani96@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/levensworth/toradh"
+homepage = "https://github.com/levensworth/toradh"
+
+keywords = ["toradh", "rust", "result", "optional", "control-flow"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+typeguard = "^4.3.0"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.1"
+ruff = "^0.5.1"
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.2"
+mockito = "^1.5.0"
+pytest-cov = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
