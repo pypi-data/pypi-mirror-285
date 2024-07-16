@@ -1,0 +1,75 @@
+#!/bin/bash
+
+TOOLBOX_ACTIVE_TEMP_FILEPATH=/tmp/cnc_toolbox_active
+touch $TOOLBOX_ACTIVE_TEMP_FILEPATH
+
+# This kills all processes spawned by this script on exit
+trap cleanup_toolbox EXIT
+
+# Echo caller identity
+echo -e "\nYou are currently authenticated as: $(aws sts get-caller-identity)"
+
+{%- if environment.database_resources or environment.cache_resources %}
+cleanup_toolbox () {
+    echo -e "\nCleaning up port-forwarding sessions..."
+    rm $TOOLBOX_ACTIVE_TEMP_FILEPATH
+
+    group_id=$(ps -p $port_forwarding_parent_process_id -o pgid= | tr -d "[:space:]")
+    child_process_ids=$(pgrep -g $group_id)
+    for pid in $child_process_ids
+    do
+        if [[ $pid != $port_forwarding_parent_process_id && $pid != $group_id ]]
+        then
+            kill $pid > /dev/null 2>&1
+        fi
+    done
+
+    {%- for resource in environment.database_resources + environment.cache_resources %}
+    if test -f /tmp/cnc_ssh_output_{{ loop.index }}
+    then
+        rm /tmp/cnc_ssh_output_{{ loop.index }}
+    fi
+    {%- endfor %}
+}
+
+{# Start ssm sessions #}
+start_ssm_sessions () {
+    PID_FALLBACK="none"
+    while test -f $TOOLBOX_ACTIVE_TEMP_FILEPATH
+    do
+    {% for resource in environment.database_resources + environment.cache_resources %}
+        if ! test -d /proc/${SSM_PID_{{ loop.index }}:-$PID_FALLBACK}/ > /dev/null
+        then
+            SSM_RETRY_COUNT_{{ loop.index }}=${SSM_RETRY_COUNT_{{ loop.index }}:-0}
+            if [ $SSM_RETRY_COUNT_{{ loop.index }} -eq 0 ]
+            then
+                echo -e "\nStarting ssm port-forwarding session for {{ resource.name }}..."
+            fi
+
+            aws ssm start-session --target {{ bastion_instance_id }} \
+            --document-name AWS-StartPortForwardingSessionToRemoteHost \
+            --parameters '{{ resource.settings.toolbox_ssh_port_mapping }}' > /tmp/cnc_ssh_output_{{ loop.index }} 2>&1 &
+            SSH_PID_{{ loop.index }}=$!
+
+            if [ $SSM_RETRY_COUNT_{{ loop.index }} -gt 3 ]
+            then
+                cmd_output=$(</tmp/cnc_ssh_output_{{ loop.index }})
+                echo -e "\nWarning: issue starting port forwarding session for {{ resource.name }}" \
+                "(failed_attempts: $SSM_RETRY_COUNT_{{ loop.index }})\n$cmd_output"
+            fi
+
+            SSM_RETRY_COUNT_{{ loop.index }}=`expr $SSM_RETRY_COUNT_{{ loop.index }} + 1`
+        fi
+    {% endfor %}
+    sleep 10
+    done &
+}
+start_ssm_sessions
+port_forwarding_parent_process_id=$!
+{%- endif %}
+
+{%- if proxy_only %}
+{% include "partials/proxy_only.sh.j2" %}
+{%- else %}
+{% include "partials/service_container.sh.j2" %}
+{%- endif %}
