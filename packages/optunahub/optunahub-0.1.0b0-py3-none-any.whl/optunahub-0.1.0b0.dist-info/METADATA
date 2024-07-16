@@ -1,0 +1,111 @@
+Metadata-Version: 2.1
+Name: optunahub
+Version: 0.1.0b0
+Summary: OptunaHub
+Author: Optuna team
+License: MIT License
+        
+        Copyright (c) 2024 Preferred Networks, Inc.
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Project-URL: homepage, https://hub.optuna.org/
+Project-URL: repository, https://github.com/optuna/optunahub
+Project-URL: documentation, https://optuna.github.io/optunahub/
+Project-URL: bugtracker, https://github.com/optuna/optunahub/issues
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ga4mp
+Requires-Dist: optuna
+Requires-Dist: PyGithub
+Provides-Extra: checking
+Requires-Dist: pre-commit ; extra == 'checking'
+Requires-Dist: mypy ; extra == 'checking'
+Requires-Dist: ruff ; extra == 'checking'
+Requires-Dist: types-toml ; extra == 'checking'
+Provides-Extra: docs
+Requires-Dist: sphinx ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ; extra == 'docs'
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+
+OptunaHub
+==================
+
+[![Python](https://img.shields.io/badge/python-3.8%20%7C%203.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue)](https://www.python.org)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/optuna/optunahub)
+
+
+__NOTICE: OptunaHub is under development and all features are experimental. API may change in the future.__
+
+Python Library to use packages published in [OptunaHub](https://hub.optuna.org/).
+If you would like to register your package in OptunaHub, please contribute by creating a pull request to [the optunahub-registry repository](https://github.com/optuna/optunahub-registry).
+
+# Install
+
+Install `optunahub` package.
+```sh
+pip install optunahub
+```
+
+# Documentation
+
+- [OptunaHub documentation](https://optuna.github.io/optunahub/)
+
+
+# Example
+
+```python
+import optunahub
+import optuna
+
+
+def objective(trial: optuna.Trial) -> float:
+    x = trial.suggest_float("x", 0, 1)
+
+    return x
+
+
+if __name__ == "__main__":
+    mod = optunahub.load_module("samplers/simulated_annealing")
+
+    sampler = mod.SimulatedAnnealingSampler()
+    study = optuna.create_study(sampler=sampler)
+    study.optimize(objective, n_trials=20)
+
+    print(study.best_trial.value, study.best_trial.params)
+
+```
