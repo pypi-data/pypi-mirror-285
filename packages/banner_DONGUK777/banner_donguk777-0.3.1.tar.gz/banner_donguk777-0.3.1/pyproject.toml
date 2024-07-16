@@ -1,0 +1,22 @@
+[project]
+name = "banner_DONGUK777"
+version = "0.3.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "DONGUK777", email = "kimdongyork@gmail.com"},
+]
+dependencies = [
+	"pyfiglet>=1.0.2"
+
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+DONGUK777-banner = 'banner_donguk777.banner:show'
+DONGUK777-pic = 'banner_donguk777.banner:pic'
+DONGUK777-lotto = 'banner_donguk777.banner:lotto'
+	
+[tool.pdm]
+distribution = true
