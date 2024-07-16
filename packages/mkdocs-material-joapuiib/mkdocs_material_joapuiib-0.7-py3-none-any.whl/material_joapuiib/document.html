@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{'stylesheets/cover.css' | url}}">
+{% endblock %}
+
+{% block content %}
+    {% include "partials/cover.html" %}
+    {% if "material/tags" in config.plugins and tags %}
+      {% include "partials/tags.html" %}
+    {% endif %}
+    {% include "partials/actions.html" %}
+    {{ page.content }}
+    {% include "partials/source-file.html" %}
+    {% include "partials/feedback.html" %}
+    {% include "partials/comments.html" %}
+{% endblock %}
