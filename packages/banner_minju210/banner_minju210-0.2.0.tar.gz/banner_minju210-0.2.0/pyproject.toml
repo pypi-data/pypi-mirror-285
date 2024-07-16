@@ -1,0 +1,19 @@
+[project]
+name = "banner_minju210"
+version = "0.2.0"
+description = "Banner Output Program"
+authors = [
+    {name = "minju210", email = "juliana6190210@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_minju210.banner:show'
+
+[tool.pdm]
+distribution = true
