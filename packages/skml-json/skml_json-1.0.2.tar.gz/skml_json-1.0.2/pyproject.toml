@@ -1,0 +1,24 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "skml-json"
+version = "1.0.2"
+description = "Export scikit-learn>=1.4.0 model files to JSON for sharing or deploying predictive models with peace of mind. Original by Mathieu Rodrigue"
+readme = "README.md"
+authors = [{ name = "Sadio", email = "sadio.ousmane@esp.sn" }]
+license = { file = "LICENSE" }
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+]
+keywords = ["sklearn", "json"]
+dependencies = [
+    "scikit-learn>=1.4.0",
+]
+requires-python = ">=3.12"
+
+[project.urls]
+Homepage = "https://github.com/osadio/skml-json"
