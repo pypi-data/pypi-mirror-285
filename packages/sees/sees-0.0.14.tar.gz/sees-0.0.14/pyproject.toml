@@ -1,0 +1,79 @@
+[project]
+name = "sees"
+version = "0.0.14"
+authors = [
+  {name="Claudio M. Perez", email="50180406+claudioperez@users.noreply.github.com"},
+  {name="Chrystal Chern",   email="52893467+chrystalchern@users.noreply.github.com"}
+]
+description="Finite element post-processing with WebGL"
+
+readme = "README.md"
+
+keywords = [
+  "seismic",
+  "post-processing",
+  "finite-element-analysis",
+  "earthquake-engineering",
+  "WebGL",
+  "GLTF"
+] 
+
+dependencies = [
+  "opensees",
+  "quakeio",
+  "bottle",
+
+  "pyyaml",
+  "scipy",
+  "numpy",
+  "plotly",
+# "trimesh",
+  "pygltflib",
+  "matplotlib"
+
+# "sdof",
+# "mdof",
+]
+
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Science/Research',
+    'Intended Audience :: Developers',
+    'License :: OSI Approved :: BSD License',
+    'Programming Language :: C',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3 :: Only',
+    'Topic :: Software Development',
+    'Topic :: Scientific/Engineering',
+    'Operating System :: Microsoft :: Windows',
+    'Operating System :: POSIX',
+    'Operating System :: Unix',
+    'Operating System :: MacOS',
+]
+
+
+[project.urls]
+repository = "http://github.com/claudioperez/opensees"
+documentation = "https://stairlab.github.io/opensees-gallery"
+
+[project.scripts]
+sees = "sees.__main__:main"
+
+[build-system]
+requires = [
+    "setuptools >= 52.0.2",
+]
+
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-data]
+sees = ["assets/*"]
+
+
