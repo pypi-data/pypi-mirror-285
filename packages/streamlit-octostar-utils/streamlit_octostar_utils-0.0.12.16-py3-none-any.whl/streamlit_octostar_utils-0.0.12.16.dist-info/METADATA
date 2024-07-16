@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: streamlit-octostar-utils
+Version: 0.0.12.16
+Summary: 
+License: MIT
+Author: Valerio Tonelli
+Author-email: tonellivalerio97@gmail.com
+Requires-Python: >=3.9, !=2.7.*, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: nlp
+Requires-Dist: fastapi (>=0.110.1,<0.111.0)
+Requires-Dist: flair (>=0.13.0,<1.0.0) ; extra == "nlp"
+Requires-Dist: iso639 (>=0.1.0) ; extra == "nlp"
+Requires-Dist: nltk (>=3.8.0,<4.0.0) ; extra == "nlp"
+Requires-Dist: py3langid (>=0.2.0,<0.3.0) ; extra == "nlp"
+Requires-Dist: pydantic (>=2.6.4,<3.0.0)
+Requires-Dist: python-multipart (>=0.0.9,<0.0.10)
+Requires-Dist: sortedcontainers (>=2.0.0)
+Requires-Dist: spacy (>=3.7.0,<4.0.0) ; extra == "nlp"
+Requires-Dist: spacy-download (==1.1.0) ; extra == "nlp"
+Requires-Dist: streamlit (>=1.33.0,<2.0.0)
+Requires-Dist: streamlit-octostar-research (>=0.1.22,<0.2.0)
+Requires-Dist: sumy (>=0.11.0,<1.0.0) ; extra == "nlp"
+Description-Content-Type: text/markdown
+
+## How To Install
+Base Package:
+`pip install streamlit-octostar-utils`
+
+NLP Additional Dependencies:
+`pip install streamlit-octostar-utils[nlp]`
