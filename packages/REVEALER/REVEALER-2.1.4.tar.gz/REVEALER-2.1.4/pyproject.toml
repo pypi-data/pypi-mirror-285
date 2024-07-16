@@ -1,0 +1,35 @@
+[build-system]
+requires = [
+    "setuptools>=51.0.0",
+    "wheel",
+    "Cython>=0.29.21",
+    # Numpy requirements for different OS/architectures
+    "numpy==1.17.3; python_version=='3.7' and (platform_machine!='arm64' or platform_system!='Darwin') and platform_machine!='aarch64'",
+    "numpy==1.18.3; python_version=='3.8' and (platform_machine!='arm64' or platform_system!='Darwin') and platform_machine!='aarch64'",
+    "numpy==1.19.3; python_version>='3.9' and python_version<'3.10' and (platform_machine!='arm64' or platform_system!='Darwin') and platform_machine!='aarch64'",
+    # Aarch64(Python 3.9 requirements are the same as AMD64)
+    "numpy==1.19.2; python_version=='3.7' and platform_machine=='aarch64'",
+    "numpy==1.19.2; python_version=='3.8' and platform_machine=='aarch64'",
+    # Darwin Arm64
+    "numpy>=1.20.0; python_version=='3.8' and platform_machine=='arm64' and platform_system=='Darwin'",
+    "numpy>=1.20.0; python_version=='3.9' and platform_machine=='arm64' and platform_system=='Darwin'"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "REVEALER"
+version = "2.1.4"
+description = "REVEALER#TODO"
+requires-python = ">=3.7, <3.10"
+authors = [
+    { name="Jiayan(Yoshii) Ma", email="jim095@ucsd.edu" }
+]
+license = { text="MIT" }
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+dynamic = ["keywords", "scripts", "dependencies"]
+
