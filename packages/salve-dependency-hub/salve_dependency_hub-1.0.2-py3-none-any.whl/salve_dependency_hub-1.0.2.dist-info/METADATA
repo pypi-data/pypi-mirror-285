@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: salve_dependency_hub
+Version: 1.0.2
+Summary: Provides Tree Sitter highlighting languages in one centralized place for usage with Salve IPC
+Home-page: https://github.com/Moosems/salve
+Author: Moosems
+Author-email: moosems.j@gmail.com
+License: MIT license
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Typing :: Typed
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beartype
+Requires-Dist: tree-sitter-css
+Requires-Dist: tree-sitter-wgsl-bevy
+Requires-Dist: tree-sitter-cpp
+Requires-Dist: tree-sitter-bash
+Requires-Dist: tree-sitter-c-sharp
+Requires-Dist: tree-sitter-odin
+Requires-Dist: tree-sitter-starlark
+Requires-Dist: tree-sitter-ruby
+Requires-Dist: tree-sitter-scss
+Requires-Dist: tree-sitter-glsl
+Requires-Dist: tree-sitter-rust
+Requires-Dist: tree-sitter-go
+Requires-Dist: tree-sitter-jsdoc
+Requires-Dist: tree-sitter-json
+Requires-Dist: tree-sitter-python
+Requires-Dist: tree-sitter-gstlaunch
+Requires-Dist: tree-sitter-cuda
+Requires-Dist: tree-sitter-pymanifest
+Requires-Dist: tree-sitter-slang
+Requires-Dist: tree-sitter-javascript
+Requires-Dist: tree-sitter-typescript
+Requires-Dist: tree-sitter-arduino
+Requires-Dist: tree-sitter-java
+Requires-Dist: tree-sitter-toml
+Requires-Dist: tree-sitter-html
+Requires-Dist: tree-sitter-c
+Requires-Dist: tree-sitter-yaml
+Requires-Dist: tree-sitter-commonlisp
+Requires-Dist: tree-sitter-embedded-template
+Requires-Dist: tree-sitter-php
+
+# salve-dependency-hub
+
+Provides Tree Sitter highlighting languages in one centralized place for usage with Salve IPC
+
+Usage:
+```python
+from salve_dependency_hub import conversion_dict, language_mappings
+```
+
+Note that the only premade language mappings available at the moment are for python and Java as they were the only ones I had enough code to make decent mappings for. If you notice issues in any mappings, please raise an issue. If you want a premade mapping added, make a PR.
