@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "molbox"
+version = "0.1.4"
+description = "Create simulation boxes for LAMMPS."
+authors = ["Niklas Kappel <niklas.kappel@kit.edu>"]
+readme = "README.md"
+packages = [{ include = "molbox", from = "src" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+rdkit = "^2023.9.5"
+scipy = "^1.13.0"
+openbabel-wheel = "^3.1.1.19"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.1.1"
+
+[tool.poetry.urls]
+repository = "https://github.com/NiklasKappel/molbox"
+
+[tool.pyright]
+reportAttributeAccessIssue = false
+
+[tool.ruff]
+lint.extend-select = ["I"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
