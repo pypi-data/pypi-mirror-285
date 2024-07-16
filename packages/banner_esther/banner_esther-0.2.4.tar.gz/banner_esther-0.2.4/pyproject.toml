@@ -1,0 +1,23 @@
+[project]
+name = "banner_esther"
+version = "0.2.4"
+description = "Banner Output Program"
+authors = [
+    {name = "EstherCho-7", email = "dkgkqm777@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_esther.banner:show'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/EstherCho-7/banner_esther"
+Issues = "https://github.com/EstherCho-7/banner_esther/issues"
