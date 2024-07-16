@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: opsduty-python
+Version: 0.0.2
+Summary: OpsDuty API client.
+License: MIT
+Author: Eirik Martiniussen Sylliaas
+Author-email: eirik@opsduty.io
+Requires-Python: >=3.11,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: urllib3 (>=2.2.2,<3.0.0)
+Description-Content-Type: text/markdown
+
+# opsduty-python
+
+> OpsDuty API client.
+
+## Heartbeats
+
+Send periodic heartbeats to OpsDuty using `opsduty-python`. The
+heartbeat needs to be configured in OpsDuty before check-ins can
+be observed. Head over to [https://opsduty.io](https://opsduty.io)
+to configure your heartbeats.
+
+### Alternative 1: Decorator
+
+```python
+@heartbeat_checkin(heartbeat="HBXXXX", environment="prod", enabled=True)
+def periodic_job():
+    pass
+```
+
+### Alternative 2: Send heartbeat manually.
+
+```python
+def periodic_job():
+    try:
+        pass
+    except Exception:
+        print("Job failed.")
+    else:
+        send_heartbeat_checkin(heartbeat="HBXXXX", environment="prod")
+```
+
