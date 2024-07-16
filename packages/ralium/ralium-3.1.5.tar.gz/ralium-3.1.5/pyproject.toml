@@ -1,0 +1,42 @@
+[build-system]
+requires      = ["setuptools>=69.5.0", "wheel>=0.43.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ralium"
+version = "3.1.5"
+description = "An easy to use wrapper for pywebview."
+readme = "README.md"
+authors = [{ name = "Isaiah Coroama", email = "coroamaisaiah@gmail.com" }]
+license = { file = "LICENSE" }
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Developers',
+    'Programming Language :: Python :: 3.12',
+]
+keywords = ["gui", "webkit", "ralium", "windows", "html", "web", "isaiah", "coroama"]
+dependencies = [
+    "beautifulsoup4",
+    "pyinstaller",
+    "pywebview",
+    "pillow",
+    "lxml"
+]
+
+requires-python = ">3.9"
+
+[project.urls]
+Homepage = "https://github.com/IsaiahCoroama/ralium"
+
+[tool.build-system]
+exclude = [
+    ".github",
+    ".vscode",
+    "old/*",
+    "tests/*",
+    "examples/*"
+]
+
+[tool.setuptools]
+include-package-data = true
+packages = ["ralium", "ralium.web", "ralium.util"]
