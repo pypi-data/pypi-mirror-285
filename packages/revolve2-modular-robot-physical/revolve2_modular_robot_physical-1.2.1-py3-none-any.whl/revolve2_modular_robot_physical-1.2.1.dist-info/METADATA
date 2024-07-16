@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: revolve2-modular-robot-physical
+Version: 1.2.1
+Summary: Revolve2: Everything for physical modular robot control. This package is intended to be installed on the modular robot hardware.
+Home-page: https://github.com/ci-group/revolve2
+Author: Aart Stuurman
+Author-email: aartstuurman@hotmail.com
+Requires-Python: >=3.10,<3.12
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering
+Classifier: Typing :: Typed
+Provides-Extra: botv1
+Provides-Extra: botv2
+Provides-Extra: dev
+Provides-Extra: remote
+Requires-Dist: pigpio (>=1.78,<2.0) ; extra == "botv1" or extra == "dev"
+Requires-Dist: pycapnp (>=2.0.0b2,<3.0.0)
+Requires-Dist: pyrr (>=0.10.3,<0.11.0)
+Requires-Dist: revolve2-modular-robot (==1.2.1)
+Requires-Dist: revolve2-robohat (==0.5.0) ; extra == "botv2" or extra == "dev"
+Requires-Dist: rpi-lgpio (==0.5) ; extra == "botv2"
+Requires-Dist: typed-argparse (>=0.3.1,<0.4.0)
+Project-URL: Repository, https://github.com/ci-group/revolve2
+Description-Content-Type: text/markdown
+
+<img align="right" width="150" height="150"  src="./docs/source/logo_light.png">
+
+# Revolve2
+
+Revolve2 is a collection of Python packages used for researching evolutionary algorithms and modular robotics.
+Its primary features are a modular robot framework, an abstraction layer around physics simulators, and evolutionary algorithms.
+
+**Documentation: [ci-group.github.io/revolve2](https://ci-group.github.io/revolve2)**
+
+**Installation: [ci-group.github.io/revolve2/installation](https://ci-group.github.io/revolve2/installation)**
+
+**Get help: [github.com/ci-group/revolve2/discussions/categories/ask-for-help](https://github.com/ci-group/revolve2/discussions/categories/ask-for-help)**
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.8355869.svg)](https://doi.org/10.5281/zenodo.8355869) [![License: LGPL v3](https://img.shields.io/badge/License-LGPL_v3-blue.svg)](./LICENSE) [![CI](https://github.com/ci-group/revolve2/actions/workflows/main.yml/badge.svg)](https://github.com/ci-group/revolve2/actions)
+
+## Sample
+Here we create and simulate a modular robot, and then calculate how far it moved over the xy plane. This is a shortened version of `examples/evaluate_single_robot`.
+```python
+# (...) Omitted preamble
+
+# Create a modular robot.
+body = modular_robots_v1.gecko_v1()
+brain = BrainCpgNetworkNeighborRandom(body=body, rng=rng)
+robot = ModularRobot(body, brain)
+
+# Create a scene.
+scene = ModularRobotScene(terrain=terrains.flat())
+scene.add_robot(robot)
+
+# Create a simulator.
+simulator = LocalSimulator(headless=False)
+
+# Simulate the scene and obtain states sampled during the simulation.
+scene_states = simulate_scenes(
+    simulator=simulator,
+    batch_parameters=make_standard_batch_parameters(),
+    scenes=scene,
+)
+
+# Get the state at the beginning and end of the simulation.
+scene_state_begin = scene_states[0]
+scene_state_end = scene_states[-1]
+
+# Retrieve the states of the modular robot.
+robot_state_begin = scene_state_begin.get_modular_robot_simulation_state(robot)
+robot_state_end = scene_state_end.get_modular_robot_simulation_state(robot)
+
+# Calculate the xy displacement of the robot.
+xy_displacement = fitness_functions.xy_displacement(
+    robot_state_begin, robot_state_end
+)
+```
