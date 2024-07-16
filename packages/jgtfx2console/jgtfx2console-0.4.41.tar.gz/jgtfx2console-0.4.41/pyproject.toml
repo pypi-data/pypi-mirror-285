@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=40.8.0","wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jgtfx2console"
+version = "0.4.41"
+authors = [
+  { name="Guillaume Isabelle", email="jgi@jgwill.com" },
+]
+keywords = ["data"]
+
+description = "PDS Services"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+  'pandas>=0.25.1',
+  'python-dotenv>=0.19.2',
+  'jgtutils>=0.1.113',
+  'tlid'
+]	
+
+
+optional-dependencies = {  dev-lint = [
+    "flake8>=3.6.0,<3.7.0",
+    "isort>=4.3.4,<4.4.0",
+  ],  dev-test = [
+    "coverage",
+    "pytest>=3.10",
+  ],  dev-docs = [
+    "readme_renderer",
+    "sphinx",
+    "sphinx_rtd_theme>=0.4.0",
+    "html2text>=2020.1.16",
+    "html2markdown>=0.1.7",
+  ]}
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/jgwill/jgtfx2console"
+"Bug Tracker" = "https://github.com/jgwill/jgtfx2console/issues"
+
+
+
+
+[project.scripts]
+fxcli2console = "jgtfx2console.fxcli2console:main"
+#fxlive = "jgtfx2console.LiveChartDataExport:main"
+#fxliveconf = "jgtfx2console.config_generator:main"
