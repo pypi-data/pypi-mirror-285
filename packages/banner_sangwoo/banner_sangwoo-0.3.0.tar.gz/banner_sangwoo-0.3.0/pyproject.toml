@@ -1,0 +1,24 @@
+[project]
+name = "banner_sangwoo"
+version = "0.3.0"
+description = "banner,picture,lotto program"
+authors = [
+    {name = "GITSangWoo", email = "dogcenta@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+sangwoo-banner = 'banner_sangwoo.banner:show'
+sangwoo-pic = 'banner_sangwoo.banner:pic'
+sangwoo-lotto = 'banner_sangwoo.banner:lotto'
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/GITSangWoo/banner_sangwoo"
+Issues = "https://github.com/GITSangWoo/banner_sangwoo/issues" 
