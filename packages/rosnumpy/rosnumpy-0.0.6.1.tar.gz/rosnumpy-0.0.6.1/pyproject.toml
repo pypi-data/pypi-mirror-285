@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rosnumpy"
+version = "0.0.6.1"
+authors = [
+  { name="manasrda", email="manasrda@mail.uc.edu" },
+]
+description = "Tools for converting ROS messages to and from numpy arrays."
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+            "bagpy",
+            "numpy",
+            "genpy",
+            "bagpy",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/manasrda/ros_numpy"
+"Bug Tracker" = "https://github.com/manasrda/ros_numpy/issues"
