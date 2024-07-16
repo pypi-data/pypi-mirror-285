@@ -1,0 +1,20 @@
+[project]
+name = "dmario24_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "dMario24", email = "data.mario24@gmail.com"},
+]
+dependencies = [
+    "dmario24-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+dmario24-cmd = 'dmario24_cmd.cmd:call'
