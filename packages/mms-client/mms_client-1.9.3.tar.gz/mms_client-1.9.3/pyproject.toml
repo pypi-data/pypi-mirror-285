@@ -1,0 +1,122 @@
+[tool.poetry]
+name = "mms_client"
+version = "v1.9.3"
+description = "API client for accessing the MMS"
+authors = ["Ryan Wood <ryan.wood@electroroute.co.jp>"]
+readme = "README.md"
+packages = [{ include = "mms_client", from = "src" }]
+homepage = "https://github.com/ElectroRoute-Japan/mms-client"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Framework :: Pydantic :: 2",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: The Unlicense (Unlicense)",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+zeep = "^4.2.1"
+requests-pkcs12 = "^1.24"
+pydantic = "^2.6.3"
+pendulum = "^3.0.0"
+xmlschema = "^3.0.2"
+cryptography = "^42.0.5"
+pydantic-xml = "^2.9.0"
+lxml = "^5.1.0"
+backoff = "^2.2.1"
+pycryptodomex = "^3.20.0"
+pydantic-extra-types = "^2.7.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.2.0"
+isort = "^5.13.2"
+mypy = "^1.8.0"
+pylint = "^3.1.0"
+xenon = "^0.9.1"
+pydocstyle = "^6.3.0"
+pre-commit = "^3.6.2"
+pytest = "~8.0"
+pytest-xdist = "^3.5.0"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.12.0"
+mock = "^5.1.0"
+lxml-stubs = "^0.5.1"
+pyfakefs = "^5.3.5"
+responses = "^0.25.0"
+types-urllib3 = "^1.26.25.14"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+force_single_line = true
+line_length = 120
+
+[tool.mypy]
+exclude = [
+  '^tests/'
+]
+scripts_are_modules = true
+plugins = [
+  "pydantic_xml.mypy"
+]
+
+[[tool.mypy.overrides]]
+module = [
+  'requests_pkcs12',
+  'dicttoxml.*'
+]
+ignore_missing_imports = true
+
+[tool.pydocstyle]
+match = '((?!test).)*\.py'
+inherit = false
+ignore = ["D200", "D203", "D213", "D406", "D407", "D413", "D104"]
+
+[tool.pylint.main]
+# See https://pylint.readthedocs.io/en/latest/user_guide/configuration/all-options.html for supported configuration
+disable = [
+  # This is already covered by Pydocstyle
+  "missing-function-docstring",
+  # Disable warning for using f string in the logging
+  "logging-fstring-interpolation",
+  # We plan to extend classes in the future
+  "too-few-public-methods",
+  # This check was too aggressive, complaining about similarities in docstrings
+  "duplicate-code",
+]
+max-line-length = 120
+max-args = 10
+ignore = ["docs", "tests"]
+source-roots = ["src/mms_client"]
+recursive = "true"
+extension-pkg-whitelist = ["lxml"]
+
+[tool.pylint.MASTER]
+ignore-paths = '^tests/.*$'
+
+[tool.pytest.ini_options]
+addopts = "-n auto --cov=src/mms_client"
+testpaths = ["tests"]
+filterwarnings = "ignore::DeprecationWarning"
+
+[tool.coverage.run]
+omit = ["*/__init__.py"]
+
+[tool.coverage.report]
+fail_under = 100
+
+[tool.coverage.html]
+directory = "coverage_html_report"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
