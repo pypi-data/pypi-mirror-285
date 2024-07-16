@@ -1,0 +1,25 @@
+[project]
+name = "banner_lsiwh37249"
+version = "0.3.1"
+description = "Banner Output Program"
+authors = [
+    {name = "lsiwh37249", email = "lsiwh37249@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_lsiwh37249.banner:show'
+show-pic = 'banner_lsiwh37249.banner:pic'
+show-lotto = 'banner_lsiwh37249.banner:lotto'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/lsiwh37249/banner_lsiwh37249"
+Issues = "https://github.com/lsiwh37249/banner_lsiwh37249/issues"
