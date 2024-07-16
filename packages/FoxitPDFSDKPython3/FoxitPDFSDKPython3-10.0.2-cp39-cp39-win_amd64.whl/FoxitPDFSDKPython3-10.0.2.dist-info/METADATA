@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: FoxitPDFSDKPython3
+Version: 10.0.2
+Summary: Foxit PDF SDK For Python3
+Home-page: https://developers.foxit.com
+Author: Foxit Software Inc.
+Author-email: support@foxitsoftware.com
+License: Other/Proprietary License (Commercial)
+Keywords: PDF SDK,PDF Library,PDF render,PDF view,PDF print,PDF Edit,PDF convert
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Software Development
+Requires-Python: >=3.6, <4
+Description-Content-Type: text/plain
+License-File: legal.txt
+
+Foxit PDF SDK v10.0.0  Release Date: 18 Mar. 2024
+==================================================================
+This is a major release
+
+____New Features/Enhancements____
+* Support Displaying OFD Files:  Added header files 'fs_ofddoc.h, fs_ofdpage.h and fs_ofdrenderer.h' for handling OFD documents, pages, and rendering operations. And added 'InitializeOFDEngine' and 'ReleaseOFDEngine' in 'common::Library' class.
+* Support Conversion between PDF and OFD: Introduced 'addon::conversion::Convert::ToOFD' and 'addon::conversion::Convert::FromOFD' functions, along with 'conversion::OFDConvertParam' class for setting conversion parameters.
+* Support DWG2PDF: Added 'addon::conversion::Convert::FromDWG' function for generating PDF from DWG files, along with 'conversion::DWG2PDFSettingData' class.
+* Introducing 3D Rendering on Windows:  Added header file 'fs_pdf3d.h' rendering 3D PDF documents.
+* Support Paragraph Editing:  Added header file 'fs_paragraphediting.h' to perform advanced operations such as joining and splitting paragraphs, managing paragraph editing tasks, and providing callbacks for paragraph editing operations.
+* Incremental Redaction: Introduced 'Redaction::StartApply' for incremental redaction and progress monitoring.
+* Separating Grayscale and Color Images settings: Deprecated 'addon::optimization::OptimizerSettings::SetColorGrayImageSettings', added 'SetColorImageSettings' and 'SetGrayscaleImageSettings' for separate image compression settings.
+* Multi-process Support for Linux OCR Addon: Added multi-process support for Linux OCR addon.
+* Multithreading Support for Compliance Addon: Implemented multithreading support for Compliance addon with new functions.
+* Support for Generating Headers and Footers: Updated 'conversion::pdf2office::PDF2WordSettingData' with 'enable_generate_headers_and_footers' parameter for header/footer generation.
+* Support for Generating Footnotes and Endnotes: Updated 'conversion::pdf2office::PDF2WordSettingData' with 'enable_generate footnotes_and endnotes' parameter.
+* Support Cloning Page Objects: Added 'GraphicsObject::Clone()' to enable object cloning between PDF pages and documents.
+* Support for Splitting Document: Added header file 'fs_splitpdfdoc.h'  for document splitting.
+* Support for Form State and Fill Color Changes Notification: Added new enum types to 'JSFieldValueChangeType', 'e_JSFieldValueChangedBySetReadOnly' and 'e_JSFieldValueChangedByFillColor',  for notifying form state and fill color changes.
+* Provide Node.js Library on Windows and Linux: Introduced Node.js library with JavaScript API.
+* Support for AnyCPU: Added AnyCPU platform target support for the Dotnet/DotnetCore.
+* Enhanced Paging Seal Signature: Updated 'PagingSealConfig::PagingSealConfig' with 'is_display_multiple_seal' and 'page_count_for_each_seal' for setting page range for each seal.
+* Enhanced TableGenerator Functionality: Added 'addon::tablegenerator::TableGeneratorCallback' with 'Release' and 'GetTableTopMarginToPage' functions for page margin setup, and updated 'addon::tablegenerator::TableCellData' with 'cell_fill_color' attribute for cell background modification.
+* Enhanced OCR Engine: Added 'libippccm7.so' to OCR Bin folder for Linux CentOS 8 compatibility and error resolution.
+* Enhanced Recognition of Text Blocks in PowerPoint: Improved accuracy of recognizing text blocks in PowerPoint slides.
+* Enhanced AddText Functionality: Updated 'AddText' function's RichTextStyle with 'char_space' and 'word_space' properties for adjusting character and word spacing, and updated 'rotation' parameter to accept integer values and added 'disable_embed_font' parameter for font embedding control during text insertion.
+* Enhanced XFA Form Support:  Updated 'XFAWidget' class with new APIs, IsReadOnly and IsRequired for checking values for any fields,  IsAllowRichText for rich text format checking,  and SetOptions for setting the selection of items in a choice list or radio button in the exclusion group.
+* Optimized Rendering efficiency: Time for rendering pages with repeated paths reduced significantly, resulting in roughly threefold efficiency improvement.
+* Optimized Page Parsing Efficiency:  Enhanced page parsing efficiency by nearly 16% through optimization, particularly for pages with numerous Path objects.
+
+____Bug Fixes____
+* Resolved crashes in Java SDK on Linux with native memory errors
+* Fixed crash issue caused by calling ImportFromFDF function.
+* Fixed crash issue when using Linux Java SDK to convert specific files to PDF images.
+* Fixed multiplication calculation error in form fields.
+* Fixed issue of missing signatures after flattening dynamic XFA forms.
+* Fixed issue where PDFReader demo did not perform form validation for invalid data input.
+* Fixed issue where text line spacing of associated form fields changed after specific form field value changes.
+* Fixed abnormal executing of OCR on Linux CentOS 8.
+* Rectified loss of text background color issue after OCR of specific PDF documents using Linux DotNetCore SDK.
+* Resolved issue where specific pages were rotated 90° after OCR of certain documents.
+* Fixed problem where table border path objects were converted into images after OCR.
+* Fixed issue of extra black lines appearing at the bitmap edge after inserting monochrome bitmap watermark using SDK.
+* Fixed problem causing partial image loss when using setMatrix to move or resize images.
+* Fixed mosaic issue in converted images after using pdf2image for specific PDF documents.
+* Fixed initialization error in Java SDK on Linux ARM.
+* Addressed low page release efficiency issue after calling getLayers in documents containing numerous path objects.
+* Fixed issue where 'TextPage.GetTextInRect' method in DotnetCore SDK interpreted character '⁻' as '?'.
+* Fixed incorrect result returned by PDFDoc::isLinearized function after loading linearized documents.
+* Fixed issue where text was not displayed when rendering in DIB_CMYK format with SetRenderTextAntiAliasing(false).
+
+
+
