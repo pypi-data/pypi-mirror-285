@@ -1,0 +1,58 @@
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry.scripts]
+jsonschema-cli2 = 'jsonschema_cli2.cli:run'
+
+[tool.poetry]
+name = "jsonschema-cli2"
+version = "1.3.1"
+description = "A thin wrapper over to allow validating schemas easily using simple CLI commands."
+authors = ["solairen <solairen@solairen.tech>"]
+readme = 'README.md'
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Environment :: Console",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy"
+]
+
+[tool.poetry.urls]
+Homepage = "https://github.com/solairen/jsonschema_cli2"
+Source = "https://github.com/solairen/jsonschema_cli2"
+Issues = "https://github.com/solairen/jsonschema_cli2/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+pyyaml = ">=5.3.1"
+jsonschema = ">=3.2.0"
+
+[tool.poetry.dev-dependencies]
+flake8 = ">=3.8.2"
+black = ">=19.10b0"
+flake8-black = ">=0.2.0"
+flake8-import-order = ">=0.18.1"
+flake8-blind-except = ">=0.1.1"
+flake8-builtins = ">=1.5.3"
+flake8-logging-format = ">=0.6.0"
+flake8-docstrings = ">=1.5.0"
+flake8-rst-docstrings = ">=0.0.13"
+ipython = ">=7.14.0"
+ipdb = ">=0.13.2"
+pytest = ">=5.4.2"
+pytest-mock = ">=3.1.0"
+twine = ">=3.1.1"
+
+[tool.black]
+line-length = 120
