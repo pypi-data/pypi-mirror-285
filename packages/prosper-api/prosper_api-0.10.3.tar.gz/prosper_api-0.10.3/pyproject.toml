@@ -1,0 +1,132 @@
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+[tool.poetry]
+name = "prosper-api"
+version = "0.10.3"
+description = "Python trading library for Prosper.com"
+authors = ["Graham Tibbitts <graham.tibbitts@gmail.com>"]
+license = "apache-2.0"
+readme = "README.md"
+packages = [{include = "prosper_api"}]
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Topic :: Office/Business :: Financial :: Investment",
+]
+repository = "https://github.com/grahamtt/prosper-api"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+backoff = "^2.2.1"
+dpath = "^2.1.6"
+prosper-shared = "^0.8.1"
+pydantic = "^2.7.4"
+ratelimit = "^2.2.1"
+requests = "^2.31.0"
+schema = "^0.7.5"
+simplejson = "^3.19.2"
+keyring = {version = "^24.2.0", optional = true}
+
+[tool.poetry.extras]
+secure = ["keyring"]
+
+[tool.poetry.group.dev.dependencies]
+prosper-shared = { version = ">0.2.0", extras = ["dev"] }
+
+[tool.poetry.group.test.dependencies]
+freezegun = "^1.2.2"
+prosper-shared = { version = ">0.2.0", extras = ["toml","yaml"] }
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.11.1"
+pytest-sugar = "^0.9.7"
+
+[tool.autohooks]
+mode = "poetry"
+pre-commit = [
+    "prosper_shared.autohooks.clean",
+    "prosper_shared.autohooks.update_dependencies",
+    "prosper_shared.autohooks.build_extras",
+    "prosper_shared.autohooks.autoimport",
+    "autohooks.plugins.black",
+    "autohooks.plugins.ruff",
+    "autohooks.plugins.isort",
+    "prosper_shared.autohooks.pydocstyle",
+    "prosper_shared.autohooks.pydoclint",
+    "prosper_shared.autohooks.tomlsort",
+    "prosper_shared.autohooks.mdformat",
+    "autohooks.plugins.pytest",
+    # "autohooks.tox", # Commenting out for now because it appears to be running only for Python 3.10
+    # "prosper_shared.autohooks.mutmut", # Doesn't seem to work on MacOS. I'll work on it.
+    # "prosper_shared.autohooks.dynamic_versioning", # Disabling for now until I figure out how to apply to the current commit.
+    "prosper_shared.autohooks.build",
+    "prosper_shared.autohooks.assert_files",
+]
+
+[tool.autohooks.plugins.build_extras]
+commands = [
+    "jinja2 -Dconfig_options=\"`echo 'from prosper_shared.omni_config import get_config_help\nfrom prosper_api.client import Client\nprint(get_config_help())\n' | python`\" README.md.jinja2 > README.md"
+]
+affected_files = ['README.md']
+
+[tool.autohooks.plugins.mutmut]
+arguments = [
+    "--disable-mutation-types=string,fstring,expr_stmt,annassign,number", '--CI', # TODO: Temporarily disable Mutmut failures.
+]
+
+[tool.autohooks.plugins.pydoclint]
+include = 'prosper_api/*.py'
+
+[tool.autohooks.plugins.pydocstyle]
+include = 'prosper_api/*.py'
+
+[tool.autohooks.plugins.ruff]
+arguments = '--fix'
+
+[tool.autohooks.plugins.update_dependencies.install]
+arguments = ['--all-extras']
+
+[tool.isort]
+profile = "black"
+
+[tool.poetry-dynamic-versioning]
+enable = false
+metadata = false
+style = "semver"
+vcs = "git"
+bump = true
+
+[tool.pydoclint]
+style = "google"
+allow-init-docstring = true
+
+[tool.pydocstyle]
+inherit = false
+convention = "google"
+add_ignore = ['D100', 'D104']
+
+[tool.pytest.ini_options]
+addopts = "--cov=prosper_api --cov-report=term-missing --cov-report=lcov:dist/coverage.info --cov-fail-under=100"
+testpaths = "tests"
+python_functions = ["*_test", "test_*"]
+
+[tool.ruff.lint]
+extend-ignore = ["E501"]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.tomlsort]
+trailing_comma_inline_array = true
+spaces_indent_inline_array = 4
+sort_first = ["tool.poetry"]
+
+[tool.poetry-sort]
+move-optionals-to-bottom=true
