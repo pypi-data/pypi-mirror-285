@@ -1,0 +1,92 @@
+Metadata-Version: 2.1
+Name: python-ntp
+Version: 1.0.0
+Summary: UNKNOWN
+Home-page: https://github.com/jsiembida/python-ntp
+Author: Jarek Siembida
+Author-email: jarek.siembida@gmail.com
+License: ASF2.0
+Platform: UNKNOWN
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: BSD
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: System :: Networking :: Time Synchronization
+Classifier: Topic :: Utilities
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+
+
+
+### python-ntp
+
+Pure python, clean room implementation of NTP client based directly on
+[RFC5905](https://datatracker.ietf.org/doc/html/rfc5905).
+
+* No extra dependencies, it is a single source file that works
+  in vanilla Python 3.5 or newer.
+* Tested to work on Linux, macOS and Windows.
+* Any number of NTP servers can be used.
+* NTP servers v4 and v3 are supported.
+* And so are IPv4 and IPv6.
+* The full suite of client side algorithms is implemented.
+  From periodic polling of each peer, to finding consensus,
+  to aggregate offset and jitter. Except the logic of correcting
+  the local time, as this was never the goal. It still can
+  be used to correct local system time, see the examples below.
+* CLI offers functionality similar to [ntpdate(8)](https://linux.die.net/man/8/ntpdate),
+  again, except the logic of setting the local time which can be worked around.
+
+
+### API
+
+Intended use is a thread running in a loop:
+
+```
+from time import sleep
+from ntp import NtpArena
+
+# IPv4 of IPv6 addresses must be fed into NtpArena, hostnames must be resolved first.
+ntp = NtpArena(addresses=["217.114.59.66", "82.69.171.134"])
+
+while True:
+    pause = ntp.query_peers()
+    leap, offset, jitter = ntp.calculate_state()
+    print(offset)
+    sleep(pause)
+```
+
+Lower level API is exposed via `NtpMessage` and `NtpAssociation` classes.
+
+
+### CLI
+
+Keep running and showing NTP time every minute:
+
+```
+ntp.py --output-interval 60 pool.ntp.org time.nist.gov time.google.com
+```
+
+One shot run, returning offset between local and NTP time:
+
+```
+ntp.py --output-count 1 --output-format '{offset:+}' pool.ntp.org
+```
+
+Feeding the output to [date(1)](https://linux.die.net/man/1/date), in order to set
+the system time. This is crude PLL logic, as in the clock discipline algorithm.
+
+```
+date --set="$(ntp.py --output-interval 30 --output-count 1 pool.ntp.org)"
+```
+
+Use `ntp.py --help` to learn more about available options.
+
+
