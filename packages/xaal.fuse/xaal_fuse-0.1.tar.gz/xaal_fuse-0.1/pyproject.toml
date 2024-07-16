@@ -1,0 +1,17 @@
+[project]
+name = "xaal.fuse"
+version = "0.1"
+description = "xAAL Fuse filesystem"
+readme = "README.rst"
+authors = [ { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" } ]
+license = { text = "GPL License"}
+classifiers = ["Programming Language :: Python",
+"Topic :: Software Development :: Libraries :: Python Modules"]
+keywords = ["xaal", "tools"]
+dependencies = ["xaal.lib", "fuse-python", "rapidjson"]
+
+[project.scripts]
+xaal-mount = "xaal.fuse.mount:main"
+
+[tool.setuptools.packages.find]
+include = ["xaal.fuse"]
