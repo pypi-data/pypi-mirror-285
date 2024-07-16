@@ -1,0 +1,20 @@
+[project]
+name = "sangwoo_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "GITSangWoo", email = "dogcenta@gmail.com"},
+]
+dependencies = [
+    "sangwoo-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+sangwoo-cmd = 'sangwoo_cmd.cmd:call' 
