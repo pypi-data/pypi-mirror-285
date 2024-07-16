@@ -1,0 +1,18 @@
+Usage: about transform [OPTIONS] LOCATION OUTPUT
+
+  Transform the CSV/JSON/XLSX file at LOCATION by applying renamings, filters
+  and checks and then write a new CSV/JSON/XLSX to OUTPUT.
+
+  LOCATION: Path to a CSV/JSON/XLSX file.
+
+  OUTPUT: Path to CSV/JSON/XLSX inventory file to create.
+
+Options:
+  -c, --configuration FILE  Path to an optional YAML configuration file. See
+                            --help-format for format help.
+  --worksheet name          The worksheet name from the INPUT. (Default: the
+                            "active" worksheet)
+  --help-format             Show configuration file format help and exit.
+  -q, --quiet               Do not print error or warning messages.
+  --verbose                 Show all error and warning messages.
+  -h, --help                Show this message and exit.
