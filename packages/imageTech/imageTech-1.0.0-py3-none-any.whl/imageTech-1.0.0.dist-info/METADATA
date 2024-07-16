@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: imageTech
+Version: 1.0.0
+Summary: Python Library to process and compare images.
+Author: Sarthak, Harshit
+Author-email: sarthak6jan16@gmail.com
+License: MIT
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: opencv-python
+Requires-Dist: pillow
+Requires-Dist: pytest
+
+# ImageTech
+
+ - ImageTech is a Python package for processing images, including comparing two images and highlighting the differences.
+
+## Installation
+
+ - You can install the package via pip:
+
+ - ```
+   pip install imageTech
+   ```
+
+# Usage
+ - Here's a basic example of how to use the ImageProcessor class to display the difference between two images
+
+ - ```
+   import os
+   from imageTech.image_syncer import ImageProcessor
+
+   # Define paths
+   dir = 'img'
+   op_directory = 'op_img_dir'
+   image_1 = 'img_prep_1.png'
+   image_2 = 'img_prep_2.png'
+
+   # Create an instance of ImageProcessor
+   img_p = ImageProcessor()
+
+   # Display and save the difference between the two images
+   img_p.display_difference(os.path.join(dir, image_1), os.path.join(dir, image_2), os.path.join(dir, op_directory), is_cv_read=False)
+   ```
+   
+
+# Running Tests
+ - To run tests, you need to have these installed.
+   - pytest
+   - pytest-cov
+
+
+# Improvements or Issues
+  - Other image processing features
+  - Please email us if you find any issues.
+
+# Contact
+ - Please mail us if you have any issues.
+ - Make sure to put subject as --> Improvements for python library
+
+# License
+ - MIT License
+
+# Acknowledgements
+ - Stackoverflow
+
+# Developers
+ - Sarthak Gholap
+ - Harshit Dalal
