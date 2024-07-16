@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: shadowmodelcache
+Version: 0.1.0
+Summary: High-performance django model cache library.
+Home-page: https://github.com/saveychauhan/ShadowModelCache
+Author: Sawan Chauhan
+Author-email: sav.ey@live.co.uk
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4.2
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: django>=3.2
+Requires-Dist: django-redis
+
+## ShadowModelCache
+#### Developed by Qdagrw
+
+ShadowModelCache is a high-performance library designed to create and manage cached copies of models, ensuring fast data retrieval and reduced load on primary data sources. It features automatic cache invalidation, various eviction policies, and supports distributed caching for scalable solutions.
+
+### Features
+- High-performance caching
+- Automatic cache invalidation
+- Various eviction policies
+- Support for distributed caching
+
+### How to Use
+
+Set up the cache prefix and timeout:
+
+```python
+SMC_PREFIX = 'ShadowModelCache'
+SMC_CACHE_TIMEOUT = (60 * 60 * 24)  # Cache timeout set to 24 hours
+```
+
+Define your model by extending `ShadowModelCache`:
+
+```python
+from shadowmodelcache.models import ShadowModelCache
+from django.db import models
+
+class Demo(ShadowModelCache):
+    name = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f"{self.id} - {self.name}"
+```
+
+### In ORM
+
+Retrieve a cached version of an object and automatically update the cache on save:
+
+```python
+Demo.objects.cget(id=1)
+```
+
+This will return a cached version of the object and update the cache automatically when the object is saved.
+
