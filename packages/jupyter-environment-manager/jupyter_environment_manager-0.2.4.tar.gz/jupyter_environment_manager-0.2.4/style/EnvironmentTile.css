@@ -1,0 +1,281 @@
+.env-tile {
+  position: relative;
+  min-width: 180px;
+  /* max-width: 320px; */
+  max-height: 9999px;
+  margin: 10px 10px 10px 10px;
+  vertical-align: top;
+  background: var(--jp-layout-color2);
+  box-shadow: 0px 1px 4px -2px #555;
+  padding: 0 10px 60px 10px;
+  border-radius: 10px;
+  box-sizing: content-box !important;
+  /* overrides jupyterhub, which sets box-sizing: border-box */
+  border: 2px solid transparent;
+  overflow: hidden;
+}
+
+.env-tile-active-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #524071;
+}
+
+.env-name {
+  margin: 10px 0;
+  padding-bottom: 5px;
+  color: var(--jp-ui-font-color0);
+}
+.env-name-border {
+  border-bottom: 1px solid var(--jp-border-color0);
+}
+
+.env-name.flex-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.env-tile-display-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+.flex-box_start {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.env-tile_right-flex-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.env-content {
+  position: relative;
+}
+
+.env-details {
+  text-align: left;
+}
+
+.env-description {
+  font-size: 12px;
+  color: var(--jp-ui-font-color2);
+  margin: 10px 5px;
+}
+
+.env-config {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.env-packages,
+.env-resources {
+  font-size: 14px;
+  color: var(--jp-ui-font-color1);
+  margin: 0 10px 0 5px;
+}
+
+.env-packages img {
+  width: 20px;
+  vertical-align: baseline;
+  margin-right: 5px;
+}
+
+.env-resources img {
+  width: 20px;
+  vertical-align: baseline;
+  margin-right: 5px;
+}
+
+.env-tags {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.env-tag {
+  display: inline-block;
+  vertical-align: top;
+  width: fit-content;
+  font-size: 10px;
+  height: fit-content;
+  color: white;
+  margin: 2px 5px 2px 0;
+  border-radius: 20px;
+  background-color: #7f93a4;
+  padding: 2px 10px 3px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.env-actions {
+  position: absolute;
+  bottom: 0;
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.env-actions button {
+  width: 100%;
+  padding: 0;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.env-action {
+  width: calc(50% - 5px);
+  margin: 10px 0;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 16px;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.env_disable {
+  position: relative;
+  min-width: 180px;
+  /* max-width: 320px; */
+  max-height: 9999px;
+  margin: 10px 10px 10px 10px;
+  vertical-align: top;
+  background: var(--jp-layout-color2);
+  box-shadow: 0px 1px 4px -2px #555;
+  padding: 0 10px 0px 10px;
+  border-radius: 10px;
+  box-sizing: content-box !important;
+  /* overrides jupyterhub, which sets box-sizing: border-box */
+  border: 2px solid transparent;
+  overflow: hidden;
+}
+.env-actions-disable {
+  position: relative;
+  bottom: 0;
+  width: calc(100% - 20px);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 1;
+}
+
+.env-action-disable {
+  width: calc(50% - 5px);
+  margin: 10px 0;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  line-height: 16px;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.env-button-outlined {
+  border: 1px solid #673ab7;
+  background-color: transparent;
+  color: #673ab7;
+  width: 100%;
+}
+body[data-jp-theme-light='false'] .env-button-outlined {
+  border: 1px solid #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+  width: 100%;
+}
+.kernel-activated-button {
+  border: 1px solid #673ab7 !important;
+  background-color: transparent !important;
+  color: #673ab7 !important;
+  width: 100% !important;
+}
+
+.env_verification-loader {
+  background-color: var(--jp-layout-color2);
+}
+
+.env_loader {
+  color: #673ab7;
+  /* border-radius: 16px;
+  -webkit-animation: wobble-hor-bottom 0.8s both;
+  animation: wobble-hor-bottom 0.8s both; */
+}
+
+/**
+ * ----------------------------------------
+ * animation wobble-hor-bottom
+ * ----------------------------------------
+ */
+@-webkit-keyframes wobble-hor-bottom {
+  0%,
+  100% {
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  15% {
+    -webkit-transform: translateX(-30px) rotate(-6deg);
+    transform: translateX(-30px) rotate(-6deg);
+  }
+  30% {
+    -webkit-transform: translateX(15px) rotate(6deg);
+    transform: translateX(15px) rotate(6deg);
+  }
+  45% {
+    -webkit-transform: translateX(-15px) rotate(-3.6deg);
+    transform: translateX(-15px) rotate(-3.6deg);
+  }
+  60% {
+    -webkit-transform: translateX(9px) rotate(2.4deg);
+    transform: translateX(9px) rotate(2.4deg);
+  }
+  75% {
+    -webkit-transform: translateX(-6px) rotate(-1.2deg);
+    transform: translateX(-6px) rotate(-1.2deg);
+  }
+}
+@keyframes wobble-hor-bottom {
+  0%,
+  100% {
+    -webkit-transform: translateX(0%);
+    transform: translateX(0%);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+  }
+  15% {
+    -webkit-transform: translateX(-30px) rotate(-6deg);
+    transform: translateX(-30px) rotate(-6deg);
+  }
+  30% {
+    -webkit-transform: translateX(15px) rotate(6deg);
+    transform: translateX(15px) rotate(6deg);
+  }
+  45% {
+    -webkit-transform: translateX(-15px) rotate(-3.6deg);
+    transform: translateX(-15px) rotate(-3.6deg);
+  }
+  60% {
+    -webkit-transform: translateX(9px) rotate(2.4deg);
+    transform: translateX(9px) rotate(2.4deg);
+  }
+  75% {
+    -webkit-transform: translateX(-6px) rotate(-1.2deg);
+    transform: translateX(-6px) rotate(-1.2deg);
+  }
+}
