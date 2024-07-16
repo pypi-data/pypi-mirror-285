@@ -1,0 +1,20 @@
+[project]
+name = "banner_hamsunwoo"
+version = "0.2.0"
+description = "Banner Output Program"
+authors = [
+    {name = "sunwoo", email = "summerham22@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_hamsunwoo.banner:show'
+
+
+[tool.pdm]
+distribution = true
