@@ -1,0 +1,25 @@
+[project]
+name = "banner_whitecapella"
+version = "0.3.7"
+description = ""
+authors = [
+    {name = "Whitecapella1", email = "whitecapella@naver.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/WhiteCapella/banner_whitecapella"
+Issues = "https://github.com/WhiteCapella/banner_whitecapella/issues"
+
+[project.scripts]
+whitecapella-banner = 'banner_whitecapella.banner:show'
+whitecapella-pic = 'banner_whitecapella.banner:pic'
+whitecapella-lotto = 'banner_whitecapella.banner:lotto'
+
+[tool.pdm]
+distribution = true
