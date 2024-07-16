@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "otonagai-dl"
+version = "1.0.7"
+description = "A basic CLI tool to keep track of your favourite anime/manga/comics/pop culture merchandise"
+authors = ["Clavin Dsouza <clavind12@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+rich = "^13.7.1"
+beautifulsoup4 = "^4.12.3"
+inquirerpy = "0.3.4"
+readchar = "*"
+requests = "^2.31.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+otonagai-dl = "otonagai_dl.main:main"
