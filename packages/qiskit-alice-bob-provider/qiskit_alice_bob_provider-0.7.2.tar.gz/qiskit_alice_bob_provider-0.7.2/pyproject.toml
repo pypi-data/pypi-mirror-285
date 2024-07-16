@@ -1,0 +1,92 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qiskit_alice_bob_provider"
+authors = [
+    {name = "Alice & Bob Software Team"},
+]
+version = "0.7.2"
+description = "Provider for running Qiskit circuits on Alice & Bob QPUs and simulators"
+readme = "README.md"
+license = {text = "Apache 2.0"}
+keywords = ["Qiskit", "Alice & Bob", "Quantum", "SDK"]
+classifiers=[
+    "Environment :: Console",
+    "License :: OSI Approved :: Apache Software License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+urls = {Homepage = "https://github.com/Alice-Bob-SW/qiskit-alice-bob-provider", "Alice & Bob" = "https://alice-bob.com/"}
+requires-python = ">=3.8, <3.12"
+dependencies = [
+    "ipython",
+    "ipywidgets",
+    "pydantic>=2.0",
+    "requests",
+    # <0.45.0: this version introduces many API changes that we need to integrate
+    "qiskit>=0.43,<0.45",
+    # <0.13.0: qiskit-aer has become irritatingly slow in this release.
+    # It especially shows in https://github.com/Alice-Bob-SW/emulation-examples/blob/main/3_error_detection_on_physical_qubits.ipynb
+    "qiskit-aer<0.13.0",
+    "qiskit-qir-alice-bob-fork==0.3.2rc0",
+    "tenacity"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black==23.1.0",
+    "build==0.10.0",
+    "codespell==2.2.2",
+    "coverage==7.2.2",
+    "flake8>=5.0.4",
+    "flake8-quotes==3.3.2",
+    "isort>=5.11.5",
+    "mock==5.1.0",
+    "mypy==1.0.0",
+    "mypy-extensions==1.0.0",
+    "pre-commit>=2.21.0",
+    "pylint==2.16.1",
+    "pytest==7.2.1",
+    "requests-mock==1.10.0",
+    "traitlets==5.14.3",
+    "twine==5.1.1",
+    "types-mock==5.1.0",
+    "types-setuptools==70.0.0.20240524",
+    "types-requests==2.30.0.0"
+]
+
+[project.entry-points."qiskit.transpiler.translation"]
+state_preparation = "qiskit_alice_bob_provider.plugins.state_preparation:StatePreparationPlugin"
+sk_synthesis = "qiskit_alice_bob_provider.plugins.sk_synthesis:SKSynthesisPlugin"
+
+[tool.setuptools.packages.find]
+include = ["qiskit_alice_bob_provider*"]
+
+[tool.black]
+skip-string-normalization = true
+line-length = 79
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
+[[tool.mypy.overrides]]
+module = [
+    "setuptools",
+    "qiskit.*",
+    "qiskit_qir.*",
+    "qiskit_aer.*",
+    "scipy.*"
+]
+ignore_missing_imports = true
