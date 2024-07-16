@@ -1,0 +1,3 @@
+# audio io related utils
+- ffmpeg, torchaudio, librosa, soundfile
+- resampling, format-conversions, ...

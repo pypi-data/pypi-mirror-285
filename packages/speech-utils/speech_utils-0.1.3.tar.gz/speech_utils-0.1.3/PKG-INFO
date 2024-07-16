@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: speech-utils
+Version: 0.1.3
+Summary: collection of audio, speech, ASR related code-snippets, helpers, utilities
+Home-page: https://github.com/fraunhofer-iais/speech-utils
+License: MIT
+Author: Tilo Himmelsbach
+Author-email: dertilo@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: eval
+Provides-Extra: librosa
+Provides-Extra: pyav
+Provides-Extra: torchaudio
+Requires-Dist: ansi2html (>=1.9.2,<2.0.0) ; extra == "eval"
+Requires-Dist: av (>=12.1.0,<13.0.0) ; extra == "pyav"
+Requires-Dist: beartype (>=0,<1)
+Requires-Dist: buildable-dataclasses (>=0.1.0,<0.2.0)
+Requires-Dist: icdiff (>=2.0.7,<3.0.0) ; extra == "eval"
+Requires-Dist: jiwer (>=3.0.3,<4.0.0) ; extra == "eval"
+Requires-Dist: librosa (>=0.10.2.post1,<0.11.0) ; extra == "librosa"
+Requires-Dist: markdown (>=3.6,<4.0) ; extra == "eval"
+Requires-Dist: misc-python-utils (>=0.1.0,<0.2.0)
+Requires-Dist: nested-dataclass-serialization (>=0.1.0,<0.2.0)
+Requires-Dist: numpy (>1.20.2) ; extra == "librosa"
+Requires-Dist: python-slugify (>=8.0.1,<9.0.0)
+Requires-Dist: result (>=0.16.0,<0.17.0)
+Requires-Dist: soundfile (>=0.12.1,<0.13.0)
+Requires-Dist: torch (>1.12.0) ; extra == "torchaudio"
+Requires-Dist: torchaudio (>0.12.0) ; extra == "torchaudio"
+Requires-Dist: typing-extensions (>=4.12.2,<5.0.0)
+Project-URL: Repository, https://github.com/fraunhofer-iais/speech-utils
+Description-Content-Type: text/markdown
+
+![tests](https://github.com/fraunhofer-iais/speech-utils/actions/workflows/tests.yml/badge.svg)
+[![pypi](https://img.shields.io/pypi/v/speech-utils.svg)](https://pypi.python.org/project/speech-utils)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![bear-ified](https://raw.githubusercontent.com/beartype/beartype-assets/main/badge/bear-ified.svg)](https://beartype.readthedocs.io)
+[![Ruff-ified](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/dertilo/python-linters/blob/master/python_linters/ruff.toml)
+
+# speech utils
+- collection of audio, speech, ASR related code-snippets, helpers, utilities
+- for educational/academic purposes: cause some ideas are somewhat experimental+controversial (`cooperative multi-inheritance for data-validation`)
