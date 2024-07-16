@@ -1,0 +1,20 @@
+[project]
+name = "kimwonjoon_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "Kimwonjoon", email = "kimpass189@gmail.com"},
+]
+dependencies = [
+    "kimwonjoon-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+kimwonjoon-cmd = "kimwonjoon_cmd.cmd:call"
