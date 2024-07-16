@@ -1,0 +1,23 @@
+[project]
+name = "banner_tbongkim03"
+version = "0.2.1"
+description = "banner project"
+authors = [
+    {name = "tbongkim03", email = "tbongkim03@gmial.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_tbongkim03.banner:show'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+HOMEPAGE = 'https://github.com/tbongkim03/banner_tbongkim03'
+ISSUES = 'https://github.com/tbongkim03/banner_tbongkim03/issues'
