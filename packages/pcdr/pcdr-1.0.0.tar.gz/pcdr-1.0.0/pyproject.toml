@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=42.0"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "pcdr"
+version = "1.0.0"
+authors = [
+  { name="james-pcdr" },
+]
+description = "GNU Radio-based transmit and receive wrappers and more"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["numpy>=1.21,<2.0", "typeguard>=3.0.0,<5.0.0", "attrs>=21.3.0,<=23.1.0"]
+# development dependencies:  hypothesis plotext pytest pytest-skip-slow
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/python-can-define-radio/pcdr"
+"Bug Tracker" = "https://github.com/python-can-define-radio/pcdr/issues"
+
+[tool.mypy]
+disable_error_code = [
+  'import-untyped',  # because of gnuradio, PyQt5, etc
+]
+
+# mypy_path = './typings'
