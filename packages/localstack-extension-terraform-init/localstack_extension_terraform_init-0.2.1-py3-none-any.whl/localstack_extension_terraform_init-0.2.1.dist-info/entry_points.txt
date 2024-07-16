@@ -1,0 +1,5 @@
+[localstack.extensions]
+localstack-terraform-init = localstack_terraform_init.extension:TflocalInitExtension
+
+[localstack.init.runner]
+tflocal = localstack_terraform_init.extension:TflocalScriptRunner
