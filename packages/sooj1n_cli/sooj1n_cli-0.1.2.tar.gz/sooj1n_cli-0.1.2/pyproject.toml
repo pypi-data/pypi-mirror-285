@@ -1,0 +1,20 @@
+[project]
+name = "sooj1n_cli"
+version = "0.1.2"
+description = "Default template for PDM package"
+authors = [
+    {name = "sooj1n", email = "sujin19371@gmail.com"},
+]
+dependencies = [
+    "sooj1n-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+sooj1n_cli = 'sooj1n_cli.cil:call'
