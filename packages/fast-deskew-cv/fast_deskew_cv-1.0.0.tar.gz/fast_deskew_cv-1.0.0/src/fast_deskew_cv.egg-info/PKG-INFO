@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: fast-deskew-cv
+Version: 1.0.0
+Summary: A fast deskew using hough line transform
+Author-email: HO ZhenWai Olivier <hozhenwai@gmail.com>
+License:  MIT License 
+Project-URL: Source, https://github.com/HOZHENWAI/fast_deskew.git
+Project-URL: Tracker, https://github.com/HOZHENWAI/fast_deskew/issues
+Keywords: deskew,fast
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Provides-Extra: dev
+Requires-Dist: black>=24.1.1; extra == "dev"
+Requires-Dist: git-changelog>=2.4.0; extra == "dev"
+Requires-Dist: isort>=5.13.2; extra == "dev"
+Requires-Dist: pre-commit>=3.6.0; extra == "dev"
+Requires-Dist: pylint>=3.0.3; extra == "dev"
+Requires-Dist: pytest-assume>=2.4.3; extra == "dev"
+Requires-Dist: pytest-cov>=4.1.0; extra == "dev"
+Requires-Dist: pytest-mock>=3.12; extra == "dev"
+Requires-Dist: pytest>=8.0.0; extra == "dev"
+
+# Fast-deskew
+An alternative to the excellent deskew library by [sbrunner](https://github.com/sbrunner/deskew) using opencv for faster computation.
+
+# Installation
+- Using pip:
+```
+pip install fast-deskew-cv
+```
+- From source:
+```
+pip install  git+https://git@github.com/HOZHENWAI/fast_deskew.git
+```
+
+# Usage
+```
+import cv2
+from deskew import determine_skew
+
+image_grayscale = cv2.imread('input_image.png', cv2.IMREAD_GRAYSCALE)
+skew_angle = determine_skew(image_grayscale)
+```
+
+# Note
+I do not recommend you to use this library directly when dealing with angle or more than 90 but to use it after fix the global rotation.
