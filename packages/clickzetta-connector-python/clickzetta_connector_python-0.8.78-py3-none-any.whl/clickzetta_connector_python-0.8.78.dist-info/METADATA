@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: clickzetta-connector-python
+Version: 0.8.78
+Summary: clickzetta python connector
+Author-email: "wei.liu" <wei.liu@clickzetta.com>, "guantao.gao" <guantao.gao@clickzetta.com>, "lin.zhang" <lin.zhang@clickzetta.com>
+Project-URL: documentation, https://www.yunqi.tech/
+Platform: Posix
+Platform: MacOS X
+Classifier: Development Status :: 3 - Alpha
+Requires-Python: >=3.7
+License-File: LICENSE
+Requires-Dist: proto-plus <2.0.0dev,>=1.22.0
+Requires-Dist: packaging <24.0.0dev,>=14.3
+Requires-Dist: protobuf !=3.20.0,!=3.20.1,!=4.21.0,!=4.21.1,!=4.21.2,!=4.21.3,!=4.21.4,!=4.21.5,<5.0.0dev,>=3.19.5
+Requires-Dist: python-dateutil <3.0dev,>=2.7.2
+Requires-Dist: requests <3.0.0dev,>=2.21.0
+Requires-Dist: pyarrow <11.0.0,>=10.0.1
+Requires-Dist: sqlalchemy <2.0.0,>=1.4.0
+Requires-Dist: pandas >=1.5.3
+Provides-Extra: aliyun
+Requires-Dist: clickzetta-connector[oss] ; extra == 'aliyun'
+Provides-Extra: all
+Requires-Dist: clickzetta-connector[cos,gcp,oss,s3] ; extra == 'all'
+Provides-Extra: amazon
+Requires-Dist: clickzetta-connector[s3] ; extra == 'amazon'
+Provides-Extra: aws
+Requires-Dist: clickzetta-connector[s3] ; extra == 'aws'
+Provides-Extra: cos
+Requires-Dist: cos-python-sdk-v5 >=1.9.25 ; extra == 'cos'
+Provides-Extra: dev
+Requires-Dist: pytest ==8.2.1 ; extra == 'dev'
+Requires-Dist: sqlparse ; extra == 'dev'
+Requires-Dist: openai ; extra == 'dev'
+Provides-Extra: gcp
+Requires-Dist: google-cloud-storage <=2.17.0 ; extra == 'gcp'
+Requires-Dist: gcsfs <=2024.6.0 ; extra == 'gcp'
+Provides-Extra: google
+Requires-Dist: clickzetta-connector[gcp] ; extra == 'google'
+Provides-Extra: oss
+Requires-Dist: cz-ossfs >=0.0.2 ; extra == 'oss'
+Requires-Dist: urllib3 ==1.26.19 ; extra == 'oss'
+Provides-Extra: s3
+Requires-Dist: s3fs[boto3] ==2023.5.0 ; extra == 's3'
+Requires-Dist: boto3 ==1.28.17 ; extra == 's3'
+Provides-Extra: tencent
+Requires-Dist: clickzetta-connector[cos] ; extra == 'tencent'
+
