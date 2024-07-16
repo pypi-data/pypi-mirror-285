@@ -1,0 +1,15 @@
+[project]
+name = "xaal.rest"
+version = "0.1"
+description = "xAAL devices REST API"
+readme = "README.rst"
+authors = [ { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" } ]
+license = { text = "GPL License"}
+classifiers = ["Programming Language :: Python",
+"Topic :: Software Development :: Libraries :: Python Modules"]
+keywords = ["xaal", "rest", "json"]
+dependencies = ["xaal.lib", "bottle", "gevent", "gevent-websocket", "python-rapidjson"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.rest"]
