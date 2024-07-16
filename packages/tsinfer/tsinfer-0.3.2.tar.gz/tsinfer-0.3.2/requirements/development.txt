@@ -1,0 +1,36 @@
+attrs
+codecov
+coverage
+flake8
+numpy
+six
+tqdm
+humanize
+daiquiri
+msprime >= 1.0.0
+tskit >= 0.5.3
+zarr!=2.11.0, !=2.11.1, !=2.11.2
+lmdb
+pytest
+pytest-xdist
+pytest-coverage
+# Only for giving nice error messages for incompatible older files
+h5py
+# Only needed for the Python implementation.
+sortedcontainers
+# Optional extras for debugging threads - these modules mainly work on linux
+python-prctl; sys_platform == 'linux'
+numa; sys_platform == 'linux'
+# Needed for building docs.
+sphinx
+sphinx-argparse
+sphinx_rtd_theme
+setuptools>=45
+setuptools_scm
+cyvcf2
+# Needed for evaluation script.
+pandas
+matplotlib
+seaborn
+colorama
+
