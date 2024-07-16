@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "simplebuilder"
+version = "0.3.0"
+description = "Simple build script for packages"
+authors = ["ilotoki0804 <ilotoki0804@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = [
+    "build",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+tomlkit = "^0.12.5"
+
+[tool.poetry.scripts]
+simplebuilder = "simplebuilder.__main__:main"
+
+[tool.poetry.urls]
+Repository = "https://github.com/ilotoki0804/simplebuilder"
+Issues = "https://github.com/ilotoki0804/simplebuilder/issues"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
