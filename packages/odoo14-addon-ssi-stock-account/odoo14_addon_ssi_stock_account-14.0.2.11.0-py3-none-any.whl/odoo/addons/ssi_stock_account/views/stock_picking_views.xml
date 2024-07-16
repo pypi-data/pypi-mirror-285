@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+<record id="stock_picking_view_form" model="ir.ui.view">
+    <field name="name">stock.picking - form</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.view_picking_form" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//notebook" position="inside">
+                <page name="accounting" string="Accounting">
+                    <group name="accounting_1" colspan="4" col="2">
+                        <field name="journal_id" />
+                        <field name="create_accounting_entry_ok" invisible="1" />
+                    </group>
+                    <separator string="SVL" />
+                    <button
+                            name="action_open_svl"
+                            type="object"
+                            string="Open SVL"
+                            class="oe_highlight"
+                            icon="fa-bars"
+                            style="margin-right:4px"
+                        />
+                    <field name="stock_valuation_layer_ids" />
+                    <separator string="Journal Entries" />
+                    <button
+                            name="action_reload_accounting_setting"
+                            type="object"
+                            string="Reload Accounting Setting"
+                            class="oe_highlight"
+                            icon="fa-refresh"
+                            attrs="{'invisible':[('create_accounting_entry_ok','=',False)]}"
+                            style="margin-right:4px"
+                        />
+                    <button
+                            name="action_create_accounting_entry"
+                            type="object"
+                            string="Create Accounting Entries"
+                            icon="fa-gears"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('create_accounting_entry_ok','=',False)]}"
+                        />
+                    <button
+                            name="action_delete_accounting_entry"
+                            type="object"
+                            string="Delete Accounting Entries"
+                            icon="fa-eraser"
+                            class="oe_highlight"
+                            attrs="{'invisible':[('create_accounting_entry_ok','=',True)]}"
+                        />
+                    <field name="account_move_ids" />
+                </page>
+            </xpath>
+            <xpath
+                    expr="//field[@name='move_ids_without_package']/tree/field[@name='product_id']"
+                    position="after"
+                >
+                <field name="debit_usage_id" optional="hide" />
+                <field name="debit_account_id" optional="hide" />
+                <field name="credit_usage_id" optional="hide" />
+                <field name="credit_account_id" optional="hide" />
+                <field name="analytic_account_id" optional="hide" />
+                <field name="journal_id" invisible="1" />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="stock_picking_view_tree" model="ir.ui.view">
+    <field name="name">stock.picking - tree</field>
+    <field name="model">stock.picking</field>
+    <field name="inherit_id" ref="stock.vpicktree" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//tree/header" position="inside">
+                <button
+                        name="action_reload_accounting_setting"
+                        type="object"
+                        string="Reload Accounting Setting"
+                        class="oe_highlight"
+                        icon="fa-refresh"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+
+</odoo>
