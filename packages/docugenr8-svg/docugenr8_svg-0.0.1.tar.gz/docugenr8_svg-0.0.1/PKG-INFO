@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: docugenr8-svg
+Version: 0.0.1
+Summary: docugenr8-svg is a an add-on library that can read svg files.
+Author-email: Vladimir Jovanovic <vladimirjo@protonmail.com>
+License: MIT
+Keywords: docugenr8,core,PDF,image-integration,coordinate-system,text-formatting,python
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: check
+Requires-Dist: ruff; extra == "check"
+Requires-Dist: mypy; extra == "check"
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Provides-Extra: build
+Requires-Dist: build; extra == "build"
+Requires-Dist: setuptools; extra == "build"
+Requires-Dist: twine; extra == "build"
+Provides-Extra: dev
+Requires-Dist: docugenr8-svg[build,check,test]; extra == "dev"
+
+# docugenr8-svg Library
+
+docugenr8-svg is a an add-on library that can read svg files.

@@ -1,0 +1,16 @@
+
+[build]
+build
+setuptools
+twine
+
+[check]
+ruff
+mypy
+
+[dev]
+docugenr8-svg[build,check,test]
+
+[test]
+pytest
+pytest-cov
