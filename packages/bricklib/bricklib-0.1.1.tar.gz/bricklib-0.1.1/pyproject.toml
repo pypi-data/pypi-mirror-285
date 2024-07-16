@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "bricklib"
+version = "0.1.1"
+description = "Augment your Python objects with drop-in behaviours and signals"
+authors = ["zdeyn <zdeyn@zdeyn.com>"]
+readme = "README.md"
+repository = "https://github.com/zdeyn/bricklib"
+homepage = "https://github.com/zdeyn/bricklib"
+
+packages = [
+    { include = "bricklib", from = "." },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
