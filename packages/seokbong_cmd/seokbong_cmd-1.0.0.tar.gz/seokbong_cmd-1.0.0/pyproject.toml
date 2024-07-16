@@ -1,0 +1,25 @@
+[project]
+name = "seokbong_cmd"
+version = "1.0.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "tbongkim03", email = "tbongkim03@gmial.com"},
+]
+dependencies = [
+    "seokbong-add>=0.1.0",
+    "seokbong-mul>=0.1.0",
+    "seokbong-division>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+seokbong_cmd = 'seokbong_cmd.seokbong_cmd:call'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+HOMEPAGE = "https://github.com/tbongkim03/seokbong_cmd"
+ISSUES = "https://github.com/tbongkim03/seokbong_cmd/issues"
