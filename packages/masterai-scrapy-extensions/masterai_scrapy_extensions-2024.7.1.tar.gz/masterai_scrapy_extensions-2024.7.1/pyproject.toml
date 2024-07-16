@@ -1,0 +1,33 @@
+[project]
+name = "masterai-scrapy-extensions"
+version = "2024.7.1"
+description = "A Scrapy extension that report your log from your scraped data."
+authors = [
+    { name = "alexsuthree", email = "alexsuthree@gmail.com" },
+]
+dependencies = [
+    "scrapy>=2.11.2",
+    "build>=1.2.1",
+    "twine>=5.1.1",
+    "ipdb>=0.13.13",
+    "colorlog>=6.8.2",
+]
+requires-python = "==3.12.*"
+readme = "README.md"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.license]
+text = "MIT"
+
+[tool.pdm]
+distribution = false
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
