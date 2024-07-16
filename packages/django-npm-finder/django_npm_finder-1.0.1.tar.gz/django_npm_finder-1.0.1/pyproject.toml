@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "django-npm-finder"
+version = "1.0.1"
+description = 'A django staticfiles finder that supporting npm/yarn/pnpm'
+authors = [
+    "David Nugent <davidn@uniquode.io>",
+    "Kevin McCarthy <e@kevinmccarthy.org>",
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/deeprave/django-npm-finder"
+repository = "https://github.com/deeprave/django-npm-finder"
+documentation = "https://github.com/deeprave/django-npm-finder"
+packages = [
+    { include = "django_npm" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+keywords=[
+    "django",
+    "npm",
+    "finder",
+    "staticfiles",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+Django = ">=4.2"
+
+[tool.poetry.dev-dependencies]
+ruff = "^0.5.2"
+pre-commit = "^3.3.3"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
