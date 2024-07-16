@@ -1,0 +1,34 @@
+Metadata-Version: 2.1
+Name: mijoon_cmd
+Version: 0.2.0
+Summary: Default template for PDM package
+Author-email: Kimwonjoon <kimpass189@gmail.com>
+License: MIT
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: team-divide >=0.1.0
+Requires-Dist: team-mul >=0.1.0
+Requires-Dist: team-plus >=0.1.0
+
+# mijoon_cmd
+## install
+```
+$ pip install mijoon_cmd
+```
+
+## Usage
+```py
+from mijoon_cmd.cmd import p # 더하기
+from mijoon_cmd.cmd import m # 곱하기
+from mijoon_cmd.cmd import d # 나누기
+p()
+m()
+d()
+```
+
+## Dependencies
+```
+team_plus
+team_mul
+team_divide
+```
