@@ -1,0 +1,238 @@
+# Transaction
+
+## tx
+
+View transaction details and print decoded data.
+
+```
+peth > tx 0xa50588329b3b823f475e174399b21c66e04b3853c534496de58b46d06e8a432c
+From: 0x9b782Dd6355530aba172B0Cb83425EBF7E6dECB0
+To: 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+Method: function transfer(address to, uint256 value) returns (bool )
+Arguments:
+     to : 0x468b64f1928208cc2c49b61f34fe515f4ddc59fa
+     value : 250000000
+ERC20 Transfers:
+  USDC(0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48) sender->0x468B64f1928208CC2c49b61f34fE515f4ddC59FA 250000000
+```
+
+## tx_raw
+
+Print the raw Transaction data and Receipt data.
+
+```
+peth > tx_raw 0xa50588329b3b823f475e174399b21c66e04b3853c534496de58b46d06e8a432c
+Transaction:
+  blockHash :    0x3ae23a5c12918eed6bc2ff624b02ba71342532526cc9dad0ac1e6ba2627ef035
+  blockNumber :  19517571
+  from :         0x9b782Dd6355530aba172B0Cb83425EBF7E6dECB0
+  gas :  68637
+  gasPrice :     22585635097
+  maxFeePerGas :         31080637298
+  maxPriorityFeePerGas :         35858860
+  hash :         0xa50588329b3b823f475e174399b21c66e04b3853c534496de58b46d06e8a432c
+  input :        0xa9059cbb000000000000000000000000468b64f1928208cc2c49b61f34fe515f4ddc59fa000000000000000000000000000000000000000000000000000000000ee6b280
+  nonce :        5
+  to :   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+  transactionIndex :     135
+  value :        0
+  type :         0x2
+  accessList :   []
+  chainId :      0x1
+  v :    0
+  r :    0xb22ac193fbf43fb6e4ce973e02490ccbd84c7bbb928070c4df4457365c6121b2
+  s :    0x522b8c6e1edd212478472d5dad2ac41572701be383c715a555f6336aa651ec9d
+  yParity :      0x0
+Receipt:
+  blockHash :    0x3ae23a5c12918eed6bc2ff624b02ba71342532526cc9dad0ac1e6ba2627ef035
+  blockNumber :  19517571
+  contractAddress :      None
+  cumulativeGasUsed :    8926350
+  effectiveGasPrice :    22585635097
+  from :         0x9b782Dd6355530aba172B0Cb83425EBF7E6dECB0
+  gasUsed :      40360
+  logs :         [AttributeDict({'address': '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', 'topics': [HexBytes('0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'), HexBytes('0x0000000000000000000000009b782dd6355530aba172b0cb83425ebf7e6decb0'), HexBytes('0x000000000000000000000000468b64f1928208cc2c49b61f34fe515f4ddc59fa')], 'data': '0x000000000000000000000000000000000000000000000000000000000ee6b280', 'blockNumber': 19517571, 'transactionHash': HexBytes('0xa50588329b3b823f475e174399b21c66e04b3853c534496de58b46d06e8a432c'), 'transactionIndex': 135, 'blockHash': HexBytes('0x3ae23a5c12918eed6bc2ff624b02ba71342532526cc9dad0ac1e6ba2627ef035'), 'logIndex': 194, 'removed': False})]
+  logsBloom :    0x00000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000008000008000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000010000000000000004000010000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000004000
+  status :       1
+  to :   0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+  transactionHash :      0xa50588329b3b823f475e174399b21c66e04b3853c534496de58b46d06e8a432c
+  transactionIndex :     135
+  type :         0x2
+```
+
+## txs
+
+Print multiple transactions related to a certain address.
+
+```
+peth > txs 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48
+---- [1] 0xe7e0fe390354509cd08c9a0168536938600ddc552b3f7cb96030ebef62e75895 6082465 ----
+0x95ba4cf87d6723ad9c0db21737d862be80e93911 creates contract FiatTokenV2_1(0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48)
+---- [2] 0xf73f2dd1e79552c5e13e92b16ed0a3a59b9e28fd134d6759a4e8cfbf3385a3c6 6082473 ----
+0x95ba4cf87d6723ad9c0db21737d862be80e93911 -> FiatTokenV2_1(0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48) value 0
+Method: function changeAdmin(address arg0) returns ()
+Arguments:
+     arg0 : 0x69005ff70072c57547dc44ea975d85ea60e5b196
+---- [3] 0xe152b8a0d9e83ddaa0158d7ca9beb0636d66e53e9498e5deb5a25aa3a324fba7 6082473 ----
+0x95ba4cf87d6723ad9c0db21737d862be80e93911 -> FiatTokenV2_1(0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48) value 0
+Method: function initialize(string tokenName, string tokenSymbol, string tokenCurrency, uint8 tokenDecimals, address newMasterMinter, address newPauser, address newBlacklister, address newOwner) returns ()
+Arguments:
+     tokenName : USD//C
+     tokenSymbol : USDC
+     tokenCurrency : USD
+     tokenDecimals : 6
+     newMasterMinter : 0x1500a138523709ce66c8b9abe678abc1b6c5a7b7
+     newPauser : 0xe8e13e1b6d363c270ef3a5ab466ebad8326311bb
+     newBlacklister : 0x063d13783a0a2ce65b1ca00d9e897e6c8b1ec86b
+     newOwner : 0xa61e278899a8553d93d14eb19ba2791e05069e87
+     ...
+```
+
+Print the latest transactions.
+
+```
+peth > txs 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 2 desc
+---- [1] 0x9ee4118fb5e17fc31f3f29c6584e34c25e36e5ada5ad00b17fbc7d0fcccd8e67 19517675 ----
+0xe655b02a6ceba30e45567fa903685fe867cd3120 -> FiatTokenV2_1(0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48) value 0
+Method: function transfer(address to, uint256 value) returns (bool )
+Arguments:
+     to : 0x7b3fe4ee762c37fd98f5519f097537ced8a142c5
+     value : 750000000
+---- [2] 0xddf2682a313de0a0ff4d757d6fdae6a22b26dbd37290a30a52127ab5a69c2d69 19517675 ----
+0x28c6c06298d514db089934071355e5743bf21d60 -> FiatTokenV2_1(0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48) value 0
+Method: function transfer(address to, uint256 value) returns (bool )
+Arguments:
+     to : 0x37360d8142eec051d9bb31d5ebd6fab02d658c9b
+     value : 1053934201
+```
+
+## trace_tx
+
+Print the EVM trace of the transaction.
+
+Please note that only some relatively meaningful instructions are printed here, others such as PUSH, ADD, etc. are ignored, otherwise the trace would be too long.
+
+In addition, this function depends on [debug_traceTransaction](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracetransaction) which requires the RPC to enable the Debug API. 
+
+```
+$ peth --rpc-url http://<your geth rpc with debug api>   
+peth >  trace_tx 0x3e1dde3220f5a4cdda7a0190e0fe36952c893550e84256d003716f9cc49cd83b
+CALL 0x138dbff3ee829429ca4dc2a674cd2231ff8afc0b > 0xdac17f958d2ee523a2206206994597c13d831ec7 transfer()
+  EQ 0x6fdde03 == 0xa9059cbb
+  EQ 0x753c30c == 0xa9059cbb
+  EQ 0x95ea7b3 == 0xa9059cbb
+  EQ 0xe136b19 == 0xa9059cbb
+  EQ 0xecb93c0 == 0xa9059cbb
+  EQ 0x18160ddd == 0xa9059cbb
+  EQ 0x23b872dd == 0xa9059cbb
+  EQ 0x26976e3f == 0xa9059cbb
+  EQ 0x27e235e3 == 0xa9059cbb
+  EQ 0x313ce567 == 0xa9059cbb
+  EQ 0x35390714 == 0xa9059cbb
+  EQ 0x3eaaf86b == 0xa9059cbb
+  EQ 0x3f4ba83a == 0xa9059cbb
+  EQ 0x59bf1abe == 0xa9059cbb
+  EQ 0x5c658165 == 0xa9059cbb
+  EQ 0x5c975abb == 0xa9059cbb
+  EQ 0x70a08231 == 0xa9059cbb
+  EQ 0x8456cb59 == 0xa9059cbb
+  EQ 0x893d20e8 == 0xa9059cbb
+  EQ 0x8da5cb5b == 0xa9059cbb
+  EQ 0x95d89b41 == 0xa9059cbb
+  EQ 0xa9059cbb == 0xa9059cbb
+  SLOAD [0x0] => 0xc6cde7c39eb2f0f0095f41570af89efc2c1ea828
+  CALLER 0x138dbff3ee829429ca4dc2a674cd2231ff8afc0b
+  SHA3 0x000000000000000000000000138dbff3ee829429ca4dc2a674cd2231ff8afc0b0000000000000000000000000000000000000000000000000000000000000006 > 0xe0226a13c41ea23f3e20affcdd11db85d3012a37825847eade8b1b20f198642d
+  SLOAD [0xe0226a13c41ea23f3e20affcdd11db85d3012a37825847eade8b1b20f198642d] => 0x0
+  SLOAD [0xa] => 0x0
+  SLOAD [0x3] => 0x0
+  EQ 0x51101b10 == 0x0
+  EQ 0x0 == 0x0
+  SLOAD [0x4] => 0x0
+  CALLER 0x138dbff3ee829429ca4dc2a674cd2231ff8afc0b
+  SHA3 0x000000000000000000000000138dbff3ee829429ca4dc2a674cd2231ff8afc0b0000000000000000000000000000000000000000000000000000000000000002 > 0xea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2
+  SLOAD [0xea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2] => 0x51101b10
+  CALLER 0x138dbff3ee829429ca4dc2a674cd2231ff8afc0b
+  SHA3 0x000000000000000000000000138dbff3ee829429ca4dc2a674cd2231ff8afc0b0000000000000000000000000000000000000000000000000000000000000002 > 0xea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2
+  SSTORE [0xea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2] 0x0000000000000000000000000000000000000000000000000000000051101b10 <= 0x0
+  SHA3 0x0000000000000000000000009dfd543bc87a6e15d1fc126efdf201ac5cc8355c0000000000000000000000000000000000000000000000000000000000000002 > 0x10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f
+  SLOAD [0x10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f] => 0xb2a7bcc9325
+  SHA3 0x0000000000000000000000009dfd543bc87a6e15d1fc126efdf201ac5cc8355c0000000000000000000000000000000000000000000000000000000000000002 > 0x10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f
+  SSTORE [0x10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f] 0x00000000000000000000000000000000000000000000000000000b2a7bcc9325 <= 0xb2accdcae35
+  CALLER 0x138dbff3ee829429ca4dc2a674cd2231ff8afc0b
+  Event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef 3 topics 32 bytes data
+peth > 
+```
+
+## trace_call
+
+Simulate the transaction and print the EVM trace as `trace_tx` does.
+
+This relies on [debug_traceCall](https://geth.ethereum.org/docs/interacting-with-geth/rpc/ns-debug#debugtracecall), and also requires the RPC to enable the Debug API. 
+
+```
+peth > eth_call 0xdac17f958d2ee523a2206206994597c13d831ec7 0xa9059cbb000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000000000000000000000000000000002710 0xF977814e90dA44bFA03b6295A0616a897441aceC
+returns:
+0x
+
+peth > trace_call 0xdac17f958d2ee523a2206206994597c13d831ec7 0xa9059cbb000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000
+000000000000000000000000000000002710 0xF977814e90dA44bFA03b6295A0616a897441aceC
+CALL 0xf977814e90da44bfa03b6295a0616a897441acec > 0xdac17f958d2ee523a2206206994597c13d831ec7 transfer()
+  EQ 0x6fdde03 == 0xa9059cbb
+  EQ 0x753c30c == 0xa9059cbb
+  EQ 0x95ea7b3 == 0xa9059cbb
+  EQ 0xe136b19 == 0xa9059cbb
+  ....
+  SSTORE [0x6a26712a1b2f732f4c1fd85f9d6ed8235573aaa2a79aa2bab72c2423a73a9faf] 0x00000000000000000000000000000000000000000000000000000000287a4ca8 <= 0x287a73b8
+  CALLER 0xf977814e90da44bfa03b6295a0616a897441acec
+  Event 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef 3 topics 32 bytes data
+```
+
+## evm_trace_tx
+
+Simulate the transaction in a simple built-in EVM and print transaction trace. 
+Please note that the simulation results may differ from the actual results because: 
+    1. This simple EVM does not measure gas. 
+    2. It does not support precompile contracts. 
+    3. The transaction will be simulated in the block prior to the one it is in. 
+
+```
+peth > evm_trace_tx 0x3e1dde3220f5a4cdda7a0190e0fe36952c893550e84256d003716f9cc49cd83b
+[1-5370]   SLOAD                [0x0] => 0xc6cde7c39eb2f0f0095f41570af89efc2c1ea828                                                 
+[1-5455]   SHA3                 000000000000000000000000138dbff3ee829429ca4dc2a674cd2231ff8afc0b0000000000000000000000000000000000000000000000000000000000000006 => e0226a13c41ea23f3e20affcdd11db85d3012a37825847eade8b1b20f198642d
+[1-5459]   SLOAD                [0xe0226a13c41ea23f3e20affcdd11db85d3012a37825847eade8b1b20f198642d] => 0x0                         
+[1-5487]   SLOAD                [0xa] => 0x0                                                                                        
+[1-9922]   SLOAD                [0x3] => 0x0                                                                                        
+[1-9956]   SLOAD                [0x4] => 0x0                                                                                        
+[1-10057]  SHA3                 000000000000000000000000138dbff3ee829429ca4dc2a674cd2231ff8afc0b0000000000000000000000000000000000000000000000000000000000000002 => ea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2
+[1-10058]  SLOAD                [0xea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2] => 0x51101b10                  
+[1-10135]  SHA3                 000000000000000000000000138dbff3ee829429ca4dc2a674cd2231ff8afc0b0000000000000000000000000000000000000000000000000000000000000002 => ea039209bd83a7f24ceccd7f0e5a5a94de49a961c5a963efbd1a6d088c2849d2
+[1-10138]  SSTORE               0xdAC17F958D2ee523a2206206994597C13D831ec7[105847515027243004738223111774324159193299488367755976363922685335240752777682] = 0x0
+[1-10206]  SHA3                 0000000000000000000000009dfd543bc87a6e15d1fc126efdf201ac5cc8355c0000000000000000000000000000000000000000000000000000000000000002 => 10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f
+[1-10207]  SLOAD                [0x10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f] => 0xb2a7bcc9325               
+[1-10284]  SHA3                 0000000000000000000000009dfd543bc87a6e15d1fc126efdf201ac5cc8355c0000000000000000000000000000000000000000000000000000000000000002 => 10e0c52043da30cfc95e2ab36b7a3a506c6e5c45884edf3a773e65cfcb4e1b5f
+[1-10287]  SSTORE               0xdAC17F958D2ee523a2206206994597C13D831ec7[7634139833736913371177489221108128263355955228192439644917754002988222782303] = 0xb2accdcae35
+[1-10748]  LOG3                 log3 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef,0x138dbff3ee829429ca4dc2a674cd2231ff8afc0b,0x9dfd543bc87a6e15d1fc126efdf201ac5cc8355c 0000000000000000000000000000000000000000000000000000000051101b10
+```
+
+## evm_trace_call
+
+Simulate the transaction and print the EVM trace as `evm_trace_tx` does.
+```
+peth > evm_trace_call 0xdac17f958d2ee523a2206206994597c13d831ec7 0xa9059cbb000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000000000000000000000000000000002710 0xF977814e90dA44bFA03b6295A0616a897441aceC
+[1-5370]   SLOAD                [0x0] => 0xc6cde7c39eb2f0f0095f41570af89efc2c1ea828                                                 
+[1-5455]   SHA3                 000000000000000000000000f977814e90da44bfa03b6295a0616a897441acec0000000000000000000000000000000000000000000000000000000000000006 => daea8bd015a248c0934f48b5a4f6843891a74609aae5e9ab82e474bcb09dda52
+[1-5459]   SLOAD                [0xdaea8bd015a248c0934f48b5a4f6843891a74609aae5e9ab82e474bcb09dda52] => 0x0                         
+[1-5487]   SLOAD                [0xa] => 0x0                                                                                        
+[1-9922]   SLOAD                [0x3] => 0x0                                                                                        
+[1-9956]   SLOAD                [0x4] => 0x0                                                                                        
+[1-10057]  SHA3                 000000000000000000000000f977814e90da44bfa03b6295a0616a897441acec0000000000000000000000000000000000000000000000000000000000000002 => 0be16d71963429204d70543701f859c43526c316ac005c10114f4694ca405f36
+[1-10058]  SLOAD                [0xbe16d71963429204d70543701f859c43526c316ac005c10114f4694ca405f36] => 0xaa87bee538000              
+[1-10135]  SHA3                 000000000000000000000000f977814e90da44bfa03b6295a0616a897441acec0000000000000000000000000000000000000000000000000000000000000002 => 0be16d71963429204d70543701f859c43526c316ac005c10114f4694ca405f36
+[1-10138]  SSTORE               0xdac17f958d2ee523a2206206994597c13d831ec7[5373737276635141702492552203389591558520326902018227180554579176633808215862] = 0xaa87bee5358f0
+[1-10206]  SHA3                 000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000000000000000000000000000000000002 => 6a26712a1b2f732f4c1fd85f9d6ed8235573aaa2a79aa2bab72c2423a73a9faf
+[1-10207]  SLOAD                [0x6a26712a1b2f732f4c1fd85f9d6ed8235573aaa2a79aa2bab72c2423a73a9faf] => 0x287a4ca8                  
+[1-10284]  SHA3                 000000000000000000000000eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee0000000000000000000000000000000000000000000000000000000000000002 => 6a26712a1b2f732f4c1fd85f9d6ed8235573aaa2a79aa2bab72c2423a73a9faf
+[1-10287]  SSTORE               0xdac17f958d2ee523a2206206994597c13d831ec7[48013083170805714774496382090249254937812307080934975231686332112420340408239] = 0x287a73b8
+[1-10748]  LOG3                 log3 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef,0xf977814e90da44bfa03b6295a0616a897441acec,0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee 0000000000000000000000000000000000000000000000000000000000002710
+```
