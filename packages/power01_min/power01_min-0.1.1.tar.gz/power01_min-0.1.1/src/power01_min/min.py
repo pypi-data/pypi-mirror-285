@@ -1,0 +1,2 @@
+def minus():
+    print("minus")
