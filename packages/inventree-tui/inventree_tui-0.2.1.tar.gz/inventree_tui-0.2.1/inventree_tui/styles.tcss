@@ -1,0 +1,218 @@
+Input {
+  border: round #888888;
+  background: rgba(0,0,0,0.0);
+}
+
+Button {
+    width: 100%;
+}
+
+ErrorDialogScreen {
+  align: center middle;
+  background: rgba(0,0,0,0.0);
+}
+
+TabbedContent {
+  height: 1fr;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+TabPane {
+  padding-left: 1;
+  padding-right: 1;
+}
+
+#error-dialog {
+  background: $primary-background-darken-1;
+  max-width: 60%;
+  height: auto;
+  padding-left: 1;
+  padding-right: 1;
+  border: round $warning-lighten-3;
+}
+
+.button-bar > Button {
+  width: 1fr;
+}
+
+.button-bar > Static {
+  width: 1;
+}
+
+.button-bar {
+  height: auto;
+}
+
+#error-dialog Button {
+  margin-top: 1;
+}
+
+$red: red;
+$green: green
+
+.readonly {
+    color: $text-muted;
+}
+
+#transfer-items-table > .datatable--odd-row {
+  background: $primary-background-darken-1;
+}
+#transfer-items-table > .datatable--even-row {
+  background: $background;
+}
+
+#transfer-items-table:focus > .datatable--cursor {
+  background: $secondary-lighten-3;
+}
+
+#transfer-items-table > .datatable--cursor {
+  background: $secondary-darken-3;
+}
+
+#transfer-items-table {
+  width: 100%;
+}
+
+#row-edit-dialog {
+  background: $primary-background-darken-1;
+  max-width: 60%;
+  height: auto;
+  padding-left: 1;
+  padding-right: 1;
+  border: round $warning-lighten-3;
+}
+
+#row-edit-dialog > .input_row {
+  height: auto;
+  width: 100%;
+}
+
+
+#row-edit-dialog > .input_row > Label {
+  margin-right: 1;
+  padding-top: 1;
+  width: auto;
+}
+
+#row-edit-dialog > .input_row > Input {
+  background: rgba(0,0,0,0.0);
+  width: 1fr;
+  padding-left: 1;
+}
+
+#checkin-dialog {
+  background: $primary-background-darken-1;
+  max-width: 60%;
+  height: auto;
+  padding-left: 1;
+  padding-right: 1;
+  border: round $warning-lighten-3;
+}
+
+#checkin-dialog > .dialog-question {
+  margin-top:1;
+  margin-bottom:1;
+}
+
+RowEditScreen {
+  align: center middle;
+  background: rgba(0,0,0,0.0);
+}
+
+CheckInScreen {
+  align: center middle;
+  background: rgba(0,0,0,0.0);
+}
+
+#row-edit-dialog > .error-msg {
+  margin-bottom: 1;
+}
+
+.error-msg {
+  color: red;
+}
+
+.table-title {
+  padding-left: 1;
+  padding-right: 1;
+  border-left: round #888888;
+  border-top: round #888888;
+  border-right: round #888888;
+  border-bottom: solid #888888;
+  width: auto;
+}
+
+PartSearchTree {
+  height: 1fr;
+}
+
+AutoComplete {
+  height: auto;
+}
+
+Dropdown {
+  max-width: 32;
+  background: $primary-background;
+}
+
+InventreeScanner {
+  height: 3;
+}
+
+.autocomplete--highlight-match {
+  background: $primary-background;
+  color: $text;
+}
+
+.autocomplete {
+  background: $primary-background;
+}
+
+.autocomplete--selection-cursor {
+  background: $accent;
+}
+
+.autocomplete--highlight-match .autocomplete--selection-cursor {
+  background: red;
+}
+
+#footer {
+  padding-left: 1;
+  padding-right: 1;
+  height: 1;
+}
+
+Footer Static {
+  margin: 0;
+  padding: 0;
+  height: 1;
+  width: 10;
+  background: red;
+}
+
+StockOpsTab {
+  RadioSet {
+    layout: horizontal;
+  }
+}
+
+TransferItemsTab {
+  CheckboxSet {
+    layout: horizontal;
+  }
+}
+
+#adjust-dialog {
+  background: $background;
+  max-width: 60%;
+  height: auto;
+  padding-left: 1;
+  padding-right: 1;
+  border: round $accent-lighten-3;
+}
+
+ModalScreen {
+  align: center middle;
+  background: rgba(0,0,0,0.0);
+}
