@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: aliyunfile-cli
+Version: 1.0.0
+Summary: A simple cli tool for the sick aliyunfile
+Author: Han Yi <hanystudy@gmail.com>
+Maintainer: Han Yi <hanystudy@gmail.com>
+License: MIT License
+        
+        Copyright (c) [2024] [Han Yi]
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests ==2.32.3
+Requires-Dist: tqdm ==4.66.4
+
+# aliyunfile-cli(alyf)
+
+Usage:
+
+```
+alyf upload [-h] --file_path FILE_PATH --folder_id FOLDER_ID --group_id GROUP_ID --account_id ACCOUNT_ID --token TOKEN
+
+options:
+  -h, --help            show this help message and exit
+  --file_path FILE_PATH
+                        Path of local file to upload
+  --folder_id FOLDER_ID
+                        Target folder id, find after group from the url in browser address bar
+  --group_id GROUP_ID   Target group id, find after group id from the url in browser address bar, or can be root
+  --account_id ACCOUNT_ID
+                        Account id, find sub domain from the aliyunfile url
+  --token TOKEN         Token to access aliyunfile, find access token from token in the local storage
+```
