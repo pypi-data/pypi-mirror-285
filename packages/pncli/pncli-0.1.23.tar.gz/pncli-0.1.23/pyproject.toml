@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pncli"
+version = "0.1.23"
+description = ""
+authors = ["petnowbrian <brian.cho@petnow.io>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+pncli = "pncli.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+typer = "^0.12.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
