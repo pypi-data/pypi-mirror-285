@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "nestipy-config"
+version = "0.1.6"
+description = ""
+authors = ["tsiresymila <tsiresymila@gmail.com>"]
+readme = "README.md"
+packages = [{include = "nestipy_config", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.dev.dependencies]
+nestipy-cli = "0.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
