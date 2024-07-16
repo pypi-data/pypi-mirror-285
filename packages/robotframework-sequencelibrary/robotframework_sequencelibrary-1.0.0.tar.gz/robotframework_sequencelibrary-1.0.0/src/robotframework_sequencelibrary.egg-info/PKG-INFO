@@ -1,0 +1,117 @@
+Metadata-Version: 2.1
+Name: robotframework-sequencelibrary
+Version: 1.0.0
+Summary: Robot Framework library for running keywords in sequence.
+Author-email: Mauricio Gutiérrez <103621275+crsdet@users.noreply.github.com>
+License: MIT License
+        
+        Copyright (c) 2024 Mauricio Gutiérrez
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/crsdet/robotframework-sequencelibrary
+Project-URL: Issues, https://github.com/crsdet/robotframework-sequencelibrary/issues
+Project-URL: Source, https://github.com/crsdet/robotframework-sequencelibrary
+Project-URL: Documentation, https://crsdet.github.io/robotframework-sequencelibrary/
+Keywords: robotframework
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Framework :: Robot Framework :: Library
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Testing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: robotframework
+
+# RobotFramework-SequenceLibrary
+
+[![GitHub Actions status](https://github.com/crsdet/robotframework-sequencelibrary/actions/workflows/tests.yml/badge.svg)](https://github.com/crsdet/robotframework-sequencelibrary/actions) [![Version](https://img.shields.io/pypi/v/robotframework-sequencelibrary.svg?label=version)](https://pypi.python.org/pypi/robotframework-sequencelibrary) [![License](https://img.shields.io/pypi/l/robotframework-sequencelibrary.svg)](https://github.com/crsdet/robotframework-sequencelibrary/blob/main/LICENSE)
+
+**RobotFramework-SequenceLibrary** is a [Robot Framework](https://robotframework.org) library for running keywords in sequence. The purpose is to streamline the execution of common operations by providing a condensed syntax that allows users to perform tasks with fewer lines of code.
+
+## Installation
+
+You can install robotframework-sequencelibrary via [pip](https://pip.pypa.io/en/stable):
+
+~~~sh
+pip install robotframework-sequencelibrary
+~~~
+
+## Usage
+
+Documentation can be found at <https://crsdet.github.io/robotframework-sequencelibrary>.
+
+~~~robotframework
+*** Settings ***
+Library             SequenceLibrary
+
+
+*** Test Cases ***
+Test Generate Random Int And Set A Test Variable
+    ${num}                  Run Sequence
+    ...                     Random Int              18                      100
+    ...                     AND
+    ...                     Set Test Variable       $RANDOM_NUMBER
+    Variable Should Exist                           ${RANDOM_NUMBER}
+    Should Be Equal         ${num}                  ${RANDOM_NUMBER}
+
+Test Replace Last Returned Value
+    ${num}                  Run Sequence
+    ...                     Random Int              18                      100
+    ...                     AND
+    ...                     Set Test Variable       $RANDOM_NUMBER
+    ...                     AND
+    ...                     Evaluate                $_ + 10
+    ...                     AND
+    ...                     Set Test Variable       $RANDOM_NUMBER_PLUS_10
+    Variable Should Exist                           ${RANDOM_NUMBER}
+    Variable Should Exist                           ${RANDOM_NUMBER_PLUS_10}
+    Should Be Equal         ${RANDOM_NUMBER + 10}                           ${RANDOM_NUMBER_PLUS_10}
+    Should Be Equal         ${num}                  ${RANDOM_NUMBER_PLUS_10}
+
+Test Last Returned Value Remains If Previous Keyword Does Not Return A Value
+    ${num}                  Run Sequence
+    ...                     Random Int              18                      100
+    ...                     AND
+    ...                     Log
+    ...                     AND
+    ...                     Set Test Variable       $RANDOM_NUMBER
+    Variable Should Exist                           ${RANDOM_NUMBER}
+    Should Be Equal         ${num}                  ${RANDOM_NUMBER}
+
+~~~
+
+You can also specify a different separator or replace string:
+
+~~~robotframework
+*** Settings ***
+Library     SequenceLibrary    separator=${SEPARATOR}    replace=${REPLACE}
+
+
+*** Variables ***
+${SEPARATOR}    ->
+${REPLACE}      %
+~~~
+
+## License
+
+RobotFramework-SequenceLibrary is open source software provided under the [MIT License](https://github.com/crsdet/robotframework-sequencelibrary/blob/main/LICENSE).
