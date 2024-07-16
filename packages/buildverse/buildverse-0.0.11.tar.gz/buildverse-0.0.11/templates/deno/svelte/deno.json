@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "dev": "deno run -A --node-modules-dir npm:vite",
+    "build": "deno run -A --node-modules-dir npm:vite build --manifest manifest.json",
+    "preview": "deno run -A --node-modules-dir npm:vite preview"
+  },
+  "imports": {
+    "svelte": "./node_modules/svelte",
+    "1svelte/compiler": "./node_modules/svelte/compiler",
+    "svelte/internal": "./node_modules/svelte/internal",
+    "1svelte/internal/disclose-version": "https://esm.sh/svelte/src/runtime/internal/disclose-version/index.js"
+  }
+}
