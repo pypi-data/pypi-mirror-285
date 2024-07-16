@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: master_converter
+Version: 3.0.2
+Summary: A package for converting units
+Author-email: Spyridon Coryell <master_converter@protonmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 Spyridon Coryell
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+A Package for converting between a lot of units
+
+**Installing**
+
+To install just run the following command:
+
+```
+pip install master-converter
+```
+
+**Code Examples**
+
+```
+from master_converter import Length, Mass
+
+meters = Length.Inches(3).Inches_Meters()
+print(meters)
+
+long_tons = Mass.Milligrams(3).Milligrams_Long_Tons()
+print(long_tons)
+```
+
+Please don't hesitate to send me feedback by emailing me at master_converter@protonmail.com
