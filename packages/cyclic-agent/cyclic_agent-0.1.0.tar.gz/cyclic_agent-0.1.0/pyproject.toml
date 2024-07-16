@@ -1,0 +1,33 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "cyclic-agent"
+version = "0.1.0"
+description = "Build LLM powered, fully autonomous agents."
+authors = ["xingjianll <4396kevinliu@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.8.2"
+overrides = "^7.7.0"
+
+
+[tool.poetry.group.examples]
+optional = true
+
+[tool.poetry.group.examples.dependencies]
+bilibili-api-python = "^16.2.0"
+langchain = "^0.2.8"
+cohere = "^5.5.8"
+python-dotenv = "^1.0.1"
+
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+mypy = {git = "https://github.com/python/mypy.git", branch = "master"}
+pytest = "^8.2.2"
