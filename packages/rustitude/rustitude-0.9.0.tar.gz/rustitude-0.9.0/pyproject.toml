@@ -1,0 +1,39 @@
+[build-system]
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+module-name = "rustitude._rustitude"
+features = ["pyo3/extension-module"]
+manifest-path = "py-rustitude/Cargo.toml"
+
+[project]
+name = "rustitude"
+description = "Python bindings for the Rustitude library"
+readme = "README.md"
+version = "0.9.0"
+requires-python = ">=3.7"
+license = { file = "LICENSE" }
+keywords = ["physics", "math", "rust"]
+authors = [{ email = "dene@cmu.edu" }, { name = "Nathaniel Dene Hoffman" }]
+maintainers = [{ name = "Nathaniel Dene Hoffman", email = "dene@cmu.edu" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+]
+
+dependencies = ["uproot", "numpy", "iminuit", "scipy >= 1.14"]
+
+[project.urls]
+homepage = "https://github.com/denehoffman/rustitude"
+repository = "https://github.com/denehoffman/rustitude"
+changelog = "https://github.com/denehoffman/rustitude/blob/main/CHANGELOG.md"
+documentation = "https://rustitude.readthedocs.io/en/latest/"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.format]
+quote-style = "single"
+docstring-code-format = true
+preview = true

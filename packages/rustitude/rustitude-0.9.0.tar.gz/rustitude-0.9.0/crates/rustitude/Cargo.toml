@@ -1,0 +1,35 @@
+[package]
+name = "rustitude"
+version = { workspace = true }
+edition = { workspace = true }
+authors = { workspace = true }
+description = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license-file = "../../LICENSE"
+readme = "../../README.md"
+
+[dependencies]
+rustitude-core = { workspace = true }
+rustitude-gluex = { workspace = true, optional = true }
+
+[dev-dependencies]
+rand = { workspace = true }
+criterion = { workspace = true }
+num_cpus = { workspace = true }
+
+[[bench]]
+name = "kmatrix"
+harness = false
+
+[[bench]]
+name = "read_dataset"
+harness = false
+
+[features]
+default = ["gluex"]
+gluex = ["dep:rustitude-gluex"]
+float = ["rustitude-core/float", "rustitude-gluex/float"]
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--html-in-header", "./docs-header.html"]

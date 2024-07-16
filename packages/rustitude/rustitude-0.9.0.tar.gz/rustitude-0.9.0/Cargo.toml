@@ -1,0 +1,46 @@
+[workspace]
+members = ["crates/*", "py-rustitude"]
+resolver = "2"
+default-members = ["crates/*"]
+
+[workspace.package]
+version = "0.9.0"
+edition = "2021"
+authors = ["Nathaniel Dene Hoffman <dene@cmu.edu>"]
+description = "A library to create and operate models for particle physics amplitude analyses"
+repository = "https://github.com/denehoffman/rustitude/"
+homepage = "https://github.com/denehoffman/rustitude/"
+
+[workspace.dependencies]
+rustitude = { version = "0.9.0", path = "crates/rustitude", default-features = false }
+rustitude-core = { version = "4.1.0", path = "crates/rustitude-core", default-features = false }
+rustitude-gluex = { version = "0.4.7", path = "crates/rustitude-gluex", default-features = false }
+rayon = { version = "1.10.0" }
+approx = { version = "0.5.1", features = ["num-complex"] }
+nalgebra = "0.33.0"
+num = "0.4.3"
+num-complex = "0.4.6"
+num-traits = "0.2.19"
+parquet = "52.0.0"
+oxyroot = "0.1.24"
+itertools = "0.13.0"
+pyo3 = { version = "0.22.0", features = [
+  "num-complex",
+  "abi3-py37",
+  "py-clone",
+] }
+thiserror = "1.0.61"
+factorial = "0.4.0"
+sphrs = "0.2.2"
+criterion = "0.5.1"
+rand = "0.8.5"
+fastrand = "2.1.0"
+num_cpus = "1.16.0"
+dyn-clone = "1.0.17"
+tracing = "0.1.40"
+
+[profile.release]
+lto = true
+codegen-units = 1
+panic = "abort"
+debug = true

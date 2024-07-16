@@ -1,0 +1,36 @@
+[package]
+name = "rustitude-core"
+version = "4.1.0"
+edition = { workspace = true }
+authors = { workspace = true }
+description = { workspace = true }
+repository = { workspace = true }
+homepage = { workspace = true }
+license-file = "../../LICENSE"
+readme = "README.md"
+
+[dependencies]
+rayon = { workspace = true }
+approx = { workspace = true }
+nalgebra = { workspace = true }
+num = { workspace = true }
+num-complex = { workspace = true }
+num-traits = { workspace = true }
+parquet = { workspace = true }
+oxyroot = { workspace = true }
+itertools = { workspace = true }
+pyo3 = { workspace = true }
+thiserror = { workspace = true }
+dyn-clone = { workspace = true }
+tracing = { workspace = true }
+fastrand = { workspace = true }
+
+[features]
+default = []
+float = []
+
+[dev-dependencies]
+sphrs = { workspace = true }
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--html-in-header", "./docs-header.html"]

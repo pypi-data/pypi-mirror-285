@@ -1,0 +1,26 @@
+[package]
+name = "rustitude-gluex"
+version = "0.4.7"
+edition = { workspace = true }
+authors = { workspace = true }
+description = "GlueX Amplitudes for Rustitude"
+repository = { workspace = true }
+homepage = { workspace = true }
+license-file = "../../LICENSE"
+readme = "README.md"
+
+[dependencies]
+factorial = { workspace = true }
+nalgebra = { workspace = true }
+num-complex = { workspace = true }
+pyo3 = { workspace = true }
+rayon = { workspace = true }
+rustitude-core = { workspace = true }
+sphrs = { workspace = true }
+
+[features]
+default = []
+float = ["rustitude-core/float"]
+
+[package.metadata.docs.rs]
+rustdoc-args = ["--html-in-header", "./docs-header.html"]
