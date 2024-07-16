@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ibots-static-site-generator"
+description = "A site builder in python for the ibots website."
+version = "0.0.1"
+dependencies = [
+  "livereload",
+  "jinja2",
+  "markdown2",
+  "PyYAML",
+  "Pillow",
+  "wrapt>=1.16",
+  "flask>=3.0",
+  "requests>=2.32",
+  "aiopath",
+  "aioshutil"
+]
+requires-python = ">= 3.12"
+authors = [
+  {name = "Nicholas A. Del Grosso", email = "delgrosso.nick@gmail.com"},
+]
+readme = "README.md"
+
+[project.optional-dependencies]
+dev = ["pytest", "ipdb", "pytest-asyncio", "build"]

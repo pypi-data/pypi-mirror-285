@@ -1,0 +1,37 @@
+Metadata-Version: 2.1
+Name: ibots-static-site-generator
+Version: 0.0.1
+Summary: A site builder in python for the ibots website.
+Author-email: "Nicholas A. Del Grosso" <delgrosso.nick@gmail.com>
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: livereload
+Requires-Dist: jinja2
+Requires-Dist: markdown2
+Requires-Dist: PyYAML
+Requires-Dist: Pillow
+Requires-Dist: wrapt>=1.16
+Requires-Dist: flask>=3.0
+Requires-Dist: requests>=2.32
+Requires-Dist: aiopath
+Requires-Dist: aioshutil
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: ipdb; extra == "dev"
+Requires-Dist: pytest-asyncio; extra == "dev"
+Requires-Dist: build; extra == "dev"
+
+
+# iBOTS Static Site Generator
+
+This is the pipeline engine that builds our website. 
+
+```
+pip install .
+```
+
+```
+pytest
+```
+
+
