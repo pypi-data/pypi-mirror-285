@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: raydium_sdk
+Version: 2.1.3
+Summary: SDK for trading tokens on Solana's Raydium DEX
+Author: AceCrypto
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: base58 (>=2.1.1,<3.0.0)
+Requires-Dist: borsh-construct (>=0.1.0,<0.2.0)
+Requires-Dist: requests (>=2.32.2,<3.0.0)
+Requires-Dist: sol-instruct (>=1.0.4,<2.0.0)
+Requires-Dist: solana (>=0.34.0,<0.35.0)
+Requires-Dist: solders (>=0.21.0,<0.22.0)
+Requires-Dist: websockets (>=9.1,<10.0)
+Description-Content-Type: text/markdown
+
+# raydium_sdk
+
+SDK for trading tokens on Solana's Raydium DEX.
+
+## Features
+- **Buy tokens**
+- **Sell tokens** 
+- **Get token symbol**
+- **Get token balance** 
+- **Download and cache raydium liquidity pools** 
+- **Customizable compute limits and prices (gas fees)**
+- **Use custom RPC**
+
+## Installation 
+
+```bash
+pip install raydium-sdk
+``` 
+
+## Quick Start 
+
+```python
+from raydium_sdk import buy_token, sell_token
+from solana.rpc.api import Client, Keypair
+from solana.rpc.async_api import AsyncClient
+
+RPC = "https://api.mainnet-beta.solana.com" # Use an RPC provider like Helius, the official RPC has strict ratelimits
+
+async_solana_client = AsyncClient(RPC)
+solana_client = Client(RPC)
+
+keypair = Keypair.from_base58_string("your-private-key")
+
+buy_tx = buy_token(
+    solana_client, 
+    async_solana_client, 
+    "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm", # Token address
+    keypair,  
+    0.01, # SOL amount to buy
+    debug=True # Shows debug information
+) # Returns TXID if successful
+
+print("Buy TXID:", buy_tx)
+
+sell_tx = sell_token(
+    solana_client, 
+    async_solana_client, 
+    "EKpQGSJtjMFqKZ9KQanSqYXRcF8fBopzLHYxdM65zcjm", # Token address
+    keypair
+    None, # Amount of token to sell, sells all if not specified/None
+    debug=True, # Shows debug information
+) # Returns TXID if successful
+
+print("Sell TXID:", sell_tx)
+```
