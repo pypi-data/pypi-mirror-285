@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: landerslabutils
+Version: 0.0.1
+Summary: Landers Lab utilities for ALS compute project
+Home-page: https://github.com/albertobrusati/LandersLabUtils
+Download-URL: https://github.com/albertobrusati/LandersLabUtils/archive/refs/tags/v_01.tar.gz
+Author: alberto brusati
+Author-email: a.brusati@auxologico.it
+License: MIT
+Keywords: bioinformatic,molecular data,hail,genetics
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Description-Content-Type: text/markdown
+Requires-Dist: hail
+Requires-Dist: pandas
+Requires-Dist: bokeh
+
+LandersLab functions 
+
+
+Library overview 
+
+
+Functions: 
+
+
+
+* hail_init(): Initializes a Hail session with specific project and workspace settings. 
+
+* genetable_fromMT(): Filters a Hail MatrixTable by gene and variant type, then exports the results as a TSV file. 
+
+* singlesample_fromMT(): Filters a Hail MatrixTable for a single sample and exports the results as either a table or a VCF file. 
+
+* jointVCF_fromMT(): Filters a Hail MatrixTable by sample groups and exports the results as VCF files for each chromosome. 
+
+
+ 
+
+
+			For any doubt, please write to a.brusati@auxologico.it
