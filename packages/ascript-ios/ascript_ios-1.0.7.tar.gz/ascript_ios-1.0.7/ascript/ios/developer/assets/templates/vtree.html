@@ -1,0 +1,577 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>节点树 | AScript-IOS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="Webpixels">
+  <style>
+
+    .attr-title{
+      min-width: 100px;
+    }
+
+    @keyframes hidePreloader {
+      0% {
+        width: 100%;
+        height: 100%;
+      }
+
+      100% {
+        width: 0;
+        height: 0;
+      }
+    }
+
+    body>div.preloader {
+      position: fixed;
+      background: white;
+      width: 100%;
+      height: 100%;
+      z-index: 1071;
+      opacity: 0;
+      transition: opacity .5s ease;
+      overflow: hidden;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    body:not(.loaded)>div.preloader {
+      opacity: 1;
+    }
+
+    body:not(.loaded) {
+      overflow: hidden;
+    }
+
+    body.loaded>div.preloader {
+      animation: hidePreloader .5s linear .5s forwards;
+    }
+  </style>
+  <script>
+    window.addEventListener("load", function () {
+      setTimeout(function () {
+        document.querySelector('body').classList.add('loaded');
+      }, 300);
+    });
+  </script>
+  <!-- Favicon -->
+  <link rel="icon" href="./static/img/ico/favicon.png" type="image/png"><!-- Font Awesome -->
+  <link rel="stylesheet" href="./static/libs/quickwebsite/quick-website.css">
+  <!-- Docs CSS - used only for demo -->
+  <!-- <link rel="stylesheet" href="../docs/assets/css/docs.css"> -->
+  <!-- TreeView -->
+  <link href="./static/libs/treeview/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+  <link href="./static/libs/jquery-menu/jquery.contextMenu.min.css" rel="stylesheet" type="text/css">
+
+  <link rel="stylesheet" href="./static/libs/jquery-zTree/css/zTreeStyle.css" type="text/css">
+  <link rel="stylesheet" href="./static/css/viewtree/viewtree.css" type="text/css">
+
+  <!-- <script src="/web/popper.min.js" ></script>
+  <script src="/web/bootstrap.min.js" ></script> -->
+
+</head>
+
+<body style="width: 100%; height: 100vh; overflow: auto;">
+
+  <div id="sel_attr_fixer" class="sel_attr_fixer shadow-info" style="width: 50%;">
+      <div class="toast-header">
+        <strong id="sel_attr_fixer_title" class="mr-auto">inputType</strong>
+       
+        <button id="sel_attr_fixer_del" type="button" class="btn btn-xs btn-danger mr-2" data-dismiss="toast">
+          删除该属性
+        </button>
+        <button id="sel_attr_fixer_close" type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        <div class="input-group input-group-sm  mb-1">
+          <input id="sel_attr_fixer_value" type="text" class="form-control" placeholder="" aria-label=" with two button addons"
+            aria-describedby="button-addon4">
+          <div class="input-group-append">
+            <button id="sel_attr_fixer_submit" class="btn btn-sm btn-facebook" type="button"> <i data-feather="check"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+
+
+  <!-- <section class="p-0 m-0"> -->
+  <div style="width: 100%; height: 100%;display: flex; flex-direction: row;">
+    <div style="flex: 1; height: 100vh; overflow: auto;  padding: 0; display: flex; flex-direction: column;">
+
+      <nav id="" class="navbar navbar-expand-sm fixed-top navbar-shadow navbar-light bg-soft-white border-bottom"
+        id="navbar-main">
+
+        <img src="./static/img/ico/favicon.png" class="avatar rounded-circle" style="width: 30px; height: 30px;">
+
+        <a class="ml-3" href="./vtree.html">节点树工具-IOS</a>
+
+        <span class="node_loading ml-3 spinner-border spinner-border-sm text-primary hide" role="status" aria-hidden="true"></span>
+
+        <div class="ml-4">
+          <div class="input-group input-group-sm  ml-2"
+          title="是否包含系统控件.如果勾选,将只展示 主应用的控件,会加速检索速度.">
+          
+          <div class="input-group-prepend">
+            <div class="input-group-text">
+              <span>排除系统控件</span>
+              <!-- <input id="p_c_id" bind="p_i_id" type="checkbox" aria-label="Checkbox for following text input"> -->
+            </div>
+          </div>
+          <div class="input-group-append">
+            <span class="input-group-text"> <input id="a_mode_filter_system" type="checkbox" aria-label="..." ></span>
+          </div>
+        </div>
+        </div>
+        
+
+        
+        
+
+
+
+
+      </nav>
+
+
+      <div id="sel_result" style="display: none;">
+        <div class="alert alert-dark alert-flush" style="display: flex; flex-direction: row; " role="alert">
+          <button id="del_selector_res" type="button" class="btn btn-danger btn-icon-only" data-toggle="tooltip"
+            data-placement="bottom" title="删除筛选器">
+            <span class="btn-inner--icon">
+              <i data-feather="trash-2"></i>
+            </span>
+          </button>
+
+          <button id="del_selector_copy" type="button" class="btn btn-success btn-icon-only" data-toggle="tooltip"
+            data-placement="bottom" title="复制Selector">
+            <span class="btn-inner--icon">
+              <i data-feather="copy"></i>
+            </span>
+          </button>
+
+          <div class="ml-3" style="display: flex; flex-direction: column;">
+            <span id="current_sel" class="text-warning"></span>
+            <span id="current_sel_result_count">共找到3个符合条件的结果</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navbar nav -->
+      <div style="display: flex;flex-direction: row;  overflow: scroll; flex:1">
+        <div id="image_container" style="position: relative; width: 30%; height: 100%; background-color: beige;">
+            <div id="phoneimgView" class="img-view">
+              <img id="cellphoneScreen" class="cellphone-screen" style="width: 100%; height: 100%;">
+              <div class="right_bar">
+                <span><i class="bottom_bar_change" data-feather="move"></i></span>
+              </div>
+            </div>
+        </div>
+        
+        <div id="viewtree_contain" style="flex:1;overflow: auto; padding: 10px; padding-bottom: 20px;">
+          <ul id="treeDemo" class="ztree"></ul>
+        </div>
+
+      </div>
+
+      
+      
+
+    </div>
+    <div id="phoneimgview_board" class="phoneimgview_board shadow-dark-lg" style="width: 0%; height: 0%; display: none;">
+      <!-- <div style="height: 25px;" >x</div> -->
+      <div class="bottom_bar">
+        <span id="bottom_bar_change"><i class="bottom_bar_change" data-feather="maximize"></i></span>
+      </div>
+
+    </div>
+
+    <div id="attrView" class="attrView shadow-dark-lg">
+
+      <div class="attr_body p-2 bg-gradient-white">
+
+        <h6>· 属性检索
+        <span class="node_loading_attr ml-3 spinner-border spinner-border-sm text-primary" style="display: none" role="status" aria-hidden="true"></span>
+
+        </h6>
+
+
+        <div class="input-group  input-group-sm  mb-1" >
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">label</span>
+          </div>
+          <input id="p_i_label" type="text" class="p_attr_input form-control" >
+
+          <select id="p_m_label" class="form-control" style="min-width: 20%">
+              <option value="0">相同</option>
+              <option value="1">仅包含</option>
+            </select>
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_label" class=" btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+        </div>
+        <div class="input-group  input-group-sm  mb-1" >
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text" id="basic-addon1">value</span>
+          </div>
+          <input id="p_i_value" type="text" class="p_attr_input form-control" >
+          <select id="p_m_value" class="form-control" style="min-width: 20%">
+              <option value="0">相同</option>
+              <option value="1">仅包含</option>
+            </select>
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_value" class=" btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+
+        </div>
+        <div class="input-group input-group-sm mb-1" >
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">type</span>
+          </div>
+          <input id="p_i_type" type="text" class="p_attr_input form-control" >
+
+
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_type" class="btn btn-sm btn-facebook" type="checkbox"></span>
+
+          </div>
+
+        </div>
+        <div class="input-group input-group-sm mb-1" data-toggle="tooltip">
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">enabled</span>
+          </div>
+          <input id="p_i_enabled" type="text" class="p_attr_input form-control" placeholder=""
+            aria-label=" with two button addons" aria-describedby="button-addon4">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span>enabled</span>
+            </div>
+          </div>
+
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_enabled" class="btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+
+        </div>
+
+        <div class="input-group input-group-sm mb-1"  >
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">visible</span>
+          </div>
+          <input id="p_i_visible" type="text" class="p_attr_input form-control" placeholder=""
+            aria-label=" with two button addons" aria-describedby="button-addon4">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span>visible</span>
+            </div>
+          </div>
+
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_visible" class="btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+
+        </div>
+
+
+
+        <div class="input-group  input-group-sm mb-1" >
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">accessible</span>
+          </div>
+          <input id="p_i_accessible" type="text" class="p_attr_input form-control"
+            aria-describedby="button-addon4">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span>accessible</span>
+            </div>
+          </div>
+
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_accessible" class="btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+
+        </div>
+
+
+
+
+
+        <div class="input-group input-group-sm mb-1" >
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">index</span>
+          </div>
+          <input id="p_i_index" type="text" class="p_attr_input form-control" placeholder="" aria-label=" with two button addons"
+                 aria-describedby="button-addon4">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span>index</span>
+            </div>
+          </div>
+
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_index" class="btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+        </div>
+
+        <div class="input-group input-group-sm mb-1" style="margin-top:5px">
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">rect</span>
+          </div>
+          <input id="p_i_rect" type="text" class="p_attr_input form-control" placeholder="" aria-label=" with two button addons"
+            aria-describedby="button-addon4">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span>rect</span>
+            </div>
+          </div>
+        </div>
+
+        <h6 class="mt-2">· Xpath 检索</h6>
+
+        <div class="input-group input-group-sm mb-1">
+          <div class="input-group-prepend">
+            <span class="attr-title input-group-text">xpath</span>
+          </div>
+          <textarea id="p_i_xpath" type="text" class="p_attr_input form-control text-primary" style="min-height: 20vh; font-size: small;" ></textarea>
+
+          <div class="input-group-append">
+            <span class="input-group-text"> <input  id="p_add_xpath" class="btn btn-sm btn-facebook" type="checkbox"></span>
+          </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+        <h6 class="mt-2">· 追加动作</h6>
+
+        <div class="input-group input-group-sm mb-1 mr-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">点击</span>
+            </div>
+            <select id="p_i_click" class="form-control p_m_click" style="min-width: 20%">
+              <option value="0">无障碍点击</option>
+              <option value="1">坐标点击</option>
+            </select>
+            <div class="input-group-append">
+              <span class="input-group-text"> <input id="p_add_click" class="btn btn-sm btn-facebook" type="checkbox"></span>
+            </div>
+        </div>
+
+        <div class="input-group input-group-sm mb-1 mr-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">滑动</span>
+            </div>
+            <select id="p_i_scroll" class="form-control p_m_scroll" style="min-width: 20%">
+              <option value="visible">滑动至可显示</option>
+              <option value="left">左滑动</option>
+              <option value="right">右滑动</option>
+              <option value="up">上滑动</option>
+              <option value="down">下滑动</option>
+            </select>
+          <input id="p_m_scroll" type="text" class="form-control" value="1.0" placeholder="" aria-label=" with two button addons"
+              aria-describedby="button-addon4">
+            <div class="input-group-append">
+              <span class="input-group-text"> <input id="p_add_scroll" class="btn btn-sm btn-facebook" type="checkbox"></span>
+            </div>
+        </div>
+
+          <div class="input-group input-group-sm mb-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text">输入</span>
+            </div>
+
+            <input id="p_i_input" type="text" class="form-control p_attr_input" placeholder="" aria-label=" with two button addons"
+              aria-describedby="button-addon4">
+            <div class="input-group-append">
+              <span class="input-group-text"> <input id="p_add_input" class="btn btn-sm btn-facebook" type="checkbox"></span>
+            </div>
+          </div>
+
+
+
+        <!-- 展位 -->
+        <div class="input-group" style="visibility: hidden;">
+          <div class="input-group-prepend">
+            <button class="btn btn-sm btn-danger" type="button">
+              <i data-feather="x-octagon"></i> 关闭</button>
+          </div>
+          <textarea style="font-size:medium;" placeholder="勾选属性后,这里将自动生成代码" class="form-control text-primary"
+            aria-label="With textarea"></textarea>
+
+          <div class="input-group-append">
+            <div class="btn-group-vertical" role="group">
+              <button class="btn btn-sm btn-primary" type="button" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <span>查找一个</span><i data-feather="chevron-down"></i> </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">查找一个</a>
+                <a class="dropdown-item" href="#">查找全部</a>
+              </div>
+
+              <button class="btn btn-sm btn-danger" type="button">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <i data-feather="search"></i>测试</button>
+
+              <button class="btn btn-sm btn-success" type="button"> <i data-feather="copy"></i>
+                复制</button>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+      </div>
+      <div class="attr_footer shadow-dark-lg  bg-white">
+
+        <div class="input-group">
+          <div class="input-group-append">
+            <button id="p_b_clear" class="btn btn-sm btn-soft-danger" style="border-radius: 0px;" type="button">
+              重置 <i data-feather="x"></i> </button>
+
+          </div>
+
+          <div id="code_container" class="form-control" style="border: none;">
+
+          </div>
+
+          <div class="input-group-append">
+            <div class="btn-group-vertical">
+              <button id="p_b_findtype" class="btn btn-sm btn-warning" style="border-radius: 0px;" type="button"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span id="p_b_findtype_des">查找一个</span><i data-feather="chevron-down"></i>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a id="p_find_one" class="dropdown-item" href="#">查找一个</a>
+                <a id="p_find_all" class="dropdown-item" href="#">查找全部</a>
+              </div>
+
+              <button id="p_b_try" class="btn btn-sm btn-primary" type="button">
+                <span class="node_loading spinner-border spinner-border-sm hide" role="status" aria-hidden="true"></span>
+                <i data-feather="search"></i> 测试</button>
+
+              <button id="p_b_copy" class="btn btn-sm btn-success" style="margin-left: 0.1px; border-radius: 0px;"
+                type="button">
+                <i data-feather="copy"></i> 复制</button>
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+    </div>
+
+
+
+  </div>
+
+
+
+  <div id="con_tools_bar" class="con_tools_bar" style="position: absolute; bottom: 0; width: 100%;">
+
+    <span class="badge badge-secondary viewtree_toolsbar_item" data-toggle="tooltip" data-placement="bottom"
+      title="控件总数">
+      <i data-feather="pie-chart"></i> <span id="header_total_number"></span>
+    </span>
+
+
+    <span class="badge badge-secondary viewtree_toolsbar_item" data-toggle="tooltip" data-placement="bottom"
+      title="当前控件中心坐标">
+      <i data-feather="mouse-pointer"></i><span id="header_viewcenter"></span>
+    </span>
+
+    <span id="attr_close_tip" style="display: none; color: red;" class="badge badge-secondary viewtree_toolsbar_item" data-toggle="tooltip" data-placement="bottom"
+      title="">
+      Esc关闭属性面板
+    </span>
+
+  </div>
+
+  
+
+  <!-- toast -->
+  <!-- <div class="alert alert-success position-fixed bottom-0 end-0 p-3 right-3 shadow-lg" style="z-index: 10000;">
+      <span class="badge badge-white">
+          New
+      </span>
+        <span class="alert-content">E-commerce module, new app pages and features</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> -->
+
+  <!-- <div id="alert" class="alert alert-warning alert-dismissible fade hide  position-fixed bottom-0 end-0 p-3 right-3 shadow-lg" style="z-index: 10000;" role="alert">
+        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div> -->
+
+  <!-- Modal -->
+
+
+  <!-- </section> -->
+
+<!--  <script src="../js/utils/baseurl.js"></script>-->
+  <script src="./static/js/utils/map.js"></script>
+  <script src="./static/libs/jquery/jquery.min.js"></script>
+  <script src="./static/libs/jquery-menu/jquery.contextMenu.js"></script>
+  <script src="./static/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="./static/libs/feather-icons/dist/feather.min.js"></script>
+
+<!--  <script src="./static/libs/websocket/reconnecting-websocket.js"></script>-->
+<!--  <script src="../assets/libs/websocket/reconnecting-websocket.min.js"></script>-->
+
+  <!-- Quick JS -->
+  <script src="./static/libs/quickwebsite/quick-website.js"></script>
+  <script type="text/javascript" src="./static/libs/jquery-zTree/js/jquery.ztree.all.min.js"></script>
+
+
+  <!--为了方便开发我引入了bootstrap和jQuery 但它们和本项目没有任何必须依赖关系。
+  你可以自己布局 也可以使用原生JavaScript操作-->
+
+  <script src="./static/js/viewtree/vtree.js"></script>
+  <script>
+    feather.replace({
+      'width': '1em',
+      'height': '1em'
+    })
+  </script>
+</body>
+
+</html>

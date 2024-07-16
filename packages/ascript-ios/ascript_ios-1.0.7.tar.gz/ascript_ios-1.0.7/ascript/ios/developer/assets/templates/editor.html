@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Webpixels">
+    <title>AScript-编辑器</title>
+    <!-- Preloader -->
+    <style>
+        @keyframes hidePreloader {
+            0% {
+                width: 100%;
+                height: 100%;
+            }
+
+            100% {
+                width: 0;
+                height: 0;
+            }
+        }
+
+        body>div.preloader {
+            position: fixed;
+            background: white;
+            width: 100%;
+            height: 100%;
+            z-index: 1071;
+            opacity: 0;
+            transition: opacity .5s ease;
+            overflow: hidden;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        body:not(.loaded)>div.preloader {
+            opacity: 1;
+        }
+
+        body:not(.loaded) {
+            overflow: hidden;
+        }
+
+        body.loaded>div.preloader {
+            animation: hidePreloader .5s linear .5s forwards;
+        }
+    </style>
+    <script>
+        window.addEventListener("load", function () {
+            setTimeout(function () {
+                document.querySelector('body').classList.add('loaded');
+            }, 300);
+        });
+    </script>
+    <!-- Favicon -->
+    <link rel="icon" href="static/img/ico/favicon.png" type="image/png"><!-- Font Awesome -->
+    <!-- <link rel="stylesheet" href="../assets/libs/@fortawesome/fontawesome-free/css/all.min.css"> -->
+    <!-- Quick CSS -->
+    <link rel="stylesheet" href="static/libs/quickwebsite/quick-website.css">
+    <!-- Docs CSS - used only for demo -->
+    <!-- <link rel="stylesheet" href="../docs/assets/css/docs.css"> -->
+    <!-- TreeView -->
+    <link href="static/libs/treeview/css/jquery.treeview.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/editor/editor.css" rel="stylesheet" type="text/css" />
+    <link href="static/libs/jquery-menu/jquery.contextMenu.min.css" rel="stylesheet" type="text/css">
+
+
+</head>
+
+<!-- modules_item -->
+
+<body style="height: 100vh; width: 100vw;display: flex; flex-flow:column nowrap; overflow:hidden;">
+
+    <div id="codehepler" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="codehelper" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title h6">技术支持</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="py-3 text-center">
+                        <img class="align-center" src="https://airscript.oss-cn-hangzhou.aliyuncs.com/res/img/q_group.jpg" style="width:300px;height:auto">
+                        <p>
+                            产品技术可行性、Bug解决、技术难题、代码逻辑点帮写
+                        </p>
+                    </div>
+                    <!-- <div class="pb-4 pr-4 pl-4 text-center">
+                        <img src="assets/img/air/we_chart.png" style="width:300px">
+                        <h2 class="heading mt-4">AirScript 人工服务</h2>
+                        <p>
+                             如果您有任何关于 AirScript 软件 的使用问题可以添加我们的工作人员. 我们会在每天 9:00 -18:00 为您解决相应问题.
+                        </p>
+                        <p>
+                            <em class="text-muted">用微信 ‘扫一扫’添加</em>
+                        </p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal_theme" tabindex="-1" role="dialog" aria-labelledby="codehelper" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h5 class="modal-title h6" id="modal_title_6">主题与字体</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="input-group input-group-sm mt-1">
+
+                        
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">主题</span>
+                            <!-- <span id="choose_colors_item_color_1" class="input-group-text" style="background-color: aqua;"></span> -->
+                        </div>
+                          <select id="editor_theme" class="custom-select custom-select-sm ">
+                            <option>vs</option>
+                            <option>vs-dark</option>
+                            <option>hc-black</option>
+                          </select>
+                    </div>
+
+                    <div class="input-group input-group-sm mt-1">
+
+                        
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">字号</span>
+                            <!-- <span id="choose_colors_item_color_1" class="input-group-text" style="background-color: aqua;"></span> -->
+                        </div>
+                          <select id="editor_font_size" class="custom-select custom-select-sm ">
+                            <option>10px</option>
+                            <option>11px</option>
+                            <option>12px</option>
+                            <option>13px</option>
+                            <option>14px</option>
+                            <option>15px</option>
+                            <option>16px</option>
+                            <option>17px</option>
+                            <option>18px</option>
+                            <option>19px</option>
+                            <option>20px</option>
+                            <option>21px</option>
+                            <option>22px</option>
+                            <option>23px</option>
+                            <option>24px</option>
+                            <option>25px</option>
+                            <option>26px</option>
+                            <option>27px</option>
+                            <option>28px</option>
+                            <option>29px</option>
+                            <option>30px</option>
+                          </select>
+                    </div>
+
+                      
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:none">
+        <!-- 工程模版 -->
+        <div class="col mb-n4 pl-4 pr-4" id="model_item">
+            <div class="card hover-shadow-xl shadow-light-lg w-100 border-0" style="cursor: pointer;">
+                <div class="p-3 d-flex">
+                    <div>
+                        <span id="model_item_name" class="h6">Test</span>
+                        <span id="model_item_length" class="badge text-wrap font-italic small">123</span>
+                        <p class="text-sm text-muted mb-0">
+                            <span id="model_item_time" class="text-black-50 small">2022</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- pip 模版 -->
+        <div id="pip_item" class="card shadow-none m-2 hover-shadow-2xl pointer-event">
+            <div class="d-flex p-2 pl-3">
+                <span  class="pip_itemname" style="font-size: 15px;"> 300+</span>
+            </div>
+        </div>
+
+        <!-- 文件头模版 -->
+        <span id="filepannel_item" class="con_file_title_board_item">
+            <img src="static/libs/treeview/img/py.png"> <spn id="filepannel_item_nosave" style="display: none;">*</spn> <span id="filepannel_item_name">123.py</span> <i
+                class="con_file_title_board_item_i" data-feather="x"></i>
+        </span>
+
+        <!-- 文件file条目 模版 -->
+        <li id="file_list_item_model" class = 'file'><span id="file_list_item_model_type" class=''><a id="file_list_item_model_name" href='javascript:void(0)' style='font-size:small'>123</a></span></li>
+
+        <!-- 文件上传 -->
+        <input type="file" id="fileupload" accept-charset="utf-8" name="avatar" hidden>
+
+    </div>
+    
+
+    <!-- 创建dialog -->
+    <div class="modal fade" id="create_model_dialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="model_input_title">创建新工程</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input id="input_model_name" type="text" class="form-control is-valid" placeholder="工程名称">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" id="btn_create_model_mksure" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal_ui_templete" class="modal fade docs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+      
+            <div class="modal-header">
+              <h5 class="modal-title h6" id="myExtraLargeModalLabel">UI 模版</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body p-0 m-0 pl-3 pr-3" style="height: 70vh; width: 100%; overflow: scroll;">
+
+                <div class="row row-cols-6">
+                    <div class="row-cols-md-1  text-center pt-3 ui-template hover-shadow-lg"  >    
+                        <img  src="https://airscript.oss-cn-hangzhou.aliyuncs.com/res/img/doc/doc_module_search.jpg" style="height: 40vh; width: auto;" >
+                        <div class="">单页配置模版</div>
+                    </div>
+                    <div class="row-cols-md-1  text-center pt-3 ui-template hover-shadow-lg"  >    
+                        <img  src="https://airscript.oss-cn-hangzhou.aliyuncs.com/res/img/doc/doc_module_search.jpg" style="height: 40vh; width: auto;" >
+                        <div class="">多标签页配置模版</div>
+                    </div>
+
+                    <div class="row-cols-md-1  text-center pt-3 ui-template hover-shadow-lg"  >    
+                        <img  src="https://airscript.oss-cn-hangzhou.aliyuncs.com/res/img/doc/doc_module_search.jpg" style="height: 40vh; width: auto;" >
+                        <div class="">悬浮窗模版</div>
+                    </div>
+
+                    <div class="row-cols-md-1  text-center pt-3 ui-template hover-shadow-lg"  >    
+                        <img  src="https://airscript.oss-cn-hangzhou.aliyuncs.com/res/img/doc/doc_module_search.jpg" style="height: 40vh; width: auto;" >
+                        <div class="">悬浮按钮模版</div>
+                    </div>
+
+                    
+
+
+                </div>
+
+               
+            </div>
+            <div class="modal-footer">
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- 警告弹框 -->
+    <div class="modal modal-danger fade" id="model_warning" tabindex="-1" role="dialog" aria-labelledby="modal_5"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6">This is way to dangerous</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="py-3 text-center">
+                        <i class="fas fa-exclamation-circle fa-4x"></i>
+                        <h5 class="heading h4 mt-4" id="modal_content_waring">Should we stop now?</h5>
+                        <p id="modal_des_waring">
+                            You can easy create stackable modal boxes. For example, your inline content or Ajax response
+                            can contain a gallery:
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modal_sure_waring" class="btn btn-sm btn-white"
+                        data-dismiss="modal">Probably not</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 创建dialog -->
+    <div class="modal fade" id="modal_quick_key" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6" id="modal_title_waring">快捷按键</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">功能</th>
+                        <th scope="col">Windows</th>
+                        <th scope="col">Mac</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <th scope="row">1</th>
+                        <td>保存</td>
+                        <td>ctrl+s</td>
+                        <td>command+s</td>
+                        </tr>
+                        <tr>
+                        <th scope="row">2</th>
+                        <td>注释</td>
+                        <td>ctrl+/</td>
+                        <td>command+/</td>
+                        </tr>
+                    </tbody>
+                    </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav -->
+    <nav style="height: 8vh;" class="navbar navbar-expand-sm fixed-top navbar-shadow navbar-light bg-white border-bottom  "
+        id="navbar-main"  >
+        <div class="container-fluid justify-content-between">
+            <!-- User's navbar -->
+            <div class="navbar-user d-lg-none">
+                <ul class="navbar-nav flex-row align-items-center">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link nav-link-icon sidenav-toggler" data-action="sidenav-pin"
+                            data-target="#sidenav-main"><i data-feather="menu"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Navbar brand -->
+            <a class="navbar-brand" href="/ioslibs/ascript/ascript/ios/developer/assets/templates/static">
+                <img alt="Image placeholder" src="static/img/ico/favicon.png" id="navbar-logo">
+                <sup class="text-muted text-xs text-uppercase">AScript-IOS</sup>
+            </a>
+            <!-- Live preview -->
+            <ul class="navbar-nav flex-row align-items-center d-lg-none">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link nav-link-icon"><i data-feather="eye"></i></a>
+                </li>
+            </ul>
+            <!-- Navbar nav -->
+            <div class="collapse navbar-collapse" id="navbar-main-collapse">
+                <!-- Right menu -->
+                <ul class="navbar-nav align-items-center mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.ascript.cn"><i  data-feather="home"></i>官网</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="modules.html"><i data-feather="package"></i>工程</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://py.airscript.cn"><i  data-feather="codepen"></i>开发后台</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="https://github.com/webpixels/quick-website-ui-kit-demo/issues" target="_blank">OCR</a>
+                    </li> -->
+                </ul>
+            </div>
+            <a id="btn_codehelper" class="btn btn-sm btn-soft-success ml-4 btn-icon d-none d-lg-inline-flex" data-toggle="modal" data-target="#codehelper">
+                <span class="btn-inner--icon"><i data-feather="headphones"></i></span>
+                <span class="btn-inner--text">技术咨询</span>
+            </a>
+            <a href="http://ascript.cn/docs/ios/intro" target="_blank" class="btn btn-sm btn-primary ml-4 btn-icon d-none d-lg-inline-flex">
+                <span class="btn-inner--icon"><i data-feather="book-open"></i></span>
+                <span class="btn-inner--text">API文档</span>
+            </a>
+        </div>
+    </nav>
+
+    <div style=" height: 87vh; position: relative; width: 100%">
+        <div style="display: flex; white-space: nowrap;height: 100%; position: absolute; width: 100%;">
+            <div class="filelist_board">
+                <div class="left_menu" style="width: 70px;height:100%; background-color: #f7f7f7;">
+                    <div>
+                        <div id="btn_board_files" class="file_nav_hover text-black-50">
+                            <i class="file_nav_ico" data-feather="code"></i>
+                            <span>编辑</span>
+                        </div>
+                        <div class="line"></div>
+                        <div id="btn_board_modules" class="file_nav text-black-50">
+                            <img  style="width: 25px;">
+                            <span>Pip</span>
+                        </div>
+                    </div>
+                    <div>
+
+                        <div id="btn_board_theme" class="file_nav_quickbtn mb-3">
+                            <!-- <object data="/website/assets/img/mipmap/keyboard.svg" style="size: 20px;"></object> -->
+                            <!-- <span class="svg_keyboard" ></span> -->
+                            <img src="static/img/ico/ico_theme.svg" data-toggle="tooltip" data-placement="right" title="主题与字体" style="width: 30px;">
+                            <!-- <span>快捷键</span> -->
+                        </div>
+                        
+                        <div id="btn_board_quick" class="file_nav_quickbtn mb-3">
+                            <!-- <object data="/website/assets/img/mipmap/keyboard.svg" style="size: 20px;"></object> -->
+                            <!-- <span class="svg_keyboard" ></span> -->
+                            <img src="static/img/ico/keyboard.svg" data-toggle="tooltip" data-placement="right" title="快捷键" style="width: 30px;">
+                            <!-- <span>快捷键</span> -->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="pannel_list">
+                    <div id="con_moudule_files" style="height: 100%; position: relative;">
+                        <div class="module_files_title" >
+                            <div class="module_files_title_namecon">
+                                <i class="module_files_title_namecon_i" data-feather="book"></i>
+                                <span class="module_files_title_namecon_name">--</span>
+                            </div>
+                            <div class="module_files_title_board">
+                                <div class="module_files_title_board_filecount">
+                                    <span>文件</span>(<span id="module_file_counts">-</span>)
+                                </div>
+                                <div>
+                                    <div class="btn-group-sm">
+                                        <i class="file_refresh module_files_title_board_i mr-1" data-feather="refresh-ccw" ></i>
+                                        <i class="module_files_title_board_i dropdown-toggle" data-feather="plus" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ></i>
+                                        
+                                        <div class="dropdown-menu">
+                                            <a id="root_create_newfile" class="dropdown-item" href="#"><i data-feather="file-plus"></i>新建文件</a>
+                                            <a id="root_create_newfolder" class="dropdown-item" href="#"><i data-feather="folder-plus"></i>新建文件夹</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a id="root_create_upload" class="dropdown-item" href="#"><i data-feather="upload"></i>上传文件</a>
+                                            <div class="dropdown-divider"></div>
+                                            <a id="root_create_finder" class="dropdown-item" href="#"><i data-feather="folder"></i>在文件夹打开</a>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div style="padding-left: 10px; padding-right: 10px;">
+                            <div class="line"></div>
+                        </div>
+                        
+
+                        <div style="position: absolute;height: 100%; width: 100%; overflow: scroll; padding-bottom: 67px;"  >
+                            <ul id="module_files" class="filetree" ></ul>
+                        </div>
+                        
+                    </div>
+
+                    <div style="height: 100%; width: 100%; display:none; " id="models">
+                        <div class="module_pip_title" >
+                            
+                            <div class="module_pip_add_contain">
+                                <button id="add_newlib" type="button" class="btn btn-sm btn-slack btn-icon-label center mt-2 mb-2">
+                                    <span class="btn-inner--icon">
+                                        <i data-feather="plus"></i>
+                                    </span>
+                                    <span class="btn-inner--text">添加库</span>
+                                </button>
+                            </div>
+
+                            <div class="module_files_title_board">
+                                <div class="module_files_title_board_filecount">
+                                    <span>已安装</span>
+                                </div>
+                                <div>
+                                    <span id="pip_package_count" style="font-size: 10px;" class = "badge badge-secondary badge-pill" >-</span>
+                                </div>
+                            </div>
+
+                            
+                            
+                        </div>
+
+                        <div style="padding-left: 10px; padding-right: 10px;" class="mt-1">
+                            <div class="line"></div>
+                        </div>
+
+                        <div style="height: 100%; width: 100%; overflow: scroll; padding-bottom: 67px;"  >
+                           <div id="pip_packages" >
+                                
+                           </div>
+
+                        </div>
+
+                        <!-- <div class="card">123</div>
+                        <div class="card">123</div> -->
+                    </div>
+                </div>
+            </div>
+
+            <div style="width: 100%; height: 100%; display: flex; flex-direction: column;;">
+                <div class="con_tools_bar">
+
+                    <div id="toolbar_save" data-toggle="tooltip" data-placement="top" title="保存">
+                        <i class="con_tools_bar_i" data-feather="save"></i>
+                    </div>
+                    <span class="line_v"></span>
+
+                    <div data-toggle="tooltip" data-placement="top" title="虚拟环境">
+                        <select  id="toolbar_venvs" class="custom-select custom-select-sm" style="margin:0; padding-top: 2px;padding-bottom: 2px; height: 80%">
+
+                        </select>
+                    </div>
+
+                    <div data-toggle="tooltip" data-placement="top" title="设备">
+                        <select  id="toolbar_devices" class="custom-select custom-select-sm" style="margin:0; padding-top: 2px;padding-bottom: 2px; height: 80%">
+
+                        </select>
+                    </div>
+
+                    <div id="toolbar_run" data-toggle="tooltip" data-placement="top" title="运行">
+                        <i class="con_tools_bar_i" data-feather="play"></i>
+                    </div>
+
+                    <div id="toolbar_stop" data-toggle="tooltip" data-placement="top" title="停止">
+                        <i class="con_tools_bar_i" data-feather="pause"></i>
+                    </div>
+                    <span class="line_v"></span>
+
+                    <div  id="toolbar_viewtree"  data-toggle="tooltip" data-placement="top" title="控件检索">
+                        <i class="con_tools_bar_i" data-feather="git-merge"></i>
+                    </div> 
+
+                    <div id="toolbar_screen"  data-toggle="tooltip" data-placement="top" title="图色检索">
+                        <i class="con_tools_bar_i" data-feather="image" ></i>
+                        <!-- <i class="con_tools_bar_i dropdown-toggle" data-feather="image" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ></i> -->
+                            <!-- <div class="dropdown-menu">
+                                <a class="dropdown-item" href="./screen.html" target="_blank"><i data-feather="layers"></i>图形识别·new</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="./screen.html?plug=FindImages" target="_blank"><i data-feather="image"></i>找图</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="./screen.html?plug=Ocr" target="_blank"><i data-feather="type" ></i>文字识别</a>
+                                <div class="dropdown-divider"></div>
+                                <a  class="dropdown-item" href="./screen.html?plug=FindColors" target="_blank"><i data-feather="maximize" ></i>多点找色</a>
+                                <a  class="dropdown-item" href="./colors.html?type=1" target="_blank"><i data-feather="maximize" ></i>多点比色</a>
+                            </div> -->
+                    </div>
+
+                    <div id=""  data-toggle="tooltip" data-placement="top" title="yolo目标检测">
+                        <i class="con_tools_bar_i dropdown-toggle" data-feather="slack" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ></i>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="./label.html" target="_blank"><i data-feather="edit-2"></i>标注训练</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="http://card.nspirit.cn/mlist.html" target="_blank"><i data-feather="archive" ></i>模型库</a>
+            
+                            </div>
+                    </div>
+
+                   
+                    <span class="line_v"></span>
+
+                    <div  id="toolbar_ui_gen"  data-toggle="tooltip" data-placement="top" title="UI生成器">
+                        <i class="con_tools_bar_i" data-feather="trello"></i>
+                    </div> 
+                    
+
+                    <div  id="toolbar_plug_center"  data-toggle="tooltip" data-placement="top" title="插件中心">
+                        <i class="con_tools_bar_i" data-feather="cpu"></i>
+                    </div> 
+
+                    <span class="line_v"></span>
+
+
+                    <div data-toggle="tooltip" data-placement="top" title="导包上传">
+                        <i class="con_tools_bar_i" dropdown-toggle data-feather="package" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+                        <div class="dropdown-menu">
+                            <a id="toolbar_export" class="dropdown-item" href="#" target="_blank"><i data-feather="package"></i>导包为小程序</a>
+                            <a class="dropdown-item" href="http://py.airscript.cn/admin/apply/list/create" target="load"><i data-feather="cloud" ></i>上传小程序</a>
+                            <div class="dropdown-divider"></div>
+                            <a id="toolbar_export_plug" class="dropdown-item" href="#" target="_blank"><i data-feather="codepen"></i>导出为插件</a>
+                            <a class="dropdown-item" href="https://py.airscript.cn/admin/plug/list/create" target="load"><i data-feather="cloud" ></i>上传插件</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div id="con_file_title_board" class="con_file_title_board shadow-2xl">
+                    <!-- <span class="con_file_title_board_item">
+                        <img src="/website/assets/libs/treeview/img/py.png"> <span>123.py</span> <i
+                            class="con_file_title_board_item_i" data-feather="x"></i>
+                    </span>
+                    <span class="con_file_title_board_item_n">
+                        <img src="/website/assets/libs/treeview/img/py.png"> <span>123.py</span> <i
+                            class="con_file_title_board_item_i" data-feather="x"></i>
+                    </span> -->
+                </div>
+                <div class="editor_con" style="white-space: nowrap;">
+                    <div class="editor_board" id="container">
+                    </div>
+                    <div id="exec_board" class="exec_board">
+                        <div id="exec_board_title"
+                            class="exec_board_title_con shadow-light-lg hover-shadow-2xl justify-content-between">
+
+                            <div class="row ml-2">
+                                <div class="exec_board_title_menu">
+                                    <span id="exec_board_title_menu_out" class="exec_board_title_menu_item">输出</span>
+                                </div>
+                                <div id="exec_board_clearlog" data-toggle="tooltip" data-placement="bottom" title="清空Log">
+                                        <i class="con_tools_bar_i" data-feather="trash"></i>
+                                </div>
+
+                                
+
+                            </div>
+
+                            
+                            <div class="exec_board_title_actions">
+
+                                <div class="log_filter">
+
+                                    <div id="exec_board_clearlog" data-toggle="tooltip" data-placement="bottom" title="运行前清空log" class="mr-2">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="run_clear" >
+                                            <label class="custom-control-label " for="run_clear"></label>
+                                        </div>
+                                    </div>
+
+                                    <input id="input_log_filter" type="text" class="form-control-sm" placeholder="筛选器(例如: text,.*?.*)">
+                                    <div id="filter_action_board" class="btn-group-sm" style="display: none;">
+                                        <div class=" dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span data-toggle="tooltip"  data-placement="top" title="日志过滤"  >
+                                                <i class="con_tools_bar_i" data-feather="filter"  ></i>
+                                            </span>
+                                            
+                                        </div>
+                                    
+                                        
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" href="#">全部</a>
+                                            <a  class="dropdown-item" href="#">Info</a>
+                                            <a class="dropdown-item" href="#">Error</a>
+                                            <!-- <div class="dropdown-divider"></div> -->
+                                            
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                
+                                <div id="exec_board_closelog" data-toggle="tooltip" data-placement="bottom" title="关闭">
+                                    <i class="con_tools_bar_i" data-feather="x"></i>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="h-100" style="padding-bottom: 30px;">
+                            <div id="logcontains" contentEditable="true" style="width: 100%;height: 100%; z-index: 99; min-width: 10px;">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor_bottom_bar col-md-12" style="position: absolute; bottom: 0; z-index: 10000; ">
+        <div style="padding-left: 20px;">
+            <i id="close_consal" class="con_tools_bar_i" data-feather="terminal"></i>
+        </div>
+        <span>123</span>
+    </div>
+
+    <div id="model_imgshower" class="modal fade docs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+      
+            <div class="modal-header">
+                <div class="modal-title h6" id="myLargeModalLabel" style="display: flex; flex-direction: row;"><span>图片预览</span>
+                    <div id="model_imgshowerimage_loading" class="ml-2" data-toggle="tooltip" unselectable="on" onselectstart="return false;" data-placement="right" title="图像加载中">
+                        <div class="spinner-border text-info" style="width: 15px; height: 15px;" role="status">
+                        <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" style="display: flex;justify-content: center; align-items: center;">
+              <img id="model_imgshower_img" src="static/img/ico/favicon.png" style="width: auto; height: 100%;" >
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <!-- Footer -->
+    <!-- Scripts -->
+    <!-- Core JS  -->
+
+    <script src="static/libs/jquery/jquery.min.js"></script>
+    <script src="static/libs/jquery-menu/jquery.contextMenu.js"></script>
+    <script src="static/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="static/libs/feather-icons/dist/feather.min.js"></script>
+
+    <script src="static/libs/websocket/reconnecting-websocket.js"></script>
+    <script src="static/libs/websocket/reconnecting-websocket.min.js"></script>
+
+    <!-- Quick JS -->
+    <script src="static/libs/quickwebsite/quick-website.js"></script>
+    <!-- Treeview -->
+    <script src="static/libs/treeview/js/jquery.treeview.js"></script>
+    <script src="static/libs/treeview/js/jquery.treeview.edit.js"></script>
+
+    <script src="static/js/utils/upload.js"></script>
+    <script src="static/js/editor/editor_importtip.js"></script>
+    <script src="static/js/editor/editor_log.js"></script>
+    <script src="static/js/editor/editor_frame.js"></script>
+    <script src="static/js/editor/editor_editor.js"></script>
+    
+    <script src="static/libs/monaco/min/vs/loader.js"></script>
+    <script src="static/js/editor/dialog.js"></script>
+    <script src="static/js/editor/editor_devices.js"></script>
+
+    
+
+    <!-- Feather Icons -->
+    <script>
+        feather.replace({
+            'width': '1em',
+            'height': '1em'
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            initeditorcore(getUrlParam("module"));
+            initeditor(getUrlParam("module"));//初始化网页编辑器core
+            
+        });
+    </script>
+
+</body>
+
+</html>
