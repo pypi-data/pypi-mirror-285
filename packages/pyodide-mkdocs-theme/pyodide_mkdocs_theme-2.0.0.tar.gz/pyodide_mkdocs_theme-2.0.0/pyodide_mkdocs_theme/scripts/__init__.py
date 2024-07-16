@@ -1,0 +1,1 @@
+""" Needed to extract PyodidePlot with mkdocstrings """
