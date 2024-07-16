@@ -1,0 +1,23 @@
+[project]
+name = "banner_whitecapella"
+version = "0.2.3"
+description = ""
+authors = [
+    {name = "Whitecapella1", email = "whitecapella@naver.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://github.com/WhiteCapella/banner_whitecapella"
+Issues = "https://github.com/WhiteCapella/banner_whitecapella/issues"
+
+[project.scripts]
+show-banner = 'banner_whitecapella.banner:show'
+
+[tool.pdm]
+distribution = true
