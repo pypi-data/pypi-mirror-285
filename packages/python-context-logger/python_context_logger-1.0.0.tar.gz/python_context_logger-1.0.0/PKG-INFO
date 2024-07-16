@@ -1,0 +1,107 @@
+Metadata-Version: 2.1
+Name: python_context_logger
+Version: 1.0.0
+Summary: A context custom logger with thread-local storage and context propagation for Python applications.
+Home-page: 
+Author: Rajesh Ganjikunta
+Author-email: rajeshkumarganjikunta90@gmail.com
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Description-Content-Type: text/markdown
+
+# Python Context Logger
+
+A python context logger with thread-local storage and context propagation for Python applications.
+
+## Features
+
+- Thread-local storage for log context.
+- Dynamic updating of log context based on function parameters.
+- Propagation of log context across threads.
+- Decorators to easily integrate the logger into functions and classes.
+
+## Installation
+
+```bash
+pip install custom_logger
+```
+
+## Usage
+```python
+# Initialization
+from custom_logger import initialize_custom_logger
+
+initialize_custom_logger()
+
+# Controller-Level Logging
+from flask import Flask, request
+from custom_logger import UseCustomLogger, ClearLogContext
+
+app = Flask(__name__)
+initialize_custom_logger()
+
+@app.route('/some-endpoint', methods=['POST'])
+@UseCustomLogger({
+    'scheduler_name': 'name',
+    'instance_names': 'inst_names',
+    'headers.requestId': 'requestId',
+    'headers.userEmail': 'userEmail'
+})
+@ClearLogContext()
+def some_endpoint():
+    data = request.get_json()
+    logger = logging.getLogger("custom_logger")
+    logger.info("Processing request")
+    return {"status": "success"}
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+    
+
+# Class-Level Logging
+from custom_logger import UseCustomLogger
+
+@UseCustomLogger()
+class SchedulerInteractor:
+    def __init__(self):
+        self.logger = logging.getLogger('custom_logger')
+
+    def method_one(self, param1):
+        self.logger.info(f"Processing method_one with param1: {param1}")
+
+    def method_two(self, param2):
+        self.logger.info(f"Processing method_two with param2: {param2}")
+
+        
+        
+# Method-Level Logging
+from custom_logger import UseCustomLogger
+
+@UseCustomLogger({
+    'param1': 'param1_key',
+    'param2': 'param2_key'
+})
+def some_method(param1, param2):
+    logger = logging.getLogger('custom_logger')
+    logger.info('Processing some method')
+```
+
+## Security Considerations
+1. Ensure that sensitive information (e.g., personal data, credentials) is not logged unless necessary.<br>
+2. Restrict access to log files to authorized personnel only.<br>
+3. Implement measures to detect and prevent log manipulation.
+
+## Performance
+1. The use of thread-local storage ensures that log context updates are isolated to individual threads, minimizing contention and improving performance in multi-threaded applications.
+2. The ContextThread class ensures that log context is propagated efficiently across threads, maintaining consistency without significant performance overhead.
+3. The custom logger and decorators are designed to add minimal overhead to logging operations, ensuring that application performance is not adversely affected.
+
