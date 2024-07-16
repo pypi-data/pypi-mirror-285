@@ -1,0 +1,86 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "torch-onnx"
+version = "0.0.24"
+description = "Experimental tools for converting PyTorch models to ONNX"
+authors = [{ name = "Justin Chu", email = "justinchu@microsoft.com" }]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT License"}
+keywords = ["onnx", "pytorch", "converter", "convertion", "exporter"]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Operating System :: POSIX",
+  "Operating System :: MacOS :: MacOS X",
+  "Operating System :: Microsoft :: Windows",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+]
+dependencies = ["torch>=2.1", "onnxscript>=0.1.0.dev20240621", "onnx>=1.16", "typing-extensions"]
+
+[project.urls]
+Repository = "https://github.com/justinchuby/torch-onnx"
+
+[project.scripts]
+torch-onnx = "torch_onnx.bin.convert:main"
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning"]
+addopts = "--tb=short --color=yes"
+
+[tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "B",
+    "B904", # Re-raised error without specifying the cause via the from keyword
+    "E",
+    "EXE",
+    "F",
+    "G",
+    "LOG",
+    "NPY",
+    "PERF",
+    "PGH004",
+    "PIE794",
+    "PIE800",
+    "PIE804",
+    "PIE807",
+    "PIE810",
+    "PLC",
+    "PLE",
+    "PLR0133", # constant comparison
+    "PLR0206", # property with params
+    "PLR1722", # use sys exit
+    "PLW",
+    "PYI",
+    "RSE",
+    "RUF",
+    "SIM",
+    "TRY002",
+    "TRY302",
+    "TRY401",
+    "UP",
+    "W",
+]
+
+ignore = [
+  "E501", # line too long
+  "PYI041",
+  "NPY002",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/onnx_test_common.py" = ["UP006", "UP007"]
+"tests/pytorch_test.py" = ["UP006", "UP007"]
+"tests/pytorch_test_common.py" = ["UP006", "UP007"]
