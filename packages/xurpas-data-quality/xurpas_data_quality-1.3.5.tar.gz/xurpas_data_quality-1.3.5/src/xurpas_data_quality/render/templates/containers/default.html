@@ -1,0 +1,5 @@
+<div class="container d-flex flex-column" style="height: 25vh; overflow-y: auto;">
+    {% for container_item in container_items %}
+        {{ container_item.render() }}
+    {% endfor %}
+</div>
