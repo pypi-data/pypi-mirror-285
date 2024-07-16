@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["django_cacheable_model*"]
+namespaces = false
+
+[project]
+name = "django_cacheable_model"
+version = "1.2.5"
+authors = [
+  { name="Harisankar Krishna Swamy @ Vevde", email="harisankar.krishna@outlook.com" },
+]
+description = "A cacheable Django model"
+readme = "README.md"
+requires-python = ">=3.7.4"
+dependencies = [
+    "Django>=2.0",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/harisankar-krishna-swamy/django_cacheable_model.git"
