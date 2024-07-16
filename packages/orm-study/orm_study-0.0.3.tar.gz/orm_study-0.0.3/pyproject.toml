@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "orm-study"
+version = "0.0.3"
+description = "cli library for studying python in ormcamp"
+authors = ["jungminchae <minchae3618@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/jungminchae/orm-study"
+repository = "https://github.com/jungminchae/orm-study"
+keywords = ["orm-study", "Python", "orm-camp", "education"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = "^0.12.3"
+rich = "^13.7.1"
+
+
+[tool.poetry.scripts]
+ost = "orm_study.main:main"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
