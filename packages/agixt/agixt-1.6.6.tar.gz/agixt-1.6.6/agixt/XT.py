@@ -1,0 +1,2060 @@
+from Interactions import Interactions
+from ApiClient import get_api_client, Conversations, Prompts, Chain
+from readers.file import FileReader
+from Extensions import Extensions
+from pydub import AudioSegment
+from Globals import getenv, get_tokens, DEFAULT_SETTINGS
+from Models import ChatCompletions, TasksToDo, ChainCommandName
+from datetime import datetime
+from typing import Type, get_args, get_origin, Union, List
+from enum import Enum
+from pydantic import BaseModel
+import pdfplumber
+import docx2txt
+import zipfile
+import pandas as pd
+import subprocess
+import logging
+import asyncio
+import requests
+import os
+import re
+import base64
+import uuid
+import json
+import time
+
+
+class AGiXT:
+    def __init__(
+        self,
+        user: str,
+        agent_name: str,
+        api_key: str,
+        conversation_name: str = None,
+        collection_id=None,
+    ):
+        self.user_email = user.lower()
+        if api_key is not None:
+            api_key = str(api_key).replace("Bearer ", "").replace("bearer ", "")
+        self.api_key = api_key
+        self.conversation = Conversations(
+            conversation_name=conversation_name, user=self.user_email
+        )
+        self.conversation_id = self.conversation.get_conversation_id()
+        self.conversation_name = conversation_name
+        self.agent_name = agent_name
+        self.uri = getenv("AGIXT_URI")
+        self.collection_id = (
+            collection_id if collection_id is not None else self.conversation_id
+        )
+        self.ApiClient = get_api_client(api_key)
+        self.agent_interactions = Interactions(
+            agent_name=self.agent_name,
+            user=self.user_email,
+            ApiClient=self.ApiClient,
+            collection_id=self.collection_id,
+        )
+        self.agent = self.agent_interactions.agent
+        self.agent_settings = (
+            self.agent.AGENT_CONFIG["settings"]
+            if "settings" in self.agent.AGENT_CONFIG
+            else DEFAULT_SETTINGS
+        )
+        self.chain = Chain(user=self.user_email)
+        self.agent_workspace = self.agent.working_directory
+        os.makedirs(self.agent_workspace, exist_ok=True)
+        self.conversation_workspace = os.path.join(
+            self.agent_workspace, self.conversation_id
+        )
+        os.makedirs(self.conversation_workspace, exist_ok=True)
+        self.outputs = f"{self.uri}/outputs/{self.agent.agent_id}"
+        self.failures = 0
+        self.input_tokens = 0
+
+    async def prompts(self, prompt_category: str = "Default"):
+        """
+        Get a list of available prompts
+
+        Args:
+            prompt_category (str): Category of the prompt
+
+        Returns:
+            list: List of available prompts
+        """
+        return Prompts(user=self.user_email).get_prompts(
+            prompt_category=prompt_category
+        )
+
+    async def chains(self):
+        """
+        Get a list of available chains
+
+        Returns:
+            list: List of available chains
+        """
+        return self.chain.get_chains()
+
+    async def settings(self):
+        """
+        Get the agent settings
+
+        Returns:
+            dict: Agent settings
+        """
+        return self.agent_settings
+
+    async def commands(self):
+        """
+        Get a list of available commands
+
+        Returns:
+            list: List of available commands
+        """
+        return self.agent.available_commands()
+
+    async def browsed_links(self):
+        """
+        Get a list of browsed links
+
+        Returns:
+            list: List of browsed links
+        """
+        return self.agent.get_browsed_links()
+
+    async def memories(
+        self,
+        user_input: str = "",
+        limit_per_collection: int = 5,
+        minimum_relevance_score: float = 0.3,
+        additional_collection: str = "0",
+    ):
+        """
+        Get a list of memories
+
+        Args:
+            user_input (str): User input to the agent
+            limit_per_collection (int): Number of memories to return per collection
+            minimum_relevance_score (float): Minimum relevance score for memories
+            additional_collection (int): Additional collection number to pull memories from. Collections 0-5 are injected automatically.
+
+        Returns:
+            str: Agents relevant memories from the user input from collections 0-5 and the additional collection number if provided
+        """
+        formatted_prompt, prompt, tokens = await self.agent_interactions.format_prompt(
+            user_input=user_input if user_input else "*",
+            top_results=limit_per_collection,
+            min_relevance_score=minimum_relevance_score,
+            inject_memories_from_collection_number=additional_collection,
+        )
+        return formatted_prompt
+
+    async def inference(
+        self,
+        user_input: str,
+        prompt_category: str = "Default",
+        prompt_name: str = "Custom Input",
+        images: list = [],
+        injected_memories: int = 10,
+        conversation_results: int = 10,
+        shots: int = 1,
+        browse_links: bool = False,
+        voice_response: bool = False,
+        log_user_input: bool = True,
+        log_output: bool = True,
+        **kwargs,
+    ):
+        """
+        Run inference on the AGiXT agent
+
+        Args:
+            user_input (str): User input to the agent
+            prompt_category (str): Category of the prompt
+            prompt_name (str): Name of the prompt to use
+            injected_memories (int): Number of memories to inject into the conversation
+            conversation_results (int): Number of interactions to inject into the conversation
+            browse_links (bool): Whether to browse links in the response
+            images (list): List of image file paths
+            shots (int): Number of responses to generate
+            **kwargs: Additional keyword arguments
+
+        Returns:
+            str: Response from the agent
+        """
+        if "conversation_results" in kwargs:
+            try:
+                conversation_results = int(kwargs["conversation_results"])
+            except:
+                conversation_results = 10
+            del kwargs["conversation_results"]
+        if "context_results" in kwargs:
+            try:
+                injected_memories = int(kwargs["context_results"])
+            except:
+                injected_memories = 10
+            del kwargs["context_results"]
+        if "tts" in kwargs:
+            voice_response = str(kwargs["tts"]).lower() == "true"
+            del kwargs["tts"]
+        if "conversation_name" in kwargs:
+            del kwargs["conversation_name"]
+        return await self.agent_interactions.run(
+            user_input=user_input,
+            prompt_category=prompt_category,
+            prompt_name=prompt_name,
+            context_results=injected_memories,
+            conversation_results=conversation_results,
+            shots=shots,
+            conversation_name=self.conversation_name,
+            browse_links=browse_links,
+            images=images,
+            tts=voice_response,
+            log_user_input=log_user_input,
+            log_output=log_output,
+            **kwargs,
+        )
+
+    async def generate_image(self, prompt: str):
+        """
+        Generate an image from a prompt
+
+        Args:
+            prompt (str): Prompt for the image generation
+
+        Returns:
+            str: URL of the generated image
+        """
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Generating image.",
+        )
+        return await self.agent.generate_image(prompt=prompt)
+
+    async def text_to_speech(
+        self,
+        text: str,
+        log_output: bool = False,
+    ):
+        """
+        Generate Text to Speech audio from text
+
+        Args:
+            text (str): Text to convert to speech
+            log_output (bool): Whether to log the output
+
+        Returns:
+            str: URL of the generated audio
+        """
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Generating audio response.",
+        )
+        tts_url = await self.agent.text_to_speech(text=text)
+        if not str(tts_url).startswith("http"):
+            file_type = "wav"
+            file_name = f"{uuid.uuid4().hex}.{file_type}"
+            audio_path = os.path.join(self.agent_workspace, file_name)
+            full_path = os.path.normpath(os.path.join(self.agent_workspace, file_name))
+            if not full_path.startswith(self.agent_workspace):
+                raise Exception("Path given not allowed")
+            audio_data = base64.b64decode(tts_url)
+            with open(audio_path, "wb") as f:
+                f.write(audio_data)
+            tts_url = f"{self.outputs}/{file_name}"
+        if log_output:
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f'<audio controls><source src="{tts_url}" type="audio/wav"></audio>',
+            )
+        return tts_url
+
+    async def audio_to_text(self, audio_path: str):
+        """
+        Audio to Text transcription
+
+        Args:
+            audio_path (str): Path to the audio file
+
+        Returns
+            str: Transcription of the audio
+        """
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Transcribing recorded audio.",
+        )
+        # Start a timer
+        start = time.time()
+        response = await self.agent.transcribe_audio(audio_path=audio_path)
+        # End the timer
+        end = time.time()
+        elapsed_time = end - start
+        elapsed_time = "{:.2f}".format(elapsed_time)
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"Transcribed audio in {elapsed_time} seconds.",
+        )
+        return response
+
+    async def translate_audio(self, audio_path: str):
+        """
+        Translate an audio file
+
+        Args:
+            audio_path (str): Path to the audio file
+
+        Returns
+            str: Translation of the audio
+        """
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Translating audio.",
+        )
+        response = await self.agent.translate_audio(audio_path=audio_path)
+        return response
+
+    async def execute_command(
+        self,
+        command_name: str,
+        command_args: dict,
+        voice_response: bool = False,
+        log_output: bool = False,
+        log_activities: bool = False,
+    ):
+        """
+        Execute a command with arguments
+
+        Args:
+            command_name (str): Name of the command to execute
+            command_args (dict): Arguments for the command
+            voice_response (bool): Whether to generate a voice response
+            log_output (bool): Whether to log the output
+            log_activities (bool): Whether to log the activities
+
+        Returns:
+            str: Response from the command
+        """
+        if log_activities:
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Executing command `{command_name}` with args:\n```json\n{json.dumps(command_args, indent=2)}```",
+            )
+        try:
+            response = await Extensions(
+                agent_name=self.agent_name,
+                agent_config=self.agent.AGENT_CONFIG,
+                conversation_name=self.conversation_name,
+                ApiClient=self.ApiClient,
+                api_key=self.api_key,
+                user=self.user_email,
+            ).execute_command(
+                command_name=command_name,
+                command_args=command_args,
+            )
+        except Exception as e:
+            logging.error(f"Error executing command: {e}")
+            response = f"Error executing command `{command_name}`."
+        if "tts_provider" in self.agent_settings and voice_response:
+            if (
+                self.agent_settings["tts_provider"] != "None"
+                and self.agent_settings["tts_provider"] != ""
+                and self.agent_settings["tts_provider"] != None
+            ):
+                await self.text_to_speech(
+                    text=response,
+                    log_output=log_output,
+                )
+        if log_output:
+            self.conversation.log_interaction(role=self.agent_name, message=response)
+        return response
+
+    async def run_chain_step(
+        self,
+        chain_run_id=None,
+        step: dict = {},
+        chain_name="",
+        user_input="",
+        agent_override="",
+        chain_args={},
+    ):
+        if not chain_run_id:
+            chain_run_id = await self.chain.get_chain_run_id(chain_name=chain_name)
+        if step:
+            if "prompt_type" in step:
+                if agent_override != "":
+                    agent_name = agent_override
+                else:
+                    agent_name = step["agent_name"]
+                prompt_type = str(step["prompt_type"]).lower()
+                step_number = step["step"]
+                if "prompt_name" in step["prompt"]:
+                    prompt_name = step["prompt"]["prompt_name"]
+                else:
+                    prompt_name = ""
+                args = self.chain.get_step_content(
+                    chain_run_id=chain_run_id,
+                    chain_name=chain_name,
+                    prompt_content=step["prompt"],
+                    user_input=user_input,
+                    agent_name=agent_name,
+                )
+                if chain_args != {}:
+                    for arg, value in chain_args.items():
+                        args[arg] = value
+                if "chain_name" in args:
+                    args["chain"] = args["chain_name"]
+                if "chain" not in args:
+                    args["chain"] = chain_name
+                if "conversation_name" not in args:
+                    args["conversation_name"] = f"Chain Execution History: {chain_name}"
+                if "conversation" in args:
+                    args["conversation_name"] = args["conversation"]
+                if prompt_type == "command":
+                    self.conversation.log_interaction(
+                        role=self.agent_name,
+                        message=f"[ACTIVITY] Executing command `{step['prompt']['command_name']}` with args:\n```json\n{json.dumps(args, indent=2)}```",
+                    )
+                    result = await self.execute_command(
+                        command_name=step["prompt"]["command_name"],
+                        command_args=args,
+                        voice_response=False,
+                    )
+                elif prompt_type == "prompt":
+                    self.conversation.log_interaction(
+                        role=self.agent_name,
+                        message=f"[ACTIVITY] Running prompt: {prompt_name} with args:\n```json\n{json.dumps(args, indent=2)}```",
+                    )
+                    if "prompt_name" not in args:
+                        args["prompt_name"] = prompt_name
+                    if "user_input" in args:
+                        user_input = args["user_input"]
+                        del args["user_input"]
+                    if prompt_name != "":
+                        result = await self.inference(
+                            agent_name=agent_name,
+                            user_input=user_input,
+                            log_user_input=False,
+                            **args,
+                        )
+                elif prompt_type == "chain":
+                    self.conversation.log_interaction(
+                        role=self.agent_name,
+                        message=f"[ACTIVITY] Running chain: {args['chain']} with args:\n```json\n{json.dumps(args, indent=2)}```",
+                    )
+                    if "chain_name" in args:
+                        args["chain"] = args["chain_name"]
+                    if "user_input" in args:
+                        args["input"] = args["user_input"]
+                    result = await self.execute_chain(
+                        chain_name=args["chain"],
+                        user_input=args["input"],
+                        agent_override=agent_name,
+                        from_step=args["from_step"] if "from_step" in args else 1,
+                        chain_args=(
+                            args["chain_args"]
+                            if "chain_args" in args
+                            else {"conversation_name": args["conversation_name"]}
+                        ),
+                        conversation_name=args["conversation_name"],
+                        log_user_input=False,
+                        voice_response=False,
+                    )
+        if result:
+            if isinstance(result, dict) and "response" in result:
+                result = result["response"]
+            if result == "Unable to retrieve data.":
+                result = None
+            if isinstance(result, dict):
+                result = json.dumps(result)
+            if not isinstance(result, str):
+                result = str(result)
+            await self.chain.update_step_response(
+                chain_run_id=chain_run_id,
+                chain_name=chain_name,
+                step_number=step_number,
+                response=result,
+            )
+            return result
+        else:
+            return None
+
+    async def execute_chain(
+        self,
+        chain_name,
+        chain_run_id=None,
+        user_input=None,
+        agent_override="",
+        from_step=1,
+        chain_args={},
+        log_user_input=False,
+        voice_response=False,
+    ):
+        chain_data = self.chain.get_chain(chain_name=chain_name)
+        if not chain_run_id:
+            chain_run_id = await self.chain.get_chain_run_id(chain_name=chain_name)
+        if chain_data == {}:
+            return f"Chain `{chain_name}` not found."
+        if log_user_input:
+            self.conversation.log_interaction(
+                role="USER",
+                message=user_input,
+            )
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Running chain `{chain_name}`.",
+        )
+        response = ""
+        step_responses = []
+        logging.info(f"Chain data: {chain_data}")
+        if "steps" not in chain_data:
+            return f"Chain `{chain_name}` has no steps."
+        if len(chain_data["steps"]) == 0:
+            return f"Chain `{chain_name}` has no steps."
+        for step_data in chain_data["steps"]:
+            if int(step_data["step"]) >= int(from_step):
+                if "prompt" in step_data and "step" in step_data:
+                    step = {}
+                    step["agent_name"] = (
+                        agent_override
+                        if agent_override != ""
+                        else step_data["agent_name"]
+                    )
+                    step["prompt_type"] = step_data["prompt_type"]
+                    step["prompt"] = step_data["prompt"]
+                    step["step"] = step_data["step"]
+                    task = await self.run_chain_step(
+                        chain_run_id=chain_run_id,
+                        step=step,
+                        chain_name=chain_name,
+                        user_input=user_input,
+                        agent_override=agent_override,
+                        chain_args=chain_args,
+                    )
+                    step_responses.append(task)
+        logging.info(f"Step responses: {step_responses}")
+        if step_responses:
+            response = step_responses[-1]
+        if response == None:
+            return f"Chain failed to complete, it failed on step {step_data['step']}. You can resume by starting the chain from the step that failed with chain ID {chain_run_id}."
+        self.conversation.log_interaction(role=self.agent_name, message=response)
+        if "tts_provider" in self.agent_settings and voice_response:
+            if (
+                self.agent_settings["tts_provider"] != "None"
+                and self.agent_settings["tts_provider"] != ""
+                and self.agent_settings["tts_provider"] != None
+            ):
+                await self.text_to_speech(text=response, log_output=True)
+        return response
+
+    async def learn_from_websites(
+        self,
+        urls: list = [],
+        summarize_content: bool = False,
+    ):
+        """
+        Scrape a website and summarize the content
+
+        Args:
+            urls (list): List of URLs to scrape
+            scrape_depth (int): Depth to scrape each URL
+            summarize_content (bool): Whether to summarize the content
+
+        Returns:
+            str: Agent response with a list of scraped links
+        """
+        if isinstance(urls, str):
+            user_input = f"Learn from the information from this website:\n {urls} "
+        else:
+            url_str = {"\n".join(urls)}
+            user_input = f"Learn from the information from these websites:\n {url_str} "
+        response = await self.agent_interactions.websearch.scrape_websites(
+            user_input=user_input,
+            summarize_content=summarize_content,
+            conversation_name=self.conversation_name,
+        )
+        return "I have read the information from the websites into my memory."
+
+    async def learn_from_file(
+        self,
+        file_url: str = "",
+        file_name: str = "",
+        user_input: str = "",
+        collection_id: str = "1",
+    ):
+        """
+        Learn from a file
+
+        Args:
+            file_url (str): URL of the file
+            file_name (str): Name of the file
+            user_input (str): User input to the agent
+            collection_id (str): Collection ID to save the file to
+
+        Returns:
+            str: Response from the agent
+        """
+        if file_name == "":
+            file_name = file_url.split("/")[-1]
+        if file_url.startswith(self.outputs):
+            folder_path = file_url.split(f"{self.outputs}/")[1]
+            file_path = os.path.normpath(
+                os.path.join(self.agent_workspace, folder_path)
+            )
+        else:
+            logging.info(f"{file_url} does not start with {self.outputs}")
+            file_data = await self.download_file_to_workspace(
+                url=file_url, file_name=file_name
+            )
+            file_name = file_data["file_name"]
+            file_path = os.path.normpath(
+                os.path.join(self.agent_workspace, collection_id, file_name)
+            )
+        logging.info(f"File path: {file_path}")
+        if not file_path.startswith(self.agent_workspace):
+            file_path = os.path.normpath(
+                os.path.join(self.agent_workspace, collection_id, file_name)
+            )
+            logging.info(f"Corrected file path: {file_path}")
+        file_type = file_name.split(".")[-1]
+        if file_type not in ["jpg", "jpeg", "png", "gif"]:
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Reading [{file_name}]({file_url}) into memory.",
+            )
+        if file_type in ["ppt", "pptx"]:
+            # Convert it to a PDF
+            pdf_file_path = file_path.replace(".pptx", ".pdf").replace(".ppt", ".pdf")
+            file_name = str(file_name).replace(".pptx", ".pdf").replace(".ppt", ".pdf")
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Converting PowerPoint file [{file_name}]({file_url}) to PDF.",
+            )
+            try:
+                subprocess.run(
+                    [
+                        "libreoffice",
+                        "--headless",
+                        "--convert-to",
+                        "pdf",
+                        "--outdir",
+                        os.path.dirname(file_path),
+                        file_path,
+                    ],
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                )
+            except Exception as e:
+                logging.error(f"Error converting PowerPoint to PDF: {e}")
+            file_path = pdf_file_path
+        if user_input == "":
+            user_input = "Describe each stage of this image."
+        file_reader = FileReader(
+            agent_name=self.agent_name,
+            agent_config=self.agent.AGENT_CONFIG,
+            collection_number=collection_id,
+            ApiClient=self.ApiClient,
+            user=self.user_email,
+        )
+        disallowed_types = ["exe", "bin", "rar", "ppt", "pptx"]
+        if file_type in disallowed_types:
+            response = f"[ERROR] I was unable to read the file called `{file_name}`."
+        elif file_type == "pdf":
+            with pdfplumber.open(file_path) as pdf:
+                content = "\n".join([page.extract_text() for page in pdf.pages])
+            self.input_tokens += get_tokens(content)
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            await file_reader.write_text_to_memory(
+                user_input=user_input,
+                text=f"Content from PDF uploaded at {timestamp} named `{file_name}`:\n{content}",
+                external_source=f"file {file_path}",
+            )
+            response = f"Read [{file_name}]({file_url}) into memory."
+        elif file_path.endswith(".zip"):
+            extracted_zip_folder_name = f"extracted_{file_name.replace('.zip', '_zip')}"
+            new_folder = os.path.normpath(
+                os.path.join(
+                    self.agent_workspace, collection_id, extracted_zip_folder_name
+                )
+            )
+            if new_folder.startswith(self.agent_workspace):
+                with zipfile.ZipFile(file_path, "r") as zipObj:
+                    zipObj.extractall(path=new_folder)
+                # Iterate over every file that was extracted including subdirectories
+                for root, dirs, files in os.walk(new_folder):
+                    for name in files:
+                        current_folder = root.replace(new_folder, "")
+                        output_url = f"{self.outputs}/{collection_id}/{extracted_zip_folder_name}/{current_folder}/{name}"
+                        logging.info(f"Output URL: {output_url}")
+                        await self.learn_from_file(
+                            file_url=output_url,
+                            file_name=name,
+                            user_input=user_input,
+                            collection_id=collection_id,
+                        )
+                response = f"Extracted the content of the zip file [{file_name}]({file_url}) and read them into memory."
+            else:
+                response = (
+                    f"[ERROR] I was unable to read the file called `{file_name}`."
+                )
+        elif file_type == "xlsx" or file_type == "xls":
+            df = pd.read_excel(file_path)
+            # Check if the spreadsheet has multiple sheets
+            if isinstance(df, dict):
+                sheet_names = list(df.keys())
+                x = 0
+                csv_files = []
+                for sheet_name in sheet_names:
+                    x += 1
+                    df = pd.read_excel(file_path, sheet_name=sheet_name)
+                    file_path = file_path.replace(f".{file_type}", f"_{x}.csv")
+                    csv_file_name = os.path.basename(file_path)
+                    df.to_csv(file_path, index=False)
+                    csv_files.append(
+                        f"[{csv_file_name}]({self.outputs}/{collection_id}/{csv_file_name})"
+                    )
+                    await self.learn_from_file(
+                        file_url=f"{self.outputs}/{collection_id}/{csv_file_name}",
+                        file_name=csv_file_name,
+                        user_input=f"Original file: {file_name}\nSheet: {sheet_name}\nNew file: {csv_file_name}\n{user_input}",
+                        collection_id=collection_id,
+                    )
+                str_csv_files = ", ".join(csv_files)
+                response = f"Separated the content of the spreadsheet called `{file_name}` into {x} files called {str_csv_files} and read them into memory."
+            else:
+                # Save it as a CSV file and run this function again
+                file_path = file_path.replace(f".{file_type}", ".csv")
+                csv_file_name = os.path.basename(file_path)
+                df.to_csv(file_path, index=False)
+                return await self.learn_from_file(
+                    file_url=f"{self.outputs}/{collection_id}/{csv_file_name}",
+                    file_name=csv_file_name,
+                    user_input=f"Original file: {file_name}\nNew file: {csv_file_name}\n{user_input}",
+                    collection_id=collection_id,
+                )
+        elif file_path.endswith(".doc") or file_path.endswith(".docx"):
+            file_content = docx2txt.process(file_path)
+            self.input_tokens += get_tokens(file_content)
+            await file_reader.write_text_to_memory(
+                user_input=user_input,
+                text=file_content,
+                external_source=f"file {file_path}",
+            )
+            response = f"Read [{file_name}]({file_url}) into memory."
+        elif file_type == "csv":
+            df = pd.read_csv(file_path)
+            df_dict = df.to_dict()
+            self.input_tokens += get_tokens(json.dumps(df_dict))
+            for line in df_dict:
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message = f"Content from file uploaded at {timestamp} named `{file_name}`:\n```json\n{json.dumps(df_dict[line], indent=2)}```\n"
+                await file_reader.write_text_to_memory(
+                    user_input=f"{user_input}\n{message}",
+                    text=message,
+                    external_source=f"file {file_path}",
+                )
+            response = f"Read [{file_name}]({file_url}) into memory."
+        elif (
+            file_type == "wav"
+            or file_type == "mp3"
+            or file_type == "ogg"
+            or file_type == "m4a"
+            or file_type == "flac"
+            or file_type == "wma"
+            or file_type == "aac"
+        ):
+            audio = AudioSegment.from_file(file_path)
+            audio.export(file_path, format="wav")
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Transcribing audio file [{file_name}]({file_url}) into memory.",
+            )
+            audio_response = await self.audio_to_text(audio_path=file_path)
+            self.input_tokens += get_tokens(audio_response)
+            await file_reader.write_text_to_memory(
+                user_input=user_input,
+                text=f"Transcription from the audio file called `{file_name}`:\n{audio_response}\n",
+                external_source=f"audio {file_name}",
+            )
+            response = (
+                f"Transcribed the audio from [{file_name}]({file_url}) into memory."
+            )
+        # If it is an image, generate a description then save to memory
+        elif file_type in [
+            "jpg",
+            "jpeg",
+            "png",
+            "gif",
+            "webp",
+            "tiff",
+            "bmp",
+            "svg",
+        ]:
+            if (
+                self.agent.VISION_PROVIDER != "None"
+                and self.agent.VISION_PROVIDER != ""
+                and self.agent.VISION_PROVIDER != None
+            ):
+                self.conversation.log_interaction(
+                    role=self.agent_name,
+                    message=f"[ACTIVITY] Uploaded `{file_name}` ![Uploaded {file_name}]({file_url})",
+                )
+                try:
+                    vision_prompt = f"The assistant has an image in context\nThe user's last message was: {user_input}\nThe uploaded image is `{file_name}`.\n\nAnswer anything relevant to the image that the user is questioning if anything, additionally, describe the image in detail."
+                    self.input_tokens += get_tokens(vision_prompt)
+                    vision_response = await self.agent.vision_inference(
+                        prompt=vision_prompt, images=[file_url]
+                    )
+                    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                    await file_reader.write_text_to_memory(
+                        user_input=user_input,
+                        text=f"{self.agent_name}'s visual description from viewing uploaded image called `{file_name}` from {timestamp}:\n{vision_response}\n",
+                        external_source=f"image {file_name}",
+                    )
+                    response = f"Read [{file_name}]({file_url}) into memory."
+                except Exception as e:
+                    logging.error(f"Error getting vision response: {e}")
+                    response = (
+                        f"[ERROR] I was unable to view the image called `{file_name}`."
+                    )
+            else:
+                response = (
+                    f"[ERROR] I was unable to view the image called `{file_name}`."
+                )
+        else:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            fp = os.path.normpath(file_path)
+            if fp.startswith(self.agent_workspace):
+                with open(fp, "r") as f:
+                    file_content = f.read()
+                self.input_tokens += get_tokens(file_content)
+                # Check how many lines are in the file content
+                lines = file_content.split("\n")
+                if len(lines) > 1:
+                    for line_number, line in enumerate(lines):
+                        await file_reader.write_text_to_memory(
+                            user_input=user_input,
+                            text=f"Content from file uploaded named `{file_name}` at {timestamp} on line number {line_number + 1}:\n{line}",
+                            external_source=f"file {fp}",
+                        )
+                else:
+                    await file_reader.write_text_to_memory(
+                        user_input=user_input,
+                        text=f"Content from file uploaded named `{file_name}` at {timestamp}:\n{file_content}",
+                        external_source=f"file {fp}",
+                    )
+                response = f"Read [{file_name}]({file_url}) into memory."
+            else:
+                response = (
+                    f"[ERROR] I was unable to read the file called `{file_name}`."
+                )
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=(
+                f"[ACTIVITY] {response}"
+                if "[ERROR]" not in response
+                else f"[ACTIVITY]{response}"
+            ),
+        )
+        return response
+
+    async def download_file_to_workspace(self, url: str, file_name: str = ""):
+        """
+        Download a file from a URL to the workspace
+
+        Args:
+            url (str): URL of the file
+            file_name (str): Name of the file
+
+        Returns:
+            str: URL of the downloaded file
+        """
+        if url.startswith("data:"):
+            file_type = url.split(",")[0].split("/")[1].split(";")[0]
+        else:
+            file_type = url.split(".")[-1]
+        if not file_type:
+            file_type = "txt"
+        self.conversation_id
+        if not self.conversation_id:
+            self.conversation_id = "1"
+        file_name = f"{uuid.uuid4().hex}.{file_type}" if file_name == "" else file_name
+        file_name = "".join(c if c.isalnum() else "_" for c in file_name)
+        file_extension = file_name.split("_")[-1]
+        file_name = file_name.replace(f"_{file_extension}", f".{file_extension}")
+        full_path = os.path.normpath(
+            os.path.join(self.conversation_workspace, file_name)
+        )
+        if not full_path.startswith(self.conversation_workspace):
+            raise Exception("Path given not allowed")
+        if url.startswith("http"):
+            return {"file_name": file_name, "file_url": url}
+        else:
+            if "," in url:
+                file_type = url.split(",")[0].split("/")[1].split(";")[0]
+                file_data = base64.b64decode(url.split(",")[1])
+            else:
+                file_type = file_name.split(".")[-1]
+                file_data = base64.b64decode(url)
+            full_path = os.path.normpath(
+                os.path.join(self.conversation_workspace, file_name)
+            )
+            if not full_path.startswith(self.conversation_workspace):
+                raise Exception("Path given not allowed")
+            with open(full_path, "wb") as f:
+                f.write(file_data)
+            url = f"{self.outputs}/{self.conversation_id}/{file_name}"
+            return {"file_name": file_name, "file_url": url}
+
+    async def plan_task(
+        self,
+        user_input: str,
+        websearch: bool = False,
+        websearch_depth: int = 3,
+        log_user_input: bool = True,
+        log_output: bool = True,
+        enable_new_command: bool = True,
+    ):
+        """
+        Plan a task from a user input, create and enable a new command to execute the plan
+
+        Args:
+        user_input (str): User input to the agent
+        websearch (bool): Whether to include web research in the chain
+        websearch_depth (int): Depth of web research to include
+        log_user_input (bool): Whether to log the user input
+        log_output (bool): Whether to log the output
+        enable_new_command (bool): Whether to enable the new command for the agent
+
+        Returns:
+        str: The name of the created chain
+        """
+        if log_user_input:
+            self.conversation.log_interaction(
+                role="USER",
+                message=user_input,
+            )
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Determining primary objective.",
+        )
+        # primary_objective = Step 1, execute chain "Smart Prompt" with the user input to get Primary Objective
+        primary_objective = await self.execute_chain(
+            chain_name="Smart Prompt",
+            user_input=user_input,
+            agent_override=self.agent_name,
+            log_user_input=False,
+        )
+        chain_name = await self.inference(
+            user_input=user_input,
+            introduction=primary_objective,
+            prompt_category="Default",
+            prompt_name="Title a Chain",
+            log_output=False,
+            log_user_input=False,
+        )
+        chain_title = await self.convert_to_pydantic_model(
+            input_string=chain_name,
+            model=ChainCommandName,
+        )
+        chain_name = chain_title.command_name
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Breaking objective into a list of tasks.",
+        )
+        # numbered_list_of_tasks = Step 2, Execute prompt "Break into Steps" with `introduction` being step 1 response, websearch true if researching
+        # Note - Should do this more than once to get a better list of tasks
+        numbered_list_of_tasks = await self.inference(
+            user_input=user_input,
+            introduction=primary_objective,
+            prompt_category="Default",
+            prompt_name="Break into Steps",
+            websearch=websearch,
+            websearch_depth=websearch_depth,
+            injected_memories=10,
+            log_output=False,
+            log_user_input=False,
+        )
+        task_list = await self.convert_to_pydantic_model(
+            input_string=numbered_list_of_tasks,
+            model=TasksToDo,
+        )
+        self.chain.add_chain(chain_name=chain_name)
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Creating new command `{chain_name}`.",
+        )
+        i = 1
+        total_tasks = len(task_list.tasks)
+        x = 1
+        # First step in the chain should be to disable the command so that the agent doesn't try to execute it while executing it
+        self.chain.add_chain_step(
+            chain_name=chain_name,
+            agent_name=self.agent_name,
+            step_number=i,
+            prompt_type="Command",
+            prompt={
+                "command_name": "Disable Command",
+                "command_args": {
+                    "agent_name": self.agent_name,
+                    "command_name": chain_name,
+                },
+            },
+        )
+        i += 1
+        for task in task_list.tasks:
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Planning task `{x}` of `{total_tasks}`.",
+            )
+            x += 1
+            # Create a smart prompt with the objective and task in context
+            self.chain.add_chain_step(
+                chain_name=chain_name,
+                agent_name=self.agent_name,
+                step_number=i,
+                prompt_type="Chain",
+                prompt={
+                    "chain_name": "Smart Prompt",
+                    "input": f"Primary Objective to keep in mind while working on the task: {primary_objective} \nThe only task to complete to move towards the objective: {task}",
+                },
+            )
+            i += 1
+            self.chain.add_chain_step(
+                chain_name=chain_name,
+                agent_name=self.agent_name,
+                step_number=i,
+                prompt_type="Chain",
+                prompt={
+                    "chain": (
+                        "Smart Instruct"
+                        if websearch
+                        else "Smart Instruct - No Research"
+                    ),
+                    "input": "{STEP" + str(i - 1) + "}",
+                },
+            )
+            i += 1
+        list_of_tasks = "\n".join(
+            [f"{i}. {task}" for i, task in enumerate(task_list.tasks, 1)]
+        )
+        # Enable the command of the chain name
+        if enable_new_command:
+            self.agent.update_agent_config(
+                new_config={chain_name: True}, config_key="commands"
+            )
+            message = f"I have created a new command called `{chain_name}`. The tasks will be executed in the following order:\n{list_of_tasks}\n\nWould you like me to execute `{chain_name}` now?"
+        else:
+            message = f"I have created a new command called `{chain_name}`. The tasks will be executed in the following order:\n{list_of_tasks}\n\nIf you are able to enable the command, I can execute it for you. Alternatively, you can execute the command manually."
+        if log_output:
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=message,
+            )
+        return {
+            "chain_name": chain_name,
+            "message": message,
+            "tasks": list_of_tasks,
+        }
+
+    async def update_planned_task(
+        self,
+        chain_name: str,
+        user_input: str,
+        log_user_input: bool = True,
+        log_output: bool = True,
+        enable_new_command: bool = True,
+    ):
+        """
+        Modify the chain based on user input
+
+        Args:
+        chain_name (str): Name of the chain to update
+        user_input (str): User input to the agent
+        log_user_input (bool): Whether to log the user input
+        log_output (bool): Whether to log the output
+
+        Returns:
+        str: Response from the agent
+        """
+        # Basically just delete the old chain after we extract the tasks and then run the plan_task function with more input from the user.
+        current_chain = self.chain.get_chain(chain_name=chain_name)
+        # This function is still a work in progress
+        # Need to
+
+        self.chain.delete_chain(chain_name=chain_name)
+        return await self.plan_task(
+            user_input=user_input,
+            log_user_input=log_user_input,
+            log_output=log_output,
+            enable_new_command=enable_new_command,
+        )
+
+    async def chat_completions(self, prompt: ChatCompletions):
+        """
+        Generate an OpenAI style chat completion response with a ChatCompletion prompt
+
+        Args:
+            prompt (ChatCompletions): Chat completions prompt
+
+        Returns:
+            dict: Chat completion response
+        """
+        # conversation_name = prompt.user
+        c = self.conversation
+        conversation_id = self.conversation_id
+        urls = []
+        files = []
+        new_prompt = ""
+        browse_links = True
+        tts = False
+        websearch = False
+
+        if "websearch" in self.agent_settings:
+            websearch = str(self.agent_settings["websearch"]).lower() == "true"
+        if "mode" in self.agent_settings:
+            mode = self.agent_settings["mode"]
+        else:
+            mode = "prompt"
+        if "prompt_name" in self.agent_settings:
+            prompt_name = self.agent_settings["prompt_name"]
+        else:
+            prompt_name = "Chat"
+        if "prompt_category" in self.agent_settings:
+            prompt_category = self.agent_settings["prompt_category"]
+        else:
+            prompt_category = "Default"
+        prompt_args = {}
+        if "prompt_args" in self.agent_settings:
+            prompt_args = (
+                json.loads(self.agent_settings["prompt_args"])
+                if isinstance(self.agent_settings["prompt_args"], str)
+                else self.agent_settings["prompt_args"]
+            )
+        if "context_results" in self.agent_settings:
+            context_results = int(self.agent_settings["context_results"])
+        else:
+            context_results = 5
+        if "injected_memories" in self.agent_settings:
+            context_results = int(self.agent_settings["injected_memories"])
+        if "conversation_results" in self.agent_settings:
+            conversation_results = int(self.agent_settings["conversation_results"])
+        else:
+            conversation_results = 6
+        if "command_name" in self.agent_settings:
+            command_name = self.agent_settings["command_name"]
+        else:
+            command_name = ""
+        if "command_args" in self.agent_settings:
+            command_args = (
+                json.loads(self.agent_settings["command_args"])
+                if isinstance(self.agent_settings["command_args"], str)
+                else self.agent_settings["command_args"]
+            )
+        else:
+            command_args = {}
+        if "command_variable" in self.agent_settings:
+            command_variable = self.agent_settings["command_variable"]
+        else:
+            command_variable = "text"
+        if "chain_name" in self.agent_settings:
+            chain_name = self.agent_settings["chain_name"]
+        else:
+            chain_name = ""
+        if "chain_args" in self.agent_settings:
+            chain_args = (
+                json.loads(self.agent_settings["chain_args"])
+                if isinstance(self.agent_settings["chain_args"], str)
+                else self.agent_settings["chain_args"]
+            )
+        else:
+            chain_args = {}
+        if "tts_provider" in self.agent_settings:
+            tts_provider = str(self.agent_settings["tts_provider"]).lower()
+            if tts_provider != "none" and tts_provider != "":
+                tts = True
+        analyze_user_input = False
+        if "analyze_user_input" in self.agent_settings:
+            analyze_user_input = (
+                str(self.agent_settings["analyze_user_input"]).lower() == "true"
+            )
+        for message in prompt.messages:
+            if "mode" in message:
+                if message["mode"] in ["prompt", "command", "chain"]:
+                    mode = message["mode"]
+            if "injected_memories" in message:
+                context_results = int(message["injected_memories"])
+            if "conversation_results" in message:
+                conversation_results = int(message["conversation_results"])
+            if "prompt_category" in message:
+                prompt_category = message["prompt_category"]
+            if "prompt_name" in message:
+                prompt_name = message["prompt_name"]
+            if "prompt_args" in message:
+                prompt_args = (
+                    json.loads(message["prompt_args"])
+                    if isinstance(message["prompt_args"], str)
+                    else message["prompt_args"]
+                )
+            if "command_name" in message:
+                command_name = message["command_name"]
+            if "command_args" in message:
+                command_args = (
+                    json.loads(message["command_args"])
+                    if isinstance(message["command_args"], str)
+                    else message["command_args"]
+                )
+            if "command_variable" in message:
+                command_variable = message["command_variable"]
+            if "chain_name" in message:
+                chain_name = message["chain_name"]
+            if "chain_args" in message:
+                chain_args = (
+                    json.loads(message["chain_args"])
+                    if isinstance(message["chain_args"], str)
+                    else message["chain_args"]
+                )
+            if "browse_links" in message:
+                browse_links = str(message["browse_links"]).lower() == "true"
+            if "tts" in message:
+                tts = str(message["tts"]).lower() == "true"
+            if "websearch" in message:
+                websearch = str(message["websearch"]).lower() == "true"
+            if "analyze_user_input" in message:
+                analyze_user_input = (
+                    str(message["analyze_user_input"]).lower() == "true"
+                )
+            if "content" not in message:
+                continue
+            if isinstance(message["content"], str):
+                role = message["role"] if "role" in message else "User"
+                if role.lower() == "system":
+                    if "/" in message["content"]:
+                        new_prompt += f"{message['content']}\n\n"
+                if role.lower() == "user":
+                    new_prompt += f"{message['content']}\n\n"
+            if isinstance(message["content"], list):
+                for msg in message["content"]:
+                    if "text" in msg:
+                        role = message["role"] if "role" in message else "User"
+                        if role.lower() == "user":
+                            new_prompt += f"{msg['text']}\n\n"
+                    # Iterate over the msg to find _url in one of the keys then use the value of that key unless it has a "url" under it
+                    if isinstance(msg, dict):
+                        for key, value in msg.items():
+                            if "_url" in key:
+                                url = str(value["url"] if "url" in value else value)
+                                if url.startswith("https://github.com/"):
+                                    do_not_pull_repo = [
+                                        "/pull/",
+                                        "/issues",
+                                        "/discussions",
+                                        "/actions/",
+                                        "/projects",
+                                        "/security",
+                                        "/releases",
+                                        "/commits",
+                                        "/branches",
+                                        "/tags",
+                                        "/stargazers",
+                                        "/watchers",
+                                        "/network",
+                                        "/settings",
+                                        "/compare",
+                                        "/archive",
+                                    ]
+                                    if any(x in url for x in do_not_pull_repo):
+                                        # If the URL is not a repository, don't pull it
+                                        urls.append(url)
+                                    else:
+                                        # Download the zip for the repo
+                                        github_user = (
+                                            self.agent_settings["GITHUB_USERNAME"]
+                                            if "GITHUB_USERNAME" in self.agent_settings
+                                            else None
+                                        )
+                                        github_token = (
+                                            self.agent_settings["GITHUB_TOKEN"]
+                                            if "GITHUB_TOKEN" in self.agent_settings
+                                            else None
+                                        )
+                                        github_repo = url.replace(
+                                            "https://github.com/", ""
+                                        )
+                                        github_repo = github_repo.replace(
+                                            "https://www.github.com/", ""
+                                        )
+                                        if not github_branch:
+                                            github_branch = "main"
+                                        user = github_repo.split("/")[0]
+                                        repo = github_repo.split("/")[1]
+                                        if " " in repo:
+                                            repo = repo.split(" ")[0]
+                                        if "\n" in repo:
+                                            repo = repo.split("\n")[0]
+                                        # Remove any symbols that would not be in the user, repo, or branch
+                                        for symbol in [
+                                            " ",
+                                            "\n",
+                                            "\t",
+                                            "\r",
+                                            "\\",
+                                            "/",
+                                            ":",
+                                            "*",
+                                            "?",
+                                            '"',
+                                            "<",
+                                            ">",
+                                        ]:
+                                            repo = repo.replace(symbol, "")
+                                            user = user.replace(symbol, "")
+                                            github_branch = github_branch.replace(
+                                                symbol, ""
+                                            )
+                                        repo_url = f"https://github.com/{user}/{repo}/archive/refs/heads/{github_branch}.zip"
+                                        try:
+                                            if github_user and github_token:
+                                                response = requests.get(
+                                                    repo_url,
+                                                    auth=(github_user, github_token),
+                                                )
+                                            else:
+                                                response = requests.get(repo_url)
+                                        except:
+                                            github_branch = "master"
+                                            repo_url = f"https://github.com/{user}/{repo}/archive/refs/heads/{github_branch}.zip"
+                                            try:
+                                                if github_user and github_token:
+                                                    response = requests.get(
+                                                        repo_url,
+                                                        auth=(
+                                                            github_user,
+                                                            github_token,
+                                                        ),
+                                                    )
+                                                else:
+                                                    response = requests.get(repo_url)
+                                            except:
+                                                pass
+                                        if response.status_code == 200:
+                                            file_name = (
+                                                f"{user}_{repo}_{github_branch}.zip"
+                                            )
+                                            file_data = response.content
+                                            file_path = os.path.normpath(
+                                                os.path.join(
+                                                    self.agent_workspace,
+                                                    conversation_id,
+                                                    file_name,
+                                                )
+                                            )
+                                            if file_path.startswith(
+                                                self.agent_workspace
+                                            ):
+                                                with open(file_path, "wb") as f:
+                                                    f.write(file_data)
+                                                files.append(
+                                                    {
+                                                        "file_name": file_name,
+                                                        "file_url": f"{self.outputs}/{conversation_id}/{file_name}",
+                                                    }
+                                                )
+                                        else:
+                                            urls.append(url)
+                                if "file_name" in msg:
+                                    file_name = str(msg["file_name"])
+                                else:
+                                    file_name = ""
+                                if key != "audio_url":
+                                    files.append(
+                                        await self.download_file_to_workspace(
+                                            url=url,
+                                            file_name=file_name,
+                                        )
+                                    )
+                                else:
+                                    # If there is an audio_url, it is the user's voice input that needs transcribed before running inference
+                                    audio_file_info = (
+                                        await self.download_file_to_workspace(url=url)
+                                    )
+                                    full_path = os.path.normpath(
+                                        os.path.join(
+                                            self.agent_workspace,
+                                            conversation_id,
+                                            audio_file_info["file_name"],
+                                        )
+                                    )
+                                    if not full_path.startswith(self.agent_workspace):
+                                        raise Exception("Path given not allowed")
+                                    audio_file_path = os.path.join(
+                                        self.agent_workspace,
+                                        conversation_id,
+                                        audio_file_info["file_name"],
+                                    )
+                                    if os.path.normpath(audio_file_path).startswith(
+                                        self.agent_workspace
+                                    ):
+                                        wav_file = os.path.join(
+                                            self.agent_workspace,
+                                            conversation_id,
+                                            f"{uuid.uuid4().hex}.wav",
+                                        )
+                                        AudioSegment.from_file(
+                                            audio_file_path
+                                        ).set_frame_rate(16000).export(
+                                            wav_file, format="wav"
+                                        )
+                                        transcribed_audio = await self.audio_to_text(
+                                            audio_path=wav_file,
+                                        )
+                                        new_prompt += transcribed_audio
+        # Add user input to conversation
+        for file in files:
+            new_prompt += f"\nUploaded file: `{file['file_name']}`."
+        c.log_interaction(role="USER", message=new_prompt)
+        for file in files:
+            await self.learn_from_file(
+                file_url=file["file_url"],
+                file_name=file["file_name"],
+                user_input=new_prompt,
+                collection_id=self.conversation_id,
+            )
+        await self.learn_from_websites(
+            urls=urls,
+            summarize_content=False,
+        )
+
+        data_analysis = ""
+        if analyze_user_input:
+            data_analysis = await self.analyze_data(user_input=new_prompt)
+        if mode == "command" and command_name and command_variable:
+            try:
+                command_args = (
+                    json.loads(self.agent_settings["command_args"])
+                    if isinstance(self.agent_settings["command_args"], str)
+                    else self.agent_settings["command_args"]
+                )
+            except Exception as e:
+                command_args = {}
+            command_args[self.agent_settings["command_variable"]] = new_prompt
+            response = await self.execute_command(
+                command_name=self.agent_settings["command_name"],
+                command_args=command_args,
+                voice_response=tts,
+            )
+        elif mode == "chain" and chain_name:
+            chain_name = self.agent_settings["chain_name"]
+            try:
+                chain_args = (
+                    json.loads(self.agent_settings["chain_args"])
+                    if isinstance(self.agent_settings["chain_args"], str)
+                    else self.agent_settings["chain_args"]
+                )
+            except Exception as e:
+                chain_args = {}
+            response = await self.execute_chain(
+                chain_name=chain_name,
+                user_input=new_prompt,
+                agent_override=self.agent_name,
+                chain_args=chain_args,
+                log_user_input=False,
+                voice_response=tts,
+            )
+        elif mode == "prompt":
+            response = await self.inference(
+                user_input=new_prompt,
+                prompt_name=prompt_name,
+                prompt_category=prompt_category,
+                injected_memories=context_results,
+                conversation_results=conversation_results,
+                shots=prompt.n,
+                websearch=websearch,
+                browse_links=browse_links,
+                voice_response=tts,
+                log_user_input=False,
+                data_analysis=data_analysis,
+                **prompt_args,
+            )
+        try:
+            prompt_tokens = get_tokens(new_prompt) + self.input_tokens
+            completion_tokens = get_tokens(response)
+            total_tokens = int(prompt_tokens) + int(completion_tokens)
+            logging.info(f"Input tokens: {prompt_tokens}")
+            logging.info(f"Completion tokens: {completion_tokens}")
+            logging.info(f"Total tokens: {total_tokens}")
+        except:
+            if not response:
+                response = "Unable to retrieve response."
+                logging.error(f"Error getting response: {response}")
+        res_model = {
+            "id": self.conversation_id,
+            "object": "chat.completion",
+            "created": int(time.time()),
+            "model": self.agent_name,
+            "choices": [
+                {
+                    "index": 0,
+                    "message": {
+                        "role": "assistant",
+                        "content": str(response),
+                    },
+                    "finish_reason": "stop",
+                    "logprobs": None,
+                }
+            ],
+            "usage": {
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "total_tokens": total_tokens,
+            },
+        }
+        return res_model
+
+    async def batch_inference(
+        self,
+        user_inputs: List[str] = [],
+        prompt_category: str = "Default",
+        prompt_name: str = "Ask Questions",
+        images: list = [],
+        injected_memories: int = 5,
+        batch_size: int = 10,
+        browse_links: bool = False,
+        voice_response: bool = False,
+        log_user_input: bool = False,
+        **kwargs,
+    ):
+        i = 0
+        tasks = []
+        responses = []
+        if user_inputs == []:
+            return []
+        for user_input in user_inputs:
+            i += 1
+            if i % batch_size == 0:
+                responses += await asyncio.gather(**tasks)
+                tasks = []
+            task = asyncio.create_task(
+                await self.inference(
+                    user_input=user_input,
+                    prompt_category=prompt_category,
+                    prompt_name=prompt_name,
+                    images=images,
+                    injected_memories=injected_memories,
+                    browse_links=browse_links,
+                    voice_response=voice_response,
+                    log_user_input=log_user_input,
+                    **kwargs,
+                )
+            )
+            tasks.append(task)
+        responses += await asyncio.gather(**tasks)
+        return responses
+
+    async def dpo(
+        self,
+        question: str = "",
+        injected_memories: int = 10,
+    ):
+        context_async = self.memories(
+            user_input=question,
+            limit_per_collection=injected_memories,
+        )
+        chosen_async = self.inference(
+            user_input=question,
+            prompt_category="Default",
+            prompt_name="Answer Question with Memory",
+            injected_memories=injected_memories,
+            log_user_input=False,
+        )
+        rejected_async = self.inference(
+            user_input=question,
+            prompt_category="Default",
+            prompt_name="Wrong Answers Only",
+            log_user_input=False,
+        )
+        chosen = await chosen_async
+        rejected = await rejected_async
+        context = await context_async
+        prompt = f"### Context\n{context}\n### Question\n{question}"
+        return prompt, chosen, rejected
+
+    # Creates a synthetic dataset from memories in sharegpt format
+    async def create_dataset_from_memories(self, batch_size: int = 10):
+        self.agent_settings["training"] = True
+        self.agent_interactions.agent.update_agent_config(
+            new_config=self.agent_settings, config_key="settings"
+        )
+        memories = []
+        questions = []
+        dataset_name = f"{datetime.now().strftime('%Y-%m-%d-%H-%M-%S')}-DPO-Dataset"
+        collections = await self.agent_interactions.agent_memory.get_collections()
+        for collection in collections:
+            self.collection_name = collection
+            memories += (
+                await self.agent_interactions.agent_memory.export_collection_to_json()
+            )
+        logging.info(f"There are {len(memories)} memories.")
+        memories = [memory["text"] for memory in memories]
+        # Get a list of questions about each memory
+        question_list = self.batch_inference(
+            user_inputs=memories,
+            batch_size=batch_size,
+            prompt_category="Default",
+            prompt_name="Ask Questions",
+        )
+        for question in question_list:
+            # Convert the response to a list of questions
+            question = question.split("\n")
+            question = [
+                item.lstrip("0123456789.*- ") for item in question if item.lstrip()
+            ]
+            question = [item for item in question if item]
+            question = [item.lstrip("0123456789.*- ") for item in question]
+            questions += question
+        prompts = []
+        good_answers = []
+        bad_answers = []
+        for question in questions:
+            prompt, chosen, rejected = await self.dpo(
+                question=question,
+                injected_memories=10,
+            )
+            prompts.append(prompt)
+            good_answers.append(
+                [
+                    {"content": prompt, "role": "user"},
+                    {"content": chosen, "role": "assistant"},
+                ]
+            )
+            bad_answers.append(
+                [
+                    {"content": prompt, "role": "user"},
+                    {"content": rejected, "role": "assistant"},
+                ]
+            )
+        dpo_dataset = {
+            "prompt": questions,
+            "chosen": good_answers,
+            "rejected": bad_answers,
+        }
+        # Save messages to a json file to be used as a dataset
+        dataset_dir = os.path.join(self.agent_workspace, "datasets")
+
+        os.makedirs(dataset_dir, exist_ok=True)
+        dataset_name = "".join(
+            [c for c in dataset_name if c.isalpha() or c.isdigit() or c == " "]
+        )
+        dataset_filename = f"{dataset_name}.json"
+        full_path = os.path.normpath(
+            os.path.join(self.agent_workspace, dataset_filename)
+        )
+        if not full_path.startswith(self.agent_workspace):
+            raise Exception("Path given not allowed")
+        with open(os.path.join(dataset_dir, dataset_filename), "w") as f:
+            f.write(json.dumps(dpo_dataset))
+        self.agent_settings["training"] = False
+        self.agent_interactions.agent.update_agent_config(
+            new_config=self.agent_settings, config_key="settings"
+        )
+        return dpo_dataset
+
+    async def convert_to_pydantic_model(
+        self,
+        input_string: str,
+        model: Type[BaseModel],
+        max_failures: int = 3,
+        response_type: str = None,
+        **kwargs,
+    ):
+        input_string = str(input_string)
+        fields = model.__annotations__
+        field_descriptions = []
+        for field, field_type in fields.items():
+            description = f"{field}: {field_type}"
+            if get_origin(field_type) == Union:
+                field_type = get_args(field_type)[0]
+            if isinstance(field_type, type) and issubclass(field_type, Enum):
+                enum_values = ", ".join([f"{e.name} = {e.value}" for e in field_type])
+                description += f" (Enum values: {enum_values})"
+            field_descriptions.append(description)
+        schema = "\n".join(field_descriptions)
+        response = await self.inference(
+            user_input=input_string,
+            schema=schema,
+            prompt_category="Default",
+            prompt_name="Convert to Pydantic Model",
+            log_user_input=False,
+            log_output=False,
+        )
+        if "```json" in response:
+            response = response.split("```json")[1].split("```")[0].strip()
+        elif "```" in response:
+            response = response.split("```")[1].strip()
+        try:
+            response = json.loads(response)
+            if response_type == "json":
+                return response
+            else:
+                return model(**response)
+        except Exception as e:
+            if "failures" in kwargs:
+                failures = int(kwargs["failures"]) + 1
+                if failures > max_failures:
+                    logging.error(
+                        f"Error: {e} . Failed to convert the response to the model after 3 attempts. Response: {response}"
+                    )
+                    return (
+                        response
+                        if response
+                        else "Failed to convert the response to the model."
+                    )
+            else:
+                failures = 1
+            logging.warning(
+                f"Error: {e} . Failed to convert the response to the model, trying again. {failures}/3 failures. Response: {response}"
+            )
+            return await self.convert_to_pydantic_model(
+                input_string=input_string,
+                model=model,
+                max_failures=max_failures,
+                response_type=response_type,
+                failures=failures,
+            )
+
+    def get_agent_workspace_markdown(self):
+        def generate_markdown_structure(folder_path, indent=0):
+            if not os.path.isdir(folder_path):
+                return ""
+            markdown_output = ""
+            items = sorted(os.listdir(folder_path))
+            for item in items:
+                item_path = os.path.join(folder_path, item)
+                if os.path.isdir(item_path):
+                    markdown_output += f"{'  ' * indent}* **{item}/**\n"
+                    markdown_output += generate_markdown_structure(
+                        item_path, indent + 1
+                    )
+                else:
+                    markdown_output += f"{'  ' * indent}* {item}\n"
+            return markdown_output
+
+        return generate_markdown_structure(folder_path=self.agent_workspace)
+
+    async def analyze_user_input(self, user_input: str):
+        code_execution = ""
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Analyzing.",
+        )
+        analyze_input = await self.inference(
+            user_input=user_input,
+            prompt_category="Default",
+            prompt_name="Analyze Input",
+            log_user_input=False,
+            log_output=False,
+            browse_links=False,
+            websearch=False,
+            websearch_depth=0,
+            voice_response=False,
+        )
+        analyzed_input = {}
+        logging.info(f"Analyzed Input: {analyze_input}")
+        if "```json" not in analyze_input and "```" in analyze_input:
+            analyze_input = analyze_input.replace("```", "```json", 1)
+        if "```json" in analyze_input:
+            analyze_input = analyze_input.split("```json")[1].split("```")[0]
+        try:
+            analyzed_input = json.loads(analyze_input)
+            if "math" in analyzed_input:
+                if str(analyzed_input["math"]).lower() != "true":
+                    return ""
+            else:
+                return ""
+        except:
+            return ""
+        if analyzed_input == {}:
+            return ""
+        code_interpreter = await self.inference(
+            user_input=user_input,
+            prompt_category="Default",
+            prompt_name="Write Code",
+            log_user_input=False,
+            log_output=False,
+            browse_links=False,
+            websearch=False,
+            websearch_depth=0,
+            voice_response=False,
+        )
+        logging.info(f"Code Interpreter: {code_interpreter}")
+        if "```python" in code_interpreter:
+            code_interpreter = code_interpreter.split("```python")[1].split("```")[0]
+            if "```python" in code_interpreter:
+                code_interpreter = code_interpreter.split("```python")[1].split("```")[
+                    0
+                ]
+            code_verification = await self.inference(
+                user_input=user_input,
+                prompt_category="Default",
+                prompt_name="Verify Code",
+                code=code_interpreter,
+                log_user_input=False,
+                log_output=False,
+                browse_links=False,
+                websearch=False,
+                websearch_depth=0,
+                voice_response=False,
+            )
+            logging.info(f"Code Verification: {code_verification}")
+            if "```python" in code_verification:
+                code_verification = code_verification.split("```python")[1].split(
+                    "```"
+                )[0]
+                if "```python" in code_verification:
+                    code_verification = code_verification.split("```python")[1].split(
+                        "```"
+                    )[0]
+                try:
+                    last_line = code_verification.split("\n")[-1]
+                    if last_line == "\n" or last_line == "":
+                        last_line = code_verification.split("\n")[-2]
+                    if last_line == "\n" or last_line == "":
+                        last_line = code_verification.split("\n")[-3]
+                    if not last_line.startswith("print("):
+                        old_last_line = last_line
+                        new_last_line = f"print({last_line})"
+                        code_verification = code_verification.rsplit(old_last_line, 1)[
+                            0
+                        ]
+                        code_verification += new_last_line
+                except Exception as e:
+                    logging.error(f"Error adding print statement: {e}")
+                try:
+                    code_execution = await self.execute_command(
+                        command_name="Execute Python Code",
+                        command_args={"code": code_verification, "text": ""},
+                    )
+                except Exception as e:
+                    fixed_code = await self.inference(
+                        user_input=user_input,
+                        prompt_category="Default",
+                        prompt_name="Fix Verified Code",
+                        code=code_verification,
+                        code_error=str(e),
+                        log_user_input=False,
+                        log_output=False,
+                        browse_links=False,
+                        websearch=False,
+                        websearch_depth=0,
+                        voice_response=False,
+                    )
+                    logging.info(f"Fixed Code: {fixed_code}")
+                    code_verification = fixed_code
+                    if "```python" in code_verification:
+                        code_verification = code_verification.split("```python")[
+                            1
+                        ].split("```")[0]
+                        if "```python" in code_verification:
+                            code_verification = code_verification.split("```python")[
+                                1
+                            ].split("```")[0]
+                        try:
+                            code_execution = await self.execute_command(
+                                command_name="Execute Python Code",
+                                command_args={"code": code_verification, "text": ""},
+                            )
+                        except Exception as e:
+                            code_execution = ""
+                            logging.error(f"Error executing code: {e}")
+        if code_execution != "":
+            return f"Executed the following code expressed to assist the user:\n```python\n{code_verification}\n```\n**REFERENCE THE RESULTS, NOT THE CODE TO THE USER WHEN RESPONDING! THE RESULTS FROM RUNNING THE CODE ARE AS FOLLOWS:**\n{code_execution}"
+        return ""
+
+    async def analyze_data(
+        self,
+        user_input: str,
+        file_content=None,
+        file_name="",
+    ):
+        file_names = []
+        file_path = self.conversation_workspace
+        if "```csv" in user_input and file_name == "":
+            file_name = f"{uuid.uuid4().hex}.csv"
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Saving CSV data to file `{file_name}`.",
+            )
+            file_content = user_input.split("```csv")[1].split("```")[0]
+            file_path = os.path.join(self.conversation_workspace, file_name)
+            with open(file_path, "w") as f:
+                f.write(file_content)
+        if not file_content:
+            files = os.listdir(self.conversation_workspace)
+            logging.info(f"Files in conversation workspace: {files}")
+            # Check if any files are csv files, if not, return empty string
+            csv_files = [file for file in files if file.endswith(".csv")]
+            logging.info(f"CSV files in conversation workspace: {csv_files}")
+            if len(csv_files) == 0:
+                return await self.analyze_user_input(user_input=user_input)
+            activities = self.conversation.get_activities(limit=20)["activities"]
+            logging.info(f"Activities: {activities}")
+            if len(activities) == 0:
+                return await self.analyze_user_input(user_input=user_input)
+            likely_files = []
+            for activity in activities:
+                if ".csv" in activity["message"]:
+                    if "`" in activity["message"]:
+                        likely_files.append(activity["message"].split("`")[1])
+            if len(likely_files) == 1:
+                file_name = likely_files[0]
+                file_path = os.path.join(self.conversation_workspace, file_name)
+                file_content = open(file_path, "r").read()
+            else:
+                file_determination = await self.inference(
+                    user_input=user_input,
+                    prompt_category="Default",
+                    prompt_name="Determine File",
+                    directory_listing="\n".join(csv_files),
+                    conversation_results=10,
+                    websearch=False,
+                    browse_links=False,
+                    log_user_input=False,
+                    log_output=False,
+                    voice_response=False,
+                )
+                # Iterate over files and use regex to see if the file name is in the response
+                for file in files:
+                    if re.search(file, file_determination):
+                        file_names.append(file)
+                if len(file_names) == 1:
+                    file_name = file_names[0]
+                    file_path = os.path.join(self.conversation_workspace, file_name)
+                    file_content = open(file_path, "r").read()
+            if file_name == "":
+                return await self.analyze_user_input(user_input=user_input)
+        if len(file_names) > 1:
+            # Found multiple files, do things a little differently.
+            previews = []
+            import_files = ""
+            for file in file_names:
+                if import_files == "":
+                    import_files = f"`{self.conversation_workspace}/{file}`"
+                else:
+                    import_files += f", `{self.conversation_workspace}/{file}`"
+                file_path = os.path.join(self.conversation_workspace, file)
+                file_content = open(file_path, "r").read()
+                lines = file_content.split("\n")
+                lines = lines[:2]
+                file_preview = "\n".join(lines)
+                previews.append(f"`{file_path}`\n```csv\n{file_preview}\n```")
+            file_preview = "\n".join(previews)
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Analyzing data from multiple files: {import_files}.",
+            )
+        else:
+            lines = file_content.split("\n")
+            lines = lines[:2]
+            file_preview = "\n".join(lines)
+            self.conversation.log_interaction(
+                role=self.agent_name,
+                message=f"[ACTIVITY] Analyzing data from file `{file_name}`.",
+            )
+        code_interpreter = await self.inference(
+            user_input=user_input,
+            prompt_category="Default",
+            prompt_name=(
+                "Code Interpreter Multifile"
+                if len(file_names) > 1
+                else "Code Interpreter"
+            ),
+            import_file=import_files if len(file_names) > 1 else file_path,
+            file_preview=file_preview,
+            log_user_input=False,
+            log_output=False,
+            browse_links=False,
+            websearch=False,
+            websearch_depth=0,
+            voice_response=False,
+        )
+        if "```python" in code_interpreter:
+            code_interpreter = code_interpreter.split("```python")[1].split("```")[0]
+        if "```python" in code_interpreter:
+            code_interpreter = code_interpreter.split("```python")[1].split("```")[0]
+        # Step 5 - Verify the code is good before executing it.
+        code_verification = await self.inference(
+            user_input=user_input,
+            prompt_category="Default",
+            prompt_name=(
+                "Verify Code Interpreter Multifile"
+                if len(file_names) > 1
+                else "Verify Code Interpreter"
+            ),
+            import_file=import_files if len(file_names) > 1 else file_path,
+            file_preview=file_preview,
+            code=code_interpreter,
+            log_user_input=False,
+            log_output=False,
+            browse_links=False,
+            websearch=False,
+            websearch_depth=0,
+            voice_response=False,
+        )
+        # Split out the python code
+        if "```python" in code_verification:
+            code_verification = code_verification.split("```python")[1].split("```")[0]
+        if "```python" in code_verification:
+            code_verification = code_verification.split("```python")[1].split("```")[0]
+        # Step 6 - Execute the code, will need to revert to step 4 if the code is not correct to try again.
+        try:
+            code_execution = await self.execute_command(
+                command_name="Execute Python Code",
+                command_args={"code": code_verification, "text": file_content},
+            )
+        except Exception as e:
+            # Step 6.5 - Fix the code if it failed to execute.
+            # Need to prompt LLM to figure out what the problem was and try again.
+            fixed_code = await self.inference(
+                user_input=user_input,
+                prompt_category="Default",
+                prompt_name="Fix Code",
+                file_preview=file_preview,
+                import_file=import_files if len(file_names) > 1 else file_path,
+                code=code_verification,
+                code_error=str(e),
+                log_user_input=False,
+                log_output=False,
+                browse_links=False,
+                websearch=False,
+                websearch_depth=0,
+                voice_response=False,
+            )
+            try:
+                code_execution = await self.execute_command(
+                    command_name="Execute Python Code",
+                    command_args={"code": fixed_code, "text": file_content},
+                )
+            except Exception as e:
+                code_execution = "Error executing code."
+                logging.error(f"Error executing code: {e}")
+        if code_execution.startswith("Error"):
+            self.failures += 1
+            if self.failures < 3:
+                self.conversation.log_interaction(
+                    role=self.agent_name,
+                    message=f"[ACTIVITY][WARN] Data analysis failed, trying again ({self.failures}/3).",
+                )
+                return await self.analyze_data(
+                    user_input=user_input,
+                    file_name=file_name,
+                    file_content=file_content,
+                )
+            else:
+                self.conversation.log_interaction(
+                    role=self.agent_name,
+                    message=f"[ACTIVITY][ERROR] Data analysis failed after 3 attempts.",
+                )
+                return "Data analysis failed after 3 attempts. Advise the user that there may be an issue with the data and to try again in a new conversation."
+        self.conversation.log_interaction(
+            role=self.agent_name,
+            message=f"[ACTIVITY] Data analysis complete.",
+        )
+        return f"**REFERENCE ALL OF THE FOLLOWING OUTPUT FROM DATA ANALYSIS RESULTS ON {import_files if len(file_names) > 1 else file_path} INCLUDING ALL VISUALIZATIONS IN MARKDOWN FORMAT TO THE USER**\n\n{code_execution}"
