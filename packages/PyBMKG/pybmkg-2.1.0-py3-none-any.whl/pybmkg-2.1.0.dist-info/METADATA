@@ -1,0 +1,102 @@
+Metadata-Version: 2.1
+Name: PyBMKG
+Version: 2.1.0
+Summary: Python BMKG API Wrapper
+Home-page: https://github.com/kiraware/PyBMKG
+License: MIT
+Keywords: bmkg,api
+Author: Kira
+Author-email: kiraware@github.com
+Maintainer: Kira
+Maintainer-email: kiraware@github.com
+Requires-Python: >=3.11,<4.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: AsyncIO
+Classifier: Framework :: aiohttp
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Atmospheric Science
+Classifier: Topic :: Software Development
+Requires-Dist: aiohttp (>=3.9.1,<4.0.0)
+Requires-Dist: defusedxml (>=0.7.1,<0.8.0)
+Requires-Dist: types-defusedxml (>=0.7.0.20240218,<0.8.0.0)
+Project-URL: Bug Tracker, https://github.com/kiraware/PyBMKG/issues
+Project-URL: Documentation, https://pybmkg.readthedocs.io/en/latest/
+Project-URL: Repository, https://github.com/kiraware/PyBMKG
+Description-Content-Type: text/markdown
+
+# PyBMKG
+
+[![Test](https://github.com/kiraware/PyBMKG/workflows/Test/badge.svg)](https://github.com/kiraware/PyBMKG/actions/workflows/test.yml)
+[![CodeQL](https://github.com/kiraware/PyBMKG/workflows/CodeQL/badge.svg)](https://github.com/kiraware/PyBMKG/actions/workflows/codeql.yml)
+[![Docs](https://readthedocs.org/projects/pybmkg/badge/?version=latest)](https://pybmkg.readthedocs.io/en/latest/?badge=latest)
+[![codecov](https://codecov.io/gh/kiraware/PyBMKG/graph/badge.svg?token=MN6AXAHO0P)](https://codecov.io/gh/kiraware/PyBMKG)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![security: bandit](https://img.shields.io/badge/security-bandit-yellow.svg)](https://github.com/PyCQA/bandit)
+[![Checked with mypy](http://www.mypy-lang.org/static/mypy_badge.svg)](http://mypy-lang.org/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![pypi](https://img.shields.io/pypi/v/PyBMKG.svg)](https://pypi.org/project/PyBMKG/)
+[![python](https://img.shields.io/pypi/pyversions/PyBMKG.svg)](https://pypi.org/project/PyBMKG/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/license/MIT)
+
+PyBMKG is an asynchronous Python API wrapper designed to harness the power of BMKG's open data
+on weather forecasts and earthquake information in Indonesia. Powered by the Meteorology,
+Climatology, and Geophysics Agency ([BMKG](https://bmkg.go.id/)), this project aims to streamline
+access to crucial meteorological and seismic data.
+
+## Key Features
+
+- **Asynchronous Operations:** Utilizes `asyncio` and `aiohttp` for efficient API requests.
+- **Data Schema:** Built with Python's `dataclass` for clear and structured data representation.
+- **Comprehensive Documentation:** Explore detailed [documentation](https://pybmkg.readthedocs.io/en/latest/) for seamless integration and usage.
+
+## Installation
+
+```bash
+pip install PyBMKG
+```
+
+## Usage
+
+```python
+import asyncio
+
+from bmkg import BMKG
+from bmkg.enums import Province
+
+async def main():
+    async with BMKG() as bmkg:
+        weather_forecast = await bmkg.weather_forecast.get_weather_forecast(Province.ACEH)
+        latest_earthquake = await bmkg.earthquake.get_latest_earthquake()
+        strong_earthquake = await bmkg.earthquake.get_strong_earthquake()
+        felt_earthquake = await bmkg.earthquake.get_felt_earthquake()
+
+        print(f"Weather Forecast: {weather_forecast}")
+        print(f"Latest Earthquakes: {latest_earthquake}")
+        print(f"Strong Earthquakes: {strong_earthquake}")
+        print(f"Felt Earthquakes: {felt_earthquake}")
+
+asyncio.run(main())
+```
+
+## Docs
+
+You can start reading the documentation [here](https://pybmkg.readthedocs.io/en/latest/).
+
+## Contributing
+
+We welcome contributions to enhance PyBMKG! Please review our
+[contributing guidelines](https://pybmkg.readthedocs.io/en/latest/how-to-guides/#contributing)
+before getting started.
+
+## Acknowledgements
+
+We would like to thank the Meteorology, Climatology
+and Geophysics Agency (BMKG) for its [open data service](https://data.bmkg.go.id/)
+on weather forecasts and latest earthquake information.
+
