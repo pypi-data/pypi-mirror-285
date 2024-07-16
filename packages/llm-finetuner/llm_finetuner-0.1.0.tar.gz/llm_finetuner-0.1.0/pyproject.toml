@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "llm-finetuner"
+version = "0.1.0"
+description = "A package for fine-tuning and quantizing language models"
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = ["llm", "finetuning", "quantization"]
+authors = [
+  { name = "Seekh", email = "insha@seekh.co" },
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Programming Language :: Python :: 3.7",
+
+]
+dependencies = [
+  "llama-cpp-python",
+  "huggingface_hub[cli,torch,tensorflow]",
+  "boto3",
+  "setuptools",
+  "wheel",
+  "torch",
+  "transformers",
+  "peft",
+  "datasets",
+  "trl",
+  "tf-keras",
+  "bitsandbytes",
+  "sentencepiece",
+  "virtualenv",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/llm-finetuner"
+Repository = "https://github.com/yourusername/llm-finetuner.git"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_finetuner"]
