@@ -1,0 +1,56 @@
+{% if name %}
+<p class="h5">{{ name }}</p>
+{% endif %}
+
+{% if not id %}
+    <table class="table table-sm">
+    {% for key, value in data.items() %}
+        <tr>
+            <th>{{ key }}</th>
+            <td>{{ value }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+{% elif id=='comparison' %}
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th></th>
+        {% if headers %}
+            {% for header in headers %}
+                <th style="color: {{ config.color_list[loop.index0] }}">{{ header }}</th>
+            {% endfor %}
+        {% endif %}
+        </tr>
+    </thead>
+    {% for key, values in data.items() %}
+        <tr>
+            <th>{{ key }}</th>
+            {% for value in values %}
+                <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+{% elif id=='errors' %}
+<table class="table table-borderless table-hover">
+    <thead>
+        <tr>
+            <th class="text-danger">List of Errors</th>
+        </tr>
+    </thead>
+    {% for value in data %}
+        <tr>
+            <td> {{ value }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+
+{% else %}
+    <div class="table-overflow">
+        {{ data|safe }}
+    </div>
+{% endif %}
