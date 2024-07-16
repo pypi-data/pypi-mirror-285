@@ -1,0 +1,50 @@
+[tool.cibuildwheel]
+
+
+[tool.cibuildwheel.windows]
+archs=["AMD64"]
+before-all = "powershell {project}\\installGo.ps1"
+skip = "cp36-win* cp37-win* pp*-win*"
+environment= """
+PATH="C:\\Go\\bin;C:\\Program Files\\Go\\bin;$PATH"
+GOPATH="C:\\Go"
+"""
+
+[tool.cibuildwheel.linux]
+archs=["x86_64"]
+before-all = '''
+switch_eol_centos_repos()
+{
+	if [ "${AUDITWHEEL_POLICY}" == "manylinux2014" ] && [ "${AUDITWHEEL_ARCH}" != "s390x" ]; then
+		# Centos 7 is EOL and is no longer available from the usual mirrors, so switch
+		# to https://vault.centos.org
+		sed -i 's/enabled=1/enabled=0/g' /etc/yum/pluginconf.d/fastestmirror.conf
+		sed -i 's/^mirrorlist/#mirrorlist/g' /etc/yum.repos.d/*.repo
+		sed -i 's;^.*baseurl=http://mirror;baseurl=https://vault;g' /etc/yum.repos.d/*.repo
+		if [ "${AUDITWHEEL_ARCH}" == "aarch64" ] || [ "${AUDITWHEEL_ARCH}" == "ppc64le" ]; then
+			sed -i 's;/centos/7/;/altarch/7/;g' /etc/yum.repos.d/*.repo
+		fi
+	fi
+}
+switch_eol_centos_repos
+if [ "${AUDITWHEEL_POLICY}" == "manylinux2014" ]
+then
+	yum install -y golang
+fi
+'''
+
+[tool.cibuildwheel.macos]
+before-all = '''
+brew install go@1.21
+'''
+environment = "PATH=/usr/local/opt/go@1.21/bin:/opt/homebrew/opt/go@1.21/bin:$PATH"
+
+[[tool.cibuildwheel.overrides]]
+select = "*-musllinux*"
+before-all = "wget https://golang.org/dl/go1.21.1.linux-amd64.tar.gz;tar -C /usr/local -xzf go1.21.1.linux-amd64.tar.gz"
+environment = """
+PATH=$PATH:/usr/local/go/bin
+"""
+
+
+
