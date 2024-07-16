@@ -1,0 +1,119 @@
+This document describes all notable changes to pyAMARES.
+
+v0.3.16
+-------
+
+**Added**
+  - Added ``params_to_result_pd``, which is the inverse function of ``params_to_result_pd``. 
+
+v0.3.15
+-------
+
+**Fixed**
+  - Fixed a critical bug where J-coupling expressions ending with ``Hz`` were incorrectly interpreted as ``ppm``.
+  - Fixed a critical bug that prevented correct parsing of prior knowledge when there was a space in J-coupling strings, such as "0.125 ppm" and "15 Hz".
+  - Loosen the bounds of chemical shift of ATP peaks in the attached example prior knowledge datasets of human brain at 7T.
+  - Updated the ``simple_tutorial.ipynb`` to use the new prior knowledge dataset and the new API.
+
+
+v0.3.14
+-------
+
+**Added**
+  - Added ``print_lmfit_fitting_results``, a function to print key ``lmfit`` fitting results from the ``fitting_results.out_obj``.
+
+**Fixed**
+  - Changed the version number from ``0.4.0`` to ``0.3.10`` to better manage version increments.
+
+v0.3.13
+-------
+
+**Added**
+  - Added ``result_pd_to_params``, a function that converts fitted results from a DataFrame format into a Parameters object for use with ``simulate_fid``.
+
+**Fixed**
+  - Set ``normalize_fid=False`` to be turn it off for ``initialize_FID`` by default.
+
+v0.3.12
+-------
+
+**Fixed**
+  - Fixed a bug in the ``sum_multiplets`` function that prevented the SNR multiplets from being added.
+  - Revised the printouts for when ``initialize_with_lm`` is enabled.
+
+v0.3.11
+-------
+
+**Fixed**
+  - Updated the ``result["phase"]`` and ``result["phase_sd"]`` to be wrapped according to the minimum and maximum degree constraints defined in the prior knowledge dataset.
+
+v0.3.10
+-------
+
+**Added**
+  - Added the ``initialize_with_lm`` option to both ``fitAMARES`` and ``run_parallel_fitting_with_progress`` functions.
+  - Added a ``highlight_dataframe`` function that highlights rows in a DataFrame based on the values of a specified column.
+
+**Fixed**
+  - Updated docstrings in numerous functions to ensure they render properly.
+  - Add ``result["phase"] = (result["phase"] + 180) % 360 - 180`` to ``report.py`` to wrap ~360 degrees to ~0
+  - Fixed a bug in ``readmat.py``
+  - Fix a bug that the internal initializer ``initialize_with_lm`` always uses the input method to initialize. Now it uses ``leastqs`` as the internal initializer.
+
+v0.3.9
+------
+
+**Added**
+  - The peak-wise Signal-to-Noise Ratio (SNR) is now added to each ``result_pd``. The Standard Deviation (SD) of the noise is obtained from the last 10% of points in the FID.
+
+**Fixed**
+  - Mute `__version__` and `__author__` printouts. 
+
+v0.3.8 
+------
+
+**Added** 
+  - Add a ``read_fidall`` function to read GE MNS Research Pack **fidall** generated MAT-files. 
+
+v0.3.7
+------
+
+**Fixed** 
+  - Instead of try .. catch, use ``def is_mat_file_v7_3(filename)`` to identify if a ifle is V-7.3 
+
+v0.3.6
+------
+
+**Added**
+  - The ``readmrs`` function now supports any MAT-files containing either an ``fid`` or ``data`` variable. This enhancement makes it compatible with GE fidall reconstructed MAT-files as well as Matlab formats written by jMRUI.
+
+v0.3.5
+------
+
+**Fixed**
+  - Fixed a bug where, if the ppm needs to be flipped while the carrier frequency is not 0 ppm, the resulting spectrum looks wrong with a fftshift().
+
+v0.3.4
+------
+
+**Added**
+  - An argument ``noise_var`` to ``initialize_FID`` that allows users to select CRLB estimation methods based on user-defined noise variance. By default, it employs the noise variance estimation method used by OXSA, which estimates noise from the residual. Alternatively, users can opt for jMRUI's default method, which estimates noise from the end of the FID.
+
+v0.3.3
+------
+
+**Added**
+  - Fixed the ``carrier`` placeholder. If ``carrier`` is not 0 ppm, shift the center frequency accordingly. 
+
+v0.3.2
+------
+
+**Added**
+  - Updated the ``generateparameter`` to allow a single number in the bounds region to fix a parameter. This update resolves issues with parameter bounds specification.
+
+v0.3.1
+------
+
+**Added**
+  - Introduced a ``read_nifti`` placeholder to facilitate future support for the NIFTI file format.
+This document describes all notable changes to pyAMARES.
