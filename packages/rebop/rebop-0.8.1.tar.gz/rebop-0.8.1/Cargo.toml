@@ -1,0 +1,50 @@
+[package]
+name = "rebop"
+version = "0.8.1"
+authors = ["Virgile Andreani <armavica@ulminfo.fr>"]
+edition = "2021"
+license = "MIT"
+categories = ["algorithms", "mathematics", "science", "simulation"]
+homepage = "https://armavica.github.io/rebop/"
+repository = "https://github.com/Armavica/rebop/"
+description = "A fast stochastic simulator for chemical reaction networks"
+keywords = ["gillespie-algorithm", "systems-biology", "stochastic", "scientific-computing"]
+
+[dependencies]
+pyo3 = { version = "0.22.1", features = ["extension-module"] }
+rand = { version = "0.8.5", features = ["small_rng"] }
+rand_distr = "0.4.3"
+
+[features]
+abi3 = ["pyo3/abi3-py310", "generate-import-lib"]
+generate-import-lib = ["pyo3/generate-import-lib"]
+
+[dev-dependencies]
+criterion = "0.5.1"
+iai-callgrind = "0.11.1"
+
+[lib]
+path = "src/lib.rs"
+crate-type = ["lib", "cdylib"]
+bench = false
+
+[[bin]]
+name = "vilar"
+path = "benches/vilar/vilar.rs"
+bench = false
+
+[[bench]]
+name = "my_benchmark"
+harness = false
+
+[[bench]]
+name = "iai"
+harness = false
+
+[profile.release]
+lto = true
+codegen-units = 1
+
+[profile.iai]
+inherits = "release"
+debug = true
