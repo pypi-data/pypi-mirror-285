@@ -1,0 +1,79 @@
+name: 'Second Opinion - AI Code Review Action'
+description: 'Generates AI Code Reviews for Pull Requests'
+branding:
+  icon: 'eye'
+  color: 'blue'
+inputs:
+  openai-api-key:
+    description: 'OpenAI API Key (Azure or OpenAI)'
+    required: true
+  ai-model:
+    description: 'GPT Model to use for AI Code Review (This will be the deployment name for Azure OpenAI API)'
+    required: true
+  azure-api-version:
+    description: 'Azure OpenAI API Version (Required for Azure OpenAI API)'
+    required: false
+  azure-openai-api-endpoint:
+    description: 'Azure OpenAI API Endpoint - If provided this will use the Azure OpenAI API Client, otherwise it will use OpenAI API'
+    required: false
+  custom-prompt:
+    description: 'Custom Prompt to use for AI Code Review'
+    required: false
+  diff-context:
+    description: 'Number of lines of context to include in the diff (default: 10)'
+    required: false
+  max-length:
+    description: 'Truncates the input to the specified length'
+    required: false
+runs:
+  using: "composite"
+  steps:
+
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v7
+      with:
+        python-version: '3.12' 
+
+    - name: Install Second Opinion
+      shell: bash
+      run: |
+          python3 -m venv .env
+          source .env/bin/activate
+          python -m pip install --upgrade pip
+          python -m pip install second_opinion
+
+
+    - name: Get code differences into a file
+      run: git diff --no-prefix -U${{ inputs.diff-context || '10' }} --output diff.txt HEAD^1 HEAD
+      shell: bash
+      
+    - name: Run Second Opinion
+      id: second-opinion
+      env:
+        OPENAI_API_KEY: ${{ inputs.openai-api-key }}
+        AZURE_OPENAI_API_ENDPOINT: ${{ inputs.azure-openai-api-endpoint }}
+        AZURE_OPENAI_API_VERSION: ${{ inputs.azure-api-version }}
+        AI_MODEL: ${{ inputs.ai-model }}
+        CUSTOM_PROMPT: ${{ inputs.custom-prompt }}
+        PR_TITLE: ${{ github.event.pull_request.title }}
+        PR_BODY: ${{ github.event.pull_request.body }}
+        MAX_LENGTH: ${{ inputs.max-length }}
+      run: |
+        source .env/bin/activate
+        output=$(second-opinion diff.txt)
+        echo "PAYLOAD<<EOF"$'\n'"$output"$'\n'EOF >> "$GITHUB_OUTPUT"
+      shell: bash
+
+    - name: Give Opinion on PR
+      uses: actions/github-script@v7
+      env:
+        PAYLOAD: ${{ steps.second-opinion.outputs.PAYLOAD }}
+      with:
+        script: |
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: process.env.PAYLOAD
+          })
+      
