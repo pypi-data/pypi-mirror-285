@@ -1,0 +1,95 @@
+Metadata-Version: 2.1
+Name: splut
+Version: 15
+Summary: Concurrency-related Python utils
+Home-page: https://pypi.org/project/splut/
+Author: foyono
+Author-email: shrovis@foyono.com
+Description-Content-Type: text/markdown
+
+# splut
+Concurrency-related Python utils
+
+## API
+
+<a id="splut.actor"></a>
+
+### splut.actor
+
+<a id="splut.actor.Spawn"></a>
+
+#### Spawn Objects
+
+```python
+class Spawn()
+```
+
+<a id="splut.actor.Spawn.__call__"></a>
+
+###### \_\_call\_\_
+
+```python
+def __call__(*objs)
+```
+
+Create an actor backed by the given object(s), each of which is used in a single-threaded way.
+
+<a id="splut.actor.future"></a>
+
+### splut.actor.future
+
+<a id="splut.actor.future.Future"></a>
+
+#### Future Objects
+
+```python
+class Future()
+```
+
+<a id="splut.actor.future.Future.wait"></a>
+
+###### wait
+
+```python
+def wait()
+```
+
+Block until there is an outcome then return/raise it.
+
+<a id="splut.actor.future.Future.andforget"></a>
+
+###### andforget
+
+```python
+def andforget(log)
+```
+
+Send any exception to the given log.
+
+<a id="splut.bg"></a>
+
+### splut.bg
+
+<a id="splut.bg.Sleeper"></a>
+
+#### Sleeper Objects
+
+```python
+class Sleeper()
+```
+
+<a id="splut.bg.Sleeper.interrupt"></a>
+
+###### interrupt
+
+```python
+def interrupt()
+```
+
+If a sleep is in progress that sleep returns now, otherwise the next sleep will return immediately.
+This is similar behaviour to interrupting a maybe-sleeping thread in Java.
+
+<a id="splut.delay"></a>
+
+### splut.delay
+
