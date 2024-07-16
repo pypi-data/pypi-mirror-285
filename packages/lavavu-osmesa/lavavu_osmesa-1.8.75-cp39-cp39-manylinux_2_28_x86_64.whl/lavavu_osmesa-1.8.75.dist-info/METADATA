@@ -1,0 +1,318 @@
+Metadata-Version: 2.1
+Name: lavavu-osmesa
+Version: 1.8.75
+Summary: Python interface to LavaVu OpenGL 3D scientific visualisation utilities
+Author-email: Owen Kaluza <owen@kaluza.id.au>
+License: ### Licensing
+        
+        1) All source code is released under the LGPL-3 (See below). This covers all
+        files found in the `src` directory and any other material not explicitly
+        identified under (2) below.
+        
+        2) Notebooks, stand-alone documentation and python scripts which show how the code is used and run are licensed under the Creative Commons Attribution 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.  We offer this licence to encourage you to modify and share the examples and use them to help you in your research. Where no individual creator is identified in these files, the appropriate attribution is "The LavaVu Team". All the files covered by this license are found in the `scripts` and `notebooks` directories.
+        
+        ### Copyright holders
+        
+        Copyright Monash University,    2009-2017
+        
+        ### License
+                           
+                           GNU LESSER GENERAL PUBLIC LICENSE
+                               Version 3, 29 June 2007
+        
+         Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+         Everyone is permitted to copy and distribute verbatim copies
+         of this license document, but changing it is not allowed.
+        
+        
+          This version of the GNU Lesser General Public License incorporates
+        the terms and conditions of version 3 of the GNU General Public
+        License, supplemented by the additional permissions listed below.
+        
+          0. Additional Definitions.
+        
+          As used herein, "this License" refers to version 3 of the GNU Lesser
+        General Public License, and the "GNU GPL" refers to version 3 of the GNU
+        General Public License.
+        
+          "The Library" refers to a covered work governed by this License,
+        other than an Application or a Combined Work as defined below.
+        
+          An "Application" is any work that makes use of an interface provided
+        by the Library, but which is not otherwise based on the Library.
+        Defining a subclass of a class defined by the Library is deemed a mode
+        of using an interface provided by the Library.
+        
+          A "Combined Work" is a work produced by combining or linking an
+        Application with the Library.  The particular version of the Library
+        with which the Combined Work was made is also called the "Linked
+        Version".
+        
+          The "Minimal Corresponding Source" for a Combined Work means the
+        Corresponding Source for the Combined Work, excluding any source code
+        for portions of the Combined Work that, considered in isolation, are
+        based on the Application, and not on the Linked Version.
+        
+          The "Corresponding Application Code" for a Combined Work means the
+        object code and/or source code for the Application, including any data
+        and utility programs needed for reproducing the Combined Work from the
+        Application, but excluding the System Libraries of the Combined Work.
+        
+          1. Exception to Section 3 of the GNU GPL.
+        
+          You may convey a covered work under sections 3 and 4 of this License
+        without being bound by section 3 of the GNU GPL.
+        
+          2. Conveying Modified Versions.
+        
+          If you modify a copy of the Library, and, in your modifications, a
+        facility refers to a function or data to be supplied by an Application
+        that uses the facility (other than as an argument passed when the
+        facility is invoked), then you may convey a copy of the modified
+        version:
+        
+           a) under this License, provided that you make a good faith effort to
+           ensure that, in the event an Application does not supply the
+           function or data, the facility still operates, and performs
+           whatever part of its purpose remains meaningful, or
+        
+           b) under the GNU GPL, with none of the additional permissions of
+           this License applicable to that copy.
+        
+          3. Object Code Incorporating Material from Library Header Files.
+        
+          The object code form of an Application may incorporate material from
+        a header file that is part of the Library.  You may convey such object
+        code under terms of your choice, provided that, if the incorporated
+        material is not limited to numerical parameters, data structure
+        layouts and accessors, or small macros, inline functions and templates
+        (ten or fewer lines in length), you do both of the following:
+        
+           a) Give prominent notice with each copy of the object code that the
+           Library is used in it and that the Library and its use are
+           covered by this License.
+        
+           b) Accompany the object code with a copy of the GNU GPL and this license
+           document.
+        
+          4. Combined Works.
+        
+          You may convey a Combined Work under terms of your choice that,
+        taken together, effectively do not restrict modification of the
+        portions of the Library contained in the Combined Work and reverse
+        engineering for debugging such modifications, if you also do each of
+        the following:
+        
+           a) Give prominent notice with each copy of the Combined Work that
+           the Library is used in it and that the Library and its use are
+           covered by this License.
+        
+           b) Accompany the Combined Work with a copy of the GNU GPL and this license
+           document.
+        
+           c) For a Combined Work that displays copyright notices during
+           execution, include the copyright notice for the Library among
+           these notices, as well as a reference directing the user to the
+           copies of the GNU GPL and this license document.
+        
+           d) Do one of the following:
+        
+               0) Convey the Minimal Corresponding Source under the terms of this
+               License, and the Corresponding Application Code in a form
+               suitable for, and under terms that permit, the user to
+               recombine or relink the Application with a modified version of
+               the Linked Version to produce a modified Combined Work, in the
+               manner specified by section 6 of the GNU GPL for conveying
+               Corresponding Source.
+        
+               1) Use a suitable shared library mechanism for linking with the
+               Library.  A suitable mechanism is one that (a) uses at run time
+               a copy of the Library already present on the user's computer
+               system, and (b) will operate properly with a modified version
+               of the Library that is interface-compatible with the Linked
+               Version.
+        
+           e) Provide Installation Information, but only if you would otherwise
+           be required to provide such information under section 6 of the
+           GNU GPL, and only to the extent that such information is
+           necessary to install and execute a modified version of the
+           Combined Work produced by recombining or relinking the
+           Application with a modified version of the Linked Version. (If
+           you use option 4d0, the Installation Information must accompany
+           the Minimal Corresponding Source and Corresponding Application
+           Code. If you use option 4d1, you must provide the Installation
+           Information in the manner specified by section 6 of the GNU GPL
+           for conveying Corresponding Source.)
+        
+          5. Combined Libraries.
+        
+          You may place library facilities that are a work based on the
+        Library side by side in a single library together with other library
+        facilities that are not Applications and are not covered by this
+        License, and convey such a combined library under terms of your
+        choice, if you do both of the following:
+        
+           a) Accompany the combined library with a copy of the same work based
+           on the Library, uncombined with any other library facilities,
+           conveyed under the terms of this License.
+        
+           b) Give prominent notice with the combined library that part of it
+           is a work based on the Library, and explaining where to find the
+           accompanying uncombined form of the same work.
+        
+          6. Revised Versions of the GNU Lesser General Public License.
+        
+          The Free Software Foundation may publish revised and/or new versions
+        of the GNU Lesser General Public License from time to time. Such new
+        versions will be similar in spirit to the present version, but may
+        differ in detail to address new problems or concerns.
+        
+          Each version is given a distinguishing version number. If the
+        Library as you received it specifies that a certain numbered version
+        of the GNU Lesser General Public License "or any later version"
+        applies to it, you have the option of following the terms and
+        conditions either of that published version or of any later version
+        published by the Free Software Foundation. If the Library as you
+        received it does not specify a version number of the GNU Lesser
+        General Public License, you may choose any version of the GNU Lesser
+        General Public License ever published by the Free Software Foundation.
+        
+          If the Library as you received it specifies that a proxy can decide
+        whether future versions of the GNU Lesser General Public License shall
+        apply, that proxy's public statement of acceptance of any version is
+        permanent authorization for you to choose that version for the
+        Library.
+        
+Project-URL: Documentation, https://lavavu.github.io
+Project-URL: Source, https://github.com/lavavu/LavaVu
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Environment :: X11 Applications
+Classifier: Environment :: MacOS X :: Cocoa
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Topic :: Multimedia :: Graphics :: 3D Rendering
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Framework :: Jupyter
+Classifier: Framework :: IPython
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: numpy >=1.18
+Requires-Dist: aiohttp
+Requires-Dist: jupyter-server-proxy
+
+![# logo](http://owen.kaluza.id.au/Slides/2017-08-15/LavaVu.png)
+
+[![Build Status](https://github.com/lavavu/LavaVu/workflows/Test/badge.svg)](https://github.com/lavavu/LavaVu/actions?query=workflow:Test)
+[![Deploy Status](https://github.com/lavavu/LavaVu/workflows/Deploy/badge.svg?branch=1.7.3)](https://github.com/lavavu/LavaVu/actions?query=workflow:Deploy)
+[![DOI](https://zenodo.org/badge/45163055.svg)](https://zenodo.org/badge/latestdoi/45163055)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/lavavu/LavaVu/1.8.75)
+
+A scientific visualisation tool with a python interface for fast and flexible visual analysis.
+
+Documentation available here [LavaVu Documentation](https://lavavu.github.io/Documentation/)
+
+![examplevis](http://owen.kaluza.id.au/Slides/2017-08-15/combined.png)
+
+LavaVu development is supported by the [Monash Immersive Visualisation Plaform](http://monash.edu.au/mivp) and the Simulation, Analysis & Modelling component of the [NCRIS AuScope](http://www.auscope.org.au/ncris/) capability.
+
+The acronym stands for: lightweight, automatable  visualisation and analysis viewing utility, but "lava" is also a reference to its primary application as a viewer for geophysical simulations. It was also chosen to be unique enough to find the repository with google.
+
+The project started in the gLucifer<sup>1</sup> framework for visualising geodynamics simulations. The OpenGL visualisation module was separated from the simulation and sampling libraries and became a more general purpose visualisation tool. gLucifer continues as a set of sampling tools for Underworld simulations as part of the [Underworld2](https://github.com/underworldcode/underworld2/) code. LavaVu provides the rendering library for creating 2d and 3d visualisations to view this sampled data, inline within interactive IPython notebooks and offline through saved visualisation databases and images/movies.
+
+As a standalone tool it is a scriptable 3D visualisation tool capable of producing publication quality high res images and video output from time varying data sets along with HTML5 3D visualisations in WebGL.
+Rendering features include correctly and efficiently rendering large numbers of opaque and transparent points and surfaces and volume rendering by GPU ray-marching. There are also features for drawing vector fields and tracers (streamlines).
+
+Control is via python and a set of simple verbose scripting commands along with mouse/keyboard interaction.
+GUI components can be generated for use from a web browser via the python "control" module and a built in web server.
+
+A native data format called GLDB is used to store and visualisations in a compact single file, using SQLite for storage and fast loading. A small number of other data formats are supported for import (OBJ surfaces, TIFF stacks etc). 
+Further data import formats are supported with python scripts, with the numpy interface allowing rapid loading and manipulation of data.
+
+A CAVE2 virtual reality mode is provided by utilising Omegalib (http://github.com/uic-evl/omegalib) to allow use in Virtual Reality and Immersive Visualisation facilities, such as the CAVE2 at Monash, see (https://github.com/mivp/LavaVR).
+Side-by-side and quad buffer stereoscopic 3D support is also provided for other 3D displays.
+
+### This repository ###
+
+This is the public source code repository for all development on the project.
+Development happens in the "master" branch with stable releases tagged, so if you just check out master, be aware that things can be unstable or broken from time to time.
+
+### How do I get set up? ###
+
+It's now in the python package index, so you can install with *pip*:
+
+```
+pip install --user lavavu
+```
+
+> If you don't have pip available, you can try `sudo easy_install pip` or just install [Anaconda](https://www.anaconda.com/download), which comes with pip and a whole lot of other useful packages for scientific work with python. Once in anaconda `pip install lavavu` will install the package.
+
+> Currently no binaries are provided and the installer needs to compile the library, so on Linux you may need some developer tools and headers first, eg: for Ubuntu:
+`sudo apt install build-essential libgl1-mesa-dev libx11-dev zlib1g-dev`
+
+To try it out:
+
+```
+python
+> import lavavu
+> lv = lavavu.Viewer() #Create a viewer
+> lv.test()            #Plot some sample data
+> lv.interactive()     #Open an interactive viewer window
+```
+
+Alternatively, clone this repository with *git* and build from source:
+
+```
+  git clone https://github.com/lavavu/LavaVu
+  cd LavaVu
+  make -j4
+```
+
+If all goes well the viewer will be built, try running with:
+  ./lavavu/LavaVu
+
+### Dependencies ###
+
+* OpenGL and Zlib, present on most systems, headers may need to be installed
+* To use with python requires python 2.7+ and NumPy
+* For video output, requires: libavcodec, libavformat, libavutil, libswscale (from FFmpeg / libav)
+* To build the python interface from source requires swig (http://www.swig.org/)
+
+### Who do I talk to? ###
+
+* Report bugs/issues here on github: https://github.com/lavavu/LavaVu/issues
+* Contact developer: Owen Kaluza (at) monash.edu
+
+For further documentation / examples, see the online documentation
+* https://lavavu.github.io/Documentation
+
+### Included libraries ###
+In order to avoid as many external dependencies as possible, the LavaVu sources include files from the following public domain or open source libraries, many thanks to the authors for making their code available!
+* SQLite3 https://www.sqlite.org
+* JSON for Modern C++ https://github.com/nlohmann/json
+* linalg https://github.com/sgorsten/linalg
+* Tiny OBJ Loader https://github.com/syoyo/tinyobjloader
+* LodePNG https://github.com/lvandeve/lodepng
+* jpeg-compressor https://github.com/richgel999/jpeg-compressor
+* miniz  https://github.com/richgel999/miniz
+* GPU Cubic B-Spline Interpolation (optional) in volume shader http://www.dannyruijters.nl/cubicinterpolation/ <sup>2</sup>
+* stb_image_resize http://github.com/nothings/stb
+
+---
+<sup>1</sup> [Stegman, D.R., Moresi, L., Turnbull, R., Giordani, J., Sunter, P., Lo, A. and S. Quenette, *gLucifer: Next Generation Visualization Framework for High performance computational geodynamics*, 2008, Visual Geosciences](http://dx.doi.org/10.1007/s10069-008-0010-2)  
+<sup>2</sup> [Ruijters, Daniel & ter Haar Romeny, Bart & Suetens, Paul. (2008). Efficient GPU-Based Texture Interpolation using Uniform B-Splines. J. Graphics Tools. 13. 61-69.](http://dx.doi.org/10.1080/2151237X.2008.10129269)
