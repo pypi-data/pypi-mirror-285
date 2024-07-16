@@ -1,0 +1,218 @@
+# PyQL3
+
+PyQL3 - это проект на Python, предназначенный для работы с базами данных SQLite. Он включает в себя ряд классов, которые
+облегчают взаимодействие с базами данных и обеспечивают удобный интерфейс для выполнения запросов и обработки
+результатов.
+
+## Структура проекта
+
+Проект состоит из следующих модулей:
+
+- `PyQL3.core`: Содержит базовые классы, используемые в других частях проекта.
+- `PyQL3.shell`: Содержит функции для взаимодействия с оболочкой.
+
+## Установка
+
+Установите пакет: `pip install pyql3`
+
+## Использование
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных
+table = conn.get('my_table')
+
+# Получаем строку из таблицы по rowid
+row = table.rows.get(1)
+
+# Получаем значение столбца из строки
+value = row.get('my_column')
+
+# Устанавливаем новое значение для столбца
+row.set('my_column', 'new_value')
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
+```
+
+## Примеры
+
+### Использование объекта базы данных
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Выводим имена таблиц
+print(conn.ids)
+
+# Получение имен таблиц из базы данных
+for table in conn:
+    print(table)
+
+# Проверяем существует ли таблица в базе данных
+print('my_table' in conn)
+
+# Закрываем соединение
+conn.close()
+```
+
+### Получение таблицы по ее имени
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных по ее имени
+table = conn.get('my_table')
+print(table)
+
+# Закрываем соединение
+conn.close()
+```
+
+### Получение таблицы по ее индексу
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Выводим количество таблиц в базе данных
+print(len(conn))
+
+# Получаем таблицу из базы данных по ее индексу
+table = conn.get_by_index(1)
+print(table)
+
+# Закрываем соединение
+conn.close()
+```
+
+### Получение информации о столбцах таблицы
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных
+table = conn.get('my_table')
+
+# Выводим информацию о столбцах таблицы
+for column in table.columns:
+    print(f'Column ID: {column.id}')
+    print(f'Type: {column.type}')
+    print(f'Not Null: {column.not_null}')
+    print(f'Default: {column.default}')
+    print(f'Primary Key: {column.pk}')
+
+# Закрываем соединение
+conn.close()
+```
+
+### Получение записей из таблицы
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных
+table = conn.get('my_table')
+
+# Получаем запись по rowid
+row = table.rows.get(1)
+print(row)
+
+# Получаем запись по ее индексу
+row = table.rows.get_by_index(1)
+print(row)
+
+# Получаем записи по выражению sql выражению
+where = 'my_column = value AND my_column LIKE "%substring%"'
+rows = table.rows.get_by_sql(where)
+print(rows)
+
+# Закрываем соединение
+conn.close()
+```
+
+### Вставка новой строки в таблицу
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных
+table = conn.get('my_table')
+
+# Вставляем новую строку в таблицу
+table.rows.insert(values=('John Doe', 'john.doe@example.com'))
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
+```
+
+### Удаление строки из таблицы
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных
+table = conn.get('my_table')
+
+# Удаляем строку из таблицы по rowid
+table.rows.delete(1)
+
+# Удаляем строку из таблицы по индексу
+table.rows.delete_by_index(1)
+
+# Удаляем строку из таблицы выражению WHERE
+where = 'my_column LIKE "%substring%"'
+table.rows.delete_by_where(where)
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
+```
+
+### Обновление данных в строке таблицы
+
+```python
+from PyQL3.shell import PyConnection
+
+# Создаем новое соединение с базой данных
+conn = PyConnection('my_database.db')
+
+# Получаем таблицу из базы данных по имени
+table = conn.get('my_table')
+
+# Получаем строку из таблицы по rowid
+row = table.rows.get(1)
+
+# Обновляем значение в столбце
+row.set('my_column', 'new_value')
+
+# Сохраняем изменения и закрываем соединение
+conn.commit()
+conn.close()
+```
