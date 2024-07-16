@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "swxtools"
+version = "0.0.6"
+authors = [
+  { name="Eelco Doornbos", email="eelco.doornbos@knmi.nl" },
+]
+description = "Collection of tools to work with space weather data, developed at KNMI."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    'numpy',
+    'pandas',
+    'xarray',
+    'netcdf4',
+    'pyarrow',
+    'beautifulsoup4',
+    'numpngw',
+    'spacepy',
+    'astropy'
+]
+
+[project.urls]
+"Homepage" = "https://gitlab.com/KNMI-OSS/spaceweather/swxtools/"
+"Bug Tracker" = "https://gitlab.com/KNMI-OSS/spaceweather/-/issues"
