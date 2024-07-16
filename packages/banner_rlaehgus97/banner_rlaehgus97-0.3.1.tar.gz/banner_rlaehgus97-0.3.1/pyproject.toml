@@ -1,0 +1,25 @@
+[project]
+name = "banner_rlaehgus97"
+version = "0.3.1"
+description = "Banner Output Program"
+authors = [
+    {name = "rlaehgus97", email = "starkim625@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+rlaehgus97-banner='banner_rlaehgus97.banner:show'
+rlaehgus97-pic='banner_rlaehgus97.banner:pic'
+rlaehgus97-lotto='banner_rlaehgus97.banner:lotto'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/rlaehgus97/banner_rlaehgus97"
+Issues = "https://github.com/rlaehgus97/banner_rlaehgus97/issues"
