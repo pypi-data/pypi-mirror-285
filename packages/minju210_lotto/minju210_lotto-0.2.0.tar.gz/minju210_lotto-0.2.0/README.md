@@ -1,0 +1,1 @@
+# minju210_lotto
