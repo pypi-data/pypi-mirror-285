@@ -1,0 +1,274 @@
+# spice
+
+Simple python client for extracting data from the [Dune Analytics API](https://docs.dune.com/api-reference/overview/introduction)
+
+Goals:
+- simple, no OOP, entire api is just one function
+- support both sync and async workflows
+- use [polars](https://github.com/pola-rs/polars) Dataframes for all table data
+- python and command line interfaces
+
+## Table of Contents
+1. [Installation](#Install)
+2. [Examples](#Examples)
+    1. [Sync Workflow](#Sync-Workflow)
+    2. [Async Workflow](#Async-Workflow)
+    3. [CLI Workflow](#CLI-workflow)
+3. [API Reference](#API-Reference)
+    1. [Data Extraction API](#data-extraction-api)
+    2. [Query Builder API](#query-builder-api)
+4. [FAQ](#FAQ)
+
+## Installation
+
+### Python Installation
+`pip install dune`
+
+### CLI Installation
+`cargo install dune`
+
+## Examples
+
+Can either use the sync workflow or async workflow. Each is just one function.
+
+### Sync Workflow
+
+```python
+import dune
+
+# get most recent query results using query id
+df = dune.query(21693)
+
+# get most recent query results using query url
+df = dune.query('https://dune.com/queries/21693')
+
+# perform new query execution and get results
+df = dune.query(query, refresh=True)
+
+# get query results for input parameters
+df = dune.query(query, parameters={'network': 'ethereum'})
+
+# perform new query execution, but do not wait for result
+execution = dune.query(query, poll=False)
+
+# get results of previous execution
+df = dune.query(execution)
+```
+
+### Async Workflow
+
+The async api is identical to the sync api, just add `async_` prefix
+
+```python
+df = await dune.async_query(21693)
+df = await dune.async_query('https://dune.com/queries/21693')
+df = await dune.async_query(query, refresh=True)
+df = await dune.async_query(query, parameters={'network': 'ethereum'})
+execution = await dune.query(query, poll=False)
+df = await dune.async_query(execution)
+```
+
+### CLI Workflow
+
+```bash
+# get most recent query results using query id
+dune 21693
+
+# get most recent query results using query url
+dune https://dune.com/queries/21693
+
+# perform new query execution and get results
+dune $QUERY --refresh
+
+# get query results for input parameters
+dune $QUERY --parameters network=ethereum
+
+# perform new query execution, but do not wait for result
+EXECUTION=$(dune $QUERY --no-poll)
+
+# get results of previous execution
+dune --execution $EXECUTION
+
+# set output directory
+dune --output-dir /path/to/dir
+```
+
+## API Reference
+
+### Data Extraction API
+
+#### Types
+
+```python
+from typing import Any, Literal, Mapping, Sequence, TypedDict
+import polars as pl
+
+# query is an int id or query url
+Query = int | str
+
+# execution performance level
+Performance = Literal['medium', 'large']
+
+# execution
+class Execution(TypedDict):
+    execution_id: str
+```
+
+#### Functions
+
+These functions are accessed as `dune.query()` and `dune.aysnc_query()`.
+
+```python
+def query(
+    query_or_execution: Query | Execution,
+    *,
+    verbose: bool = True,
+    refresh: bool = False,
+    parameters: Mapping[str, Any] | None = None,
+    api_key: str | None = None,
+    performance: Performance = 'medium',
+    poll: bool = True,
+    poll_interval: float = 1.0,
+    limit: int | None = None,
+    offset: int | None = None,
+    sample_count: int | None = None,
+    sort_by: str | None = None,
+    columns: Sequence[str] | None = None,
+    extras: Mapping[str, Any] | None = None,
+    dtypes: Sequence[pl.PolarsDataType] | None = None,
+) -> pl.DataFrame | Execution:
+    """get results of query as dataframe
+
+    # Parameters
+    - query: query or execution to retrieve results of
+    - verbose: whether to print verbose info
+    - refresh: trigger a new execution, or just use most recent execution
+    - parameters: dict of query parameters
+    - api_key: dune api key, otherwise use DUNE_API_KEY env var
+    - performance: performance level
+    - poll: wait for result as DataFrame, or just return Execution handle
+    - poll_interval: polling interval in seconds
+    - limit: number of rows to query in result
+    - offset: row number to start returning results from
+    - sample_count: number of random samples from query to return
+    - sort_by: an ORDER BY clause to sort data by
+    - columns: columns to retrieve, by default retrieve all columns
+    - extras: extra parameters used for fetching execution result
+        - examples: ignore_max_datapoints_per_request, allow_partial_results
+    - dtypes: dtypes to use in output polars dataframe
+    """
+    ...
+
+async def async_query(
+    # all the same parameters as query()
+    ...
+) -> pl.DataFrame | Execution:
+    """get results of query as dataframe, asynchronously
+
+    ## Parameters
+    [see query()]
+    """
+    ...
+```
+
+### Query CRUD API
+
+These are advanced-mode functions for managing queries programmatically. Most people do not need this.
+
+These query builder functions are in the `dune.programmatic` module.
+
+```python
+from typing import Any, Literal, Mapping, Sequence, TypedDict
+
+class QueryMetadata(TypedDict):
+    name: str
+    description: str
+    query_sql: str
+    params: Mapping[str, ParameterSpec]
+    is_private: bool
+    archived: bool
+
+class ParameterSpec(TypedDict):
+    name: str
+    type: Literal['text', 'number', 'datetime', 'enum']
+    value: Any
+    enum_options: NotRequired[Sequence[Any]]
+
+def create_query(
+    sql: str,
+    *,
+    parameters: Mapping[str, ParameterSpec] | None = None,
+    private: bool = True,
+) -> QueryMetadata:
+    """create new query
+
+    # Parameters
+    - sql: sql content of query
+    - parameters: parameters of query
+    - private: whether query is private
+    """
+    ...
+
+def read_query(query: Query) -> QueryMetadata:
+    """read query content and metadata
+
+    # Parameters
+    - query: query id or query url
+    """
+    ...
+
+def update_query(
+    query: Query,
+    *,
+    sql: str | None = None,
+    parameters: Mapping[str, ParameterSpec] | None = None,
+    private: bool | None = None,
+    archive: bool | None = None,
+) -> QueryMetadata:
+    """update query
+
+    # Parameters
+    - query: query id or query url
+    - sql: sql content of query
+    - parameters: parameters of query
+    - private: whether query is private
+    - archive; whether to archive or unarchive query
+    """
+    ...
+
+def delete_query(query: Query) -> QueryMetadata:
+    """delete query
+
+    # Parameters
+    - query: query id or query url
+    """
+    ...
+```
+
+The async query builder api is identical to the sync api, just add `async_` prefix
+
+```python
+async def async_create_query(...) -> QueryMetadata:
+    """[see create_query()]"""
+
+async def async_read_query(...) -> QueryMetadata:
+    """[see read_query()]"""
+
+async def async_update_query(...) -> QueryMetadata:
+    """[see update_query()]"""
+
+async def async_delete_query(...) -> QueryMetadata:
+    """[see delete_query()]"""
+```
+
+## FAQ
+
+#### Is this the official Dune client?
+No. Find that [here](https://github.com/duneanalytics/dune-client).
+
+#### How do I set my Dune API key?
+This package looks for a Dune api key in the `DUNE_API_KEY` environment variable.
+
+#### Which endpoints does this package support?
+This package interacts only with Dune's SQL-related API endpoints, documented [here](https://docs.dune.com/api-reference/executions/execution-object).
+
