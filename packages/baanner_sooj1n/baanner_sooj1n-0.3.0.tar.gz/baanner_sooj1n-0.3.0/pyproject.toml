@@ -1,0 +1,25 @@
+[project]
+name = "baanner_sooj1n"
+version = "0.3.0"
+description = "Default template for PDM package"
+
+authors = [
+    {name = "sooj1n", email = "sujin19371@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+sooj1n-banner = 'baanner_sooj1n.banner:show'
+sooj1n-pic = 'baanner_sooj1n.banner:pic'
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/sooj1n/banner_sooj1n"
+Issues = "https://github.com/sooj1n/banner_sooj1n/issues"
