@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: django-signals-conf
+Version: 0.1.1
+Summary: The library helps configure signals for django projects faster and easier
+Home-page: https://github.com/tinhpb9x/django-signals-conf/
+Author: Tinh Pham Ba
+Author-email: tinhpb9x@gmail.com
+License: MIT
+Description: ======
+        django-signals-conf
+        ======
+        
+        The library helps configure signals for django projects faster and easier
+        
+        Requirements
+        -----------
+        - Python 3
+        - Django
+        
+        
+        Quick start
+        -----------
+        1. Install using `pip`
+        
+        
+            (venv) $ pip install django-signals-conf
+        2. Add `django_signals_conf` to your INSTALLED_APPS setting like this:
+        
+        
+            INSTALLED_APPS = [
+        
+                ...
+                'django_signals_conf', # new
+            ]
+        
+        
+        3. Run command:
+        
+            
+            (venv) $ python manage.py createsignals --app=<your_app>
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >3.0
+Description-Content-Type: text/markdown
