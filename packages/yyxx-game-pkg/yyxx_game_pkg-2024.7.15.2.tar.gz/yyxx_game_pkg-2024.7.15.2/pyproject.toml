@@ -1,0 +1,90 @@
+[build-system]
+requires = [ "poetry-core",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "yyxx-game-pkg"
+version = "v2024.07.15.002"
+description = "yyxx game custom module"
+authors = [ "yyxx-game",]
+license = "MIT"
+homepage = "https://github.com/yyxxgame/yyxxgame-pkg"
+repository = "https://github.com/yyxxgame/yyxxgame-pkg"
+readme = "README.md"
+classifiers = [ "Programming Language :: Python :: 3", "License :: OSI Approved :: MIT License", "Operating System :: OS Independent",]
+[[tool.poetry.packages]]
+include = "yyxx_game_pkg"
+
+[[tool.poetry.packages]]
+include = "tests"
+
+[tool.poetry.dependencies]
+python = ">=3.9, <4"
+toml = "^0.10.2"
+opentelemetry-api = "^1.16.0"
+opentelemetry-sdk = "^1.16.0"
+opentelemetry-exporter-jaeger = "^1.16.0"
+opentelemetry-instrumentation-requests = "^0.37b0"
+opentelemetry-instrumentation-fastapi = "0.37b.0"
+opentelemetry-instrumentation-celery = "0.37b0"
+opentelemetry-instrumentation-flask = "^0.37b0"
+opentelemetry-instrumentation-django = "^0.37b0"
+line-profiler = "^4.0.3"
+redis = "^4.5.1"
+pymysql = "^1.0.2"
+pika = "^1.3.1"
+dbutils = "^3.0.2"
+ujson = "^5.7.0"
+celery = "5.2.7"
+uvicorn = "^0.21.0"
+pandas = "^1.5.3"
+pycryptodome = "^3.17"
+httpx = "^0.24.1"
+pymongo = "3.13.0"
+pyparsing = "^3.1.0"
+
+[tool.poetry.extras]
+stat = [ "fastapi", "scipy", "requests", "elasticsearch",]
+server_center = [ "django", "pillow", "filetype",]
+center_api = [ "flask", "cookiecutter",]
+
+[tool.poetry.dependencies.fastapi]
+version = "^0.94.0"
+optional = true
+
+[tool.poetry.dependencies.pillow]
+version = "^9.5.0"
+optional = true
+
+[tool.poetry.dependencies.filetype]
+version = "^1.2.0"
+optional = true
+
+[tool.poetry.dependencies.django]
+version = "^4.2.1"
+optional = true
+
+[tool.poetry.dependencies.flask]
+version = "^2.3.2"
+optional = true
+
+[tool.poetry.dependencies.cookiecutter]
+version = "^2.1.1"
+optional = true
+
+[tool.poetry.dependencies.scipy]
+version = "^1.12.0"
+optional = true
+
+[tool.poetry.dependencies.requests]
+version = "^2.32.3"
+optional = true
+
+[tool.poetry.dependencies.elasticsearch]
+version = "8.14.0"
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+flake8-isort = "^6.0.0"
+pre-commit = "^3.3.2"
