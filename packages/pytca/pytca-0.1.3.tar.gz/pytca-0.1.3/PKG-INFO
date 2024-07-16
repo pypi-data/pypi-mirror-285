@@ -1,0 +1,86 @@
+Metadata-Version: 2.1
+Name: pytca
+Version: 0.1.3
+Summary: Tranasction cost analysis library
+Home-page: https://github.com/jialuechen/pytca
+Author: Jialue Chen
+Author-email: jialuechen@outlook.com
+License: BSD
+Keywords: TCA,transaction cost analysis
+License-File: LICENSE
+Requires-Dist: setuptools-git==1.2
+Requires-Dist: cython
+Requires-Dist: arctic==1.79.4
+Requires-Dist: sqlalchemy
+Requires-Dist: redis
+Requires-Dist: pandas==1.0.5
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: statsmodels
+Requires-Dist: blosc==1.8.3
+Requires-Dist: pyarrow==2.0.0
+Requires-Dist: pathos
+Requires-Dist: multiprocess
+Requires-Dist: fastparquet==0.4.1
+Requires-Dist: flask-restplus==0.13.0
+Requires-Dist: gunicorn
+Requires-Dist: beautifulsoup4
+Requires-Dist: pdfkit==0.6.1
+Requires-Dist: psutil
+Requires-Dist: matplotlib
+Requires-Dist: boto3
+Requires-Dist: pyodbc==4.0.23
+Requires-Dist: pytest
+Requires-Dist: pytest-cov
+Requires-Dist: mysql-connector-python==8.0.19
+Requires-Dist: IPython
+Requires-Dist: chartpy==0.1.8
+Requires-Dist: findatapy==0.1.19
+Requires-Dist: dash-auth==1.3.2
+Requires-Dist: cufflinks==0.17.3
+Requires-Dist: plotly==4.14.3
+Requires-Dist: kaleido
+Requires-Dist: eikon==1.1.2
+Requires-Dist: chart-studio==1.1.0
+Requires-Dist: dash==1.20.0
+Requires-Dist: dash-bootstrap-components==0.12.0
+Requires-Dist: dash-html-components==1.1.3
+Requires-Dist: dash-core-components==1.16.0
+Requires-Dist: dash-table==4.11.3
+Requires-Dist: jupyter-dash==0.4.0
+Requires-Dist: dtale
+Requires-Dist: qpython==2.0.0
+Requires-Dist: influxdb==5.2.3
+Requires-Dist: celery==5.0.5
+Requires-Dist: pytest-tap
+Requires-Dist: kombu
+Requires-Dist: python-memcached==1.59
+Requires-Dist: numba
+Requires-Dist: vispy
+Requires-Dist: jinja2
+Requires-Dist: jupyterlab
+Requires-Dist: jupyter_contrib_nbextensions
+Requires-Dist: jupyter_nbextensions_configurator
+Requires-Dist: RISE
+Requires-Dist: bqplot
+Requires-Dist: WeasyPrint==51
+Requires-Dist: dask
+Requires-Dist: distributed
+Requires-Dist: cloudpickle==1.3.0
+Requires-Dist: python-snappy==0.5.4
+Requires-Dist: bokeh
+Requires-Dist: msgpack==1.0.0
+Requires-Dist: pystore
+Requires-Dist: fsspec==0.3.3
+
+pytca is a Python library for doing transaction cost analysis (TCA), essentially finding the cost of your trading activity.
+Across the industry many financial firms and corporates trading within financial markets spend a lot of money on TCA, either
+by developing in house tools or using external services.Many sell side firms and larger buy side firms build and maintain their own TCA libraries, which is very expensive. The cost of TCA
+across the industry is likely to run into many hundreds of millions of dollars or possibly billions of dollars.
+
+Much of the complexity in TCA is due to the need to handle large tick datasets and do calculations on them and is largely a
+software engineering problem. This work needs to be repeated in every single implementation. By open sourcing the library
+we hope that the industry will no longer need to keep reinventing the wheel when it comes to TCA. At the same time,
+because all the code is visible to users, pytca allows you can add your own customized metrics and benchmarks,
+which is where you are likely have very particular IP in financial markets. You get the flexibility of a fully internal
+TCA solution for free.
