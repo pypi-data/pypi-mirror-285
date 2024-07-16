@@ -1,0 +1,52 @@
+#!/bin/bash
+
+if [ "$#" -ne 3 ]; then
+    echo "Usage: $0 <file_path> <number_of_bytes> <number_of_seconds>" >&2
+    exit 1
+fi
+
+FILE_PATH=$1
+NUM_BYTES=$2
+DURATION=$3
+ 
+INTERVAL=1
+
+SCRIPT_START_TIME=$(date +%s)
+
+echo "Creating file at $FILE_PATH with $NUM_BYTES bytes over $DURATION seconds." 
+
+# Size of each chunk is based on update interval
+let "PROGRESS_UPDATE_INTERVAL = DURATION / 100"
+if [ $PROGRESS_UPDATE_INTERVAL -eq 0 ]; then
+    PROGRESS_UPDATE_INTERVAL=1
+fi
+let "CHUNK_SIZE = NUM_BYTES / (DURATION / INTERVAL)"
+if [ $CHUNK_SIZE -eq 0 ]; then
+    CHUNK_SIZE=1
+fi
+
+PROGRESS=0
+
+update_progress() {
+    # Time since the script started
+    CURRENT_TIME=$(date +%s)
+    let "ELAPSED_TIME = CURRENT_TIME - SCRIPT_START_TIME"
+    echo -ne "[${ELAPSED_TIME}]: Progress: ${PROGRESS}%\r" 
+}
+
+# Make sure the file is empty before starting
+truncate -s 0 "$FILE_PATH"
+
+while [ $PROGRESS -lt 100 ]; do
+    update_progress
+    # Write the next chunk of bytes
+    head -c $CHUNK_SIZE </dev/zero >>"$FILE_PATH"
+    sleep $INTERVAL
+    let "PROGRESS += (100 * INTERVAL / DURATION)"
+    if [ $PROGRESS -gt 100 ]; then
+        PROGRESS=100
+    fi
+done
+
+update_progress
+echo -e "\nFile created at $FILE_PATH with $NUM_BYTES bytes." 
