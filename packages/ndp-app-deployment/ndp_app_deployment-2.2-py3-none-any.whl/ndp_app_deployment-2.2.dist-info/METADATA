@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: ndp-app-deployment
+Version: 2.2
+Summary: Version Control Mechanism for Zetaris Platform (https://www.zetaris.com/)
+Home-page: https://github.com/zetaris/versioncontrol
+Author: Harshal Shah
+Author-email: harshal.shah@zetaris.com
+License: Proprietary
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: jaydebeapi
+Requires-Dist: numpy
+Requires-Dist: pycryptodomex
+Requires-Dist: getpass4
+Requires-Dist: pyyaml
+Requires-Dist: sqlalchemy
+
+### Usage and Installation
+```
+pip3 install install ndp-app-deployment==1.5
+
+from ndp_deployment.fetch_metastore import object_deployment
+
+object_deployment(api_url,user_email,user_password,folder_path,option_for_backup,container_name,object_name)
+```
