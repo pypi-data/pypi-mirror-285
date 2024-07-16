@@ -1,0 +1,24 @@
+[project]
+name = "banner_jeong"
+version = "0.4.2"
+description = "show design text"
+authors = [
+    {name = "Jeonghoon2", email = "ukidd12@naver.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = 'banner_jeong.banner:show'
+pic = 'banner_jeong.banner:pic'
+lotto = 'banner_jeong.banner:lotto'
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage="https://github.com/Jeonghoon2/banner_jeong"
+Issues="https://github.com/Jeonghoon2/banner_jeong/issues"
