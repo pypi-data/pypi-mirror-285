@@ -1,0 +1,28 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cfmaker"
+version = "0.1.0"
+authors = [
+  { name="littlestar", email="littlestar002@gmail.com" },
+]
+description = "A lightweight compilation tool for Fortran and C projects, primarily targeting the Intel oneAPI compilers, ifort and ifx."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = ["oneapi", "fortran", "project", "c", "compiler"]
+
+[project.urls]
+Homepage = "https://github.com/Littlestar007/fmaker"
+Issues = "https://github.com/Littlestar007/fmaker/issues"
+
+[tool.setuptools.packages.find]
+where = [""]
