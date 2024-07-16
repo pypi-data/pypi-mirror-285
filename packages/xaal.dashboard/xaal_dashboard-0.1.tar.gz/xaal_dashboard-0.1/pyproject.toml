@@ -1,0 +1,22 @@
+[project]
+name = "xaal.dashboard"
+version = "0.1"
+description = "xAAL Dashboard"
+readme = "README.rst"
+authors = [ { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" } ]
+license = { text = "GPL License"}
+classifiers = ["Programming Language :: Python",
+"Topic :: Software Development :: Libraries :: Python Modules"]
+keywords = ["xaal", "socketio", "html", "dashboard"]
+dependencies = ["xaal.lib",
+"bottle",
+"gevent",
+"gevent-websocket",
+"python-engineio",
+"python-socketio",
+"mako",
+"requests"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.dashboard"]
