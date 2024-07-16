@@ -1,0 +1,52 @@
+<html>
+<head>
+  <title>xAAL JSON / List of devices</title>
+  <script type="text/javascript" src="jquery.min.js"></script>
+  <link rel=stylesheet type="text/css" href="style.css">
+<body>
+
+<h1>xAAL REST API on <span id=hostname></span></h1>
+
+<h2>Devices</h2>
+
+<table id="devices">
+</table>
+
+<h2>API</h2>
+<table>
+<tr><th>Name</th><th>value</th></tr>
+<tr><td>JSON URL</td><td><span id="resturl">xxx</span></td></tr>
+</table>
+
+
+
+<script type="text/javascript">
+var getUrl = window.location;
+//var baseUrl = getUrl.protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[0];
+var baseUrl = getUrl.protocol + "//" + getUrl.host;
+var url=baseUrl+"/devices";
+$("#resturl").html("<a href="+url+">"+url+"</a>");
+$("#hostname").html(window.location.hostname);
+
+function update() {
+  $.getJSON(url, function(result){
+        $("#devices").html("<tr><th>DevType</th><th>Address</th><th>Vendor</th><th>Info</th></tr>");
+        $.each(result, function(i, field){
+            var dev_type= field['dev_type'];
+            var addr= field['address'];
+            var json= "./device.html?addr="+addr;
+            var link= "<a href="+json+">"+addr+"</a>";
+            var info=field['info'];
+            var vendor=field['vendor']
+            $("#devices").append("<tr><td>"+dev_type+"</td><td>" +link+ "</td><td>"+vendor+"</td><td>"+info+"</td></tr>");
+        });
+    });
+}
+        
+setInterval(update,(1000*60));
+update();        
+</script>
+
+
+</body>
+</html>
