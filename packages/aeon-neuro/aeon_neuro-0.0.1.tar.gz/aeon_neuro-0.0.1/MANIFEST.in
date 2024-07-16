@@ -1,0 +1,20 @@
+recursive-include aeon_neuro *.py
+recursive-include aeon_neuro/data *.ts *.txt *.gif *.json *.tsv *.eeg *.vhdr *.vmrk
+include aeon_neuro/data/example_dataset/README
+include .coveragerc
+include LICENSE
+include MANIFEST.in
+include pyproject.toml
+include README.md
+
+recursive-exclude .github *
+recursive-exclude build_tools *
+recursive-exclude docs *
+recursive-exclude examples *
+exclude .codecov.yml
+exclude .gitattributes
+exclude .gitignore
+exclude .pre-commit-config.yaml
+exclude .readthedocs.yml
+exclude CHANGELOG.md
+exclude CODE_OF_CONDUCT.md
