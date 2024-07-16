@@ -1,0 +1,56 @@
+{#- OZI 0.1
+# ozi/templates/tox.pyproject.toml
+# SPDX-License-Identifier: Unlicense
+-#}
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist = True
+envlist = {% for suite in spec.python.ci.checkpoint.suites %}{{ suite }},{% endfor %}
+
+[gh]
+python =
+   {{ spec.python.support.bugfix }} = {% for suite in spec.python.ci.checkpoint.suites %}{{ suite }},{% endfor %}
+   {{ spec.python.support.security1 }} = {% for suite in spec.python.ci.checkpoint.suites %}{{ suite }},{% endfor %}
+   {{ spec.python.support.security2 }} = {% for suite in spec.python.ci.checkpoint.suites %}{{ suite }},{% endfor %}
+
+[testenv]
+allowlist_externals =
+   rm
+   pipx
+   python
+   meson
+package = wheel
+deps =
+{%- for requires in spec.python.build.requires.values() %}
+   {{ requires }}
+{%- endfor %}
+   -r requirements.in
+commands =
+   meson compile -C {env_tmp_dir}
+   rm -rf {env_tmp_dir}/.gitignore
+
+{%- for suite in spec.python.ci.checkpoint.suites %}
+[testenv:{{ suite }}]
+commands_pre =
+   pipx install --python=python meson
+   meson setup {env_tmp_dir} -Dozi:{{ suite }}=enabled -Dozi:tox-env-dir={env_dir} --reconfigure
+commands_post = meson test --no-rebuild --maxfail=1 -C {env_tmp_dir} --setup={{ suite }}
+{%- endfor %}
+
+[testenv:fix]
+description = quickly fix minor source issues 
+deps = pipx
+skip_install = true
+commands =
+     pipx run --python {env_python} -q black -S .
+     pipx run --python {env_python} -q isort .
+     pipx run --python {env_python} -q autoflake -i -r .
+     pipx run --python {env_python} -q ruff check {{ project.name|underscorify|lower }} --fix
+
+[testenv:scm]
+description = OZI supply chain management (setuptools_scm)
+deps = setuptools_scm[toml]>=8
+commands =
+     {env_python} -m setuptools_scm {posargs}
+"""
