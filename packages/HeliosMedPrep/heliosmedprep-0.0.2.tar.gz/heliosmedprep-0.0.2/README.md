@@ -1,0 +1,5 @@
+# HeliosMedPrep
+
+HeliosMedPrep is a specialized Python library for medical data preprocessing, helping to normalize, encode, and transform data from EHR systems for use in machine learning models. It is part of the Helios ecosystem, developed to improve efficiency and usability in medical research using MIMIC data. HeliosMedPrep includes various functions to prepare hospitalization data for machine learning models. This library is handy in handling different data types, such as drug coding, diagnoses, medical procedures, prescriptions, laboratory events, and hospital admission information. This library is introduced in the article "DiagLumina: A Trustworthy and Explainable Multi-Task Framework for Clinical and Para-clinical Diagnosis Using EHR Data."
+
+HeliosMedPrep is a library designed to facilitate data preprocessing from the MIMIC database in the newest version. 
