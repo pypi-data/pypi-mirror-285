@@ -1,0 +1,82 @@
+#!/bin/bash
+
+TOOLBOX_ACTIVE_TEMP_FILEPATH=/tmp/cnc_toolbox_active
+touch $TOOLBOX_ACTIVE_TEMP_FILEPATH
+
+# This kills all processes spawned by this script on exit
+trap cleanup_toolbox EXIT
+
+# Echo caller identity
+echo -e "\nYour currently authenticated accounts:\n$(gcloud auth list)"
+echo -e "\nCurrent configuration:\n$(gcloud config list)"
+
+{% if not proxy_only %}
+# Ensure docker configured
+gcloud auth configure-docker {{ environment.collection.region }}-docker.pkg.dev
+{% endif %}
+
+{%- if environment.database_resources or environment.cache_resources %}
+cleanup_toolbox () {
+    echo -e "\nCleaning up port-forwarding sessions..."
+    rm $TOOLBOX_ACTIVE_TEMP_FILEPATH
+
+    group_id=$(ps -p $port_forwarding_parent_process_id -o pgid= | tr -d "[:space:]")
+    child_process_ids=$(pgrep -g $group_id)
+    for pid in $child_process_ids
+    do
+        if [[ $pid != $port_forwarding_parent_process_id && $pid != $group_id ]]
+        then
+            kill $pid > /dev/null 2>&1
+        fi
+    done
+
+    {%- for resource in environment.database_resources + environment.cache_resources %}
+    if test -f /tmp/cnc_ssh_output_{{ loop.index }}
+    then
+        rm /tmp/cnc_ssh_output_{{ loop.index }}
+    fi
+    {%- endfor %}
+}
+
+start_resource_port_forwarding () {
+    PID_FALLBACK="none"
+    while test -f $TOOLBOX_ACTIVE_TEMP_FILEPATH
+    do
+    {% for resource in environment.database_resources + environment.cache_resources %}
+        if ! test -d /proc/${SSH_PID_{{ loop.index }}:-$PID_FALLBACK}/ > /dev/null
+        then
+            SSH_RETRY_COUNT_{{ loop.index }}=${SSH_RETRY_COUNT_{{ loop.index }}:-0}
+            if [ $SSH_RETRY_COUNT_{{ loop.index }} -eq 0 ]
+            then
+                echo -e "\nStarting port-forwarding session for {{ resource.name }}..."
+            fi
+
+            gcloud --project={{ collection.account_id }} \
+            compute ssh toolbox@{{ collection.instance_name }}-bastion --ssh-flag="-4" \
+            --zone={{ collection.region }}-b --ssh-key-expire-after=7200m -- -N -L \
+            0.0.0.0:{{ resource.settings.toolbox_ssh_port_mapping }} > /tmp/cnc_ssh_output_{{ loop.index }} 2>&1 &
+            SSH_PID_{{ loop.index }}=$!
+
+            if [ $SSH_RETRY_COUNT_{{ loop.index }} -gt 3 ]
+            then
+                cmd_output=$(</tmp/cnc_ssh_output_{{ loop.index }})
+                echo -e "\nWarning: issue starting port forwarding session for {{ resource.name }}" \
+                "(failed_attempts: $SSH_RETRY_COUNT_{{ loop.index }})\n$cmd_output"
+            fi
+
+            SSH_RETRY_COUNT_{{ loop.index }}=`expr $SSH_RETRY_COUNT_{{ loop.index }} + 1`
+        fi
+    {% endfor %}
+    sleep 10
+    done &
+}
+
+start_resource_port_forwarding
+port_forwarding_parent_process_id=$!
+{%- endif %}{# {%- if environment.database_resources or environment.cache_resources %} #}
+
+{%- if proxy_only %}
+{% include "partials/proxy_only.sh.j2" %}
+{%- else %}
+{% include "partials/service_container.sh.j2" %}
+{%- endif %}
