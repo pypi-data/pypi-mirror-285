@@ -1,0 +1,24 @@
+[project]
+name = "banner_kimwonjoon"
+version = "0.4.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "Kimwonjoon", email = "kimpass189@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+show-banner = "banner_kimwonjoon.banner:show"
+
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/Kimwonjoon/banner_kimwonjoon"
+Issues = "https://github.com/Kimwonjoon/banner_kimwonjoon/issues"
