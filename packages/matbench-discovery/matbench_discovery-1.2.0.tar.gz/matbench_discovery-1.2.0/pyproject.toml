@@ -1,0 +1,150 @@
+[project]
+name = "matbench-discovery"
+version = "1.2.0"
+description = "A benchmark for machine learning energy models on inorganic crystal stability prediction from unrelaxed structures"
+authors = [{ name = "Janosh Riebesell", email = "janosh.riebesell@gmail.com" }]
+readme = "readme.md"
+license = { file = "license" }
+keywords = [
+  "Bayesian optimization",
+  "convex hull",
+  "high-throughput search",
+  "inorganic crystal stability",
+  "interatomic potential",
+  "machine learning",
+  "materials discovery",
+]
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Chemistry",
+  "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.11"
+dependencies = [
+  "matplotlib",
+  "numpy<2",
+  "pandas>=2.0.0",
+  "plotly",
+  "pymatgen",
+  "pymatviz[export-figs,df-pdf-export]>=0.9.1",
+  "scikit-learn",
+  "scipy",
+  "seaborn",
+  "tqdm",
+  "wandb",
+]
+
+[project.urls]
+Homepage = "https://janosh.github.io/matbench-discovery"
+Repo = "https://github.com/janosh/matbench-discovery"
+Package = "https://pypi.org/project/matbench-discovery"
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+# how to specify git deps: https://stackoverflow.com/a/73572379
+running-models = [
+  # aviary commented-out since dep on git repo raises "Invalid value for requires_dist"
+  # when attempting PyPI publish
+  # "aviary@git+https://github.com/CompRhys/aviary",
+  "alignn",
+  "chgnet>=0.3.0",
+  "jarvis-tools",
+  "m3gnet",
+  "mace-torch",
+  "maml",
+  "megnet",
+]
+3d-structures = ["crystaltoolkit"]
+fetch-wbm-data = ["gdown"]
+make-wbm-umap = ["umap-learn"]
+
+[tool.setuptools.packages.find]
+include = ["matbench_discovery*"]
+exclude = ["tests", "tests.*"]
+
+[tool.setuptools.package-data]
+matbench_discovery = ["figshare/*"]
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "ANN101",
+  "ANN102",
+  "ANN401",
+  "B905",    # zip without explicit strict
+  "BLE001",
+  "C408",    # unnecessary-collection-call
+  "C901",
+  "COM812",
+  "D205",    # blank-line-after-summary
+  "E731",    # lambda-assignment
+  "EM101",
+  "EM102",
+  "FIX002",
+  "INP001",
+  "ISC001",
+  "N806",    # non-lowercase-variable-in-function
+  "PERF203", # try-except-in-loop
+  "PLC0414", # useless-import-alias
+  "PLR",     # pylint refactor
+  "PLW2901", # redefined-loop-name
+  "PT006",   # pytest-parametrize-names-wrong-type
+  "PTH",
+  "S108",
+  "S310",
+  "S311",
+  "S603",
+  "T201",
+  "TD",
+  "TRY003",
+  "TRY301",
+]
+pydocstyle.convention = "google"
+isort.known-third-party = ["wandb"]
+isort.split-on-trailing-comma = false
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "FBT001", "FBT002", "S101"]
+"matbench_discovery/plots.py" = ["ERA001"]    # allow commented out code
+"matbench_discovery/preds.py" = ["ERA001"]    # allow commented out code
+"scripts/*" = ["D", "ERA001"]
+"models/*" = ["D", "ERA001"]
+"data/*" = ["ERA001", "S101"]
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+allow_redefinition = true
+no_namespace_packages = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:warnings -m 'not slow and not very_slow'"
+markers = [
+  "slow: deselect slow tests with -m 'not slow'",
+  "very_slow: select with -m 'very_slow'",
+]
+
+[tool.pyright]
+typeCheckingMode = "off"
+reportPossiblyUnboundVariable = true
+reportUnboundVariable = true
+reportMissingImports = false
