@@ -1,0 +1,59 @@
+Metadata-Version: 2.1
+Name: ewoksnotify
+Version: 0.1.2
+Summary: Ewoks common notification tools
+Home-page: https://gitlab.esrf.fr/workflow/ewoks/ewoksnotify/
+Author: ESRF
+Author-email: henri.payno@esrf.fr
+License: MIT
+Project-URL: Source, https://gitlab.esrf.fr/workflow/ewoks/ewoksnotify/
+Project-URL: Documentation, https://ewoksnotify.readthedocs.io/
+Project-URL: Tracker, https://gitlab.esrf.fr/workflow/ewoks/ewoksnotify/issues/
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: ewoks[orange]
+Provides-Extra: _base
+Requires-Dist: silx ; extra == '_base'
+Provides-Extra: _tone
+Requires-Dist: chime ; extra == '_tone'
+Provides-Extra: dev
+Requires-Dist: pyicat-plus ; extra == 'dev'
+Requires-Dist: chime ; extra == 'dev'
+Requires-Dist: PyQt5 ; extra == 'dev'
+Requires-Dist: pytest >=7 ; extra == 'dev'
+Requires-Dist: importlib-resources ; extra == 'dev'
+Requires-Dist: black >=22 ; extra == 'dev'
+Requires-Dist: flake8 >=4 ; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: pyicat-plus ; extra == 'doc'
+Requires-Dist: chime ; extra == 'doc'
+Requires-Dist: PyQt5 ; extra == 'doc'
+Requires-Dist: pytest >=7 ; extra == 'doc'
+Requires-Dist: importlib-resources ; extra == 'doc'
+Requires-Dist: sphinx >=4.5 ; extra == 'doc'
+Requires-Dist: sphinx-autodoc-typehints >=1.16 ; extra == 'doc'
+Requires-Dist: pydata-sphinx-theme ; extra == 'doc'
+Requires-Dist: nbsphinx ; extra == 'doc'
+Requires-Dist: sphinx-design ; extra == 'doc'
+Provides-Extra: full
+Requires-Dist: pyicat-plus ; extra == 'full'
+Requires-Dist: chime ; extra == 'full'
+Requires-Dist: PyQt5 ; extra == 'full'
+Provides-Extra: icat
+Requires-Dist: pyicat-plus ; extra == 'icat'
+Provides-Extra: orange
+Requires-Dist: Orange3 ; extra == 'orange'
+Provides-Extra: test
+Requires-Dist: pyicat-plus ; extra == 'test'
+Requires-Dist: chime ; extra == 'test'
+Requires-Dist: PyQt5 ; extra == 'test'
+Requires-Dist: pytest >=7 ; extra == 'test'
+Requires-Dist: importlib-resources ; extra == 'test'
+
+# ewoksnotify
+
+Project to group some ewoks tasks that can be of general interest.
