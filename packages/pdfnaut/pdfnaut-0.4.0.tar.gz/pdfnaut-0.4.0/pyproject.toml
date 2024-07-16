@@ -1,0 +1,44 @@
+[project]
+name = "pdfnaut"
+description = "Explore PDFs with ease"
+authors = [
+    { name = "Angel Carias" }
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.8"
+classifiers = [
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: File Formats",
+    "Topic :: Office/Business :: Office Suites",
+    "Topic :: Software Development :: Libraries",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11", 
+    "Programming Language :: Python :: 3.12"    
+]
+dynamic = ["version"]
+dependencies = [
+    "typing-extensions >= 4.11.0"
+]
+
+[project.urls]
+homepage = "https://github.com/aescarias/pdfnaut"
+
+[project.optional-dependencies]
+tests = ["pytest", "pytest-cov"]
+docs = ["sphinx", "sphinx-copybutton", "sphinx-design", "furo"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.setuptools.dynamic]
+version = { attr = "pdfnaut.__version__" }
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
