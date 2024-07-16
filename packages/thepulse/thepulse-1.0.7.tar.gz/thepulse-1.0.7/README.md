@@ -1,0 +1,16 @@
+# thepulse-sdk-python
+
+
+```ipython
+>>> from thepulse import update, get
+>>> update('k1','v1')
+{'_id': 'caa81c3586be', '_key': 'k1', '_url': 'https://devnull.cn/pulse/caa81c3586be', '_value': 'v1'}
+
+>>> update('k1','v1_updated',pulse_id='caa81c3586be')
+{'_id': 'caa81c3586be', '_key': 'k1', '_url': 'https://devnull.cn/pulse/caa81c3586be', '_value': 'v1_updated'}
+
+>>> get('caa81c3586be')
+{'_at': 'Tue, 16 Jul 2024 02:54:16 GMT', '_key': 'k1', '_value': 'v1_updated'}
+>>> 
+
+```
