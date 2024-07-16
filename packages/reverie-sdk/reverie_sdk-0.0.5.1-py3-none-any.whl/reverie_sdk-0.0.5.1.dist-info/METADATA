@@ -1,0 +1,525 @@
+Metadata-Version: 2.1
+Name: reverie-sdk
+Version: 0.0.5.1
+Summary: Reverie Language Technologies SDK
+Home-page: UNKNOWN
+Author: Rohnak Agarwal
+Author-email: rohnak.agarwal@reverieinc.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Multimedia :: Sound/Audio :: Speech
+Requires-Python: >=3.7,<3.13
+Description-Content-Type: text/markdown
+Requires-Dist: pandas
+Requires-Dist: pydub
+Requires-Dist: stream2sentence
+Requires-Dist: websocket-client
+
+# Reverie Python SDK
+
+[Official Reverie API documentation](https://docs.reverieinc.com/)  
+[PyPI project](https://pypi.org/project/reverie-sdk/)
+
+# How to
+
+## STT | File
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+resp = client.asr.stt_file(
+    src_lang="en",
+    data=open("./path/to/audio.wav", "rb").read(),
+)
+print(resp)
+```
+
+**Sample Output**:
+
+```
+ReverieAsrResult (
+    id           : 39c169b3a5c84a418d5dd9ea510ee040f661aa0b80d34a7b
+    text         : but what if ... et cetera
+    final        : True
+    cause        : EOF received
+    success      : True
+    confidence   : 0.9475
+    display_text : But what if ..., et cetera.
+)
+```
+
+## STT | Streaming
+
+### Sample 0: From Bytes
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+for resp in client.asr.stt_stream(
+    src_lang="en",
+    bytes_or_stream=open("./path/to/audio.wav", "rb").read(),
+):
+    print(resp)
+```
+
+**Sample Output**:
+
+```
+ReverieAsrResult (
+    id           : 2d27f9b54c8f4f62b0753afaa4f149e891380777c27541ab
+    text         : but what if
+    final        : False
+    cause        : partial
+    success      : True
+    confidence   : 0.8414
+    display_text : but what if
+)
+ReverieAsrResult (
+    id           : 2d27f9b54c8f4f62b0753afaa4f149e891380777c27541ab
+    text         : but what if somebody decides
+    final        : False
+    cause        : partial
+    success      : True
+    confidence   : 0.8879
+    display_text : but what if somebody decides
+)
+...
+ReverieAsrResult (
+    id           : 2d27f9b54c8f4f62b0753afaa4f149e891380777c27541ab
+    text         : but what if ... hardly tossed on the
+    final        : True
+    cause        : silence detected
+    success      : True
+    confidence   : 0.9121
+    display_text : But what if ... hardly tossed on the.
+)
+```
+
+### Sample 1: From Stream
+
+**Sample Code**:
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+stream = AudioStream()
+
+
+def worker():
+    with open("./path/to/audio.wav", "rb") as f:
+        while True:
+            data = f.read(1024)
+
+            if data is None or len(data) == 0:
+                break
+
+            stream.add_chunk(data)
+
+
+threading.Thread(target=worker).start()
+
+for resp in client.asr.stt_stream(
+    src_lang="en",
+    bytes_or_stream=stream,
+):
+    print(resp)
+```
+
+**Sample Output**:
+```
+ReverieAsrResult (
+    id           : 2d27f9b54c8f4f62b0753afaa4f149e891380777c27541ab
+    text         : but what if
+    final        : False
+    cause        : partial
+    success      : True
+    confidence   : 0.8414
+    display_text : but what if
+)
+ReverieAsrResult (
+    id           : 2d27f9b54c8f4f62b0753afaa4f149e891380777c27541ab
+    text         : but what if somebody decides
+    final        : False
+    cause        : partial
+    success      : True
+    confidence   : 0.8879
+    display_text : but what if somebody decides
+)
+...
+ReverieAsrResult (
+    id           : 2d27f9b54c8f4f62b0753afaa4f149e891380777c27541ab
+    text         : but what if ... hardly tossed on the
+    final        : True
+    cause        : silence detected
+    success      : True
+    confidence   : 0.9121
+    display_text : But what if ... hardly tossed on the.
+)
+```
+
+
+## TTS | Normal
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+resp = client.tts.tts(
+    text=["भारत मेरा देश है।", "मेरी कंपनी का नाम रेवेरी लग्ैंवेज टेक्नोलॉजीज है।"],
+    speaker="hi_female",
+)
+
+print(resp)
+
+resp.save_audio(
+    "./path/to/audio.wav",
+    create_parents=True,
+    overwrite_existing=True,
+)
+```
+
+**Sample Output**:
+
+```
+ReverieTtsResponse(
+    status          :
+    message         :
+    audio_bytes     : 255054
+    duration        : 5.783 seconds
+    kwargs          : {'src': {'text': ['भारत मेरा देश है।', 'मेरी कंपनी का नाम रेवेरी लग्ैंवेज टेक्नोलॉजीज है।'], 'ssml': None}}
+)
+```
+
+## TTS | Streaming
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+with open("./big_text.txt", encoding="utf-8") as f:
+    text = f.read()
+
+for resp_idx, resp in enumerate(
+    client.tts.tts_streaming(
+        text=text,
+        speaker="en_male",
+        max_words_per_chunk=5,
+        fast_sentence_fragment=False,
+    )
+):
+    print(f"{resp_idx:08d} {resp.duration:10.3f}")
+    resp.save_audio(
+        f".path/to/output/{resp_idx:08d}.wav",
+        create_parents=True,
+        overwrite_existing=True,
+    )
+```
+
+**Sample Output**:
+
+```
+00000000     13.351
+00000001      5.422
+00000002      9.799
+...
+00000048      6.014
+00000049      9.741
+00000050     11.622
+```
+
+## T13N | transliteration
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+res = client.t13n.transliteration(
+    data=[
+        "Reverie Language Technologies is located in Bengaluru ",
+        "The address is Jio Avana, Bellandur, Bengaluru -560102",
+        "The website address is www.reverieinc.com.",
+    ],
+    src_lang="en",
+    cnt_lang="en",
+    tgt_lang="hi",
+    noOfSuggestions=2,
+)
+
+print(res)
+```
+
+**Sample Output**:
+
+```
+ReverieT13nResponse(
+    status          : None
+    message         : None
+    error_cause     : None
+    responseList    :
+        ReverieT13nResponse.Result(
+            apiStatus   : 2
+            inString    : Reverie Language Technologies is located in Bengaluru
+            outString   :
+                रेवरी लैंग्वेज टेक्नोलॉजीस इस लोकेटेड इन बेंगलूरु
+                रेवरी लैंग्वेज टेक्नोलॉजीस इस लोकेटेड इन बेंगलुरु
+        )
+        ReverieT13nResponse.Result(
+            apiStatus   : 2
+            inString    : The address is Jio Avana, Bellandur, Bengaluru -560102
+            outString   :
+                थे एड्रेस इस जियो अवाना, बेल्लन्दूर, बेंगलूरु -५६०१०२
+                थे एड्रेस इस जियो अवाना, बेल्लन्दूर, बेंगलूरु -560102
+        )
+        ReverieT13nResponse.Result(
+            apiStatus   : 2
+            inString    : The website address is www.reverieinc.com.
+            outString   :
+                थे वेबसाइट एड्रेस इस डब्ल्युडब्ल्युडब्ल्यु.रेवरीइंक.कॉम.
+                थे वेबसाइट एड्रेस इस डब्ल्युडब्ल्युडब्ल्यु.रेवरीइंक.कम.
+        )
+    kwargs          : {}
+)
+```
+
+## NMT | localization
+
+### Sample 0: Single tgt_lang
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+resp = client.nmt.localization(
+    data=[
+        "Reverie Language Technologies was established in 2009.",
+        "The company head office is located in Bangalore.",
+    ],
+    domain=1,
+    src_lang="en",
+    tgt_lang=["hi"],
+    nmtMask=True,
+    nmtMaskTerms=["Reverie Language Technologies"],
+    nmtParam=True,
+    dbLookupParam=True,
+    segmentationParam=False,
+)
+
+print(resp)
+```
+
+**Sample Output**:
+
+```
+ReverieLocalizationResult(
+    responseList:
+        ReverieLocalizationResponseItem(
+            status      = None
+            message     = None
+            inString    = Reverie Language Technologies was established in 2009.
+            apiStatus   = 3
+            outString   = रेवरी लैंग्वेज टेक्नोलॉजीस की स्थापना 2009 में हुई थी।
+            outStrings:
+
+            api_statuses:
+
+        )
+        ReverieLocalizationResponseItem(
+            status      = None
+            message     = None
+            inString    = The company head office is located in Bangalore.
+            apiStatus   = 3
+            outString   = कंपनी का मुख्यालय बैंगलोर में स्थित है।
+            outStrings:
+
+            api_statuses:
+
+        )
+    tokenConsumed: 102
+)
+```
+
+### Sample 1: Multiple tgt_lang
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+resp = client.nmt.localization(
+    data=[
+        "Reverie Language Technologies was established in 2009.",
+        "The company head office is located in Bangalore.",
+    ],
+    domain=1,
+    src_lang="en",
+    tgt_lang=["hi", "or", "mr"],
+    nmtMask=True,
+    nmtMaskTerms=["Reverie Language Technologies"],
+    nmtParam=True,
+    dbLookupParam=True,
+    segmentationParam=False,
+)
+
+print(resp)
+```
+
+**Sample Output**:
+
+```
+ReverieLocalizationResult(
+    responseList:
+        ReverieLocalizationResponseItem(
+            status      = None
+            message     = None
+            inString    = Reverie Language Technologies was established in 2009.
+            apiStatus   = 4
+            outString   = None
+            outStrings:
+                hi : रेवरी लैंग्वेज टेक्नोलॉजीस की स्थापना 2009 में हुई थी।
+                or : ରେଭେରୀ ଲାଙ୍ଗୁଏଜ୍ ଟେକ୍ନୋଲୋଜିସ୍ 2009 ରେ ପ୍ରତିଷ୍ଠିତ ହୋଇଥିଲା।
+                mr : 2009 मध्ये रेवरी लँग्वेज टेक्नॉलॉजीज ची स्थापना करण्यात आली.
+
+            api_statuses:
+                hi : 3
+                or : 3
+                mr : 3
+
+        )
+        ReverieLocalizationResponseItem(
+            status      = None
+            message     = None
+            inString    = The company head office is located in Bangalore.
+            apiStatus   = 4
+            outString   = None
+            outStrings:
+                hi : कंपनी का मुख्यालय बैंगलोर में स्थित है।
+                or : କମ୍ପାନୀର ମୁଖ୍ୟ କାର୍ଯ୍ୟାଳୟ ବାଙ୍ଗାଲୋରରେ ଅବସ୍ଥିତ ।
+                mr : कंपनीचे मुख्यालय बंगलोरमध्ये आहे.
+
+            api_statuses:
+                hi : 3
+                or : 3
+                mr : 3
+
+        )
+    tokenConsumed: 306
+)
+```
+
+## NLU | lang_id_text
+
+**Sample Code**:
+
+```python 3.x
+from reverie_sdk import ReverieClient
+
+client = ReverieClient(
+    api_key="MY_API_KEY",
+    app_id="MY_APP_ID",
+)
+
+resp = client.nlu.lang_id_text(
+    "भारत दक्षि ण एशि या मेंस्थि त भारतीय उपमहाद्वीप का सबसेबड़ा देश है",
+)
+
+print(resp)
+```
+
+**Sample Output**:
+
+```
+ReverieLangIdTextResponse(
+    lang        = hi
+    confidence  = 0.998913049697876
+)
+```
+
+# Integration Status
+
+1. Speech [x]
+    1. stt_stream [x]
+    1. stt_file (non-streaming) [x]
+    1. stt_batch (async) [x]
+1. NMT [x]
+    1. localization [x]
+1. T13N[x]
+    1. transliteration [x]
+1. TTS [x]
+    1. tts [x]
+    1. tts streaming [x]
+1. NLU [ ]
+    1. lang_id_text [x]
+    1. train_model [ ]
+    1. test_model [ ]
+
+# Testing
+
+All test cases are in [test.py](./test.py)
+
+Install the following python versions from https://www.python.org/downloads/:
+
+- 3.7
+- 3.8
+- 3.9
+- 3.10
+- 3.11
+- 3.12
+
+Then:
+
+```bash
+# test the package using different python versions
+nox
+```
+
+
