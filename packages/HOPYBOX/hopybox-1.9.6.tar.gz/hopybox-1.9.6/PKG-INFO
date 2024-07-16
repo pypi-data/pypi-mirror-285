@@ -1,0 +1,72 @@
+Metadata-Version: 2.1
+Name: HOPYBOX
+Version: 1.9.6
+Summary: An open-source and practical command box.
+Author-email: HOStudio123 <hostudio.hopybox@foxmail.com>
+License: GPL-3.0 license
+Project-URL: Homepage, https://github.com/HOStudio123/HOPYBOX
+Project-URL: Issues, https://github.com/HOStudio123/HOPYBOX/issues
+Keywords: hopybox,box,ho,py,command,terminal,tool
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: bs4
+Requires-Dist: sympy
+Requires-Dist: pyotp>=2.9.0
+Requires-Dist: requests
+Requires-Dist: rich>=13.0.0
+Requires-Dist: psutil>=5.8.0
+Requires-Dist: prompt_toolkit>=3.0.0
+Requires-Dist: cryptography>=41.0.0
+
+# HOPYBOX
+## Introduction
+An open-source and practical command box, it was made in python language, so I named it `HOPYBOX`.
+## Installion
+Install with `pip` or your favorite PyPI package manager.
+```sh
+$ python -m pip install hopybox
+```
+## Run
+Run the following command to run `HOPYBOX` in the terminal:
+```sh
+$ python -m hopybox
+```
+or like these
+```sh
+$ hopybox
+```
+```python
+>>> from hopybox import __main__
+>>> __main__.start()
+```
+## Import all methods
+```python
+>>> from hopybox import *
+```
+## Usage
+See built-in help in the program
+```sh
+HOPYBOX/Program:help
+```
+## Update HOPYBOX
+Enter in the `HOPYBOX` console:
+```sh
+HOPYBOX/Program:update
+```
+or like this
+```sh
+$ pip install -U hopybox
+```
+## License
+Copyright (c) 2022-2024 HOStudio123(ChenJinlin), All Rights Reserved.
+
+HOPYBOX is released under GPLv3 License.
