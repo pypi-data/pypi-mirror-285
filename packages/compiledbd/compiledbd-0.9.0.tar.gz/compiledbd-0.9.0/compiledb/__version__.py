@@ -1,0 +1,8 @@
+__title__ = 'compiledbd'
+__description__ = 'Tool for generating Clang JSON Compilation Database files for make-based build systems.'
+__url__ = 'https://github.com/diodeiot/compiledbd'
+__version__ = '0.9.0'
+__author__ = 'Kadir Sevil'
+__author_email__ = 'kadir.sevil@diodeiot.com'
+__license__ = 'GPLv3'
+__copyright__ = 'Copyright 2017-2019 Nick Yamane, Copyright 2024 DiodeIoT Inc.'
