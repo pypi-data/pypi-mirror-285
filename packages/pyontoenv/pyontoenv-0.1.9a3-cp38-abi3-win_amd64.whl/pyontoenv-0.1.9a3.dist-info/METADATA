@@ -1,0 +1,48 @@
+Metadata-Version: 2.3
+Name: pyontoenv
+Version: 0.1.9a3
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Summary: Command line tool to manage ontologies and their imports in a local environment
+Home-Page: https://github.com/gtfierro/ontoenv-rs
+Author: Gabe Fierro <gtfierro@mines.edu>
+Author-email: Gabe Fierro <gtfierro@mines.edu>
+License: BSD-3-Clause
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Source Code, https://github.com/gtfierro/ontoenv-rs
+
+# PyOntoenv
+
+## Installation
+
+`pip install pyontoenv`
+
+## Usage
+
+```python
+from ontoenv import Config, OntoEnv
+from rdflib import Graph
+
+cfg = Config(["../brick"], strict=False, offline=True)
+
+# make environment
+env = OntoEnv(cfg)
+
+g = Graph()
+# get the transitive owl:imports closure into 'g'
+env.get_closure("https://brickschema.org/schema/1.4-rc1/Brick", g)
+
+brick = Graph()
+brick.parse("Brick.ttl", format="turtle")
+# transitively import dependencies into the 'brick' graph, using the owl:imports declarations
+env.import_dependencies(brick)
+
+# pull Brick graph out of environment
+brick = env.get_graph("https://brickschema.org/schema/1.4-rc1/Brick")
+
+# import graphs by name
+env.import_graph(brick, "https://w3id.org/rec")
+```
+
