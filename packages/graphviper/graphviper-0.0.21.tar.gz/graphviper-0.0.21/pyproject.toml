@@ -1,0 +1,57 @@
+[project]
+name = "graphviper"
+version = "0.0.21"
+description = "Visibility and Image Parallel Execution Reduction for Radio Astronomy"
+authors = [
+    {name = "Jan-Willem Steeb", email="jsteeb@nrao.edu"},
+    {name = "Joshua Hoskins", email="jhoskins@nrao.edu"},
+]
+license = {file = "LICENSE.txt"}
+readme = "README.md"
+requires-python = ">= 3.9, < 3.12"
+
+dependencies = [
+    'astropy',
+    'cerberus',
+    'dask',
+    'dask_jobqueue',
+    'distributed',
+    'matplotlib',
+    'numba>=0.57.0',
+    'numpy<2.0.0',
+    'psutil',
+    'ipywidgets',
+    'prettytable',
+    'pytest',
+    'pytest-cov',
+    'pytest-html',
+    'rich',
+    'scipy',
+    'tqdm',
+    'xarray',
+    'zarr',
+    'bokeh',
+    'jupyterlab',
+    'pyarrow',
+    'graphviz',
+    'xradio',
+    'rich',
+    'python_casacore>=3.5.2; sys_platform != "darwin" '
+]
+
+
+[project.optional-dependencies]
+docs = [
+    'ipykernel',
+    'ipympl',
+    'ipython',
+    'jupyter-client',
+    'nbsphinx',
+    'recommonmark',
+    'scanpydoc',
+    'sphinx-autoapi',
+    'sphinx-autosummary-accessors',
+    'sphinx_rtd_theme',
+    'twine',
+    'pandoc'
+]
