@@ -1,0 +1,43 @@
+{% extends 'generic/object.html' %}
+{% load render_table from django_tables2 %}
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Repository detail</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th scope="row">ID</th>
+              <td>{{ object.firmware_request_id }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Deploy time</th>
+              <td>{{ object.deploy_time }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Retries</th>
+              <td>{{ object.retries }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Device</th>
+              <td>{{ object.device }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Deploy</th>
+              <td>{{ object.deploy }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Status</th>
+              <td>{{ object.status }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% include 'inc/panels/tags.html' %}
+      {% include 'inc/panels/comments.html' %}
+      {% include 'inc/panels/custom_fields.html' %}
+    </div>
+  </div>
+{% endblock %}
