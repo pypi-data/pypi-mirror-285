@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: salve_dependency_hub
+Version: 1.0.1
+Summary: Provides Tree Sitter highlighting languages in one centralized place for usage with Salve IPC
+Home-page: https://github.com/Moosems/salve
+Author: Moosems
+Author-email: moosems.j@gmail.com
+License: MIT license
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: Implementation
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Typing :: Typed
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# salve-dependency-hub
+
+Provides Tree Sitter highlighting languages in one centralized place for usage with Salve IPC
+
+Usage:
+```python
+from salve_dependency_hub import conversion_dict, language_mappings
+```
+
+Note that the only premade language mappings available at the moment are for python and Java as they were the only ones I had enough code to make decent mappings for. If you notice issues in any mappings, please raise an issue. If you want a premade mapping added, make a PR.
