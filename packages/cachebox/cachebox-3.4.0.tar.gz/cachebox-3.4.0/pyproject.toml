@@ -1,0 +1,43 @@
+[build-system]
+requires = ["maturin>=1.6,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "cachebox"
+version = "3.4.0"
+description = "The fastest memoizing and caching Python library written in Rust"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["caching", "cached", "cachebox", "cache", "in-memory-caching", "memoizing"]
+authors = [
+  {email = "awolverp@gmail.com"},
+  {name = "awolverp"}
+]
+
+classifiers = [
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python",
+    "Programming Language :: Rust",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = 'https://github.com/awolverp/cachebox'
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+bindings = 'pyo3'
+module-name = "cachebox._cachebox"
