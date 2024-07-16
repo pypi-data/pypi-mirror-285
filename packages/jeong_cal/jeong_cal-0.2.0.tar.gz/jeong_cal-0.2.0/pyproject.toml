@@ -1,0 +1,23 @@
+[project]
+name = "jeong_cal"
+version = "0.2.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Jeonghoon2", email = "ukidd12@naver.com"},
+]
+dependencies = [
+    "haram-sum>=0.1.4",
+    "haram-sub>=0.1.2",
+    "jeong-mul>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+cl_cal_sum = 'jeong_cal.cal:sum'
+cl_cal_sub = 'jeong_cal.cal:sub'
+cl_cal_mul = 'jeong_cal.cal:mul'
+
+[tool.pdm]
+distribution = true
