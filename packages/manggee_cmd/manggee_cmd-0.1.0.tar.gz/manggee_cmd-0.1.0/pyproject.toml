@@ -1,0 +1,18 @@
+[project]
+name = "manggee_cmd"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "mangG907", email = "mang.gee@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+manggee_cmd = 'manggee_cmd.cmd:call'
