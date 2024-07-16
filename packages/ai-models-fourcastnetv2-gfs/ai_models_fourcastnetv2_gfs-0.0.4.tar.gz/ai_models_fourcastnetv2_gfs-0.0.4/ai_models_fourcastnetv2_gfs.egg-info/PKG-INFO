@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: ai-models-fourcastnetv2-gfs
+Version: 0.0.4
+Summary: An ai-models plugin to run the Nvidia spherical harmonics FourCastNet v2 (small) model with additional options to use GFS and GDAS initial conditions and output to netCDF
+Home-page: https://github.com/ecmwf-lab/ai-models-fourcastnetv2-gfs
+Author: European Centre for Medium-Range Weather Forecasts (ECMWF)
+Author-email: software.support@ecmwf.int
+License: Apache License Version 2.0
+Keywords: tool
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: LICENSE_FourCastNetv2
+Requires-Dist: torch>=2.0.0
+Requires-Dist: torch_harmonics==0.6.2
+Requires-Dist: ruamel.yaml>=0.17.21
+
+# ai-models-fourcastnetv2-gfs
+
+`ai-models-fourcastnetv2-gfs` is an extension of the [ai-models-fourcastnetv2](https://github.com/ecmwf-lab/ai-models-fourcastnetv2) package, which itself is a plugin to run Nvidia's spherical harmonics tranformer with [ai-models](https://github.com/ecmwf-lab/ai-models).
+
+### Installation
+
+Once the model is public, to install the package, run:
+
+```bash
+pip install ai-models-fourcastnetv2-gfs
+```
+
+This will install the package and its dependencies.
