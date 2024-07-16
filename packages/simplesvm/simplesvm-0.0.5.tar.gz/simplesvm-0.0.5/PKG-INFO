@@ -1,0 +1,119 @@
+Metadata-Version: 2.3
+Name: simplesvm
+Version: 0.0.5
+Summary: A simple Support Vector Machine for Binary Classification.
+Project-URL: Documentation, https://github.com/obizip/simplesvm#readme
+Project-URL: Issues, https://github.com/obizip/simplesvm/issues
+Project-URL: Source, https://github.com/obizip/simplesvm
+Author-email: obizip <ct4kuto@gmail.com>
+License-Expression: MIT
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.9
+Requires-Dist: numpy>=1.19.5
+Description-Content-Type: text/markdown
+
+# simplesvm
+
+[![PyPI - Version](https://img.shields.io/pypi/v/simplesvm.svg)](https://pypi.org/project/simplesvm)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/simplesvm.svg)](https://pypi.org/project/simplesvm)
+
+-----
+
+A simple Support Vector Machine for binary classification with scikit-learn like API.
+
+- Repository: https://github.com/obizip/simplesvm
+- About this SVM (ja)
+    - LinearSVM: https://zenn.dev/obizip/articles/2024-07-04-linear_svm
+    - KernelSVM: https://zenn.dev/obizip/articles/2024-07-05-kernel_svm
+
+## Installation
+
+```console
+pip install simplesvm
+```
+
+## How to use
+### LienearSVM
+```python
+from simplesvm import LinearSVM
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import make_moons
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+
+np.random.seed(42)
+
+X, y = make_blobs(random_state=8,
+                  n_samples=500,
+                  n_features=2,
+                  cluster_std=3,
+                  centers=2)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+model = LinearSVM()
+model.fit(X_train, y_train)
+preds = model.predict(X_test)
+
+print(f"ACC: {accuracy_score(y_test, preds)}")
+# ACC: 0.936
+
+plt.figure(figsize=(8, 7))
+plt.scatter(X[:, 0], X[:, 1], marker='o', c=y, s=25, edgecolor='k')
+w = model._w
+# w0*x + w1*y + w2 = 0
+# y = - (w0*x + w2) / w1
+plt.plot(X[:, 0], - (w[0] * X[:, 0] + w[2]) / w[1])
+```
+![](https://github.com/obizip/simplesvm/blob/main/images/linear_svm.png?raw=true)
+
+### KernelSVM
+```python
+from simplesvm import KernelSVM
+import numpy as np
+from sklearn.datasets import make_moons
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+
+X, y = make_moons(n_samples=500, noise=0.1, random_state=1)
+X_train, X_test, y_train, y_test = train_test_split(X, y)
+
+model = KernelSVM()
+model.fit(X_train, y_train)
+preds = model.predict(X_test)
+
+print(f"ACC: {accuracy_score(y_test, preds)}")
+#> ACC: 0.992
+
+# Plot a decision boundary
+x_min=X[:, 0].min() - 0.5
+x_max=X[:, 0].max() + 0.5
+y_min=X[:, 1].min() - 0.5
+y_max=X[:, 1].max() + 0.5
+
+xx, yy = np.meshgrid(np.arange(x_min, x_max, 0.01), np.arange(y_min, y_max, 0.01))
+XY = np.array([xx.ravel(), yy.ravel()]).T
+z = model.predict(XY)
+plt.contourf(xx, yy, z.reshape(xx.shape), alpha=0.2, cmap=plt.cm.coolwarm)
+plt.scatter(X[:, 0], X[:, 1], c=y, s=10, cmap=plt.cm.coolwarm)
+plt.show()
+```
+![](https://github.com/obizip/simplesvm/blob/main/images/kernel_svm.png?raw=true)
+
+## License
+
+`simplesvm` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+
