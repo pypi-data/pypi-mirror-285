@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "HeliosMedPrep"
+authors = [
+    {name = "Duc Le", email = "ngocducdarkzonezero@example.com"}
+]
+description = """
+**Overview of HeliosMedPrep**\\ 
+HeliosMedPrep is a specialized Python library for medical data preprocessing, helping to normalize, encode, and transform data from EHR systems for use in machine learning models. This library is handy in handling different data types, such as drug coding, diagnoses, medical procedures, prescriptions, laboratory events, and hospital admission information. This library is introduced in the article 'DiagLumina: A Trustworthy and Explainable Multi-Task Framework for Clinical and Para-clinical Diagnosis Using EHR Data'."""
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "requests > 2.26.0",
+    "pandas",
+    "numpy",
+    "torch",
+    "tqdm",
+    "scikit-learn"
+]
