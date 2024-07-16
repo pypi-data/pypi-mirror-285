@@ -1,0 +1,33 @@
+
+import sys
+if sys.version_info >= (3, 8):
+    from typing import Protocol
+else:
+    from typing_extensions import Protocol
+
+import java.lang
+import jpype
+import jneqsim.neqsim.standards
+import jneqsim.neqsim.thermo.system
+import typing
+
+
+
+class Standard_ASTM_D6377(jneqsim.neqsim.standards.Standard):
+    def __init__(self, systemInterface: jneqsim.neqsim.thermo.system.SystemInterface): ...
+    def calculate(self) -> None: ...
+    def getUnit(self, string: typing.Union[java.lang.String, str]) -> java.lang.String: ...
+    @typing.overload
+    def getValue(self, string: typing.Union[java.lang.String, str]) -> float: ...
+    @typing.overload
+    def getValue(self, string: typing.Union[java.lang.String, str], string2: typing.Union[java.lang.String, str]) -> float: ...
+    def isOnSpec(self) -> bool: ...
+    @staticmethod
+    def main(stringArray: typing.Union[typing.List[java.lang.String], jpype.JArray]) -> None: ...
+    def setReferenceTemperature(self, double: float, string: typing.Union[java.lang.String, str]) -> None: ...
+
+
+class __module_protocol__(Protocol):
+    # A module protocol which reflects the result of ``jp.JPackage("jneqsim.neqsim.standards.oilQuality")``.
+
+    Standard_ASTM_D6377: typing.Type[Standard_ASTM_D6377]
