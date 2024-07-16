@@ -1,0 +1,312 @@
+- name: get_top_headlines
+  description: Get top news headlines by country and/or category
+  parameter_schema:
+    type: object
+    properties:
+      query:
+        type: string
+        description: Freeform keywords or a phrase to search for.
+      country:
+        type: string
+        description: The 2-letter ISO 3166-1 code of the country you want to get headlines for
+      category:
+        type: string
+        description: The category you want to get headlines for
+        enum:
+          - business
+          - entertainment
+          - general
+          - health
+          - science
+          - sports
+          - technology
+    required:
+      - query
+      - country
+      - category
+
+- name: get_stock_price
+  description: "Get current stock price for given stock symbol. If function returns None then it means that symbol is invalid. function returns current_price which is current price of the stock"
+  parameter_schema:
+    type: object
+    properties:
+      symbol:
+        type: string
+        description: Stock symbol of the company
+    required:
+      - symbol
+
+- name: csv_average_column
+  description: "Given CSV data, can average the values in one column."
+  parameter_schema:
+    type: object
+    properties:
+      file_path:
+        type: string
+        description: The csv file to analyze.
+      column_name:
+        type: string
+        description: The name of the column to average values for.
+    required:
+      - file_path
+      - column_name
+
+- name: csv_sum_column
+  description: "Given CSV data, can sum the values in one column."
+  parameter_schema:
+    type: object
+    properties:
+      file_path:
+        type: string
+        description: The csv file to analyze.
+      column_name:
+        type: string
+        description: The name of the column to average values for.
+    required:
+      - file_path
+      - column_name
+
+- name: csv_write
+  description: "Write data to a file in csv format. Every column needs to be surrounded by double quotes for it to be a valid csv."
+  parameter_schema:
+    type: object
+    properties:
+      data:
+        type: string
+        description: The file contents.
+      path:
+        type: string
+        description: The file path
+    required:
+      - data
+      - path
+
+- name: get_weather
+  description: "Get the current weather in a given location. If the unit isn't specified, use f."
+  parameter_schema:
+    type: object
+    properties:
+      city:
+        type: string
+        description: The city e.g. San Francisco
+      state:
+        type: string
+        description: The state e.g. California
+      units:
+        type: string
+        description: The temperature unit to use
+        enum:
+          - c
+          - f
+    required:
+      - city
+      - state
+      - units
+
+- name: get_current_location
+  description: "Gets the current location of the user"
+  parameter_schema:
+    type: object
+    properties: {}
+    required: []
+
+- name: file_write
+  description: Writes a file to disk.
+  parameter_schema:
+    type: object
+    properties:
+      file_path:
+        type: string
+        description:
+          The full path of the file to update, including the project directory.
+          This is a required parameter.
+      file_content:
+        type: string
+        description: The new contents to write to the file. This is a required parameter.
+    required:
+      - file_path
+      - file_content
+    # examples:
+    # - description: Update a file with new content.
+    #   input:
+    #     path: "/path/to/project/file.txt"
+    #     content: New file contents
+    #   output:
+    #     success: true
+    #     message: File updated successfully.
+    # - description: Attempt to update a file without providing content.
+    #   input:
+    #     path: "/path/to/project/file.txt"
+    #   output:
+    #     success: false
+    #     error: 'Missing required parameter: ''content'''
+  error_handling:
+    - error: Missing required parameter
+      description:
+        If any required parameter ('path' or 'content') is missing, an error
+        is returned with a message specifying the missing parameter(s).
+
+- name: repo_get_structure
+  description: Get the directory structure of a given directory.
+  parameter_schema:
+    type: object
+    properties:
+      directory:
+        type: string
+        description: The directory to get the structure of.
+    required:
+      - directory
+
+- name: agent_assign_task
+  description: Assign a task or ask a question to another agent. Tasks can be instructions on what to do, etc. Questions can also be asked of agents if there's something you'd like to learn.
+  parameter_schema:
+    type: object
+    properties:
+      agent:
+        type: string
+        description:
+          The agent handling the task. Possible values are 'FE' for front-end
+          agent, 'BE' for back-end agent, or 'coordinator' for the coordinating agent. Only assign an agent one task at a time, giving them an opporutunity to think and provide feedback. Don't wait for their feedback, they will reach out if they have any.
+        enum:
+          - FE
+          - BE
+          - coordinator
+      prompt:
+        type: string
+        description: The instruction or task description that the agent needs to process. Be descriptive and specific about the task and give enough context for them to complete it well.
+    required:
+      - agent
+      - prompt
+
+- name: repo_read_all_files
+  description: Read all the files for a given directory
+  parameter_schema:
+    type: object
+    properties:
+      directory:
+        type: string
+        description: The directory to read files from.
+    required:
+      - directory
+
+- name: read_one_file
+  description: Read one file to inspect the current state of it. Use only for files you dont have context for and only files you are working on updating.
+  parameter_schema:
+    type: object
+    properties:
+      file_path:
+        type: string
+        description: The file path of the file you want to read.
+    required:
+      - file_path
+
+- name: move_one_file
+  description: Move a file from a source location to another location.
+  parameter_schema:
+    type: object
+    properties:
+      source_file_path:
+        type: string
+        description: The location of the source file
+      destination_file_path:
+        type: string
+        description: The destination of the file you are moving.
+    required:
+      - source_file_path
+      - destination_file_path
+
+- name: delete_one_file
+  description: Remove one file that's no longer needed in the project
+  parameter_schema:
+    type: object
+    properties:
+      file_path:
+        type: string
+        description: The file path of the file you want to delete.
+    required:
+      - file_path
+
+- name: create_directory
+  description: Creates a directory of the given name
+  parameter_schema:
+    type: object
+    properties:
+      directory:
+        type: string
+        description: The name of the directory to create
+    required:
+      - directory
+
+- name: run_npx_command
+  description: Run a npx command in a given directory.
+  parameter_schema:
+    type: object
+    properties:
+      directory:
+        type: string
+        description: The name of the directory to run the command in.
+      command:
+        type: string
+        description: The npx command to run.
+    required:
+      - directory
+      - command
+
+- name: run_ada_command
+  description: Run a command using the ada cli.
+  parameter_schema:
+    type: object
+    properties:
+      directory:
+        type: string
+        description: The name of the directory to run the command in.
+      command:
+        type: string
+        description: The ada command to run.
+    required:
+      - directory
+      - command
+
+- name: neo4j_run_query
+  description: >
+    A tool to query a Neo4j database using Cypher queries. The tool connects to a
+    Neo4j database, executes the provided query, and returns the results.
+  parameter_schema:
+    type: object
+    properties:
+      # - name: uri
+      #   type: string
+      #   description: The URI of the Neo4j instance (e.g., bolt://localhost:7687).
+      # - name: username
+      #   type: string
+      #   description: The username for authenticating with the Neo4j database.
+      # - name: password
+      #   type: string
+      #   description: The password for authenticating with the Neo4j database.
+      query:
+        type: string
+        description: The Cypher query to be executed against the Neo4j database.
+      parameters:
+        type: object
+        description: Optional parameters for the Cypher query.
+    required:
+      - query
+    examples:
+      - description: Query nodes with a specific label
+        input:
+          # uri: bolt://localhost:7687
+          # username: neo4j
+          # password: password123
+          query: MATCH (n:Person) RETURN n LIMIT 10
+        output: A list of nodes with the label 'Person'
+      - description: Query nodes with a specific property
+        input:
+          # uri: bolt://localhost:7687
+          # username: neo4j
+          # password: password123
+          query: "MATCH (n {name: $name}) RETURN n"
+          parameters:
+            name: Alice
+        output: A list of nodes with the property name set to 'Alice'
+
+
