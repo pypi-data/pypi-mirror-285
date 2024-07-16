@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "qcanvas-api-clients"
+version = "0.2.1"
+description = ""
+authors = ["QCanvas <qcanvas@noreply.codeberg.org>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+gql = "^3.5.0"
+httpx = "^0.27.0"
+asynctaskpool = "^0.2.0"
+tenacity = "^8.2.3"
+pydantic = "^2.7.0"
+cachetools = "^5.3.3"
+shelved-cache = "^0.3.1"
+
+[tool.poetry.group.dev.dependencies]
+asynctaskpool = { path = "../TaskPool/", develop = true }
+black = "^24.4.2"
+mypy = "^1.10.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
