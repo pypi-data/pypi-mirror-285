@@ -1,0 +1,29 @@
+[project]
+name = "mask_cmd"
+version = "0.1.2"
+description = "Default template for PDM package"
+authors = [
+    { name = "mask", email = "whitecapella@naver.com" },
+]
+dependencies = [
+    "mask-plus>=0.1.0",
+    "mask-divide>=0.1.0",
+    "mask-times>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[project.scripts]
+call = "mask_cmd.call:call"
+
+[tool.pdm]
+distribution = true
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
