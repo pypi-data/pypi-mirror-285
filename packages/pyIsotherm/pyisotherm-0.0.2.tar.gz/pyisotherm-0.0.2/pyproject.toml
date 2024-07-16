@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyIsotherm"
+version = "0.0.2"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {file = "LICENSE"}
+dependencies = [
+     'pandas', 'numpy', 'matplotlib', 'scipy'
+]
+authors = [
+  {name = "Pedro Henrique Teodoro de Mendonça", email = "pedrohenrique_teodoromendonca@hotmail.com"},
+  {name = "Evandro Alves Nakajima", email = "enakajima@utfpr.edu.br"},
+]
+maintainers = [
+  {name = "Pedro Henrique Teodoro de Mendonça", email = "pedrohenrique_teodoromendonca@hotmail.com"},
+  {name = "Evandro Alves Nakajima", email = "enakajima@utfpr.edu.br"},
+]
+requires-python = ">=3.8"
+description = "Parameter estimation of monocomponent-isotherms"
+keywords = ["Isotherm", "Monocomponent", "PSO"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python"
+]
