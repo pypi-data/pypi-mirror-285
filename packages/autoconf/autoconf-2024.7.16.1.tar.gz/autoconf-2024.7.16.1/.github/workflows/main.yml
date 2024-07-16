@@ -1,0 +1,40 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  unittest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, '3.10', '3.11']
+    steps:
+    - name: Checkout PyAutoConf
+      uses: actions/checkout@v2
+      with:
+        path: PyAutoConf
+    - name: Install dependencies
+      run: |
+        pip3 install --upgrade pip
+        pip3 install wheel
+        pip3 install numpy
+        pip3 install pytest==6.2.5 coverage pytest-cov
+        pip3 install -r PyAutoConf/requirements.txt
+    - name: Run tests
+      run: |
+        pushd PyAutoConf
+        python3 -m pytest --cov autoconf --cov-report xml:coverage.xml
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+    - name: Slack send
+      if: ${{ failure() }}
+      id: slack
+      uses: slackapi/slack-github-action@v1.21.0
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      with:
+        channel-id: C03S98FEDK2
+        payload: |
+                {
+                  "text": "${{ github.repository }}/${{ github.ref_name }} (Python ${{ matrix.python-version }}) build result: ${{ job.status }}\n${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+                }
