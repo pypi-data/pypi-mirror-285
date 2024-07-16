@@ -1,0 +1,37 @@
+[package]
+name = "stam-python"
+version = "0.8.4"
+edition = "2021"
+authors = ["Maarten van Gompel <proycon@anaproy.nl>"]
+description = "STAM is a library for dealing with standoff annotations on text, this is the python binding."
+documentation = "https://stam-python.readthedocs.io/"
+homepage = "https://annotation.github.io/stam"
+include = ["pyproject.toml", "stam.pyi", "src/**/*","tests/**/*", "LICENSE", "README.md"]
+license = "GPL-3.0-only"
+readme = "README.md"
+repository = "https://github.com/annotation/stam-python"
+keywords = [ "text-processing", "annotation", "linguistics", "standoff", "nlp"]
+
+[lib]
+name = "stam"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.20.3", features = ["chrono"] }
+stam = "0.14.2"
+stam-tools = "0.7.4"
+
+[features]
+default = ["pyo3/extension-module"]
+
+[target.x86_64-apple-darwin]
+rustflags = [
+  "-C", "link-arg=-undefined",
+  "-C", "link-arg=dynamic_lookup",
+]
+
+[target.aarch64-apple-darwin]
+rustflags = [
+  "-C", "link-arg=-undefined",
+  "-C", "link-arg=dynamic_lookup",
+]
