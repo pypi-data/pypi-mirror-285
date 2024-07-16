@@ -1,0 +1,100 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
+disallow_untyped_defs = true
+plugins = ["numpy.typing.mypy_plugin"]
+
+[tool.poetry]
+name = "qtbmodels"
+version = "0.1.0"
+description = ""
+authors = ["Marvin van Aalst <marvin.vanaalst@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+modelbase = "^1.51"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+ruff = "*"
+pre-commit = "*"
+jupyter = "*"
+jupyter_contrib_nbextensions = "*"
+
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+mkdocs = "^1.6.0"
+mkdocs-jupyter = "^0.24.7"
+mkdocs-material = "^9.5.27"
+notebook = "^6.5"
+jupyter-contrib-nbextensions = "^0.7.0"
+more-itertools = "^10.3.0"
+
+[tool.ruff]
+line-length = 79
+indent-width = 4
+exclude = [
+  "src/qtbmodels/v1",
+  "examples",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "ANN101",
+  "ANN401",
+  "COM812",
+  "D100",
+  "D101",
+  "D102",
+  "D103",
+  "D104",
+  "D107",
+  "D205",
+  "D211",
+  "D213",
+  "D400",
+  "D401",
+  "D403",
+  "D415",
+  "E501",
+  "ISC001",
+  "S301",
+  "S110",
+  "N806",
+  "PGH003",
+  "FIX001",
+  "T201",
+  "TD001",
+  "TD002",
+  "TD003",
+  "TD004",
+  "TD005",
+  "N802",    # function name should be lowercase
+  "N803",    # name should be lowercase
+  "PLR0913",
+  "ERA001",  # Commented out code
+  "PLR0915", # too many statements
+  "PTH123",  # Path.open instead of open(Path)
+]
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = [
+  'S101',    # assert
+  "INP001",
+  "PLR2004", # magic comparison
+]
+"*.ipynb" = ["T201"]
