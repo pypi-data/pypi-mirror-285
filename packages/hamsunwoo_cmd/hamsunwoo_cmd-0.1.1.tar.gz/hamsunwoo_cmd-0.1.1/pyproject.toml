@@ -1,0 +1,20 @@
+[project]
+name = "hamsunwoo_cmd"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "sunwoo", email = "summerham22@gmail.com"},
+]
+dependencies = [
+    "hamsunwoo-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+hamsunwoo_cmd = 'hamsunwoo_cmd.cmd:call' 
