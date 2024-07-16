@@ -1,0 +1,123 @@
+.. _#command-publish-headers:
+
+Appendix A. Exceptions
+======================
+
+The following table details each of the exception types thrown by AMPS.
+
++------------------------------+---------------+------------------------------+
+| **Exception**                | **When**      | **Notes**                    |
++==============================+===============+==============================+
+| ``AlreadyConnectedException``| Connecting    | Thrown when ``connect()`` is |
+|                              |               | called on a ``Client`` that  |
+|                              |               | is already connected.        |
++------------------------------+---------------+------------------------------+
+| ``AMPSException``            | Anytime       | Base class for all AMPS      |
+|                              |               | exceptions.                  |
++------------------------------+---------------+------------------------------+
+| ``AuthenticationException``  | Anytime       | Indicates an authentication  |
+|                              |               | failure occurred on the      |
+|                              |               | server.                      |
++------------------------------+---------------+------------------------------+
+| ``BadFilterException``       | Subscribing   | This typically indicates a   |
+|                              |               | syntax error in a filter     |
+|                              |               | expression.                  |
++------------------------------+---------------+------------------------------+
+| ``BadRegexTopicException``   | Subscribing   | Indicates a malformed        |
+|                              |               | regular expression was found |
+|                              |               | in the topic name.           |
++------------------------------+---------------+------------------------------+
+| ``CommandException``         | Anytime       | Base class for all           |
+|                              |               | exceptions relating to       |
+|                              |               | commands sent to AMPS.       |
++------------------------------+---------------+------------------------------+
+| ``ConnectionException``      | Anytime       | Base class for all           |
+|                              |               | exceptions relating to the   |
+|                              |               | state of the AMPS            |
+|                              |               | connection.                  |
++------------------------------+---------------+------------------------------+
+|``ConnectionRefusedException``| Connecting    | The connection was actively  |
+|                              |               | refused by the server.       |
+|                              |               | Validate that the server is  |
+|                              |               | running, that network        |
+|                              |               | connectivity is available,   |
+|                              |               | and the settings on the      |
+|                              |               | client match those on the    |
+|                              |               | server.                      |
++------------------------------+---------------+------------------------------+
+| ``DisconnectedException``    | Anytime       | No connection is available   |
+|                              |               | when AMPS needed to send     |
+|                              |               | data to the server *or* the  |
+|                              |               | user's disconnect handler    |
+|                              |               | threw an exception.          |
++------------------------------+---------------+------------------------------+
+| ``InvalidTopicException``    | SOW query     | The topic is not configured  |
+|                              |               | for the requested operation. |
+|                              |               | For example, a ``sow``       |
+|                              |               | command was issued for a     |
+|                              |               | topic that is not in the SOW |
+|                              |               | or a bookmark subscribe was  |
+|                              |               | issued for a topic that is   |
+|                              |               | not recorded in the          |
+|                              |               | transaction log.             |
++------------------------------+---------------+------------------------------+
+| ``InvalidTransportOptionsEx``| Connecting    | An invalid option or option  |
+| ``ception``                  |               | value was specified in the   |
+|                              |               | URI.                         |
++------------------------------+---------------+------------------------------+
+| ``InvalidUriException``      | Connecting    | The URI string provided to   |
+|                              |               | ``connect()`` was formatted  |
+|                              |               | improperly.                  |
++------------------------------+---------------+------------------------------+
+| ``MessageTypeException``     | Connecting    | The class for a given        |
+|                              |               | transport's message type was |
+|                              |               | not found in AMPS.           |
++------------------------------+---------------+------------------------------+
+| ``NameInUseException``       | Connecting    | The client name (specified   |
+|                              |               | when instantiating           |
+|                              |               | ``Client``) is already in    |
+|                              |               | use on the server.           |
++------------------------------+---------------+------------------------------+
+| ``RetryOperationException``  | Anytime       | An error occurred that       |
+|                              |               | caused processing of the     |
+|                              |               | last command to be aborted.  |
+|                              |               | Try issuing the command      |
+|                              |               | again.                       |
++------------------------------+---------------+------------------------------+
+| ``StreamException``          | Anytime       | Indicates that data          |
+|                              |               | corruption has occurred on   |
+|                              |               | the connection between the   |
+|                              |               | client and server. This      |
+|                              |               | usually indicates an         |
+|                              |               | internal error inside of     |
+|                              |               | AMPS -- contact AMPS         |
+|                              |               | support.                     |
++------------------------------+---------------+------------------------------+
+| ``SubscriptionAlreadyExists``| Subscribing   | A subscription has been      |
+| ``Exception``                |               | requested using the same     |
+|                              |               | command ID string as another |
+|                              |               | subscription. Create a       |
+|                              |               | unique command ID string for |
+|                              |               | every subscription.          |
++------------------------------+---------------+------------------------------+
+| ``TimedOutException``        | Anytime       | A timeout occurred waiting   |
+|                              |               | for a response to a command. |
++------------------------------+---------------+------------------------------+
+| ``TransportTypeException``   | Connecting    | Thrown when a transport type |
+|                              |               | is selected in the URI that  |
+|                              |               | is unknown to AMPS.          |
++------------------------------+---------------+------------------------------+
+| ``UnknownException``         | Anytime       | Thrown when an internal      |
+|                              |               | error occurs. Contact AMPS   |
+|                              |               | support immediately.         |
++------------------------------+---------------+------------------------------+
+| ``UsageException``           | Changing the  | Thrown when the object is not|
+|                              | properties    | in a valid state for setting |
+|                              | of an object  | the properties. For example, |
+|                              |               | some properties of a         |
+|                              |               | ``Client`` (such as the name)|
+|                              |               | cannot be changed while that |
+|                              |               | client is connected to AMPS. |
++------------------------------+---------------+------------------------------+
+
+**Table 1A:** *Exceptions supported in Client and HAClient*

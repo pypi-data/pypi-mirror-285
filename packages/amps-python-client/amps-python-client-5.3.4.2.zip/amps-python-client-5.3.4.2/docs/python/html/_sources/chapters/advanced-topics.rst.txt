@@ -1,0 +1,398 @@
+
+.. |caution| image:: ../../common/svg/caution.svg
+
+12. Advanced Topics
+====================
+
+Implementing Message Handlers in C or C++
+------------------------------------------
+
+.. index:: message handlers; writing in C++,
+
+The AMPS Python client provides a wrapper
+that works with the python ``ctypes`` module to allow you to create
+message handlers in C or C++ and expose them to Python. This can improve
+performance in the message handler. When you use this technique,
+messages are delivered directly from the C++ client to your message
+handler: there is no Python code involved in handling the messages.
+
+To use this capability, you:
+
+1. Create a message handler with C linkage, and compile that message
+   handler into a shared library.
+
+2. In your Python program, use the ``ctypes`` module to load the library.
+
+3. Construct an instance of ``CMessageHandler``, a wrapper object that holds
+   a pointer to the message handler function and the user data to be
+   provided to the handler during each call.
+
+4. Pass the ``CMessageHandler`` to any method that expects a message
+   handler.
+
+The AMPS Python client registers the pointer and user data you provide
+as a C++ message handler. Once the handler is registered, no Python code
+is called when providing messages to the handler.
+
+Implementing the Handler
+------------------------
+
+To use this capability, you create a message handler that exposes a
+function with the following signature having C linkage:
+
+.. code:: cpp 
+
+    extern "C"
+    void my_message_handler(
+        AMPS::Message &message,
+        void *userdata
+    );
+
+Notice that this signature is the same signature used by message
+handlers in the AMPS C++ client. You implement the function and compile
+it into a shared library or DLL, using the instructions provided with
+your Python implementation. For details on the C++ client, you can
+install the client itself, or consult the documentation at
+http://docs.crankuptheamps.com/api/cpp/index.html.
+
+Loading and Using the Handler
+-----------------------------
+
+Once you've compiled the library, you use the ``ctypes`` module to load
+the library. You then create an instance of the message handler wrapper,
+and pass that wrapper to the AMPS client methods, as shown below:
+
+.. code:: python
+
+    import ctypes
+    import AMPS
+
+    ...
+
+    # assumes that client is already created and connected
+
+    # load the shared object
+    dll = ctypes.CDLL("./libmymessagehandler.so")
+
+    # create a handler that points to the underlying C function
+    # and bind the user data to that handler. 
+    handler = AMPS.CMessageHandler(dll.my_message_hander, "user data")
+
+    # handler can be used anywhere you would use a message handler
+    client.subscribe(handler, "myTopic")
+
+    client.set_last_chance_message_handler(handler)
+
+    # and so it goes
+
+The ``AMPS.CMessageHandler`` type accepts a pointer to a message handler
+with the signature shown above and a Python object that can be
+marshalled into a native C type through the ``ctypes`` interface. Once
+marshalled, the object will be cast to a ``void *`` and provided in the
+``userdata`` parameter of the message handler. Marshalling the ``userdata``
+parameter follows the ``ctypes`` module conventions. If you need to
+explicitly control the way an object is marshalled, you can construct
+one of the ``ctypes`` objects and pass that new object into the method.
+
+Using the C++ Client
+--------------------
+
+.. index:: calling C++ from Python,
+
+While the AMPS Python client provides enough
+performance for a wide variety of applications, in some cases, using the
+underlying C++ implementation can provide extra performance. The AMPS
+Python client works with the ``ctypes`` module to allow you to pass the
+underlying C++ client to an arbitrary function, effectively allowing you
+to integrate C++ code directly into your Python program.
+
+Consider using the C++ client directly when latency is at a premium or
+when your application works directly with C++. For example, you might
+you use the client directly when:
+
+-  You are assembling messages from a C++ library without a Python
+   binding
+
+-  You need to customize client behavior that is implemented in C++ (for
+   example, implementing a custom SubscriptionManager or BookmarkStore)
+
+-  Your application needs to execute a set of commands with AMPS with
+   minimal latency. For example, you might need to publish an array of
+   values as individual messages with as little latency as possible. In
+   this case, using the underlying C++ client directly can reduce
+   latency.
+
+To use the underlying C++ client, you:
+
+1. Create a function with C linkage, and compile that function into a
+   shared library. One of the parameters of the function should be a
+   reference to an ``AMPS::Client``.
+
+2. In your Python program, use the ``ctypes`` module to load the
+   library.
+
+3. Call the function on the library, passing the appropriate parameters
+   for the C function.
+
+Implementing the C++ Function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The only requirement on the C++ function is that it have C linkage and
+that one of the parameters is a reference to an ``AMPS::Client``. By
+convention, 60East recommends that the first parameter is the
+``AMPS::Client``. However, this is not a requirement of the interface.
+
+For example, a function that simply takes an ``AMPS::Client`` has the
+following signature:
+
+.. code:: cpp 
+
+    extern "C"
+    void configure_client(AMPS::Client& client);
+
+While a function that takes a client, a topic, and a pointer to data to
+be published might have the following signature:
+
+.. code:: cpp 
+
+    extern "C"
+    void publish_data(
+        AMPS::Client& client,
+        const char * topic,
+        const char * data
+    );
+
+The ``ctypes`` module provides a standard ``AMPS::Client`` to these
+functions. Although the ``Client`` has been created by Python code,
+there is nothing Python-specific about the object within the C++
+function. You can use the ``Client`` just as you would any other ``Client``
+object.
+
+You can also use the ``ctypes`` binding with ``AMPS::HAClient``, as
+shown below:
+
+.. code:: cpp 
+
+    extern "C"
+    void install_server_chooser(AMPS::HAClient& client);
+
+Since the ``ctypes`` module passes the data through the C ABI, the module
+is not able to perform extensive type checking on C++ types. Your Python
+code must be careful to pass only objects of the appropriate type, or
+you may cause a segmentation violation. For example, if a method
+expecting an ``HAClient`` receives a ``Client`` and calls
+``connectAndLogon`` (which is not a method provided by Client), your
+program will likely crash.
+
+
+.. caution::
+
+   The ``ctypes`` module has a few important caveats.
+
+   The ``ctypes`` module does not provide strong type-safety    
+   guarantees for C++ classes. It is your responsibility to ensure
+   that you call methods with objects of the appropriate type. 
+
+   The ``ctypes`` module calls your function through an extern "C"
+   interface. C++ exceptions cannot be propagated out of a function
+   with C binding. You must catch all exceptions that may be
+   thrown, or your application will likely crash.
+
+
+
+Loading and Using the Function
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you've compiled the library, you use the ``ctypes`` module to load
+the library. You can then call the function directly from Python, using
+the name of the C function and passing the appropriate arguments.
+
+Let's look at a simple example. For this example, assume that you have
+compiled a module named ``module.so`` with the following function:
+
+.. code-block:: cpp
+
+    extern "C" void publish_message(AMPS::Client& client, 
+                                    const char* topic,
+                                    const char* data)
+    {
+        try 
+        {
+            if (&client && topic && data) {
+                client.publish(topic,data);
+            }
+        }
+        catch (AMPS::Exception& e)
+        {
+            /* Handle error reporting and recovery logic */
+        }
+    }
+
+You can load the module and call the function as shown below:
+
+.. code:: python
+
+    import ctypes
+
+    module = ctypes.CDLL("module.so")
+    client = AMPS.Client("client")
+    client.connect("tcp://localhost:9007/amps/json")
+    client.logon()
+
+    module.publish_data(client, "my_topic", "some_data")
+
+The ``ctypes`` module handles type conversions between Python and C
+types. In this case, the module passes the underlying Python client as
+the first argument of the C function. The two Python strings are passed
+as NULL-terminated ``char *`` arrays.
+
+The ``ctypes`` module also handles more complicated signatures and correctly
+passes arrays. For example, you could implement a method that publishes
+an array of Python values as follows:
+
+.. code-block:: cpp
+
+    extern "C" void vector_publish(AMPS::Client& client, 
+                                    const char* topic, 
+                                    const char** data, 
+                                    size_t vector_length)
+    {
+        try 
+        {
+            if (topic && &client) {
+                for (;vector_length;--vector_length,++data) {
+                    client.publish(topic,*data);
+                }
+            }
+        }
+        catch (AMPS::Exception& e)
+        {
+            /* Handle reporting and recovery logic */
+        }
+    }
+
+You could then use this function from Python as follows:
+
+.. code:: python
+
+    import ctypes
+
+    module = ctypes.CDLL("module.so")
+    client = AMPS.Client("client")
+    client.connect("tcp://localhost:9007/amps/json")
+    client.logon()
+
+    TOPIC = "topic"
+    DATA  = [{"data":x, "string_data":"string_data"} for x in range(5)]
+
+
+    # initialize vector of data to publish by
+    # dumping the dictionaries to JSON strings
+
+    vector = [json.dumps(data) for data in DATA[1:]]
+
+    # Set up the parameters to be passed to a C
+    # function as explained in the ctype documentation
+    param = (ctypes.c_char_p * len(vector))()
+    param[:] = vector
+
+    # Call the function
+    module.vector_publish(client,TOPIC, param,len(param))                
+
+The sample above creates an array of dictionaries and creates an array
+of JSON objects from those dictionaries.
+
+In this case, it is important for us to control how the array of JSON
+objects is passed to the C function. We need to pass an array of C-style
+strings, that is, ``const char**``. To control how the array is
+marshalled, the sample creates an object that knows how to translate
+between a Python array and ``const char**``, then assigns the array to
+that object (see the ``ctype`` documentation for full details). Once we
+have that object, we simply call the ``vector_publish`` function. None
+of the Python infrastructure is visible to the ``vector_publish``
+function: that function is able to use the provided data as native C++
+data.
+
+Transport Filtering
+--------------------
+
+The AMPS Python client offers the ability to filter incoming and
+outgoing messages in the format they are sent and received on the
+network. This allows you to inspect or modify outgoing messages before
+they are sent to the network, and incoming messages as they arrive from
+the network. This can be especially useful when using SSL connections,
+since this gives you a way to monitor outgoing network traffic before it
+is encrypted, and incoming network traffic after it is decrypted.
+
+To create a transport filter, you create a callable that expects a
+string that contains the raw data, and a direction parameter indicating
+whether the string is output or not. For example, the following function
+simply prints the direction and data:
+
+.. code:: python
+
+    def printing_filter(data, direction):
+        if direction:
+            print("INCOMING ---> %s" % data)
+        else:
+            print("OUTGOING ---> %s" % data)
+
+You then register the filter by calling ``set_transport_filter`` with
+the callable, as shown below.
+
+.. code:: python
+
+    # client is an AMPS client
+    client.set_transport_filter(printing_filter)
+
+Notice that the transport filter function is called with the verbatim
+contents of data received from AMPS. This means that, for incoming data,
+the function may not be called precisely on message boundaries, and that
+the binary length encoding used by the client and server will be presented
+to the transport filter.
+
+
+Working with Binary Data
+------------------------
+
+A ``Message`` object contains two methods for retrieving the message
+payload:
+
+* ``get_data()`` returns the payload as a string
+* ``get_data_raw()`` returns the payload as bytes
+
+If you are working with binary data that is not guaranteed to be
+valid UTF-8, use the ``get_data_raw`` method to avoid errors
+when attempting to encode the data to a string.
+
+.. index:: SSL, tcps transport,
+
+Using SSL
+---------
+
+The AMPS Python client includes support for Secure Sockets Layer. To use
+this support in the Python client using the default OpenSSL implementation
+for the Python installation, you need only use ``tcps`` for the
+transport type in the connection string.
+
+If your Python client does not have a default OpenSSL implementation,
+you must load an SSL implementation as described below. This is
+typically the case for Windows Python builds, and may be the case if
+your site uses a custom build of Python on Linux.
+
+Loading a Different SSL Implementation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Python client also allows you to load and use an OpenSSL implementation
+other than the default implementation for the Python installation. The
+AMPS Python client provides the method ssl_init, which takes the name
+of the library to load or a full path to the file that contains the
+library. For example, to load the SSL implementation at
+``/opt/mycorp/trusted/vetted_ssl.so``, you could use the following line
+of code:
+
+.. code:: python
+
+    AMPS.ssl_init("/opt/mycorp/trusted/vetted_ssl.so")
+
+You must load the SSL library before making the connection.

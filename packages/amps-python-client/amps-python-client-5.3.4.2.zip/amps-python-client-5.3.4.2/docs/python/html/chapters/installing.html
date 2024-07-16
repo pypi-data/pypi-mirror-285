@@ -1,0 +1,264 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>2. Building and Installing the AMPS Client &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3. Your First AMPS Program" href="first-program.html" />
+    <link rel="prev" title="1. Introduction" href="introduction.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">2. Building and Installing the AMPS Client</a><ul>
+<li><a class="reference internal" href="#obtaining-the-client">Obtaining the Client</a></li>
+<li><a class="reference internal" href="#installing-the-prebuilt-whl-on-linux">Installing the Prebuilt .whl on Linux</a></li>
+<li><a class="reference internal" href="#installing-the-prebuilt-whl-on-windows">Installing the Prebuilt .whl on Windows</a></li>
+<li><a class="reference internal" href="#building-the-client">Building the Client</a><ul>
+<li><a class="reference internal" href="#building-for-linux">Building for Linux</a></li>
+<li><a class="reference internal" href="#building-for-windows">Building for Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="introduction.html" title="previous chapter">1. Introduction</a></li>
+      <li>Next: <a href="first-program.html" title="next chapter">3. Your First AMPS Program</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="building-and-installing-the-amps-client">
+<h1>2. Building and Installing the AMPS Client<a class="headerlink" href="#building-and-installing-the-amps-client" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="obtaining-the-client">
+<h2>Obtaining the Client<a class="headerlink" href="#obtaining-the-client" title="Permalink to this headline">¶</a></h2>
+<p>The AMPS Python client is available as a download from the 60East
+Technologies website, <a class="reference external" href="https://www.crankuptheamps.com/develop/">https://www.crankuptheamps.com/develop/</a>.
+Download the client from the site, then extract it.</p>
+<p>The client source files are in the directory where you unpacked the
+files. By default, this is <code class="docutils literal"><span class="pre">amps-python-client-&lt;version&gt;</span></code>, where
+<code class="docutils literal"><span class="pre">&lt;version&gt;</span></code> is the current version of the python client (such as
+<code class="docutils literal"><span class="pre">amps-python-client-4.3.1.0</span></code>).</p>
+</div>
+<div class="section" id="installing-the-prebuilt-whl-on-linux">
+<h2>Installing the Prebuilt .whl on Linux<a class="headerlink" href="#installing-the-prebuilt-whl-on-linux" title="Permalink to this headline">¶</a></h2>
+<p>60East provides a prebuilt <code class="docutils literal"><span class="pre">.whl</span></code> file for x64 Linux distributions
+using Python 2.7 or 3.4 and later.</p>
+<p>To install the <code class="docutils literal"><span class="pre">.whl</span></code> using the command line:</p>
+<ol class="arabic simple">
+<li>You will need permission to update the Python distribution
+on the system you are installing on.</li>
+<li>Open a command prompt.</li>
+<li>Run the following command, substituting the appropriate path
+to the release wheel that you want to install:</li>
+</ol>
+<div class="code bash highlight-default"><div class="highlight"><pre><span></span>$  pip install http://devnull.crankuptheamps.com/releases/amps/clients/amps_python_client-&lt;version_number&gt;-&lt;platform and python version specifier&gt;.whl
+</pre></div>
+</div>
+<p>If this command reports a permission error, you do not have
+permission to update the Python distribution. Run the command as a
+different user, or use <code class="docutils literal"><span class="pre">sudo</span></code> to run the command as <code class="docutils literal"><span class="pre">root</span></code>.</p>
+</div>
+<div class="section" id="installing-the-prebuilt-whl-on-windows">
+<h2>Installing the Prebuilt .whl on Windows<a class="headerlink" href="#installing-the-prebuilt-whl-on-windows" title="Permalink to this headline">¶</a></h2>
+<p>60East provides a prebuilt <code class="docutils literal"><span class="pre">.whl</span></code> file for 64-bit Windows operating
+systems using Python 2.7 or 3.4 and later. Your Python distribution may include a more
+fully-featured package manager to assist with installing <code class="docutils literal"><span class="pre">.whl</span></code> files.</p>
+<p>To install the <code class="docutils literal"><span class="pre">.whl</span></code> using the command line:</p>
+<ol class="arabic simple">
+<li>You will need permission to update the Python distribution
+on the system you are installing on.</li>
+<li>Make sure that your Python distribution includes setuptools.</li>
+<li>Open a command prompt.</li>
+<li>Make sure that the directory that contains python is in your path.</li>
+<li>Run the following command, substituting the appropriate path
+to the release wheel that you want to install:</li>
+</ol>
+<blockquote>
+<div><div class="code bash highlight-default"><div class="highlight"><pre><span></span>$ pip install \
+http://devnull.crankuptheamps.com/releases/amps/clients/amps_python_client-&lt;version_number&gt;-&lt;platform and python version specifier&gt;.whl
+</pre></div>
+</div>
+</div></blockquote>
+<p>If this command reports a permission error, you do not have
+permission to update the Python distribution. Run the command prompt
+from a different user, or start the command prompt with <strong>Run as
+Administrator</strong>.</p>
+</div>
+<div class="section" id="building-the-client">
+<h2>Building the Client<a class="headerlink" href="#building-the-client" title="Permalink to this headline">¶</a></h2>
+<p>The main AMPS Python client distribution includes the full source to the
+client. For most installations, you build the client with your Python
+distribution before using it. The process for building the client
+differs slightly depending on whether you are building the client for
+Linux or for Windows.</p>
+<div class="section" id="building-for-linux">
+<h3>Building for Linux<a class="headerlink" href="#building-for-linux" title="Permalink to this headline">¶</a></h3>
+<p>Follow these steps to build the Linux version of the client:</p>
+<ol class="arabic">
+<li><p class="first">The Python client includes all necessary C++ client sources. If you
+are using a different version of the C++ client than the one included
+with the Python client, set the <code class="docutils literal"><span class="pre">AMPS_CPP_DIR</span></code> environment variable
+to the location of the AMPS C++ client source.</p>
+</li>
+<li><p class="first">Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code> from the AMPS Python client directory
+to build the client.</p>
+<p>This script uses the Python <code class="docutils literal"><span class="pre">distutils</span></code> to build the library, which
+makes it easy to build the library correctly and install the library
+into your Python distribution. To see the options available in your
+environment, run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">--help</span></code>.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">The module must be built with the same C++ compiler used to
+build python on your system. The <code class="docutils literal"><span class="pre">setup.py</span></code> script and
+<code class="docutils literal"><span class="pre">distutils</span></code> package will generally ensure this unless you have
+added a different compiler to your <code class="docutils literal"><span class="pre">PATH</span></code>. If you typically
+use a different C++ compiler, remove the path to that compiler
+before running <code class="docutils literal"><span class="pre">setup.py</span></code>.</p>
+</div>
+</li>
+<li><p class="first">The script builds the module to a path in the <code class="docutils literal"><span class="pre">build</span></code> directory.
+The exact path depends on the version of Python you are building
+with.</p>
+</li>
+<li><p class="first">Add the build directory path to the PYTHONPATH environment variable.
+For example:</p>
+<p><code class="docutils literal"><span class="pre">$</span> <span class="pre">export</span> <span class="pre">PYTHONPATH=/home/AMPSdev/amps-python-client/build/lib.linux-x86_64-2.7:$PYTHONPATH</span></code></p>
+</li>
+<li><p class="first">Test that the module loads correctly:</p>
+<p><code class="docutils literal"><span class="pre">$</span> <span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">AMPS&quot;</span></code></p>
+</li>
+<li><p class="first">Optionally, install the module to your local python installation.
+While this is not required, doing this makes the AMPS module
+available for all of the programs that use this installation of
+python:</p>
+<p><code class="docutils literal"><span class="pre">sudo</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p>
+</li>
+</ol>
+</div>
+<div class="section" id="building-for-windows">
+<h3>Building for Windows<a class="headerlink" href="#building-for-windows" title="Permalink to this headline">¶</a></h3>
+<p>Follow these steps to build the Windows version of the client:</p>
+<ol class="arabic">
+<li><p class="first">Use the Visual Studio Command Prompt shortcut to start a command
+prompt window for the type of module you want to build. For example,
+to build a 32-bit module, you use the command prompt for x86 builds.</p>
+</li>
+<li><p class="first">Add the Python directory (the location of the <code class="docutils literal"><span class="pre">python.exe</span></code>
+interpreter) to your <code class="docutils literal"><span class="pre">PATH</span></code>.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">The platform of the python installation must match the target
+platform for the python module. If you want to build a 64-bit
+module, your PATH must include a 64-bit python installation. If
+you want to build a 32-bit module, your PATH must include a
+32-bit python installation. The build process uses whatever
+python.exe is found first when searching the PATH. So, to build
+both 32-bit and 64-bit versions, you must build them separately,
+and change your PATH between builds.</p>
+</div>
+</li>
+<li><p class="first">Run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">build</span></code> from the AMPS Python client directory
+to build the client.</p>
+<p>This script uses the Python <code class="docutils literal"><span class="pre">distutils</span></code> to build the library, which
+makes it easy to build the library correctly and install the library
+into your Python distribution. To see the options available in your
+environment, run <code class="docutils literal"><span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">--help</span></code>.</p>
+</li>
+<li><p class="first">The script builds the module to a path in the <code class="docutils literal"><span class="pre">build</span></code> directory.
+The exact path depends on the version of Python you are building
+with.</p>
+</li>
+<li><p class="first">Add the build directory path to the PYTHONPATH environment variable.
+For example:</p>
+<p><code class="docutils literal"><span class="pre">&gt;</span> <span class="pre">set</span> <span class="pre">PYTHONPATH=&quot;C:\Users\AMPSdev\amps-python-client\build\lib.linux-x86_64-2.7;%PYTHONPATH%&quot;</span></code></p>
+</li>
+<li><p class="first">Test that the module loads correctly:</p>
+<p><code class="docutils literal"><span class="pre">&gt;</span> <span class="pre">python</span> <span class="pre">-c</span> <span class="pre">&quot;import</span> <span class="pre">AMPS&quot;</span></code></p>
+</li>
+<li><p class="first">Optionally, install the module to your local python
+installation.While this is not required, doing this makes the AMPS
+module available for all of the programs that use this installation
+of python:</p>
+<p><code class="docutils literal"><span class="pre">&gt;</span> <span class="pre">python</span> <span class="pre">setup.py</span> <span class="pre">install</span></code></p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

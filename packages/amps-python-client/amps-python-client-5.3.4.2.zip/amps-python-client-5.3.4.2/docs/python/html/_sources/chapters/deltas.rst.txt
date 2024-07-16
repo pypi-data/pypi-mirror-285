@@ -1,0 +1,79 @@
+8. Delta Publish and Subscribe
+==============================
+
+Introduction
+------------
+
+Delta messaging in AMPS has two independent aspects:
+
+-  **Delta Subscribe** - Allows subscribers to receive just the fields that
+   are updated within a message.
+
+-  **Delta Publish** - Allows publishers to update and add fields within a
+   message by publishing only the updates into the SOW.
+
+This chapter describes how to create delta publish and delta subscribe
+commands using the AMPS Python client. For a discussion of this
+capability, how it works, and how message types support this capability
+see the *AMPS User Guide*.
+
+Delta Subscribe
+---------------
+
+To delta subscribe, you simply use the ``delta_subscribe`` command as
+follows:
+
+.. code:: python
+
+    # assumes that client is connected and logged on
+
+    cmd = AMPS.Command("delta_subscribe")
+    cmd.set_topic("delta_topic")
+    cmd.set_filter("/thingIWant = 'true'")
+
+    for m in client.execute(cmd):
+        # Delta messages arrive here
+
+As described in the *AMPS User Guide*, messages provided to a delta
+subscription will contain the fields used to generate the SOW key and
+any changed fields in the message. Your application is responsible for
+choosing how to handle the changed fields.
+
+Delta Publish
+-------------
+
+To delta publish, you use the ``delta_publish`` command as follows:
+
+.. code:: python
+
+    # assumes that client is connected and logged on
+
+    msg = ... # obtain changed fields here
+
+    client.delta_publish("myTopic", msg)
+
+
+.. index:: SowKey, delta_publish
+
+The message that you provide to AMPS must include the fields that the
+topic uses to generate the SOW key. Otherwise, AMPS will not be able to
+identify the message to update. For SOW topics that use a User-Generated
+SOW Key, use the ``Command`` form of ``delta_publish`` to set the
+``SowKey``, as shown below:
+
+.. code:: python
+
+    # assumes that client is connected and logged on
+         
+    msg = ... # obtain changed fields here
+    key = ... # obtain user-generated SOW key
+
+    cmd = AMPS.Command("delta_publish")
+    cmd.set_topic("delta_topic")
+    cmd.set_sow_key(key)
+    cmd.set_data(msg)
+
+    # Execute the delta publish. Use None for
+    # the message handler since any failure acks will
+    # be routed to the FailedWriteHandler.
+    client.execute_async(cmd,None)

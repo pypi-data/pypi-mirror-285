@@ -1,0 +1,481 @@
+
+.. |tip| image:: ../../common/svg/tip.svg
+
+5. Error Handling
+=================
+
+In every distributed system, the robustness of your application depends
+on its ability to recover gracefully from unexpected events. The AMPS
+client provides the building blocks necessary to ensure your application
+can recover from the kinds of errors and special events that may occur
+when using AMPS.
+
+Exceptions
+----------
+
+Generally speaking, when an error occurs that prohibits an operation
+from succeeding, AMPS will throw an exception. AMPS exceptions
+universally derive from ``AMPS.AMPSException``, so by catching
+``AMPSException``, you will be sure to catch anything AMPS throws, for
+example:
+
+.. code:: python
+
+    def read_and_evaluate(client):
+        # read a new payload from the user
+        payload = input("Please enter a message")
+
+        # write a new message to AMPS
+        if payload:
+            try:
+                client.publish(
+                    "UserMessage",
+                    "{ \"message\" : \"%s\"  }" % payload
+                )
+            except AMPS.AMPSException as e:
+                sys.stderr.write("An AMPS exception" + "occurred: %s" % str(e))
+
+**Example 5.1:** *Catching an AMPS Exception* 
+
+In this example, if an error occurs, the program writes the error to
+``stderr`` and the ``publish()`` command fails. However, ``client`` is
+still usable for continued publishing and subscribing. When the error
+occurs, the exception is written to the console. As with most Python
+exceptions, ``str()`` will convert the exception into a string that
+includes a descriptive message.
+
+AMPS exception types vary based on the nature of the error that occurs.
+In your program, if you would like to handle certain kinds of errors
+differently than others, you can handle the appropriate subclass of
+``AMPSException`` to detect those specific errors and do something
+different.
+
+.. _#exceptions-subclass-handling:
+
+.. code:: python
+
+    def create_new_subscription(client):
+        messageStream = None
+        topicName = None 
+
+        while messageStream is None:
+           
+        # attempts to retrieve a topic name (or regular expression) from the user.
+        topicName = input("Please enter a topic name")
+        try:
+        
+            # If an error occurs when setting up the subscription, the program decides whether
+            # or not to try again based on the subclass of AMPSException that is thrown. In
+            # this case, if the exception is a BadRegexTopicError, the exception indicates
+            # that the user provided a bad regular expression. We would like to give the user
+            # a chance to correct, so we ask the user for a new topic name.
+            messageStream = client.subscribe(
+                topicName,
+                None
+            )
+           
+        # This line indicates that the program catches the BadRegexTopicError exception
+        # and displays a specific error to the user indicating the topic name or
+        # expression was invalid. By not returning from the function in this except block,
+        # the while loop runs again and the user is asked for another topic name.
+        except BadRegexTopicError as e: 
+            print(
+                "Error: bad topic name or regular expression " +
+                topicName + 
+                ".  The exception was " + 
+                str(e) + 
+                "."
+            )
+            # we'll ask the user for another topic
+           
+        # If an AMPS exception of a type other than BadRegexTopicError is thrown by AMPS,
+        # it is caught here. In that case, the program emits a different error message to
+        # the user.
+        except AMPSException as e: 
+            print (
+                "Error: error setting up subscription to topic" + 
+                topicName + 
+                ".  The exception was " + 
+                str(e) + 
+                "."
+            )
+
+            # At this point the code stops attempting to subscribe to the client by the return
+            # None statement.
+            return None  
+       return messageStream 
+           
+**Example 5.2:** *Handling AMPSException Subclasses*
+
+Exception Types
+^^^^^^^^^^^^^^^^
+
+Each method in AMPS documents the kinds of exceptions that are thrown
+from it. For reference, :ref:`Appendix A: Exceptions <#command-publish-headers>`
+contains a list of all of the exception types you may encounter while
+using AMPS, when they occur, and what they mean.
+
+Exception Handling and Asynchronous Message Processing
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When using asynchronous message processing, exceptions thrown from the
+message handler are silently absorbed by the AMPS Python client by
+default. The AMPS Python client allows you to register an exception
+listener to detect and respond to these exceptions. When an exception
+listener is registered, AMPS will call the exception listener with the
+exception. See 
+:ref:`Example 5.5 <#error-handling-exception-listener>`
+for details.
+
+
+Controlling Blocking with Command Timeout
+-------------------------------------------
+
+The named convenience methods and the ``Command`` class provide a
+``timeout`` setting that specifies how long the command should wait
+to receive a ``processed`` acknowledgment from AMPS. This can be helpful
+in cases where it is important for the caller to limit the amount of time
+to block waiting for AMPS to acknowledge the command. If the AMPS client
+does not receive the processed acknowledgment within the specified
+time, the client sends an ``unsubscribe`` command to the server to
+cancel the command and throws an exception.
+
+Acknowledgments from AMPS are processed by the client receive thread
+on the same socket as data from AMPS. This means that any other data
+previously returned (such as the results of a large query) must be
+consumed before the acknowledgment can be processed. An application
+that submits a set of SOW queries in rapid succession should set a
+timeout that takes into account the amount of time required to
+process the results of the previous query.
+
+Disconnect Handling
+-------------------
+
+Every distributed system will experience occasional disconnections
+between one or more nodes. The reliability of the overall system depends
+on an application's ability to efficiently detect and recover from these
+disconnections. Using the AMPS Python client's disconnect handling, you
+can build powerful applications that are resilient in the face of
+connection failures and spurious disconnects. For additional
+reliability, you can also use the high availability client (discussed in
+the following sections), which provides both disconnect handling and
+features to help ensure that messages are reliably delivered.
+
+.. include:: ./heartbeat.inc
+Managing Disconnection
+^^^^^^^^^^^^^^^^^^^^^^
+
+The ``HAClient`` class, included with the AMPS Python client, contains a
+disconnect handler and other features for building highly-available
+applications. The ``HAClient`` includes features for managing a list of
+failover servers, resuming subscriptions, republishing in-flight
+messages, and other functionality that is commonly needed for high
+availability. 60East recommends using the ``HAClient`` for automatic
+reconnection wherever possible, as the HAClient disconnect handler has
+been carefully crafted to handle a wide variety of edge cases and
+potential failures.
+
+If an application needs to reconnect or fail over, use an
+``HAClient``, and the AMPS client library will automatically
+handle failover and reconnection. You control which servers
+the client fails over to using an implementation of the
+``ServerChooser`` interface, and you can control the timing of
+the failover using an implementation of the ``ReconnectDelayStrategy``
+interface.
+
+.. tip::
+
+   For most applications, the combination of the ``HAClient``
+   disconnect handler and a ``ConnectionStateListener`` gives
+   you the ability to monitor disconnections and add custom
+   behavior at the appropriate point in the reconnection
+   process.
+
+If you need to add custom behavior to the failover (such as logging,
+resetting an internal cache, refreshing credentials and so on), the
+``ConnectionStateListener`` class allows your application to
+be notified and take action when disconnection is detected and at
+each stage of the reconnection process.
+
+To extend the behavior of the AMPS client during reconnection, implement
+a ``ConnectionStateListener``.
+
+
+Replacing Disconnect Handling
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In some cases, an application does not want the AMPS client to
+reconnect, but instead wants to take a different action if
+disconnection occurs. For example, a stateless publisher
+that sends ephemeral data (such as telemetry or prices) may want
+to exit with an error if the connection is lost rather than
+risk falling behind and providing outdated messages. Often,
+in this case, a monitoring process will start another publisher
+if a publisher fails, and it is better for a message to be
+lost than to arrive late.
+
+To cover cases where the application has unusual needs, the
+AMPS client library allows an application to provide custom
+disconnect handling.
+
+Your application gets to specify exactly what happens when a
+disconnect occurs by supplying a function to
+``client.set_disconnect_handler()``, which is invoked whenever
+a disconnect occurs. This may be helpful for situations
+where a particular connection needs to do something completely
+different than reconnecting or failing over to another AMPS server.
+
+.. caution::
+
+  Setting the disconnect handler completely replaces the disconnection
+  and failover behavior for an ``HAClient`` and provides the *only* disconnection
+  and failover behavior for a ``Client``.
+
+The handler runs on the thread that detects the disconnect. This may
+be the client receive thread (for example, if the disconnect is detected
+due to heartbeating) or an application thread (for example, if the disconnect
+is detected when sending a command to AMPS).
+
+The example below shows the basics:
+
+.. _#error-handling-disconnect-handler:
+
+.. code:: python
+
+    class MyApp:
+        def __init__(self, _uri):
+            self.uri = _uri
+            self.client = None
+            self.client = AMPS.Client(...)  
+           
+            # set_disconnect_handler() method is called to supply a function for use when AMPS
+            # detects a disconnect. At any time, this function may be called by AMPS to
+            # indicate that the client has disconnected from the server, and to allow your
+            # application to choose what to do about it. The application continues on to
+            # connect and subscribe to the orders topic.
+            self.client.set_disconnect_handler(self.exit_on_disconnection) 
+            self.client.connect(self.uri)
+            self.client.logon()
+
+        # display order data to the user
+        def showMessage(self,m):
+            pass
+
+        # Our disconnect handler’s implementation begins here.
+        # 
+        # In this example, we exit the application if the
+        # connection fails.
+
+        def exit_on_disconnection(self, client):
+            sys.exit(1)
+
+**Example 5.3:** *Supplying a Disconnect Handler*
+
+
+.. _#unexpected-messages:
+
+Unexpected Messages
+-------------------
+
+The AMPS Python client handles most incoming messages and takes
+appropriate action. Some messages are unexpected or occur only in very
+rare circumstances. The AMPS Python client provides a way for clients to
+process these messages. Rather than providing handlers for all of these
+unusual events, AMPS provides a single handler function for messages
+that can't be handled during normal processing.
+
+Your application registers this handler by setting the
+``last_chance_message_handler`` for the client. This handler is called
+when the client receives a message that can't be processed by any other
+handler. This is a rare event, and typically indicates an unexpected
+condition.
+
+For example, if a client publishes a message that AMPS cannot parse,
+AMPS returns a failure acknowledgment. This is an unexpected event, so
+AMPS does not include an explicit handler for this event, and failure
+acknowledgments are received in the method registered as the
+``last_chance_message_handler``.
+
+Your application is responsible for taking any corrective action needed.
+For example, if a message publication fails, your application can decide
+to republish the message, publish a compensating message, log the error,
+stop publication altogether, or any other action that is appropriate.
+
+Unhandled Exceptions
+--------------------
+
+When using the asynchronous interface, exceptions can occur that are not
+thrown to the user. For example, when an exception occurs in the process
+of reading subscription data from the AMPS server, the exception occurs
+on a thread inside of the AMPS Python client. Consider the following
+example using the asynchronous interface:
+
+.. code:: python
+
+    class MyApp:
+        def on_message_handler(self,message):  
+            print(message.get_data())
+
+        def wait_to_be_poked(self,client):
+            client.subscribe(
+                self.on_message_handler,
+                "pokes",
+                "/Pokee LIKE '%s'" % getpass.getuser(),
+                timeout=5000)
+            input("Press enter to exit")
+
+**Example 5.4:** *Where do Exceptions go?*
+
+In this example, we set up a subscription to wait for messages on the
+pokes topic, whose Pokee tag begins with our user name. When messages
+arrive, we print a message out to the console, but otherwise our
+application waits for a key to be pressed.
+
+Inside of the AMPS client, the client creates a new thread of execution
+that reads data from the server, and invokes message handlers and
+disconnect handlers when those events occur. When exceptions occur
+inside this thread, however, there is no caller for them to be thrown
+to and by default they are ignored.
+
+In applications that use the asynchronous interface, and where it is
+important to deal with every issue that occurs in using AMPS, you can
+set an ``ExceptionHandler`` via ``Client.set_exception_listener()`` that
+receives these otherwise unhandled exceptions. Making the modifications
+shown in the example below, to our previous example, will allow those 
+exceptions to be caught and handled. In this case we are simply printing 
+those caught exceptions out to the console.
+
+.. tip::
+
+   In some cases, the AMPS Python client may wrap exceptions of unknown type into 
+   an ``AMPSException``. Your application should always include an except block
+   for ``AMPSException``.
+
+If your application will attempt to recover from an exception
+thrown on the background processing thread, your application should
+set a flag and attempt recovery on a *different* thread than the
+thread that called the exception listener.
+
+.. tip::
+
+   At the point that the AMPS client calls the exception listener,
+   it has handled the exception. Your exception listener must
+   not rethrow the exception (or wrap the exception and throw
+   a different exception type).
+
+.. _#error-handling-exception-listener:
+
+.. code:: python
+
+    class MyApp:
+        def on_exception(self, e):
+            print ("Exception occurred: %s" % str(e))
+
+        def on_message_handler(self,message):  
+            print (message.get_data())
+
+        def wait_to_be_poked(self, client):
+            client.set_exception_listener(self.on_exception) 
+
+            # Use the advanced interface to be able to
+            # accept input while processing messages.
+
+            client.subscribe(
+                self.on_message_handler,
+                "pokes",
+                "/Pokee LIKE '%s'" % getpass.getuser(),
+                timeout=5000)
+            input("Press enter to exit")
+
+**Example 5.5:** *Exception Listener*
+
+In this example we have added a call to
+``client.set_exception_listener()``, registering a simple function that
+writes the text of the exception out to the console. If exceptions are
+thrown in the message handler, those exceptions are written to the
+console.
+
+AMPS records the stack trace and provides it to the exception handler, 
+if the provided method includes a parameter for the stack trace. The 
+sample below demonstrates one way to do this. (For sample purposes, the 
+message handler always throws an exception.)
+
+.. code:: python
+
+    import AMPS
+    import time
+    import traceback
+
+    def handler(message):
+        print (message)
+        raise RuntimeError("in my handler")
+
+    def exception_listener(exception, tb):
+        print ("EXCEPTION RECEIVED", exception)
+        if tb is not None:
+            traceback.print_tb(tb)
+
+    client = AMPS.Client("client")
+
+    client.set_exception_listener(exception_listener)
+
+    client.connect("tcp://localhost:9007/amps/json")
+
+    client.logon()
+    client.subscribe(handler,"topic")
+    client.publish("topic","data")
+    time.sleep(1)
+    client.close()
+    
+**Example 5.6:** *AMPS stack trace*
+
+Detecting Write Failures
+------------------------
+
+.. index:: publish failures,
+
+The ``publish`` methods in the Python client deliver the
+message to be published to AMPS then return immediately, without waiting
+for AMPS to return an acknowledgment. Likewise, the ``sow_delete``
+methods request deletion of SOW messages, and return before AMPS
+processes the message and performs the deletion. This approach provides
+high performance for operations that are unlikely to fail in production.
+However, this means that the methods return before AMPS has processed
+the command, without the ability to return an error in the event the
+command fails.
+
+The AMPS Python client provides a ``failed_write_handler`` that is
+called when the client receives an acknowledgment that indicates a
+failure to persist data within AMPS. As with the
+``last_chance_message_handler`` described in the
+:ref:`Unexpected Messages <#unexpected-messages>` section, 
+your application registers a handler for this function. When an acknowledgment returns that
+indicates a failed write, AMPS calls the registered handler method with
+information from the acknowledgment message, supplemented with
+information from the client publish store if one is available. Your
+client can log this information, present an error to the user or take
+whatever action is appropriate for the failure.
+
+
+If your application needs to know whether publishes succeeded and
+are durably persisted, the following approach is recommended:
+
+* Set a ``PublishStore`` on the client. This will ensure that messages
+  are retransmitted if the client becomes disconnected before the
+  message is acknowledged *and* request ``persisted`` acknowledgments
+  for messages.
+
+* Install a ``failed_write_handler``. In the event that AMPS reports
+  an error for a given message, that event will be reported to
+  the ``failed_write_handler``.
+
+* Call ``publish_flush()`` and verify that all messages are
+  persisted before the application exits.
+
+When no ``failed_write_handler`` is registered, acknowledgments that
+indicate errors in persisting data are treated as unexpected messages
+and routed to the ``last_chance_message_handler``. In this case, AMPS
+provides only the acknowledgment message and does not provide the
+additional information from the client publish store.
+
+.. include:: ./connection-state.inc

@@ -1,0 +1,32 @@
+14. Migrating from Earlier Python Implementations
+=================================================
+
+The AMPS Python client builds on the AMPS C++ client to provide all of
+the features of the C++ client at high performance. 60East previously
+produced a different implementation of a Python client, which is now
+deprecated.
+
+The AMPS Python client is fully-compatible with the previous
+implementation. This client also adds support for:
+
+-  High availability clients
+
+-  Bookmark subscriptions
+
+-  Features added after AMPS 3.5
+
+The earlier implementation did not fully follow the style guidelines in
+Python Enhancement Proposal 8 (PEP 8). Functions and objects in the
+previous implementation were named with camel case style, while
+functions and objects in the Python client follow the standard Python
+convention of lowercase words separated by underscores.
+
+The Python client contains compatibility functions for the previous
+implementation. To update your code to follow PEP 8 conventions, replace
+camel case functions with the equivalent. For example, the
+``sowAndSubscribe`` function in your code becomes ``sow_and_subscribe``
+with the Python client.
+
+Since camel case style functions are provided for compatibility, there
+are no camel case style functions for features that weren't included in
+the previous implementation.

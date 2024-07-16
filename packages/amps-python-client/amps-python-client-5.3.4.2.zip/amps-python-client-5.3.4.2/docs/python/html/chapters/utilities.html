@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>11. Utilities &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="12. Advanced Topics" href="advanced-topics.html" />
+    <link rel="prev" title="10. AMPS Programming: Working with Commands" href="creating-commands.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">11. Utilities</a><ul>
+<li><a class="reference internal" href="#composite-message-types">Composite Message Types</a><ul>
+<li><a class="reference internal" href="#building-composite-messages">Building Composite Messages</a></li>
+<li><a class="reference internal" href="#parsing-composite-messages">Parsing Composite Messages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nvfix-messages">NVFIX Messages</a><ul>
+<li><a class="reference internal" href="#building-nvfix-messages">Building NVFIX Messages</a></li>
+<li><a class="reference internal" href="#parsing-nvfix-messages">Parsing NVFIX Messages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fix-messages">FIX Messages</a><ul>
+<li><a class="reference internal" href="#building-fix-messages">Building FIX Messages</a></li>
+<li><a class="reference internal" href="#parsing-fix-messages">Parsing FIX Messages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="creating-commands.html" title="previous chapter">10. AMPS Programming: Working with Commands</a></li>
+      <li>Next: <a href="advanced-topics.html" title="next chapter">12. Advanced Topics</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="utilities">
+<h1>11. Utilities<a class="headerlink" href="#utilities" title="Permalink to this headline">¶</a></h1>
+<p>The AMPS Python client includes a set of utilities and helper classes to
+make working with AMPS easier.</p>
+<div class="section" id="composite-message-types">
+<h2>Composite Message Types<a class="headerlink" href="#composite-message-types" title="Permalink to this headline">¶</a></h2>
+<p>The client provides a pair of classes for creating and parsing composite
+message types:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">CompositeMessageBuilder</span></code> allows you to assemble the parts of a
+composite message and then serialize them in a format suitable for
+AMPS.</li>
+<li><code class="docutils literal"><span class="pre">CompositeMessageParser</span></code> extracts the individual parts of a
+composite message type.</li>
+</ul>
+<p>For more information regarding composite message types, refer to the
+<em>Message Types</em> chapter in the <em>AMPS User Guide</em>.</p>
+<div class="section" id="building-composite-messages">
+<h3>Building Composite Messages<a class="headerlink" href="#building-composite-messages" title="Permalink to this headline">¶</a></h3>
+<p>To build a composite message, create an instance of
+<code class="docutils literal"><span class="pre">CompositeMessageBuilder</span></code>, and populate the parts. The
+<code class="docutils literal"><span class="pre">CompositeMessageBuilder</span></code> copies the parts provided, in order, to the
+underlying message. The builder simply writes to an internal buffer with
+the appropriate formatting, and does not allow you to update or change
+the individual parts of a message once they&#8217;ve been added to the
+builder.</p>
+<p>The snippet below shows how to build a composite message that includes a
+JSON part, constructed as a string, and a binary part consisting of the
+bytes from an <code class="docutils literal"><span class="pre">array.array</span></code> that contains doubles.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">json</span> <span class="o">=</span> <span class="s1">&#39;{&quot;data&quot;:&quot;sample&quot;}&#39;</span>
+
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="c1"># populate data</span>
+<span class="o">...</span>
+
+
+<span class="c1"># Create the payload for the composite message</span>
+<span class="n">builder</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">CompositeMessageBuilder</span><span class="p">()</span>
+
+<span class="c1"># Construct the composite</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">tostring</span><span class="p">())</span>
+
+<span class="c1"># Send the message</span>
+<span class="n">client</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;messages&quot;</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parsing-composite-messages">
+<h3>Parsing Composite Messages<a class="headerlink" href="#parsing-composite-messages" title="Permalink to this headline">¶</a></h3>
+<p>To parse a composite message, create an instance of
+<code class="docutils literal"><span class="pre">CompositeMessageParser</span></code>, then use the <code class="docutils literal"><span class="pre">parse()</span></code> method to parse the
+message provided by the AMPS client. The <code class="docutils literal"><span class="pre">CompositeMessageParser</span></code>
+gives you access to each part of the message as a sequence of bytes.</p>
+<p>For example, the following snippet parses and prints messages that
+contain a JSON part and a binary part that contains an array of doubles.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">parts</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+<span class="n">json</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">get_part</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+<span class="n">data</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">get_part</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Received message with </span><span class="si">%d</span><span class="s2"> parts.&quot;</span> <span class="o">%</span> <span class="n">parts</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="p">)</span>
+<span class="n">datastring</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+    <span class="n">datastring</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="si">%f</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="n">d</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">datastring</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that the receiving application is written with explicit knowledge
+of the structure and content of the composite message type.</p>
+</div>
+</div>
+<div class="section" id="nvfix-messages">
+<h2>NVFIX Messages<a class="headerlink" href="#nvfix-messages" title="Permalink to this headline">¶</a></h2>
+<p>The client provides a pair of classes for creating and parsing NVFIX
+messages:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">NVFIXBuilder</span></code> allows you to assemble an NVFIX message and then
+serialize it in a format suitable for AMPS.</li>
+<li><code class="docutils literal"><span class="pre">NVFIXShredder</span></code> extracts the individual fields of an NVFIX message
+type.</li>
+</ul>
+<div class="section" id="building-nvfix-messages">
+<h3>Building NVFIX Messages<a class="headerlink" href="#building-nvfix-messages" title="Permalink to this headline">¶</a></h3>
+<p>To build an NVFIX message, create an instance of <code class="docutils literal"><span class="pre">NVFIXBuilder</span></code>, then
+add the fields of the message using <code class="docutils literal"><span class="pre">append()</span></code>. <code class="docutils literal"><span class="pre">NVFIXBuilder</span></code>
+copies the fields provided, in order, to the underlying message. The
+builder simply writes to an internal buffer with the appropriate
+formatting, and does not allow you to update or change the individual
+fields of a message once they&#8217;ve been added to the builder.</p>
+<p>The snippet below shows how to build an NVFIX message and publish it to the
+AMPS client.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create the payload for the NVFIX Message</span>
+<span class="n">builder</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">NVFIXBuilder</span><span class="p">()</span>
+
+<span class="c1"># construct the NVFIX message</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;sample&quot;</span><span class="p">,</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;even&quot;</span><span class="p">,</span> <span class="s2">&quot;more data&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+
+<span class="c1"># display the data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">get_string</span><span class="p">())</span>
+
+<span class="c1"># publish the message</span>
+<span class="n">client</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;messages-sow&quot;</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parsing-nvfix-messages">
+<h3>Parsing NVFIX Messages<a class="headerlink" href="#parsing-nvfix-messages" title="Permalink to this headline">¶</a></h3>
+<p>To parse an NVFIX message, create an instance of <code class="docutils literal"><span class="pre">NVFIXShredder</span></code>, then
+use the <code class="docutils literal"><span class="pre">to_map()</span></code> method to parse the message provided by the AMPS
+client. The <code class="docutils literal"><span class="pre">NVFIXShredder</span></code> gives you access to each field of the
+message in a map.</p>
+<p>The snippet below shows how to parse and print an NVFIX message.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create the shredder for the message and subscribe to the topic</span>
+<span class="n">shredder</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">NVFIXShredder</span><span class="p">()</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;messages-sow&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="c1"># shred the message to a map</span>
+<span class="n">message_map</span> <span class="o">=</span> <span class="n">shredder</span><span class="o">.</span><span class="n">to_map</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">next</span><span class="p">()</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+
+<span class="c1"># display the values of the message</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">message_map</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">message_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="fix-messages">
+<h2>FIX Messages<a class="headerlink" href="#fix-messages" title="Permalink to this headline">¶</a></h2>
+<p>The client provides a pair of classes for creating and parsing FIX
+messages:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">FIXBuilder</span></code> allows you to assemble a FIX message and then
+serialize it in a format suitable for AMPS.</li>
+<li><code class="docutils literal"><span class="pre">FIXShredder</span></code> extracts the individual fields of a FIX message.</li>
+</ul>
+<div class="section" id="building-fix-messages">
+<h3>Building FIX Messages<a class="headerlink" href="#building-fix-messages" title="Permalink to this headline">¶</a></h3>
+<p>To build a FIX message, create an instance of <code class="docutils literal"><span class="pre">FIXBuilder</span></code>, then add
+the fields of the message using <code class="docutils literal"><span class="pre">append()</span></code>. <code class="docutils literal"><span class="pre">FIXBuilder</span></code> copies the
+fields provided, in order, to the underlying message. The builder simply
+writes to an internal buffer with the appropriate formatting, and does
+not allow you to update or change the individual fields of a message
+once they&#8217;ve been added to the builder.</p>
+<p>The snippet below shows how to build a FIX message and publish it to the
+AMPS client.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create the payload for the FIX Message</span>
+<span class="n">builder</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">FIXBuilder</span><span class="p">()</span>
+
+<span class="c1"># construct the FIX message</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">builder</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;more data&quot;</span><span class="p">)</span>
+<span class="o">...</span>
+
+<span class="c1"># display the data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">builder</span><span class="o">.</span><span class="n">get_string</span><span class="p">())</span>
+
+<span class="c1"># publish the message</span>
+<span class="n">client</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;messages-sow&quot;</span><span class="p">,</span> <span class="n">builder</span><span class="o">.</span><span class="n">get_string</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="parsing-fix-messages">
+<h3>Parsing FIX Messages<a class="headerlink" href="#parsing-fix-messages" title="Permalink to this headline">¶</a></h3>
+<p>To parse a FIX message, create an instance of <code class="docutils literal"><span class="pre">FIXShredder</span></code>, then use
+the <code class="docutils literal"><span class="pre">to_map()</span></code> method to parse the message provided by the AMPS
+client. The <code class="docutils literal"><span class="pre">FIXShredder</span></code> gives you access to each field of the
+message in a map.</p>
+<p>The snippet below shows how to parse and print a FIX message.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># create the shredder for the message and subscribe to the topic</span>
+<span class="n">shredder</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">FIXShredder</span><span class="p">()</span>
+<span class="n">message</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">topic</span><span class="o">=</span><span class="s2">&quot;messages-sow&quot;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="c1"># shred the message to a map</span>
+<span class="n">message_map</span> <span class="o">=</span> <span class="n">shredder</span><span class="o">.</span><span class="n">to_map</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">next</span><span class="p">()</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+
+<span class="c1"># display the values of the message</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">message_map</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">message_map</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

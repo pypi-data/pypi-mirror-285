@@ -1,0 +1,184 @@
+
+.. |caution| image:: ../../common/svg/caution.svg
+
+.. |tip| image:: ../../common/svg/tip.svg
+
+2. Building and Installing the AMPS Client
+==========================================
+
+Obtaining the Client
+--------------------
+
+The AMPS Python client is available as a download from the 60East
+Technologies website, https://www.crankuptheamps.com/develop/. 
+Download the client from the site, then extract it.
+
+The client source files are in the directory where you unpacked the
+files. By default, this is ``amps-python-client-<version>``, where
+``<version>`` is the current version of the python client (such as
+``amps-python-client-4.3.1.0``).
+
+Installing the Prebuilt .whl on Linux
+-------------------------------------
+
+60East provides a prebuilt ``.whl`` file for x64 Linux distributions
+using Python 2.7 or 3.4 and later. 
+
+To install the ``.whl`` using the command line:
+
+1. You will need permission to update the Python distribution
+   on the system you are installing on.
+
+2. Open a command prompt.
+
+3. Run the following command, substituting the appropriate path
+   to the release wheel that you want to install:
+
+.. code:: bash
+
+   $  pip install http://devnull.crankuptheamps.com/releases/amps/clients/amps_python_client-<version_number>-<platform and python version specifier>.whl
+
+
+If this command reports a permission error, you do not have
+permission to update the Python distribution. Run the command as a
+different user, or use ``sudo`` to run the command as ``root``.
+
+Installing the Prebuilt .whl on Windows
+---------------------------------------
+
+60East provides a prebuilt ``.whl`` file for 64-bit Windows operating
+systems using Python 2.7 or 3.4 and later. Your Python distribution may include a more
+fully-featured package manager to assist with installing ``.whl`` files.
+
+To install the ``.whl`` using the command line:
+
+1. You will need permission to update the Python distribution 
+   on the system you are installing on.
+
+2. Make sure that your Python distribution includes setuptools.
+
+3. Open a command prompt.
+
+4. Make sure that the directory that contains python is in your path.
+
+5. Run the following command, substituting the appropriate path
+   to the release wheel that you want to install:
+
+ .. code:: bash
+
+    $ pip install \
+    http://devnull.crankuptheamps.com/releases/amps/clients/amps_python_client-<version_number>-<platform and python version specifier>.whl
+
+
+If this command reports a permission error, you do not have
+permission to update the Python distribution. Run the command prompt
+from a different user, or start the command prompt with **Run as
+Administrator**.
+
+Building the Client
+-------------------
+
+The main AMPS Python client distribution includes the full source to the
+client. For most installations, you build the client with your Python
+distribution before using it. The process for building the client
+differs slightly depending on whether you are building the client for
+Linux or for Windows.
+
+Building for Linux
+^^^^^^^^^^^^^^^^^^^
+
+Follow these steps to build the Linux version of the client:
+
+1. The Python client includes all necessary C++ client sources. If you
+   are using a different version of the C++ client than the one included
+   with the Python client, set the ``AMPS_CPP_DIR`` environment variable
+   to the location of the AMPS C++ client source.
+
+2. Run ``python setup.py build`` from the AMPS Python client directory
+   to build the client.
+
+   This script uses the Python ``distutils`` to build the library, which
+   makes it easy to build the library correctly and install the library
+   into your Python distribution. To see the options available in your
+   environment, run ``python setup.py --help``.
+
+   .. caution::
+           
+       The module must be built with the same C++ compiler used to
+       build python on your system. The ``setup.py`` script and
+       ``distutils`` package will generally ensure this unless you have
+       added a different compiler to your ``PATH``. If you typically
+       use a different C++ compiler, remove the path to that compiler
+       before running ``setup.py``.
+
+
+3. The script builds the module to a path in the ``build`` directory.
+   The exact path depends on the version of Python you are building
+   with.
+
+4. Add the build directory path to the PYTHONPATH environment variable.
+   For example:
+
+   ``$ export PYTHONPATH=/home/AMPSdev/amps-python-client/build/lib.linux-x86_64-2.7:$PYTHONPATH``
+
+5. Test that the module loads correctly:
+
+   ``$ python -c "import AMPS"``
+
+6. Optionally, install the module to your local python installation.
+   While this is not required, doing this makes the AMPS module
+   available for all of the programs that use this installation of
+   python:
+
+   ``sudo python setup.py install``
+
+Building for Windows
+^^^^^^^^^^^^^^^^^^^^^
+
+Follow these steps to build the Windows version of the client:
+
+1. Use the Visual Studio Command Prompt shortcut to start a command
+   prompt window for the type of module you want to build. For example,
+   to build a 32-bit module, you use the command prompt for x86 builds.
+
+2. Add the Python directory (the location of the ``python.exe``
+   interpreter) to your ``PATH``.
+
+   .. tip::
+
+       The platform of the python installation must match the target
+       platform for the python module. If you want to build a 64-bit
+       module, your PATH must include a 64-bit python installation. If
+       you want to build a 32-bit module, your PATH must include a
+       32-bit python installation. The build process uses whatever
+       python.exe is found first when searching the PATH. So, to build
+       both 32-bit and 64-bit versions, you must build them separately,
+       and change your PATH between builds.
+
+3. Run ``python setup.py build`` from the AMPS Python client directory
+   to build the client.
+
+   This script uses the Python ``distutils`` to build the library, which
+   makes it easy to build the library correctly and install the library
+   into your Python distribution. To see the options available in your
+   environment, run ``python setup.py --help``.
+
+4. The script builds the module to a path in the ``build`` directory.
+   The exact path depends on the version of Python you are building
+   with.
+
+5. Add the build directory path to the PYTHONPATH environment variable.
+   For example:
+
+   ``> set PYTHONPATH="C:\Users\AMPSdev\amps-python-client\build\lib.linux-x86_64-2.7;%PYTHONPATH%"``
+
+6. Test that the module loads correctly:
+
+   ``> python -c "import AMPS"``
+
+7. Optionally, install the module to your local python
+   installation.While this is not required, doing this makes the AMPS
+   module available for all of the programs that use this installation
+   of python:
+
+   ``> python setup.py install``

@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Introduction &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Building and Installing the AMPS Client" href="installing.html" />
+    <link rel="prev" title="Advanced Message Processing System (AMPS) Python Developer Guide" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">1. Introduction</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li><a class="reference internal" href="#python-support">Python Support</a><ul>
+<li><a class="reference internal" href="#runtime">Runtime</a></li>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">Advanced Message Processing System (AMPS) Python Developer Guide</a></li>
+      <li>Next: <a href="installing.html" title="next chapter">2. Building and Installing the AMPS Client</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>This document explains how to use the Python client for AMPS. Use this
+document to learn how to install, configure and develop applications
+using the AMPS Python client API.</p>
+<div class="section" id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
+<p>Before reading this guide, it is important to have a good understanding
+of the following topics:</p>
+<ul class="simple">
+<li><strong>Developing in Python</strong> - To be successful using this guide, you will
+need to possess a working knowledge of the Python language. Visit
+<a class="reference external" href="http://www.python.org">http://www.python.org</a> for resources on learning Python.</li>
+<li><strong>AMPS Concepts</strong> - Before reading this guide, you will need to understand
+the basic concepts of AMPS, such as <em>topics</em>, <em>subscriptions</em>,
+<em>messages</em> and <em>SOW</em>. Consult the <em>AMPS User Guide</em> to learn more
+about these topics before proceeding.</li>
+<li><strong>An Installed Python Interpreter</strong> - The AMPS Python client currently
+supports Python version 2.7 or greater, including Python 3.</li>
+<li><strong>Python setuptools</strong> - This is included with many Python distributions.
+If it is not already installed on your system, you must add
+setuptools to your installation. See
+<a class="reference external" href="https://pythonhosted.org/an_example_pypi_project/setuptools.html">https://pythonhosted.org/an_example_pypi_project/setuptools.html</a>
+for information on setuptools.</li>
+</ul>
+<p>60East also provides precompiled <code class="docutils literal"><span class="pre">.egg</span></code> files for both Linux and Windows.
+These files target specific versions of Python, as indicated in the filenames.</p>
+<p>If you are running on a different system or using a different version of
+Python, you will also need:</p>
+<ul class="simple">
+<li><strong>Python distutils</strong> - Most Python installations contain this package by
+default.</li>
+<li><strong>C++ Compiler</strong> - To build the client, you will need a C++ compiler as
+described in the Python Support section below. This is only necessary
+for initial installation. You do not need a C++ compiler to run the client.</li>
+</ul>
+<p>You will need an installed and running AMPS server to use the product as
+well. You can write and compile programs that use AMPS without a running
+server, but you will get the most out of this guide by running the
+programs against a working server.</p>
+</div>
+<div class="section" id="python-support">
+<h2>Python Support<a class="headerlink" href="#python-support" title="Permalink to this headline">¶</a></h2>
+<p>This section describes the features supported by the Python client at
+runtime, as well as the requirements for building and installing the
+Python client.</p>
+<div class="section" id="runtime">
+<h3>Runtime<a class="headerlink" href="#runtime" title="Permalink to this headline">¶</a></h3>
+<p>The AMPS Python client supports Python 2.7, as well as
+Python 3.X.</p>
+<p>The features supported on your processor and operating system depend on
+the features supported by the underlying C++ client, as shown in the
+following table:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="45%" />
+<col width="18%" />
+<col width="18%" />
+<col width="18%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">&#160;</th>
+<th class="head">Linux x64</th>
+<th class="head">Windows x64</th>
+<th class="head">Solaris
+SPARC</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Incredible Performance</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-odd"><td>Publish and Subscribe</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-even"><td>State of the World (SOW) Queries</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-odd"><td>Topic and Content Filtering</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-even"><td>Atomic SOW Query and Subscribe</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-odd"><td>Transaction Log Replay</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-even"><td>Historical SOW Query</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-odd"><td>Beautiful Documentation</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+<tr class="row-even"><td>HA: Automatic Failover</td>
+<td>X</td>
+<td>X</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>HA: Durable Publish and Subscribe</td>
+<td>X</td>
+<td>X</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 1.1:</strong> <em>C++ client supported features</em></p>
+</div>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>To install or build the Python client, follow the instructions in
+Chapter 2.</p>
+<p>To build the AMPS Python client, you need to have a compatible version
+of Python, as well as Python <code class="docutils literal"><span class="pre">distutils</span></code> installed. You also need a
+supported C++ compiler for your operating system:</p>
+<ul class="simple">
+<li>Linux: gcc 4.8 or later (recommended), 4.6 or 4.4</li>
+<li>Windows: Visual Studio versions under current mainstream support</li>
+<li>Solaris: Oracle Solaris Studio 12.3</li>
+</ul>
+<p>Notice that for a distribution of Python to be compatible, it must be a
+supported version built with a supported compiler for your operating
+system.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,214 @@
+
+11. Utilities
+=============
+
+The AMPS Python client includes a set of utilities and helper classes to
+make working with AMPS easier.
+
+Composite Message Types
+------------------------
+
+The client provides a pair of classes for creating and parsing composite
+message types:
+
+-  ``CompositeMessageBuilder`` allows you to assemble the parts of a
+   composite message and then serialize them in a format suitable for
+   AMPS.
+
+-  ``CompositeMessageParser`` extracts the individual parts of a
+   composite message type.
+
+For more information regarding composite message types, refer to the 
+*Message Types* chapter in the *AMPS User Guide*.
+
+Building Composite Messages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To build a composite message, create an instance of
+``CompositeMessageBuilder``, and populate the parts. The
+``CompositeMessageBuilder`` copies the parts provided, in order, to the
+underlying message. The builder simply writes to an internal buffer with
+the appropriate formatting, and does not allow you to update or change
+the individual parts of a message once they've been added to the
+builder.
+
+The snippet below shows how to build a composite message that includes a
+JSON part, constructed as a string, and a binary part consisting of the
+bytes from an ``array.array`` that contains doubles.
+
+.. code:: python
+
+    json = '{"data":"sample"}'
+
+
+    data = array.array('d')
+    # populate data
+    ...
+
+
+    # Create the payload for the composite message
+    builder = AMPS.CompositeMessageBuilder()
+
+    # Construct the composite
+    builder.append(json)
+    builder.append(data.tostring())
+
+    # Send the message
+    client.publish("messages", builder.get_data())
+
+Parsing Composite Messages
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To parse a composite message, create an instance of
+``CompositeMessageParser``, then use the ``parse()`` method to parse the
+message provided by the AMPS client. The ``CompositeMessageParser``
+gives you access to each part of the message as a sequence of bytes.
+
+For example, the following snippet parses and prints messages that
+contain a JSON part and a binary part that contains an array of doubles.
+
+.. code:: python
+
+    parts = parser.parse(message)  
+
+    json = parser.get_part(0)
+    data = array.array('d')
+    data.fromstring(parser.get_part(1))
+
+    print("Received message with %d parts." % parts)
+    print(json)
+    datastring = ""
+    for d in data:
+        datastring += "%f " % d
+    print(datastring)
+
+Notice that the receiving application is written with explicit knowledge
+of the structure and content of the composite message type.
+
+NVFIX Messages
+--------------
+
+The client provides a pair of classes for creating and parsing NVFIX
+messages:
+
+-  ``NVFIXBuilder`` allows you to assemble an NVFIX message and then
+   serialize it in a format suitable for AMPS.
+
+-  ``NVFIXShredder`` extracts the individual fields of an NVFIX message
+   type.
+
+Building NVFIX Messages
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To build an NVFIX message, create an instance of ``NVFIXBuilder``, then
+add the fields of the message using ``append()``. ``NVFIXBuilder``
+copies the fields provided, in order, to the underlying message. The
+builder simply writes to an internal buffer with the appropriate
+formatting, and does not allow you to update or change the individual
+fields of a message once they've been added to the builder.
+
+The snippet below shows how to build an NVFIX message and publish it to the
+AMPS client.
+
+.. code:: python
+
+    # create the payload for the NVFIX Message
+    builder = AMPS.NVFIXBuilder()
+        
+    # construct the NVFIX message
+    builder.append("sample","data")
+    builder.append("even", "more data")
+    ...
+
+    # display the data
+    print(builder.get_string())
+
+    # publish the message
+    client.publish("messages-sow", builder.get_string())
+
+Parsing NVFIX Messages
+^^^^^^^^^^^^^^^^^^^^^^
+
+To parse an NVFIX message, create an instance of ``NVFIXShredder``, then
+use the ``to_map()`` method to parse the message provided by the AMPS
+client. The ``NVFIXShredder`` gives you access to each field of the
+message in a map.
+
+The snippet below shows how to parse and print an NVFIX message.
+
+.. code:: python
+
+    # create the shredder for the message and subscribe to the topic
+    shredder = AMPS.NVFIXShredder()
+    message = client.subscribe(topic="messages-sow", timeout=5000)
+
+    # shred the message to a map
+    message_map = shredder.to_map(message.next().get_data())
+
+    # display the values of the message
+    for key in message_map: 
+        print(key + " " + message_map[key])
+
+FIX Messages
+------------
+
+The client provides a pair of classes for creating and parsing FIX
+messages:
+
+-  ``FIXBuilder`` allows you to assemble a FIX message and then
+   serialize it in a format suitable for AMPS.
+
+-  ``FIXShredder`` extracts the individual fields of a FIX message.
+
+Building FIX Messages
+^^^^^^^^^^^^^^^^^^^^^^
+
+To build a FIX message, create an instance of ``FIXBuilder``, then add
+the fields of the message using ``append()``. ``FIXBuilder`` copies the
+fields provided, in order, to the underlying message. The builder simply
+writes to an internal buffer with the appropriate formatting, and does
+not allow you to update or change the individual fields of a message
+once they've been added to the builder.
+
+The snippet below shows how to build a FIX message and publish it to the
+AMPS client.
+
+.. code:: python
+
+    # create the payload for the FIX Message
+    builder = AMPS.FIXBuilder()
+        
+    # construct the FIX message
+    builder.append(0,"data")
+    builder.append(1, "more data")
+    ...
+
+    # display the data
+    print(builder.get_string())
+
+    # publish the message
+    client.publish("messages-sow", builder.get_string())
+
+Parsing FIX Messages
+^^^^^^^^^^^^^^^^^^^^^
+
+To parse a FIX message, create an instance of ``FIXShredder``, then use
+the ``to_map()`` method to parse the message provided by the AMPS
+client. The ``FIXShredder`` gives you access to each field of the
+message in a map.
+
+The snippet below shows how to parse and print a FIX message.
+
+.. code:: python
+
+    # create the shredder for the message and subscribe to the topic
+    shredder = AMPS.FIXShredder()
+    message = client.subscribe(topic="messages-sow", timeout=5000)
+
+    # shred the message to a map
+    message_map = shredder.to_map(message.next().get_data())
+
+    # display the values of the message
+    for key in message_map: 
+        print(str(key) + " " + message_map[key])
+

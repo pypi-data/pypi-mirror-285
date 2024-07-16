@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Appendix A. Exceptions &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="14. Migrating from Earlier Python Implementations" href="moving-from-python-lite.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="moving-from-python-lite.html" title="previous chapter">14. Migrating from Earlier Python Implementations</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="appendix-a-exceptions">
+<span id="command-publish-headers"></span><h1>Appendix A. Exceptions<a class="headerlink" href="#appendix-a-exceptions" title="Permalink to this headline">¶</a></h1>
+<p>The following table details each of the exception types thrown by AMPS.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="20%" />
+<col width="40%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Exception</strong></th>
+<th class="head"><strong>When</strong></th>
+<th class="head"><strong>Notes</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">AlreadyConnectedException</span></code></td>
+<td>Connecting</td>
+<td>Thrown when <code class="docutils literal"><span class="pre">connect()</span></code> is
+called on a <code class="docutils literal"><span class="pre">Client</span></code> that
+is already connected.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">AMPSException</span></code></td>
+<td>Anytime</td>
+<td>Base class for all AMPS
+exceptions.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">AuthenticationException</span></code></td>
+<td>Anytime</td>
+<td>Indicates an authentication
+failure occurred on the
+server.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">BadFilterException</span></code></td>
+<td>Subscribing</td>
+<td>This typically indicates a
+syntax error in a filter
+expression.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">BadRegexTopicException</span></code></td>
+<td>Subscribing</td>
+<td>Indicates a malformed
+regular expression was found
+in the topic name.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">CommandException</span></code></td>
+<td>Anytime</td>
+<td>Base class for all
+exceptions relating to
+commands sent to AMPS.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">ConnectionException</span></code></td>
+<td>Anytime</td>
+<td>Base class for all
+exceptions relating to the
+state of the AMPS
+connection.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">ConnectionRefusedException</span></code></td>
+<td>Connecting</td>
+<td>The connection was actively
+refused by the server.
+Validate that the server is
+running, that network
+connectivity is available,
+and the settings on the
+client match those on the
+server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">DisconnectedException</span></code></td>
+<td>Anytime</td>
+<td>No connection is available
+when AMPS needed to send
+data to the server <em>or</em> the
+user&#8217;s disconnect handler
+threw an exception.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">InvalidTopicException</span></code></td>
+<td>SOW query</td>
+<td>The topic is not configured
+for the requested operation.
+For example, a <code class="docutils literal"><span class="pre">sow</span></code>
+command was issued for a
+topic that is not in the SOW
+or a bookmark subscribe was
+issued for a topic that is
+not recorded in the
+transaction log.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">InvalidTransportOptionsEx</span></code>
+<code class="docutils literal"><span class="pre">ception</span></code></td>
+<td>Connecting</td>
+<td>An invalid option or option
+value was specified in the
+URI.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">InvalidUriException</span></code></td>
+<td>Connecting</td>
+<td>The URI string provided to
+<code class="docutils literal"><span class="pre">connect()</span></code> was formatted
+improperly.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">MessageTypeException</span></code></td>
+<td>Connecting</td>
+<td>The class for a given
+transport&#8217;s message type was
+not found in AMPS.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">NameInUseException</span></code></td>
+<td>Connecting</td>
+<td>The client name (specified
+when instantiating
+<code class="docutils literal"><span class="pre">Client</span></code>) is already in
+use on the server.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">RetryOperationException</span></code></td>
+<td>Anytime</td>
+<td>An error occurred that
+caused processing of the
+last command to be aborted.
+Try issuing the command
+again.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">StreamException</span></code></td>
+<td>Anytime</td>
+<td>Indicates that data
+corruption has occurred on
+the connection between the
+client and server. This
+usually indicates an
+internal error inside of
+AMPS &#8211; contact AMPS
+support.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">SubscriptionAlreadyExists</span></code>
+<code class="docutils literal"><span class="pre">Exception</span></code></td>
+<td>Subscribing</td>
+<td>A subscription has been
+requested using the same
+command ID string as another
+subscription. Create a
+unique command ID string for
+every subscription.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">TimedOutException</span></code></td>
+<td>Anytime</td>
+<td>A timeout occurred waiting
+for a response to a command.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">TransportTypeException</span></code></td>
+<td>Connecting</td>
+<td>Thrown when a transport type
+is selected in the URI that
+is unknown to AMPS.</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal"><span class="pre">UnknownException</span></code></td>
+<td>Anytime</td>
+<td>Thrown when an internal
+error occurs. Contact AMPS
+support immediately.</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal"><span class="pre">UsageException</span></code></td>
+<td>Changing the
+properties
+of an object</td>
+<td>Thrown when the object is not
+in a valid state for setting
+the properties. For example,
+some properties of a
+<code class="docutils literal"><span class="pre">Client</span></code> (such as the name)
+cannot be changed while that
+client is connected to AMPS.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 1A:</strong> <em>Exceptions supported in Client and HAClient</em></p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

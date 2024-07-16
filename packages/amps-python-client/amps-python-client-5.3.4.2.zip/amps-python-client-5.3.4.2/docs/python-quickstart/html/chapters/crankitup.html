@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Building the Client &#8212; Python Quickstart 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Building the Client</a></li>
+<li><a class="reference internal" href="#crank-it-up">Crank It Up!</a></li>
+<li><a class="reference internal" href="#using-a-state-of-the-world-database">Using a State of the World database</a></li>
+<li><a class="reference internal" href="#detecting-when-messages-go-out-of-focus">Detecting when messages go out of focus</a></li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="building-the-client">
+<h1>Building the Client<a class="headerlink" href="#building-the-client" title="Permalink to this headline">¶</a></h1>
+<p>The AMPS Python client ships as both source and pre-built binaries.  The full client distribution, which includes this guide, provides the source to the  Python client. You build the client with your Python distribution before using it. On most Linux systems, you can build the client and install it into your Python distribution by navigating to the client directory in the evaluation kit and typing:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ sudo python setup.py build install
+</pre></div>
+</div>
+<p>If you do not want to (or are not allowed to) install the client into your Python distribution, or if you are building the client on Windows, see the release page for the AMPS clients at <a class="reference external" href="http://devnull.crankuptheamps.com/releases/amps/clients">http://devnull.crankuptheamps.com/releases/amps/clients</a>.</p>
+</div>
+<div class="section" id="crank-it-up">
+<h1>Crank It Up!<a class="headerlink" href="#crank-it-up" title="Permalink to this headline">¶</a></h1>
+<p>In this section, we describe using the AMPS samples from the command line. You can also use the PyDev extension to Eclipse or another IDE if you prefer.</p>
+<p>To get started with AMPS, create a simple subscriber and publisher:</p>
+<ol class="arabic simple">
+<li>Open a command shell</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>Navigate to the directory where you unzipped the evaluation kit</li>
+<li>Navigate to <code class="docutils literal"><span class="pre">Python</span> <span class="pre">Evaluation/CrankItUp</span></code></li>
+</ol>
+</div></blockquote>
+<ol class="arabic" start="2">
+<li><p class="first">Update the connection strings to connect to AMPS</p>
+<p><em>FROM THE LINUX COMMAND LINE:</em></p>
+<ol class="loweralpha">
+<li><p class="first">From the CrankItUp directory, type the following command to replace the IP address:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="nv">$sed</span> -ri <span class="s1">&#39;s/127.0.0.1/ip address here/&#39;</span> *.py
+</pre></div>
+</div>
+</li>
+</ol>
+<p><em>FROM THE WINDOWS COMMAND LINE:</em></p>
+<ol class="loweralpha">
+<li><p class="first">From the CrankItUp directory, type the following command to replace the IP address:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>powershell <span class="s2">&quot;gci | foreach-object { (Get-Content </span><span class="nv">$_</span><span class="s2">) –replace &#39;127.0.0.1&#39; , &#39;ip address here&#39; | Set-Content </span><span class="nv">$_</span><span class="s2"> }&quot;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</li>
+<li><p class="first">Run the sample subscriber</p>
+<ol class="loweralpha simple">
+<li>From the CrankItUp directory, you can run the example by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSConsoleSubscriber.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>This command line runs the subscriber, and then sends it to the background. Messages from the subscriber will be printed to the console.</p>
+</li>
+</ol>
+<p>NOTE: To run this command line, python must be in your PATH.</p>
+<ol class="arabic simple" start="4">
+<li>Run the sample publisher</li>
+</ol>
+<blockquote>
+<div><ol class="loweralpha simple">
+<li>From the CrankItUp directory, you can run the example by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSConsolePublisher.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>The program runs, and subscribers receive the Hello, World message. The publisher itself produces no output if it is successful. The subscriber will receive the message.</li>
+</ol>
+<p>NOTE: To run this command line, python must be in your PATH.</p>
+</div>
+<div class="section" id="using-a-state-of-the-world-database">
+<h1>Using a State of the World database<a class="headerlink" href="#using-a-state-of-the-world-database" title="Permalink to this headline">¶</a></h1>
+<p>One of the most useful parts of AMPS is being able to keep track of the current value of a message, using the state of the world (SOW) database:</p>
+<ol class="arabic">
+<li><p class="first">Add messages to a state of the world database</p>
+<ol class="loweralpha simple">
+<li>From the CrankItUp directory, run the publisher by typing:</li>
+</ol>
+<blockquote>
+<div><blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSSOWConsolePublisher.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>The program runs. This program sends 100 messages to AMPS. In this case, the messages are sent on a topic, messages-sow, that maintains a state-of-the-world database. AMPS saves the most recent version of each unique message. Unique messages are identified by the messageNumber in the message. The program sends messages 0-99, then updates message 5.</li>
+</ol>
+</div></blockquote>
+</li>
+</ol>
+<p>NOTE: To run this command line, python must be in your PATH.</p>
+<ol class="arabic" start="2">
+<li><p class="first">Retrieve the state of the world</p>
+<ol class="loweralpha simple">
+<li>From the CrankItUp directory, run the subscriber by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSSOWConsoleSubscriber.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>The program runs. This program queries the state of the world for the <code class="docutils literal"><span class="pre">messages-sow</span></code> topic, filtered to messages with a <code class="docutils literal"><span class="pre">messageNumber</span></code> less than 10. The console output shows the results of the query. Notice that for message 5, the database shows the latest value – the current state of the world.</li>
+</ol>
+</li>
+</ol>
+<p>NOTE: To run this command line, python must be in your PATH.</p>
+<ol class="arabic" start="3">
+<li><p class="first">Retrieve the state of the world and subscribe to updates.</p>
+<ol class="loweralpha simple">
+<li>From the CrankItUp directory, run the subscriber by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSSOWandSubscribeConsoleSubscriber.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>The program runs. This program queries the state of the world for the <code class="docutils literal"><span class="pre">messages-sow</span></code> topic, filtered to messages with a <code class="docutils literal"><span class="pre">messageNumber</span></code> less than <code class="docutils literal"><span class="pre">10</span></code>. The console output shows the results of the query. Notice that for message <code class="docutils literal"><span class="pre">5</span></code>, the database shows the latest value – the current state of the world.  Rather than ending, the program continues to run. AMPS will send the program any new messages that match the filter.</li>
+<li>From the CrankItUp directory, run the SOW publisher by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSSOWConsolePublisher.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="4">
+<li>The publisher sends another 100 messages to AMPS, updating the value of each message, then updates message 5 again. Notice that AMPS sends each update to the subscriber, meaning that the subscriber receives two updates to message 5. When subscribed, the subscriber always receives the most current information.</li>
+</ol>
+</li>
+</ol>
+<p>NOTE: To run these command lines, python must be in your PATH.</p>
+</div>
+<div class="section" id="detecting-when-messages-go-out-of-focus">
+<h1>Detecting when messages go out of focus<a class="headerlink" href="#detecting-when-messages-go-out-of-focus" title="Permalink to this headline">¶</a></h1>
+<p>One of the difficulties in conventional messaging systems and databases is being notified when an item no longer matches your query. For example, you may want to keep a list of all of the orders which are not yet fulfilled, or all of the taxis that are available to pick up passengers. In a traditional system, you detect change by running the query again and comparing the new results to the previous results.</p>
+<p>With AMPS, you can ask to be notified when a message no longer matches the query. AMPS delivers the notification as a special kind of message – an Out of Focus message.</p>
+<ol class="arabic">
+<li><p class="first">Retrieve the state of the world and subscribe to updates. Request out of focus notifications.</p>
+<ol class="loweralpha simple">
+<li>From the CrankItUp directory, run the subscriber by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSSOWandSubscribeWithOOF.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha simple" start="2">
+<li>The program runs. This program queries the state of the world for the messages-sow topic, filtered to messages where the messageNumber is a multiple of 10, and where an optional field is either not present or set to &#8216;ignore_me&#8217;.</li>
+</ol>
+</li>
+<li><p class="first">Update messages so the subscriber receives Out of Focus messages.</p>
+<ol class="loweralpha simple">
+<li>From the CrankItUp directory, run the publisher by typing:</li>
+</ol>
+<blockquote>
+<div><div class="highlight-bash"><div class="highlight"><pre><span></span>$ python AMPSUpdateForOOF.py <span class="p">&amp;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<ol class="loweralpha" start="2">
+<li><p class="first">The program runs. This program does the following work:</p>
+<ul class="simple">
+<li>Sends a message with an expiration time. The subscriber receives the message.</li>
+<li>Sends a message that it will later delete. The subscriber receives the message.</li>
+<li>Sends a set of messages that match the filter. The subscriber receives these messages.</li>
+<li>Sends updates to a set of messages that cause them to no longer match the filter. The subscriber receives Out Of Focus messages. Notice that these messages include the information that the filter no longer matches.</li>
+<li>Deletes the message that it sent earlier. The subscriber receives an Out of Focus message saying that the message was deleted.</li>
+</ul>
+<p>The program waits to help ensure that all messages have been published, then exits. The message with the expiration time set will expire, and the subscriber will receive an Out of Focus message saying that the message expired.</p>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

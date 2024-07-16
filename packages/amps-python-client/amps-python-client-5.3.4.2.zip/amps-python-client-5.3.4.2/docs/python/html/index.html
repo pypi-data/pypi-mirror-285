@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Advanced Message Processing System (AMPS) Python Developer Guide &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="1. Introduction" href="chapters/introduction.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="#">
+              <img class="logo" src="_static/flag_logo.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="chapters/introduction.html" title="next chapter">1. Introduction</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="advanced-message-processing-system-amps-python-developer-guide">
+<h1>Advanced Message Processing System (AMPS) Python Developer Guide<a class="headerlink" href="#advanced-message-processing-system-amps-python-developer-guide" title="Permalink to this headline">¶</a></h1>
+<p><strong>Version</strong> 5.3</p>
+<p><strong>Publication Date</strong> Jun 06, 2024</p>
+<div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="chapters/introduction.html">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/introduction.html#prerequisites">Prerequisites</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/introduction.html#python-support">Python Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/introduction.html#runtime">Runtime</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/introduction.html#installation">Installation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/installing.html">2. Building and Installing the AMPS Client</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/installing.html#obtaining-the-client">Obtaining the Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/installing.html#installing-the-prebuilt-whl-on-linux">Installing the Prebuilt .whl on Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/installing.html#installing-the-prebuilt-whl-on-windows">Installing the Prebuilt .whl on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/installing.html#building-the-client">Building the Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/installing.html#building-for-linux">Building for Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/installing.html#building-for-windows">Building for Windows</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/first-program.html">3. Your First AMPS Program</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/first-program.html#about-the-client-library">About the Client Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/first-program.html#connecting-to-amps">Connecting to AMPS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#examining-the-code">Examining the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/first-program.html#client-names">Client Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/first-program.html#connection-strings">Connection Strings</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#providing-credentials-in-a-connection-string">Providing Credentials in a Connection String</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/first-program.html#connection-parameters">Connection Parameters</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#ipv6-connections">IPv6 Connections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#tcp-and-ssl-transport-options">TCP and SSL Transport Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#unix-transport-parameters">Unix Transport Parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#amps-additional-logon-options">AMPS Additional Logon Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/first-program.html#providing-credentials-to-amps">Providing Credentials to AMPS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/first-program.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/subscriptions.html">4. Subscriptions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/subscriptions.html#subscribing-to-a-topic">Subscribing to a Topic</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#asynchronous-message-processing-interface">Asynchronous Message Processing Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#using-an-instance-method-as-a-message-handler">Using an Instance Method as a Message Handler</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/subscriptions.html#understanding-threading-and-message-handlers">Understanding Threading and Message Handlers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/subscriptions.html#understanding-messages">Understanding Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#header-properties">Header Properties</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#get-data-method">get_data() Method</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/subscriptions.html#unsubscribing">Unsubscribing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/subscriptions.html#advanced-messaging-support">Advanced Messaging Support</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#regex-subscriptions">Regex Subscriptions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#content-filtering">Content Filtering</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/subscriptions.html#updating-the-filter-on-a-subscribe">Updating the Filter on a Subscribe</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/subscriptions.html#next-steps">Next Steps</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/error-handling.html">5. Error Handling</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#exceptions">Exceptions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/error-handling.html#exception-types">Exception Types</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/error-handling.html#exception-handling-and-asynchronous-message-processing">Exception Handling and Asynchronous Message Processing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#controlling-blocking-with-command-timeout">Controlling Blocking with Command Timeout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#disconnect-handling">Disconnect Handling</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/error-handling.html#using-a-heartbeat-to-detect-disconnection">Using a Heartbeat to Detect Disconnection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/error-handling.html#managing-disconnection">Managing Disconnection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/error-handling.html#replacing-disconnect-handling">Replacing Disconnect Handling</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#unexpected-messages">Unexpected Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#unhandled-exceptions">Unhandled Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#detecting-write-failures">Detecting Write Failures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/error-handling.html#monitoring-connection-state">Monitoring Connection State</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/sow.html">6. State of the World (SOW)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/sow.html#performing-sow-queries">Performing SOW Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/sow.html#sow-and-subscribe">SOW and Subscribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/sow.html#setting-batch-size">Setting Batch Size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/sow.html#client-side-conflation">Client-Side Conflation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/sow.html#managing-sow-contents">Managing SOW Contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/queues.html">7. Using Queues</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/queues.html#backlog-and-smart-pipelining">Backlog and Smart Pipelining</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#subscription-backlog">Subscription Backlog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#acknowledging-messages">Acknowledging Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#automatic-acknowledgment">Automatic Acknowledgment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#message-convenience-method">Message Convenience Method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#acknowledgment-batching">Acknowledgment Batching</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#returning-a-message-to-the-queue">Returning a Message to the Queue</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/queues.html#manual-acknowledgment">Manual Acknowledgment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/deltas.html">8. Delta Publish and Subscribe</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deltas.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deltas.html#delta-subscribe">Delta Subscribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/deltas.html#delta-publish">Delta Publish</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/high-availability.html">9. High Availability</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#overview-of-haclient">Overview of HAClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#reconnection-with-haclient">Reconnection with HAClient</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#choosing-store-durability">Choosing Store Durability</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#using-the-sow-recovery-point-adapter">Using the SOW Recovery Point Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#capacity-planning-and-store-sizing">Capacity Planning and Store Sizing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#connections-and-the-server-chooser">Connections and the Server Chooser</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#setting-a-reconnect-delay-and-timeout">Setting a Reconnect Delay and Timeout</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#implementing-a-server-chooser">Implementing a Server Chooser</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#heartbeats-and-failure-detection">Heartbeats and Failure Detection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#considerations-for-publishers">Considerations for Publishers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#detecting-failover-ahead-of-replication">Detecting Failover Ahead of Replication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#considerations-for-subscribers">Considerations for Subscribers</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#resubscription-with-asynchronous-message-processing">Resubscription with Asynchronous Message Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#resubscription-with-synchronous-message-processing">Resubscription with Synchronous Message Processing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/high-availability.html#bookmark-stores">Bookmark Stores</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/high-availability.html#conclusion">Conclusion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/creating-commands.html">10. AMPS Programming: Working with Commands</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#understanding-amps-messages">Understanding AMPS Messages</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#creating-and-populating-the-command">Creating and Populating the Command</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#using-execute">Using Execute</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#using-execute-to-publish">Using Execute to Publish</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#command-cookbook">Command Cookbook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#publishing">Publishing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-publish">Basic Publish</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#publish-with-correlationid">Publish with CorrelationId</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#publish-with-explicit-sow-key">Publish with Explicit SOW Key</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#subscribing">Subscribing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-subscription">Basic Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#subscription-with-options">Subscription with Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#subscription-with-select-list">Subscription with Select List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#subscription-with-content-filter">Subscription with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#conflated-subscription-to-a-sow-topic">Conflated Subscription to a SOW Topic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#conflated-subscription-to-a-topic-with-no-sow">Conflated Subscription to a Topic with No SOW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#bookmark-subscription">Bookmark Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#rate-controlled-bookmark-subscription">Rate Controlled Bookmark Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#rate-controlled-bookmark-subscription-with-maximum-gap">Rate Controlled Bookmark Subscription with Maximum Gap</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#bookmark-subscription-with-completed-acknowledgment">Bookmark Subscription with Completed Acknowledgment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#bookmark-subscription-with-content-filter">Bookmark Subscription with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#pausing-a-bookmark-subscription">Pausing a Bookmark Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#resuming-a-bookmark-subscription">Resuming a Bookmark Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#replacing-the-filter-on-a-subscription">Replacing the Filter on a Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#subscribing-to-a-queue-and-requesting-a-max-backlog">Subscribing to a Queue and Requesting a max_backlog</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#sow-query">SOW Query</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-sow-query">Basic SOW Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-query-with-options">SOW Query with Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-query-with-ordered-results">SOW Query with Ordered Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-query-with-topn-results">SOW Query with TopN Results</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-query-with-content-filter">SOW Query with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#historical-sow-query">Historical SOW Query</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#historical-sow-query-with-content-filter">Historical SOW Query with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-query-for-specific-records">SOW Query for Specific Records</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-query-with-pagination">SOW Query with Pagination</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#aggregated-sow-query">Aggregated SOW Query</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#sow-and-subscribe">SOW and Subscribe</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-sow-and-subscribe">Basic SOW and Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-and-subscribe-with-options">SOW and Subscribe with Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-and-subscribe-with-select-list">SOW and Subscribe with Select List</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-and-subscribe-with-content-filter">SOW and Subscribe with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#conflated-sow-and-subscribe">Conflated SOW and Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#paginated-sow-and-subscribe">Paginated SOW and Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#historical-sow-and-subscribe">Historical SOW and Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#historical-sow-and-subscribe-with-content-filter">Historical SOW and Subscribe with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#aggregated-sow-and-subscribe">Aggregated SOW and Subscribe</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#delta-publishing">Delta Publishing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-delta-publish">Basic Delta Publish</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delta-publish-with-correlationid">Delta Publish with CorrelationId</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delta-publish-with-explicit-sow-key">Delta Publish with Explicit SOW Key</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#delta-subscribing">Delta Subscribing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-delta-subscription">Basic Delta Subscription</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delta-subscription-with-options">Delta Subscription with Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delta-subscription-with-content-filter">Delta Subscription with Content Filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#sow-and-delta-subscribe">SOW and Delta Subscribe</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#basic-sow-and-delta-subscribe">Basic SOW and Delta Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-and-delta-subscribe-with-options">SOW and Delta Subscribe with Options</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#sow-and-delta-subscribe-with-content-filter">SOW and Delta Subscribe with Content Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#paginated-sow-and-delta-subscribe">Paginated SOW and Delta Subscribe</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#aggregated-sow-and-delta-subscribe">Aggregated SOW and Delta Subscribe</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/creating-commands.html#sow-delete">SOW Delete</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delete-all-records-in-a-sow">Delete All Records in a SOW</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delete-sow-records-matching-a-filter">Delete SOW Records Matching a Filter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delete-a-specific-message-by-data">Delete a Specific Message by Data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#delete-specific-messages-using-keys">Delete Specific Messages using Keys</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/creating-commands.html#acknowledge-messages-from-a-queue">Acknowledge Messages from a Queue</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/utilities.html">11. Utilities</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/utilities.html#composite-message-types">Composite Message Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/utilities.html#building-composite-messages">Building Composite Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/utilities.html#parsing-composite-messages">Parsing Composite Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/utilities.html#nvfix-messages">NVFIX Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/utilities.html#building-nvfix-messages">Building NVFIX Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/utilities.html#parsing-nvfix-messages">Parsing NVFIX Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/utilities.html#fix-messages">FIX Messages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/utilities.html#building-fix-messages">Building FIX Messages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/utilities.html#parsing-fix-messages">Parsing FIX Messages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/advanced-topics.html">12. Advanced Topics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#implementing-message-handlers-in-c-or-c">Implementing Message Handlers in C or C++</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#implementing-the-handler">Implementing the Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#loading-and-using-the-handler">Loading and Using the Handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#using-the-c-client">Using the C++ Client</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/advanced-topics.html#implementing-the-c-function">Implementing the C++ Function</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/advanced-topics.html#loading-and-using-the-function">Loading and Using the Function</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#transport-filtering">Transport Filtering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#working-with-binary-data">Working with Binary Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/advanced-topics.html#using-ssl">Using SSL</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/advanced-topics.html#loading-a-different-ssl-implementation">Loading a Different SSL Implementation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/performance-tips.html">13. Performance Tips and Best Practices</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#measure-performance-and-set-goals">Measure Performance and Set Goals</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#use-haclient-and-heartbeating-where-appropriate">Use HAClient and Heartbeating Where Appropriate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#simplify-message-format-and-contents">Simplify Message Format and Contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#measure-serialization-and-deserialization">Measure Serialization and Deserialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#use-content-filtering-where-possible">Use Content Filtering Where Possible</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#use-asynchronous-message-processing">Use Asynchronous Message Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#use-hash-indexes-where-possible-for-sow-queries">Use Hash Indexes Where Possible for SOW Queries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#use-a-failed-write-handler-and-exception-listener">Use a Failed Write Handler and Exception Listener</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#reduce-bandwidth-requirements">Reduce Bandwidth Requirements</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="chapters/performance-tips.html#tune-batch-size-for-sow-queries">Tune Batch Size for SOW Queries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/performance-tips.html#conflate-fast-changing-information">Conflate Fast-Changing Information</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/performance-tips.html#minimize-bandwidth-for-updates">Minimize Bandwidth for Updates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/performance-tips.html#conflate-queue-acknowledgments">Conflate Queue Acknowledgments</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/performance-tips.html#use-a-transaction-log-when-monitoring-publish-failures">Use a Transaction Log When Monitoring Publish Failures</a></li>
+<li class="toctree-l3"><a class="reference internal" href="chapters/performance-tips.html#combine-conflation-and-deltas">Combine Conflation and Deltas</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#limit-unnecessary-copies">Limit Unnecessary Copies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#manage-publish-stores">Manage Publish Stores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#use-the-server-logs-to-help-troubleshoot">Use the Server Logs to Help Troubleshoot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="chapters/performance-tips.html#work-with-60east-as-necessary">Work with 60East as Necessary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/moving-from-python-lite.html">14. Migrating from Earlier Python Implementations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chapters/exceptions.html">Appendix A. Exceptions</a></li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

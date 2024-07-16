@@ -1,0 +1,168 @@
+
+3. Your First AMPS Program
+==========================
+
+In this chapter, we will learn more about the structure and features of
+the AMPS Python client and build our first Python program using AMPS.
+
+About the Client Library
+------------------------
+
+The AMPS client library is packaged as a single binary file. The
+exact name of the file depends on the Python version and build
+environment. You can find the file under the
+``build`` directory of your AMPS Python client install once you've
+completed the build process. If you have used a prepackaged ``.egg``
+or ``.whl`` to install the Python client, the appropriate binary
+file will be installed in your Python environment.
+
+Every Python application you build will need to be able to reference
+the library.  If you choose to install the python client into your local Python
+installation, then Python has access to the client library in the
+installation, and you do not need to include the library with each
+specific script. Otherwise, you will need to package and include the
+library with your script and ensure that the library is in the path
+where python looks for shared libraries, *or* ensure that the
+system where your application will run has installed the appropriate
+prepackaged build.
+
+
+Connecting to AMPS
+------------------
+
+Let's begin by writing a simple program that connects to an AMPS server
+and sends a single message to a topic. This code will be covered in detail 
+just following the example.
+
+.. code:: python
+
+    import AMPS
+    import sys
+
+    uri_ = "tcp://127.0.0.1:9007/amps/json"
+
+    client = AMPS.Client("examplePublisher")
+
+    try:
+        client.connect(uri_)
+        client.logon()
+        client.publish("messages", '{ "hi" : "Hello, world!"}')
+
+    except AMPS.AMPSException as e: 
+        sys.stderr.write(str(e))
+
+    client.publish_flush()
+    client.close()
+
+In the example above, we show the entire program; but future examples will isolate 
+one or more specific portions of the code.
+
+Examining the Code
+^^^^^^^^^^^^^^^^^^
+Let us revisit the code we listed above:
+
+.. code:: python
+
+    # These import the AMPS and sys packages. All programs written using the AMPS
+    # Python client will need to include the import AMPS statement at a minimum.
+    import AMPS 
+    import sys
+     
+    # The URI to use to connect to AMPS. The URI consists of the transport, the
+    # address, and the protocol to use for the AMPS connection. In this case, the
+    # transport is tcp, the address is 127.0.0.1:9007, and the protocol is amps. This
+    # connection will be used for JSON messages. Check with the person who manages the
+    # AMPS instance to get the connection string to use for your programs.
+    uri_ = "tcp://127.0.0.1:9007/amps/json"
+     
+     
+    # This line creates a new Client object. Client encapsulates a single connection
+    # to an AMPS server. Methods on Client allow for connecting, disconnecting,
+    # publishing, and subscribing to an AMPS server. The argument to the Client
+    # constructor, <quote>exampleClient</quote>, is a name chosen by the client to
+    # identify itself to the server. Errors relating to this connection will be logged
+    # with reference to this name, and AMPS uses this name to help detect duplicate
+    # messages. AMPS enforces uniqueness for client names when a transaction log is
+    # configured, and it is good practice to always use unique client names.
+    client = AMPS.Client("examplePublisher") 
+     
+    # Here, we open a try block that concludes with except AMPS.AMPSException as e.
+    # All exceptions in AMPS derive from AMPSException. If an operation throws another
+    # exception, AMPS will wrap that exception into the AMPSException you receive. For
+    # example, if the call to connect() fails because the provided address is not
+    # reachable, the AMPSException will contain an inner exception from the operating
+    # system, likely a SocketException.
+    try:
+       
+        # With this statement, we provide URI to the client and declare the AMPS
+        # connection.
+        client.connect(uri_) 
+       
+        # The AMPS logon() command connects to AMPS and creates a named connection.
+        #
+        # This version of logon() uses the DefaultAuthenticator. If we
+        # had provided logon credentials in the URI, that Authenticator would pass those
+        # credentials to AMPS. Without credentials, the client logs on to AMPS
+        # anonymously. AMPS versions 5.0 and later require a logon() command in the
+        # default configuration.
+        #
+        # If you need to provide credentials in a different way, implement an Authenticator
+        # and pass that Authenticator here in the 'authenticator' parameter.
+        client.logon() 
+                        
+        # Here, we publish a single message to AMPS on the messages topic, containing the
+        # data Hello, world!. This data is placed into a JSON message and sent to the
+        # server. Upon successful completion of this function, the AMPS client has
+        # enqueued the message to be sent to the server, and subscribers to the messages
+        # topic will receive this JSON message: { "hi" : "Hello, world!" }.
+        client.publish("messages", '{ "hi" : "Hello, world!"}')
+     
+    except AMPS.AMPSException as e: 
+        sys.stderr.write(str(e))
+
+
+    # Here, we call publish_flush on the client. This command waits until all messages
+    # from the client have been sent. If messages may still be in the process of
+    # transmission when your application is ready to close the client, publish_flush
+    # helps ensure that the messages have been sent. In this case, we allow
+    # publish_flush to block indefinitely. A production application might specify a
+    # timeout, to avoid hanging in the event that the application loses connectivity
+    # before the messages have been sent.
+    client.publish_flush()                    
+
+    # We close the connection to AMPS. While that doesn't matter here, since the
+    # application exits immediately after calling close(), it's good practice to close
+    # connections when you are done using them.
+    client.close()
+
+**Example 3.1:** *Connecting to AMPS*
+
+
+.. include:: ./client-names.inc
+.. include:: ./connection-string-section-unix-sockets.inc
+.. include:: ./connection-parameters-section-unix-sockets.inc
+
+Providing Credentials to AMPS
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a client logs on to AMPS, the client sends AMPS a username and password. The
+username is derived from the URI, using the standard syntax for providing a
+username in a URI. For example: ``tcp://JohnDoe:@server:port/amps/messagetype``, to include 
+the username ``JohnDoe`` in the request.
+
+For a given username, the password is provided by an ``Authenticator``.  The AMPS client
+distribution includes a ``DefaultAuthenticator`` that simply returns the password,
+if any, provided in the URI. A ``logon()`` command that does not specify an
+``Authenticator`` will use an instance of ``DefaultAuthenticator``.
+
+If your authentication system requires a different authentication token, you
+can implement an ``Authenticator`` that provides the appropriate token.
+
+
+Next Steps
+----------
+
+You are now able to develop and deploy an application in Python that
+publishes messages to AMPS. In the following chapters, you will learn
+how to subscribe to messages, use content filters, work with SOW caches
+and fine-tune messages that you send.

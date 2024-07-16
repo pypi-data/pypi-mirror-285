@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6. State of the World (SOW) &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="7. Using Queues" href="queues.html" />
+    <link rel="prev" title="5. Error Handling" href="error-handling.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">6. State of the World (SOW)</a><ul>
+<li><a class="reference internal" href="#performing-sow-queries">Performing SOW Queries</a></li>
+<li><a class="reference internal" href="#sow-and-subscribe">SOW and Subscribe</a></li>
+<li><a class="reference internal" href="#setting-batch-size">Setting Batch Size</a></li>
+<li><a class="reference internal" href="#client-side-conflation">Client-Side Conflation</a></li>
+<li><a class="reference internal" href="#managing-sow-contents">Managing SOW Contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="error-handling.html" title="previous chapter">5. Error Handling</a></li>
+      <li>Next: <a href="queues.html" title="next chapter">7. Using Queues</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="state-of-the-world-sow">
+<h1>6. State of the World (SOW)<a class="headerlink" href="#state-of-the-world-sow" title="Permalink to this headline">¶</a></h1>
+<p>AMPS State of the World (SOW) allows you to automatically keep and query
+the latest information about a topic on the AMPS server, without
+building a separate database. Using SOW lets you build impressively
+high-performance applications that provide rich experiences to users.
+The AMPS Python client lets you query SOW topics and subscribe to
+changes with ease.</p>
+<div class="section" id="performing-sow-queries">
+<h2>Performing SOW Queries<a class="headerlink" href="#performing-sow-queries" title="Permalink to this headline">¶</a></h2>
+<p>To begin, we will look at a simple example of issuing a SOW query.</p>
+<div class="code python highlight-default" id="basic-sow-query"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">sow</span><span class="p">(</span><span class="s2">&quot;orders&quot;</span><span class="p">,</span> <span class="s2">&quot;/symbol=&#39;ROL&#39;&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">GroupBegin</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- Begin SOW Results ---&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">SOW</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">GroupEnd</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- End SOW Results ---&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 6.1:</strong> <em>Basic SOW query</em></p>
+<p>In the example above, the <code class="docutils literal"><span class="pre">Client.sow()</span></code> convenience method is used to
+execute a SOW query on the <code class="docutils literal"><span class="pre">orders</span></code> topic, for all entries that have a
+symbol of <code class="docutils literal"><span class="pre">'ROL'</span></code>.</p>
+<p>As the query executes, messages containing the data of matching entries
+have a <code class="docutils literal"><span class="pre">Command</span></code> of value <code class="docutils literal"><span class="pre">sow</span></code> or <code class="docutils literal"><span class="pre">SOW</span></code>, so as those arrive, we
+write them to the console.</p>
+<p>As with <code class="docutils literal"><span class="pre">subscribe</span></code>, the <code class="docutils literal"><span class="pre">sow</span></code> command also provides an asynchronous
+mode, where you provide a message handler.</p>
+<div class="code python highlight-default" id="asynchronous-sow-query"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">on_message_handler</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">GroupBegin</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- Begin SOW Results ---&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">SOW</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">GroupEnd</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;--- End SOW Results ---&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">execute_sow_query</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span>             \
+            <span class="n">AMPS</span><span class="o">.</span><span class="n">Command</span><span class="p">(</span><span class="s2">&quot;sow&quot;</span><span class="p">)</span>              \
+                <span class="o">.</span><span class="n">set_topic</span><span class="p">(</span><span class="s2">&quot;orders&quot;</span><span class="p">)</span>         \
+                <span class="o">.</span><span class="n">set_filter</span><span class="p">(</span><span class="s2">&quot;/symbol=&#39;ROL&#39;&quot;</span><span class="p">),</span>\
+            <span class="n">on_message_handler</span><span class="p">)</span>
+
+<span class="n">execute_sow_query</span><span class="p">(</span><span class="n">client</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 6.2:</strong> <em>Asynchronous SOW query</em></p>
+<p>In the example above, the <code class="docutils literal"><span class="pre">execute_sow_query()</span></code> function invokes
+<code class="docutils literal"><span class="pre">Client.execute_async()</span></code> to initiate a SOW query on the <code class="docutils literal"><span class="pre">orders</span></code>
+topic, for all entries that have a symbol of <code class="docutils literal"><span class="pre">'ROL'</span></code>.</p>
+<p>As the query executes, the <code class="docutils literal"><span class="pre">on_message_handler()</span></code> function is invoked
+for each matching entry in the topic. Messages containing the data of
+matching entries have a <code class="docutils literal"><span class="pre">Command</span></code> of value <code class="docutils literal"><span class="pre">sow</span></code>, so as those
+arrive, we write them to the console.</p>
+</div>
+<div class="section" id="sow-and-subscribe">
+<h2>SOW and Subscribe<a class="headerlink" href="#sow-and-subscribe" title="Permalink to this headline">¶</a></h2>
+<p>Imagine an application that displays real time information about the
+position and status of a fleet of delivery vans. When the application
+starts, it should display the current location of each of the vans along
+with their current status. As vans move around the city and post other
+status updates, the application should keep its display up to date. Vans
+upload information to the system by posting messages to the <code class="docutils literal"><span class="pre">van_location</span></code>
+topic, configured with a key of <code class="docutils literal"><span class="pre">van_id</span></code> on the AMPS server.</p>
+<p>In this application, it is important to not only stay up-to-date on the
+latest information about each van, but to ensure all of the active vans
+are displayed as soon as the application starts. Combining a SOW with a
+subscription to the topic is exactly what is needed, and that is
+accomplished by the <code class="docutils literal"><span class="pre">Client.sow_and_subscribe()</span></code> method. As with the
+other methods for receiving messages, the AMPS Python client provides a
+basic, synchronous form of <code class="docutils literal"><span class="pre">sow_and</span> <span class="pre">subscribe</span></code> that provides you with
+a <code class="docutils literal"><span class="pre">MessageStream</span></code> to iterate over, and an asynchronous form that
+requires a message handler.</p>
+<p>First, let&#8217;s look at an example that uses the basic form of
+<code class="docutils literal"><span class="pre">sow_and_subscribe</span></code>:</p>
+<div class="code python highlight-default" id="simple-sow-and-sub-example"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">report_van_position</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="c1"># sow_and_subscribe command to begin receiving information about all of the active</span>
+    <span class="c1"># delivery vans in the system. All of the vans in the system now are returned as</span>
+    <span class="c1"># Message objects whose get_command returns sow. New messages coming in are</span>
+    <span class="c1"># returned as Message objects whose get_command returns publish.</span>
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">client</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">Command</span><span class="p">(</span><span class="s2">&quot;sow_and_subscribe&quot;</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">set_topic</span><span class="p">(</span><span class="s2">&quot;van_location&quot;</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">set_filter</span><span class="p">(</span><span class="s2">&quot;/status = &#39;ACTIVE&#39;&quot;</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">set_batch_size</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>\
+            <span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="s2">&quot;oof&quot;</span><span class="p">)):</span>
+            <span class="c1"># Notice here that we specified the oof option to the command. Setting this option</span>
+            <span class="c1"># causes AMPS to send Out-of-Focus (OOF) messages for the topic.</span>
+            <span class="c1"># OOF messages are sent when an entry that was sent to us in the past no</span>
+            <span class="c1"># longer matches our query. This happens when an entry is removed from the SOW</span>
+            <span class="c1"># cache via a sow_delete operation, when the entry expires (as specified by the</span>
+            <span class="c1"># expiration time on the message or by the configuration of that topic on the AMPS</span>
+            <span class="c1"># server), or when the entry no longer matches the content filter specified. In</span>
+            <span class="c1"># our case, if a van’s status changes to something other than ACTIVE, it no longer</span>
+            <span class="c1"># matches the content filter, and becomes out of focus. When this occurs, a</span>
+            <span class="c1"># Message is sent with Command set to oof. We use OOF messages to remove vans from</span>
+            <span class="c1"># the display as they become inactive, expire, or are deleted.</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">SOW</span> <span class="ow">or</span>
+          <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">Publish</span><span class="p">):</span>
+
+          <span class="c1"># For each of these messages we call add_or_update_van(), that presumably adds the</span>
+          <span class="c1"># van to our application’s display. As vans send updates to the AMPS server, those</span>
+          <span class="c1"># are also received by the client because of the subscription placed by</span>
+          <span class="c1"># sow_and_subscribe(). Our application does not need to distinguish between</span>
+          <span class="c1"># updates and the original set of vans we found via the SOW query, so we use</span>
+          <span class="c1"># add_or_update_van() to display the new position of vans as well.</span>
+          <span class="n">add_or_update_van</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">OOF</span><span class="p">:</span>
+          <span class="n">remove_van</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 6.3:</strong> <em>Using sow_and_subscribe</em></p>
+<p>Now we will look at an example that uses the asynchronous form of
+<code class="docutils literal"><span class="pre">sow_and_subscribe</span></code>:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">update_van_position</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">SOW</span> <span class="ow">or</span>
+            <span class="n">message</span> <span class="o">==</span> <span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">Publish</span><span class="p">):</span>
+       <span class="n">add_or_update_van</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">message</span><span class="o">.</span><span class="n">get_command</span><span class="p">()</span> <span class="o">==</span> <span class="n">Message</span><span class="o">.</span><span class="n">Command</span><span class="o">.</span><span class="n">OOF</span><span class="p">:</span>
+        <span class="n">remove_van</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">subscribe_to_van_location</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span>
+           <span class="n">Command</span><span class="p">(</span><span class="s2">&quot;sow_and_subscribe&quot;</span><span class="p">)</span>          \
+             <span class="o">.</span><span class="n">set_topic</span><span class="p">(</span><span class="s2">&quot;van_location&quot;</span><span class="p">)</span>          \
+             <span class="o">.</span><span class="n">set_filter</span><span class="p">(</span><span class="s2">&quot;/status = &#39;ACTIVE&#39;&quot;</span><span class="p">)</span>   \
+             <span class="o">.</span><span class="n">set_batch_size</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>                \
+             <span class="o">.</span><span class="n">set_options</span><span class="p">(</span><span class="s2">&quot;oof&quot;</span><span class="p">),</span>                \
+       <span class="n">update_van_position</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 6.4:</strong> <em>Using sow_and_subscribe</em></p>
+<p>Notice that the two forms have the same result. However, one form
+performs processing on a background thread, and blocks the client from
+receiving messages while that processing happens. The other form
+processes messages on the main thread and allows the background thread
+to continue to receive messages while processing occurs. In both cases,
+the calls to <code class="docutils literal"><span class="pre">add_or_update_van</span></code> and <code class="docutils literal"><span class="pre">remove_van</span></code> receive the same
+data</p>
+</div>
+<div class="section" id="setting-batch-size">
+<h2>Setting Batch Size<a class="headerlink" href="#setting-batch-size" title="Permalink to this headline">¶</a></h2>
+<p>The AMPS clients include a batch size parameter that specifies how many
+messages the AMPS server will return to the client in a single batch
+when returning the results of a SOW query. The 60East clients set a
+batch size of 10 by default. This batch size works well for common
+message sizes and network configurations.</p>
+<p>Adjusting the batch size may produce better network utilization and
+produce better performance overall for the application. The larger the
+batch size, the more messages AMPS will send to the network layer at a
+time. This can result in fewer packets being sent, and therefore less
+overhead in the network layer. The effect on performance is generally
+most noticeable for small messages, where setting a larger batch size
+will allow several messages to fit into a single packet. For larger
+messages, a batch size may still improve performance, but the
+improvement is less noticeable.</p>
+<p>In general, 60East recommends setting a batch size that is large enough
+to produce few partially-filled packets. Bear in mind that AMPS holds
+the messages in memory while batching them, and the client must also
+hold the messages in memory while receiving the messages. Using batch
+sizes that require large amounts of memory for these operations can
+reduce overall application performance, even if network utilization is
+good.</p>
+<p>For smaller message sizes, 60East recommends using the default batch
+size, and experimenting with tuning the batch size if performance
+improvements are necessary. For relatively large messages (especially
+messages with sizes over 1MB), 60East recommends explicitly setting a
+batch size of 1 as an initial value, and increasing the batch size only
+if performance testing with a larger batch size shows improved network
+utilization or faster overall performance.</p>
+</div>
+<div class="section" id="client-side-conflation">
+<h2>Client-Side Conflation<a class="headerlink" href="#client-side-conflation" title="Permalink to this headline">¶</a></h2>
+<p>In many cases, applications that use SOW topics only need the current
+value of a message at the time the message is processed, rather than
+processing each change that led to the current value. On the server
+side, AMPS provides <em>conflated topics</em> to meet this need. Conflated
+topics are described in more detail in the <em>AMPS User Guide</em>, and
+require no special handling on the client side.</p>
+<p>In some cases, though, it&#8217;s important to conflate messages on the client
+side. This can be particularly useful for applications that do expensive
+processing on each message, applications that are more efficient when
+processing batches of messages, or for situations where you cannot
+provide an appropriate conflation interval for the server to use.</p>
+<p>A <code class="docutils literal"><span class="pre">MessageStream</span></code> has the ability to conflate messages received for a
+subscription to a SOW topic, view, or conflated topic. When conflation
+is enabled, for each message received, the client checks to see whether
+it has already received an unprocessed message with the same <code class="docutils literal"><span class="pre">SowKey</span></code>.
+If so, the client replaces the unprocessed message with the new message.
+The application never receives the message that has been replaced.</p>
+<p>To enable client-side conflation, you call <code class="docutils literal"><span class="pre">conflate()</span></code> on the
+<code class="docutils literal"><span class="pre">MessageStream</span></code>, and then use the <code class="docutils literal"><span class="pre">MessageStream</span></code> as usual:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># SOW query and subscribe</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">sow_and_subscribe</span><span class="p">(</span><span class="s2">&quot;orders&quot;</span><span class="p">,</span> <span class="s2">&quot;/symbol == &#39;ROL&#39;&quot;</span><span class="p">)</span>
+
+<span class="c1"># Turn on conflation</span>
+<span class="n">results</span><span class="o">.</span><span class="n">conflate</span><span class="p">()</span>
+
+<span class="c1"># Process the results</span>
+<span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+    <span class="c1"># process message here</span>
+</pre></div>
+</div>
+<p>When a <code class="docutils literal"><span class="pre">MessageStream</span></code> is used for a subscription that does not
+include <code class="docutils literal"><span class="pre">SowKeys</span></code> (such as a subscription to a topic that does not
+have a SOW), the <code class="docutils literal"><span class="pre">MessageStream</span></code> will allow you to turn on conflation,
+but no conflation will occur.</p>
+<p>When using client-side conflation with delta subscriptions, bear in mind
+that client-side conflation replaces the whole message, and does not
+attempt to merge deltas. This means that updates can be lost when
+messages are replaced. For some applications (for example, a ticker
+application that simply sends delta updates that replace the current
+price), this causes no problems. For other applications (for example,
+when several processors may be updating different fields of a message
+simultaneously), using conflation with deltas could result in lost data,
+and server-side conflation is a safer alternative.</p>
+</div>
+<div class="section" id="managing-sow-contents">
+<span id="index-0"></span><h2>Managing SOW Contents<a class="headerlink" href="#managing-sow-contents" title="Permalink to this headline">¶</a></h2>
+<p>AMPS allows applications to manage the contents of the SOW by explicitly
+deleting messages that are no longer relevant. For example, if a
+particular delivery van is retired from service, the application can
+remove the record for the van by deleting the record for the van.</p>
+<p>The client provides the following methods for deleting records from the
+SOW:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">sow_delete</span></code> - Accepts a topic and filter, and deletes all messages
+that match the filter from the topic specified.</li>
+<li><code class="docutils literal"><span class="pre">sow_delete_by_keys</span></code> - Accepts a set of SOW keys as a comma-delimited
+string and deletes messages for those keys, regardless of the
+contents of the messages. SOW keys are provided in the header of a
+SOW message, and are the internal identifier AMPS uses for that SOW
+message.</li>
+<li><code class="docutils literal"><span class="pre">sow_delete_by_data</span></code> - Accepts a topic and message, and deletes the
+SOW record that would be updated by that message.</li>
+</ul>
+<p>The most efficient way to remove messages from the SOW is to use
+<code class="docutils literal"><span class="pre">sow_delete_by_keys</span></code> or <code class="docutils literal"><span class="pre">sow_delete_by_data</span></code>, since those options
+allow AMPS to exactly target the message or messages to be removed.
+Many applications use <code class="docutils literal"><span class="pre">sow_delete</span></code>, since this is the most
+flexible method for removing items from the SOW when the application
+does not have information on the exact messages to be removed.</p>
+<p>In either case, AMPS sends an OOF message to all subscribers who have
+received updates for the messages removed, as described in the previous
+section.</p>
+<p>The simple form of the <code class="docutils literal"><span class="pre">sow_delete</span></code> command returns a <code class="docutils literal"><span class="pre">Message</span></code>.
+This <code class="docutils literal"><span class="pre">Message</span></code> is an acknowledgment that contains information on the
+delete command. For example, the following snippet simply prints
+informational text with the number of messages deleted:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">msg</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">sow_delete</span><span class="p">(</span>
+    <span class="s2">&quot;sow_topic&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/id IN (42, 64, 37)&quot;</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Got an </span><span class="si">%s</span><span class="s2"> message containing </span><span class="si">%s</span><span class="s2">: deleted </span><span class="si">%s</span><span class="s2"> SOW entries&quot;</span> <span class="o">%</span> \
+      <span class="p">(</span><span class="n">msg</span><span class="o">.</span><span class="n">get_command</span><span class="p">(),</span> <span class="n">msg</span><span class="o">.</span><span class="n">get_ack_type</span><span class="p">(),</span> <span class="n">msg</span><span class="o">.</span><span class="n">get_matches</span><span class="p">()))</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">sow_delete</span></code> command also provides an asynchronous version that
+requires a message handler. This message handler is designed to receive
+<code class="docutils literal"><span class="pre">sow_delete</span></code> response messages from AMPS:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">delete_handler</span><span class="p">(</span><span class="n">m</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Got an </span><span class="si">%s</span><span class="s2"> message containing </span><span class="si">%s</span><span class="s2">: deleted </span><span class="si">%s</span><span class="s2"> SOW entries&quot;</span> <span class="o">%</span> \
+        <span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">get_command</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">get_ack_type</span><span class="p">(),</span> <span class="n">m</span><span class="o">.</span><span class="n">get_matches</span><span class="p">()))</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">execute_async</span><span class="p">(</span>
+    <span class="n">Command</span><span class="p">(</span><span class="s2">&quot;sow_delete&quot;</span><span class="p">)</span>               \
+    <span class="o">.</span><span class="n">set_topic</span><span class="p">(</span><span class="s2">&quot;sow_topic&quot;</span><span class="p">)</span>             \
+    <span class="o">.</span><span class="n">set_filter</span><span class="p">(</span><span class="s2">&quot;/id IN (42, 64, 37)&quot;</span><span class="p">)</span>  \
+    <span class="o">.</span><span class="n">add_ack_type</span><span class="p">(</span><span class="s2">&quot;stats&quot;</span><span class="p">),</span>             \
+    <span class="n">delete_handler</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Acknowledging messages from a queue uses a form of the <code class="docutils literal"><span class="pre">sow_delete</span></code>
+command that is only supported for queues. Acknowledgment is discussed
+in the <em>Using Queues</em> chapter in this guide.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

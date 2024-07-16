@@ -1,0 +1,50 @@
+1. Introduction
+===============
+
+This document explains how to use the Python client for AMPS. Use this
+document to learn how to install, configure and develop applications
+using the AMPS Python client API.
+
+Prerequisites
+-------------
+
+Before reading this guide, it is important to have a good understanding
+of the following topics:
+
+-  **Developing in Python** - To be successful using this guide, you will
+   need to possess a working knowledge of the Python language. Visit
+   http://www.python.org for resources on learning Python.
+
+-  **AMPS Concepts** - Before reading this guide, you will need to understand
+   the basic concepts of AMPS, such as *topics*, *subscriptions*,
+   *messages* and *SOW*. Consult the *AMPS User Guide* to learn more
+   about these topics before proceeding.
+
+-  **An Installed Python Interpreter** - The AMPS Python client currently
+   supports Python version 2.7 or greater, including Python 3.
+
+-  **Python setuptools** - This is included with many Python distributions.
+   If it is not already installed on your system, you must add
+   setuptools to your installation. See
+   https://pythonhosted.org/an_example_pypi_project/setuptools.html 
+   for information on setuptools.
+   
+60East also provides precompiled ``.egg`` files for both Linux and Windows.
+These files target specific versions of Python, as indicated in the filenames.
+
+If you are running on a different system or using a different version of
+Python, you will also need:
+
+-  **Python distutils** - Most Python installations contain this package by
+   default.
+
+-  **C++ Compiler** - To build the client, you will need a C++ compiler as
+   described in the Python Support section below. This is only necessary
+   for initial installation. You do not need a C++ compiler to run the client.
+
+You will need an installed and running AMPS server to use the product as
+well. You can write and compile programs that use AMPS without a running
+server, but you will get the most out of this guide by running the
+programs against a working server.
+
+.. include:: ./client-support-section-python.inc

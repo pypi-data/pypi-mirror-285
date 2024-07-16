@@ -1,0 +1,745 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5. Error Handling &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="6. State of the World (SOW)" href="sow.html" />
+    <link rel="prev" title="4. Subscriptions" href="subscriptions.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">5. Error Handling</a><ul>
+<li><a class="reference internal" href="#exceptions">Exceptions</a><ul>
+<li><a class="reference internal" href="#exception-types">Exception Types</a></li>
+<li><a class="reference internal" href="#exception-handling-and-asynchronous-message-processing">Exception Handling and Asynchronous Message Processing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#controlling-blocking-with-command-timeout">Controlling Blocking with Command Timeout</a></li>
+<li><a class="reference internal" href="#disconnect-handling">Disconnect Handling</a><ul>
+<li><a class="reference internal" href="#using-a-heartbeat-to-detect-disconnection">Using a Heartbeat to Detect Disconnection</a></li>
+<li><a class="reference internal" href="#managing-disconnection">Managing Disconnection</a></li>
+<li><a class="reference internal" href="#replacing-disconnect-handling">Replacing Disconnect Handling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#unexpected-messages">Unexpected Messages</a></li>
+<li><a class="reference internal" href="#unhandled-exceptions">Unhandled Exceptions</a></li>
+<li><a class="reference internal" href="#detecting-write-failures">Detecting Write Failures</a></li>
+<li><a class="reference internal" href="#monitoring-connection-state">Monitoring Connection State</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="subscriptions.html" title="previous chapter">4. Subscriptions</a></li>
+      <li>Next: <a href="sow.html" title="next chapter">6. State of the World (SOW)</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="error-handling">
+<h1>5. Error Handling<a class="headerlink" href="#error-handling" title="Permalink to this headline">¶</a></h1>
+<p>In every distributed system, the robustness of your application depends
+on its ability to recover gracefully from unexpected events. The AMPS
+client provides the building blocks necessary to ensure your application
+can recover from the kinds of errors and special events that may occur
+when using AMPS.</p>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Generally speaking, when an error occurs that prohibits an operation
+from succeeding, AMPS will throw an exception. AMPS exceptions
+universally derive from <code class="docutils literal"><span class="pre">AMPS.AMPSException</span></code>, so by catching
+<code class="docutils literal"><span class="pre">AMPSException</span></code>, you will be sure to catch anything AMPS throws, for
+example:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">read_and_evaluate</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="c1"># read a new payload from the user</span>
+    <span class="n">payload</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter a message&quot;</span><span class="p">)</span>
+
+    <span class="c1"># write a new message to AMPS</span>
+    <span class="k">if</span> <span class="n">payload</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">client</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span>
+                <span class="s2">&quot;UserMessage&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;{ </span><span class="se">\&quot;</span><span class="s2">message</span><span class="se">\&quot;</span><span class="s2"> : </span><span class="se">\&quot;</span><span class="si">%s</span><span class="se">\&quot;</span><span class="s2">  }&quot;</span> <span class="o">%</span> <span class="n">payload</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">AMPSException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;An AMPS exception&quot;</span> <span class="o">+</span> <span class="s2">&quot;occurred: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><strong>Example 5.1:</strong> <em>Catching an AMPS Exception</em></p>
+<p>In this example, if an error occurs, the program writes the error to
+<code class="docutils literal"><span class="pre">stderr</span></code> and the <code class="docutils literal"><span class="pre">publish()</span></code> command fails. However, <code class="docutils literal"><span class="pre">client</span></code> is
+still usable for continued publishing and subscribing. When the error
+occurs, the exception is written to the console. As with most Python
+exceptions, <code class="docutils literal"><span class="pre">str()</span></code> will convert the exception into a string that
+includes a descriptive message.</p>
+<p>AMPS exception types vary based on the nature of the error that occurs.
+In your program, if you would like to handle certain kinds of errors
+differently than others, you can handle the appropriate subclass of
+<code class="docutils literal"><span class="pre">AMPSException</span></code> to detect those specific errors and do something
+different.</p>
+<div class="code python highlight-default" id="exceptions-subclass-handling"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">create_new_subscription</span><span class="p">(</span><span class="n">client</span><span class="p">):</span>
+    <span class="n">messageStream</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">topicName</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">while</span> <span class="n">messageStream</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+    <span class="c1"># attempts to retrieve a topic name (or regular expression) from the user.</span>
+    <span class="n">topicName</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter a topic name&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+
+        <span class="c1"># If an error occurs when setting up the subscription, the program decides whether</span>
+        <span class="c1"># or not to try again based on the subclass of AMPSException that is thrown. In</span>
+        <span class="c1"># this case, if the exception is a BadRegexTopicError, the exception indicates</span>
+        <span class="c1"># that the user provided a bad regular expression. We would like to give the user</span>
+        <span class="c1"># a chance to correct, so we ask the user for a new topic name.</span>
+        <span class="n">messageStream</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+            <span class="n">topicName</span><span class="p">,</span>
+            <span class="kc">None</span>
+        <span class="p">)</span>
+
+    <span class="c1"># This line indicates that the program catches the BadRegexTopicError exception</span>
+    <span class="c1"># and displays a specific error to the user indicating the topic name or</span>
+    <span class="c1"># expression was invalid. By not returning from the function in this except block,</span>
+    <span class="c1"># the while loop runs again and the user is asked for another topic name.</span>
+    <span class="k">except</span> <span class="n">BadRegexTopicError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="s2">&quot;Error: bad topic name or regular expression &quot;</span> <span class="o">+</span>
+            <span class="n">topicName</span> <span class="o">+</span>
+            <span class="s2">&quot;.  The exception was &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s2">&quot;.&quot;</span>
+        <span class="p">)</span>
+        <span class="c1"># we&#39;ll ask the user for another topic</span>
+
+    <span class="c1"># If an AMPS exception of a type other than BadRegexTopicError is thrown by AMPS,</span>
+    <span class="c1"># it is caught here. In that case, the program emits a different error message to</span>
+    <span class="c1"># the user.</span>
+    <span class="k">except</span> <span class="n">AMPSException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="p">(</span>
+            <span class="s2">&quot;Error: error setting up subscription to topic&quot;</span> <span class="o">+</span>
+            <span class="n">topicName</span> <span class="o">+</span>
+            <span class="s2">&quot;.  The exception was &quot;</span> <span class="o">+</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">+</span>
+            <span class="s2">&quot;.&quot;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># At this point the code stops attempting to subscribe to the client by the return</span>
+        <span class="c1"># None statement.</span>
+        <span class="k">return</span> <span class="kc">None</span>
+   <span class="k">return</span> <span class="n">messageStream</span>
+</pre></div>
+</div>
+<p><strong>Example 5.2:</strong> <em>Handling AMPSException Subclasses</em></p>
+<div class="section" id="exception-types">
+<h3>Exception Types<a class="headerlink" href="#exception-types" title="Permalink to this headline">¶</a></h3>
+<p>Each method in AMPS documents the kinds of exceptions that are thrown
+from it. For reference, <a class="reference internal" href="exceptions.html#command-publish-headers"><span class="std std-ref">Appendix A: Exceptions</span></a>
+contains a list of all of the exception types you may encounter while
+using AMPS, when they occur, and what they mean.</p>
+</div>
+<div class="section" id="exception-handling-and-asynchronous-message-processing">
+<h3>Exception Handling and Asynchronous Message Processing<a class="headerlink" href="#exception-handling-and-asynchronous-message-processing" title="Permalink to this headline">¶</a></h3>
+<p>When using asynchronous message processing, exceptions thrown from the
+message handler are silently absorbed by the AMPS Python client by
+default. The AMPS Python client allows you to register an exception
+listener to detect and respond to these exceptions. When an exception
+listener is registered, AMPS will call the exception listener with the
+exception. See
+<a class="reference internal" href="#error-handling-exception-listener"><span class="std std-ref">Example 5.5</span></a>
+for details.</p>
+</div>
+</div>
+<div class="section" id="controlling-blocking-with-command-timeout">
+<h2>Controlling Blocking with Command Timeout<a class="headerlink" href="#controlling-blocking-with-command-timeout" title="Permalink to this headline">¶</a></h2>
+<p>The named convenience methods and the <code class="docutils literal"><span class="pre">Command</span></code> class provide a
+<code class="docutils literal"><span class="pre">timeout</span></code> setting that specifies how long the command should wait
+to receive a <code class="docutils literal"><span class="pre">processed</span></code> acknowledgment from AMPS. This can be helpful
+in cases where it is important for the caller to limit the amount of time
+to block waiting for AMPS to acknowledge the command. If the AMPS client
+does not receive the processed acknowledgment within the specified
+time, the client sends an <code class="docutils literal"><span class="pre">unsubscribe</span></code> command to the server to
+cancel the command and throws an exception.</p>
+<p>Acknowledgments from AMPS are processed by the client receive thread
+on the same socket as data from AMPS. This means that any other data
+previously returned (such as the results of a large query) must be
+consumed before the acknowledgment can be processed. An application
+that submits a set of SOW queries in rapid succession should set a
+timeout that takes into account the amount of time required to
+process the results of the previous query.</p>
+</div>
+<div class="section" id="disconnect-handling">
+<h2>Disconnect Handling<a class="headerlink" href="#disconnect-handling" title="Permalink to this headline">¶</a></h2>
+<p>Every distributed system will experience occasional disconnections
+between one or more nodes. The reliability of the overall system depends
+on an application&#8217;s ability to efficiently detect and recover from these
+disconnections. Using the AMPS Python client&#8217;s disconnect handling, you
+can build powerful applications that are resilient in the face of
+connection failures and spurious disconnects. For additional
+reliability, you can also use the high availability client (discussed in
+the following sections), which provides both disconnect handling and
+features to help ensure that messages are reliably delivered.</p>
+<div class="section" id="using-a-heartbeat-to-detect-disconnection">
+<h3>Using a Heartbeat to Detect Disconnection<a class="headerlink" href="#using-a-heartbeat-to-detect-disconnection" title="Permalink to this headline">¶</a></h3>
+<p>The AMPS client includes a heartbeat feature to help applications detect
+disconnection from the server within a predictable amount of time.
+Without using a heartbeat, an application must rely on the operating
+system to notify it when a disconnect occurs. For applications that are
+simply receiving messages, it can be impossible to tell whether a socket
+is disconnected or whether there are simply no incoming messages for the client.</p>
+<p>When you set a heartbeat, the AMPS client sends a heartbeat message to
+the AMPS server at a regular interval, and waits a specified amount of
+time for the response. If the operating system reports an error on send,
+or if there is no message received from the server within the specified
+amount of time, the AMPS client considers the server to be disconnected.
+Likewise, the server will ensure that traffic is sent to the client
+at the specified interval, using heartbeat messages when no other traffic
+is being sent to the client. If, after sending a heartbeat message, no
+traffic from the client arrives within a period twice the specified
+interval, the server will consider the client to be disconnected or
+nonresponsive.</p>
+<p>The AMPS client processes heartbeat messages on the client receive
+thread, which is the thread used for asynchronous message processing. If
+your application uses asynchronous message processing and occupies the
+thread for longer than the heartbeat interval, the client may fail to
+respond to heartbeat messages in a timely manner and may be disconnected
+by the server.</p>
+</div>
+<div class="section" id="managing-disconnection">
+<h3>Managing Disconnection<a class="headerlink" href="#managing-disconnection" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal"><span class="pre">HAClient</span></code> class, included with the AMPS Python client, contains a
+disconnect handler and other features for building highly-available
+applications. The <code class="docutils literal"><span class="pre">HAClient</span></code> includes features for managing a list of
+failover servers, resuming subscriptions, republishing in-flight
+messages, and other functionality that is commonly needed for high
+availability. 60East recommends using the <code class="docutils literal"><span class="pre">HAClient</span></code> for automatic
+reconnection wherever possible, as the HAClient disconnect handler has
+been carefully crafted to handle a wide variety of edge cases and
+potential failures.</p>
+<p>If an application needs to reconnect or fail over, use an
+<code class="docutils literal"><span class="pre">HAClient</span></code>, and the AMPS client library will automatically
+handle failover and reconnection. You control which servers
+the client fails over to using an implementation of the
+<code class="docutils literal"><span class="pre">ServerChooser</span></code> interface, and you can control the timing of
+the failover using an implementation of the <code class="docutils literal"><span class="pre">ReconnectDelayStrategy</span></code>
+interface.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">For most applications, the combination of the <code class="docutils literal"><span class="pre">HAClient</span></code>
+disconnect handler and a <code class="docutils literal"><span class="pre">ConnectionStateListener</span></code> gives
+you the ability to monitor disconnections and add custom
+behavior at the appropriate point in the reconnection
+process.</p>
+</div>
+<p>If you need to add custom behavior to the failover (such as logging,
+resetting an internal cache, refreshing credentials and so on), the
+<code class="docutils literal"><span class="pre">ConnectionStateListener</span></code> class allows your application to
+be notified and take action when disconnection is detected and at
+each stage of the reconnection process.</p>
+<p>To extend the behavior of the AMPS client during reconnection, implement
+a <code class="docutils literal"><span class="pre">ConnectionStateListener</span></code>.</p>
+</div>
+<div class="section" id="replacing-disconnect-handling">
+<h3>Replacing Disconnect Handling<a class="headerlink" href="#replacing-disconnect-handling" title="Permalink to this headline">¶</a></h3>
+<p>In some cases, an application does not want the AMPS client to
+reconnect, but instead wants to take a different action if
+disconnection occurs. For example, a stateless publisher
+that sends ephemeral data (such as telemetry or prices) may want
+to exit with an error if the connection is lost rather than
+risk falling behind and providing outdated messages. Often,
+in this case, a monitoring process will start another publisher
+if a publisher fails, and it is better for a message to be
+lost than to arrive late.</p>
+<p>To cover cases where the application has unusual needs, the
+AMPS client library allows an application to provide custom
+disconnect handling.</p>
+<p>Your application gets to specify exactly what happens when a
+disconnect occurs by supplying a function to
+<code class="docutils literal"><span class="pre">client.set_disconnect_handler()</span></code>, which is invoked whenever
+a disconnect occurs. This may be helpful for situations
+where a particular connection needs to do something completely
+different than reconnecting or failing over to another AMPS server.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">Setting the disconnect handler completely replaces the disconnection
+and failover behavior for an <code class="docutils literal"><span class="pre">HAClient</span></code> and provides the <em>only</em> disconnection
+and failover behavior for a <code class="docutils literal"><span class="pre">Client</span></code>.</p>
+</div>
+<p>The handler runs on the thread that detects the disconnect. This may
+be the client receive thread (for example, if the disconnect is detected
+due to heartbeating) or an application thread (for example, if the disconnect
+is detected when sending a command to AMPS).</p>
+<p>The example below shows the basics:</p>
+<div class="code python highlight-default" id="error-handling-disconnect-handler"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyApp</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_uri</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">_uri</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+        <span class="c1"># set_disconnect_handler() method is called to supply a function for use when AMPS</span>
+        <span class="c1"># detects a disconnect. At any time, this function may be called by AMPS to</span>
+        <span class="c1"># indicate that the client has disconnected from the server, and to allow your</span>
+        <span class="c1"># application to choose what to do about it. The application continues on to</span>
+        <span class="c1"># connect and subscribe to the orders topic.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">set_disconnect_handler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exit_on_disconnection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">logon</span><span class="p">()</span>
+
+    <span class="c1"># display order data to the user</span>
+    <span class="k">def</span> <span class="nf">showMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">m</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># Our disconnect handler’s implementation begins here.</span>
+    <span class="c1">#</span>
+    <span class="c1"># In this example, we exit the application if the</span>
+    <span class="c1"># connection fails.</span>
+
+    <span class="k">def</span> <span class="nf">exit_on_disconnection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 5.3:</strong> <em>Supplying a Disconnect Handler</em></p>
+</div>
+</div>
+<div class="section" id="unexpected-messages">
+<span id="id1"></span><h2>Unexpected Messages<a class="headerlink" href="#unexpected-messages" title="Permalink to this headline">¶</a></h2>
+<p>The AMPS Python client handles most incoming messages and takes
+appropriate action. Some messages are unexpected or occur only in very
+rare circumstances. The AMPS Python client provides a way for clients to
+process these messages. Rather than providing handlers for all of these
+unusual events, AMPS provides a single handler function for messages
+that can&#8217;t be handled during normal processing.</p>
+<p>Your application registers this handler by setting the
+<code class="docutils literal"><span class="pre">last_chance_message_handler</span></code> for the client. This handler is called
+when the client receives a message that can&#8217;t be processed by any other
+handler. This is a rare event, and typically indicates an unexpected
+condition.</p>
+<p>For example, if a client publishes a message that AMPS cannot parse,
+AMPS returns a failure acknowledgment. This is an unexpected event, so
+AMPS does not include an explicit handler for this event, and failure
+acknowledgments are received in the method registered as the
+<code class="docutils literal"><span class="pre">last_chance_message_handler</span></code>.</p>
+<p>Your application is responsible for taking any corrective action needed.
+For example, if a message publication fails, your application can decide
+to republish the message, publish a compensating message, log the error,
+stop publication altogether, or any other action that is appropriate.</p>
+</div>
+<div class="section" id="unhandled-exceptions">
+<h2>Unhandled Exceptions<a class="headerlink" href="#unhandled-exceptions" title="Permalink to this headline">¶</a></h2>
+<p>When using the asynchronous interface, exceptions can occur that are not
+thrown to the user. For example, when an exception occurs in the process
+of reading subscription data from the AMPS server, the exception occurs
+on a thread inside of the AMPS Python client. Consider the following
+example using the asynchronous interface:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyApp</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">on_message_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">message</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">wait_to_be_poked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">client</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_message_handler</span><span class="p">,</span>
+            <span class="s2">&quot;pokes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/Pokee LIKE &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">(),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+        <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Press enter to exit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 5.4:</strong> <em>Where do Exceptions go?</em></p>
+<p>In this example, we set up a subscription to wait for messages on the
+pokes topic, whose Pokee tag begins with our user name. When messages
+arrive, we print a message out to the console, but otherwise our
+application waits for a key to be pressed.</p>
+<p>Inside of the AMPS client, the client creates a new thread of execution
+that reads data from the server, and invokes message handlers and
+disconnect handlers when those events occur. When exceptions occur
+inside this thread, however, there is no caller for them to be thrown
+to and by default they are ignored.</p>
+<p>In applications that use the asynchronous interface, and where it is
+important to deal with every issue that occurs in using AMPS, you can
+set an <code class="docutils literal"><span class="pre">ExceptionHandler</span></code> via <code class="docutils literal"><span class="pre">Client.set_exception_listener()</span></code> that
+receives these otherwise unhandled exceptions. Making the modifications
+shown in the example below, to our previous example, will allow those
+exceptions to be caught and handled. In this case we are simply printing
+those caught exceptions out to the console.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">In some cases, the AMPS Python client may wrap exceptions of unknown type into
+an <code class="docutils literal"><span class="pre">AMPSException</span></code>. Your application should always include an except block
+for <code class="docutils literal"><span class="pre">AMPSException</span></code>.</p>
+</div>
+<p>If your application will attempt to recover from an exception
+thrown on the background processing thread, your application should
+set a flag and attempt recovery on a <em>different</em> thread than the
+thread that called the exception listener.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">At the point that the AMPS client calls the exception listener,
+it has handled the exception. Your exception listener must
+not rethrow the exception (or wrap the exception and throw
+a different exception type).</p>
+</div>
+<div class="code python highlight-default" id="error-handling-exception-listener"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyApp</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">on_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;Exception occurred: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">on_message_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">message</span><span class="p">):</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">get_data</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">wait_to_be_poked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">):</span>
+        <span class="n">client</span><span class="o">.</span><span class="n">set_exception_listener</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">on_exception</span><span class="p">)</span>
+
+        <span class="c1"># Use the advanced interface to be able to</span>
+        <span class="c1"># accept input while processing messages.</span>
+
+        <span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_message_handler</span><span class="p">,</span>
+            <span class="s2">&quot;pokes&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;/Pokee LIKE &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">(),</span>
+            <span class="n">timeout</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+        <span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Press enter to exit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Example 5.5:</strong> <em>Exception Listener</em></p>
+<p>In this example we have added a call to
+<code class="docutils literal"><span class="pre">client.set_exception_listener()</span></code>, registering a simple function that
+writes the text of the exception out to the console. If exceptions are
+thrown in the message handler, those exceptions are written to the
+console.</p>
+<p>AMPS records the stack trace and provides it to the exception handler,
+if the provided method includes a parameter for the stack trace. The
+sample below demonstrates one way to do this. (For sample purposes, the
+message handler always throws an exception.)</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">AMPS</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">traceback</span>
+
+<span class="k">def</span> <span class="nf">handler</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="n">message</span><span class="p">)</span>
+    <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;in my handler&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">exception_listener</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">tb</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;EXCEPTION RECEIVED&quot;</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tb</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">traceback</span><span class="o">.</span><span class="n">print_tb</span><span class="p">(</span><span class="n">tb</span><span class="p">)</span>
+
+<span class="n">client</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s2">&quot;client&quot;</span><span class="p">)</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">set_exception_listener</span><span class="p">(</span><span class="n">exception_listener</span><span class="p">)</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;tcp://localhost:9007/amps/json&quot;</span><span class="p">)</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">logon</span><span class="p">()</span>
+<span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span><span class="s2">&quot;topic&quot;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">publish</span><span class="p">(</span><span class="s2">&quot;topic&quot;</span><span class="p">,</span><span class="s2">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><strong>Example 5.6:</strong> <em>AMPS stack trace</em></p>
+</div>
+<div class="section" id="detecting-write-failures">
+<h2>Detecting Write Failures<a class="headerlink" href="#detecting-write-failures" title="Permalink to this headline">¶</a></h2>
+<p id="index-0">The <code class="docutils literal"><span class="pre">publish</span></code> methods in the Python client deliver the
+message to be published to AMPS then return immediately, without waiting
+for AMPS to return an acknowledgment. Likewise, the <code class="docutils literal"><span class="pre">sow_delete</span></code>
+methods request deletion of SOW messages, and return before AMPS
+processes the message and performs the deletion. This approach provides
+high performance for operations that are unlikely to fail in production.
+However, this means that the methods return before AMPS has processed
+the command, without the ability to return an error in the event the
+command fails.</p>
+<p>The AMPS Python client provides a <code class="docutils literal"><span class="pre">failed_write_handler</span></code> that is
+called when the client receives an acknowledgment that indicates a
+failure to persist data within AMPS. As with the
+<code class="docutils literal"><span class="pre">last_chance_message_handler</span></code> described in the
+<a class="reference internal" href="#unexpected-messages"><span class="std std-ref">Unexpected Messages</span></a> section,
+your application registers a handler for this function. When an acknowledgment returns that
+indicates a failed write, AMPS calls the registered handler method with
+information from the acknowledgment message, supplemented with
+information from the client publish store if one is available. Your
+client can log this information, present an error to the user or take
+whatever action is appropriate for the failure.</p>
+<p>If your application needs to know whether publishes succeeded and
+are durably persisted, the following approach is recommended:</p>
+<ul class="simple">
+<li>Set a <code class="docutils literal"><span class="pre">PublishStore</span></code> on the client. This will ensure that messages
+are retransmitted if the client becomes disconnected before the
+message is acknowledged <em>and</em> request <code class="docutils literal"><span class="pre">persisted</span></code> acknowledgments
+for messages.</li>
+<li>Install a <code class="docutils literal"><span class="pre">failed_write_handler</span></code>. In the event that AMPS reports
+an error for a given message, that event will be reported to
+the <code class="docutils literal"><span class="pre">failed_write_handler</span></code>.</li>
+<li>Call <code class="docutils literal"><span class="pre">publish_flush()</span></code> and verify that all messages are
+persisted before the application exits.</li>
+</ul>
+<p>When no <code class="docutils literal"><span class="pre">failed_write_handler</span></code> is registered, acknowledgments that
+indicate errors in persisting data are treated as unexpected messages
+and routed to the <code class="docutils literal"><span class="pre">last_chance_message_handler</span></code>. In this case, AMPS
+provides only the acknowledgment message and does not provide the
+additional information from the client publish store.</p>
+</div>
+<div class="section" id="monitoring-connection-state">
+<h2>Monitoring Connection State<a class="headerlink" href="#monitoring-connection-state" title="Permalink to this headline">¶</a></h2>
+<p>The AMPS client interface provides the ability to set one or more connection
+state listeners. A connection state listener is a callback that is invoked
+when the AMPS client detects a change to the connection state.</p>
+<p>A connection state listener may be called from the client receive thread.
+An application should not submit commands to AMPS from a connection
+state listener, or the application risks creating a deadlock for
+commands that wait for acknowledgment from the server.</p>
+<p>The AMPS client provides the following state values for a connection state
+listener:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="30%" />
+<col width="70%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">State</th>
+<th class="head">Indicates</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Connected</td>
+<td><p class="first">The client has established a connection to
+AMPS. If you are using a <code class="docutils literal"><span class="pre">Client</span></code>, this
+is delivered when <code class="docutils literal"><span class="pre">connect()</span></code> is successful.</p>
+<p>If you are using an <code class="docutils literal"><span class="pre">HAClient</span></code>, this state
+indicates that the <code class="docutils literal"><span class="pre">connect</span></code> part of the
+connect and logon process has completed.
+An <code class="docutils literal"><span class="pre">HAClient</span></code> using the default disconnect
+handler will attempt to log on immediately after
+delivering this state.</p>
+<p>Most applications that use <code class="docutils literal"><span class="pre">Client</span></code> will
+attempt to log on immediately after the call to
+<code class="docutils literal"><span class="pre">connect()</span></code> returns.</p>
+<p class="last">An application should not submit commands to
+AMPS from the connection state listener
+while the client is in this state <em>unless</em>
+the application knows that the state has been
+delivered from a <code class="docutils literal"><span class="pre">Client</span></code> and that the
+<code class="docutils literal"><span class="pre">Client</span></code> does not call <code class="docutils literal"><span class="pre">logon()</span></code>.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>LoggedOn</td>
+<td><p class="first">The client has successfully logged on to
+AMPS. If you are using a <code class="docutils literal"><span class="pre">Client</span></code>, this
+is delivered when <code class="docutils literal"><span class="pre">logon()</span></code> is successful.</p>
+<p>If you are using an <code class="docutils literal"><span class="pre">HAClient</span></code>, this state
+indicates that the <code class="docutils literal"><span class="pre">logon</span></code> part of the
+connect and logon process has completed.</p>
+<p class="last">This state is delivered after the client is
+logged on, but before recovery of client state
+is complete. Recovery will continue after
+delivering this state: the application should
+not submit commands to AMPS from the connection
+state listener while the client
+is in this state if further recovery will take
+place.</p>
+</td>
+</tr>
+<tr class="row-even"><td>HeartbeatInitiated</td>
+<td><p class="first">The client has successfully started heartbeat
+monitoring with AMPS. This state is delivered
+if the application has enabled heartbeating
+on the client.</p>
+<p class="last">This state is delivered before recovery of the
+client state is complete. Recovery may continue
+after this state is delivered. The application
+should not submit commands to AMPS from the
+connection state listener until the
+client is completely recovered.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>PublishReplayed</td>
+<td><p class="first">Delivered when a client has completed replay
+of the publish store when recovering after
+connecting to AMPS.</p>
+<p>This state is delivered when the client has a
+PublishStore configured.</p>
+<p class="last">If the client has a subscription manager set,
+(which is the default for an <code class="docutils literal"><span class="pre">HAClient</span></code>), the
+application should not submit commands from
+the connection state listener until the
+<code class="docutils literal"><span class="pre">Resubscribed</span></code> state is received.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Resubscribed</td>
+<td><p class="first">Delivered when a client has re-entered
+subscriptions when recovering after connecting
+to AMPS.</p>
+<p class="last">This state is delivered when the client has a
+subscription manager set (which is the default
+for an <code class="docutils literal"><span class="pre">HAClient</span></code>). This is the final recovery
+step. An application can submit commands to
+AMPS from the connection state listener
+after receiving this state.</p>
+</td>
+</tr>
+<tr class="row-odd"><td>Disconnected</td>
+<td><p class="first">The client is not connected.</p>
+<p class="last">For an <code class="docutils literal"><span class="pre">HAClient</span></code>, this means that the
+client will attempt to reconnect to AMPS.
+For a <code class="docutils literal"><span class="pre">Client</span></code>, this means that the client
+will invoke the disconnect handler, if one
+is specified.</p>
+</td>
+</tr>
+<tr class="row-even"><td>Shutdown</td>
+<td><p class="first">The client is shut down.</p>
+<p class="last">For an <code class="docutils literal"><span class="pre">HAClient</span></code>, this means that the
+client will no longer attempt to reconnect
+to AMPS.  This state is delivered when
+<code class="docutils literal"><span class="pre">close()</span></code> is called on the client or when a
+<code class="docutils literal"><span class="pre">ServerChooser</span></code> tells the <code class="docutils literal"><span class="pre">HAClient</span></code> to
+stop reconnecting to AMPS.</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 5.1:</strong> <em>ConnectionStateListener values</em></p>
+<p>The enumeration provided for the connection state listener also includes
+a value of <code class="docutils literal"><span class="pre">UNKNOWN</span></code> for use as a default or to represent additional
+states in a custom <code class="docutils literal"><span class="pre">Client</span></code> implementation. The 60East implementations
+of the client do not deliver this state.</p>
+<p>The following table shows examples of the set of states that will be delivered
+during connection, in order, depending on what features
+of the client are set. Notice that, for an instance of the <code class="docutils literal"><span class="pre">Client</span></code> class,
+this table assumes that the application calls both <code class="docutils literal"><span class="pre">connect()</span></code> and
+<code class="docutils literal"><span class="pre">logon()</span></code>. For an <code class="docutils literal"><span class="pre">HAClient</span></code>, this table assumes that the <code class="docutils literal"><span class="pre">HAClient</span></code> is
+using the default <code class="docutils literal"><span class="pre">DisconnectHandler</span></code> for the <code class="docutils literal"><span class="pre">HAClient</span></code>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Configuration</th>
+<th class="head">States</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><p class="first">Subscription Manager</p>
+<p class="last">Publish Store</p>
+</td>
+<td><p class="first">Connected</p>
+<p>LoggedOn</p>
+<p>PublishReplayed</p>
+<p class="last">Resubscribed</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first">Subscription Manager</p>
+<p>Publish Store</p>
+<p class="last">Heartbeat Set</p>
+</td>
+<td><p class="first">Connected</p>
+<p>LoggedOn</p>
+<p>HeartbeatInitiated</p>
+<p>PublishReplayed</p>
+<p class="last">Resubscribed</p>
+</td>
+</tr>
+<tr class="row-even"><td>Subscription Manager</td>
+<td><p class="first">Connected</p>
+<p>LoggedOn</p>
+<p class="last">Resubscribed</p>
+</td>
+</tr>
+<tr class="row-odd"><td><p class="first">Subscription Manager</p>
+<p class="last">Heartbeat Set</p>
+</td>
+<td><p class="first">Connected</p>
+<p>LoggedOn</p>
+<p>HeartbeatInitiated</p>
+<p class="last">Resubscribed</p>
+</td>
+</tr>
+<tr class="row-even"><td><dl class="first last docutils">
+<dt>(Default <code class="docutils literal"><span class="pre">Client</span></code></dt>
+<dd>Configuration)</dd>
+</dl>
+</td>
+<td><p class="first">Connected</p>
+<p class="last">LoggedOn</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Table 5.2:</strong> <em>Sequence of states for connection</em></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

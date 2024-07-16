@@ -1,0 +1,155 @@
+Building the Client
+===================
+
+The AMPS Python client ships as both source and pre-built binaries.  The full client distribution, which includes this guide, provides the source to the  Python client. You build the client with your Python distribution before using it. On most Linux systems, you can build the client and install it into your Python distribution by navigating to the client directory in the evaluation kit and typing:
+
+.. code-block:: bash
+
+   $ sudo python setup.py build install
+
+If you do not want to (or are not allowed to) install the client into your Python distribution, or if you are building the client on Windows, see the release page for the AMPS clients at http://devnull.crankuptheamps.com/releases/amps/clients.
+
+
+Crank It Up!
+============
+
+In this section, we describe using the AMPS samples from the command line. You can also use the PyDev extension to Eclipse or another IDE if you prefer.
+
+To get started with AMPS, create a simple subscriber and publisher:
+
+1. Open a command shell
+
+  a. Navigate to the directory where you unzipped the evaluation kit
+  b. Navigate to ``Python Evaluation/CrankItUp``
+
+2. Update the connection strings to connect to AMPS
+
+   *FROM THE LINUX COMMAND LINE:*
+
+   a. From the CrankItUp directory, type the following command to replace the IP address:
+
+      .. code-block::  bash
+
+         $sed -ri 's/127.0.0.1/ip address here/' *.py
+
+
+   *FROM THE WINDOWS COMMAND LINE:*
+ 
+   a. From the CrankItUp directory, type the following command to replace the IP address:
+
+      .. code-block::  bash
+
+         powershell "gci | foreach-object { (Get-Content $_) –replace '127.0.0.1' , 'ip address here' | Set-Content $_ }"
+
+
+3. Run the sample subscriber
+
+   a. From the CrankItUp directory, you can run the example by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSConsoleSubscriber.py &
+
+   This command line runs the subscriber, and then sends it to the background. Messages from the subscriber will be printed to the console.
+
+NOTE: To run this command line, python must be in your PATH.
+
+4.      Run the sample publisher
+
+   a. From the CrankItUp directory, you can run the example by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSConsolePublisher.py &
+
+b.      The program runs, and subscribers receive the Hello, World message. The publisher itself produces no output if it is successful. The subscriber will receive the message.
+
+NOTE: To run this command line, python must be in your PATH.
+
+
+
+Using a State of the World database
+===================================
+
+One of the most useful parts of AMPS is being able to keep track of the current value of a message, using the state of the world (SOW) database:
+
+1. Add messages to a state of the world database
+
+   a. From the CrankItUp directory, run the publisher by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSSOWConsolePublisher.py &
+
+    b. The program runs. This program sends 100 messages to AMPS. In this case, the messages are sent on a topic, messages-sow, that maintains a state-of-the-world database. AMPS saves the most recent version of each unique message. Unique messages are identified by the messageNumber in the message. The program sends messages 0-99, then updates message 5.
+
+NOTE: To run this command line, python must be in your PATH.
+
+2. Retrieve the state of the world
+
+   a. From the CrankItUp directory, run the subscriber by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSSOWConsoleSubscriber.py &
+
+   b. The program runs. This program queries the state of the world for the ``messages-sow`` topic, filtered to messages with a ``messageNumber`` less than 10. The console output shows the results of the query. Notice that for message 5, the database shows the latest value – the current state of the world.
+
+NOTE: To run this command line, python must be in your PATH.
+
+3. Retrieve the state of the world and subscribe to updates.
+
+   a. From the CrankItUp directory, run the subscriber by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSSOWandSubscribeConsoleSubscriber.py &
+
+   b. The program runs. This program queries the state of the world for the ``messages-sow`` topic, filtered to messages with a ``messageNumber`` less than ``10``. The console output shows the results of the query. Notice that for message ``5``, the database shows the latest value – the current state of the world.  Rather than ending, the program continues to run. AMPS will send the program any new messages that match the filter.
+
+   c.  From the CrankItUp directory, run the SOW publisher by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSSOWConsolePublisher.py &
+
+   d.      The publisher sends another 100 messages to AMPS, updating the value of each message, then updates message 5 again. Notice that AMPS sends each update to the subscriber, meaning that the subscriber receives two updates to message 5. When subscribed, the subscriber always receives the most current information.
+
+NOTE: To run these command lines, python must be in your PATH.
+
+Detecting when messages go out of focus
+=======================================
+
+One of the difficulties in conventional messaging systems and databases is being notified when an item no longer matches your query. For example, you may want to keep a list of all of the orders which are not yet fulfilled, or all of the taxis that are available to pick up passengers. In a traditional system, you detect change by running the query again and comparing the new results to the previous results.
+
+With AMPS, you can ask to be notified when a message no longer matches the query. AMPS delivers the notification as a special kind of message – an Out of Focus message.
+
+1. Retrieve the state of the world and subscribe to updates. Request out of focus notifications.
+
+   a. From the CrankItUp directory, run the subscriber by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSSOWandSubscribeWithOOF.py &
+
+   b. The program runs. This program queries the state of the world for the messages-sow topic, filtered to messages where the messageNumber is a multiple of 10, and where an optional field is either not present or set to 'ignore_me'.
+
+2. Update messages so the subscriber receives Out of Focus messages.
+
+   a.  From the CrankItUp directory, run the publisher by typing:
+
+     .. code-block::  bash
+
+        $ python AMPSUpdateForOOF.py &
+
+   b. The program runs. This program does the following work:
+
+      * Sends a message with an expiration time. The subscriber receives the message.
+      * Sends a message that it will later delete. The subscriber receives the message.
+      * Sends a set of messages that match the filter. The subscriber receives these messages.
+      * Sends updates to a set of messages that cause them to no longer match the filter. The subscriber receives Out Of Focus messages. Notice that these messages include the information that the filter no longer matches.
+      * Deletes the message that it sent earlier. The subscriber receives an Out of Focus message saying that the message was deleted.
+
+      The program waits to help ensure that all messages have been published, then exits. The message with the expiration time set will expire, and the subscriber will receive an Out of Focus message saying that the message expired.
+
+

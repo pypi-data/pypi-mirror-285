@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>12. Advanced Topics &#8212; Python Developer Guide 5.3.4.0
+ documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '5.3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="13. Performance Tips and Best Practices" href="performance-tips.html" />
+    <link rel="prev" title="11. Utilities" href="utilities.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/flag_logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">12. Advanced Topics</a><ul>
+<li><a class="reference internal" href="#implementing-message-handlers-in-c-or-c">Implementing Message Handlers in C or C++</a></li>
+<li><a class="reference internal" href="#implementing-the-handler">Implementing the Handler</a></li>
+<li><a class="reference internal" href="#loading-and-using-the-handler">Loading and Using the Handler</a></li>
+<li><a class="reference internal" href="#using-the-c-client">Using the C++ Client</a><ul>
+<li><a class="reference internal" href="#implementing-the-c-function">Implementing the C++ Function</a></li>
+<li><a class="reference internal" href="#loading-and-using-the-function">Loading and Using the Function</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#transport-filtering">Transport Filtering</a></li>
+<li><a class="reference internal" href="#working-with-binary-data">Working with Binary Data</a></li>
+<li><a class="reference internal" href="#using-ssl">Using SSL</a><ul>
+<li><a class="reference internal" href="#loading-a-different-ssl-implementation">Loading a Different SSL Implementation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="utilities.html" title="previous chapter">11. Utilities</a></li>
+      <li>Next: <a href="performance-tips.html" title="next chapter">13. Performance Tips and Best Practices</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="advanced-topics">
+<h1>12. Advanced Topics<a class="headerlink" href="#advanced-topics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="implementing-message-handlers-in-c-or-c">
+<h2>Implementing Message Handlers in C or C++<a class="headerlink" href="#implementing-message-handlers-in-c-or-c" title="Permalink to this headline">¶</a></h2>
+<p id="index-0">The AMPS Python client provides a wrapper
+that works with the python <code class="docutils literal"><span class="pre">ctypes</span></code> module to allow you to create
+message handlers in C or C++ and expose them to Python. This can improve
+performance in the message handler. When you use this technique,
+messages are delivered directly from the C++ client to your message
+handler: there is no Python code involved in handling the messages.</p>
+<p>To use this capability, you:</p>
+<ol class="arabic simple">
+<li>Create a message handler with C linkage, and compile that message
+handler into a shared library.</li>
+<li>In your Python program, use the <code class="docutils literal"><span class="pre">ctypes</span></code> module to load the library.</li>
+<li>Construct an instance of <code class="docutils literal"><span class="pre">CMessageHandler</span></code>, a wrapper object that holds
+a pointer to the message handler function and the user data to be
+provided to the handler during each call.</li>
+<li>Pass the <code class="docutils literal"><span class="pre">CMessageHandler</span></code> to any method that expects a message
+handler.</li>
+</ol>
+<p>The AMPS Python client registers the pointer and user data you provide
+as a C++ message handler. Once the handler is registered, no Python code
+is called when providing messages to the handler.</p>
+</div>
+<div class="section" id="implementing-the-handler">
+<h2>Implementing the Handler<a class="headerlink" href="#implementing-the-handler" title="Permalink to this headline">¶</a></h2>
+<p>To use this capability, you create a message handler that exposes a
+function with the following signature having C linkage:</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">extern</span> <span class="s2">&quot;C&quot;</span>
+<span class="n">void</span> <span class="n">my_message_handler</span><span class="p">(</span>
+    <span class="n">AMPS</span><span class="p">::</span><span class="n">Message</span> <span class="o">&amp;</span><span class="n">message</span><span class="p">,</span>
+    <span class="n">void</span> <span class="o">*</span><span class="n">userdata</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>Notice that this signature is the same signature used by message
+handlers in the AMPS C++ client. You implement the function and compile
+it into a shared library or DLL, using the instructions provided with
+your Python implementation. For details on the C++ client, you can
+install the client itself, or consult the documentation at
+<a class="reference external" href="http://docs.crankuptheamps.com/api/cpp/index.html">http://docs.crankuptheamps.com/api/cpp/index.html</a>.</p>
+</div>
+<div class="section" id="loading-and-using-the-handler">
+<h2>Loading and Using the Handler<a class="headerlink" href="#loading-and-using-the-handler" title="Permalink to this headline">¶</a></h2>
+<p>Once you&#8217;ve compiled the library, you use the <code class="docutils literal"><span class="pre">ctypes</span></code> module to load
+the library. You then create an instance of the message handler wrapper,
+and pass that wrapper to the AMPS client methods, as shown below:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+<span class="kn">import</span> <span class="nn">AMPS</span>
+
+<span class="o">...</span>
+
+<span class="c1"># assumes that client is already created and connected</span>
+
+<span class="c1"># load the shared object</span>
+<span class="n">dll</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="s2">&quot;./libmymessagehandler.so&quot;</span><span class="p">)</span>
+
+<span class="c1"># create a handler that points to the underlying C function</span>
+<span class="c1"># and bind the user data to that handler.</span>
+<span class="n">handler</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">CMessageHandler</span><span class="p">(</span><span class="n">dll</span><span class="o">.</span><span class="n">my_message_hander</span><span class="p">,</span> <span class="s2">&quot;user data&quot;</span><span class="p">)</span>
+
+<span class="c1"># handler can be used anywhere you would use a message handler</span>
+<span class="n">client</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">handler</span><span class="p">,</span> <span class="s2">&quot;myTopic&quot;</span><span class="p">)</span>
+
+<span class="n">client</span><span class="o">.</span><span class="n">set_last_chance_message_handler</span><span class="p">(</span><span class="n">handler</span><span class="p">)</span>
+
+<span class="c1"># and so it goes</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">AMPS.CMessageHandler</span></code> type accepts a pointer to a message handler
+with the signature shown above and a Python object that can be
+marshalled into a native C type through the <code class="docutils literal"><span class="pre">ctypes</span></code> interface. Once
+marshalled, the object will be cast to a <code class="docutils literal"><span class="pre">void</span> <span class="pre">*</span></code> and provided in the
+<code class="docutils literal"><span class="pre">userdata</span></code> parameter of the message handler. Marshalling the <code class="docutils literal"><span class="pre">userdata</span></code>
+parameter follows the <code class="docutils literal"><span class="pre">ctypes</span></code> module conventions. If you need to
+explicitly control the way an object is marshalled, you can construct
+one of the <code class="docutils literal"><span class="pre">ctypes</span></code> objects and pass that new object into the method.</p>
+</div>
+<div class="section" id="using-the-c-client">
+<h2>Using the C++ Client<a class="headerlink" href="#using-the-c-client" title="Permalink to this headline">¶</a></h2>
+<p id="index-1">While the AMPS Python client provides enough
+performance for a wide variety of applications, in some cases, using the
+underlying C++ implementation can provide extra performance. The AMPS
+Python client works with the <code class="docutils literal"><span class="pre">ctypes</span></code> module to allow you to pass the
+underlying C++ client to an arbitrary function, effectively allowing you
+to integrate C++ code directly into your Python program.</p>
+<p>Consider using the C++ client directly when latency is at a premium or
+when your application works directly with C++. For example, you might
+you use the client directly when:</p>
+<ul class="simple">
+<li>You are assembling messages from a C++ library without a Python
+binding</li>
+<li>You need to customize client behavior that is implemented in C++ (for
+example, implementing a custom SubscriptionManager or BookmarkStore)</li>
+<li>Your application needs to execute a set of commands with AMPS with
+minimal latency. For example, you might need to publish an array of
+values as individual messages with as little latency as possible. In
+this case, using the underlying C++ client directly can reduce
+latency.</li>
+</ul>
+<p>To use the underlying C++ client, you:</p>
+<ol class="arabic simple">
+<li>Create a function with C linkage, and compile that function into a
+shared library. One of the parameters of the function should be a
+reference to an <code class="docutils literal"><span class="pre">AMPS::Client</span></code>.</li>
+<li>In your Python program, use the <code class="docutils literal"><span class="pre">ctypes</span></code> module to load the
+library.</li>
+<li>Call the function on the library, passing the appropriate parameters
+for the C function.</li>
+</ol>
+<div class="section" id="implementing-the-c-function">
+<h3>Implementing the C++ Function<a class="headerlink" href="#implementing-the-c-function" title="Permalink to this headline">¶</a></h3>
+<p>The only requirement on the C++ function is that it have C linkage and
+that one of the parameters is a reference to an <code class="docutils literal"><span class="pre">AMPS::Client</span></code>. By
+convention, 60East recommends that the first parameter is the
+<code class="docutils literal"><span class="pre">AMPS::Client</span></code>. However, this is not a requirement of the interface.</p>
+<p>For example, a function that simply takes an <code class="docutils literal"><span class="pre">AMPS::Client</span></code> has the
+following signature:</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">extern</span> <span class="s2">&quot;C&quot;</span>
+<span class="n">void</span> <span class="n">configure_client</span><span class="p">(</span><span class="n">AMPS</span><span class="p">::</span><span class="n">Client</span><span class="o">&amp;</span> <span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>While a function that takes a client, a topic, and a pointer to data to
+be published might have the following signature:</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">extern</span> <span class="s2">&quot;C&quot;</span>
+<span class="n">void</span> <span class="n">publish_data</span><span class="p">(</span>
+    <span class="n">AMPS</span><span class="p">::</span><span class="n">Client</span><span class="o">&amp;</span> <span class="n">client</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="n">topic</span><span class="p">,</span>
+    <span class="n">const</span> <span class="n">char</span> <span class="o">*</span> <span class="n">data</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">ctypes</span></code> module provides a standard <code class="docutils literal"><span class="pre">AMPS::Client</span></code> to these
+functions. Although the <code class="docutils literal"><span class="pre">Client</span></code> has been created by Python code,
+there is nothing Python-specific about the object within the C++
+function. You can use the <code class="docutils literal"><span class="pre">Client</span></code> just as you would any other <code class="docutils literal"><span class="pre">Client</span></code>
+object.</p>
+<p>You can also use the <code class="docutils literal"><span class="pre">ctypes</span></code> binding with <code class="docutils literal"><span class="pre">AMPS::HAClient</span></code>, as
+shown below:</p>
+<div class="code cpp highlight-default"><div class="highlight"><pre><span></span><span class="n">extern</span> <span class="s2">&quot;C&quot;</span>
+<span class="n">void</span> <span class="n">install_server_chooser</span><span class="p">(</span><span class="n">AMPS</span><span class="p">::</span><span class="n">HAClient</span><span class="o">&amp;</span> <span class="n">client</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Since the <code class="docutils literal"><span class="pre">ctypes</span></code> module passes the data through the C ABI, the module
+is not able to perform extensive type checking on C++ types. Your Python
+code must be careful to pass only objects of the appropriate type, or
+you may cause a segmentation violation. For example, if a method
+expecting an <code class="docutils literal"><span class="pre">HAClient</span></code> receives a <code class="docutils literal"><span class="pre">Client</span></code> and calls
+<code class="docutils literal"><span class="pre">connectAndLogon</span></code> (which is not a method provided by Client), your
+program will likely crash.</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p>The <code class="docutils literal"><span class="pre">ctypes</span></code> module has a few important caveats.</p>
+<p>The <code class="docutils literal"><span class="pre">ctypes</span></code> module does not provide strong type-safety
+guarantees for C++ classes. It is your responsibility to ensure
+that you call methods with objects of the appropriate type.</p>
+<p class="last">The <code class="docutils literal"><span class="pre">ctypes</span></code> module calls your function through an extern &#8220;C&#8221;
+interface. C++ exceptions cannot be propagated out of a function
+with C binding. You must catch all exceptions that may be
+thrown, or your application will likely crash.</p>
+</div>
+</div>
+<div class="section" id="loading-and-using-the-function">
+<h3>Loading and Using the Function<a class="headerlink" href="#loading-and-using-the-function" title="Permalink to this headline">¶</a></h3>
+<p>Once you&#8217;ve compiled the library, you use the <code class="docutils literal"><span class="pre">ctypes</span></code> module to load
+the library. You can then call the function directly from Python, using
+the name of the C function and passing the appropriate arguments.</p>
+<p>Let&#8217;s look at a simple example. For this example, assume that you have
+compiled a module named <code class="docutils literal"><span class="pre">module.so</span></code> with the following function:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="n">publish_message</span><span class="p">(</span><span class="n">AMPS</span><span class="o">::</span><span class="n">Client</span><span class="o">&amp;</span> <span class="n">client</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">topic</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">data</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">try</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">&amp;</span><span class="n">client</span> <span class="o">&amp;&amp;</span> <span class="n">topic</span> <span class="o">&amp;&amp;</span> <span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">client</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="n">data</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="n">AMPS</span><span class="o">::</span><span class="n">Exception</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="cm">/* Handle error reporting and recovery logic */</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You can load the module and call the function as shown below:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="n">module</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="s2">&quot;module.so&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s2">&quot;client&quot;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;tcp://localhost:9007/amps/json&quot;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">logon</span><span class="p">()</span>
+
+<span class="n">module</span><span class="o">.</span><span class="n">publish_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="s2">&quot;my_topic&quot;</span><span class="p">,</span> <span class="s2">&quot;some_data&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">ctypes</span></code> module handles type conversions between Python and C
+types. In this case, the module passes the underlying Python client as
+the first argument of the C function. The two Python strings are passed
+as NULL-terminated <code class="docutils literal"><span class="pre">char</span> <span class="pre">*</span></code> arrays.</p>
+<p>The <code class="docutils literal"><span class="pre">ctypes</span></code> module also handles more complicated signatures and correctly
+passes arrays. For example, you could implement a method that publishes
+an array of Python values as follows:</p>
+<div class="highlight-cpp"><div class="highlight"><pre><span></span><span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="n">vector_publish</span><span class="p">(</span><span class="n">AMPS</span><span class="o">::</span><span class="n">Client</span><span class="o">&amp;</span> <span class="n">client</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">topic</span><span class="p">,</span>
+                                <span class="k">const</span> <span class="kt">char</span><span class="o">**</span> <span class="n">data</span><span class="p">,</span>
+                                <span class="kt">size_t</span> <span class="n">vector_length</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">try</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">topic</span> <span class="o">&amp;&amp;</span> <span class="o">&amp;</span><span class="n">client</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">for</span> <span class="p">(;</span><span class="n">vector_length</span><span class="p">;</span><span class="o">--</span><span class="n">vector_length</span><span class="p">,</span><span class="o">++</span><span class="n">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">client</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">topic</span><span class="p">,</span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">catch</span> <span class="p">(</span><span class="n">AMPS</span><span class="o">::</span><span class="n">Exception</span><span class="o">&amp;</span> <span class="n">e</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="cm">/* Handle reporting and recovery logic */</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>You could then use this function from Python as follows:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="n">module</span> <span class="o">=</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="s2">&quot;module.so&quot;</span><span class="p">)</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">AMPS</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="s2">&quot;client&quot;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;tcp://localhost:9007/amps/json&quot;</span><span class="p">)</span>
+<span class="n">client</span><span class="o">.</span><span class="n">logon</span><span class="p">()</span>
+
+<span class="n">TOPIC</span> <span class="o">=</span> <span class="s2">&quot;topic&quot;</span>
+<span class="n">DATA</span>  <span class="o">=</span> <span class="p">[{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;string_data&quot;</span><span class="p">:</span><span class="s2">&quot;string_data&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+
+<span class="c1"># initialize vector of data to publish by</span>
+<span class="c1"># dumping the dictionaries to JSON strings</span>
+
+<span class="n">vector</span> <span class="o">=</span> <span class="p">[</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">DATA</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+
+<span class="c1"># Set up the parameters to be passed to a C</span>
+<span class="c1"># function as explained in the ctype documentation</span>
+<span class="n">param</span> <span class="o">=</span> <span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">vector</span><span class="p">))()</span>
+<span class="n">param</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">vector</span>
+
+<span class="c1"># Call the function</span>
+<span class="n">module</span><span class="o">.</span><span class="n">vector_publish</span><span class="p">(</span><span class="n">client</span><span class="p">,</span><span class="n">TOPIC</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The sample above creates an array of dictionaries and creates an array
+of JSON objects from those dictionaries.</p>
+<p>In this case, it is important for us to control how the array of JSON
+objects is passed to the C function. We need to pass an array of C-style
+strings, that is, <code class="docutils literal"><span class="pre">const</span> <span class="pre">char**</span></code>. To control how the array is
+marshalled, the sample creates an object that knows how to translate
+between a Python array and <code class="docutils literal"><span class="pre">const</span> <span class="pre">char**</span></code>, then assigns the array to
+that object (see the <code class="docutils literal"><span class="pre">ctype</span></code> documentation for full details). Once we
+have that object, we simply call the <code class="docutils literal"><span class="pre">vector_publish</span></code> function. None
+of the Python infrastructure is visible to the <code class="docutils literal"><span class="pre">vector_publish</span></code>
+function: that function is able to use the provided data as native C++
+data.</p>
+</div>
+</div>
+<div class="section" id="transport-filtering">
+<h2>Transport Filtering<a class="headerlink" href="#transport-filtering" title="Permalink to this headline">¶</a></h2>
+<p>The AMPS Python client offers the ability to filter incoming and
+outgoing messages in the format they are sent and received on the
+network. This allows you to inspect or modify outgoing messages before
+they are sent to the network, and incoming messages as they arrive from
+the network. This can be especially useful when using SSL connections,
+since this gives you a way to monitor outgoing network traffic before it
+is encrypted, and incoming network traffic after it is decrypted.</p>
+<p>To create a transport filter, you create a callable that expects a
+string that contains the raw data, and a direction parameter indicating
+whether the string is output or not. For example, the following function
+simply prints the direction and data:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">printing_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">direction</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">direction</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INCOMING ---&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;OUTGOING ---&gt; </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You then register the filter by calling <code class="docutils literal"><span class="pre">set_transport_filter</span></code> with
+the callable, as shown below.</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># client is an AMPS client</span>
+<span class="n">client</span><span class="o">.</span><span class="n">set_transport_filter</span><span class="p">(</span><span class="n">printing_filter</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Notice that the transport filter function is called with the verbatim
+contents of data received from AMPS. This means that, for incoming data,
+the function may not be called precisely on message boundaries, and that
+the binary length encoding used by the client and server will be presented
+to the transport filter.</p>
+</div>
+<div class="section" id="working-with-binary-data">
+<h2>Working with Binary Data<a class="headerlink" href="#working-with-binary-data" title="Permalink to this headline">¶</a></h2>
+<p>A <code class="docutils literal"><span class="pre">Message</span></code> object contains two methods for retrieving the message
+payload:</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">get_data()</span></code> returns the payload as a string</li>
+<li><code class="docutils literal"><span class="pre">get_data_raw()</span></code> returns the payload as bytes</li>
+</ul>
+<p>If you are working with binary data that is not guaranteed to be
+valid UTF-8, use the <code class="docutils literal"><span class="pre">get_data_raw</span></code> method to avoid errors
+when attempting to encode the data to a string.</p>
+</div>
+<div class="section" id="using-ssl">
+<span id="index-2"></span><h2>Using SSL<a class="headerlink" href="#using-ssl" title="Permalink to this headline">¶</a></h2>
+<p>The AMPS Python client includes support for Secure Sockets Layer. To use
+this support in the Python client using the default OpenSSL implementation
+for the Python installation, you need only use <code class="docutils literal"><span class="pre">tcps</span></code> for the
+transport type in the connection string.</p>
+<p>If your Python client does not have a default OpenSSL implementation,
+you must load an SSL implementation as described below. This is
+typically the case for Windows Python builds, and may be the case if
+your site uses a custom build of Python on Linux.</p>
+<div class="section" id="loading-a-different-ssl-implementation">
+<h3>Loading a Different SSL Implementation<a class="headerlink" href="#loading-a-different-ssl-implementation" title="Permalink to this headline">¶</a></h3>
+<p>The Python client also allows you to load and use an OpenSSL implementation
+other than the default implementation for the Python installation. The
+AMPS Python client provides the method ssl_init, which takes the name
+of the library to load or a full path to the file that contains the
+library. For example, to load the SSL implementation at
+<code class="docutils literal"><span class="pre">/opt/mycorp/trusted/vetted_ssl.so</span></code>, you could use the following line
+of code:</p>
+<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">AMPS</span><span class="o">.</span><span class="n">ssl_init</span><span class="p">(</span><span class="s2">&quot;/opt/mycorp/trusted/vetted_ssl.so&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You must load the SSL library before making the connection.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2022, 60East Technologies, Inc..
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.5.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

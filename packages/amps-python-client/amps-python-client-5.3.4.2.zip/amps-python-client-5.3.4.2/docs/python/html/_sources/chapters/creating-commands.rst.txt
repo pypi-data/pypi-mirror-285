@@ -1,0 +1,159 @@
+10. AMPS Programming: Working with Commands
+===========================================
+
+The AMPS clients provide named convenience methods for core AMPS
+functionality. These named methods work by creating messages and sending
+those messages to AMPS. All communication with AMPS occurs through
+messages.
+
+You can use the ``Command`` object to customize the messages that AMPS
+sends. This is useful for more advanced scenarios where you need precise
+control over the message, or in cases where you need to use an earlier
+version of the client to communicate with a more recent version of AMPS,
+or in cases where a named method is not available.
+
+Understanding AMPS Messages
+---------------------------
+
+AMPS messages are represented in the client as ``AMPS.Message`` objects. The
+``Message`` object is generic and can represent any type of AMPS message,
+including both outgoing and incoming messages. This section includes a
+brief overview of elements common to AMPS command messages. Full details
+of commands to AMPS are provided in the *AMPS Command Reference Guide*.
+
+All AMPS command messages contain the following elements:
+
+-  **Command** - The *command* tells AMPS how to interpret the message.
+   Without a command, AMPS will reject the message. Examples of commands
+   include ``publish``, ``subscribe``, and ``sow``.
+
+-  **CommandId** - The *command ID*, together with the name of the client,
+   uniquely identifies a command to AMPS. The command ID can be used
+   later on to refer to the command or the results of the command. For
+   example, the command ID for a ``subscribe`` message becomes the
+   identifier for the subscription. The AMPS client provides a command
+   ID when the command requires one and no command ID is set.
+
+Most AMPS messages contain the following fields:
+
+-  **Topic** - The *topic* that the command applies to, or a regular
+   expression that identifies a set of topics that the command applies
+   to. For most commands, the topic is required. Commands such as
+   ``logon``, ``start_timer``, and ``stop_timer`` do not apply to a
+   specific topic, and do not need this field.
+
+-  **Ack Type** - The *ack type* tells AMPS how to acknowledge the message
+   to the client. Each command has a default acknowledgment type that
+   AMPS uses if no other type is provided.
+
+-  **Options** - The ``options`` are a comma-separated list of options
+   that affect how AMPS processes and responds to the message.
+
+Beyond these fields, different commands include fields that are relevant
+to that particular command. For example, SOW queries, subscriptions, and
+some forms of SOW deletes accept the **Filter** field, which specifies
+the filter to apply to the subscription or query. As another example,
+publish commands accept the **Expiration** field, which sets the SOW
+expiration for the message.
+
+For full details on the options available for each command and the
+acknowledgment messages returned by AMPS, see the *AMPS Command
+Reference Guide*.
+
+Creating and Populating the Command
+-----------------------------------
+
+To create a command, you simply construct a command object of the
+appropriate type:
+
+.. code:: python
+
+    command = AMPS.Command("sow")
+
+Once created, you set the appropriate fields on the command. For
+example, the following code creates a SOW query, setting the
+command, topic, and filter for the query:
+
+.. code:: python
+
+    command = AMPS.Command("sow")                                   \
+                 .set_topic("messages-sow")                         \
+                 .set_filter("/id > 20")  
+
+When sent to AMPS using the ``execute()`` method, AMPS performs a SOW
+query from the topic ``messages-sow`` using a filter of ``/id > 20``.
+The results of sending this message to AMPS are no different than using
+the form of the ``sow`` method that sets these fields.
+
+Using Execute
+-------------
+
+Once you've created a command, use the ``execute`` method to send the
+command to AMPS. One form of the ``execute`` method returns a
+``MessageStream`` that you can use from the calling thread to process
+responses from AMPS. The other form, ``execute_async`` method, sends the
+message to AMPS, waits for a ``processed`` acknowledgment, then returns.
+Messages are processed on the client background thread.
+
+For example, the following snippet sends the command created above:
+
+.. code:: python
+
+    client.execute(command)
+
+This returns a ``MessageStream`` identical to the ``MessageStream``
+returned by the equivalent ``client.sow()`` method.
+
+You can also provide a message handler to receive acknowledgments,
+statistics, or the results of subscriptions and SOW queries. The AMPS
+client maintains a background thread that receives and processes
+incoming messages. The call to ``execute_async`` returns on the main
+thread as soon as AMPS acknowledges the command as having been
+processed, and messages are received and processed on the background
+thread:
+
+.. code:: python
+
+    def handleMessages(m):
+       print ("%s : %s" % (m.get_ack_type(), m.get_reason()))
+       # other message handling here
+
+    client.execute_async(command, handleMessages)
+
+While this message handler simply prints the ack type and reason for
+sample purposes, message handlers in production applications are
+typically designed with a specific purpose. For example, your message
+handler may fill a work queue, or check for success and throw an
+exception if the command failed.
+
+Using Execute to Publish
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Notice that the ``publish`` command typically does not return
+results other than acknowledgment messages. To send a ``publish``
+command, use the ``execute_async()`` method, providing ``None`` for the
+message handler:
+
+.. code:: python
+
+    client.execute_async(publishCmd, None)
+
+Since the code sets the message handler to ``None``, this code does not
+receive acknowledgments. To detect publish failures, set the
+``FailedWriteHandler`` for the client.
+
+Command Cookbook
+----------------
+
+This section is a quick guide to commonly used AMPS commands. For the
+full range of options on AMPS commands, see the *AMPS Command
+Reference*.
+
+.. include:: ./cookbook-publish.inc
+.. include:: ./cookbook-subscribe.inc
+.. include:: ./cookbook-sow.inc
+.. include:: ./cookbook-sow-and-subscribe.inc
+.. include:: ./cookbook-delta-publish.inc
+.. include:: ./cookbook-delta-subscribe.inc
+.. include:: ./cookbook-sow-and-delta-subscribe.inc
+.. include:: ./cookbook-sow-delete.inc
