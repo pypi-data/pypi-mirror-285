@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: banner_HaramSs
+Version: 0.3.1
+Summary: Banner Output Program
+Author-email: HaramSs <haram8274@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/HaramSs/python
+Project-URL: Issues, https://github.com/HaramSs/python/issues
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: pyfiglet>=1.0.2
+
+# banner_HaramSs
+
+Usage
+pyfiglet can be used is python code:
+
+```bash
+from pyfiglet import Figlet
+f = Figlet(font='slant')
+print(f.renderText('text to render'))
+
+```
+or
+
+```bash
+import pyfiglet
+f = pyfiglet.figlet_format("text to render", font="slant")
+print(f)
+```
+found new font
+
+```bash
+pyfiglet -L <font file>
+```
+
+root access to install the font
+
+```bash
+sudo pyfiglet -L <font file>
+```
+
