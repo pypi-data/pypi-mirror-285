@@ -1,0 +1,19 @@
+[project]
+name = "nish_cmd"
+version = "0.3.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "NishNovae", email = "raecrowned@gmail.com"},
+]
+dependencies = [
+    "nish-lotto>=0.2.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+nish-cmd = "nish_cmd.cmd:call"
+
+[tool.pdm]
+distribution = true
