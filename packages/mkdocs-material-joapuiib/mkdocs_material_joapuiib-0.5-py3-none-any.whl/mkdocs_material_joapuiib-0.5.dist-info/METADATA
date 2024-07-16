@@ -1,0 +1,40 @@
+Metadata-Version: 2.1
+Name: mkdocs-material-joapuiib
+Version: 0.5
+Summary: Custom theme for MkDocs
+Author-email: Joan Puigcerver <joapuiib@gmail.com>
+Maintainer-email: Joan Puigcerver <joapuiib@gmail.com>
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+Requires-Dist: mkdocs >=1.6
+Requires-Dist: mkdocs-material >=9.5.28
+Requires-Dist: mkdocs-awesome-pages-plugin >=2.9.2
+Requires-Dist: mkdocs-macros-plugin >=1.0.5
+Requires-Dist: mkdocs-git-revision-date-localized-plugin >=1.2.6
+Requires-Dist: mkdocs-static-i18n >=1.2.3
+
+# mkdocs-material-joapuiib
+Tema de [MkDocs](https://www.mkdocs.org/) basat en [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/)
+per a la creació de material didàctic.
+
+Podeu veure una demostració del tema a [joapuiib.github.io/mkdocs-material-joapuiib](https://joapuiib.github.io/mkdocs-material-joapuiib/).
+
+## Característiques
+Aquest tema inclou les següents característiques:
+- Portades per als documents amb la plantilla `document.html`.
+- [Admonitions](https://squidfunk.github.io/mkdocs-material/reference/admonitions/): S'inclouen les alertes `docs`, `spoiler` i `solution`.
+- S'habilita per defecte KaTeX per a escriure fórmules matemàtiques.
+
+## Instal·lació
+Aquest tema es pot instal·lar a través de pip:
+
+```bash
+pip install mkdocs-material-joapuiib
+```
+
+Afegeix el següent al teu fitxer de configuració `mkdocs.yml`:
+
+```yaml
+theme:
+  name: 'material-joapuiib'
+```
