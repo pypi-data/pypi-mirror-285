@@ -1,0 +1,327 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "FastAPI",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/v1/imgsync": {
+      "post": {
+        "summary": "Api Imgsync",
+        "description": "Synchronous endpoint for image processing.\nArgs:\n    imgsyncRequest\n        - image: str - image data to be synced, base64-encoded image\n        - lang: str - optional language parameter\n        - token: str - optional authentication token\n\n\nReturns:\n- dict: JSON response containing text extracted from image.",
+        "operationId": "api_imgsync_v1_imgsync_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/imgsyncRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/imgsyncOutput"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/imgasync": {
+      "post": {
+        "summary": "Api Imgasync",
+        "description": "Asynchronous endpoint for image processing.\nArgs:\n    imgasyncRequest\n        - image (str): image data to be processed.\n        - lang (str, optional): language for processing image data. Defaults to None.\n        - token (str, optional): authentication token. Defaults to None.\n\nReturns:\n    dict: JSON response containing running jobid.",
+        "operationId": "api_imgasync_v1_imgasync_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/imgasyncRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/imgasyncOutput"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/imgasyncget": {
+      "post": {
+        "summary": "Api Imgasyncget",
+        "description": "Retrieves an image text based on provided job ID and token.\nArgs:\n    imgasyncGetRequest\n        - jobid (str): ID of job\n        - token (str, optional): authentication token. Defaults to None.\n\nReturns:\n    dict: JSON response containing text extracted from image.",
+        "operationId": "api_imgasyncget_v1_imgasyncget_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/imgasyncGetRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/imgasyncGetOutput"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "title": "HTTPValidationError",
+        "type": "object",
+        "properties": {
+          "detail": {
+            "title": "Detail",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            }
+          }
+        }
+      },
+      "ValidationError": {
+        "title": "ValidationError",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "type": "object",
+        "properties": {
+          "loc": {
+            "title": "Location",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        }
+      },
+      "imgasyncGetOutput": {
+        "title": "imgasyncGetOutput",
+        "required": [
+          "jobid",
+          "text",
+          "status",
+          "ts"
+        ],
+        "type": "object",
+        "properties": {
+          "jobid": {
+            "title": "Jobid",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "ts": {
+            "title": "Ts",
+            "type": "number"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "imgasyncGetRequest": {
+        "title": "imgasyncGetRequest",
+        "required": [
+          "jobid"
+        ],
+        "type": "object",
+        "properties": {
+          "jobid": {
+            "title": "Jobid",
+            "type": "string"
+          },
+          "token": {
+            "title": "Token",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string",
+            "default": ""
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "imgasyncOutput": {
+        "title": "imgasyncOutput",
+        "required": [
+          "jobid",
+          "ts"
+        ],
+        "type": "object",
+        "properties": {
+          "jobid": {
+            "title": "Jobid",
+            "type": "string"
+          },
+          "ts": {
+            "title": "Ts",
+            "type": "number"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string",
+            "default": ""
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "imgasyncRequest": {
+        "title": "imgasyncRequest",
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "title": "Data",
+            "type": "string"
+          },
+          "lang": {
+            "title": "Lang",
+            "type": "string"
+          },
+          "token": {
+            "title": "Token",
+            "type": "string"
+          }
+        }
+      },
+      "imgsyncOutput": {
+        "title": "imgsyncOutput",
+        "required": [
+          "text",
+          "ts"
+        ],
+        "type": "object",
+        "properties": {
+          "text": {
+            "title": "Text",
+            "type": "string"
+          },
+          "ts": {
+            "title": "Ts",
+            "type": "number"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string",
+            "default": ""
+          },
+          "status": {
+            "title": "Status",
+            "type": "string",
+            "default": ""
+          }
+        }
+      },
+      "imgsyncRequest": {
+        "title": "imgsyncRequest",
+        "required": [
+          "data"
+        ],
+        "type": "object",
+        "properties": {
+          "data": {
+            "title": "Data",
+            "type": "string"
+          },
+          "lang": {
+            "title": "Lang",
+            "type": "string"
+          },
+          "token": {
+            "title": "Token",
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

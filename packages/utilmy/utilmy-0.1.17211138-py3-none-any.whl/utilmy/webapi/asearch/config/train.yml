@@ -1,0 +1,197 @@
+
+
+#######################################################################################
+#######################################################################################
+ner_gliner_vTEST:
+  model_name: "urchade/gliner_small"
+
+  #### Data name
+  dataloader_name: "dataTEST_load_prepro"
+  datamapper_name: "dataTEST_create_label_mapper"
+
+  #### Train Args
+  hf_args_train.num_steps: 2
+  hf_args_train.device   : "cpu"
+
+
+ner_gliner_vXX:
+  model_name: "urchade/gliner_small"
+
+  #### Data name
+  dataloader_name: "dataXX_load_prepro"
+  datamapper_name: "dataXX_create_label_mapper"
+
+  #### Train Args
+  hf_args_train.num_steps: 2
+  hf_args_train.device   : "cpu"
+
+
+
+ner_gliner_infer_v1:
+ ner_tags:  ["person", "city", "location", "date", "actor"]
+ dirmodel:  "./ztmp/exp/20240520/235015/model_final/"  
+ dirdata:   "ztmp/data/ner/gliner"  
+ dirout:    "ztmp/out/ner/gliner/"
+
+
+
+#######################################################################################
+multilabel_train_v1:
+  model_name: 'microsoft/deberta-v3-base'
+  #problem_type : "multi_label_classification"  
+  # model_path: 'model_deberta'
+  # model_type: 'deberta'
+  #model_name : 'microsoft/deberta-v3-base'
+  # #### Data name
+  #dataloader_name : "data_MyXXXX_load_datasplit"
+  #datamapper_name : "data_MyXXXX_load_metadict"
+
+
+  # ############# Train Args
+  # aa : Box({})
+  # aa.output_dir : f"{dirout}/log_train"
+  # aa.per_device_train_batch_size : 32
+  # aa.gradient_accumulation_steps : 1
+  # aa.optim : "adamw_hf"
+  # aa.save_steps : min(100,n_train - 1)
+  # aa.logging_steps : min(50,n_train - 1)
+  # aa.learning_rate : 1e-5
+  # aa.max_grad_norm : 2
+  # aa.max_steps : -1
+  # aa.num_train_epochs : 1
+  # aa.warmup_ratio : 0.2  # 20%  total step warm-up
+  # # lr_schedulere_type='constant'
+  # aa.evaluation_strategy : "epoch"
+  # aa.logging_strategy : "epoch"
+  # aa.save_strategy : "epoch"
+  #hf_args_train : copy.deepcopy(aa)
+
+  # ############# Model Args
+  #hf_args_model : {}
+  #hf_args_model.model_name =model_name
+
+
+
+multilabel_train_v2:
+  #### Full training !!!!
+  model_name: 'microsoft/deberta-v3-base'
+  n_train : 12000
+  n_val :   4000
+  dataloader_name : "data_toxic_load_datasplit"
+  datamapper_name : "data_toxicity_load_metadict"
+
+
+
+multilabel_predict_v1:
+  ### export dexp="ztmp/exp/240616/000715-class_deberta-12000"  
+  ### pycat run_infer --nrows 10 --dirmodel "$dexp/model"  --dirdata "$dexp/dfval_pred_labels.parquet"  --dirout "$dexp/predict"
+  ##  pycat run_infer --cfg config/train.yaml     --cfg_name "multilabel_predict_v1"
+  dirmodel: 'ztmp/exp/240616/000715-class_deberta-12000/model'
+  nrows: 100
+  ## dirdata:  'ztmp/data/cats/toxicity/train'
+  ##  dirout:  ztmp/exp/240616/000715-class_deberta-12000/predict/train
+            
+
+multilabel_predict_v2:
+  ##  pycat run_infer_file --cfg config/train.yaml     --cfg_name "multilabel_predict_v2"
+  dirmodel: 'ztmp/exp/240616/000715-class_deberta-12000/model'
+  nrows:    1000000
+  dirdata:  'ztmp/data/cats/toxicity/train'
+  dirout:  ztmp/exp/240616/000715-class_deberta-12000/predict/train
+
+
+
+
+
+#######################################################################################
+############## ner/ner_deberta.py #####################################################
+ner_deberta_v1:
+  model_name: 'microsoft/deberta-v3-base'
+  # #### Data name
+  # dataloader_name : "data_DEFAULT_load_datasplit"     ## Function name for loading
+  # datamapper_name : "data_DEFAULT_load_metadict"  ## Function name for loading
+
+  # n_train : 5  if istest == 1 else 1000000000
+  # n_val   : 2  if istest == 1 else 1000000000
+
+  # #### Train Args
+  # aa.output_dir                  : f"{dirout}/log_train"
+  # aa.per_device_train_batch_size : 8
+  # aa.gradient_accumulation_steps : 1
+  # aa.optim                       : "adamw_hf"
+  # aa.save_steps                  : min(100, n_train-1)
+  # aa.logging_steps               : min(50,  n_train-1)
+  # aa.learning_rate               : 2e-5
+  # aa.max_grad_norm               : 2
+  # aa.max_steps                   : -1
+  # aa.num_train_epochs            : 3
+  # aa.warmup_ratio                : 0.2 # 20%  total step warm-up
+  # # lr_schedulere_type='constant'
+  # aa.evaluation_strategy : "epoch"
+  # aa.logging_strategy    : "epoch"
+  # aa.save_strategy       : "epoch"
+  # hf_args_train : copy.deepcopy(aa)
+
+  # ### HF model
+  # hf_args_model : {}
+  # hf_args_model.model_name : model_name
+
+
+
+ner_deberta_NERgeo:
+  model_name: 'microsoft/deberta-v3-base'
+  model_path: 'model_deberta'
+  model_type: 'deberta'
+  dirin: 'ztmp/data/ner/NERgeo/'
+
+  dataloader_name: "data_NERgeo_load_datasplit"
+  datamapper_name: "data_NERgeo_load_metadict"
+
+
+
+#############################################################################################
+# #### Legal Doc dataset Prep 
+# cd asearch 
+# export PYTHONPATH="$(pwd)"    
+# alias pyner="python nlp/ner/ner_deberta.py "
+# export dirdata="./ztmp/data/ner/legaldoc"
+
+#    pyner data_legalDoc_json_to_parquet  --dir_json $dirdata/raw/NER_VAL.json     --dirout  $dirdata/val/df_val.parquet
+#    pyner data_legalDoc_json_to_parquet  --dir_json $dirdata/raw/NER_TRAIN.json   --dirout  $dirdata/train/df_train.parquet
+#    pyner data_legalDoc_create_metadict  --dirin $dirdata     --dir_meta  $dirdata/meta/meta.json
+
+
+ner_deberta_legaldoc:
+  #### test purpose
+  model_name: 'microsoft/deberta-v3-base'
+  # dirin: 'ztmp/data/ner/legaldoc/'
+  dataloader_name: "data_legalDoc_load_datasplit"
+  datamapper_name: "data_legalDoc_load_metadict"
+
+
+
+ner_deberta_legaldoc_v2:
+  ####### Train
+  #    pyner run_train --dirout ./ztmp/exp/ --cfg config/train.yml --cfg_name ner_deberta_legaldoc_v2
+
+  ##### logs:
+  #     Config: Loading  config/train.yml
+  #     ###### Overide by config ner_deberta_legaldoc_v2 ####################
+  #     {'model_name': 'microsoft/deberta-v3-base', 'dataloader_name': 'custom/ddata.py:
+
+  model_name: 'microsoft/deberta-v3-base'
+  #### Function are outside of ner_deberta -- Need : export PYTHONPATH="$(pwd)"    
+  dataloader_name: "custom/ddata.py:data_legalDoc_load_datasplit"
+  datamapper_name: "custom/ddata.py:data_legalDoc_load_metadict"
+  n_train : 5000  ###
+  n_val   : 200  ###
+
+
+
+#-------------------------------Few-short-Setfit--------------------
+
+few_shot_setfit_scientific:
+  model_name: "knowledgator/comprehend_it-base"
+
+
+

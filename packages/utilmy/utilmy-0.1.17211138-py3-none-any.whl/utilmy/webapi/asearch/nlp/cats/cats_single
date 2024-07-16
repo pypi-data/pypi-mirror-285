@@ -1,0 +1,1417 @@
+"""  
+## Install
+     pip install utilmy fire
+
+    cd  utilmy/webapi/asearch
+    export PYTHONPATH="$(pwd)"
+
+    ### Diskcache Enable
+    export CACHE_ENABLE="1"   
+        
+   ### data location     
+       mkdir -p ztmp/data/cats/news/train_gpt2/
+
+
+"""
+
+if "import":
+    import os, sys, json, pandas as pd,numpy as np, gc, time
+    import copy, random
+    from copy import deepcopy
+    from typing import Optional, Union
+    from box import Box
+    from tqdm import tqdm
+    from functools import partial
+
+    from datasets import load_dataset, DatasetDict, Dataset
+    from sklearn.metrics import classification_report
+
+    from transformers import (AutoTokenizer, AutoModelForSequenceClassification,    
+       TrainingArguments, Trainer, pipeline, DataCollatorWithPadding,
+       BertModel, EarlyStoppingCallback
+    )
+
+    # from sentence_transformers import SentenceTransformer
+    import torch, evaluate
+    import torch.nn as nn
+
+    from  utils.util_exp import (exp_create_exp_folder, 
+            exp_config_override, exp_get_filelist,json_save, log_pd,
+            torch_device)
+
+    from utils.utilmy_base import diskcache_decorator, log_pd
+    from utilmy import (pd_read_file, os_makedirs, pd_to_file, date_now, glob_glob, config_load,
+                       json_save, json_load, log, log2, loge)
+
+
+
+from dataclasses import dataclass
+
+
+################################################################################
+def data_load_news():
+   df = pd_read_file("ztmp/data/cats/news/train/*.parquet")
+   df = df[-df.L4_cat.isna() ]
+   df = df[  df.news_text.str.len() > 100 ]
+   df = df[ -df.news_text.str.contains("Error") ]
+   df = df[ -df.news_text.st_r.contains("error") ]
+   df = df[ -df.url.str.contains("sp-edge.com")]
+   df = df[ df.apply( lambda x :  x['com_name'].lower()  in x['news_text'].lower() , axis=1 ) ]
+
+   log(df.shape)
+
+   df = pd_com_rerank(df)
+   log(df.shape)
+
+   df.index = [i for i in range(len(df))]
+   return df 
+
+
+def data_filter_com(df, tags='microsoft'):
+   def fun(x, tag):
+       x1 = x['com_name'].lower()
+       x2 = x['com_name2'].lower()
+       if tag  in x1:  return True
+       if tag  in x2: return True
+       #if 'amazon web' in x1: return True
+       #if 'amazon web' in x2: return True
+       return False
+   
+   if isinstance(tag,str):
+       tags = tags.split(",")
+
+   elif isinstance(tags, list):
+       pass    
+
+   dfnew= pd.DataFrame()
+   for tag in tags: 
+      df1 = df[ df.apply(lambda x:  fun(x, tag) , axis=1) ]
+      log(tag, len(df1))
+      dfnew = pd.concat((dfnew, d1))
+
+   log('filtered',tag, dfnew.shape)
+   return dfnew
+
+
+def data_label_encoder(df, cc, colabel):
+    """
+
+    #cc = data_label_encoder(df, cc)
+    onehot=False
+    if onehot:
+        #### To Onehot
+        def to_onehot(xstr):
+            zero, one = 0.0, 1.0  ## HFace needs float !!
+            labels_onehot = [float(zero)] * cc.num_labels
+            
+            if isinstance(xstr, str):
+                  xstr = xstr.split(",")
+                  
+            for label in xstr:
+                ### If mising, One Label INDEX for unknown
+                label_id = L2I.get(label, cc.num_labels - 1)
+                # log("label_id:",label,  label_id)
+                labels_onehot[label_id] = one  #
+
+            return labels_onehot
+        df['label_onehot'] = df['label'].apply(lambda x : to_onehot( x['label']) )    
+
+    else: 
+
+    """
+    ###### Label  Setup  #############################
+    df = df.rename(columns={colabel : 'label'}, )    
+    df = df[ -df['label'].isna()] 
+    df['label'] = df['label'].apply(lambda x : x.lower().replace('_', ' '))  
+    log('\nLabel removeNA: ', df.shape)
+
+    ##### Get label2key from all dataset  ###################
+    _, label2key = pandas_to_hf_dataset_key(df)
+    cc.label2key = label2key
+    cc.key2label = {  idx: label       for label, idx in label2key.items()     }
+
+    cc.classes = [''] * len(label2key)
+    for label, idx in label2key.items()  :
+        cc.classes[idx] = label 
+
+    cc.num_labels =  len(cc.classes)   
+    log('Nunique classes: ', cc.num_labels ) 
+    return cc 
+
+
+def data_common(df, cc, istrain=1):        
+
+    #### Label Encoding ###############################
+    df['label_text'] = df['label']
+    # df['label']      = df['label_text'].apply(lambda x:  ",".join([label2key.get(xi) for xi in str(x).split(",") ] ))
+    df['label']      = df['label_text'].apply(lambda x: cc.label2key.get(x, -1 ) )
+
+    #### Frequency                ######################
+    log('Nunique label: ',df['label'].nunique()  )
+    d2   = df.apply(lambda x: f"{x['label_text']}-{x['label']}", axis=1 )
+    freq = d2.value_counts().reset_index()
+    log("\n\n", freq)
+    cc.label_freq = str(freq)
+
+
+    ##### Train test split    ########################## 
+    df = df[['text', 'label']]
+
+    if istrain == 0 :
+        dataset = Dataset.from_pandas(df)
+        return dataset,None,df,cc
+    
+    #### Size
+    ntest  = min(100, cc.n_test)
+    ntrain = len(df) - ntest
+
+
+    #### Train
+    train_dataset = Dataset.from_pandas(df.iloc[ :ntrain, :])
+    log(f'train.shape: {train_dataset.shape}',)
+
+
+    #### Test
+    test_dataset = Dataset.from_pandas( df.iloc[ ntrain:, : ] )
+    log(f'test.shape:  {test_dataset.shape}' ,)
+    log('text:  ', test_dataset['text'][0]  )
+    log('label: ', test_dataset['label'][0] )    
+
+
+    dataset      = DatasetDict({"train":train_dataset,"test": test_dataset})    
+    return dataset,test_dataset, df, cc
+
+
+
+
+###############################################################################
+######## level 4   ############################################################
+def data_L4_train(data0, cc, istrain=1): 
+    """ 
+    """
+    df = data0
+    log('\nReduce Size: ', df.shape)
+    colabel = "L4_cat"
+
+
+    ###### Label  Setup  #############################
+    df = df.rename(columns={colabel: 'label'}, )    
+    df = df[ -df['label'].isna()] 
+    df = df[ -df['label'].str.len() < 6 ] 
+    df['label'] = df['label'].apply(lambda x : x.lower().replace('_', ' '))  
+    log('\nLabel After removeNA: ', df.shape)
+
+    ###### Text Setup  ###############################
+    def funm(x):    
+        # ss = f"{x['label']}. {x['news_title']}.  {x['news_text']}. "  ### Check if OVerfit
+        # ss = f"{x['news_title']}.  {x['news_text']}. "        
+        ss = f" {x['L1_cat']}.  {x['L2_cat']}. {x['L4_cat']}.   {x['gpt_tags']}.  {x['gpt_text']}. "        
+        ss = ss[:2048].strip()
+        return ss    
+     
+    df["text"] = df.apply(lambda x: funm(x), axis=1)
+    df = df[df.text.str.len() > 100 ] ### Fitler out bad text
+    df = df[ df.apply( lambda x :  x['com_name'].lower()  in x['text'].lower() , axis=1 ) ]
+
+    log(df["text"].head(1))
+    log(df.shape)
+  
+    # log(df['label'].values)
+    ## df = df.groupby('label').apply(lambda x: x.sample(n=5, random_state=42, replace=True)).reset_index(drop=True)
+
+    return data_common(df, cc)
+
+
+###############################################################################
+######## level 3   ############################################################
+
+@diskcache_decorator
+def data_L3_train(data0, cc, istrain=1): 
+    """ 
+    """
+    df = data0
+    log('\nReduce Size: ', df.shape)
+    colabel = "L3_cat"
+
+
+    ###### Label  Setup  #############################
+    df = df.rename(columns={colabel: 'label'}, )    
+    df = df[ -df['label'].isna()] 
+    df = df[ -df['label'].str.len() < 6 ] 
+    df['label'] = df['label'].apply(lambda x : x.lower().replace('_', ' '))  
+    log('\nLabel After removeNA: ', df.shape)
+
+    ###### Text Setup  ###############################
+    def funm(x):    
+        # ss = f"{x['label']}. {x['news_title']}.  {x['news_text']}. "  ### Check if OVerfit
+        # ss = f"{x['news_title']}.  {x['news_text']}. "        
+        ss = f" {x['L1_cat']}.  {x['L2_cat']}.   {x['gpt_tags']}.  {x['gpt_text']}. "        
+        ss = ss[:2048].strip()
+        return ss    
+     
+    df["text"] = df.apply(lambda x: funm(x), axis=1)
+    df = df[df.text.str.len() > 100 ] ### Fitler out bad text
+    df = df[ df.apply( lambda x :  x['com_name'].lower()  in x['text'].lower() , axis=1 ) ]
+
+    log(df["text"].head(1))
+    log(df.shape)
+  
+    # log(df['label'].values)
+    ## df = df.groupby('label').apply(lambda x: x.sample(n=5, random_state=42, replace=True)).reset_index(drop=True)
+
+    return data_common(df, cc, istrain=istrain)
+
+
+########################################################################
+######### L2 level category ############################################
+@diskcache_decorator
+def data_L2_train(data0, cc, istrain=1): 
+    """ 
+    """
+    #### Filter Data
+    #df = pd.DataFrame()
+    #ll = [ 'microsoft', 'amazon web service', ]
+    #'apple', 'google', 'nvidia' ]
+    #for name in ll:
+    #   d1   = data_filter_com( deepcopy(data0), tag=name)
+    #   df = pd.concat((df, d1))
+
+    df = data0
+    log('\nReduce Size: ', df.shape)
+
+    colabel = "L2_cat"
+
+
+    ###### Label  Setup  #############################
+    df = df.rename(columns={colabel: 'label'}, )    
+    df = df[ -df['label'].isna()] 
+    df = df[ -df['label'].str.len() < 6 ] 
+    df['label'] = df['label'].apply(lambda x : x.lower().replace('_', ' '))  
+    log('\nLabel After removeNA: ', df.shape)
+
+    ###### Text Setup  ##############################
+    def funm(x):    
+        # ss = f"{x['label']}. {x['news_title']}.  {x['news_text']}. "  ### Check if OVerfit
+        # ss = f"{x['news_title']}.  {x['news_text']}. "        
+        # ss = f"{x['gpt_tags']}.  {x['gpt_text']}. "        
+        ss = f"{x['text_train']}"        
+        ss = ss[:2048].strip()
+        return ss    
+     
+    df["text"] = df.apply(lambda x: funm(x), axis=1)
+    df = df[df.text.str.len() > 100 ] ### Fitler out bad text
+    df = df[ df.apply( lambda x :  x['com_name'].lower()  in x['text'].lower() , axis=1 ) ]
+
+    log(df["text"].head(1))
+    log(df.shape)
+  
+    # log(df['label'].values)
+    ## df = df.groupby('label').apply(lambda x: x.sample(n=5, random_state=42, replace=True)).reset_index(drop=True)
+
+    return data_common(df, cc, istrain=istrain)
+
+
+
+########################################################################
+######### L1 level category ############################################
+@diskcache_decorator
+def data_L1_train(data0, cc, istrain=1): 
+    """ 
+    """
+    df = data0
+    log('\nReduce Size: ', df.shape)
+
+
+    ###### Label  Setup  #############################
+    df = df.rename(columns={'L1_cat': 'label'}, )    
+    df = df[ -df['label'].isna()] 
+    df['label'] = df['label'].apply(lambda x : x.lower().replace('_', ' '))  
+    log('\nLabel removeNA: ', df.shape)
+
+
+    ###### Text Setup  ##############################
+    def funm(x):    
+        # ss = f"{x['label']}. {x['news_title']}.  {x['news_text']}. "  ### Check if OVerfit
+        # ss = f"{x['news_title']}.  {x['news_text']}. "        
+        ss = f"{x['text_train']}"        
+        ss = ss[:2048].strip()
+        return ss    
+     
+    df["text"] = df.apply(lambda x: funm(x), axis=1)
+    df = df[ df.apply(lambda x: len(x['text']) > 50 , axis=1) ]
+    df = df[ df.apply(lambda x: x['com_name'] in x['text'], axis=1 ) ]    
+    log(df["text"].head(1))
+  
+    # log(df['label'].values)
+    ## df = df.groupby('label').apply(lambda x: x.sample(n=5, random_state=42, replace=True)).reset_index(drop=True)
+
+    return data_common(df, cc, istrain)
+
+
+
+
+def hf_tokenized_data_clean(tk_ds, cols_remove1=None):
+    ll = [ 'input_ids', 'token_type_ids', 'attention_mask', 'labels' ]
+
+    if 'train' in tk_ds:
+        cols_remove = [  ci   for ci in tk_ds['train'].column_names if ci not in ll  ]
+
+    tk_ds       = tk_ds.remove_columns(cols_remove)
+    log(tk_ds)
+    log('labels: ', tk_ds['train']['labels'][0] )
+    return tk_ds
+
+
+def tokenize_singlerow(rows, tokenizer, num_labels, label2key):
+    """
+      # tokenize2 = partial(tokenize_singlerow, num_labels=cc.num_labels, label2key=cc.label2key)
+      # tk_ds = dataset.map(partial( tokenize2)) # , batched=False)
+
+    """
+    out = tokenizer( rows["text"], truncation=True, max_length=2048, )
+             # padding=True, 
+             # max_length=2048, 
+    xval = rows['label']
+    if isinstance(xval, str):
+         xval = xval.split(',')
+    elif isinstance(xval, list):
+         pass 
+    else :
+         xval = [xval]    
+   
+    if isinstance(xval, list):            
+        ones = [0. for i in range(num_labels)]
+        for label_idx in xval :
+           ones[label_idx] = 1.
+
+    out['labels'] = ones
+    #     # ones = torch.tensor(ones, dtype=torch.float)
+    return out
+
+
+############################################################################### 
+def run_train_single(istest=1, dirout="./ztmp/exp/L1_cat/v3deber/" ):
+    """  multi_label_prediction ONLY
+         
+        python  src/cat_single.py  run_train_single --istest 1  2>&1 | tee -a ztmp/exp/log_exp_L1_single.py  
+         
+
+        python  src/cat_single.py  run_train_single --istest 0  2>&1 | tee -a ztmp/exp/log_exp_L2_single.py 
+
+
+        python src/cat_single.py  run_eval --istest 0       
+
+        # cc.model = cc.checkpoint  
+             train 2 epochs llama3
+             train 1 epoch  Gemma ## too easy for Level 1
+             train 1 epoch llama3 + raw text
+
+        #### Details
+        export  PYTORCH_MPS_HIGH_WATERMARK_RATIO="0.0" 
+         pip install python-box fire
+         pip install fire
+
+         What I need :
+            1)create helper functions/code for HuggingFace Trainer / workflow
+              to simplify/help the loggging of checkpoint /reload...
+               Re-usable helper.
+
+      
+
+    """
+
+
+    checkpoint = None
+    checkpoint = "ztmp/exp/L2_cat/deberV3/train/checkpoint-4500"
+
+
+    cc = json_load( f'{checkpoint}/meta.json') if checkpoint is not None else {}
+    cc = Box(cc)
+
+
+    log("\n###### User default Params   ###################################")
+    if "config":    
+        # cc = Box()
+        # cc.model_name='BAAI/bge-base-en-v1.5'   
+        # cc.model_name = 'knowledgator/comprehend_it-base'  
+        # cc.model_name="sileod/deberta-v3-large-tasksource-nli"
+        cc.model_name ="MoritzLaurer/deberta-v3-base-zeroshot-v2.0"
+        # cc.model_name ="microsoft/deberta-v3-base"
+
+
+        dirout  = "./ztmp/exp/L2_cat/deberV3/"
+        cc.task = "L2_cat"  
+        cc.datafun_name = "data_L2_train"
+        cc.colabel = 'L2_cat'
+        cc.coltext = 'text'
+
+
+        cc.epochs = 2
+        cc.device = torch_device("cpu")      
+
+        cc.per_device_train_batch_size = 4
+        cc.max_length = 1024  # 1024  #1024
+ 
+
+        ### Need sample to get enough categories
+        cc.n_train = 20   if istest == 1 else 1000000000
+        cc.n_test  = 10   if istest == 1 else int(cc.n_train*0.1)
+
+        cc.save_steps = 500
+        cc.eval_steps = 100
+
+        cc.early_stop = 200
+
+
+        if 'params':
+            cc.checkpoint = checkpoint 
+            cc.problem_type =  "single_label_classification" ### Hard-Coded
+            cc.dirout            = dirout
+            cc.dirout_checkpoint =  cc.dirout + '/train'
+            cc.dirout_log        =  cc.dirout + '/log'
+            cc.dirout_model      =  cc.dirout + '/model'
+            
+            #### Trainer Args ############################################
+            aa = Box({})
+            aa.output_dir    = cc.dirout_checkpoint
+            aa.logging_dir   = cc.dirout_log
+            aa.logging_steps = 10
+
+            aa.per_device_train_batch_size = cc.per_device_train_batch_size 
+            aa.per_device_eval_batch_size  = cc.per_device_train_batch_size
+
+            aa.gradient_accumulation_steps = 1
+            aa.optim                       = "adamw_hf"
+            aa.learning_rate               = 2e-5
+            aa.max_grad_norm               = 2
+            aa.max_steps                   = -1
+            aa.warmup_ratio                = 0.2 # 20%  total step warm-up
+            # lr_schedulere_type='constant'
+            aa.evaluation_strategy    = "steps"
+            aa.save_strategy          = "steps"
+            aa.load_best_model_at_end = True
+
+            aa.num_train_epochs  = cc.epochs
+            aa.logging_steps     = min(50,  cc.n_train-1)
+            aa.eval_steps=   cc.eval_steps      
+            aa.save_steps=   cc.save_steps
+
+            cc.hf_args_train = copy.deepcopy(aa)
+
+            os_makedirs(cc.dirout_log)
+            os_makedirs(cc.dirout_checkpoint)
+            os_makedirs(cc.dirout + "/model")        
+
+
+    log("\n##### Data load  #########################################")
+    ##  array(['llama3_7b', 'gemma8b', 'raw', 'llama3_7b_notag']
+    df = pd_read_file("ztmp/data/cats/news/train_gpt2/*.parquet")
+    df = df[df['origin'].isin(['llama3_7b', 'llama3_7b_notag', 'gemma8b' ])] 
+    # df = df[df['origin'].isin([ 'raw', 'llama3_7b',  ])] 
+    df = df.rename(columns= {"text_gpt2": 'text_train'} )
+
+    # df['text_train'] = df.apply(lambda x: f" {x['L1_cat']}. {x['text_train']}", axis=1 )
+
+    # df = df.iloc[:100, :]
+
+
+
+
+
+    log(df.columns, df.head(1).T, "\n\n")
+    log("\n##### data encoding  #########################################")
+    from utilmy import load_function_uri
+    dataload_fun = load_function_uri(cc.datafun_name,  globals() )
+
+    if 'label2key' not in cc :
+        ### Label2index encoding  : prevent encoding issues mismatch
+        cc = data_label_encoder(df, cc, colabel= cc.colabel) 
+
+    dataset, test_dataset, df, cc = dataload_fun(df, cc) 
+    del df; gc.collect()
+
+    cc.num_labels = len(cc.classes)
+    log('N_labels used:', cc.num_labels, len(cc.label2key), len(cc.key2label) )
+
+
+    log("\n###################load Tokenizer #############################")
+    torch_init()
+    tokenizer = AutoTokenizer.from_pretrained(cc.model_name)    
+
+    def tokenize_batch(rows, num_labels, label2key, problem_type):
+        out = tokenizer( rows["text"],truncation=True,  
+                        # padding=True, 
+                        # max_length= cc.max_length, 
+                  )
+
+        ##### Direct Integer encoding
+        #if problem_type == 'single_label_classification':
+        #    out['labels'] = rows['label'] ### No OneHot for Single Label
+        #    return out
+
+        # ##### Label_idx into Multi-Label OneHot encoding ######## 
+        ll   = []
+        sample_list = rows['label']
+        for row in sample_list:
+            ones = [0. for i in range(num_labels)]
+            
+            # if isinstance(row, str):
+            #     row = row.split(",")
+                
+            if isinstance(row, int):
+                ### 1 text ---> 1 Single Tags 
+                ones[ row ] = 1.
+                ll.append(ones)
+
+            # elif isinstance(row, list):
+            #     ### 1 text ---> Many Label Tags
+            #     for vali in row:
+            #         idx = label2key[vali] if isinstance(vali, str) else vali 
+            #         ones[ vali ] = 1.   ### Float for Trainer
+            #     ll.append(ones )                  
+        out['labels'] = ll
+        return out
+
+
+    log(cc.problem_type) 
+    tk_batch2 = partial(tokenize_batch, num_labels=cc.num_labels, label2key=cc.label2key, 
+                        problem_type=cc.problem_type)
+    tk_ds     = dataset.map(tk_batch2 , batched=True)
+
+    log('##### \ntk_ds', tk_ds)
+    log(tk_ds['test'][0]['labels'], "\n")
+
+    ### need to remove for Single prediction
+    #if cc.problem_type == 'multi_label_prediction':
+    #   ### Problem of offset with single_label in OneHot and multi_label in onehot 
+    # log(tk_ds)
+    # tk_ds         = hf_tokenized_data_clean(tk_ds, cols_remove1=None)
+    tk_ds       = tk_ds.remove_columns(['text'])
+    tk_ds       = tk_ds.remove_columns(['__index_level_0__'])    
+    log(tk_ds)
+    # tk_ds, tokenizer, num_labels = ds_token1()    
+
+    from transformers import DataCollatorWithPadding
+    data_collator = DataCollatorWithPadding(tokenizer=tokenizer, 
+                              max_length= cc.max_length, padding='max_length' )
+    del dataset; gc.collect()     
+
+
+    log("\n###################load model #############################")
+    model = AutoModelForSequenceClassification.from_pretrained(cc.model_name, 
+                      num_labels= cc.num_labels,
+                      # id2label= cc.key2label, label2id= cc.label2key,
+                      problem_type= cc.problem_type, ### Hard Coded, cannot Change
+                      ignore_mismatched_sizes=True)
+    model.config.max_position_embeddings = cc.max_length
+
+    ##### Set up training
+    # from transformers import AdamW
+    # optimizer = AdamW(model.parameters(), lr=1e-5)
+
+    args    = TrainingArguments(**cc.hf_args_train )
+    trainer = Trainer( model=model, args=args, tokenizer=tokenizer,
+        train_dataset   = tk_ds['train'],
+        eval_dataset    = tk_ds['test'],
+        # data_collator   = data_collator,
+        compute_metrics = compute_single_accuracy_f1,
+        callbacks       = [EarlyStoppingCallback(early_stopping_patience= cc.early_stop )],
+
+        # optimizers=(optimizer, None)  # Pass optimizer, no scheduler
+    )
+
+    log("\n###################Train: start #############################")
+    cc_save(cc, cc.dirout) 
+    log("#### Checkpoint: ", cc.checkpoint)
+    trainer_out = trainer.train(resume_from_checkpoint= cc.checkpoint)
+
+    hf_save_checkpoint(trainer,  f"{cc.dirout}/model", cc )
+    evals = trainer.evaluate()
+    cc['trainer_eval']    = str(evals)
+    cc['trainer_metrics'] = trainer_out.metrics
+    cc_save(cc, cc.dirout)
+    del trainer; del model; gc.collect()
+
+
+
+def cc_save(cc, dirout):
+    flist = [ f'{dirout}/meta.json',  f'{dirout}/train/meta.json',
+              f'{dirout}/model/meta.json'  ]
+    for fi in flist :
+        log(fi)
+        json_save(cc, fi)
+
+    os_copy_current_file( f"{dirout}/train/train.py")    
+
+
+def os_copy_current_file(dirout):
+    import os, shutil
+    try:
+       current_file = os.path.abspath(__file__)
+       shutil.copy2(current_file, dirout)
+    except Exception as e:
+       log(e)
+   
+
+
+
+from transformers import TrainerCallback
+class CustomSaveCallback(TrainerCallback):
+    def on_save(self, args, state, control, **kwargs):
+        """ When doing Checkpoint /saving:
+             Need to save more extra information INSIDE the checkpoint Folder.
+               --> current training train.py
+               --> meta.json
+
+             --> checkpoint contains ALL the needed information to re-train...
+
+              do you see why ?
+
+              cc = box(cc) --> contains ALL params + mapping + all; into JSON.
+              cc.XXYYUEEE.  
+
+              cc Dictionnary of all params --> must be save inside the checkpoint too.
+
+             The checkpoint becomes Self-Indepneant : All we need is inside the checkpoint folder...
+                easy to re-start,  send to somebody else
+                Very useful 
+
+              utils_huggingface.py
+                 with many utils functions/class to simplify the training management.
+
+                 
+
+ 
+              json_save(cc, )
+
+        
+        """
+        import os
+        if state.is_world_process_zero:
+            # Get the checkpoint folder path
+            try:
+               dircheckpoint = os.path.join(args.output_dir, f"checkpoint-{state.global_step}")      
+               os_copy_current_file(dircheckpoint +"/train.py")                        
+               print(f"Saved custom info to {dircheck}")
+
+
+               #### other meta info inside the checkpoint folder....
+
+
+
+            except Exception as e:
+               log(e)   
+        
+        return control
+
+
+
+
+def zextra():
+
+    ### Increase the head task
+    model.classifier = nn.Sequential(
+        nn.Linear(model.config.hidden_size, 512),
+        nn.ReLU(),
+        nn.Linear(512, num_labels)
+    )
+
+
+
+
+############################################################################### 
+def data_eval_v1(df,  cc, istrain=0, max_length=512, colabel=''):
+
+    #### Label
+    df['label'] = df[colabel]
+    df['label'] = df['label'].apply(lambda x: str(x).lower().replace("_", " ") )
+    df['label'] = df['label'].apply(lambda x: cc.label2key.get(x, -1) )
+
+    #### Frequency                ######################
+    log('Nunique label: ',df['label'].nunique()  )
+    d2   = df.apply(lambda x: str(x[colabel]) + ":" + str(x['label']) , axis=1 )
+    freq = d2.value_counts().reset_index()
+    log("\n\n", freq)
+    cc.label_freq = str(freq)
+    log('labels: \n', df['label'])
+
+    log("Removing None - 1 label")
+    log(df.shape)
+    df = df[ df['label'] > -1 ]
+    log(df.shape)
+
+
+    #### Text
+    df['text'] = df['text_gpt']
+    if "L2" in colabel:
+        df['text'] = df.apply(lambda x: f"{x['L1_cat']}. {x['text']} ", axis=1 )
+
+    if "L3" in colabel:
+        df['text'] = df.apply(lambda x: f"{x['L1_cat']}. {x['L2_cat']}. {x['text']} ", axis=1 )
+
+    if "L4" in colabel:
+        df['text'] = df.apply(lambda x: f"{x['L1_cat']}. {x['L2_cat']}. {x['L3_cat']}. {x['text']} ", axis=1 )
+
+    log("Max text size: ", max_length)    
+    df['text'] = df['text'].apply(lambda x: x[:max_length] )
+    log('Text:\n',  df['text'])
+
+    #### Final    
+    df         = df[['text','label' ]]
+
+    dataset      = None
+    test_dataset = None
+    return dataset, test_dataset,df,cc
+
+    
+def run_eval(cfg='config/train.yml', cfg_name='classifier_data', 
+              dirout:  str = "./ztmp/exp",
+              dirdata: str = './ztmp/data/cats/cat_name/train/',
+              istest=1):
+    """ 
+    
+       python  src/cat_single.py  run_eval --istest 0        2>&1 | tee -a ztmp/exp/log_eval_l2.py 
+                 
+    
+    """
+    istest=0
+    log("\n###### User default Params   ###################################")
+
+    dirdata  = "ztmp/data/cats/news/train_gpt2/*.parquet"
+
+    
+    # dirmodel = './ztmp/exp/L4_cat/deberV3/model_v2/'
+    # dirmodel = './ztmp/exp/L4_cat/deberV3/train/checkpoint-10500-backup'
+    # dataprepro_name = "data_L4_train"    
+
+    # if "### L1 Eval":
+    #     dirmodel = "/Users/kevin.noel/gitdev/agen/gen_dev/aigen/ztmp/exp/L1_cat/deberV3/train_single_Ok/checkpoint-3800"
+    #     # dirmodel ="/Users/kevin.noel/gitdev/agen/gen_dev/aigen/ztmp/exp/L1_cat/deberV3/train_OK_single/checkpoint-4000"
+    #     # dirmodel="/Users/kevin.noel/gitdev/agen/gen_dev/aigen/ztmp/exp/L1_cat/deberV3/train/checkpoint-4000"
+    #     #dirmodel     = './ztmp/exp/L1_cat/deberV3/train_multi_v2/checkpoint-3000'
+    #     # datafun_name = "data_L1_train"    
+    #     datafun_name = "data_eval_v1"    
+    #     colabel ="L1_cat"
+
+    if "### L2 Eval":
+        dirmodel = "/Users/kevin.noel/gitdev/agen/gen_dev/aigen/ztmp/exp/L2_cat/deberV3/train_OK/checkpoint-5000"
+        # datafun_name = "data_L1_train"    
+        datafun_name = "data_eval_v1"    
+        colabel ="L2_cat"
+
+
+
+    log("\n################### Config Load  ##############################")
+    cc = json_load(dirmodel +"/meta.json")
+    if cc is None or len(cc) < 1 :
+       cc = json_load(dirmodel +"/../../config.json") #### Checkpoint
+       #if cc is None : return
+
+     
+    cc = Box(cc) ; log("cc.keys", cc.keys() )
+    cc.dirmodel     =  dirmodel
+    cc.colabel      =  colabel
+
+    cc.n_train = 10 if istest == 1 else 10000000 
+    cc.n_test  = 1  if istest == 1 else 100000 
+    cc.batch_size = 8
+
+
+    device          = torch_device("mps")
+    cc.dirdata      =  dirdata
+    cc.datafun_name =  datafun_name
+    cc.task         =  HFtask.text_classification
+    cc.dirout       = cc.dirmodel +'/eval/'
+
+
+    #### Mapping with Real Label names
+    cc.key2label = { int(key): label for key,label in cc.key2label.items() }
+    label2idx, idx2label = cc.label2key, cc.key2label 
+    classes_idx = [label2idx[li] for li in cc.classes ] 
+    log('cc:',str(cc.classes)[:100])
+
+
+    log("\n###################load dataset #############################")    
+    from utilmy import load_function_uri
+
+    df0 = pd_read_file(cc.dirdata)
+    log(df0.columns, df0.head(1).T, "\n")
+    
+
+    dataload_fun   = load_function_uri( cc.datafun_name,  globals() )
+    _, _, df, cc = dataload_fun(df0, cc, istrain=0, colabel = cc.colabel ) 
+    dataset0 = Dataset.from_pandas(df[['text', 'label']])   
+
+    log("\n################## Load model #############################")
+    tokenizer = AutoTokenizer.from_pretrained(cc.model_name)
+    pipe     = pipeline(cc.task, model=f"{cc.dirmodel}",tokenizer=tokenizer, device=device,
+                      batch_size= cc.batch_size, return_all_scores=True,)
+
+    #### Mapping with Internal Pytorch Mapping
+    label2id, id2label, max_length= hf_model_get_mapping(model= f"{cc.dirmodel}" )
+
+
+    log("\n################### Accelerate setup ##########################")
+    accelerator = accelerator_init(device=device)
+    pipe        = accelerator.prepare(pipe)
+            
+
+    log("\n################### Start inference ##########################")
+    dataset = dataset_reduce(dataset0, 5000) #   ntrain= cc.ntrain)
+
+    ibatch     = 512
+    batch_size = 16
+    t0 = time.time()
+    predictions = [] ; 
+    with torch.no_grad():
+        for i in range(0, 1+len(dataset), ibatch):
+            res = pipe(dataset["text"][i:i+ibatch], batch_size= batch_size)
+            if len(res)< 1: break
+            log(f"Block {i}. Pred:", str(res[0])[:80] )
+            predictions = predictions + res     
+    log('Npred:', len(predictions), time.time()-t0)
+
+
+    log("\n################### Start Label Mapping ###########################")
+    if cc.task == HFtask.text_classification :
+            ### 2Dim: each prediction --> (label_id, score)
+            preds_2d   = [ np_sort([(label2id[ x["label"] ], x["score"])  for x in  pred_row ], col_id=1)  for pred_row in predictions]
+
+            ### Best Top1 prediction
+            pred_labels_top1 = [  np_argmax(x,1)[0]  for x in preds_2d   ] ## Argmax on Score
+            dfp = pd.DataFrame({ 'text':       dataset['text'], 
+                                 'label_idx' : dataset['label'], 
+                                 'pred_idx'  : pred_labels_top1 } )
+
+            dfp['label'] = dfp['label_idx'].apply(lambda x : idx2label.get(x, "NA") )
+            dfp['pred']  = dfp['pred_idx'].apply( lambda x : idx2label.get(x, "NA") )
+            log(dfp[[ 'label_idx', 'label_idx'  ]]) 
+            log(dfp[[ 'label', 'pred'  ]]) 
+
+
+            #### 2Dim : NBatch x N_labels
+            dfp['pred_2d_idx'] = [ [ str(x[0]), str(x[1]) ] for x in  preds_2d ]
+
+            preds_2d_label       = [ np_sort([( idx2label.get( label2id[ x["label"] ], ""), str(x["score"]) )   for x in  pred_row ], col_id= 1)  for pred_row in predictions]
+            dfp['pred_2d_label'] = preds_2d_label
+
+
+            #### For metrics
+            dfp[[ 'text', 'label_idx', 'pred_idx', 'pred', 'label', 'pred_2d_idx', 'pred_2d_label' ]].shape
+            true_idx_1D = dfp['label_idx'].values 
+            pred_idx_1D = dfp['pred_idx'].values
+
+
+    elif cc.task == HFtask.zeroshot_classifier :
+            true_labels = dataset["label"]
+            pred_labels = [ x['labels'][ [ np.argmax(x['scores']) ] ] for x in predictions]
+
+            dfp =[]
+            for row in predictions :
+               dfp.append( [row['labels'], row['scores'] ])
+            dfp = pd.DataFrame( dfp, columns=['labels', 'scores'] )
+            dfp['text']  = dataset['text']
+            dfp['label'] = dataset['label']
+
+    pd_to_file(dfp, f"{cc.dirout}/df_pred_{len(dfp)}.parquet", show=1 )
+    pd_to_file(dfp.sample(n=30, replace=True), f"{cc.dirout}/df_pred_sample.csv", show=0, sep="\t" )
+
+
+    log("\n################### Start Metrics ##########################")    
+    if "metric":
+        #from utilmy.webapi.asearch.utils.util_metrics import metrics_eval
+        #metrics = metrics_eval(true_labels, pred_labels, metric_list=['accuracy', 'f1', 'precision', 'recall'])
+        #print(metrics)
+        accuracy = accuracy_metric.compute(references=true_idx_1D, predictions=pred_idx_1D)['accuracy']
+        f1       = f1_metric.compute(references=true_idx_1D, predictions=pred_idx_1D, average='micro')['f1']
+
+        from sklearn.metrics import classification_report
+        txt = classification_report(true_idx_1D, pred_idx_1D, 
+                                  target_names= cc.classes,
+                                  labels      = classes_idx,                                            
+                                  digits=4)
+
+        txt += f"\n\nAccuracy: {accuracy}, \nF1 Score: {f1}" 
+        log(txt)
+        with open(f"{cc.dirout}/metrics.txt", mode='w') as fp:
+            fp.write(txt)
+
+
+def model_pred_torch(pipe, cc):
+    pass
+
+
+def model_eval_zeroClassifier(model, dataset, cc, dirout, imin=0, imax=100000, istrain=0): 
+    log("\n################### Start inference ##########################")
+    pred0 = []
+    ymd,hm = date_now(fmt="%y%m%d-%H%M").split("-")
+    dirout0 = dirout + f"/preds/{ymd}/{hm}"
+        
+    rr = {'report': []}    
+
+    label2idx   = cc.label2key
+    idx2label   = cc.key2label
+    classes_idx = [label2idx[li] for li in cc.classes ] 
+    for ii, example in enumerate(tqdm(dataset)):
+        if ii < imin: continue
+        pred_dd = model(example['text'], cc.classes)
+        if ii == 0: log(pred_dd)
+        pred0.append([ example['text'], example['label'], pred_dd['labels'], pred_dd['scores'] ])
+        
+        #if ii % 20 == 0 : 
+        #    pi = pd.DataFrame(pred0, columns=['text', 'true', 'pred_labels', 'pred_scores'])                 
+        #    pd_to_file(pi,  f"{dirout0}/ztmp/preds_{ii}_{len(pi)}.parquet", show=0)
+
+        if ii % 100 == 0 or ii == min(imax, len(dataset)-1) :  
+
+            if istrain == 1:       
+               ## In train the label == index_label !!! 
+               preds = pd.DataFrame(pred0, columns=['text', 'true_idx', 'pred_labels', 'pred_scores'])    
+               preds['true']    = preds.apply(lambda x:  idx2label.get(x['true_idx'], -1), axis=1)                                 
+
+            else: ### In Pred: opposite.
+               preds = pd.DataFrame(pred0, columns=['text', 'true', 'pred_labels', 'pred_scores'])    
+               preds['true_idx'] = preds.apply(lambda x:  label2idx.get(x['true'], -1), axis=1)                                 
+
+            preds['pred']     = preds.apply(lambda x:  x['pred_labels'][  np.argmax(x['pred_scores']) ], axis=1) 
+            # preds['pred']     = preds.apply(lambda x:  x['pred_labels'][ argmax_score(x['pred_scores'])] , axis=1) 
+            preds['pred_idx'] = preds.apply(lambda x:  label2idx.get(x['pred'], -1), axis=1) 
+            log(preds[[ 'true', 'pred'    ]])  
+            log(preds.head(1).T)
+
+            pd_to_file(preds, f"{dirout0}/preds_{ii}_{len(preds)}.parquet", show=1)
+            try:      
+                dfi = preds[ (preds.true_idx > -1) & (preds.pred_idx > -1) ]   
+                log(dfi[[ 'true_idx', 'pred_idx', 'true', 'pred'    ]])
+                txt = classification_report(dfi['true_idx'].values, dfi['pred_idx'].values, 
+                                          target_names= cc.classes,
+                                          labels      = classes_idx,                                            
+                                          digits=4)
+                log(txt)
+                with open(f"{dirout0}/report.txt", mode='a') as fp:
+                    fp.write(txt +"\n\n\n----------------------")  
+            except Exception as e: 
+                loge(e)
+
+        if ii > imax: break                 
+
+
+def hf_model_load_checkpoint(dir_checkpoint):
+    from transformers import AutoModelForSequenceClassification
+
+    model = AutoModelForSequenceClassification.from_pretrained(dir_checkpoint, num_labels=2)
+    checkpoint = torch.load( dir_checkpoint )
+    model.load_state_dict(checkpoint, strict=False)
+    return model 
+
+
+
+
+
+####################################################################################
+def pandas_to_hf_dataset_key(df: pd.DataFrame, shuffle=False, seed=41) -> Dataset:
+    data = Dataset.from_pandas(df)
+    if shuffle:
+        data = data.shuffle(seed=seed)
+    ids = []
+    label2count = {}
+    
+    for id, example in enumerate(data):
+        if example['label'] not in label2count:
+            label2count[example['label']]=1
+        else:
+            label2count[example['label']]+=1
+    
+    label_key = list(label2count.keys())
+    label_key = sorted(label_key, key=lambda x: label2count[x])
+    
+    label_key = {
+        k: index for index, k in enumerate(label_key)
+    }
+    return Dataset.from_pandas(df), label_key
+
+
+def save_hf_dataset(dataset: Dataset, path: str):
+    dataset.save_to_disk(path)
+
+
+def transform_dataset(dataset, classes, template = '{}'):
+   new_dataset = {'sources':[], 'targets': [], 'labels': []}
+
+   texts = dataset['text']
+   labels = dataset['label']
+
+   label2count = {}
+   for label in labels:
+       if label not in label2count:
+           label2count[label]=1
+       else:
+           label2count[label]+=1
+   count = len(labels)
+   label2prob = {label:lc/count for label, lc in label2count.items()}
+   unique_labels = list(label2prob)
+   probs = list(label2prob.values())
+
+   ids = list(range(len(labels)))
+   for text, label_id in zip(texts, labels):
+       label = classes[label_id]
+       for i in range(len(classes)-1):
+           new_dataset['sources'].append(text)
+           new_dataset['targets'].append(template.format(label))
+           new_dataset['labels'].append(1.)
+
+       for i in range(len(classes)-1):
+           neg_class_ = label
+           while neg_class_==label:
+               # neg_class_ = random.sample(classes, k=1)[0]
+               neg_lbl = np.random.choice(unique_labels, p=probs)
+               neg_class_ = classes[neg_lbl]
+
+           new_dataset['sources'].append(text)
+           new_dataset['targets'].append(template.format(neg_class_))
+           new_dataset['labels'].append(-1.)
+   return Dataset.from_dict(new_dataset)
+
+
+def tokenize_and_align_label(example, tokenizer):
+   hypothesis = example['targets']
+
+   seq = example["sources"]+hypothesis
+
+   tokenized_input = tokenizer(seq, truncation=True, max_length=512, 
+                                                    padding="max_length")
+
+   label = example['labels']
+   if label==1.0:
+       label = torch.tensor(1.0)
+   elif label==0.0:
+       label = torch.tensor(2.0)
+   else:
+       label = torch.tensor(0.0)
+   tokenized_input['label'] = label
+   return tokenized_input
+
+
+
+def get_train_dataset(dataset, N):
+    ids = []
+    label2count = {}
+    train_dataset = dataset['train'].shuffle(seed=41)
+    for id, example in enumerate(train_dataset):
+        if example['label'] not in label2count:
+            label2count[example['label']]=1
+        elif label2count[example['label']]>=N:
+            continue
+        else:
+            label2count[example['label']]+=1
+        ids.append(id)
+    return train_dataset.select(ids)
+
+
+
+
+##################################################################
+def hf_save_model_with_checkpoint(trainer, dirout):
+
+    trainer.save_state()
+    trainer.save_pretrained(dirout)
+
+
+
+
+def hf_model_get_mapping(model='mymodel'):
+    from transformers import AutoConfig
+
+    config = AutoConfig.from_pretrained(model)
+
+    log(config)
+
+    label2id   = config.label2id
+    id2label   = config.id2label
+    max_length = config.max_position_embeddings
+    log('mdoel: ', str(label2id)[:100] )    
+    log('model: max_length ', max_length)
+    return label2id, id2label, max_length
+
+
+@dataclass
+class HFtask:
+    text_classification     : str = "text-classification"
+    token_classification    : str = "token-classification"
+    question_answering      : str = "question-answering"
+    summarization           : str = "summarization"
+    translation             : str = "translation"
+    text_generation         : str = "text-generation"
+    fill_mask               : str = "fill-mask"
+    zero_shot_classification: str = "zero-shot-classification"
+    sentence_similarity     : str = "sentence-similarity"
+    feature_extraction      : str = "feature-extraction"
+    text2text_generation    : str = "text2text-generation"
+    conversational          : str = "conversational"
+    table_question_answering: str = "table-question-answering"
+
+
+@dataclass
+class HFproblemtype:
+    CAUSAL_LM                  : str = "causal_lm"
+    MASKED_LM                  : str = "masked_lm"
+    SEQ_2_SEQ_LM               : str = "seq2seq_lm"
+    SEQUENCE_CLASSIFICATION    : str = "sequence_classification"
+    QUESTION_ANSWERING         : str = "question_answering"
+    TOKEN_CLASSIFICATION       : str = "token_classification"
+    MULTIPLE_CHOICE            : str = "multiple_choice"
+    SEMANTIC_SEGMENTATION      : str = "semantic_segmentation"
+    MULTI_LABEL_CLASSIFICATION : str = "multi_label_classification"
+    MASK_GENERATION            : str = "mask_generation"
+    SINGLE_LABEL_CLASSIFICATION: str = "single_label_classification"
+
+
+
+def torch_init():
+
+    try:
+        print( torch.mps.current_allocated_memory() )
+        torch.mps.empty_cache()
+    except Exception as e :
+       log(e)    
+
+
+
+
+##################################################################
+######### Metrics ################################################
+f1_metric       = evaluate.load("f1")
+accuracy_metric = evaluate.load("accuracy")
+clf_metric      = evaluate.combine(["accuracy", "f1", "precision", "recall"])
+
+
+######## Multi ###########################################
+def compute_multi_accuracy(eval_pred):
+    """  list of OneHot_vector !!! 2D vector
+    """
+    preds_score_2D, labels_2D_onehot = eval_pred        ### 2D vector
+    pred_labels_idx = np.argmax(preds_score_2D, axis=1) ### need reduction
+    labels_idx      = np.argmax(labels_2D_onehot,      axis=1)
+    
+    acc = accuracy_metric.compute(predictions=pred_labels_idx, references= labels_idx)
+    return {  "accuracy": acc["accuracy"], }
+
+
+def compute_multi_accuracy_f1(eval_pred):
+    """  list of OneHot_vector !!! 2D vector
+
+    """
+    preds_score_2D, labels_2D_onehot = eval_pred        ### 2D vector
+    pred_labels_idx = np.argmax(preds_score_2D, axis=1) ### need reduction
+    labels_idx      = np.argmax(labels_2D_onehot,      axis=1)
+    
+    acc      = accuracy_metric.compute(predictions=pred_labels_idx, references= labels_idx)
+    f1_micro = f1_metric.compute(predictions=pred_labels_idx,       references= labels_idx, average='micro')["f1"]
+
+
+    # Compute F1 per class
+    f1_per_class = f1_metric.compute(predictions=pred_labels, references=ref_labels, average=None)['f1']
+    
+    # Create a dictionary with class names (adjust based on your number of classes)
+    class_names       = [f"class_{i}" for i in range(len(f1_per_class))]
+    f1_per_class_dict = {f"f1_{name}": score for name, score in zip(class_names, f1_per_class)}
+
+    return {  "accuracy":     acc["accuracy"],
+              "f1_micro":     f1_micro,
+              "f1_per_class": f1_per_class_dict 
+            }
+
+
+
+def compute_multi_accuracy_hamming(eval_pred):
+    from sklearn.metrics import hamming_loss
+    preds_score, labels = eval_pred
+
+
+    pred_labels = [ [ pi>0.5 for pi in pred ] for pred in preds_score ] # np.argmax(predictions, axis=1)
+    ham_list    = []
+    for pred, label in zip(preds_score, labels):
+        ham_values = 1 - hamming_loss(labels, preds_score)
+        ham_list.append( ham_values)
+
+    return {
+        "accuracy_hamming": float( np.sum(ham_list) )
+    }
+
+
+
+def metrics_multi(eval_pred):
+
+   def sigmoid(x):
+       return 1/(1 + np.exp(-x))
+
+   preds_score, labels = eval_pred
+   preds_proba = sigmoid(preds_score)
+   preds  = (preds_proba > 0.5).astype(int).reshape(-1)
+   labels = labels.astype(int).reshape(-1)
+   dd =  clf_metric.compute(predictions=preds, references=labels)
+   return dd
+
+######## Single ###########################################
+def compute_single_(eval_pred, accuracy_fn):
+   predictions, labels = eval_pred
+   predictions = np.argmax(predictions, axis=1)
+   return accuracy_fn.compute(predictions=predictions, references=labels)
+
+
+def compute_single_accuracy_f1(eval_pred):
+    pred_2D, labels = eval_pred
+    pred_1D = pred_2D.argmax(axis=-1)
+    
+    accuracy = accuracy_metric.compute(predictions=pred_1D, references=labels)["accuracy"]
+    f1       = f1_metric.compute(predictions=pred_1D, references=labels, average="macro")["f1"]
+    return {   "accuracy": accuracy,  "f1": f1, }
+    
+    
+def compute_single_metrics_f1_acc_perclass(eval_pred):
+    predictions, labels = eval_pred
+    predictions = predictions.argmax(axis=-1)
+    
+    accuracy = accuracy_metric.compute(predictions=predictions, references=labels)["accuracy"]
+    f1       = f1_metric.compute(predictions=predictions, references=labels, average="macro")["f1"]
+    
+    # Compute F1 per class
+    f1_per_class = f1_metric.compute(predictions=predictions, references=labels, average=None)['f1']
+    
+    # Create a dictionary with class names (adjust based on your number of classes)
+    class_names       = [f"class_{i}" for i in range(len(f1_per_class))]
+    f1_per_class_dict = {f"f1_{name}": score for name, score in zip(class_names, f1_per_class)}
+    
+    return {   "accuracy": accuracy,
+               "f1": f1,
+               **f1_per_class_dict
+            }
+    
+
+
+####################################
+def classification_report_v2(y_true, y_pred, labels=None, target_names=None, digits=4):
+
+    from sklearn.metrics import confusion_matrix
+
+    report = classification_report(y_true, y_pred, labels=labels, target_names=target_names, output_dict=True, digits=digits)
+    cm     = confusion_matrix(y_true, y_pred, labels=labels)
+    per_class_accuracy = cm.diagonal() / cm.sum(axis=1)
+    
+    for i, label in enumerate(labels or range(len(per_class_accuracy))):
+        report[str(label)]['accuracy'] = per_class_accuracy[i]
+    
+    return report
+
+
+def check1():
+    """ 
+      MoritzLaurer/deberta-v3-large-zeroshot-v2.0
+
+
+
+
+
+    """
+
+
+
+
+
+##################################################################
+def hf_save_checkpoint(trainer, output_dir, cc ):
+    import os, shutil
+
+    # Save the model
+    trainer.save_model(output_dir)
+    
+    #if save_model_every_epoch:
+    #    epoch = trainer.state.epoch
+    #    checkpoint_dir = f"{output_dir}/checkpoint-{epoch}"
+    #    trainer.save_model(checkpoint_dir)
+    
+    #### Save the trainer state in the same directory
+    trainer.save_state()
+    
+    #### Move state files to the model directory
+    json_save(cc, f'{output_dir}/meta.json', show=0)  ### Required when reloading for   
+
+    log('Moving trainer state to model dir')
+    state_files = ['optimizer.pt', 'scheduler.pt', 'trainer_state.json', 'rng_state.pth']
+    for file in state_files:
+        src = os.path.join(trainer.args.output_dir, file)
+        dst = os.path.join(output_dir, file)
+        if os.path.exists(src):
+            shutil.move(src, dst)
+
+
+def dataset_reduce(dataset, ntrain: int = 10, ntest: int = 5) :
+    
+    if  isinstance(dataset, DatasetDict) :  
+        return DatasetDict({
+            'train':  dataset['train'].select(range(ntrain)),
+            'test':   dataset['test'].select(range(ntest))
+        })
+    else:
+        return dataset.select(range(ntrain))
+    
+
+def accelerator_init(device="cpu", model=None):
+    from accelerate import Accelerator
+    try: 
+       accelerator = Accelerator(cpu=True if device == "cpu" else False)
+       return accelerator
+    except Exception as e:
+       log(e) 
+
+
+def np_argmax(tuple_list, col_idx=1):
+    idx= np.argmax([t[col_idx] for t in tuple_list])
+    return tuple_list[ idx] 
+
+
+def np_sort(tuples, col_id=0, desc=1):
+    return sorted(tuples, key=lambda x: float(x[col_id]), reverse=True if desc == 1 else False)
+
+def argmax_score(scores):
+    return max(range(len(scores)), key=scores.__getitem__)
+
+
+
+   
+      
+###################################################################################################
+if __name__ == "__main__":
+    import fire
+    fire.Fire()
+
+
+
+
+
+
+
+
+
+
+# class MultiLabelMultiClassModel(nn.Module):
+#     def __init__(self, num_labels_list):
+#         super().__init__()
+#         self.bert = SentenceTransformer('bert-base-uncased').bert
+#         self.classification_heads = nn.ModuleList([
+#             nn.Linear(self.bert.config.hidden_size, num_labels) for num_labels in num_labels_list
+#         ])
+
+#     def forward(self, input_ids, attention_mask):
+#         outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
+#         pooled_output = outputs.pooler_output
+#         logits = [head(pooled_output) for head in self.classification_heads]
+#         return logits
+
+# # Example usage:
+# model = MultiLabelMultiClassModel(num_labels_list=[3, 4])  # Assuming 3 classes for first label set, 4 for second
+# input_ids = torch.tensor([[101, 1024, 102]])  # Example input
+# attention_mask = torch.tensor([[1, 1, 1]])    # Example attention mask
+# logits = model(input_ids, attention_mask)
+
+

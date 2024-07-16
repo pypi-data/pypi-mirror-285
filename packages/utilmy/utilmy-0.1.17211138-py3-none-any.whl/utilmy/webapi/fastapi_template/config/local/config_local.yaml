@@ -1,0 +1,45 @@
+profile_name: 'dev'    ###  Profile for cloud service
+
+
+#### Server Parameters  ###########################################
+service:
+  host:  0.0.0.0    ## 86400    ### 24*3600
+  port:     7919    ## 3600     ### 1*3600
+
+storage_name: "diskcache"
+
+
+entrypoints:
+   imgsync:
+      max_image_size: 10000
+
+   imgasync:
+      max_image_size: 10000
+
+
+######################################################################
+engine:
+  ocr:
+    tessaract:
+       maxsize: 10 
+
+  nlp:
+    sentiment:
+       maxsize: 10 
+
+
+
+
+######################################################################
+diskcache:
+  cache_path : "/tmp/diskcache/"
+  cache_max_size: 1000000000
+
+
+redis:
+  user:   user
+  host:   127.0.0.1
+  port:   6379
+  ports:  '6379'
+
+
