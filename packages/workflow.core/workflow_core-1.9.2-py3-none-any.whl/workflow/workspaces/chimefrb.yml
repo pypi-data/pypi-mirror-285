@@ -1,0 +1,54 @@
+workspace: chimefrb
+
+sites:
+  - local
+  - chime
+  - kko
+  - gbo
+  - hco
+  - aro
+  - canfar
+  - cedar
+  - calcul-quebec
+
+http:
+  baseurls:
+    buckets:
+      - http://frb-vsop.chime:8004
+      - https://frb.chimenet.ca/buckets
+    results:
+      - http://frb-vsop.chime:8005
+      - https://frb.chimenet.ca/results
+    pipelines:
+      - http://frb-vsop.chime:8007
+      - https://frb.chimenet.ca/pipelines
+    loki: https://frb.chimenet.ca/loki/loki/api/v1/push
+    # This is the prefix url to make a output data plot or product accessible to the user
+    products: https://frb.chimenet.ca/frb-master/v1/events/query-file?filename=
+
+archive:
+  posix:
+    base: "/data/frb-archiver"
+    buckets: "/data/frb-archiver/buckets"
+    results: "/data/frb-archiver/results"
+    pipelines: "/data/frb-archiver/pipelines"
+    loki: "/data/frb-archiver/loki"
+    products: "/data/frb-archiver/products"
+  s3:
+    minio:
+      url: "https://s3.us-west-2.amazonaws.com/frb-archiver"
+
+config:
+  archive:
+    results: true
+    plots:
+      methods: ["move", "delete"] # Defines the methods enabled by the workspace admin
+      storage: "s3"
+      permissions: List[Linux Groups]?
+    products:
+      methods: ["move", "delete"] # Can also be copy or delete
+      storage: "posix"
+  logging:
+    loki:
+      site: "local"
+      pipeline: "temp"
