@@ -1,0 +1,21 @@
+[project]
+name = "xaal.homekit"
+version = "0.2"
+description = "xAAL devices for Homekit"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "homekit"]
+dependencies = ["xaal.lib", "aiohomekit"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.homekit"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/HomeKit/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/HomeKit"
