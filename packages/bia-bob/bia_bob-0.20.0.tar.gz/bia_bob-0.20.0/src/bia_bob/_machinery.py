@@ -1,0 +1,267 @@
+from IPython.core.magic import register_line_cell_magic
+from ._utilities import keep_available_packages, is_notebook
+import warnings
+
+DEFAULT_MODEL = 'gpt-4o-2024-05-13'
+DEFAULT_VISION_MODEL = 'gpt-4o-2024-05-13'
+BLABLADOR_BASE_URL = 'https://helmholtz-blablador.fz-juelich.de:8000/v1'
+OLLAMA_BASE_URL = 'http://localhost:11434/v1'
+
+class Context:
+    variables = None
+    model = None
+    vision_model = None
+    verbose = False
+    chat = []
+    client = None
+    vision_client = None
+    plugins_enabled = True
+    seed = None # openai only
+    temperature = None # openai only
+    endpoint = None
+    api_key = None
+
+    libraries = keep_available_packages([
+        "scikit-image",
+        "numpy",
+        "scipy",
+        "pandas",
+        "matplotlib",
+        "seaborn",
+        "scikit-learn",
+        "stackview",
+        "torch",
+        "pytorch-lightning",
+        "cellpose",
+        "stardist",
+        "n2v",
+        "pyclesperanto-prototype",
+        "pyclesperanto_prototype",
+        "apoc",
+        "napari-segment-blobs-and-things-with-membranes",
+        "napari-simpleitk-image-processing",
+        "napari-skimage-regionprops",
+        "skan",
+        "aicsimageio",
+        "os",
+        "dask",
+        "dask_image",
+        "czifile",
+        "cudf",
+        "cupy",
+        "pyclesperanto",
+        "pathlib"
+        # to add libraries here, add their pypi package names (not their import names)
+    ])
+
+
+def bob(line: str = None, cell: str = None):
+    """Sends a prompt to openAI
+    and shows the text and code response
+    and pastes the code into the next cell.
+    """
+    from IPython.core.getipython import get_ipython
+    from IPython.display import display
+    from ._utilities import generate_response_to_user, output_text, is_image, generate_response
+    from ._notebook_generation import generate_notebook, generate_file
+
+    if Context.model is None:
+        init_assistant()
+
+    if line in Context.variables and is_image(Context.variables[line]):
+        image = Context.variables[line]
+        image_name = line
+    else:
+        image = None
+
+    user_input = combine_user_input(line, cell)
+
+    if user_input is None:
+        display("Please ask a question!")
+        return
+
+    TASK_TYPE_OTHER = 1
+    TASK_TYPE_CODE_GENERATION = 1
+    TASK_TYPE_TEXT_RESPONSE = 2
+    TASK_TYPE_NOTEBOOK_GENERATION = 3
+    TASK_TYPE_NOTEBOOK_MODIFICATION = 4
+    TASK_TYPE_FILE_GENERATION = 5
+
+    task_selection_prompt = f"""
+    Given the following prompt, decide which of the following types of tasks we need to perform:
+    {TASK_TYPE_CODE_GENERATION}. Code generation: The prompt asks for code to be generated.
+    {TASK_TYPE_TEXT_RESPONSE}. Text response: The prompt asks for a text response.    
+    {TASK_TYPE_NOTEBOOK_GENERATION}. Notebook generation: The prompt asks explicitly for a notebook to be generated. Only choose this if the prompt explicitly asks for creating a new notebook.
+    {TASK_TYPE_NOTEBOOK_MODIFICATION}. Notebook modification: The prompt asks for a modification of an existing notebook. Only choose this if the prompt explicitly asks for modifying an existing notebook and a) a notebook filename is given or b) the current notebook is mentioned.
+    {TASK_TYPE_FILE_GENERATION}. File generation: The prompt asks for a file to be generated. Only choose this if the prompt explicitly asks for creating a new file with ending ".md", ".txt", ".csv", ".yml", ".yaml", ".json" or ".py".
+    {TASK_TYPE_OTHER}. Other: If you're not sure or if the prompt does not fit into any of the above categories.
+    
+    This is the prompt:
+    {user_input}
+    
+    Now, write the number of the task type into the next cell. Print the number only.
+    """
+    response = generate_response(chat_history=[],
+                                image=None,
+                                model=Context.model,
+                                system_prompt="",
+                                user_prompt=task_selection_prompt,
+                                vision_system_prompt="")
+    task_type = int(response.strip().strip("\n").split(".")[0])
+
+    if task_type == TASK_TYPE_NOTEBOOK_GENERATION:
+        code = None
+        filename = generate_notebook(user_input, image=image)
+        if is_notebook():
+            text = f"A notebook has been saved as [{filename}]({filename})."
+        else:
+            text = f"The file has been saved as {filename}. You can open it using:\n\n    jupyter lab {filename}\n\n"
+    elif task_type == TASK_TYPE_NOTEBOOK_MODIFICATION:
+        code = None
+        filename = generate_notebook(user_input, modify_existing_notebook=True, image=image)
+        if is_notebook():
+            text = f"The modified notebook has been saved as [{filename}]({filename})."
+        else:
+            text = f"The file has been saved as {filename}. You can open it using:\n\n    jupyter lab {filename}\n\n"
+    elif task_type == TASK_TYPE_FILE_GENERATION:
+        code = None
+        filename = generate_file(user_input, image=image)
+        if is_notebook():
+            text = f"The file has been saved as [{filename}]({filename})."
+        else:
+            text = f"The file has been saved as {filename}. You can open it using:\n\n    jupyter lab {filename}\n\n"
+    else:
+        code, text = generate_response_to_user(Context.model, user_input, image)
+
+        if image is not None:
+            # we need to add this information to the history.
+            generate_response_to_user(Context.model,
+                                      user_prompt=f"Assume there is an image stored in variable `{image_name}`. The image can be described like this: {response}. Just confirm this with 'ok'.",
+                                      system_prompt="")
+
+    # print out explanation
+    if code is None:
+        output_text(text)
+
+    if code is not None:
+        p = get_ipython()
+
+        # put a new cell below the current cell
+        p.set_next_input(code, replace=False)
+
+
+try:
+    register_line_cell_magic(bob)
+except NameError:
+    pass
+
+
+def combine_user_input(line, cell):
+    if line and cell:
+        user_input = line + "\n" + cell
+    elif line:
+        user_input = line
+    elif cell:
+        user_input = cell
+    else:
+        user_input = None
+    return user_input
+
+
+def init_assistant(model=None, auto_execute:bool = False, variables:dict=None, endpoint=None, api_key=None,
+                   vision_model=None, keep_history:bool=False, silent:bool=False):
+    """Initialises the assistant.
+
+    Parameters
+    ----------
+    model: str
+    auto_execute: bool, optional (default: False) If True, the assistant will automatically execute the code it generates.
+    variables: dict, optional (default: None) A dictionary of variables that should be available to the assistant.
+               If None, it will use the global variables of the current namespace.
+    endpint: str Custom endpoint, e.g. 'blablador'
+    api_key: str API key for the custom endpoint
+    vision_model: str, optional (default: 'gpt-4o-2024-05-13') The vision model to use.
+    keep_history: bool, optional (default: False) If True, the chat history will be kept.
+    silent: bool, optional (default: False) If True, the assistant will not print any messages after initializing.
+    """
+    from IPython.core.getipython import get_ipython
+    from ._utilities import correct_endpoint
+    import os
+    import yaml
+    from bia_bob import __version__ as version
+
+    # setup default config
+    config = {
+        "model": DEFAULT_MODEL,
+        "vision_model": DEFAULT_VISION_MODEL,
+    }
+
+    # load config from disk
+    home_dir = os.path.expanduser('~')
+    config_filename = os.path.join(home_dir, ".cache", "bia-bob", f"config_bia_bob_{version}.yaml")
+    os.makedirs(os.path.dirname(config_filename), exist_ok=True)
+    if os.path.exists(config_filename):
+        with open(config_filename, mode="rt", encoding="utf-8") as test_df_to_yaml:
+            config = yaml.full_load(test_df_to_yaml)
+
+    # change default config if parameters are given
+    if model is None:
+        model = config["model"]
+    if vision_model is None:
+        vision_model = config["vision_model"]
+
+    # store config to disk
+    config["model"] = model
+    config["vision_model"] = vision_model
+    with open(config_filename, 'w') as file:
+        yaml.dump(config, file, default_flow_style=False)
+
+    Context.model = model
+    Context.vision_model = vision_model
+    Context.client = None
+    Context.vision_client = None
+
+    try:
+        if variables is None:
+            p = get_ipython()
+            Context.variables = p.user_ns
+        else:
+            Context.variables = variables
+    except:
+        Context.variables = {}
+
+    if not keep_history:
+        Context.chat = []
+
+    endpoint, api_key = correct_endpoint(endpoint, api_key)
+
+    Context.endpoint = endpoint
+    Context.api_key = api_key
+
+    if Context.verbose:
+        print("Assistant initialised. You can now use it, e.g., copy and paste the"
+          "below two lines into the next cell and execute it."
+          "\n\n%%bob"
+          "\nplease generate a noisy grayscale image containing 10 blurry blobs with a diameter of 20 pixels each.")
+
+    if not silent:
+        from bia_bob import __version__ as version
+        from IPython.display import display, HTML
+        from ._utilities import version_string
+
+        remark = version_string(model, vision_model, endpoint, version)
+        if is_notebook():
+            display(HTML(f"""
+            <div style="font-size:7pt">
+            This notebook may contain text, code and images generated by artificial intelligence.
+            {remark}
+            <a href="https://github.com/haesleinhuepf/bia-bob">Read more about code generation using bia-bob</a>.
+            </div>
+            """))
+        else:
+            print("bia-bob is using artificial intelligence to generate text, code and images. Read more: https://github.com/haesleinhuepf/bia-bob")
+            print(remark)
+
+
+def enable_plugins(enabled: bool = True):
+    Context.plugins_enabled = enabled
