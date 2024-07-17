@@ -1,0 +1,49 @@
+{% load helpers %}
+<div class="card">
+    <h5 class="card-header">Duplicate Inventory</h5>
+    <div class="card-body">
+        {% if inv_duplicates_count > 0 %}
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Device</th>
+                    <th>ABRA</th>
+                    <th>Asset numbers</th>
+                    <th>Probed</th>
+                    <th>Last probed</th>
+                    <th>Active</th>
+                    <th>Actions</th>
+                </tr>
+                {% for inv in inv_duplicates %}
+                    <tr class="{% if inv.cf.inventory_monitor_active == False %}danger{% else %}info{% endif %}">
+                        <td>
+                            <a href="{% url 'dcim:inventoryitem_list' %}{{ inv.id }}/">{% firstof inv.id %}</a>
+                        </td>
+                        <td>{{ inv.name }}</td>
+                        <td>
+                            <a href="{% url 'dcim:device_list' %}{{ inv.device.id }}/">{% firstof inv.device %}</a>
+                        </td>
+                        <td>{{ inv.cf.abra_discovered }}</td>
+                        <td>{{ inv.cf.asset_numbers }}</td>
+                        <td>{{ inv.cf.inventory_monitor_probed }}</td>
+                        <td>{{ inv.cf.inventory_monitor_last_probe }}</td>
+                        <td>{{ inv.cf.inventory_monitor_active }}</td>
+                        {% if inv.cf.inventory_monitor_active == False %}
+                            <td>
+                                <a class="btn btn-sm btn-danger"
+                                   href="{% url 'dcim:inventoryitem_list' %}{{ inv.id }}/delete/?return_url=/dcim/inventory-items/{{ current_inv.id }}/">
+                                    <i class="mdi mdi-trash-can-outline"></i>
+                                </a>
+                            </td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="text-muted">None</div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,93 @@
+{% extends "generic/object.html" %}
+{% load render_table from django_tables2 %}
+{% load django_tables2 %}
+{% load plugins %}
+{% load tabs %}
+{% block content %}
+  <div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Service</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <td>Service Start</td>
+              {% if object.service_start %}
+                <td>{{ object.service_start|date:"Y-n-d" }}</td>
+              {% else %}
+                <td>{{ ''|placeholder }}</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>Service End</td>
+              {% if object.service_end %}
+                <td>{{ object.service_end|date:"Y-n-d" }}</td>
+              {% else %}
+                <td>{{ ''|placeholder }}</td>
+              {% endif %}
+            </tr>
+            <tr>
+              <td>Service Param</td>
+              <td>{{ object.service_param }}</td>
+            </tr>
+            <tr>
+              <td>Service Price</td>
+              <td>{{ object.service_price|to_czech_crown }}</td>
+            </tr>
+            <tr>
+              <td>Service Category</td>
+              <td>{{ object.service_category }}</td>
+            </tr>
+            <tr>
+              <td>Service Category Vendor</td>
+              <td>{{ object.service_category_vendor }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Service Info</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th>Component</th>
+              <td>
+                {% if object.component %}
+                  <a href="{{ object.component.get_absolute_url }}">{{ object.component }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Contract</th>
+              <td>
+                {% if object.contract %}
+                  <a href="{{ object.contract.get_absolute_url }}">{{ object.contract }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-6">{% include "inc/panels/custom_fields.html" %}</div>
+    <div class="col col-md-6">
+      {% include "inc/panels/tags.html" %}
+      {% include "inc/panels/comments.html" %}
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-6">{% plugin_left_page object %}</div>
+    <div class="col col-md-6">{% plugin_right_page object %}</div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-12">{% plugin_full_width_page object %}</div>
+  </div>
+{% endblock content %}
