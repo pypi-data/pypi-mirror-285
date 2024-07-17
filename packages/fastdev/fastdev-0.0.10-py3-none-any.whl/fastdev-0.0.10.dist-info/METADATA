@@ -1,0 +1,94 @@
+Metadata-Version: 2.1
+Name: fastdev
+Version: 0.0.10
+Summary: Type less, code more
+Author-email: Jianglong Ye <jianglong.yeh@gmail.com>
+License: MIT
+Project-URL: Homepage, https://fastdev.jianglongye.com/
+Project-URL: Repository, https://github.com/jianglongye/fastdev
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typing-extensions
+Requires-Dist: numpy <2.0.0
+Requires-Dist: msgspec[toml,yaml]
+Requires-Dist: rich
+Requires-Dist: fsspec
+Requires-Dist: universal-pathlib
+Requires-Dist: huggingface-hub[cli]
+Provides-Extra: dev
+Requires-Dist: build ; extra == 'dev'
+Requires-Dist: twine ; extra == 'dev'
+Requires-Dist: ipython ; extra == 'dev'
+Requires-Dist: ruff ; extra == 'dev'
+Requires-Dist: mypy ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: xdoctest ; extra == 'dev'
+Requires-Dist: pre-commit ; extra == 'dev'
+Requires-Dist: streamlit ; extra == 'dev'
+Requires-Dist: torchmetrics ; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: sphinx ; extra == 'doc'
+Requires-Dist: furo ; extra == 'doc'
+Requires-Dist: docutils ; extra == 'doc'
+Requires-Dist: sphinx-autoapi ; extra == 'doc'
+Requires-Dist: m2r2 ; extra == 'doc'
+Provides-Extra: geom
+Requires-Dist: trimesh ; extra == 'geom'
+Provides-Extra: robo
+Requires-Dist: yourdfpy ; extra == 'robo'
+Provides-Extra: test
+Requires-Dist: trimesh ; extra == 'test'
+Requires-Dist: yourdfpy ; extra == 'test'
+Requires-Dist: dm-control ; extra == 'test'
+
+<p align="center">
+    <picture>
+        <source media="(prefers-color-scheme: light)" srcset="https://fastdev.jianglongye.com/_static/logo.svg" />
+        <source media="(prefers-color-scheme: dark)" srcset="https://fastdev.jianglongye.com/_static/logo-dark.svg" />
+        <img alt="logo" src="https://fastdev.jianglongye.com/_static/logo.svg" style="max-width:600px;width:100%" />
+    </picture>
+</p>
+
+<p align="center">
+    <em><a href="https://fastdev.jianglongye.com">Documentation</a></em>
+    &nbsp;&nbsp;&bull;&nbsp;&nbsp;
+    <em><code>pip install fastdev</code></em>
+</p>
+
+---
+
+> Type Less, Code More
+
+## Features 🌟
+
+- Reasearch-oriented: Offers a set of tools specifically designed for deep learning research.
+- User-friendly: Provide simple yet flexible APIs to minimize boilerplate code.
+- Strong-typed: Ensures type checking and code completion for a smoother development experience.
+
+## Installation
+
+The package is available on PyPI, you can install it via pip:
+
+```shell
+pip install fastdev
+```
+
+Or you can install the latest version from the source code: (not available yet)
+
+```shell
+pip install "git+https://github.com/jianglongye/fastdev.git"
+```
+
+## Acknowledgement
+
+This project borrows code from following excellent projects:
+
+- [PyTorch3D](https://github.com/facebookresearch/pytorch3d)
