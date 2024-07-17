@@ -1,0 +1,60 @@
+name: ci
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main", "docs" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12", "3.13-dev"]
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+        check-latest: true
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install uv
+        uv venv
+        source .venv/bin/activate
+        uv pip install pip
+        uv pip install -r dev-requirements.txt
+    - name: Build and install tach
+      uses: PyO3/maturin-action@v1
+      with:
+        command: develop
+    - name: Check ruff
+      run: |
+        source .venv/bin/activate
+        ruff check
+        ruff format --check
+    - name: Test with pytest and report coverage
+      run: |
+        source .venv/bin/activate
+        coverage run --branch --source=python -m pytest
+        coverage report
+    - name: Check types with pyright
+      run: |
+        source .venv/bin/activate
+        pyright --pythonversion ${{ matrix.python-version }}
+    - name: Check tach
+      run: |
+        source .venv/bin/activate
+        tach check
+    - name: Check Rust linting
+      run: cargo clippy
+    - name: Check Rust formatting
+      run: cargo fmt --all --check
+    - name: Check Rust
+      run: cargo check

@@ -1,0 +1,13 @@
+modules:
+- path: domain_one
+  depends_on:
+  - domain_two
+- path: domain_two
+  depends_on:
+  - domain_one
+- path: <root>
+  depends_on:
+  - domain_one
+exclude:
+- domain_thr.*
+exact: true
