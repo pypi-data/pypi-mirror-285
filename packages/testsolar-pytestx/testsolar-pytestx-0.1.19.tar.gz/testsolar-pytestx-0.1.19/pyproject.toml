@@ -1,0 +1,43 @@
+[project]
+name = "testsolar-pytestx"
+version = "0.1.19"
+description = "Pytest tool for TestSolar"
+authors = [
+    {name = "asiazhang2002", email = "asiazhang2002@gmail.com"},
+]
+urls = { repository = "https://github.com/OpenTestSolar/testtool-python-pytest" }
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Developers',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.7',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+]
+dependencies = [
+    "pytest>=7",
+    "testsolar-testtool-sdk>=0.3.1",
+    "loguru>=0.7.2",
+]
+requires-python = ">=3.7"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ruff>=0.3.5",
+    "mypy>=1",
+    "pytest-cov>=4",
+    "allure-pytest>=2.13",
+]
+
+[tool.setuptools.package-data]
+"testsolar_pytestx" = ["py.typed"]
