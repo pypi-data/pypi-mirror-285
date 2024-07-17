@@ -1,0 +1,59 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - "main"
+  workflow_call:
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - "main"
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - id: setup-rye
+        uses: eifinger/setup-rye@v3
+        with:
+          enable-cache: true
+          cache-prefix: ${{ matrix.python-version }}
+      - name: Pin python-version ${{ matrix.python-version }}
+        run: rye pin ${{ matrix.python-version }}
+      - name: Install dependencies
+        if: steps.setup-rye.outputs.cache-hit != 'true'
+        run: rye sync --features transformers
+      - name: Lint
+        run: rye lint -- --output-format=github .
+      - name: Typecheck
+        run: rye run pyright
+      - name: Format
+        run: rye fmt
+      - name: Test
+        run: rye run pytest tests
+  build_docs:
+    needs: lint
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Git Credentials
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+      - name: Install rye
+        id: setup-rye
+        uses: eifinger/setup-rye@v3
+        with:
+          enable-cache: true
+          cache-prefix: docs
+      - name: Install dependencies
+        if: steps.setup-rye.outputs.cache-hit != 'true'
+        run: rye sync --features docs
+      - run: rye run create-results-table
+      - run: rye run mkdocs gh-deploy --force
