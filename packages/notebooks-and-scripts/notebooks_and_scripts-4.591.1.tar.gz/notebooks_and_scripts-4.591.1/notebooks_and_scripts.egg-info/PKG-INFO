@@ -1,0 +1,97 @@
+Metadata-Version: 2.1
+Name: notebooks_and_scripts
+Version: 4.591.1
+Summary: 📜 notebooks and scripts for ai experiments and aws batch jobs.
+Home-page: https://github.com/kamangir/notebooks-and-scripts
+Author: Arash Abadpour (Kamangir)
+Author-email: arash@kamangir.net
+License: Public Domain
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Unix Shell
+Classifier: License :: Public Domain
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: blueness
+Requires-Dist: abcli
+Requires-Dist: beautifulsoup4
+Requires-Dist: boto3
+Requires-Dist: geojson
+Requires-Dist: geopandas
+Requires-Dist: ipdb
+Requires-Dist: matplotlib
+Requires-Dist: networkx
+Requires-Dist: opencv-python
+Requires-Dist: pydot
+Requires-Dist: pylint
+Requires-Dist: pymysql==0.10.1
+Requires-Dist: pytest
+Requires-Dist: python-dotenv[cli]
+Requires-Dist: pyyaml
+Requires-Dist: requests
+Requires-Dist: tqdm
+
+# 📜 notebooks & scripts
+
+📜 [notebooks](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/notebooks) and [scripts](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/scripts) for ai experiments and aws batch jobs.
+
+```bash
+pip install notebooks-and-scripts
+```
+
+🔷 [scripts](#scripts) 🔷 [workflow](#workflow) 🔷
+
+---
+
+## scripts
+
+scripts are maintained as legacy and are replaced with `@docker eval - <command>`.
+
+| ![image](https://github.com/kamangir/assets/blob/main/nbs/3x4.jpg?raw=true)                               | ![image](https://github.com/kamangir/assets/blob/main/nbs/mission-patch-00008.png?raw=true) | ![image](https://github.com/kamangir/assets/blob/main/nbs/train-summary.png?raw=true) ![image](https://github.com/kamangir/assets/blob/main/nbs/predict-00000.png?raw=true) |
+| --------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [paint-a-sentence](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/scripts/paint-a-sentence.sh)                                                         | [mission-patch](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/scripts/mission-patch.sh)                                                 | [roofAI-train](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/scripts/roofAI-train.sh)                                                                                                                                   |
+| https://medium.com/@arash-kamangir/a-cat-walking-under-apple-trees-style-by-stable-diffusion-ab60ece43e2a | https://medium.com/@arash-kamangir/private-mission-patch-%EF%B8%8F-1-0c2eddd79762           | https://arash-kamangir.medium.com/roofai-%EF%B8%8F-on-gpu-6-b02f8f67ed3f                                                                                                    |
+
+also: [`sagesemseg`](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/scripts/sagesemseg/).
+
+---
+
+## workflow
+
+also home to [`workflow`](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/notebooks_and_scripts/workflow/generic.py), an abstraction to run mixed-type (cpu/gpu/...) [DAG](https://networkx.org/documentation/stable/reference/classes/digraph.html)s of bash commands on aws batch.
+
+```bash
+ > workflow help
+workflow create \
+	pattern=a-bc-d|hourglass,~upload \
+	-|<job-name> \
+	<command-line>
+ . create a <pattern> workflow.
+workflow monitor \
+	~download,~upload \
+	.|<job-name>
+ . monitor workflow.
+workflow submit \
+	~download,dryrun,to=aws_batch|generic|local|localflow,~upload \
+	.|<job-name>
+ . submit workflow.
+```
+
+```bash
+@select - open
+workflow create pattern=hourglass .
+workflow submit to=aws_batch
+@watch - @download
+```
+
+from https://arash-kamangir.medium.com/%EF%B8%8F-openai-experiments-54-e49117dc69ef
+
+| [`a-bc-d`](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/notebooks_and_scripts/workflow/patterns/a-bc-d.dot) [🔗](https://kamangir-public.s3.ca-central-1.amazonaws.com/a-bc-d/workflow.gif?raw=true) | [`hourglass`](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/notebooks_and_scripts/workflow/patterns/hourglass.dot) [🔗](https://kamangir-public.s3.ca-central-1.amazonaws.com/hourglass/workflow.gif?raw=true) | [`map-reduce`](https://raw.githubusercontent.com/kamangir/notebooks-and-scripts/main/notebooks_and_scripts/workflow/patterns/map-reduce.dot) [🔗](https://kamangir-public.s3.ca-central-1.amazonaws.com/map-reduce/workflow.gif?raw=true) |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ![image](https://kamangir-public.s3.ca-central-1.amazonaws.com/a-bc-d/workflow.gif?raw=true)                                                              | ![image](https://kamangir-public.s3.ca-central-1.amazonaws.com/hourglass/workflow.gif?raw=true)                                                                    | ![image](https://kamangir-public.s3.ca-central-1.amazonaws.com/map-reduce/workflow.gif?raw=true)                                                                      |
+
+---
+
+[![PyPI version](https://img.shields.io/pypi/v/notebooks-and-scripts.svg)](https://pypi.org/project/notebooks-and-scripts/)
+
+To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/) replace `<plugin-name>` with `nbs` and follow [these instructions](https://github.com/kamangir/notebooks-and-scripts/blob/main/SageMaker.md).
