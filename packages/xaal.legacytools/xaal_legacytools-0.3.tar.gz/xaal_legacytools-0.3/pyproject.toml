@@ -1,0 +1,33 @@
+[project]
+name = "xaal.legacytools"
+version = "0.3"
+description = "xAAL devices tools (legacy)"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "tools"]
+dependencies = ["xaal.lib"]
+
+[project.scripts]
+xaal-isalive-legacy = "xaal.legacytools.isalive:main"
+xaal-info-legacy = "xaal.legacytools.info:main"
+xaal-dumper-legacy = "xaal.legacytools.dumper:main"
+xaal-tail-legacy = "xaal.legacytools.tail:main"
+xaal-walker-legacy = "xaal.legacytools.walker:main"
+xaal-keygen-legacy = "xaal.legacytools.keygen:main"
+xaal-log-legacy = "xaal.legacytools.log:main"
+xaal-querydb-legacy = "xaal.legacytools.querydb:main"
+xaal-pkgrun-legacy = "xaal.legacytools.pkgrun:main"
+xaal-uuidgen-legacy = "xaal.legacytools.uuidgen:main"
+xaal-inspector-legacy = "xaal.legacytools.inspector:main"
+
+[tool.setuptools.packages.find]
+include = ["xaal.legacytools"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/apps/legacytools/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/apps/legacytools"
