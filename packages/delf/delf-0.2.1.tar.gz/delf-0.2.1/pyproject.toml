@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "delf"
+version = "0.2.1"
+description = "yet another elf dump tool"
+authors = ["terminaldweller <devi@terminaldweller.com>"]
+license = "GPL-3.0"
+readme = "README.md"
+keywords = ["elf", "capstone"]
+classifiers = [
+    "Environment :: Console",
+]
+include = [
+    "LICENSE",
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+capstone = "^4.0.2"
+setuptools = "^70.0.0"
+
+[tool.poetry.scripts]
+delf = "delf:main"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.6.1"
+pylint = "^3.0.2"
+bandit = "^1.7.5"
+ruff = "^0.1.1"
+black = ">=23.10,<25.0"
+openai = "^1.30.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
