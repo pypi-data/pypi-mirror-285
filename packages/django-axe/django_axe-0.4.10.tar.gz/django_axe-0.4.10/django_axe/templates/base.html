@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>Django AXE</title>
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+        <meta name="author" content="" />
+        <link href="{% static "django_axe/css/main.css" %}" rel="stylesheet" />
+        <script src="{% static "django_axe/js/highlight.js" %}"></script>
+    </head>
+    <body class="leading-normal tracking-normal text-white gradient">
+        <nav id="header" class="w-full z-30 !text-white">
+            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 py-2">
+                <a class="toggleColour flex flex-row gap-3 items-center !text-white font-bold text-5xl"
+                   href="{% url 'home' %}">
+                    <svg width="32"
+                         height="32"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 9L12 10M17 9L12 10M12 10V13M12 13L10 18M12 13L14 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 7C11.7239 7 11.5 6.77614 11.5 6.5C11.5 6.22386 11.7239 6 12 6C12.2761 6 12.5 6.22386 12.5 6.5C12.5 6.77614 12.2761 7 12 7Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>Django AXE</span>
+                </a>
+            </div>
+        </nav>
+        <div class="container px-3 mx-auto flex flex-wrap flex-col md:flex-row items-center min-h-screen">
+            <div class="flex flex-col w-full md:w-2/5 justify-center items-start text-center md:text-left">
+                <p class="tracking-loose w-full">Worried about Accessibility testing?</p>
+                <h1 class="my-5 text-3xl font-bold leading-tight">Django AXE will automate it for you!</h1>
+                <div class="my-5 leading-normal text-lg text-slate-300 flex flex-col gap-3">
+                    <p>
+                        Django AXE is a module for Django that can be seamlessly integrated into existing projects to conduct a comprehensive suite of tests aimed at evaluating the accessibility of a website's content and functionality.
+                    </p>
+                    <p>
+                        Each test comprises a sequence of Rules, which in turn consist of various Checks. These Rules are executed asynchronously.
+                    </p>
+                    <p>
+                        Upon completion, a callback function is invoked, which receives a Result structure. This structure is then stored on the server as a JSON file, and an HTML report is generated based on this data.
+                    </p>
+                    <p>
+                        The execution of Rules is context-sensitive; some are designed to operate at the page level, while others are not. Consequently, the scope of the tests varies: if a document is specified, page-level Rules are activated; otherwise, they are bypassed.
+                    </p>
+                </div>
+                <a role="button"
+                   href="https://pypi.org/project/django-axe/"
+                   class="mx-auto bg-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                    Download
+                </a>
+            </div>
+            <div class="w-full md:w-3/5 text-center">
+                <img class="w-full md:w-4/5 z-50" src="{% static "django_axe/images/hero.png" %}" />
+            </div>
+            <div class="w-full mb-4">
+                <h1 class="w-full my-2 text-3xl font-bold leading-tight text-center text-white">Developed By</h1>
+                <div class="h-1 mx-auto bg-white w-1/6 opacity-25 my-0 py-0 rounded-t"></div>
+                <h3 class="mt-4 text-2xl w-full text-center">Brahma Dutta Upadhyay</h3>
+            </div>
+        </div>
+        <div class="fixed bottom-0 z-30 w-full">
+            <svg class="wave-top"
+                 viewBox="0 0 1439 147"
+                 version="1.1"
+                 xmlns="http://www.w3.org/2000/svg"
+                 xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g stroke="none" stroke-width="1" fill="linear-gradient(90deg,#6610f2,#0d6efd)!important" fill-rule="evenodd">
+                <g transform="translate(-1.000000, -14.000000)" fill-rule="nonzero">
+                <g class="wave gradient" fill="transparent">
+                <path d="M1440,84 C1383.555,64.3 1342.555,51.3 1317,45 C1259.5,30.824 1206.707,25.526 1169,22 C1129.711,18.326 1044.426,18.475 980,22 C954.25,23.409 922.25,26.742 884,32 C845.122,37.787 818.455,42.121 804,45 C776.833,50.41 728.136,61.77 713,65 C660.023,76.309 621.544,87.729 584,94 C517.525,105.104 484.525,106.438 429,108 C379.49,106.484 342.823,104.484 319,102 C278.571,97.783 231.737,88.736 205,84 C154.629,75.076 86.296,57.743 0,32 L0,0 L1440,0 L1440,84 Z">
+                </path>
+                </g>
+                <g transform="translate(1.000000, 15.000000)" fill="currentColor" class="gradient">
+                <g transform="translate(719.500000, 68.500000) rotate(-180.000000) translate(-719.500000, -68.500000) ">
+                <path d="M0,0 C90.7283404,0.927527913 147.912752,27.187927 291.910178,59.9119003 C387.908462,81.7278826 543.605069,89.334785 759,82.7326078 C469.336065,156.254352 216.336065,153.6679 0,74.9732496" opacity="0.100000001">
+                </path>
+                <path d="M100,104.708498 C277.413333,72.2345949 426.147877,52.5246657 546.203633,45.5787101 C666.259389,38.6327546 810.524845,41.7979068 979,55.0741668 C931.069965,56.122511 810.303266,74.8455141 616.699903,111.243176 C423.096539,147.640838 250.863238,145.462612 100,104.708498 Z" opacity="0.100000001">
+                </path>
+                <path d="M1046,51.6521276 C1130.83045,29.328812 1279.08318,17.607883 1439,40.1656806 L1439,120 C1271.17211,77.9435312 1140.17211,55.1609071 1046,51.6521276 Z" opacity="0.200000003">
+                </path>
+                </g>
+                </g>
+                </g>
+                </g>
+            </svg>
+        </div>
+    </body>
+</html>
