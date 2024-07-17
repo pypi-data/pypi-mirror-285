@@ -1,0 +1,56 @@
+db_copilot_tool.db_copilot_tool.DBCopilot.generate:
+  name: DB Copilot Tool
+  description: Generate sql query and get query results.
+  type: python
+  module: db_copilot_tool.db_copilot_tool
+  class_name: DBCopilot
+  function: generate
+  inputs:
+    embedding_aoai_config:
+      type:
+        - AzureOpenAIConnection
+    chat_aoai_config:
+      type:
+        - AzureOpenAIConnection
+    grounding_embedding_uri:
+      type:
+        - string
+    example_embedding_uri:
+      type:
+        - string
+    db_context_uri:
+      type:
+        - string
+    datastore_uri:
+      type:
+        - string
+    embedding_aoai_deployment_name:
+      type:
+        - string
+    chat_aoai_deployment_name:
+      type:
+        - string
+    history_cache_enabled:
+      type:
+        - bool
+      default: "False"
+    history_cache_dir:
+      type:
+        - string
+      default: cache
+    query:
+      type:
+        - string
+    session_id:
+      type:
+        - string
+    knowledge_pieces:
+      type:
+        - string
+    include_views:
+      type:
+        - bool
+      default: "False"
+    instruct_template:
+      type:
+        - string
