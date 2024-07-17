@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "roc_svchost"
+version = "0.1.16"
+description = ""
+authors = ["Matias Garafoni <matias.garafoni@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pytest = "^7.4.3"
+rococo = "1.0.*"
+schedule = "^1.2.1"
+
+[tool.poetry.scripts]
+svchost="roc_svchost.process:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
