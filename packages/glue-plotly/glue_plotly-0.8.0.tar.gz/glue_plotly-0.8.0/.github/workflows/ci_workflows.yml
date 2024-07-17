@@ -1,0 +1,73 @@
+name: CI Tests
+
+on:
+  push:
+    branches:
+    - main
+    tags:
+    - '*'
+  pull_request:
+
+jobs:
+  initial_checks:
+    # Mandatory checks before CI tests
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+    with:
+      coverage: false
+      envs: |
+        # Code style
+        - linux: codestyle
+
+  tests:
+    needs: initial_checks
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/tox.yml@v1
+    with:
+      display: true
+      coverage: codecov
+      libraries: |
+        apt:
+          - '^libxcb.*-dev'
+          - libxkbcommon-x11-0
+          - libegl1-mesa
+          - libhdf5-dev
+      envs: |
+        # Standard tests
+        - linux: py38-test
+        - linux: py39-test
+        - linux: py310-test
+        - linux: py311-test
+        - linux: py311-glue116-test
+        - linux: py311-glue117-test
+        - linux: py311-glue118-test
+        - linux: py311-glue119-test
+        - linux: py311-glue120-test
+
+        - macos: py38-test
+        - macos: py39-test
+        - macos: py310-test
+        - macos: py311-test
+        - macos: py311-glue116-test
+        - macos: py311-glue117-test
+        - macos: py311-glue118-test
+        - macos: py311-glue119-test
+        - macos: py311-glue120-test
+
+        - windows: py38-test
+        - windows: py39-test
+        - windows: py310-test
+        - windows: py311-test
+        - windows: py311-glue116-test
+        - windows: py311-glue117-test
+        - windows: py311-glue118-test
+        - windows: py311-glue119-test
+        - windows: py311-glue120-test
+
+  publish:
+    needs: tests
+    uses: OpenAstronomy/github-actions-workflows/.github/workflows/publish_pure_python.yml@v1
+    with:
+      libraries: '^libxcb.*-dev libxkbcommon-x11-dev libgl1-mesa-glx xvfb'
+      test_extras: 'test,qt,jupyter'
+      test_command: Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 & sleep 3; DISPLAY=:99.0 pytest --pyargs glue_plotly
+    secrets:
+      pypi_token: ${{ secrets.pypi_token }}
