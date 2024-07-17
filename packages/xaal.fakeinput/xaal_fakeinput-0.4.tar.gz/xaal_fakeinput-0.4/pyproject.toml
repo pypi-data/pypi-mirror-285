@@ -1,0 +1,27 @@
+[project]
+name = "xaal.fakeinput"
+version = "0.4"
+description = "xAAL fake switch, buttons, contact devices "
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "json"]
+dependencies = [
+    "xaal.lib",
+    "xaal.schemas",
+    "bottle",
+    "gevent",
+    "gevent-websocket",
+]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.fakeinput"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/tests/fakeinput/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/tests/fakeinput"
