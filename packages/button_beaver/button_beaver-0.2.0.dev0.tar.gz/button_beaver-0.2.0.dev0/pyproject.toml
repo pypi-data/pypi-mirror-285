@@ -1,0 +1,44 @@
+[project]
+name = "button_beaver"
+version = "0.2.0.dev"
+authors = [
+	{name='Lily "MinekPo1" A. N.', email="minekpo1@dimension.sh"},
+]
+description = "Helper for all your 88x31 buttoning needs!"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+	"Operating System :: OS Independent",
+]
+dependencies = [
+	"requests",
+	"pydantic",
+	"pyyaml",
+	"lxml",
+]
+
+[project.urls]
+Homepage = "https://tildegit.org/MinekPo1/button_beaver"
+Issues = "https://tildegit.org/MinekPo1/button_beaver/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool]
+
+[tool.hatch.build.targets.sdist]
+include = [
+	"button_beaver/*.py"
+]
+artefacts = [
+	"dist/*.tar.gz"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["button_beaver"]
+artefacts = [
+	"dist/*.whl"
+]
