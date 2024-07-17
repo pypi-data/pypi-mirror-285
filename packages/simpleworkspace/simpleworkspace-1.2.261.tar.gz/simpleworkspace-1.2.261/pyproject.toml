@@ -1,0 +1,16 @@
+[project]
+name = "simpleworkspace"
+version = "1.2.261"
+description = "Rapid protyping library"
+requires-python = ">=3.10"
+dependencies = [ "requests", "cryptography",]
+
+[build-system]
+requires = [ "setuptools", "wheel",]
+build-backend = "setuptools.build_meta"
+
+[project.license]
+file = "LICENSE.md"
+
+[tool.setuptools.package-data]
+"simpleworkspace.assets" = [ "**",]
