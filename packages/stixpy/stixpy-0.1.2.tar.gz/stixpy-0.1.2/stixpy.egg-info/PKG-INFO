@@ -1,0 +1,105 @@
+Metadata-Version: 2.1
+Name: stixpy
+Version: 0.1.2
+Summary: Analysis software for Solar Orbiter Spectrometer Telescope for Imaging X-rays (STIX)
+Home-page: https://github.com/TCDSolar/stixpy
+Author: STIX Team
+Author-email: shane.maloney@dias.ie
+License: BSD 3-Clause
+Keywords: solar physics,solar,sun,x-rays
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Physics
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+License-File: LICENSE.rst
+Requires-Dist: sunpy[net,timeseries]>=3.1
+Requires-Dist: reproject
+Requires-Dist: astroquery
+Requires-Dist: intervaltree
+Requires-Dist: roentgen
+Requires-Dist: matplotlib
+Requires-Dist: xrayvisim~=0.2.0rc
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-astropy; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: sphinx-automodapi; extra == "docs"
+Requires-Dist: towncrier; extra == "docs"
+Requires-Dist: pydata-sphinx-theme; extra == "docs"
+Requires-Dist: sphinx-design; extra == "docs"
+Requires-Dist: sphinx_changelog; extra == "docs"
+Requires-Dist: sphinx-gallery; extra == "docs"
+Provides-Extra: dev
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-astropy; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: sphinx; extra == "dev"
+Requires-Dist: sphinx-automodapi; extra == "dev"
+Requires-Dist: towncrier; extra == "dev"
+Requires-Dist: pydata-sphinx-theme; extra == "dev"
+Requires-Dist: sphinx-design; extra == "dev"
+Requires-Dist: sphinx_changelog; extra == "dev"
+Requires-Dist: sphinx-gallery; extra == "dev"
+Provides-Extra: all
+Requires-Dist: pytest; extra == "all"
+Requires-Dist: pytest-astropy; extra == "all"
+Requires-Dist: pytest-cov; extra == "all"
+
+stixpy Analysis Software
+========================
+
+|Powered By| |Build Status| |Doc Status| |Python Versions|
+
+.. |Powered By| image:: https://img.shields.io/badge/powered%20by-SunPy-orange.svg?style=flat
+    :target: http://www.sunpy.org
+    :alt: Powered by SunPy Badge
+
+.. |Build Status| image:: https://github.com/TCDSolar/stixpy/actions/workflows/ci.yaml/badge.svg
+    :target: https://github.com/TCDSolar/stixpy/actions/workflows/ci.yaml
+    :alt: Build Status
+
+.. |Doc Status| image:: https://readthedocs.org/projects/stixpy/badge/?version=stable
+    :target: http://stixpy.readthedocs.io/en/latest/?badge=stable
+    :alt: Documentation Status
+
+.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/stixpy
+    :target: https://pypi.python.org/pypi/stixpy
+    :alt: Python Versions
+
+stixpy is an open source Python library for analysis of Spectrometer Telescope for Imaging X-rays (STIX) onboard Solar Orbiter (SO)
+data
+
+Installation
+------------
+
+It is strongly advised that you use and isolated environment through python's venv, virturalenv, anaconda or similar.
+
+.. code-block::
+
+   pip install stixpy
+
+Usage
+-----
+
+Getting Help
+------------
+
+
+Contributing
+------------
+When you are interacting with the community you are asked to
+follow the `Code of Conduct`_.
+
+.. _Code of Conduct: http://docs.sunpy.org/en/stable/coc.html
