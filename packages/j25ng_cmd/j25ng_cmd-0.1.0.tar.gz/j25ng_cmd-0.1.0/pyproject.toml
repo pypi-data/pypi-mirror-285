@@ -1,0 +1,21 @@
+[project]
+name = "j25ng_cmd"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "j25ng", email = "jsan2861@gmail.com"},
+]
+
+dependencies = [
+    "j25ng-lotto>=0.2.0"
+]
+
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[priject.scripts]
+j25ng-cmd = 'j25ng_cmd.cmd:call'
+
+[tool.pdm]
+distribution = true
