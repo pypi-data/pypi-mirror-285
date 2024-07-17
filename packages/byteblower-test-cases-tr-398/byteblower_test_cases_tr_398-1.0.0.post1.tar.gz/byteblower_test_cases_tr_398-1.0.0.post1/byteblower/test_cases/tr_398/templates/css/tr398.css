@@ -1,0 +1,88 @@
+.successful {
+    display: inline-block;
+    position: relative;
+    border: 5em solid currentColor;
+    border-radius: 50%;
+    font-size: 0.4px;
+    width: 50em;
+    height: 50em;
+    color: #8fcf8f;
+    transform: rotate(40deg);
+    margin-block: -21%;
+    margin-left: 16%;
+}
+
+.successful::before,
+.successful::after {
+    content: "";
+    background-color: #2ca101;
+    position: absolute;
+    width: 5em;
+    border-radius: 3px;
+}
+
+.successful::before {
+    height: 33em;
+    left: 50%;
+    top: 50%;
+    margin-left: 2em;
+    margin-top: -18em;
+}
+
+.successful::after {
+    height: 15em;
+    transform: rotate(90deg);
+    top: 50%;
+    left: 50%;
+    margin-top: 5em;
+    margin-left: -6em;
+}
+
+.failure {
+    display: inline-block;
+    position: relative;
+    border: 5em solid currentColor;
+    border-radius: 50%;
+    font-size: 0.4px;
+    width: 50em;
+    height: 50em;
+    color: #e27d7a;
+    margin-block: -21%;
+    margin-left: 16%;
+}
+
+.failure::before,
+.failure::after {
+    content: "";
+    width: 5em;
+    height: 34em;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -17em;
+    margin-left: -3em;
+    background-color: #e27d7a;
+    border-radius: 3px;
+}
+
+.failure::before {
+    transform: rotate(45deg);
+}
+
+.failure::after {
+    transform: rotate(-45deg);
+}
+
+.sticky-title {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    background-color: white; /* Change to match your design */
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd; /* Optional: add a border to better see the stickiness */
+    z-index: 10; /* Ensure it stays above other content */
+}
+
+.center-title {
+    text-align: center;
+}

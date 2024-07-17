@@ -1,0 +1,203 @@
+{% for config, result in results.items() %}
+
+<h2 class="sticky-title">DUT Config {{config}}</h2>
+
+
+<div>
+    <table border="1">
+        <tr>
+            <th>Setup</th>
+            <th>STA</th>
+            <th>TCP Max Throughput (Mbps)</th>
+            <th>UDP Transmitted Throughput (Mbps)</th>
+            <th>UDP Measured Throughput (Mbps)</th>
+            <th>UDP Expected Throughput (Mbps)</th>
+            <th>Result</th>
+        </tr>
+        {% for setup_name, test_setup in result['test_setups'].items() %}
+        <tr>
+            {% set tcp_throughput_1 = test_setup['results']['sta1_throughput_max_dl'] %}
+            {% set udp_throughput_1 = test_setup['results']['sta1_throughput'] %}
+            <th rowspan="3">{{setup_name.replace('-', ' ').replace('_', ' ')}}</th>
+            <td>STA1</td>
+            {% if tcp_throughput_1 is not none %}
+            <td>{{ (tcp_throughput_1 / 1e6)|round(2) }}</td>
+            <td>{{ (test_setup['results']['sta1_udp_transmission_rate'] / 1e6)|round(2) }}</td>
+            <td>{{ (udp_throughput_1/ 1e6)|round(2) }}</td>
+            <td>{{ ((tcp_throughput_1 * 0.45) / 1e6)|round(2) }}</td>
+            {% set plot_section = "#plot_" + setup_name.replace('-', ' ').replace('_', ' ') %}
+            <td style="margin: auto;">
+                <a href="{{plot_section}}">
+                    {% if test_setup["status"]["sta1_throughput_max_dl"]["passed"] %}
+                    <span class="successful"></span>
+                    {% else %}
+                    <span class="failure"></span>
+                    {% endif %}
+                    </span>
+                </a>
+            </td>
+            {% else %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="margin: auto;">
+                <span class="failure"></span>
+                </span>
+            </td>
+            {% endif %}
+
+        </tr>
+        {% if 'sta2_throughput_max_dl' in test_setup['results'] %}
+        <tr>
+            {% set tcp_throughput_2 = test_setup['results']['sta2_throughput_max_dl'] %}
+            {% set udp_throughput_2 = test_setup['results']['sta2_throughput'] %}
+            <td>STA2</td>
+            {% if tcp_throughput_2 is not none %}
+            <td>{{ (tcp_throughput_2/ 1e6)|round(2) }}</td>
+            <td>{{ (test_setup['results']['sta2_udp_transmission_rate'] / 1e6)|round(2) }}</td>
+            <td>{{ (udp_throughput_2 / 1e6)|round(2) }}</td>
+            <td>{{ ((tcp_throughput_2* 0.45) / 1e6)|round(2) }}</td>
+            <td style="margin: auto;">
+                <a href="{{plot_section}}">
+                    {% if test_setup["status"]["sta2_throughput_max_dl"]["passed"] %}
+                    <span class="successful"></span>
+                    {% else %}
+                    <span class="failure"></span>
+                    {% endif %}
+                    </span>
+                </a>
+            </td>
+            {% else %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="margin: auto;">
+                <span class="failure"></span>
+                </span>
+            </td>
+            {% endif %}
+        </tr>
+        {% elif 'sta3_throughput_max_dl' in test_setup['results'] %}
+        <tr>
+            {% set tcp_throughput_3 = test_setup['results']['sta3_throughput_max_dl'] %}
+            {% set udp_throughput_3 = test_setup['results']['sta3_throughput'] %}
+            <td>STA3</td>
+            {% if tcp_throughput_3 is not none %}
+            <td>{{ (tcp_throughput_3 / 1e6)|round(2) }}</td>
+            <td>{{ (test_setup['results']['sta3_udp_transmission_rate'] / 1e6)|round(2) }}</td>
+            <td>{{ (udp_throughput_3 / 1e6)|round(2) }}</td>
+            <td>{{ ((tcp_throughput_3 * 0.45) / 1e6)|round(2) }}</td>
+            <td style="margin: auto;">
+                <a href="{{plot_section}}">
+                    {% if test_setup["status"]["sta3_throughput_max_dl"]["passed"] %}
+                    <span class="successful"></span>
+                    {% else %}
+                    <span class="failure"></span>
+                    {% endif %}
+                    </span>
+                </a>    
+            </td>
+            {% else %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="margin: auto;">
+                <span class="failure"></span>
+                </span>
+            </td>
+            {% endif %}
+        </tr>
+        {% endif %}
+        {% if 'sta2_throughput_max_dl' in test_setup['results'] %}
+        <tr>
+            <td>STA1+2</td>
+            {% if tcp_throughput_1 is not none and tcp_throughput_2 is not none %}
+            <td></td>
+            <td></td>
+            <td>{{ ((udp_throughput_1 + udp_throughput_2) / 1e6)|round(2) }}</td>
+            <td>{{ (test_setup['results']['expected_throughput'] / 1e6)|round(2) }}</td>
+            <td style="margin: auto;">
+                <a href="{{plot_section}}">
+                    {% if test_setup["status"]["total_throughput"]["passed"] %}
+                    <span class="successful"></span>
+                    {% else %}
+                    <span class="failure"></span>
+                    {% endif %}
+                    </span>
+                </a>
+            </td>
+            {% else %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="margin: auto;">
+                <span class="failure"></span>
+                </span>
+            </td>
+            {% endif %}
+        </tr>
+        </tr>
+        {% elif 'sta3_throughput_max_dl' in test_setup['results'] %}
+        <tr>
+            <td>STA1+3</td>
+            {% if tcp_throughput_1 is not none and tcp_throughput_3 is not none %}
+            <td></td>
+            <td></td>
+            <td>{{ ((udp_throughput_1 + udp_throughput_3)  / 1e6)|round(2) }}</td>
+            <td>{{ ((test_setup['results']['expected_throughput']) / 1e6)|round(2) }}</td>
+            <td style="margin: auto;">
+                <a href="{{plot_section}}">
+                    {% if test_setup["status"]["total_throughput"]["passed"] %}
+                    <span class="successful"></span>
+                    {% else %}
+                    <span class="failure"></span>
+                    {% endif %}
+                    </span>
+                </a>
+            </td>
+            {% else %}
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td style="margin: auto;">
+                <span class="failure"></span>
+                </span>
+            </td>
+            {% endif %}
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </table>
+</div>
+
+{% for setup_name, setup in result["test_setups"].items() %}
+<h2 class="center-title" id="plot_{{setup_name.replace('-', ' ').replace('_', ' ')}}">{{setup_name.replace('-', ' ').replace('_', ' ')}}</h2>
+
+<h3>Test Status</h3>
+
+{% if not setup["status"]["passed"]  %}
+<p style="margin-left: 3.5%;font-size: 125%; color:red">FAIL</p>
+{% for cause in setup["status"]["failure_causes"] %}
+<p style="margin-left: 3.5%">{{cause}}</p>
+{% endfor %}
+{% else %}
+<p style="margin-left: 3.5%; font-size: 125%; color:green">PASS</p>
+{% endif %}
+
+{% if setup["results"]["sta1_throughput_max_dl"] is not none %}
+{{setup["plot"]}}
+{% else %}
+{% for error in setup["status"]["error_log"] %}
+<p style="margin-left: 3.5%">{{error}}</p>
+{% endfor %}
+{% endif %}
+
+
+{% endfor %}
+            
+{% endfor %}

@@ -1,0 +1,10 @@
+/* 
+ * Fix word wrapping in sphinx-rtd-theme
+ *
+ * See also:
+ * - https://github.com/readthedocs/sphinx_rtd_theme/issues/1246
+ * - https://stackoverflow.com/questions/69359978/grid-table-does-not-word-wrap
+ */
+.wy-table-responsive table td, .wy-table-responsive table th {
+    white-space: inherit;
+}
