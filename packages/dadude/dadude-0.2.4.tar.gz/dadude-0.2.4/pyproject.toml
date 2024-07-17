@@ -1,0 +1,36 @@
+[project]
+name = "dadude"
+version = "0.2.4"
+description = "Lakehouse management and orchestration tool."
+authors = [
+    { name = "Zhangda Xu", email = "xuzhangda@patsnap.com" }
+]
+license = { file = "LICENSE" }
+dependencies = [
+    "tqdm>=4.66.4",
+    "loguru>=0.7.2",
+    "fire>=0.6.0",
+    "boto3>=1.34.144",
+    "deltalake>=0.18.2",
+    "duckdb>=1.0.0",
+    "pandas>=2.2.2",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest>=8.2.2",
+    "pytest-dotenv>=0.5.2",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dadude"]

@@ -1,0 +1,46 @@
+Metadata-Version: 2.3
+Name: dadude
+Version: 0.2.4
+Summary: Lakehouse management and orchestration tool.
+Author-email: Zhangda Xu <xuzhangda@patsnap.com>
+License: MIT License
+        
+        Copyright (c) 2024 Xu Zhangda
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Requires-Python: >=3.8
+Requires-Dist: boto3>=1.34.144
+Requires-Dist: deltalake>=0.18.2
+Requires-Dist: duckdb>=1.0.0
+Requires-Dist: fire>=0.6.0
+Requires-Dist: loguru>=0.7.2
+Requires-Dist: pandas>=2.2.2
+Requires-Dist: tqdm>=4.66.4
+Description-Content-Type: text/markdown
+
+# dadude
+
+Lakehouse management and orchestration tool.
+
+## Status
+
+- The ultimate target lakehouse is the unity catalog, which is to provide benefits from both `deltalake` and `iceberg`.
+- To support writing data to the lakehouse, we currently use the `deltalake-rs` python bindings.
+- For testing purposes, we use the `minio` instance at `http://192.168.18.206:9000`.
