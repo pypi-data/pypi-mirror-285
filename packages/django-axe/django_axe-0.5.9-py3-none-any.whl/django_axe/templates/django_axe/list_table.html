@@ -1,0 +1,28 @@
+<div class="flex flex-col gap-3">
+    <table class="bg-white">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Description</th>
+                <th>Axe rule ID</th>
+                <th>WCAG</th>
+                <th>Impact</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for node in node_list %}
+                <tr>
+                    <td>
+                        <a href="#check-{{ node.index }}" class="ml-6">{{ node.index }}</a>
+                    </td>
+                    <td>{{ node.help }}</td>
+                    <td>{{ node.id }}</td>
+                    <td>{{ node.wcag }}</td>
+                    <td>{{ node.impact }}</td>
+                    <td>{{ node.nodes|length }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
