@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "capp-py"
+version = "0.0.1"
+description = "Python clienet for capp"
+authors = ["Capp Team <gocappio@gmail.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+packages = [
+    { include = "capp", from = "src" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+protobuf = "^5.27.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+ruff = "^0.1.13"
+pre-commit = "^3.6.0"
+pytest-xdist = "^3.6.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+chaoscapy-py = "capp.cli.chaoscapy:main"
