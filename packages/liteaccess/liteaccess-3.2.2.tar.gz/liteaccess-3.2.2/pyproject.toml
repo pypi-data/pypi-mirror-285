@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "liteaccess"
+version = "3.2.2"
+authors = [
+  { name="Andrei Sukhanov", email="cyxandr@gmail.com" },
+]
+description = "Access to Process Variables, served by liteServer"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "cbor2",
+]
+[project.urls]
+"Homepage" = "https://github.com/ASukhanov/liteAccess"
+"Bug Tracker" = "https://github.com/ASukhanov/liteAccess/issues"
