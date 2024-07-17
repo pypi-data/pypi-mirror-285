@@ -1,0 +1,48 @@
+workspace: development
+
+# List the valid sites for this workspace
+sites:
+  - local
+
+http:
+  baseurls:
+    configs: http://localhost:8001/v2
+    pipelines: http://localhost:8001/v2
+    schedules: http://localhost:8001/v2
+    buckets: http://localhost:8004
+    results: http://localhost:8005
+
+archive:
+  mounts:
+    local: "/"
+
+config:
+  archive:
+    plots:
+      methods:
+        - "bypass"
+        - "copy"
+        - "delete"
+        - "move"
+      storage: "s3"
+    products:
+      methods:
+        - "bypass"
+        - "copy"
+        - "delete"
+        - "move"
+      storage: "posix"
+    results: true
+    permissions:
+      posix:
+        user: "user"
+        group: "chime-frb-ro"
+        command: "setfacl -R -m g:{group}:r {path}"
+
+deployers:
+  local:
+    docker:
+      # client_url: npipe:////./pipe/docker_engine
+      client_url: unix:///var/run/docker.sock
+      networks:
+        workflow: # This network maps to the docker-compose.yml network name
