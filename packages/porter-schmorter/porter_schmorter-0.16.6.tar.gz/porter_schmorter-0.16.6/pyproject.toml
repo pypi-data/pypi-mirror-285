@@ -1,0 +1,50 @@
+[project]
+name = "porter-schmorter"
+authors = [
+  { name="Dante Gates", email="dantedgates@gmail.com" },
+]
+description = "porter is a framework for exposing machine learning models via REST APIs."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dynamic = ["version"]
+dependencies = [
+  "Flask>=3.0.0,<4.0.0",
+  "numpy>=1.24.0",
+  "pandas>=2.0.0",
+  "joblib>=1.3.0",
+  "fastjsonschema>=2.18.0",
+]
+
+[project.optional-dependencies]
+keras-utils = ["keras>=3.0"]
+sklearn-utils = ["scikit-learn>=1.3.0"]
+# `tensorflow` is a dev dependency because we need it to test `keras` loading
+# utilities, but don't want to impose it as the default backend for `keras`
+# users by adding it to the `keras-utils`.
+# Importantly, it needs to be >=2.16, see
+# https://keras.io/getting_started/#tensorflow--keras-2-backwards-compatibility
+dev = ["pytest", "sphinx", "sphinx_rtd_theme", "tensorflow>=2.16"]
+all = ["porter-schmorter[keras-utils,sklearn-utils,dev]"]
+
+[project.urls]
+"Homepage" = "https://github.com/dantegates/porter"
+"Bug Tracker" = "https://github.com/dantegates/porter/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["porter", "porter.schemas"]
+
+[tool.setuptools.dynamic]
+version = {attr = "porter.__version__"}
