@@ -1,0 +1,61 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quackamollie-devtools"
+version = "0.1a0"
+description = "Development tools for the command line interface (CLI) of Quackamollie Telegram chat bot"
+readme = "README.rst"
+authors = [
+    {name = "QuactorAI", email = "quacktorai@gmail.com"},
+]
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+]
+keywords = ["telegram", "bot", "aiogram", "llamaindex", "ollama", "llmsherpa"]
+requires-python = ">=3.10"
+dependencies = [
+    "quackamollie-core",
+    'sqlalchemy-schemadisplay',
+]
+
+[project.optional-dependencies]
+lint = [
+    'check-manifest',
+    'flake8',
+    'readme_renderer',
+    'safety',
+    'setuptools',
+    'twine',
+    'wheel',
+]
+test = [
+    'coverage',
+    'pytest',
+    'pytest-cov',
+    'pytest-xdist',
+    'tox',
+]
+doc = [
+    'sphinx',
+    'sphinx-click',
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/forge_of_absurd_ducks/quackamollie/lib/cli/quackamollie_devtools"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests"]
+namespaces = true
+
+[project.entry-points."quackamollie.command.db"]
+schema = "quackamollie.devtools.cli.command.db_schema_cli_command:generate_db_schema"

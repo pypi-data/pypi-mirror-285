@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# Exit if errors during script execution
+set -e
+
+# Get the package version or exit
+version="$(cat VERSION)"
+if [ -z "${version}" ]; then
+    (>&2 echo "ERROR - VERSION file cannot be found in current directory : ${PWD##*/}");
+    exit 1;
+fi
+
+# Generate docs folder
+sphinx-apidoc --force --full \
+    --separate --private --module-first \
+    -H "Quackamollie CLI Dev Tools" \
+    -A "Forge of Absurd Ducks" \
+    -V "${version}" \
+    -R "${version}" \
+    --implicit-namespaces \
+    --ext-autodoc --ext-doctest --ext-todo --ext-coverage --ext-imgmath --ext-viewcode \
+    -o docs \
+    src/quackamollie
+
+# Add click extension in `docs/conf.py`
+sed -i "s|'sphinx.ext.imgmath',|'sphinx.ext.imgmath',\n    'sphinx_click.ext',|g" docs/conf.py
+
+# Add auto-doc of click command line
+echo -e "\n.. click:: quackamollie.devtools.cli.command.db_schema_cli_command:generate_db_schema\n   :prog: quackamollie db schema\n   :show-nested:" >> docs/quackamollie.devtools.cli.command.db_schema_cli_command.rst
