@@ -1,0 +1,139 @@
+import os
+import string
+from typing import List, Dict, Any
+
+import pandas as pd
+import pkg_resources
+import yaml
+
+
+def print_anes_mapping():
+    """
+    Prints the values of ANES mapping in a human-readable format.
+
+    The purpose of this function is that in some cases users will want to conduct their own query on the ANES
+    dataset, but it is difficult to know what the values are without consulting a codebook.
+
+    Note that when generating personas we recode certain values but you should use original
+    values for filtering data, as they are printed here.
+
+    Here are the cases we recode values:
+
+    - `child18` asks participants if they have children under 18 living in their household. We recode `Yes` to `do have
+    children under 18 living in your household` and `No` to `do not have children under 18 living in your household`.
+
+    - Several questions have multiple choice options (A,B, C) and then an `Other` option. We recode `Other`
+    as `neither A nor B nor C` to be more explicit.
+
+    """
+    mapping = load_yaml('anes-mapping.yaml')
+    df = pd.read_csv(pkg_resources.resource_filename(
+        __name__, 'data/anes_pilot_2024_20240319.csv'))
+    for key in mapping.keys():
+        details = mapping[key]
+
+        print(f"ANES Variable Name: {key}")
+
+        bad_vals = details.get('bad_vals', set())
+
+        # Print the main values from the DataFrame, excluding those that are
+        # in bad_vals
+        if key in df.columns:
+            values = df[key].unique()
+            for val in values:
+                if str(val) not in bad_vals and str(val) != "nan":
+                    print(f"{val}")
+        print()
+
+
+def load_yaml(file_path: str) -> Dict[str, Any]:
+    """
+    Load a YAML file and return its content as a dictionary. We first get the directory of the current path
+    and then construct the full path by combining the base_path with the file_path. Hence, the file_path should be
+    relative to this script's location.
+
+    Args:
+        file_path: The path to the YAML file to load.
+
+    Returns:
+        A dictionary containing the contents of the YAML file.
+    """
+    full_path = pkg_resources.resource_filename(__name__, file_path)
+    if not os.path.exists(full_path):
+        raise FileNotFoundError(
+            f"The file {full_path} does not exist. Please ensure the file path is correct.")
+
+    with open(full_path, 'r') as file:
+        return yaml.safe_load(file)
+
+
+def format_previous_responses(responses: List[str]) -> str:
+    """
+    Format the previous responses for inclusion in the next task description.
+
+    Args:
+        responses: A list of previous responses.
+
+    Returns:
+        A formatted string of the previous responses. By default, strings are formatted like:
+        Response 0: response0
+        Response 1: response1
+    """
+    if not responses:
+        return ""
+    else:
+        resp_list = [
+            "Response {}: {}\n".format(
+                i, responses[i]) for i in range(
+                len(responses))]
+        return "".join(resp_list).strip()
+
+
+class SmartString(str):
+    """
+    A custom string class that overrides the format method to use string.Template's safe substitute.
+
+    Problem it fixes: Oftentimes users will have some kind of json string in their task and this throws an error with
+    normal strings.
+
+    Longer explanation: The format method of the str class uses the curly braces syntax for string formatting. This
+    breaks when the string contains curly braces that are not meant to be replaced. For example:
+
+    s = "Hello, {name} I am a json like {'key':'value'}"
+    new_s = s.format(name="John")
+
+    This will raise a KeyError because the format method will try to replace the curly braces in the json string as
+    well, but we only want to replace {name}. So as a solution one can turn `s` into a string Template and use the
+    safe_substitute method to replace the variables. This is what the SmartString class does: It is a subclass of str that overrides the format
+    method to use string.Template for string formatting.
+    """
+
+    def format(self, avoid_double_period=True, **kwargs):
+        """
+        Override the format method to use string.Template for string formatting.
+
+        Also, if avoid_double_period is True, then we will remove the trailing period from the formatted string if it
+        is already present. This happens if the string is like `Complete the {task}.` and the user passes `task=Do
+        the thing`. In this case, we want to remove the extra period. This is particularly useful for Moderator
+        personas where in defaults they often end on the task.
+
+        Double-period algorithm:
+        Foreach key, value in kwargs:
+        1. Construct a placeholder-plus-period like "{task}." (assuming {task} is placeholder here)
+        2. Check if the placeholder-plus-period is in the string AND the replacement ends with a period.
+        3. If both conditions are met, replace the replacement-plus-period with just the replacement.
+
+        Args:
+            avoid_double_period (bool): Whether to avoid double periods in the final string. (Default: False)
+            **kwargs: Key-value pairs to replace in the string.
+        """
+        template = string.Template(self)
+        formatted_string = template.safe_substitute(**kwargs)
+        if avoid_double_period:
+            for key, value in kwargs.items():
+                placeholder = f"${{{key}}}."
+                if placeholder in self and value.endswith('.'):
+                    formatted_string = formatted_string.replace(
+                        f"{value}.", value)
+
+        return formatted_string
