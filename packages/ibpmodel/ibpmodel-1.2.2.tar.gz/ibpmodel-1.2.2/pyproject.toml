@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ibpmodel"
+dynamic = ["version"]
+license = {text = "MIT License"}
+readme = "README.rst"
+authors = [
+    {name = "Martin Rother"}
+]
+maintainers = [
+    {name = "Ina Rusch", email = "rusch@iap-kborn.de"}
+]
+description = "Ionospheric Bubble Probability" 
+
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: Unix",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Atmospheric Science" 
+]
+
+requires-python = ">=3.8"
+
+dependencies = [
+    "numpy>=1.18, < 2",
+    "cdflib>=0.3.5, < 1",
+    "scipy>=1.4",
+    "pandas>=1.4",
+    "matplotlib>=2.2"
+]
+
+[project.urls]
+homepage = "https://igit.iap-kborn.de/ibp/ibp-model.git"
+documentation = "https://ibp-model.readthedocs.io"
+repository = "https://igit.iap-kborn.de/ibp/ibp-model.git"
+changelog = "https://igit.iap-kborn.de/ibp/ibp-model/-/raw/main/CHANGELOG.rst"
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ibpmodel = ["*.cdf", "*.CDF"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ibpmodel.__version__"}
