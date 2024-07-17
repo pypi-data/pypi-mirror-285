@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rest-solace"
+authors = [
+    {name = "Skyler Guha", email = "skylerguha@gmail.com"},
+]
+maintainers = [
+  {name = "Skyler Guha", email = "skylerguha@gmail.com"}
+]
+description = "REST API library for Solace Message Broker. Publish, Consume, & Manage!!"
+readme = "README.rst"
+requires-python = ">=3.8"
+keywords = ["solace", "rest", 
+            "REST API", "rest-solace", 
+            "rest_solace", "rest solace", 
+            "python", "pythonic"]
+license = {text = "apache 2.0"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Intended Audience :: Developers"
+]
+dependencies = [
+    "requests>=2.30.0",
+    "aiohttp>=3.9.5",
+    "jsonschema>=4.23.0"
+    #"http>=0.02",      #part of the standard library
+    #"functools",       #part of the standard library
+    #"datetime",        #part of the standard library
+    #"typing",          #part of the standard library
+    #"queue",           #part of the standard library
+    #"threading",       #part of the standard library
+    #"time"             #part of the standard library
+    #"json",            #part of the standard library
+    #"urllib"           #part of the standard library
+    #"asyncio"          #part of the standard library
+    #"logging"          #part of the standard library
+    #"warnings"         #part of the standard library
+]
+version = "0.3.0"
+
+[project.urls]
+pypi = "https://pypi.org/project/rest-solace/"
+documentation = "https://github.com/skyler-guha/rest-solace/blob/master/docs/index.rst"
+repository = "https://github.com/skyler-guha/rest-solace"
+
+#Doing an editable install: pip install --editable . 
+#Build the distribution package command (delete old dist folder before running): python -m build
+#check release: twine check dist/*
+#push release: twine upload dist/*
+#(update version number before new release)
+
+# ... other project metadata fields and resources:
+#   
+#   List of clasifiers: https://pypi.org/classifiers/
+#   packaging guide: https://www.serviceobjects.com/blog/step-by-step-guide-to-publishing-python-libraries-to-pypi/ 
+#   https://packaging.python.org/en/latest/guides/writing-pyproject-toml/
+#   https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
