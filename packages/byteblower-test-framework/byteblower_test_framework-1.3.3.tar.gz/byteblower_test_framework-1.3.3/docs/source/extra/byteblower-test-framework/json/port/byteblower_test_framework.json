@@ -1,0 +1,74 @@
+{
+    "$schema": "https://api.byteblower.com/test-framework/json/cli-config-schema.json",
+    "server": "byteblower-server.example.com.",
+    "ports": [
+        {
+            "name": "NSI",
+            "port_group": [
+                "classic_nsi"
+            ],
+            "interface": "trunk-1-3",
+            "ipv4": "192.168.1.2",
+            "netmask": "255.255.255.0",
+            "gateway": "192.168.1.254"
+        },
+        {
+            "name": "CPE",
+            "port_group": [
+                "classic_cpe"
+            ],
+            "interface": "trunk-1-4",
+            "ipv4": "dhcp",
+            "nat": true
+        }
+    ],
+    "flows": [
+        {
+            "name": "Downstream UDP",
+            "type": "frame_blasting",
+            "source": {
+                "port_group": [
+                    "classic_nsi"
+                ]
+            },
+            "destination": {
+                "port_group": [
+                    "classic_cpe"
+                ]
+            },
+            "frame_size": 60,
+            "bitrate": 85000000.0,
+            "analysis": {
+                "latency": true,
+                "max_loss_percentage": 1,
+                "max_threshold_latency": 20
+            }
+        },
+        {
+            "name": "Bidirectional HTTP",
+            "type": "http",
+            "source": {
+                "port_group": [
+                    "classic_nsi"
+                ]
+            },
+            "destination": {
+                "port_group": [
+                    "classic_cpe"
+                ]
+            },
+            "maximum_bitrate": 20000000.0,
+            "initial_time_to_wait": 2.0,
+            "duration": 40.0,
+            "receive_window_scaling": 12,
+            "add_reverse_direction": true
+        }
+    ],
+    "report": {
+        "html": true,
+        "json": true,
+        "junit_xml": false
+    },
+    "enable_scouting_flows": true,
+    "maximum_run_time": 30.0
+}

@@ -1,0 +1,95 @@
+{
+    "$schema": "https://api.byteblower.com/test-framework/json/cli-config-schema.json",
+    "server": "byteblower-server.example.com.",
+    "meeting_point": "byteblower-meeting-point.example.com.",
+    "ports": [
+        {
+            "name": "classic NSI",
+            "port_group": [
+                "classic_nsi"
+            ],
+            "interface": "trunk-1-8",
+            "ipv4": "192.168.1.1",
+            "netmask": "255.255.255.0"
+        },
+        {
+            "name": "L4S NSI",
+            "port_group": [
+                "l4s_nsi"
+            ],
+            "interface": "trunk-1-8",
+            "ipv4": "192.168.1.2",
+            "netmask": "255.255.255.0"
+        },
+        {
+            "name": "CPE",
+            "port_group": [
+                "classic_cpe",
+                "l4s_cpe"
+            ],
+            "uuid": "4d9a5fdb-32b4-4523-ace9-5972518de13b",
+            "ipv4": true
+        }
+    ],
+    "flows": [
+        {
+            "name": "Downstream Classic HTTP",
+            "type": "http",
+            "source": {
+                "port_group": [
+                    "classic_nsi"
+                ]
+            },
+            "destination": {
+                "port_group": [
+                    "classic_cpe"
+                ]
+            },
+            "maximum_bitrate": 20000000.0,
+            "receive_window_scaling": 12
+        },
+        {
+            "name": "Downstream L4S HTTP",
+            "type": "http",
+            "source": {
+                "port_group": [
+                    "l4s_nsi"
+                ]
+            },
+            "destination": {
+                "port_group": [
+                    "l4s_cpe"
+                ]
+            },
+            "enable_l4s": true,
+            "initial_time_to_wait": 2.0,
+            "maximum_bitrate": 20000000.0,
+            "receive_window_scaling": 12
+        },
+        {
+            "name": "Background Downstream UDP",
+            "type": "frame_blasting",
+            "source": {
+                "port_group": [
+                    "classic_nsi"
+                ]
+            },
+            "destination": {
+                "port_group": [
+                    "classic_cpe"
+                ]
+            },
+            "initial_time_to_wait": 20.0,
+            "duration": 20.0,
+            "frame_size": 60,
+            "bitrate": 165000000.0
+        }
+    ],
+    "report": {
+        "html": true,
+        "json": true,
+        "junit_xml": false
+    },
+    "enable_scouting_flows": true,
+    "maximum_run_time": 60.0
+}

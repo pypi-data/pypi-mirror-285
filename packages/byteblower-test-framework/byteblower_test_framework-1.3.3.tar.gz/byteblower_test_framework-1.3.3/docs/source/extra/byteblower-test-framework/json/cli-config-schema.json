@@ -1,0 +1,694 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://api.byteblower.com/test-framework/json/cli-config-schema.json",
+    "title": "Test configuration parameters",
+    "description": "Root structure of the JSON configuration file for the ByteBlower Test Framework command-line interface.",
+    "type": "object",
+    "properties": {
+        "server": {
+            "$ref": "#/$defs/server_address"
+        },
+        "meeting_point": {
+            "$ref": "#/$defs/meeting_point_address"
+        },
+        "ports": {
+            "$ref": "#/$defs/port_list"
+        },
+        "flow": {
+            "$ref": "#/$defs/flow_list"
+        },
+        "maximum_run_time": {
+            "$ref": "#/$defs/maximum_run_time"
+        },
+        "report": {
+            "$ref": "#/$defs/reporting_parameters"
+        }
+    },
+    "required": [
+        "server",
+        "ports",
+        "flows"
+    ],
+    "additionalProperties": true,
+    "$defs": {
+        "server_address": {
+            "$$target": "#/$defs/server_address",
+            "title": "ByteBlower server address",
+            "description": "Host name or IP address of the ByteBlower Server.",
+            "type": "string",
+            "oneOf": [
+                {
+                    "format": "hostname"
+                },
+                {
+                    "format": "ipv4"
+                },
+                {
+                    "format": "ipv6"
+                }
+            ]
+        },
+        "meeting_point_address": {
+            "$$target": "#/$defs/meeting_point_address",
+            "title": "ByteBlower meeting point address",
+            "description": "Host name or IP address of the ByteBlower meeting point.",
+            "$$description": [
+                ".. versionadded:: 1.2.0",
+                "   Support for ByteBlower Endpoint."
+            ],
+            "type": "string",
+            "oneOf": [
+                {
+                    "format": "hostname"
+                },
+                {
+                    "format": "ipv4"
+                },
+                {
+                    "format": "ipv6"
+                }
+            ]
+        },
+        "port_list": {
+            "$$target": "#/$defs/port_list",
+            "title": "Port definitions",
+            "description": "Flat list of ports.",
+            "type": "array",
+            "items": {
+                "$ref": "#/$defs/port"
+            }
+        },
+        "flow_list": {
+            "$$target": "#/$defs/flow_list",
+            "title": "Flow definition list",
+            "description": "Flat list of flow definitions",
+            "type": "array",
+            "items": {
+                "oneOf": [
+                    {
+                        "$ref": "#/$defs/frame_blasting_flow"
+                    },
+                    {
+                        "$ref": "#/$defs/http_flow"
+                    }
+                ]
+            }
+        },
+        "maximum_run_time": {
+            "$$target": "#/$defs/maximum_run_time",
+            "title": "Maximum run time",
+            "type": "number",
+            "minimum": 0,
+            "description": "Maximum run time of the scenario in seconds"
+        },
+        "reporting_parameters": {
+            "$$target": "#/$defs/reporting_parameters",
+            "title": "Report configuration parameters",
+            "type": "object",
+            "properties": {
+                "html": {
+                    "title": "Create HTML report",
+                    "type": "boolean",
+                    "description": "Enable/Disable reporting in HTML format"
+                },
+                "json": {
+                    "title": "Create JSON report",
+                    "type": "boolean",
+                    "description": "Enable/Disable reporting in JSON format"
+                },
+                "junit_xml": {
+                    "title": "Create JUnit XML report",
+                    "type": "boolean",
+                    "description": "Enable/Disable reporting in JUnit XML format"
+                }
+            }
+        },
+        "port_group": {
+            "$$target": "#/$defs/port_group",
+            "title": "Port group",
+            "description": "Definition of a port group",
+            "type": "string"
+        },
+        "port": {
+            "$$target": "#/$defs/port",
+            "title": "Configuration parameters for a ByteBlower Port or Endpoint",
+            "description": "Configuration parameters for a ByteBlower Port or Endpoint",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of this ByteBlower traffic endpoint.",
+                    "$$description": [
+                        "(a friendly name to identify this endpoint)."
+                    ]
+                },
+                "port_group": {
+                    "description": "List of port groups where this port belongs to.",
+                    "$$description": [
+                        "Used to identify to which flows this port will be part of",
+                        "(either as source or destination)."
+                    ],
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/port_group"
+                    }
+                },
+                "interface": {
+                    "description": "Name of the physical ByteBlower interface where this ByteBlower port is created.",
+                    "$$description": [
+                        "*ByteBlower Port only*. Mutually exclusive with ``\"uuid\"``."
+                    ],
+                    "type": "string",
+                    "pattern": "^(nontrunk[-][0-9]+|trunk[-][0-9]+[-][0-9]+)$"
+                },
+                "uuid": {
+                    "type": "string",
+                    "anyOf": [
+                        {
+                            "format": "uuid"
+                        },
+                        {}
+                    ],
+                    "description": "Device identifier of the ByteBlower Endpoint.",
+                    "$$description": [
+                        "*ByteBlower Endpoint only*. Mutually exclusive with ``\"interface\"``.",
+                        "",
+                        ".. note::",
+                        "   Using an Endpoint also requires the ``\"meeting_point\"`` to be provided",
+                        "   *and* ``\"ipv4\"`` or ``\"ipv6\"`` set to ``true`` for this port configuration.",
+                        "",
+                        ".. versionadded:: 1.2.0",
+                        "   Support for ByteBlower Endpoint."
+                    ]
+                },
+                "vlans": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/vlan"
+                    },
+                    "description": "List of VLAN (stack) configurations.",
+                    "$$description": [
+                        ".. note::",
+                        "   Not supported by ByteBlower Endpoint."
+                    ]
+                },
+                "ipv4": {
+                    "title": "IPv4 addressing method",
+                    "description": "Enable IPv4 on this traffic endpoint.",
+                    "$$description": [
+                        "Supports the following values:",
+                        "",
+                        "- *IPv4 address* for static IPv4 IP address (*ByteBlower Port only*).",
+                        "- ``\"dhcp\"`` for dynamic IPv4 address allocation (*ByteBlower Port only*).",
+                        "- ``true``: To use the IPv4 address(es) of the system (*ByteBlower Endpoint only*).",
+                        "",
+                        "Default: ``\"dhcp\"`` (*ByteBlower Port*) or *undefined* (*ByteBlower Endpoint*).",
+                        "",
+                        ".. note::",
+                        "   For ByteBlower Endpoint, you must specify either ``\"ipv4\": true`` or ``\"ipv6\": true``.",
+                        "",
+                        ".. versionchanged:: 1.2.0",
+                        "   Support for ByteBlower Endpoint."
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "enum": [
+                                        "dhcp"
+                                    ]
+                                },
+                                {
+                                    "format": "ipv4"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "boolean"
+                        }
+                    ]
+                },
+                "netmask": {
+                    "type": "string",
+                    "format": "ipv4",
+                    "description": "Netmask of the IPv4 network.",
+                    "$$description": [
+                        "Default: *Assigned by DHCP* or ``255.255.255.0`` for static IPv4 address configuration.",
+                        "",
+                        ".. note::",
+                        "   - Will be supported for IPv6 once manual address configuration is supported.",
+                        "   - Not supported by ByteBlower Endpoint."
+                    ]
+                },
+                "gateway": {
+                    "type": "string",
+                    "format": "ipv4",
+                    "description": "(Default) Gateway of the IPv4 network.",
+                    "$$description": [
+                        "Default: *Assigned by DHCP* or *none* for static IPv4 address configuration.",
+                        "",
+                        ".. note::",
+                        "   - Will be supported for IPv6 once manual address configuration is supported.",
+                        "   - Not supported by ByteBlower Endpoint."
+                    ]
+                },
+                "nat": {
+                    "type": "boolean",
+                    "description": "Define whether this port is located behind a NAT gateway.",
+                    "$$description": [
+                        "Defaults to ``false``.",
+                        "",
+                        ".. note::",
+                        "   Enabled by default for ByteBlower Endpoint."
+                    ]
+                },
+                "ipv6": {
+                    "title": "IPv6 addressing method",
+                    "description": "Enable IPv6 on this traffic endpoint.",
+                    "$$description": [
+                        "Supports the following values:",
+                        "",
+                        "- ``\"dhcp\"``: to let the port perform DHCPv6 (*ByteBlower Port only*)",
+                        "- ``\"slaac\"``: to let the port perform stateless address auto-configuration (*ByteBlower Port only*).",
+                        "- ``true``: To use the IPv6 address(es) of the system (*ByteBlower Endpoint only*).",
+                        "",
+                        "Default: *undefined*.",
+                        "",
+                        ".. note::",
+                        "   For ByteBlower Endpoint, you must specify either ``\"ipv4\": true`` or ``\"ipv6\": true``.",
+                        "",
+                        ".. versionchanged:: 1.2.0",
+                        "   Support for ByteBlower Endpoint."
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string",
+                            "oneOf": [
+                                {
+                                    "enum": [
+                                        "dhcp",
+                                        "slaac"
+                                    ]
+                                },
+                                {
+                                    "format": "ipv6"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "boolean"
+                        }
+                    ]
+                }
+            }
+        },
+        "vlan": {
+            "title": "VLAN (stack) configuration",
+            "$$target": "#/$defs/vlan",
+            "type": "object",
+            "properties": {
+                "protocol_id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 65535,
+                    "description": "VLAN protocol ID (TPID).",
+                    "$$description": [
+                        "Default value is:",
+                        "",
+                        "- ``\"0x8100\"`` for a single VLAN configuration",
+                        "- ``\"0x88a8\"`` for the outer VLAN(s) in a VLAN stack configuration",
+                        "- ``\"0x8100\"`` for the most inner VLAN in a VLAN stack configuration.",
+                        "",
+                        ".. note::",
+                        "   Configuration of the VLAN protocol ID (TPID) requires ByteBlower Server version >= 2.20.0."
+                    ]
+                },
+                "id": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4095,
+                    "description": "VLAN ID (12-bit; 0-4095)"
+                },
+                "priority": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 3,
+                    "description": "3 bits defining the VLAN PCP bits. Default: 0"
+                },
+                "drop_eligible": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "1-bit flag. Default: 0"
+                }
+            }
+        },
+        "flow": {
+            "$$target": "#/$defs/flow",
+            "title": "Flow definition",
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of this Flow, defaults to auto-generated name when set to ``none``"
+                },
+                "source": {
+                    "description": "Specifying the source of transmitted data for this flow",
+                    "type": "object",
+                    "properties": {
+                        "port_group": {
+                            "description": "List of port groups specifying the transmitting ports",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/port_group"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "destination": {
+                    "description": "Specifying the destination for receiving data for this flow",
+                    "type": "object",
+                    "properties": {
+                        "port_group": {
+                            "description": "List of port groups specifying the receiving ports",
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/port_group"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "type": {
+                    "description": "Type of the flow. Defines which specific flow parameters will be possible.",
+                    "type": "string",
+                    "enum": [
+                        "frame_blasting",
+                        "http"
+                    ]
+                },
+                "ecn": {
+                    "title": "IP ECN",
+                    "description": "Explicit Congestion Notification code point. Defaults to :const:`DEFAULT_IP_ECN` (``0x00``)",
+                    "oneOf": [
+                        {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 3
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "dscp": {
+                    "title": "IP DSCP",
+                    "description": "Differentiated Services Code Point. Defaults to :const:`DEFAULT_IP_DSCP` (``0x00``)",
+                    "oneOf": [
+                        {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 63
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "add_reverse_direction": {
+                    "type": "boolean",
+                    "description": "Enables adding a flow in the reverse direction of the original flow.",
+                    "$$description": [
+                        "The reverse flow uses the same configuration as the original.",
+                        "Defaults to ``false``"
+                    ]
+                },
+                "initial_time_to_wait": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Initial time to wait to start the flow in seconds.",
+                    "$$description": [
+                        "Defaults to 0 (start immediately)"
+                    ]
+                }
+            }
+        },
+        "frame_blasting_flow": {
+            "$$target": "#/$defs/frame_blasting_flow",
+            "title": "Frame blasting flow",
+            "description": "Specific parameters for frame blasting flow. The ``type`` MUST be defined as ``frame_blasting``.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/$defs/flow"
+                },
+                {
+                    "properties": {
+                        "bitrate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "Rate at which the bits are transmitted (in bits per second).",
+                            "$$description": [
+                                "Excludes the VLAN tag bytes (*when applicable*), mutual exclusive ",
+                                "with ``frame_rate``, defaults to ``none``"
+                            ]
+                        },
+                        "frame_size": {
+                            "type": "integer",
+                            "minimum": 42,
+                            "description": "Frame size in Bytes without CRC, defaults to ``none``"
+                        },
+                        "frame_rate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "Rate at which the frames are transmitted (in frames per second).",
+                            "$$description": [
+                                "Mutual exclusive with ``bitrate``. Defaults to :const:`DEFAULT_FRAME_RATE`",
+                                "(``100``) when ``bitrate`` is not provided."
+                            ]
+                        },
+                        "number_of_frames": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "description": "Number of frames to transmit.",
+                            "$$description": [
+                                "Defaults to :const:`DEFAULT_NUMBER_OF_FRAMES`",
+                                "(``none`` == *defined by scenario maximum run time*)."
+                            ]
+                        },
+                        "duration": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "Duration of the flow in seconds.",
+                            "$$description": [
+                                "Defaults to ``none`` (use ``number_of_frames`` instead)"
+                            ]
+                        },
+                        "nat_keep_alive": {
+                            "type": "boolean",
+                            "description": "Enable a flow to keep Network Address (and Port) Translation (NAT/NAPT) entries alive.",
+                            "$$description": [
+                                "The direction will be from the endpoint behind a NAT/NAPT",
+                                "gateway to the port at the public side of the NAT/NAPT gateway.",
+                                "Defaults to ``false``.",
+                                "",
+                                "We always enable the NAT/NAPT keep alive when the user asks",
+                                "for it, even when:",
+                                "",
+                                "- The *reverse flow* is enabled and source and destination UDP ports",
+                                "  are the same",
+                                "- The source is the *endpoint behind the NAT/NAPT gateway*: An",
+                                "  *initial time to wait* on the flow can still cause the NAPT entries",
+                                "  at the gateway might still timeout before the traffic starts. This",
+                                "  might cause the NAPT gateway to create a new (*maybe different!*)",
+                                "  NAPT entry, causing our traffic analysis to fail (with 100% loss)."
+                            ]
+                        },
+                        "napt_keep_alive": {
+                            "deprecated": true,
+                            "type": "boolean",
+                            "$$description": [
+                                ".. deprecated:: v1.2.0",
+                                "   Use ``nat_keep_alive`` instead. Will be removed in v1.4.0."
+                            ]
+                        },
+                        "analysis": {
+                            "oneOf": [
+                                {
+                                    "$ref": "#/$defs/frame_loss_analysis"
+                                },
+                                {
+                                    "$ref": "#/$defs/latency_loss_analysis"
+                                }
+                            ],
+                            "description": "Sets latency related analysis configuration parameters"
+                        }
+                    }
+                }
+            ]
+        },
+        "http_flow": {
+            "$$target": "#/$defs/http_flow",
+            "title": "HTTP flow parameters",
+            "description": "Specific parameters for HTTP flow. The ``type`` MUST be defined as ``http``.",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/$defs/flow"
+                },
+                {
+                    "properties": {
+                        "tcp_server_port": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535,
+                            "description": "Port number of the TCP server, defaults to ``none``"
+                        },
+                        "tcp_client_port": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535,
+                            "description": "Port number of the TCP client, defaults to ``none``"
+                        },
+                        "duration": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "The time it takes for a TCP request to be completed.",
+                            "$$description": [
+                                "Mutual exclusive with ``request_size``. Defaults to ``none``"
+                            ]
+                        },
+                        "request_size": {
+                            "type": "integer",
+                            "exclusiveMinimum": 0,
+                            "description": "The size of the TCP request packet in bytes.",
+                            "$$description": [
+                                "Mutual exclusive with ``duration``. Defaults to ``none``"
+                            ]
+                        },
+                        "rate_limit": {
+                            "deprecated": true,
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "Limit the data traffic rate (in Bytes per second).",
+                            "$$description": [
+                                "Mutual exclusive with ``maximum_bitrate``. Defaults to ``none`` (== *no limit*).",
+                                "",
+                                ".. deprecated:: 1.2.0",
+                                "   Deprecated ``rate_limit`` in favor of ``maximum_bitrate``.",
+                                "   Will be removed in the next release."
+                            ]
+                        },
+                        "maximum_bitrate": {
+                            "type": "number",
+                            "exclusiveMinimum": 0,
+                            "description": "Limit the data traffic rate (in bits per second).",
+                            "$$description": [
+                                "Mutual exclusive with ``rate_limit``. Defaults to ``none`` (== *no limit*).",
+                                "",
+                                ".. versionadded:: 1.2.0",
+                                "   Added ``maximum_bitrate`` deprecating ``rate_limit``."
+                            ]
+                        },
+                        "receive_window_scaling": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 12,
+                            "description": "When given, enable receive window scaling with the given scale factor.",
+                            "$$description": [
+                                "Defaults to ``none``.",
+                                "",
+                                "When ByteBlower Endpoints are involved, this setting will",
+                                "not be applied on them, but only on the HTTP Server on the",
+                                "ByteBlower Port. The ByteBlower Endpoint has no control over",
+                                "the TCP parameters of the host operating system's. It is then",
+                                "up to the Endpoint's host configuration whether this setting",
+                                "will be applicable or not."
+                            ]
+                        },
+                        "slow_start_threshold": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 2147483647,
+                            "description": "TCP Slow start threshold value.",
+                            "$$description": [
+                                "Defaults to ``none``.",
+                                "",
+                                "When ByteBlower Endpoints are involved, this setting will",
+                                "not be applied on them, but only on the HTTP Server on the",
+                                "ByteBlower Port. The ByteBlower Endpoint has no control over",
+                                "the TCP parameters of the host operating system's. It is then",
+                                "up to the Endpoint's host configuration whether this setting",
+                                "will be applicable or not."
+                            ]
+                        },
+                        "enable_l4s": {
+                            "type": "boolean",
+                            "description": "Activate TCP Prague congestion avoidance algorithm, and enables ECN analysis for Congestion Experienced (CE) codepoint count.",
+                            "$$description": [
+                                "Defaults to ``false`` (no L4S analysis, default TCP Prague",
+                                "for ByteBlower Server,disabled for ByteBlower Port, host",
+                                "operating system default for ByteBlower Endpoint).",
+                                "",
+                                ".. note::",
+                                "   - L4S support requires at least ByteBlower API v2.22.0,",
+                                "     Server and Meeting Point v2.22.0, and ByteBlower",
+                                "     Endpoint v2.22.0.",
+                                "   - When using Endpoints, L4S must be supported and",
+                                "     enabled in the hosting OS",
+                                "",
+                                ".. versionadded:: 1.3.0",
+                                "   Add support for L4S HTTP flow"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "frame_loss_analysis": {
+            "$$target": "#/$defs/frame_loss_analysis",
+            "title": "Frame loss analysis parameters",
+            "description": "Specific frame loss analysis related parameters",
+            "type": "object",
+            "properties": {
+                "max_loss_percentage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Maximum allowed frame/byte loss in %, defaults to :const:`DEFAULT_LOSS_PERCENTAGE` (``1.0``)"
+                }
+            }
+        },
+        "latency_loss_analysis": {
+            "$$target": "#/$defs/latency_loss_analysis",
+            "title": "Latency & frame loss analysis parameters",
+            "description": "Specific latency & frame loss analysis related parameters",
+            "type": "object",
+            "properties": {
+                "latency": {
+                    "type": "boolean",
+                    "description": "Set to ``true`` to enable latency analysis (latency statistics over time, distribution, CDF, CCDF, ...), defaults to ``false``"
+                },
+                "max_loss_percentage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Maximum allowed frame/byte loss in %, defaults to :const:`DEFAULT_LOSS_PERCENTAGE` (``1.0``)"
+                },
+                "max_threshold_latency": {
+                    "type": "number",
+                    "title": "Maximum latency threshold",
+                    "description": "Maximum allowed latency in milliseconds, defaults to :const:`DEFAULT_MAX_LATENCY_THRESHOLD` (``5.0``)"
+                },
+                "quantile": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Quantile for which the latency must be less than the given maximum latency, defaults to :const:`DEFAULT_QUANTILE` (``99.9``)"
+                }
+            }
+        }
+    }
+}
