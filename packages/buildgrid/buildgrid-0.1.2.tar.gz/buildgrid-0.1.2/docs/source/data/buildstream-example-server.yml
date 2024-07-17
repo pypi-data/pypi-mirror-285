@@ -1,0 +1,27 @@
+server:
+  - !channel
+    address: localhost:50051
+    insecure-mode: true
+
+instances:
+  - name: ''
+
+    storages:
+      - !lru-storage &main-storage
+        size: 512MB
+
+    services:
+      - !action-cache &main-action
+        storage: *main-storage
+        max-cached-refs: 256
+        allow-updates: true
+
+      - !execution
+        storage: *main-storage
+        action-cache: *main-action
+
+      - !cas
+        storage: *main-storage
+
+      - !bytestream
+        storage: *main-storage

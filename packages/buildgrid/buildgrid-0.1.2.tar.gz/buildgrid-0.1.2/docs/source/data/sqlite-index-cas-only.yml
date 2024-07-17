@@ -1,0 +1,31 @@
+server:
+  - !channel
+    address: localhost:50051
+    insecure-mode: true
+
+authorization:
+  method: none
+
+monitoring:
+  enabled: false
+
+instances:
+  - name: ''
+    description: |
+      The unique '' instance.
+
+    storages:
+      - !disk-storage &disk-store
+        path: example-cas/
+
+      - !sql-index &cas-index
+        storage: *disk-store
+        connection-string: sqlite:///./index.example.db
+        automigrate: yes
+
+    services:
+      - !cas
+        storage: *cas-index
+
+      - !bytestream
+        storage: *cas-index
