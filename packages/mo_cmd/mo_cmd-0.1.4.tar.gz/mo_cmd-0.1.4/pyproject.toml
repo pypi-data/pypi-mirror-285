@@ -1,0 +1,24 @@
+[project]
+name = "mo_cmd"
+version = "0.1.4"
+description = "PDM add, sub, div calculate package"
+authors = [
+    {name = "oddsummer56", email = "oddsummer56@gmail.com"},
+]
+dependencies = [
+    "mo-plus>=0.1.0",
+    "mo-minus>=0.1.0",
+    "mo-divide>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+mo-plus = "mo_cmd.cmd:plus"
+mo-minus = "mo_cmd.cmd:minus"
+mo-divide = "mo_cmd.cmd:div"
