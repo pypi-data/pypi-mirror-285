@@ -1,0 +1,24 @@
+pub mod activate;
+pub mod completions;
+pub mod create;
+
+pub mod check;
+pub mod ensurepath;
+pub mod inject;
+pub mod install;
+pub mod list;
+pub mod reinstall;
+pub mod reinstall_all;
+pub mod run;
+pub mod runpip;
+pub mod runpython;
+pub mod runuv;
+pub mod self_changelog;
+mod self_migrate;
+pub mod self_update;
+pub mod setup;
+pub mod uninject;
+pub mod uninstall;
+pub mod uninstall_all;
+pub mod upgrade;
+pub mod upgrade_all;
