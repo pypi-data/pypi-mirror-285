@@ -1,0 +1,19 @@
+[project]
+name = "xaal.tuya"
+version = "0.1"
+description = "xAAL support for Tuya protocol / Smart Life App"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "tuya"]
+dependencies = ["xaal.lib", "gevent", "decorator", "tuyaface"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.tuya"]
