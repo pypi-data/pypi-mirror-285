@@ -1,0 +1,97 @@
+[build-system]
+requires = ["hatchling>=1.8.0", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "plum-dispatch"
+description="Multiple dispatch in Python"
+authors=[
+    {name = "Wessel Bruinsma", email="wessel.p.bruinsma@gmail.com"},
+]
+license = {text= "MIT"}
+readme = "README.md"
+keywords = ["multiple dispatch"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 5 - Production/Stable",
+]
+dynamic = ["version"]
+
+requires-python = ">=3.8"
+dependencies = [
+    "beartype>=0.16.2",
+    "typing-extensions>=4.9.0",
+    "rich>=10.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "numpy",
+    "pytest>=6",
+    "pytest-cov",
+    "coveralls",
+    "pre-commit",
+    "IPython",
+    "black==23.9.0",
+    "ghp-import",
+    "wheel",
+    "build",
+    "tox",
+    "jupyter-book",
+    "mypy",
+    "pyright>=1.1.331",
+    "ruff==0.1.0",
+    "sybil",
+]
+
+[project.urls]
+repository = "https://github.com/beartype/plum"
+
+[tool.hatch.build]
+include = ["plum*"]
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "plum/_version.py"
+
+# Development tools
+[tool.coverage.run]
+branch = true
+command_line = "-m pytest --verbose test"
+source = ["plum"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/", "plum", "docs"]
+addopts = [
+    "-ra",
+    "-p",
+    "no:doctest",
+]
+minversion = "6.0"
+
+
+[tool.ruff]
+src = ["plum"]
+target-version = "py38"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "B",  # flake8-bugbear
+    "D410",
+    "E", "W",  # pycodestyle
+    "F",  # Pyflakes
+    "I",  # isort
+    "SIM",  # flake8-simplify
+    "UP",  # pyupgrade
+]
+ignore = ["F811", "B018"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["beartype"]
+known-local-folder = ["plum"]
+
+[tool.ruff.format]
+docstring-code-format = true
