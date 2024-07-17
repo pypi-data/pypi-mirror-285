@@ -1,0 +1,99 @@
+Metadata-Version: 2.3
+Name: gitmind
+Version: 0.0.1
+Summary: AI powered Git repository analysis and reporting
+Project-URL: Repository, https://github.com/Goldziher/gitmind
+Author-email: Na'aman Hirschfeld <nhirschfeld@gmail.com>
+License: BUSL-1.1
+License-File: LICENSE
+Keywords: ai,analysis,dev-tools,git,linting,reporting,repository
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Requires-Python: >=3.9
+Requires-Dist: anyio>=4.4.0
+Requires-Dist: eval-type-backport>=0.2.0
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: inflection>=0.5.1
+Requires-Dist: jsonschema>=4.22.0
+Requires-Dist: msgspec>=0.18.6
+Requires-Dist: pydantic-settings>=2.3.4
+Requires-Dist: pygit2>=1.15.1
+Requires-Dist: python-magic>=0.4.27
+Requires-Dist: structlog>=24.2.0
+Requires-Dist: typing-extensions>=4.12.2
+Provides-Extra: cli
+Requires-Dist: click>=8.1.7; extra == 'cli'
+Requires-Dist: rich-click>=1.8.3; extra == 'cli'
+Requires-Dist: rich>=13.7.1; extra == 'cli'
+Provides-Extra: groq
+Requires-Dist: groq>=0.9.0; extra == 'groq'
+Provides-Extra: openai
+Requires-Dist: openai>=1.35.11; extra == 'openai'
+Description-Content-Type: text/markdown
+
+<p align="center">
+  <!-- github-banner-start -->
+  <img src="https://github.com/Goldziher/gitmind/blob/main/assets/logo_white_bg.svg?raw=true" alt="GitMind Logo - Light" width="100%" height="auto" />
+  <!-- github-banner-end -->
+</p>
+
+# Gitmind
+
+AI powered Git repository analysis and reporting.
+
+This project is currently in its infancy. The readme will be updated to include more information as the project progresses.
+
+If you find what you are seeing intriguing, go ahead and ⭐️ the repository to show your support.
+
+## Local Development
+
+### Prerequisites
+
+- A compatible python version. It's recommended to use [pyenv](https://github.com/pyenv/pyenv) to manage
+python versions.
+- [pdm](https://github.com/pdm-project/pdm) installed.
+- [pre-commit](https://pre-commit.com) installed.
+- [hatch](https://hatch.pypa.io) installed,
+
+### Setup
+
+1. Clone the repository
+3. Inside the repository, install the dependencies with:
+   ```shell
+      pdm install
+   ```
+   This will create a virtual env under the git ignored `.venv` folder and install all the dependencies.
+3. Install the pre-commit hooks:
+   ```shell
+      pre-commit install && pre-commit install --hook-type commit-msg
+   ```
+   This will install the pre-commit hooks that will run before every commit. This includes linters and formatters.
+
+### Linting
+
+To lint the codebase, run:
+```shell
+   pdm run lint
+```
+
+### Testing
+
+To run the tests, run:
+```shell
+   pdm run test
+```
+
+Tip: You can also run the linters configured in `pyproject.toml` inside your IDE of choice.
