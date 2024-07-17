@@ -1,0 +1,66 @@
+[package]
+name = "boytacean"
+description = "A Game Boy emulator that is written in Rust."
+version = "0.10.3"
+authors = ["João Magalhães <joamag@gmail.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/joamag/boytacean"
+keywords = ["gameboy", "emulator", "rust"]
+edition = "2018"
+exclude = ["/frontends", "/res/roms", "/res/screens", "/res/videos"]
+build = "build.rs"
+readme = "README.md"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = []
+wasm = ["wasm-bindgen", "js-sys"]
+python = ["pyo3"]
+simd = []
+debug = []
+pedantic = []
+cpulog = []
+gen-mock = []
+
+[dependencies]
+wasm-bindgen = { version = "0.2", optional = true }
+js-sys = { version = "0.3", optional = true }
+pyo3 = { version = "0.20", optional = true }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[build-dependencies]
+chrono = "0.4"
+regex = "1"
+built = "0.5"
+
+[profile.release]
+debug = false
+lto = true
+opt-level = 3
+codegen-units = 1
+
+[profile.release-safe]
+inherits = "release"
+debug = false
+lto = true
+opt-level = 3
+
+[profile.bench]
+debug = false
+lto = true
+opt-level = 3
+codegen-units = 1
+
+[workspace]
+members = [".", "frontends/libretro", "frontends/sdl"]
+
+[package.metadata.docs.rs]
+features = ["wasm", "gen-mock"]
+
+[[bench]]
+name = "color"
+harness = false
