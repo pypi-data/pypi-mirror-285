@@ -1,0 +1,170 @@
+[tool.poetry]
+name = "heart-library"
+version = "0.4.0"
+description = "Hardened Extension of the Adversarial Robustness Toolbox (HEART) supports assessment of adversarial AI vulnerabilities in Test & Evaluation workflows."
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/IBM/heart-library"
+packages = [{include = "heart_library", from = "src" }]
+keywords = [
+    "machine learning",
+    "adversarial ai",
+    "evasion",
+]
+
+authors = ["Mark Baker, Jordan Fischer, Kieran Fraser, Jackson Lee, Adam Lockwood"]
+
+
+[tool.poetry.dependencies]
+# HEART Required Dependences
+python = ">=3.9, <3.11"
+adversarial-robustness-toolbox = ">=1.17.1"
+maite = ">=0.5.0"
+numpy = ">=1.18.5, <2"
+scikit-learn = ">=0.22.2"
+six = "*"
+setuptools = "*"
+tqdm = "*"
+
+# HEART Optional Dependencies
+datasets = { version = ">=2.18.0", optional = true }
+gradio = { version = ">=4.13.0", optional = true }
+jupyter = { version = "*", optional = true}
+matplotlib = { version = "*", optional = true }
+multiprocess = { version = "*", optional = true }
+numba = { version = "*", optional = true }
+pandas = { version = "*", optional = true }
+Pillow = { version = "*", optional = true }
+pycocotools = { version = "*", optional = true }
+sphinx = { version = ">=4.2.0", optional = true }
+furo = { version = "*", optional = true }
+torch = { version = "*", optional = true }
+torchvision = { version = "*", optional = true }
+timm = { version = "*", optional = true }
+opencv-python = { version = "*", optional = true }
+transformers = { version = "*", optional = true }
+kornia = { version = "*", optional = true }
+torchmetrics = { version = "*", optional = true }
+memory-profiler = { version = "*", optional = true }
+pympler = { version = "*", optional = true }
+GPUtil = { version = "*", optional = true }
+
+
+[tool.poetry.extras]
+# All Optional Dependencies
+all = [
+    "datasets",
+    "jupyter",
+    "matplotlib",
+    "multiprocess",
+    "numba",
+    "pandas",
+    "Pillow",
+    "pycocotools",
+    "torch",
+    "torchvision",
+    "opencv-python",
+    "timm",
+    "transformers",
+    "kornia",
+    "torchmetrics",
+]
+
+# Optional Individual Framework Dependencies
+pytorch = ["torch", "torchvision", "torchmetrics"]
+
+# Optional Non-Framework Dependencies
+non_framework = [
+    "datasets",
+    "jupyter",
+    "matplotlib",
+    "multiprocess",
+    "numba",
+    "pandas",
+    "Pillow",
+    "pycocotools",
+    "opencv-python",
+    "timm",
+    "transformers",
+    "kornia",
+]
+
+# Optional Image Classification Dependencies
+image_classification = [
+    "torch",
+    "torchvision",
+    "transformers",
+]
+
+# Optional Object Detection Dependencies
+object_detection = [
+    "torch",
+    "opencv-python",
+    "pycocotools",
+]
+
+# Optional Jupyter Notebook Dependencies
+notebooks = [
+    "jupyter",
+    "matplotlib",
+    "pandas",
+    "kornia",
+]
+
+# Optional Gradio App Dependencies
+gradio = [
+    "datasets",
+    "gradio",
+    "matplotlib",
+    "pandas",
+    "timm",
+    "transformers",
+    "kornia",
+]
+
+# Optional Sphinx Dependencies
+docs = [
+    "sphinx",
+    "furo"
+]
+
+# Optional Script Dependencies
+script = [
+    "memory-profiler",
+    "pympler",
+    "GPUtil",
+]
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+isort = "*"
+lxml = "*"
+mypy = "*"
+nbmake = "*"
+pylint = "==2.12.2"
+pylint_junit = "*"
+pytest = "*"
+pytest-flake8 = "*"
+pytest-black = "*"
+pytest-isort = "*"
+pytest-mock = "*"
+pytest-cov = "*"
+
+
+[tool.black]
+line-length=120
+
+
+[tool.coverage.run]
+omit = [
+    "*/.cache/*",
+    "conftest.py",
+]
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
