@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<tal:block metal:use-macro="view.index_tmpl().macros['main']" i18n:domain="nive_userdb">
+<tal:block metal:fill-slot="content">
+
+<div class="signup">
+  <h3 tal:condition="title" tal:content="structure title"></h3>
+  <div tal:condition="view.context.app.configuration.get('maintenance')==True" i18n:translate="">Sorry, the login is currently disabled due to maintenance. Please try again later.</div>
+  <div tal:condition="view.context.app.configuration.get('maintenance')!=True">
+    <span tal:replace="structure head"/>
+    <span tal:replace="structure content"/>
+  </div>
+</div>
+
+</tal:block>
+</tal:block>
