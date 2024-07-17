@@ -1,0 +1,158 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Run every Sunday
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+jobs:
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install nox and uv
+        run: |
+          pipx install nox
+          pipx install uv
+
+      - name: Lint
+        run: |
+          nox -s lint --verbose
+
+      - name: Typecheck
+        run: |
+          nox -s typecheck --verbose
+
+  tests:
+    name: Tests (${{ matrix.os }}, Python ${{ matrix.python-version }})
+    needs: code-quality
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: ""
+          use-mamba: true
+
+      - name: Install nox and uv
+        run: |
+          pipx install nox
+          pipx install uv
+
+      - name: Run tests
+        run: |
+          nox -s tests-${{ matrix.python-version }} --verbose
+
+      - name: Upload test outputs
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: test-outputs-${{ matrix.os }}-python-${{ matrix.python-version }}
+          path: tests/_outputs
+
+
+      - name: Upload coverage to codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: true
+        if: ${{ matrix.os == 'ubuntu-latest' }}
+
+  test-build-and-install:
+    name: Build distribution and test installation
+    needs: code-quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: ""
+          use-mamba: true
+
+      - name: Install nox and uv
+        run: |
+          pipx install nox
+          pipx install uv
+
+      - name: Build distribution
+        run: |
+          nox -s build
+
+      - name: Test wheel with extras matrix
+        run: |
+          nox -s test_wheel --verbose
+
+      - name: Test sdist
+        run: |
+          nox -s test_sdist --verbose
+
+  docs:
+    name: Docs preview
+    needs: code-quality
+    if: github.event.pull_request != null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: ""
+          use-mamba: true
+
+      - name: Install nox and uv
+        run: |
+          pipx install nox
+          pipx install uv
+
+      - name: Test building documentation
+        run: |
+          nox -s docs --verbose
+
+      - name: Deploy site preview to Netlify
+        uses: nwtgck/actions-netlify@v1.1
+        with:
+          publish-dir: "./docs/site"
+          production-deploy: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: false
+          overwrites-pull-request-comment: true
+          alias: deploy-preview-${{ github.event.number }}
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        timeout-minutes: 1
+
+  notify:
+    name: Notify failed build
+    needs: [code-quality, tests, test-build-and-install, docs]
+    if: failure() && github.event.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jayqi/failed-build-issue-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
