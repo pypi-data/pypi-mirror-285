@@ -1,0 +1,78 @@
+Metadata-Version: 2.1
+Name: telempack
+Version: 1.3.6
+Summary: A package that uses the OpenTelemetry & Datadog API/SDK to obtain traces, logs, & metrics from services.
+Home-page: https://git.eogresources.com/eog/telemetry-py
+License: eog
+Author: Max Chalitsios
+Author-email: Max_Chalitsios@eogresources.com
+Requires-Python: ==3.12.4
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Requires-Dist: certifi (==2024.7.4)
+Requires-Dist: ddtrace (==2.9.2)
+Requires-Dist: fastapi (==0.100.1)
+Requires-Dist: httpx (==0.27.0)
+Requires-Dist: opentelemetry-api (==1.25.0)
+Requires-Dist: opentelemetry-distro (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-aio-pika (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-asgi (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-asyncio (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-confluent-kafka (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-kafka-python (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-mysql (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-mysqlclient (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-psycopg (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-psycopg2 (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-pymemcache (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-pymongo (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-pymysql (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-redis (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-requests (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-sqlalchemy (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-sqlite3 (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-starlette (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-system-metrics (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-threading (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-urllib3 (==0.46b0)
+Requires-Dist: opentelemetry-instrumentation-wsgi (==0.46b0)
+Requires-Dist: opentelemetry-sdk (==1.25.0)
+Requires-Dist: pydantic (==1.10.8)
+Requires-Dist: pydantic-core (==2.20.1)
+Requires-Dist: pymongo (==4.8.0)
+Requires-Dist: twine (==5.1.1)
+Project-URL: Repository, https://git.eogresources.com/eog/telemetry-py
+Description-Content-Type: text/markdown
+
+# Telemetry Package for Python (telempack)
+This current version only supports open telemetry exporting. There are two objects (Resource & Observer) that you will import from telempack. First fill out the parameters for the Resource object then instantiate an Observer object passing through one paramater - the Resource object. Note that prod is the only environment that will export data to datadog. That's it. For an example, look in telempack/examples/example-telempack.py
+
+# Installation
+You can install this package via pip xor poetry.
+
+## Pip
+If your service primarily uses pip, then check out [eog's piphub](https://piphub.eogresources.com/). Inside the simple index you can find "telempack" which is this package. To install with pip, run this command (note the whitespace):
+- `pip install --index-url http://piphub.eogresources.com/simple/ telempack`
+
+## Poetry
+In order to install this package from eog's internal pypi server please run these commands in order (note in config command you can replace '.eog' with a tag of your choice but you have to replace it in the next command too):
+- `poetry config repositories.eog https://piphub.eogresources.com/simple/`
+- `poetry add telempack --source eog`
+
+And to update the package: 
+- `poetry update telempack`
+
+# Example Usage
+> Be sure to instantiate the Observer and create the Resource in the same area you add your middleware and routes (preferably before both & after app instantiation).
+See example-telempack.py in telempack/examples/example-telempack.py
+Run script: `python -m telempack.examples.example-telempack`
+
+## Configure Resource Object Parameters
+- export_endpoint: str = "https://datadog-agent.svc.eogresources.com" [REQUIRED]
+- app_env: str = "dev"||"stage"||"prod"||"local"[REQUIRED]
+- app: Union[FastAPI, Flask] (flask currently not fully support) [REQUIRED]
+- logger_obj: logging.Logger (optional, one is created if not provided)
+- is_ddprofiler_on: bool = False (not supported until version 2.0.0)
+
+## Note on Exporting to Datadog
+> The export_endpoint link will change and your team will have a specific link. Hardcoding each link for traces, metrics, and logs is okay but not recommended; instead try adding it to your environment variables.
