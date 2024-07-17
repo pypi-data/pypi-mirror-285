@@ -1,0 +1,182 @@
+import { applySwitcheroo } from '../designApplication';
+import { ColorSet, ComponentId } from '../dataModels';
+import { ComponentBase, ComponentState } from './componentBase';
+import { RippleEffect } from '../rippleEffect';
+import { markEventAsHandled } from '../eventHandling';
+
+type AbstractButtonState = ComponentState & {
+    shape?: 'pill' | 'rounded' | 'rectangle' | 'circle';
+    style?: 'major' | 'minor' | 'plain';
+    color?: ColorSet;
+    content?: ComponentId;
+    is_sensitive?: boolean;
+};
+
+abstract class AbstractButtonComponent extends ComponentBase {
+    state: Required<AbstractButtonState>;
+
+    // This is the element with the `rio-button` class. The subclass is
+    // responsible for creating it (by calling `createButtonElement()`).
+    protected buttonElement: HTMLElement;
+
+    private childContainer: HTMLElement;
+
+    private rippleInstance: RippleEffect;
+
+    // In order to prevent a newly created button from being clicked on
+    // accident, it starts out disabled and enables itself after a short delay.
+    private isStillInitiallyDisabled: boolean = true;
+
+    protected createButtonElement(): HTMLElement {
+        // Create the element
+        let element = document.createElement('div');
+        element.classList.add('rio-button');
+
+        this.childContainer = document.createElement('div');
+        element.appendChild(this.childContainer);
+
+        // Add a material ripple effect
+        this.rippleInstance = new RippleEffect(element, {
+            triggerOnPress: false,
+        });
+
+        // Detect button presses
+        element.onclick = (event) => {
+            markEventAsHandled(event);
+
+            // Do nothing if the button isn't sensitive
+            if (!this.state['is_sensitive'] || this.isStillInitiallyDisabled) {
+                return;
+            }
+
+            this.rippleInstance.trigger(event);
+
+            // Otherwise notify the backend
+            this.sendMessageToBackend({
+                type: 'press',
+            });
+        };
+
+        setTimeout(() => {
+            this.isStillInitiallyDisabled = false;
+        }, 350);
+
+        return element;
+    }
+
+    updateElement(
+        deltaState: AbstractButtonState,
+        latentComponents: Set<ComponentBase>
+    ): void {
+        super.updateElement(deltaState, latentComponents);
+
+        // Update the child
+        this.replaceOnlyChild(
+            latentComponents,
+            deltaState.content,
+            this.childContainer
+        );
+
+        // Set the shape
+        if (deltaState.shape !== undefined) {
+            this.buttonElement.classList.remove(
+                'rio-shape-pill',
+                'rio-shape-rounded',
+                'rio-shape-rectangle',
+                'rio-shape-circle'
+            );
+
+            let className = 'rio-shape-' + deltaState.shape;
+            this.buttonElement.classList.add(className);
+        }
+
+        // Set the style
+        if (deltaState.style !== undefined) {
+            this.childContainer.classList.remove(
+                'rio-buttonstyle-major',
+                'rio-buttonstyle-minor',
+                'rio-buttonstyle-plain'
+            );
+
+            let className = 'rio-buttonstyle-' + deltaState.style;
+            this.childContainer.classList.add(className);
+        }
+
+        // Apply the color
+        if (
+            deltaState.color !== undefined ||
+            deltaState.is_sensitive !== undefined ||
+            deltaState.style !== undefined
+        ) {
+            // It looks ugly if every new button is initially greyed out, so for
+            // the styling ignore `self.isStillInitiallyDisabled`.
+            let is_sensitive =
+                deltaState.is_sensitive ?? this.state.is_sensitive;
+
+            let colorSet = is_sensitive
+                ? deltaState.color ?? this.state.color
+                : 'disabled';
+
+            // If no new colorset is specified, bump to the next palette. This
+            // allows all styles to just assume that the palette they should use
+            // is the current one.
+            applySwitcheroo(
+                this.childContainer,
+                colorSet === 'keep' ? 'bump' : colorSet
+            );
+        }
+    }
+}
+
+export type ButtonState = AbstractButtonState & {
+    _type_: 'Button-builtin';
+};
+
+export class ButtonComponent extends AbstractButtonComponent {
+    state: Required<ButtonState>;
+
+    createElement(): HTMLElement {
+        this.buttonElement = this.createButtonElement();
+        this.buttonElement.role = 'button';
+        return this.buttonElement;
+    }
+}
+
+export type IconButtonState = AbstractButtonState & {
+    _type_: 'IconButton-builtin';
+    icon: string;
+};
+
+export class IconButtonComponent extends AbstractButtonComponent {
+    state: Required<IconButtonState>;
+
+    private resizeObserver: ResizeObserver;
+
+    protected createElement(): HTMLElement {
+        let element = document.createElement('div');
+        element.classList.add('rio-icon-button');
+        element.role = 'button';
+
+        this.buttonElement = this.createButtonElement();
+        element.appendChild(this.buttonElement);
+
+        // Watch the element for size changes, to preserve the aspect ratio
+        // of the icon.
+        this.resizeObserver = new ResizeObserver(this.onResize.bind(this));
+        this.resizeObserver.observe(element);
+
+        return element;
+    }
+
+    onDestruction(): void {
+        this.resizeObserver.disconnect();
+    }
+
+    private onResize(): void {
+        let rect = this.buttonElement.getBoundingClientRect();
+        let targetSize = Math.min(rect.width, rect.height);
+
+        this.buttonElement.style.width = `${targetSize}px`;
+        this.buttonElement.style.height = `${targetSize}px`;
+    }
+}
