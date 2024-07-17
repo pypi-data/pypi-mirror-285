@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ibots-yaml-dir-parser"
+description = "Parses a directory of yaml and markdown data into a single Python dictionary."
+version = "0.0.1"
+dependencies = [
+  "markdown2",
+  "PyYAML",
+]
+requires-python = ">= 3.11"
+authors = [
+  {name = "Nicholas A. Del Grosso", email = "delgrosso.nick@gmail.com"},
+]
+readme = "README.md"
+
+[project.optional-dependencies]
+dev = ["pytest", "ipdb"]
+release = ["build", "twine"]
