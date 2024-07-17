@@ -1,0 +1,218 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "astronomer-cosmos"
+dynamic = ["version"]
+description = "Orchestrate your dbt projects in Airflow"
+readme = "README.rst"
+license = "Apache-2.0"
+requires-python = ">=3.8"
+authors = [{ name = "Astronomer", email = "humans@astronomer.io" }]
+keywords = ["airflow", "apache-airflow", "astronomer", "dags", "dbt"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: Apache Airflow",
+    "Framework :: Apache Airflow :: Provider",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "aenum",
+    "attrs",
+    "apache-airflow>=2.4.0",
+    "importlib-metadata; python_version < '3.8'",
+    "Jinja2>=3.0.0",
+    "msgpack",
+    "packaging",
+    "pydantic>=1.10.0",
+    "typing-extensions; python_version < '3.8'",
+    "virtualenv",
+]
+
+[project.optional-dependencies]
+dbt-all = [
+    "dbt-athena",
+    "dbt-bigquery",
+    "dbt-clickhouse",
+    "dbt-databricks",
+    "dbt-exasol",
+    "dbt-postgres",
+    "dbt-redshift",
+    "dbt-snowflake",
+    "dbt-spark",
+    "dbt-vertica",
+]
+dbt-athena = ["dbt-athena-community", "apache-airflow-providers-amazon>=8.0.0"]
+dbt-bigquery = ["dbt-bigquery"]
+dbt-clickhouse = ["dbt-clickhouse"]
+dbt-databricks = ["dbt-databricks"]
+dbt-exasol = ["dbt-exasol"]
+dbt-postgres = ["dbt-postgres"]
+dbt-redshift = ["dbt-redshift"]
+dbt-snowflake = ["dbt-snowflake"]
+dbt-spark = ["dbt-spark"]
+dbt-vertica = ["dbt-vertica<=1.5.4"]
+openlineage = ["openlineage-integration-common!=1.15.0", "openlineage-airflow"]
+all = ["astronomer-cosmos[dbt-all]", "astronomer-cosmos[openlineage]"]
+docs = [
+    "sphinx",
+    "pydata-sphinx-theme",
+    "sphinx-autobuild",
+    "sphinx-autoapi",
+    "apache-airflow-providers-cncf-kubernetes>=5.1.1",
+]
+tests = [
+    "packaging",
+    "pytest>=6.0",
+    "pytest-split",
+    "pytest-dotenv",
+    "requests-mock",
+    "pytest-cov",
+    "pytest-describe",
+    "sqlalchemy-stubs", # Change when sqlalchemy is upgraded https://docs.sqlalchemy.org/en/14/orm/extensions/mypy.html
+    "types-pytz",
+    "types-requests",
+    "sqlalchemy-stubs", # Change when sqlalchemy is upgraded https://docs.sqlalchemy.org/en/14/orm/extensions/mypy.html
+    "pre-commit",
+]
+docker = [
+    "apache-airflow-providers-docker>=3.5.0",
+]
+kubernetes = [
+    "apache-airflow-providers-cncf-kubernetes>=5.1.1",
+]
+aws_eks = [
+    "apache-airflow-providers-amazon>=8.0.0,<8.20.0", # https://github.com/apache/airflow/issues/39103
+]
+azure-container-instance = [
+    "apache-airflow-providers-microsoft-azure>=8.4.0",
+]
+
+[project.entry-points.cosmos]
+provider_info = "cosmos:get_provider_info"
+
+[project.entry-points."airflow.plugins"]
+cosmos = "cosmos.plugin:CosmosPlugin"
+
+[project.urls]
+Homepage = "https://github.com/astronomer/astronomer-cosmos"
+Documentation = "https://astronomer.github.io/astronomer-cosmos"
+"Source code" = "https://github.com/astronomer/astronomer-cosmos"
+
+[tool.hatch.version]
+path = "cosmos/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/cosmos"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["/cosmos"]
+
+######################################
+# TESTING
+######################################
+
+[tool.hatch.envs.tests]
+dependencies = [
+    "astronomer-cosmos[tests]",
+    "apache-airflow-providers-cncf-kubernetes>=5.1.1",
+    "apache-airflow-providers-amazon>=3.0.0,<8.20.0", # https://github.com/apache/airflow/issues/39103
+    "apache-airflow-providers-docker>=3.5.0",
+    "apache-airflow-providers-google",
+    "apache-airflow-providers-microsoft-azure",
+    "apache-airflow-providers-postgres",
+    "types-PyYAML",
+    "types-attrs",
+    "types-requests",
+    "types-python-dateutil",
+    "Werkzeug<3.0.0",
+    "apache-airflow~={matrix:airflow}.0,!=2.9.0,!=2.9.1",  # https://github.com/apache/airflow/pull/39670
+]
+pre-install-commands = ["sh scripts/test/pre-install-airflow.sh {matrix:airflow} {matrix:python}"]
+
+[[tool.hatch.envs.tests.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+airflow = ["2.4", "2.5", "2.6", "2.7", "2.8", "2.9"]
+
+[tool.hatch.envs.tests.overrides]
+matrix.airflow.dependencies = [
+    { value = "typing_extensions<4.6", if = ["2.6"] }
+]
+
+[tool.hatch.envs.tests.scripts]
+freeze = "pip freeze"
+test = 'sh scripts/test/unit.sh'
+test-cov = 'sh scripts/test/unit-cov.sh'
+test-integration = 'sh scripts/test/integration.sh'
+test-integration-dbt-1-5-4 = 'sh scripts/test/integration-dbt-1-5-4.sh'
+test-integration-expensive = 'sh scripts/test/integration-expensive.sh'
+test-integration-setup = 'sh scripts/test/integration-setup.sh'
+test-integration-sqlite = 'sh scripts/test/integration-sqlite.sh'
+test-integration-sqlite-setup = 'sh scripts/test/integration-sqlite-setup.sh'
+test-performance = 'sh scripts/test/performance.sh'
+test-performance-setup = 'sh scripts/test/performance-setup.sh'
+type-check = " pre-commit run mypy --files cosmos/**/*"
+
+[tool.pytest.ini_options]
+filterwarnings = ["ignore::DeprecationWarning"]
+minversion = "6.0"
+markers = ["integration", "sqlite", "perf"]
+
+######################################
+# DOCS
+######################################
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "aenum",
+    "apache-airflow-providers-cncf-kubernetes>=5.1.1",
+    "msgpack",
+    "openlineage-airflow",
+    "pydantic>=1.10.0",
+    "pydata-sphinx-theme",
+    "sphinx",
+    "sphinx-autoapi",
+    "sphinx-autobuild",
+]
+
+[tool.hatch.envs.docs.scripts]
+build = "sphinx-build -b html docs docs/_build"
+serve = "sphinx-autobuild docs docs/_build"
+
+######################################
+# THIRD PARTY TOOLS
+######################################
+[tool.black]
+line-length = 120
+target-version = ['py37', 'py38', 'py39', 'py310']
+
+[tool.isort]
+profile = "black"
+known_third_party = ["airflow", "jinja2"]
+
+[tool.mypy]
+strict = true
+ignore_missing_imports = true
+no_warn_unused_ignores = true
+
+[tool.ruff]
+line-length = 120
+[tool.ruff.lint]
+select = ["C901", "D300", "I", "F"]
+ignore = ["F541"]
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.distutils.bdist_wheel]
+universal = true
