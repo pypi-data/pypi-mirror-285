@@ -1,0 +1,20 @@
+[project]
+name = "xaal.dummy"
+version = "0.3"
+description = "xAAL dummy devices"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal"]
+dependencies = ["xaal.lib"]
+
+[tool.setuptools.packages.find]
+include = ["xaal.dummy"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/tests/dummy/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/tests/dummy"
