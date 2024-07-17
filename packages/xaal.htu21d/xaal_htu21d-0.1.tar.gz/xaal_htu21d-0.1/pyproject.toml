@@ -1,0 +1,20 @@
+[project]
+name = "xaal.htu21d"
+version = "0.1"
+description = "xAAL devices for I2C HTU21D sensors"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "i2c sensors"]
+dependencies = ["xaal.lib"]
+
+[tool.setuptools.packages.find]
+include = ["xaal.htu21d"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/sensors/HTU21D/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/sensors/HTU21D"
