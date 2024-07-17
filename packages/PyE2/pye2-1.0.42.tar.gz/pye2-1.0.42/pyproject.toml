@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "PyE2"
+version = "1.0.42"
+authors = [
+  { name="Stefan Saraev", email="saraevstefan@gmail.com" },
+  { name="Andrei Ionut Damian", email="andrei.damian@me.com" },
+  { name="Cristan Bleotiu", email="cristibleotiu@gmail.com" },
+]
+description = "PyE2 is the Python SDK required for client app development in the Naeural network"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "pika", 
+  "paho-mqtt", 
+  "numpy",
+  "pyopenssl>=23.0.0",
+  "cryptography>=39.0.0",
+  "python-dateutil",
+  "pyaml"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/NaeuralEdgeProtocol/PyE2"
+"Bug Tracker" = "https://github.com/NaeuralEdgeProtocol/PyE2/issues"
