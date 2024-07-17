@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: testsolar-pytestx
+Version: 0.1.19
+Summary: Pytest tool for TestSolar
+Author-email: asiazhang2002 <asiazhang2002@gmail.com>
+License: Apache-2.0
+Project-URL: repository, https://github.com/OpenTestSolar/testtool-python-pytest
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: pytest >=7
+Requires-Dist: testsolar-testtool-sdk >=0.3.1
+Requires-Dist: loguru >=0.7.2
+
+# Pytest test tool for TestSolar
+
+支持在TestSolar上使用[PyTest](https://docs.pytest.org/en/)测试工具，使用demo可参考仓库: [pytest-demo](https://github.com/OpenTestSolar/testtool-pytest-demo)。 
+
+注意：依赖Python>=3.7
+
+## 如何使用
+
+### 直接在TestSolar中作为测试工具使用
+
+```yaml
+schemaVersion: 1.0
+testTool:
+  use: github.com/OpenTestSolar/testtool-python@main:pytest
+```
+
+### 作为python包引用
+
+```shell
+pip install testsolar-pytestx 
+```
