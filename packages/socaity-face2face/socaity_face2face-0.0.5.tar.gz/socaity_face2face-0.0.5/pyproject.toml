@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "socaity-face2face"
+version = "0.0.5"
+description="Swap faces from one image to another. Create face embeddings. Integrate into hosted environments."
+requires-python = ">=3.8"
+authors = [
+    { name = "SocAIty" }
+]
+license = { text = "GPLv3" }
+readme = "README.md"
+dependencies = [
+    'numpy',
+    'opencv-python>=4.10.0.80',
+    'insightface==0.7.3',
+    'onnxruntime-gpu==1.15.1'
+]
+
+[project.urls]
+Repository = "https://github.com/SocAIty/fast-task-api"
+
+
+[project.optional-dependencies]
+full = [
+    'numpy',
+    'opencv-python>=4.10.0.80',
+    'insightface==0.7.3',
+    'onnxruntime-gpu==1.15.1',
+    "fast-task-api[full]>=0.0.4",
+    "media-toolkit[VideoFile] >= 0.0.6"
+]
