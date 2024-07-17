@@ -1,0 +1,2 @@
+from pythonProjectManager.content import MANAGER_XML_CONTENT
+from pythonProjectManager.main import PythonProjectManager
