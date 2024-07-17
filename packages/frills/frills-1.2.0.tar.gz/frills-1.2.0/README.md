@@ -1,0 +1,123 @@
+# frills 1.2.0
+
+Helpful utilities for python development
+
+Requires python >=3.7
+
+## maths
+
+- `get_factors()` takes one argument `n` and returns all factors of `n`. This is useful for picking appropriate batch sizes in custom data loaders. 
+
+- `normalize_to_range()` takes the following arguments:
+  - `x` the data (expected to be a numpy array)
+  - `min_orig` the original lower bound of the data
+  - `max_orig` the original upper bound of the data
+  - `min_new` the minimum of the new scale
+  - `max_new` the maximum of the new scale
+
+- `euclidean_distance()` takes `vector_a` and `vector_b` which are expected to have type `list` or `numpy.ndarray`.
+
+- `cumulative_mean()` takes `new_value`, `current_mean` and `n` where `n` is the number of items accumulated by `current_mean` so far.
+
+
+Example usage:
+```
+import frills.maths as fm
+
+
+# given dataset with 192 samples
+factors = fm.get_factors(192)
+
+print(factors)  # [1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96] 
+
+batch_size = max(factors)  # ensures that each batch is the same size, with no empty rows
+
+
+
+# arbitrary values on a scale of 1-1000
+x = [540, 800, 250]
+
+# convert to color values (0-255)
+rgb = []
+for value in x:
+    rgb.append(int(fm.normalise_to_range(value, 1, 1000, 0, 255)))
+
+print(rgb)  # [137, 203, 63]
+
+
+
+x, y = [3, 6, 9], [1, 2, 7]
+
+dist = fm.euclidean_distance(x, y)
+
+print(dist)  # 4.898979485566356 
+
+
+
+x = [15, 20, 25]
+
+mean = sum(x) / len(x)
+
+del x  # no longer have the original values
+
+y = 50
+
+mean = fm.cumulative_mean(y, mean, 3)
+
+print(mean)  # 27.5 
+```
+
+
+## graphics
+
+All show functions take the arguments `message` and `image` for the window title and image to be displayed.
+
+- `showw()` waits for user input (any key) before continuing execution. This is useful for checking through a series of images, allowing the user to skip as quickly or slowly as they want. 
+
+- `showx()` shows the specified image, then exits the program entirely once the cv2 window is closed. This is useful for checking the contents of an image dataset are as expected without having to manually halt further execution.
+
+Example usage:
+```
+import frills.graphics as fg
+import numpy as np
+import cv2
+
+# load image
+img = cv2.imread("images.png")
+img.astype(np.uint8)
+
+# shows until user input
+fg.showw("test 1", img)
+
+# shows until window is closed
+# then terminates the program
+fg.showx("test 2", img)
+
+# never shows
+cv2.imshow("test 3", img)
+cv2.waitKey(0)
+
+```
+
+
+## debugging
+
+- `printw()` prints a string built from the arguments given and waits for used input (any key) before continuing execution. This is useful for stepping through a program slowly and analysing the contents of variables one at a time. 
+
+- `printx()` prints a string built from the arguments given, then exits the program entirely. This is useful for checking the contents of a variable and breaking there, rather than having to comment the rest of the code or use `sys.exit()` underneath a `print()`. 
+
+Example usage:
+```
+import frills.debugging as fd
+
+# prints and waits for user input before continuing
+fd.printw("this")
+
+# prints and terminates the program
+fd.printx("that")
+
+# never prints
+print("the other")
+```
+
+
