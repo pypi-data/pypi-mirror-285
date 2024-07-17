@@ -1,0 +1,155 @@
+Metadata-Version: 2.1
+Name: chatme
+Version: 1.0.0
+Summary: A simple Python package for terminal-based chat applications
+Home-page: https://github.com/ByteBreach/chatme
+Author: MrFidal
+Author-email: mrfidal@proton.me
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# ChatMe 1.0.0
+
+ChatMe is a simple Python package for creating a terminal-based chat application. It allows two users to communicate through their terminals over a network. This package provides an easy-to-use API to set up both server and client for a chat application, enabling real-time text communication.
+
+## Features
+
+- Simple to set up and use
+- Real-time chat functionality
+- Can be integrated into other Python applications
+- Customizable IP and port settings
+- Multithreaded message receiving
+
+## Installation
+
+To install the ChatMe package
+
+```bash
+pip install chatme
+```
+
+## Usage
+
+### Starting the Server
+
+Create a Python script (e.g., `server_script.py`) with the following content:
+
+```python
+from chatme import start_server
+
+def on_receive(message):
+    print(f"Friend: {message}")
+
+server_socket, client_socket = start_server(on_receive=on_receive)
+
+while True:
+    message = input("You: ")
+    client_socket.send(message.encode())
+    if message.lower() == "exit":
+        break
+
+client_socket.close()
+server_socket.close()
+```
+
+Run the server script:
+
+```bash
+python server_script.py
+```
+
+### Starting the Client
+
+Create a Python script (e.g., `client_script.py`) with the following content:
+
+```python
+from chatme import start_client
+
+def on_receive(message):
+    print(f"Friend: {message}")
+
+server_ip = 'your_server_ip_here'
+client_socket = start_client(server_ip, on_receive=on_receive)
+
+while True:
+    message = input("You: ")
+    client_socket.send(message.encode())
+    if message.lower() == "exit":
+        break
+
+client_socket.close()
+```
+
+Replace `'your_server_ip_here'` with the actual IP address of the server.
+
+Run the client script:
+
+```bash
+python client_script.py
+```
+
+### Example
+
+Here is an example of how to set up the server and client:
+
+#### Server Script
+
+```python
+from chatme import start_server
+
+def on_receive(message):
+    print(f"Friend: {message}")
+
+server_socket, client_socket = start_server(on_receive=on_receive)
+
+while True:
+    message = input("You: ")
+    client_socket.send(message.encode())
+    if message.lower() == "exit":
+        break
+
+client_socket.close()
+server_socket.close()
+```
+
+#### Client Script
+
+```python
+from chatme import start_client
+
+def on_receive(message):
+    print(f"Friend: {message}")
+
+server_ip = 'your_server_ip_here'
+client_socket = start_client(server_ip, on_receive=on_receive)
+
+while True:
+    message = input("You: ")
+    client_socket.send(message.encode())
+    if message.lower() == "exit":
+        break
+
+client_socket.close()
+```
+
+### Customization
+
+- **Local IP and Port:** You can customize the local IP and port for the server by passing them as arguments to the `start_server` function. By default, it uses `0.0.0.0` and port `12345`.
+- **Callback Function:** The `on_receive` callback function can be customized to handle received messages as needed.
+
+### Contributing
+
+We welcome contributions to enhance the ChatMe package. If you have any suggestions, bug reports, or feature requests, please create an issue or submit a pull request on GitHub.
+
+### License
+
+This project is licensed under the MIT License.
+
+### Acknowledgements
+
+We would like to thank all the contributors and users of ChatMe. Your feedback and support are invaluable in making this project better. Special thanks to the open-source community for providing the tools and inspiration for this project.
+
+### Contact
+
+Thank you for using ChatMe! We hope it helps you in building your terminal-based chat applications.
