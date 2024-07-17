@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastdev"
+version = "0.0.10"
+authors = [{ name = "Jianglong Ye", email = "jianglong.yeh@gmail.com" }]
+description = "Type less, code more"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+# not include torch in the dependencies
+dependencies = [
+    "typing-extensions",
+    "numpy<2.0.0",
+    "msgspec[toml,yaml]",
+    "rich",
+    "fsspec",
+    "universal_pathlib",
+    "huggingface_hub[cli]",
+]
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "twine",
+    "ipython",
+    "ruff",
+    "mypy",
+    "pytest",
+    "xdoctest",
+    "pre-commit",
+    "streamlit",
+    "torchmetrics",
+]
+doc = ["sphinx", "furo", "docutils", "sphinx-autoapi", "m2r2"]
+geom = ["trimesh"]
+robo = ["yourdfpy"]
+test = ["trimesh", "yourdfpy", "dm_control"]
+
+[project.urls]
+Homepage = "https://fastdev.jianglongye.com/"
+Repository = "https://github.com/jianglongye/fastdev"
+
+[tool.ruff]
+line-length = 120
+
+[tool.mypy]
+exclude = ["tests", "build", "scripts", "src/fastdev/datasets"]
+ignore_missing_imports = true
