@@ -1,0 +1,19 @@
+[project]
+name = "xaal.edisio"
+version = "0.1"
+description = "xAAL gateway for Edisio devices"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "edisio"]
+dependencies = ["xaal.lib", "gevent", "pyserial"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.edisio"]
