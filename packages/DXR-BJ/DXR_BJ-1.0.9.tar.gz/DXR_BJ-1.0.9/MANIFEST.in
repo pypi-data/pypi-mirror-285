@@ -1,0 +1,4 @@
+include simsun.ttc
+python setup.py sdist bdist_wheel
+twine upload dist/*
+recursive-include DXR_BJ/common/dependency *
