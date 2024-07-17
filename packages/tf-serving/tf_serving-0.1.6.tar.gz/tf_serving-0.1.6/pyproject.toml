@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tf-serving"
+version = "0.1.6"
+authors = [
+  {name="Marcel Claramunt", email="marcel@moveread.com"}
+]
+description = "Client for OCR predictions against TensorFlow Serving"
+dependencies = [
+  "aiohttp", "pydantic", "haskellian", "lazy-loader"
+]
+requires-python = ">=3.10"
+readme = {file="README.md", content-type="text/markdown"}
+
+[project.urls]
+repo = "https://github.com/marciclabas/tensorflow-ocr.git"
+
+[project.optional-dependencies]
+cli = ["typer", "files-dataset", "orjson"]
+
+[project.scripts]
+tfs = "tf.serving.cli:app"

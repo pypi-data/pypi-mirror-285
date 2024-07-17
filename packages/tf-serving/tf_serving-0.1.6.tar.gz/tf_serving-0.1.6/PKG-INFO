@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: tf-serving
+Version: 0.1.6
+Summary: Client for OCR predictions against TensorFlow Serving
+Author-email: Marcel Claramunt <marcel@moveread.com>
+Project-URL: repo, https://github.com/marciclabas/tensorflow-ocr.git
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: aiohttp
+Requires-Dist: pydantic
+Requires-Dist: haskellian
+Requires-Dist: lazy-loader
+Provides-Extra: cli
+Requires-Dist: typer; extra == "cli"
+Requires-Dist: files-dataset; extra == "cli"
+Requires-Dist: orjson; extra == "cli"
+
+# TensorFlow Serving Client
+
+> Client for OCR predictions against TensorFlow Serving
+
+```bash
+pip install tf-serving
+```
+
+## Model
+
+The served model must return the following schema:
+
+```typescript
+{
+  preds: StringTensor[BATCH x TOP_PATHS],
+  logprobs: FloatTensor[BATCH x TOP_PATHS]
+}
+```
+
+## Usage
+
+```python
+from tf.serving import predict, encode64
+
+with open('path/to/image.jpg', 'rb') as f:
+  img = encode64(f.read())
+
+await predict([img], host='http://localhost', port=8501, endpoint='/v1/models/ocr:predict')
+# Right(value=[ImagePreds(preds=['Place', 'Piace', ...], logprobs=[-0.187645972, -2.03857613, ...])], tag='right')
+```
