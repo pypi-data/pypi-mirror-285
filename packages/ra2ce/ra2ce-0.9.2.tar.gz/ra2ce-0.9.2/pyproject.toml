@@ -1,0 +1,144 @@
+[tool.poetry]
+name = "ra2ce"
+version = "0.9.2"
+description = "Risk Assessment and Adaptation for Critical infrastructurE (RA2CE)."
+authors = [
+  "Margreet van Marle <Margreet.vanMarle@deltares.nl>", 
+  "Kees van Ginkel <kees.vanginkel@deltares.nl>",
+]
+maintainers = [
+  "Carles Salvador Soriano Perez <carles.sorianoperez@deltares.nl>",
+  "Ardt Klapwijk<ardt.klapwijk@deltares.nl>",
+]
+license = "GPL-3.0-or-later"
+readme = "README.md"
+repository = "https://github.com/Deltares/ra2ce"
+documentation = "https://deltares.github.io/ra2ce/"
+classifiers = [
+  'Development Status :: 2 - Pre-Alpha',
+  'Intended Audience :: Developers',
+  'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
+  'Natural Language :: English',
+  'Programming Language :: Python :: 3',
+  'Programming Language :: Python :: 3.10'
+]
+packages = [{include = "ra2ce"}]
+
+[tool.poetry.scripts]
+run_ra2ce = "ra2ce.run:main"
+build-cli = "scripts.make_exe:build_cli"
+
+[tool.poetry.dependencies]
+python = "^3.9, <3.11"
+affine = "^2.3.1"
+click = "^8.1.3"
+numpy = "^1.23.3"
+networkx = "^2.8.6"
+pandas = "^1.4.4"
+pyarrow = "^9.0.0"
+rasterio = "^1.3.2"
+rasterstats = "^0.17.0"
+Rtree = "^1.0.0"
+seaborn = "^0.12.0"
+openpyxl = "^3.0.10"
+xlrd = "^2.0.1"
+xarray = "^2022.6.0"
+scipy = "^1.9.1"
+GDAL = "3.5.1"
+pygeos = "^0.14"
+momepy = "0.5.0"
+geopandas = "^0.14.0"
+shapely = "^2.0.1"
+osmnx = "^1.6.0"
+tqdm = "^4.66.1"
+geopy = "^2.4.0"
+pyogrio = "^0.6.0"
+joblib = "^1.3.2"
+pyinstaller = "^6.2.0"
+snkit = "^1.9.0"
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.10.1"
+commitizen = "^2.32.5"
+flake8 = "^5.0.4"
+mypy = "^0.971"
+black = "^22.8.0"
+urllib3 = "1.26.15"
+pyinstaller = "^6.2.0"
+pyinstaller-versionfile = "^2.1.1"
+
+
+[tool.poetry.group.docs.dependencies]
+jupytext = "^1.14.5"
+nbsphinx = "^0.9.1"
+myst-parser = "^1.0.0"
+sphinx = "6.2.1"
+sphinx-book-theme = "^1.0.1"
+sphinx-copybutton = "^0.5.2"
+sphinx-rtd-theme = "^1.2.0"
+sphinx-autosummary-accessors = "^2023.4.0"
+sphinx-design = "^0.4.1"
+ipykernel = "^6.25.1"
+pandoc = "^2.3"
+pillow = "^10.1.0"
+
+[tool.poetry.group.jupyter.dependencies]
+# These dependencies are required for binder (`examples\environment.yml`).
+folium = "^0.15.0"
+matplotlib = "^3.8.1"
+mapclassify = "^2.6.1"
+
+[tool.poetry.group.test.dependencies]
+pytest-cov = "^3.0.0"
+pytest = "^7.1.3"
+teamcity-messages = "^1.32"
+testbook = "^0.4.2"
+pytest-xdist = "^3.3.1"
+pytest-profiling = "^1.7.0"
+pytest-notebook = "^0.9.0"
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311']
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | \.virtualenvs
+  )/
+)
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+changelog_file = "docs/changelog.md"
+update_changelog_on_bump = true
+version = "0.9.2"
+tag_format = "v$major.$minor.$patch"
+version_files= [
+    "ra2ce/__init__.py",
+    "pyproject.toml:version",]
+
+[tool.pytest]
+markers = [
+    "slow_test: marks tests as a long computation time test (deselect with '-m \"not slow\"')",
+    "documentation: marks tests which relate to documentation such as jupyter notebooks (deselct with '-m \"not documentation\"')",
+    "external_test_data: marks tests as a test whose required data comes from external sources (deselct with '-m \"not external_test_data\"')",
+]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
