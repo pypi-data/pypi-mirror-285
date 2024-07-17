@@ -1,0 +1,74 @@
+Metadata-Version: 2.1
+Name: monetize
+Version: 1.0.0
+Summary: A python library to make some money
+Author-email: Dylan Lang <hello@galway.group>
+Maintainer-email: Dylan Lang <hello@galway.group>
+License: MIT License
+        
+        Copyright (c) 2024 Dyvision
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/dyvision/monetize
+Project-URL: Documentation, https://github.com/dyvision/monetize?tab=readme-ov-file
+Project-URL: Repository, https://github.com/dyvision/monetize.git
+Keywords: Stripe,monetize,money,charge,finance,fintech
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Programming Language :: Python
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: datetime
+
+# monetize
+ A python library to make some money
+
+## Install
+ pip install monetize
+
+## See example.py for how to use
+
+## Creating a subscription
+    1. Create a Stripe account
+    2. Configure your business to accept payments
+    3. Go to the Developers section
+    4. Click API Keys
+    5. Select "Create Secret Key"
+    6. Configure this key to your liking
+    7. Save this key to authenticate in your code later
+    8. Create a customer (you'll need to do this for each billable user)
+    9. Go to Product Catalog
+    10. Create a new product with the following settings
+        1. Recurring
+        2. Usage-based per-unit pricing model
+        3. Pick your price
+        4. Pick sum of usage values during period for usage (if desired)
+        5. Billing period monthly (if desired)
+        6. Select Create
+    11. Create a subscription
+    12. Assign a user
+    13. Assign the product from step 5
+    14. Go to the newly made subscription page
+    15. Copy the **Subscription Item ID** (note: this is not the Subscription ID)
+    16. Use this ID in your code to accrue to that account
+    17. Profit
