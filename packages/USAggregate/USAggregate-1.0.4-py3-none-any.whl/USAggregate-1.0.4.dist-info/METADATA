@@ -1,0 +1,66 @@
+Metadata-Version: 2.1
+Name: USAggregate
+Version: 1.0.4
+Summary: A package for aggregating and merging US geographic data frames.
+Home-page: https://github.com/ethand05hi/USAggregate
+Author: Ethan Doshi
+Author-email: ethandoshi00@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pandas
+
+# USAggregate
+
+USAggregate is a Python package for aggregating and merging US relational data frames.
+
+## Example Use Case
+
+Merging demographic data at the zip code level with ice cream sales data at the city level to measure the correlation between demographics and ice cream sales at the county level.
+
+## Installation
+
+You can install the package using pip:
+
+```{sh}
+pip install USAggregate
+```
+## Use Notes
+
+zip codes in your data sets should be converted to strings before applying 'usaggregate' function. Numeric option will be available in a later version. Convert respect geographic identifiers to 'zip', 'city', 'county' and/or 'state' before applying 'usaggregate' function. Capabilities to handle other column names will be available in a later version. Function is only available for cross-sectional data. Panel data capabilities will be available in a later version.
+
+Below is an example of package usage.
+
+```{python}
+import pandas as pd
+from USAggregate import usaggregate
+
+data_zip = pd.DataFrame({
+    'zip': ['98199', '98103', '98001', '98002', '91360', '91358', '93001', '93003'],
+    'value1': [1, 2, 3, 4, 5, 6, 7, 8],
+    'chr1': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
+    })
+
+data_city = pd.DataFrame({
+        'city': ['Seattle', 'Auburn', 'Thousand Oaks', 'Ventura'],
+        'state': ['WA', 'WA', 'CA', 'CA'],
+        'value2': [1, 2, 3, 4],
+        'chr2' : ['I', 'J', 'K', 'L']
+    })
+
+data_county = pd.DataFrame({
+        'county': ['King County', 'Ventura County'],
+        'state': ['Washington', 'California'],
+        'value3': [5, 6],
+        'chr3': ['M', 'N']
+    })
+
+# Using the function
+result = usaggregate([data_zip, data_city, data_county], level='state', agg_numeric='sum', agg_character='first')
+print(result)
+
+```
+
