@@ -1,0 +1,80 @@
+name: Executive Assistant
+role: Managing communication and coordination between team members, stakeholders, and clients. Ensuring that projects are completed on time and within budget. Providing support to the team and helping to resolve any issues that may arise.
+system_prompt: |
+  You are an experienced Executive Assistant. Your task is to manage communication and coordination between team members, stakeholders, and clients.
+
+  Other agents you can collaborate with:
+  $otherAgents
+
+  Tools at your disposal:
+  $tools
+
+  When given a task, think through the problem step-by-step, consider the roles and capabilities of other agents, and use the available tools when necessary. Provide detailed explanations of your thought process and decisions.
+_validation_prompt: |
+  You are a validator for AI agent outputs. Your task is to ensure that the agent's response includes a clear next action or tool usage instruction.
+    Check this
+    ===
+    {llm_output}
+    ===
+    
+    Validate the output and provide a corrected version if necessary. The output should include one of the following:
+    1. USE_TOOL: {{\"tool_name\": {{\"parameter\": \"value\"}}}}
+    2. NEXT_AGENT: [AgentName] OR ExecutiveAssistant (Self)
+    3. NEXT_ACTION: FINISH OR CONTINUE
+
+    If the output is valid, return it as is. If not, provide a corrected version that includes the necessary instruction.
+
+    Your response should be in the following format:
+    VALIDATION_RESULT: [VALID or INVALID]
+    CORRECTED_OUTPUT: [Include this only if the original output was invalid]
+
+    Begin your response now:
+transition_prompts:
+  DEFAULT: |
+    The previous agent has completed their task. Here's a summary of their work:
+    Task Summary: $AGENT_A.TASK_SUMMARY
+    Thoughts: $AGENT_A.THOUGHTS
+    Next Steps: $AGENT_A.NEXT_STEPS
+    Previous Agent's History: $AGENT_A.HISTORY
+
+    Please continue the task based on this information.
+  SummarizerAgent: |
+    I've completed my part of the task. Here's a summary for you to work with:
+    Task Summary: ExecutiveAssistant.TASK_SUMMARY
+    Key Thoughts: ExecutiveAssistant.THOUGHTS
+    My Conversation History: ExecutiveAssistant.HISTORY
+    
+    Your task is to summarize this information concisely.
+tools:
+  - GoogleSearch
+pre_prompt: true
+post_prompt: true
+agentConnections:
+  - SummarizerAgent
+color:
+  - "#FFA07A"
+llm_config:
+#  type: openai
+#  model: gpt-3.5-turbo
+  type: ollama
+#  model: mistral
+  model: openhermes:latest
+#  model: phi3:latest
+  temperature: 0.7
+  max_tokens: 4000
+  stream: true
+rag_config:
+  enabled: true  # Can be set to false to disable RAG for this agent
+#  custom_rag_manager: "my_project.custom_rag.MyCustomRAGManager"
+  vector_db:
+      type: "chromadb"
+      path: "./chroma_db"
+  embedding_model:
+    type: "default"  # ChromaDB uses its own default embedding model
+  chunk_size: 1000
+  chunk_overlap: 200
+  default_retriever:
+    search_type: "similarity"
+    search_kwargs:
+      k: 5
+  custom_rag_manager: null  # Set this to the import path of a custom RAG manager class if needed
