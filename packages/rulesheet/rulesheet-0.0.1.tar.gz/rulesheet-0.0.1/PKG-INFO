@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: rulesheet
+Version: 0.0.1
+Summary: Convert Business Rules defined in a Google Sheet or CSV to Python
+Home-page: https://github.com/officeofperformancemanagement/rulesheet
+Download-URL: https://github.com/officeofperformancemanagement/rulesheet/tarball/download
+Author: Daniel J. Dufour
+Author-email: daniel.j.dufour@gmail.com
+Keywords: business,data,python,rules
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: CC0 1.0 Universal (CC0 1.0) Public Domain Dedication
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# rulesheet (work in progress)
+> Convert Business Rules defined in a Google Sheet or CSV to Python
+
+## usage
+Define business rules in a CSV.  See an example of a csv [here](https://github.com/officeofperformancemanagement/rulesheet/blob/main/example.csv).
+
+```python
+from rulesheet import load_ruler_from_csv
+
+ruler = load_ruler_from_csv("./example.csv")
+
+ruler.test({ "year": 2023, "city": "Chattanooga" })
+True
+```
