@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "productive-client-api"
+version = "0.1.8"
+description = "Client API for Productive system"
+authors = ["pawelkarbowniczek <pawel.karbowniczek@cloudflight.io>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
