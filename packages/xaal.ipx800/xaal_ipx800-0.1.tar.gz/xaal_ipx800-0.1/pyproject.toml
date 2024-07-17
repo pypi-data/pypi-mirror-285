@@ -1,0 +1,19 @@
+[project]
+name = "xaal.ipx800"
+version = "0.1"
+description = "xAAL devices for IPX-800 Ethernet Control System"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "ipx-800"]
+dependencies = ["xaal.lib", "gevent"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.ipx800"]
