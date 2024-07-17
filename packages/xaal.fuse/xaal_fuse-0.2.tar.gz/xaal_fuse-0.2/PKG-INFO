@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: xaal.fuse
+Version: 0.2
+Summary: xAAL Fuse filesystem
+Author: Jerome Kerdreux
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/apps/fuse/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/apps/fuse
+Keywords: xaal,tools
+Platform: any
+Classifier: Programming Language :: Python
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+Requires-Dist: fuse-python
+Requires-Dist: rapidjson
+
+This package contains a fuse binding for xAAL.
+
+Example:
+    xaal-mount ~/mnt/xaal/ -f 
+
+For a full sample check this https://asciinema.org/a/277693
+
+

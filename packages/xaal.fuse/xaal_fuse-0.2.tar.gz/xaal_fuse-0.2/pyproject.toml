@@ -1,0 +1,23 @@
+[project]
+name = "xaal.fuse"
+version = "0.2"
+description = "xAAL Fuse filesystem"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "tools"]
+dependencies = ["xaal.lib", "fuse-python", "rapidjson"]
+
+[project.scripts]
+xaal-mount = "xaal.fuse.mount:main"
+
+[tool.setuptools.packages.find]
+include = ["xaal.fuse"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/apps/fuse/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/apps/fuse"
