@@ -1,0 +1,19 @@
+[project]
+name = "xaal.meross"
+version = "0.1"
+description = "xAAL gateway for Meross devices"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "meross"]
+dependencies = ["xaal.lib", "xaal.schemas", "meross_iot==0.4.4.4"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.meross"]
