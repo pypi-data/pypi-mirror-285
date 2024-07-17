@@ -1,0 +1,28 @@
+[project]
+name = "matplotlib-backend-pyside2"
+version = "0.0.10"
+authors = [
+  { name="Nicklas Osmers", email="nosmers@qass.net" },
+]
+description = "Backend to use matplotlib in qml"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "matplotlib",
+    "PySide2",
+]
+
+[project.urls]
+Homepage = "https://github.com/QASS/matplotlib-backend-pyside2"
+
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+]
+build-backend = "setuptools.build_meta"
