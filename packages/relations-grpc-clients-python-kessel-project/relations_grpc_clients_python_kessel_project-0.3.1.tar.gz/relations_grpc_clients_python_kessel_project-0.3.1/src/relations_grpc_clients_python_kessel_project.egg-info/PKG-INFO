@@ -1,0 +1,59 @@
+Metadata-Version: 2.1
+Name: relations-grpc-clients-python-kessel-project
+Version: 0.3.1
+Summary: This package contains grpc python clients based on kessel relations-api.
+Home-page: https://github.com/project-kessel
+Author: Libor Pichler
+Author-email: "Libor Pichler" <lpichler@redhat.com>
+License: Apache-2.0
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: grpcio
+Requires-Dist: grpcio-tools
+Requires-Dist: protobuf
+Requires-Dist: googleapis-common-protos
+
+# relations-grpc-client-python-kessel
+
+This package is generated grpc python client from relations-api proto files.
+
+## Installation
+
+```shell
+$ python -m pip install relations-grpc-clients-python-kessel-project
+```
+
+
+## Usage
+
+See folder `examples`
+
+## Publishing to [PyPI](https://pypi.org/project/relations-grpc-clients-python-kessel-project/)
+
+### 1. Clone this repo
+Run following commands in the root directory.
+
+### 2. Generate a new Python gRPC client
+
+```
+ ./generate_python_grpc_client.sh
+```
+### 3. Push the new version of the package to PyPI
+
+```
+ ./generate_python_grpc_client.sh <new_version>
+```
+example:
+```
+ ./generate_python_grpc_client.sh 0.0.8
+```
+
+NOTE: When `./generate_python_grpc_client.sh` is executed without an argument, the current version is displayed.
+
+### 4. Create PR with new version of python grpc client
+The version is included in the commit.
