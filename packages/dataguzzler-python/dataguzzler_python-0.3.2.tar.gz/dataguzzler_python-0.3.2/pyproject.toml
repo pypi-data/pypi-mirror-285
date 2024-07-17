@@ -1,0 +1,21 @@
+[project]
+name = 'dataguzzler-python'
+dynamic = ['version','authors','description','urls']
+requires-python = ">= 3.8"
+readme = "README.md"
+classifiers = [
+	    "Development Status :: 3 - Alpha",
+	    "License :: OSI Approved :: BSD License"
+	    ]
+
+[project.scripts]
+dataguzzler-python = "dataguzzler_python.bin.dataguzzler_python:main"
+
+[build-system]
+requires = ["setuptools>=64","numpy", "setuptools_scm[toml]>=5"]
+build-backend = "setuptools.build_meta:__legacy__"
+
+[tool.setuptools_scm]
+version_file = "dataguzzler_python/_version.py"
+
+#v0.3.1

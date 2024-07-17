@@ -1,0 +1,16 @@
+# Serial port identification
+# Depends on pyserial package
+from serial.tools.list_ports import comports
+
+from dataguzzler_python import serial
+
+global serial_devices
+
+if not "serial_devices" in globals() or globals()["serial_devices"] is None:
+    serial_devices = serial.serial_devices # make list of ports accessible
+    pass
+
+
+
+
+        

@@ -1,0 +1,40 @@
+from dataguzzler_python import dgpy
+
+include(dgpy,"dgpy_startup.dpi") # If you get a NameError here, be sure you are executing this file with dataguzzler-python
+
+include(dgpy,"dgpy_dgold.dpi")
+
+class DemoClass(object,metaclass=dgpy.Module):
+    def __init__(self,module_name): # module_name MUST be first parameter
+        print("Init the hardware")
+        assert(dgpy.CurContext()[0] is self)
+        pass
+
+    def write(self):
+        print("Write to the hardware")
+        assert(dgpy.CurContext()[0] is self)
+        pass
+
+    def read(self):
+        print("read from the hardware")
+        assert(dgpy.CurContext()[0] is self)
+        pass
+
+    #def __repr__(self):
+    #    return "DemoClass repr!"
+
+    pass
+
+Demo=DemoClass("DemoClass module 1")
+
+
+class Junk(object):
+    pass
+
+JunkObj=Junk()
+
+
+from dataguzzler_python import password_auth,password_acct
+
+include(dgpy,"network_access.dpi",
+        auth=password_auth(password_acct("dgp","xyzzy")))
