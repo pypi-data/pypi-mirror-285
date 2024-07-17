@@ -1,0 +1,159 @@
+Metadata-Version: 2.1
+Name: cmconfig
+Version: 1.7.4
+Author-email: Ayoub Kaanich <ayoub.kaanich@technica-engineering.de>
+License: ## License Agreement
+        
+        **IMPORTANT:** THIS END-USER LICENSE AGREEMENT (\"EULA\") IS A LEGAL
+        AGREEMENT BETWEEN YOU AND TECHNICA ENGINEERING GMBH. BY USING THE
+        SOFTWARE, WHICH IS SUPPLIED WITH THIS LICENSE AGREEMENT FOR END-USERS,
+        YOU ARE EXPRESSING YOUR CONSENT TO ITS TERMS. IF YOU DO NOT AGREE WITH
+        THEM, DO NOT INSTALL AND / OR USE THIS SOFTWARE.
+        
+        BY INSTALLING, COPYING OR OTHERWISE USING THE SOFTWARE, YOU AGREE TO BE
+        BOUND BY THE TERMS AND CONDITIONS OF THIS EULA.
+        
+        **1**. **LICENSE GRANT.** You may install and use a limited number of
+        copies of the Software on different computers. You accept that after the
+        license expiration time the Software may stop being functional. The user
+        undertakes to treat the software confidentially and not to disclose or
+        make it accessible to a third party in any other way and to take all
+        reasonable measures to prevent that.
+        
+        **2. PROPERTY**. The software and its copyright are owned by Technica
+        Engineering GmbH. Your license does not convey any document or ownership
+        of the software and should not be construed as a sale of the software's
+        rights.
+        
+        **3. COPYRIGHT.** The software and, without exception, all proprietary
+        rights are owned by Technica Engineering GmbH or its suppliers and are
+        protected by all applicable copyright laws and international treaties as
+        well as other intellectual property and commercial contracts. The
+        software is licensed, not sold.
+        
+        You acknowledge that no intellectual property rights to the Software
+        have been transferred to you. In addition, you acknowledge that the
+        copyrights and proprietary rights to the software remain the exclusive
+        property of Technica Engineering GmbH and you will not be granted any
+        rights to the software other than the rights expressly defined in this
+        license.
+        
+        **4. REVERSE ENGINEERING**. You agree that you will not attempt to
+        decompile, disassemble, modify or translate the Software as a whole or
+        in part.
+        
+        **5. WARRANTY DISCLAIMER.** There is no guarantee for the software to
+        the extent permitted by the law. Unless otherwise stated in writing, the
+        copyright owners and / or a third party make the software \"as is\"
+        without implying any warranty, either express or implied, including,
+        without limitation, the implied warranties of merchantability or fitness
+        for a particular purpose. The full risk of the quality and performance
+        of the software lies with you. If the software proves to be faulty, the
+        costs for the necessary service, repair or correction are at your
+        disposal.
+        
+        The user is free to use the software in the provided form or not. A
+        liability of Technica Engineering GmbH for defects of the software does
+        not exist.
+        
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+# Capture Module Configurator
+
+You can think of this tool as `ipconfig` or `ifconfig` but for Capture Modules.
+
+It allows to list, configure and flash connected devices from the command line.
+
+## Usage
+
+Install using python package manager
+```bash
+pip install cmconfig
+```
+
+Depending on your Python installation
+```bash
+cmconfig --help
+```
+or
+```bash
+python3 -m cmconfig --help
+```
+
+## Download Devices Configuration
+This will download the configurations to the current directory
+```bash
+cmconfig pull
+```
+
+## Upload Devices Configuration
+This will look for all `*.cfg` files and upload them to their respective devices
+```bash
+cmconfig push
+```
+
+This will upload the file `configuration_file.cfg` to its device
+```bash
+cmconfig push configuration_file.cfg
+```
+
+## Update Devices Firmware
+This will look up all the CAN Combos connected in the system, and flash them with the provided firmware package
+```bash
+cmconfig flash CM_CAN_Combo_Evo_v020.007.030--revb51a51fb8.zip
+```
+
+## List connected devices
+```bash
+cmconfig devices
+```
+
+Sample output
+```
+┌────────────────────┬──────────────┬───────────────────┬────────────┬────────────┬─────────┐
+│ name               │ ip           │ mac               │ sw_version │ product_id │ config  │
+├────────────────────┼──────────────┼───────────────────┼────────────┼────────────┼─────────┤
+│ EES RJ45           │ 10.0.0.220   │ 38:2A:19:00:51:B2 │ 10.3       │ 2002       │ factory │
+│ EES RJ45           │ 10.0.0.200   │ 38:2A:19:80:70:EF │ 14.202     │ 2002       │ factory │
+│ CM 100 High TC10   │ 10.104.3.96  │ 38:2A:19:80:6F:8A │ 5.16       │ 1172       │ factory │
+│ CM Serdes GMSL 2│3 │ 10.104.3.192 │ 38:2A:19:80:1D:AB │ 9.1        │ 1190       │ factory │
+│ CM 10BASE-T1S      │ 10.104.3.112 │ 38:2A:19:80:57:7E │ 5.17       │ 1181       │ factory │
+│ CM CAN Combo       │ 10.104.3.64  │ 38:2A:19:00:48:01 │ 21.7.110   │ 1171       │ Default │
+│ CM 100 High        │ 10.104.3.97  │ 38:2A:19:00:1C:CC │ 21.5.90    │ 1173       │ Default │
+│ CM 1000 High       │ 10.104.3.159 │ 38:2A:19:80:8A:46 │ 21.2.100   │ 1176       │ Default │
+└────────────────────┴──────────────┴───────────────────┴────────────┴────────────┴─────────┘
+```
+
+## List interfaces of connected devices
+```bash
+cmconfig interfaces
+```
+Sample output
+```
+┌────────┬──────┬─────────────────┬───────┬──────────┬────────┬──────────────┬──────────────┬──────────────┐
+│ dev_id │ port │ name            │ label │   inf_id │ linkup │           rx │           tx │          err │
+├────────┼──────┼─────────────────┼───────┼──────────┼────────┼──────────────┼──────────────┼──────────────┤
+│ 64     │ HO   │ HOST            │       │          │ N      │   1208033313 │            0 │            0 │
+│ 64     │ BT   │ 100BaseT1-A     │       │          │ N      │    473747792 │            0 │            0 │
+│ 64     │ GA   │ GB-A            │       │          │ Y      │           64 │            0 │            0 │
+│ 64     │ A    │ CAN-A           │       │          │        │            0 │            0 │            0 │
+│ 64     │ B    │ CAN-B           │       │          │        │            0 │            0 │            0 │
+│ 64     │ C    │ CAN-C           │       │          │        │            0 │            0 │            0 │
+│ 64     │ D    │ CAN-D           │       │          │        │            0 │            0 │            0 │
+│ 64     │ E    │ CAN-E           │       │          │        │            0 │            0 │            0 │
+│ 64     │ F    │ CAN-F           │       │          │        │            0 │            0 │            0 │
+│ 64     │ FR   │ FlexRay         │       │          │        │            0 │            0 │            0 │
+│ 64     │ S2   │ RS 232-B        │       │          │        │            0 │            0 │            0 │
+│ 64     │ S1   │ RS 232-A        │       │          │        │            0 │            0 │            0 │
+└────────┴──────┴─────────────────┴───────┴──────────┴────────┴──────────────┴──────────────┴──────────────┘
+```
+
+## Integration with other tools
+
+Previous commands output is designed for human friendly visualization
+You can use the below command to get a JSON machine friendly output
+Note that the output of this command is subject to change in the future.
+```bash
+cmconfig topology
+```

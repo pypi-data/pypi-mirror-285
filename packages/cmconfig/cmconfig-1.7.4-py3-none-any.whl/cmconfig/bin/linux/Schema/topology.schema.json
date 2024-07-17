@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "devices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": [ "string", "null" ]
+          },
+          "product_family": {
+            "type": "string"
+          },
+          "device": {
+            "$ref": "#/$defs/node_address"
+          },
+          "host": {
+            "oneOf": [
+              { "type": "null" },
+              { "$ref": "#/$defs/node_address" }
+            ]
+          },
+          "version": {
+            "type": [ "string", "null" ]
+          },
+          "id": {
+            "type": "integer"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "$ref": "status.schema.json"
+              },
+              "config": {
+                "$ref": "config.schema.json"
+              },
+              "address_table": {
+                "type": "object",
+                "properties": {
+                  "entries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "mac": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "vlan_id": {
+                          "type": "integer"
+                        },
+                        "ports": {
+                          "type": "array",
+                          "items": {
+                            "type": "integer"
+                          }
+                        },
+                        "aging": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "mac",
+                        "vlan_id",
+                        "ports",
+                        "aging"
+                      ]
+                    }
+                  },
+                  "last": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "entries",
+                  "last"
+                ]
+              }
+            },
+            "required": []
+          }
+        },
+        "required": [
+          "product_family",
+          "device",
+          "version",
+          "id",
+          "data"
+        ]
+      }
+    }
+  },
+  "required": [
+    "devices"
+  ],
+  "$defs": {
+    "node_address": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [ "string", "null" ]
+        },
+        "description": {
+          "type": [ "string", "null" ]
+        },
+        "ip": {
+          "type": "string"
+        },
+        "mac": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "ip",
+        "mac"
+      ]
+    }
+  }
+}

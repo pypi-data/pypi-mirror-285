@@ -1,0 +1,175 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "ports": {
+      "oneOf": [
+        { "$ref": "#/definitions/ClassicModulePorts" },
+        { "$ref": "#/definitions/ModularModulePorts" }
+      ]
+    },
+    "timeStamp": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ports"
+  ],
+  "definitions": {
+    "ClassicModulePorts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "port": {
+            "type": "integer"
+          },
+          "type": {
+            "type": "integer"
+          },
+          "linkup": {
+            "type": "boolean"
+          },
+          "linkQuality": {
+            "type": "integer"
+          },
+          "speed": {
+            "type": "string"
+          },
+          "txMsgs": {
+            "type": "integer"
+          },
+          "rxMsgs": {
+            "type": "integer"
+          },
+          "errMsgs": {
+            "type": "integer"
+          },
+          "sfpIsInserted": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "port",
+          "type",
+          "txMsgs",
+          "rxMsgs",
+          "errMsgs"
+        ]
+      }
+    },
+    "ModularModulePorts": {
+      "type": "object",
+      "propertyNames": {
+        "$ref": "base.schema.json#/definitions/PortType"
+      },
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "inserted": {
+              "type": "boolean"
+            },
+            "linkup": {
+              "type": "boolean"
+            },
+            "linkQuality": {
+              "type": "integer"
+            },
+            "speed": {
+              "type": "integer"
+            },
+            "master": {
+              "type": "boolean"
+            },
+            "full": {
+              "type": "boolean"
+            },
+            "stats": {
+              "description": "Used by HS/LS variants",
+              "patternProperties": {
+                "^rx_cnt|tx_cnt|err$": {
+                  "$corvusTypeName": "CountStats",
+                  "type": "integer"
+                },
+                "^config_": { "type": "boolean" },
+                "^frame_": {
+                  "$corvusTypeName": "FramesStats",
+                  "type": "array",
+                  "items": { "type": "integer" }
+                },
+                "^i2c1_": { "type": "integer" },
+                "^gpio_": { "type": "integer" }
+              }
+            },
+            "statistics": {
+              "description": "Used by EES",
+              "type": "object",
+              "properties": {
+                "bytes": {
+                  "type": "object",
+                  "properties": {
+                    "totaltx": {
+                      "type": "integer"
+                    },
+                    "totalrx": {
+                      "type": "integer"
+                    },
+                    "totalbadrx": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "totaltx",
+                    "totalrx",
+                    "totalbadrx"
+                  ]
+                },
+                "packets": {
+                  "type": "object",
+                  "properties": {
+                    "totaltx": {
+                      "type": "integer"
+                    },
+                    "totalrx": {
+                      "type": "integer"
+                    },
+                    "totalbadrx": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "totaltx",
+                    "totalrx",
+                    "totalbadrx"
+                  ]
+                },
+                "link": {
+                  "type": "object",
+                  "properties": {
+                    "dropcount": {
+                      "type": "integer"
+                    },
+                    "uptime": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "dropcount",
+                    "uptime"
+                  ]
+                }
+              },
+              "required": [
+                "bytes",
+                "packets",
+                "link"
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
