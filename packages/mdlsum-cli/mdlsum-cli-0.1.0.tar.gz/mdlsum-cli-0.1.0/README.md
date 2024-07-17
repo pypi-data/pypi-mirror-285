@@ -1,0 +1,39 @@
+# mdlsum
+
+**mdlsum** is a Python package designed to download, transcribe, and summarize media. Currently, it supports YouTube videos, with plans to expand to podcasts and other media formats. This tool aims to provide basic yet useful summaries, with future iterations planned to enhance its utility for personal and family use.
+
+## Features
+- Download YouTube videos
+- Transcribe audio using Whisper
+- Summarize transcriptions using a language model
+
+## Installation
+To install mdlsum-cli, run:
+
+```sh
+pip install mdlsum-cli
+```
+
+## Usage
+`mdlsum "https://www.youtube.com/watch?v=example"`
+
+## Acknowledgements
+This project wouldn't have been possible without the incredible work of the following individuals and organizations:
+
+- OpenAI for the Whisper model and their language model APIs
+- (Add any other libraries, frameworks, or tools you have used)
+- (Add any individuals or mentors who have helped you)
+
+## License
+(To be added: License details)
+
+## Future Plans
+- Expand support to include podcasts and other media formats
+- Improve summary quality and customization options
+- Add advanced features like specifying models and timestamps
+
+---
+
+*This project is a work in progress, and I look forward to iterating on it to make it even more useful. Thank you for checking it out!*
+
+(Your Name)
