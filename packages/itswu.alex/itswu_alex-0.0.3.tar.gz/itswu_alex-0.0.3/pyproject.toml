@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "itswu.alex"
+version = "0.0.3"
+authors = [
+  { name="Alex Wu", email="itswu.alex@gmail.com" },
+]
+description = "A package of utilities."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/wuisawesome/itswu"
+Issues = "https://github.com/wuisawesome/itswu/issues"
+
+[project.scripts]
+alex = "itswu.alex.__main__:main"
