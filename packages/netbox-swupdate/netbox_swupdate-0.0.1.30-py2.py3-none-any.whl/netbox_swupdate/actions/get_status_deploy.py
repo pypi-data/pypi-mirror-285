@@ -1,0 +1,2 @@
+class GetStatusDeploy:
+    pass

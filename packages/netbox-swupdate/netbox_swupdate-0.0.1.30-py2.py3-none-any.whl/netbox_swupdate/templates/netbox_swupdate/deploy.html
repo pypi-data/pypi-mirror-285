@@ -1,0 +1,71 @@
+{% extends 'generic/object.html' %}
+{% load render_table from django_tables2 %}
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Deploy detail</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th scope="row">Name</th>
+              <td>{{ object.name }}</td>
+            </tr>
+            <tr>
+             <th scope="row">State</th>
+             <td>{{ object.state }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Type</th>
+              <td>{{ object.type }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Deploy time</th>
+              <td>{{ object.deploy_time }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Software</th>
+              <td>{{ object.software }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Retries</th>
+              <td>{{ object.retries }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Retry interval</th>
+              <td>{{ object.retry_interval }}</td>
+            </tr>
+            <tr>
+              <th scope="row">max_waiting_time</th>
+              <td>{{ object.max_waiting_time }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% include 'inc/panels/tags.html' %}
+      {% include 'inc/panels/comments.html' %}
+      {% include 'inc/panels/custom_fields.html' %}
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-12">
+        <div class="card">
+            <h5 class="card-header">Devices</h5>
+            <div class="card-body devices_table">
+                {% render_table devices_table %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-md-12">
+        <div class="card">
+            <h5 class="card-header">Firmware request</h5>
+            <div class="card-body firmwares_table">
+                {% render_table firmwares_table %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
