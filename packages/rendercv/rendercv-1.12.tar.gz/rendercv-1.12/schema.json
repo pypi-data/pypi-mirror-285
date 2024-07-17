@@ -1,0 +1,1970 @@
+{
+  "$defs": {
+    "BulletEntry": {
+      "additionalProperties": false,
+      "description": "This class is the data model of `BulletEntry`.",
+      "properties": {
+        "bullet": {
+          "description": "The bullet of the BulletEntry.",
+          "title": "Bullet",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bullet"
+      ],
+      "title": "BulletEntry",
+      "type": "object"
+    },
+    "ClassicThemeOptions": {
+      "additionalProperties": false,
+      "description": "This class is the data model of the theme options for the `classic` theme.",
+      "properties": {
+        "theme": {
+          "const": "classic",
+          "enum": [
+            "classic"
+          ],
+          "title": "Theme",
+          "type": "string"
+        },
+        "font": {
+          "default": "Source Sans 3",
+          "description": "The font family of the CV. The default value is Source Sans 3.",
+          "enum": [
+            "Latin Modern Serif",
+            "Latin Modern Sans Serif",
+            "Latin Modern Mono",
+            "Source Sans 3",
+            "Charter"
+          ],
+          "title": "Font",
+          "type": "string"
+        },
+        "font_size": {
+          "default": "10pt",
+          "description": "The font size of the CV. The default value is 10pt.",
+          "enum": [
+            "10pt",
+            "11pt",
+            "12pt"
+          ],
+          "title": "Font Size",
+          "type": "string"
+        },
+        "page_size": {
+          "default": "letterpaper",
+          "description": "The page size of the CV. It can be a4paper or letterpaper. The default value is letterpaper.",
+          "enum": [
+            "a4paper",
+            "letterpaper"
+          ],
+          "title": "Page Size",
+          "type": "string"
+        },
+        "color": {
+          "default": "rgb(0,79,144)",
+          "description": "The primary color of the theme. \nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is rgb(0,79,144).",
+          "examples": [
+            "Black",
+            "7fffd4",
+            "rgb(0,79,144)",
+            "hsl(270, 60%, 70%)"
+          ],
+          "format": "color",
+          "title": "Primary Color",
+          "type": "string"
+        },
+        "disable_external_link_icons": {
+          "default": false,
+          "description": "If this option is set to true, then the external link icons will not be shown next to the links. The default value is false.",
+          "title": "Disable External Link Icons",
+          "type": "boolean"
+        },
+        "disable_page_numbering": {
+          "default": false,
+          "description": "If this option is set to true, then the page numbering will not be shown. The default value is false.",
+          "title": "Disable Page Numbering",
+          "type": "boolean"
+        },
+        "page_numbering_style": {
+          "default": "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
+          "description": "The style of the page numbering. The following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\nThe default value is NAME - Page PAGE_NUMBER of TOTAL_PAGES.",
+          "title": "Page Numbering Style",
+          "type": "string"
+        },
+        "disable_last_updated_date": {
+          "default": false,
+          "description": "If this option is set to true, then the last updated date will not be shown in the header. The default value is false.",
+          "title": "Disable Last Updated Date",
+          "type": "boolean"
+        },
+        "last_updated_date_style": {
+          "default": "Last updated in TODAY",
+          "description": "The style of the last updated date. The following placeholder can be used:\n- TODAY: Today's month and year (April 2024)\nThe default value is Last updated in TODAY.",
+          "title": "Last Updated Date Style",
+          "type": "string"
+        },
+        "header_font_size": {
+          "default": "30 pt",
+          "description": "The font size of the header (the name of the person). The default value is 30 pt.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Header Font Size",
+          "type": "string"
+        },
+        "text_alignment": {
+          "default": "justified",
+          "description": "The alignment of the text. The default value is justified.",
+          "enum": [
+            "left-aligned",
+            "justified",
+            "justified-with-no-hyphenation"
+          ],
+          "title": "Text Alignment",
+          "type": "string"
+        },
+        "seperator_between_connections": {
+          "default": "",
+          "description": "The separator between the connections in the header. The default value is empty string.",
+          "title": "Seperator Between Connections",
+          "type": "string"
+        },
+        "use_icons_for_connections": {
+          "default": true,
+          "description": "If this option is set to true, then icons will be used for the connections in the header. The default value is true.",
+          "title": "Use Icons for Connections",
+          "type": "boolean"
+        },
+        "margins": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/MarginsForClassic"
+            }
+          ],
+          "default": {
+            "page": {
+              "bottom": "2 cm",
+              "left": "2 cm",
+              "right": "2 cm",
+              "top": "2 cm"
+            },
+            "section_title": {
+              "bottom": "0.2 cm",
+              "top": "0.3 cm"
+            },
+            "entry_area": {
+              "date_and_location_width": "4.5 cm",
+              "education_degree_width": "1 cm",
+              "left_and_right": "0.2 cm",
+              "vertical_between": "0.2 cm"
+            },
+            "highlights_area": {
+              "left": "0.4 cm",
+              "top": "0.10 cm",
+              "vertical_between_bullet_points": "0.10 cm"
+            },
+            "header": {
+              "bottom": "0.3 cm",
+              "horizontal_between_connections": "0.5 cm",
+              "vertical_between_name_and_connections": "0.3 cm"
+            }
+          },
+          "description": "Page, section title, entry field, and highlights field margins.",
+          "title": "Margins"
+        },
+        "show_timespan_in": {
+          "default": [],
+          "description": "The time span will be shown in the date and location column in these sections. The input should be a list of section titles as strings (case-sensitive). The default value is an empty list, which means the time span will not be shown in any section.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Show Time Span in These Sections",
+          "type": "array"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "title": "ClassicThemeOptions",
+      "type": "object"
+    },
+    "CurriculumVitae": {
+      "additionalProperties": false,
+      "description": "This class is the data model of the CV.",
+      "properties": {
+        "name": {
+          "default": null,
+          "description": "The name of the person.",
+          "title": "Name",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "label": {
+          "default": null,
+          "description": "The label of the person.",
+          "title": "Label",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "location": {
+          "default": null,
+          "description": "The location of the person.",
+          "title": "Location",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "email": {
+          "default": null,
+          "description": "The email address of the person.",
+          "title": "Email",
+          "oneOf": [
+            {
+              "format": "email",
+              "type": "string"
+            }
+          ]
+        },
+        "phone": {
+          "default": null,
+          "description": "The phone number of the person.",
+          "title": "Phone",
+          "oneOf": [
+            {
+              "format": "phone",
+              "maxLength": 64,
+              "minLength": 7,
+              "type": "string"
+            }
+          ]
+        },
+        "website": {
+          "default": null,
+          "description": "The website of the person.",
+          "title": "Website",
+          "oneOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            }
+          ]
+        },
+        "social_networks": {
+          "default": null,
+          "description": "The social networks of the person.",
+          "title": "Social Networks",
+          "oneOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/SocialNetwork"
+              },
+              "type": "array"
+            }
+          ]
+        },
+        "sections": {
+          "default": null,
+          "description": "The sections of the CV.",
+          "title": "Sections",
+          "oneOf": [
+            {
+              "additionalProperties": {
+                "items": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/$defs/OneLineEntry"
+                    },
+                    {
+                      "$ref": "#/$defs/NormalEntry"
+                    },
+                    {
+                      "$ref": "#/$defs/ExperienceEntry"
+                    },
+                    {
+                      "$ref": "#/$defs/EducationEntry"
+                    },
+                    {
+                      "$ref": "#/$defs/PublicationEntry"
+                    },
+                    {
+                      "$ref": "#/$defs/BulletEntry"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ]
+                },
+                "type": "array"
+              },
+              "type": "object"
+            }
+          ]
+        }
+      },
+      "title": "CurriculumVitae",
+      "type": "object"
+    },
+    "EducationEntry": {
+      "additionalProperties": false,
+      "description": "This class is the data model of `EducationEntry`.",
+      "properties": {
+        "institution": {
+          "description": "The institution name.",
+          "title": "Institution",
+          "type": "string"
+        },
+        "area": {
+          "description": "The area of study.",
+          "title": "Area",
+          "type": "string"
+        },
+        "degree": {
+          "default": null,
+          "description": "The type of the degree.",
+          "examples": [
+            "BS",
+            "BA",
+            "PhD",
+            "MS"
+          ],
+          "title": "Degree",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "date": {
+          "default": null,
+          "description": "The date field can be filled in YYYY-MM-DD, YYYY-MM, or YYYY formats or as an arbitrary string like \"Fall 2023\".",
+          "examples": [
+            "2020-09-24",
+            "Fall 2023"
+          ],
+          "title": "Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "location": {
+          "default": null,
+          "description": "The location of the event.",
+          "examples": [
+            "Istanbul, Türkiye"
+          ],
+          "title": "Location",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "start_date": {
+          "default": null,
+          "description": "The start date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "examples": [
+            "2020-09-24"
+          ],
+          "title": "Start Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            }
+          ]
+        },
+        "end_date": {
+          "default": null,
+          "description": "The end date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is still ongoing, then type \"present\" or provide only the start_date.",
+          "examples": [
+            "2020-09-24",
+            "present"
+          ],
+          "title": "End Date",
+          "oneOf": [
+            {
+              "const": "present",
+              "enum": [
+                "present"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            }
+          ]
+        },
+        "highlights": {
+          "default": null,
+          "description": "The highlights of the event as a list of strings.",
+          "examples": [
+            "Did this.",
+            "Did that."
+          ],
+          "title": "Highlights",
+          "oneOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "required": [
+        "institution",
+        "area"
+      ],
+      "title": "EducationEntry",
+      "type": "object"
+    },
+    "EngineeringresumesThemeOptions": {
+      "additionalProperties": false,
+      "description": "This class is the data model of the theme options for the `engineeringresumes`\ntheme.",
+      "properties": {
+        "theme": {
+          "const": "engineeringresumes",
+          "enum": [
+            "engineeringresumes"
+          ],
+          "title": "Theme",
+          "type": "string"
+        },
+        "font": {
+          "default": "Charter",
+          "description": "The font family of the CV. The default value is Charter.",
+          "enum": [
+            "Latin Modern Serif",
+            "Latin Modern Sans Serif",
+            "Latin Modern Mono",
+            "Source Sans 3",
+            "Charter"
+          ],
+          "title": "Font",
+          "type": "string"
+        },
+        "font_size": {
+          "default": "10pt",
+          "description": "The font size of the CV. The default value is 10pt.",
+          "enum": [
+            "10pt",
+            "11pt",
+            "12pt"
+          ],
+          "title": "Font Size",
+          "type": "string"
+        },
+        "page_size": {
+          "default": "letterpaper",
+          "description": "The page size of the CV. It can be a4paper or letterpaper. The default value is letterpaper.",
+          "enum": [
+            "a4paper",
+            "letterpaper"
+          ],
+          "title": "Page Size",
+          "type": "string"
+        },
+        "color": {
+          "default": "rgb(0,0,0)",
+          "description": "The primary color of the theme. \nThe color can be specified either with their [name](https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is rgb(0,0,0).",
+          "examples": [
+            "Black",
+            "7fffd4",
+            "rgb(0,79,144)",
+            "hsl(270, 60%, 70%)"
+          ],
+          "format": "color",
+          "title": "Primary Color",
+          "type": "string"
+        },
+        "disable_external_link_icons": {
+          "default": true,
+          "description": "If this option is set to true, then the external link icons will not be shown next to the links. The default value is true.",
+          "title": "Disable External Link Icons",
+          "type": "boolean"
+        },
+        "disable_page_numbering": {
+          "default": true,
+          "description": "If this option is set to true, then the page numbering will not be shown. The default value is true.",
+          "title": "Disable Page Numbering",
+          "type": "boolean"
+        },
+        "page_numbering_style": {
+          "default": "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
+          "description": "The style of the page numbering. The following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\nThe default value is NAME - Page PAGE_NUMBER of TOTAL_PAGES.",
+          "title": "Page Numbering Style",
+          "type": "string"
+        },
+        "disable_last_updated_date": {
+          "default": true,
+          "description": "If this option is set to true, then the last updated date will not be shown in the header. The default value is true.",
+          "title": "Disable Last Updated Date",
+          "type": "boolean"
+        },
+        "last_updated_date_style": {
+          "default": "Last updated in TODAY",
+          "description": "The style of the last updated date. The following placeholder can be used:\n- TODAY: Today's month and year (April 2024)\nThe default value is Last updated in TODAY.",
+          "title": "Last Updated Date Style",
+          "type": "string"
+        },
+        "header_font_size": {
+          "default": "25 pt",
+          "description": "The font size of the header (the name of the person). The default value is 25 pt.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Header Font Size",
+          "type": "string"
+        },
+        "text_alignment": {
+          "default": "left-aligned",
+          "description": "The alignment of the text. The default value is left-aligned.",
+          "enum": [
+            "left-aligned",
+            "justified",
+            "justified-with-no-hyphenation"
+          ],
+          "title": "Text Alignment",
+          "type": "string"
+        },
+        "seperator_between_connections": {
+          "default": "$|$",
+          "description": "The separator between the connections in the header. The default value is empty string.",
+          "title": "Seperator Between Connections",
+          "type": "string"
+        },
+        "use_icons_for_connections": {
+          "default": false,
+          "description": "If this option is set to true, then icons will be used for the connections (like phone, email, and website). The default value is false.",
+          "title": "Use Icons for Connections",
+          "type": "boolean"
+        },
+        "margins": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/MarginsForEngineeringresumes"
+            }
+          ],
+          "default": {
+            "page": {
+              "bottom": "2 cm",
+              "left": "2 cm",
+              "right": "2 cm",
+              "top": "2 cm"
+            },
+            "section_title": {
+              "bottom": "0.2 cm",
+              "top": "0.3 cm"
+            },
+            "entry_area": {
+              "date_and_location_width": "4.5 cm",
+              "left_and_right": "0 cm",
+              "vertical_between": "0.2 cm"
+            },
+            "highlights_area": {
+              "left": "0 cm",
+              "top": "0.10 cm",
+              "vertical_between_bullet_points": "0.10 cm"
+            },
+            "header": {
+              "bottom": "5 pt",
+              "horizontal_between_connections": "10 pt",
+              "vertical_between_name_and_connections": "5 pt"
+            }
+          },
+          "description": "Page, section title, entry field, and highlights field margins.",
+          "title": "Margins"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "title": "EngineeringresumesThemeOptions",
+      "type": "object"
+    },
+    "EntryAreaMargins": {
+      "description": "This class is a data model for the entry area margins.",
+      "properties": {
+        "left_and_right": {
+          "default": "0.2 cm",
+          "description": "The left margin of entry areas. The default value is 0.2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Left Margin",
+          "type": "string"
+        },
+        "vertical_between": {
+          "default": "0.2 cm",
+          "description": "The vertical margin between entry areas. The default value is 0.2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between Entry Areas",
+          "type": "string"
+        },
+        "date_and_location_width": {
+          "default": "4.5 cm",
+          "description": "The width of the date and location column. The default value is 4.5 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Date and Location Column Width",
+          "type": "string"
+        }
+      },
+      "title": "EntryAreaMargins",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "EntryAreaMarginsForClassic": {
+      "description": "This class is a data model for the entry area margins.",
+      "properties": {
+        "left_and_right": {
+          "default": "0.2 cm",
+          "description": "The left margin of entry areas. The default value is 0.2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Left Margin",
+          "type": "string"
+        },
+        "vertical_between": {
+          "default": "0.2 cm",
+          "description": "The vertical margin between entry areas. The default value is 0.2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between Entry Areas",
+          "type": "string"
+        },
+        "date_and_location_width": {
+          "default": "4.5 cm",
+          "description": "The width of the date and location column. The default value is 4.5 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Date and Location Column Width",
+          "type": "string"
+        },
+        "education_degree_width": {
+          "default": "1 cm",
+          "description": "The width of the degree column in EducationEntry. The default value is 1 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Date and Location Column Width",
+          "type": "string"
+        }
+      },
+      "title": "EntryAreaMarginsForClassic",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "EntryAreaMarginsForEngineeringresumes": {
+      "description": "This class is a data model for the entry area margins.",
+      "properties": {
+        "left_and_right": {
+          "default": "0 cm",
+          "description": "The left margin of entry areas. The default value is 0 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Left Margin",
+          "type": "string"
+        },
+        "vertical_between": {
+          "default": "0.2 cm",
+          "description": "The vertical margin between entry areas. The default value is 0.2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between Entry Areas",
+          "type": "string"
+        },
+        "date_and_location_width": {
+          "default": "4.5 cm",
+          "description": "The width of the date and location column. The default value is 4.5 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Date and Location Column Width",
+          "type": "string"
+        }
+      },
+      "title": "EntryAreaMarginsForEngineeringresumes",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ExperienceEntry": {
+      "additionalProperties": false,
+      "description": "This class is the data model of `ExperienceEntry`.",
+      "properties": {
+        "company": {
+          "description": "The company name.",
+          "title": "Company",
+          "type": "string"
+        },
+        "position": {
+          "description": "The position.",
+          "title": "Position",
+          "type": "string"
+        },
+        "date": {
+          "default": null,
+          "description": "The date field can be filled in YYYY-MM-DD, YYYY-MM, or YYYY formats or as an arbitrary string like \"Fall 2023\".",
+          "examples": [
+            "2020-09-24",
+            "Fall 2023"
+          ],
+          "title": "Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "location": {
+          "default": null,
+          "description": "The location of the event.",
+          "examples": [
+            "Istanbul, Türkiye"
+          ],
+          "title": "Location",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "start_date": {
+          "default": null,
+          "description": "The start date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "examples": [
+            "2020-09-24"
+          ],
+          "title": "Start Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            }
+          ]
+        },
+        "end_date": {
+          "default": null,
+          "description": "The end date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is still ongoing, then type \"present\" or provide only the start_date.",
+          "examples": [
+            "2020-09-24",
+            "present"
+          ],
+          "title": "End Date",
+          "oneOf": [
+            {
+              "const": "present",
+              "enum": [
+                "present"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            }
+          ]
+        },
+        "highlights": {
+          "default": null,
+          "description": "The highlights of the event as a list of strings.",
+          "examples": [
+            "Did this.",
+            "Did that."
+          ],
+          "title": "Highlights",
+          "oneOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "required": [
+        "company",
+        "position"
+      ],
+      "title": "ExperienceEntry",
+      "type": "object"
+    },
+    "HeaderMargins": {
+      "description": "This class is a data model for the header margins.",
+      "properties": {
+        "vertical_between_name_and_connections": {
+          "default": "0.3 cm",
+          "description": "The vertical margin between the name of the person and the connections. The default value is 0.3 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between the Name and Connections",
+          "type": "string"
+        },
+        "bottom": {
+          "default": "0.3 cm",
+          "description": "The bottom margin of the header, i.e., the vertical margin between the connections and the first section title. The default value is 0.3 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Bottom Margin",
+          "type": "string"
+        },
+        "horizontal_between_connections": {
+          "default": "0.5 cm",
+          "description": "The space between the connections (like phone, email, and website). The default value is 0.5 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Space Between Connections",
+          "type": "string"
+        }
+      },
+      "title": "HeaderMargins",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "HeaderMarginsForEngineeringresumes": {
+      "description": "This class is a data model for the header margins.",
+      "properties": {
+        "vertical_between_name_and_connections": {
+          "default": "5 pt",
+          "description": "The vertical margin between the name of the person and the connections. The default value is 5 pt.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between the Name and Connections",
+          "type": "string"
+        },
+        "bottom": {
+          "default": "5 pt",
+          "description": "The bottom margin of the header, i.e., the vertical margin between the connections and the first section title. The default value is 5 pt.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Bottom Margin",
+          "type": "string"
+        },
+        "horizontal_between_connections": {
+          "default": "10 pt",
+          "description": "The space between the connections (like phone, email, and website). The default value is 20 pt.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Space Between Connections",
+          "type": "string"
+        }
+      },
+      "title": "HeaderMarginsForEngineeringresumes",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "HighlightsAreaMargins": {
+      "description": "This class is a data model for the highlights area margins.",
+      "properties": {
+        "top": {
+          "default": "0.10 cm",
+          "description": "The top margin of highlights areas. The default value is 0.10 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Top Margin",
+          "type": "string"
+        },
+        "left": {
+          "default": "0.4 cm",
+          "description": "The left margin of highlights areas. The default value is 0.4 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Left Margin",
+          "type": "string"
+        },
+        "vertical_between_bullet_points": {
+          "default": "0.10 cm",
+          "description": "The vertical margin between bullet points. The default value is 0.10 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between Bullet Points",
+          "type": "string"
+        }
+      },
+      "title": "HighlightsAreaMargins",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "HighlightsAreaMarginsForEngineeringresumes": {
+      "description": "This class is a data model for the highlights area margins.",
+      "properties": {
+        "top": {
+          "default": "0.10 cm",
+          "description": "The top margin of highlights areas. The default value is 0.10 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Top Margin",
+          "type": "string"
+        },
+        "left": {
+          "default": "0 cm",
+          "description": "The left margin of highlights areas. The default value is 0 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Left Margin",
+          "type": "string"
+        },
+        "vertical_between_bullet_points": {
+          "default": "0.10 cm",
+          "description": "The vertical margin between bullet points. The default value is 0.10 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Vertical Margin Between Bullet Points",
+          "type": "string"
+        }
+      },
+      "title": "HighlightsAreaMarginsForEngineeringresumes",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "LocaleCatalog": {
+      "additionalProperties": false,
+      "description": "This class is the data model of the locale catalog. The values of each field\nupdates the `locale_catalog` dictionary.",
+      "properties": {
+        "month": {
+          "default": "month",
+          "description": "Translation of the word \"month\" in the locale.",
+          "title": "Translation of \"Month\"",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "months": {
+          "default": "months",
+          "description": "Translation of the word \"months\" in the locale.",
+          "title": "Translation of \"Months\"",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "year": {
+          "default": "year",
+          "description": "Translation of the word \"year\" in the locale.",
+          "title": "Translation of \"Year\"",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "years": {
+          "default": "years",
+          "description": "Translation of the word \"years\" in the locale.",
+          "title": "Translation of \"Years\"",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "present": {
+          "default": "present",
+          "description": "Translation of the word \"present\" in the locale.",
+          "title": "Translation of \"Present\"",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "to": {
+          "default": "–",
+          "description": "The word or character used to indicate a range in the locale (e.g., \"2020 - 2021\").",
+          "title": "Translation of \"To\"",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "abbreviations_for_months": {
+          "default": [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "June",
+            "July",
+            "Aug",
+            "Sept",
+            "Oct",
+            "Nov",
+            "Dec"
+          ],
+          "description": "Abbreviations of the months in the locale.",
+          "title": "Abbreviations of Months",
+          "oneOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 12,
+              "minItems": 12,
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "title": "LocaleCatalog",
+      "type": "object"
+    },
+    "Margins": {
+      "description": "This class is a data model for the margins.",
+      "properties": {
+        "page": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/PageMargins"
+            }
+          ],
+          "default": {
+            "top": "2 cm",
+            "bottom": "2 cm",
+            "left": "2 cm",
+            "right": "2 cm"
+          },
+          "description": "Page margins.",
+          "title": "Page Margins"
+        },
+        "section_title": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/SectionTitleMargins"
+            }
+          ],
+          "default": {
+            "top": "0.3 cm",
+            "bottom": "0.2 cm"
+          },
+          "description": "Section title margins.",
+          "title": "Section Title Margins"
+        },
+        "entry_area": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/EntryAreaMargins"
+            }
+          ],
+          "default": {
+            "left_and_right": "0.2 cm",
+            "vertical_between": "0.2 cm",
+            "date_and_location_width": "4.5 cm"
+          },
+          "description": "Entry area margins.",
+          "title": "Entry Area Margins"
+        },
+        "highlights_area": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/HighlightsAreaMargins"
+            }
+          ],
+          "default": {
+            "top": "0.10 cm",
+            "left": "0.4 cm",
+            "vertical_between_bullet_points": "0.10 cm"
+          },
+          "description": "Highlights area margins.",
+          "title": "Highlights Area Margins"
+        },
+        "header": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/HeaderMargins"
+            }
+          ],
+          "default": {
+            "vertical_between_name_and_connections": "0.3 cm",
+            "bottom": "0.3 cm",
+            "horizontal_between_connections": "0.5 cm"
+          },
+          "description": "Header margins.",
+          "title": "Header Margins"
+        }
+      },
+      "title": "Margins",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "MarginsForClassic": {
+      "description": "This class is a data model for the margins.",
+      "properties": {
+        "page": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/PageMargins"
+            }
+          ],
+          "default": {
+            "top": "2 cm",
+            "bottom": "2 cm",
+            "left": "2 cm",
+            "right": "2 cm"
+          },
+          "description": "Page margins.",
+          "title": "Page Margins"
+        },
+        "section_title": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/SectionTitleMargins"
+            }
+          ],
+          "default": {
+            "top": "0.3 cm",
+            "bottom": "0.2 cm"
+          },
+          "description": "Section title margins.",
+          "title": "Section Title Margins"
+        },
+        "entry_area": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/EntryAreaMarginsForClassic"
+            }
+          ],
+          "default": {
+            "left_and_right": "0.2 cm",
+            "vertical_between": "0.2 cm",
+            "date_and_location_width": "4.5 cm",
+            "education_degree_width": "1 cm"
+          },
+          "description": "Entry area margins.",
+          "title": "Entry Area Margins"
+        },
+        "highlights_area": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/HighlightsAreaMargins"
+            }
+          ],
+          "default": {
+            "top": "0.10 cm",
+            "left": "0.4 cm",
+            "vertical_between_bullet_points": "0.10 cm"
+          },
+          "description": "Highlights area margins.",
+          "title": "Highlights Area Margins"
+        },
+        "header": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/HeaderMargins"
+            }
+          ],
+          "default": {
+            "vertical_between_name_and_connections": "0.3 cm",
+            "bottom": "0.3 cm",
+            "horizontal_between_connections": "0.5 cm"
+          },
+          "description": "Header margins.",
+          "title": "Header Margins"
+        }
+      },
+      "title": "MarginsForClassic",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "MarginsForEngineeringresumes": {
+      "description": "This class is a data model for the margins.",
+      "properties": {
+        "page": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/PageMargins"
+            }
+          ],
+          "default": {
+            "top": "2 cm",
+            "bottom": "2 cm",
+            "left": "2 cm",
+            "right": "2 cm"
+          },
+          "description": "Page margins.",
+          "title": "Page Margins"
+        },
+        "section_title": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/SectionTitleMargins"
+            }
+          ],
+          "default": {
+            "top": "0.3 cm",
+            "bottom": "0.2 cm"
+          },
+          "description": "Section title margins.",
+          "title": "Section Title Margins"
+        },
+        "entry_area": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/EntryAreaMarginsForEngineeringresumes"
+            }
+          ],
+          "default": {
+            "left_and_right": "0 cm",
+            "vertical_between": "0.2 cm",
+            "date_and_location_width": "4.5 cm"
+          },
+          "description": "Entry area margins.",
+          "title": "Entry Area Margins"
+        },
+        "highlights_area": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/HighlightsAreaMarginsForEngineeringresumes"
+            }
+          ],
+          "default": {
+            "top": "0.10 cm",
+            "left": "0 cm",
+            "vertical_between_bullet_points": "0.10 cm"
+          },
+          "description": "Highlights area margins.",
+          "title": "Highlights Area Margins"
+        },
+        "header": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/HeaderMarginsForEngineeringresumes"
+            }
+          ],
+          "default": {
+            "vertical_between_name_and_connections": "5 pt",
+            "bottom": "5 pt",
+            "horizontal_between_connections": "10 pt"
+          },
+          "description": "Header margins.",
+          "title": "Header Margins"
+        }
+      },
+      "title": "MarginsForEngineeringresumes",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "ModerncvThemeOptions": {
+      "additionalProperties": false,
+      "description": "This class is the data model of the theme options for the `moderncv` theme.",
+      "properties": {
+        "theme": {
+          "const": "moderncv",
+          "enum": [
+            "moderncv"
+          ],
+          "title": "Theme",
+          "type": "string"
+        },
+        "font_size": {
+          "default": "10pt",
+          "description": "The font size of the CV. The default value is \"10pt\".",
+          "enum": [
+            "10pt",
+            "11pt",
+            "12pt"
+          ],
+          "examples": [
+            "10pt",
+            "11pt",
+            "12pt"
+          ],
+          "title": "Font Size",
+          "type": "string"
+        },
+        "page_size": {
+          "default": "letterpaper",
+          "description": "The page size of the CV. The default value is \"letterpaper\".",
+          "enum": [
+            "a4paper",
+            "letterpaper"
+          ],
+          "examples": [
+            "a4paper",
+            "letterpaper"
+          ],
+          "title": "Page Size",
+          "type": "string"
+        },
+        "color": {
+          "default": "blue",
+          "description": "The primary color of the CV. The default value is \"blue\".",
+          "examples": [
+            "blue",
+            "black",
+            "burgundy",
+            "green",
+            "grey",
+            "orange",
+            "purple",
+            "red"
+          ],
+          "title": "Primary Color",
+          "oneOf": [
+            {
+              "const": "blue",
+              "enum": [
+                "blue"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "black",
+              "enum": [
+                "black"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "burgundy",
+              "enum": [
+                "burgundy"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "green",
+              "enum": [
+                "green"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "grey",
+              "enum": [
+                "grey"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "orange",
+              "enum": [
+                "orange"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "purple",
+              "enum": [
+                "purple"
+              ],
+              "type": "string"
+            },
+            {
+              "const": "red",
+              "enum": [
+                "red"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "date_width": {
+          "default": "3.8 cm",
+          "description": "The width of the date column. The default value is \"3.8 cm\".",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Date and Location Column Width",
+          "type": "string"
+        },
+        "content_scale": {
+          "default": 0.75,
+          "description": "The scale of the content with respect to the page size. The default value is \"0.75\".",
+          "title": "Content Scale",
+          "type": "number"
+        },
+        "show_only_years": {
+          "default": false,
+          "description": "If \"True\", only the years will be shown in the date column. The default value is \"False\".",
+          "title": "Show Only Years",
+          "type": "boolean"
+        },
+        "disable_page_numbers": {
+          "default": false,
+          "description": "If \"True\", the page numbers will be disabled. The default value is \"False\".",
+          "title": "Disable Page Numbers",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "title": "ModerncvThemeOptions",
+      "type": "object"
+    },
+    "NormalEntry": {
+      "additionalProperties": false,
+      "description": "This class is the data model of `NormalEntry`.",
+      "properties": {
+        "name": {
+          "description": "The name of the NormalEntry.",
+          "title": "Name",
+          "type": "string"
+        },
+        "date": {
+          "default": null,
+          "description": "The date field can be filled in YYYY-MM-DD, YYYY-MM, or YYYY formats or as an arbitrary string like \"Fall 2023\".",
+          "examples": [
+            "2020-09-24",
+            "Fall 2023"
+          ],
+          "title": "Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "location": {
+          "default": null,
+          "description": "The location of the event.",
+          "examples": [
+            "Istanbul, Türkiye"
+          ],
+          "title": "Location",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "start_date": {
+          "default": null,
+          "description": "The start date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format.",
+          "examples": [
+            "2020-09-24"
+          ],
+          "title": "Start Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            }
+          ]
+        },
+        "end_date": {
+          "default": null,
+          "description": "The end date of the event in YYYY-MM-DD, YYYY-MM, or YYYY format. If the event is still ongoing, then type \"present\" or provide only the start_date.",
+          "examples": [
+            "2020-09-24",
+            "present"
+          ],
+          "title": "End Date",
+          "oneOf": [
+            {
+              "const": "present",
+              "enum": [
+                "present"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "pattern": "\\d{4}-\\d{2}(-\\d{2})?",
+              "type": "string"
+            }
+          ]
+        },
+        "highlights": {
+          "default": null,
+          "description": "The highlights of the event as a list of strings.",
+          "examples": [
+            "Did this.",
+            "Did that."
+          ],
+          "title": "Highlights",
+          "oneOf": [
+            {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "NormalEntry",
+      "type": "object"
+    },
+    "OneLineEntry": {
+      "additionalProperties": false,
+      "description": "This class is the data model of `OneLineEntry`.",
+      "properties": {
+        "label": {
+          "description": "The label of the OneLineEntry.",
+          "title": "Name",
+          "type": "string"
+        },
+        "details": {
+          "description": "The details of the OneLineEntry.",
+          "title": "Details",
+          "type": "string"
+        }
+      },
+      "required": [
+        "label",
+        "details"
+      ],
+      "title": "OneLineEntry",
+      "type": "object"
+    },
+    "PageMargins": {
+      "description": "This class is a data model for the page margins.",
+      "properties": {
+        "top": {
+          "default": "2 cm",
+          "description": "The top margin of the page with units. The default value is 2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Top Margin",
+          "type": "string"
+        },
+        "bottom": {
+          "default": "2 cm",
+          "description": "The bottom margin of the page with units. The default value is 2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Bottom Margin",
+          "type": "string"
+        },
+        "left": {
+          "default": "2 cm",
+          "description": "The left margin of the page with units. The default value is 2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Left Margin",
+          "type": "string"
+        },
+        "right": {
+          "default": "2 cm",
+          "description": "The right margin of the page with units. The default value is 2 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Right Margin",
+          "type": "string"
+        }
+      },
+      "title": "PageMargins",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "PublicationEntry": {
+      "additionalProperties": false,
+      "description": "This class is the data model of `PublicationEntry`.",
+      "properties": {
+        "title": {
+          "description": "The title of the publication.",
+          "title": "Publication Title",
+          "type": "string"
+        },
+        "authors": {
+          "description": "The authors of the publication in order as a list of strings.",
+          "items": {
+            "type": "string"
+          },
+          "title": "Authors",
+          "type": "array"
+        },
+        "doi": {
+          "default": null,
+          "description": "The DOI of the publication.",
+          "examples": [
+            "10.48550/arXiv.2310.03138"
+          ],
+          "title": "DOI",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "url": {
+          "default": null,
+          "description": "The URL of the publication. If DOI is provided, it will be ignored.",
+          "title": "URL",
+          "oneOf": [
+            {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            }
+          ]
+        },
+        "journal": {
+          "default": null,
+          "description": "The journal or conference name.",
+          "title": "Journal",
+          "oneOf": [
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "date": {
+          "default": null,
+          "description": "The date field can be filled in YYYY-MM-DD, YYYY-MM, or YYYY formats or as an arbitrary string like \"Fall 2023\".",
+          "examples": [
+            "2020-09-24",
+            "Fall 2023"
+          ],
+          "title": "Date",
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "title",
+        "authors"
+      ],
+      "title": "PublicationEntry",
+      "type": "object"
+    },
+    "Sb2novThemeOptions": {
+      "additionalProperties": false,
+      "description": "This class is the data model of the theme options for the `sb2nov` theme.",
+      "properties": {
+        "theme": {
+          "const": "sb2nov",
+          "enum": [
+            "sb2nov"
+          ],
+          "title": "Theme",
+          "type": "string"
+        },
+        "font": {
+          "default": "Latin Modern Serif",
+          "description": "The font family of the CV. The default value is Latin Modern Serif.",
+          "enum": [
+            "Latin Modern Serif",
+            "Latin Modern Sans Serif",
+            "Latin Modern Mono",
+            "Source Sans 3",
+            "Charter"
+          ],
+          "title": "Font",
+          "type": "string"
+        },
+        "font_size": {
+          "default": "10pt",
+          "description": "The font size of the CV. The default value is 10pt.",
+          "enum": [
+            "10pt",
+            "11pt",
+            "12pt"
+          ],
+          "title": "Font Size",
+          "type": "string"
+        },
+        "page_size": {
+          "default": "letterpaper",
+          "description": "The page size of the CV. It can be a4paper or letterpaper. The default value is letterpaper.",
+          "enum": [
+            "a4paper",
+            "letterpaper"
+          ],
+          "title": "Page Size",
+          "type": "string"
+        },
+        "color": {
+          "default": "rgb(0,79,144)",
+          "description": "The primary color of the theme. \nThe color can be specified either with their name (https://www.w3.org/TR/SVG11/types.html#ColorKeywords), hexadecimal value, RGB value, or HSL value. The default value is rgb(0,79,144).",
+          "examples": [
+            "Black",
+            "7fffd4",
+            "rgb(0,79,144)",
+            "hsl(270, 60%, 70%)"
+          ],
+          "format": "color",
+          "title": "Primary Color",
+          "type": "string"
+        },
+        "disable_external_link_icons": {
+          "default": false,
+          "description": "If this option is set to true, then the external link icons will not be shown next to the links. The default value is false.",
+          "title": "Disable External Link Icons",
+          "type": "boolean"
+        },
+        "disable_page_numbering": {
+          "default": false,
+          "description": "If this option is set to true, then the page numbering will not be shown. The default value is false.",
+          "title": "Disable Page Numbering",
+          "type": "boolean"
+        },
+        "page_numbering_style": {
+          "default": "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
+          "description": "The style of the page numbering. The following placeholders can be used:\n- NAME: The name of the person\n- PAGE_NUMBER: The current page number\n- TOTAL_PAGES: The total number of pages\nThe default value is NAME - Page PAGE_NUMBER of TOTAL_PAGES.",
+          "title": "Page Numbering Style",
+          "type": "string"
+        },
+        "disable_last_updated_date": {
+          "default": false,
+          "description": "If this option is set to true, then the last updated date will not be shown in the header. The default value is false.",
+          "title": "Disable Last Updated Date",
+          "type": "boolean"
+        },
+        "last_updated_date_style": {
+          "default": "Last updated in TODAY",
+          "description": "The style of the last updated date. The following placeholder can be used:\n- TODAY: Today's month and year (April 2024)\nThe default value is Last updated in TODAY.",
+          "title": "Last Updated Date Style",
+          "type": "string"
+        },
+        "header_font_size": {
+          "default": "24 pt",
+          "description": "The font size of the header (the name of the person). The default value is 24 pt. Unfortunately, sb2nov does not support font sizes bigger than 24 pt.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Header Font Size",
+          "type": "string"
+        },
+        "text_alignment": {
+          "default": "justified",
+          "description": "The alignment of the text. The default value is justified.",
+          "enum": [
+            "left-aligned",
+            "justified",
+            "justified-with-no-hyphenation"
+          ],
+          "title": "Text Alignment",
+          "type": "string"
+        },
+        "seperator_between_connections": {
+          "default": "",
+          "description": "The separator between the connections in the header. The default value is empty string.",
+          "title": "Seperator Between Connections",
+          "type": "string"
+        },
+        "use_icons_for_connections": {
+          "default": true,
+          "description": "If this option is set to true, then icons will be used for the connections in the header. The default value is true.",
+          "title": "Use Icons for Connections",
+          "type": "boolean"
+        },
+        "margins": {
+          "allOf": [
+            {
+              "$ref": "#/$defs/Margins"
+            }
+          ],
+          "default": {
+            "page": {
+              "bottom": "2 cm",
+              "left": "2 cm",
+              "right": "2 cm",
+              "top": "2 cm"
+            },
+            "section_title": {
+              "bottom": "0.2 cm",
+              "top": "0.3 cm"
+            },
+            "entry_area": {
+              "date_and_location_width": "4.5 cm",
+              "left_and_right": "0.2 cm",
+              "vertical_between": "0.2 cm"
+            },
+            "highlights_area": {
+              "left": "0.4 cm",
+              "top": "0.10 cm",
+              "vertical_between_bullet_points": "0.10 cm"
+            },
+            "header": {
+              "bottom": "0.3 cm",
+              "horizontal_between_connections": "0.5 cm",
+              "vertical_between_name_and_connections": "0.3 cm"
+            }
+          },
+          "description": "Page, section title, entry field, and highlights field margins.",
+          "title": "Margins"
+        }
+      },
+      "required": [
+        "theme"
+      ],
+      "title": "Sb2novThemeOptions",
+      "type": "object"
+    },
+    "SectionTitleMargins": {
+      "description": "This class is a data model for the section title margins.",
+      "properties": {
+        "top": {
+          "default": "0.3 cm",
+          "description": "The top margin of section titles. The default value is 0.3 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Top Margin",
+          "type": "string"
+        },
+        "bottom": {
+          "default": "0.2 cm",
+          "description": "The bottom margin of section titles. The default value is 0.3 cm.",
+          "pattern": "\\d+\\.?\\d* *(cm|in|pt|mm|ex|em)",
+          "title": "Bottom Margin",
+          "type": "string"
+        }
+      },
+      "title": "SectionTitleMargins",
+      "type": "object",
+      "additionalProperties": false
+    },
+    "SocialNetwork": {
+      "additionalProperties": false,
+      "description": "This class is the data model of a social network.",
+      "properties": {
+        "network": {
+          "description": "Name of the social network.",
+          "enum": [
+            "LinkedIn",
+            "GitHub",
+            "GitLab",
+            "Instagram",
+            "ORCID",
+            "Mastodon",
+            "StackOverflow",
+            "ResearchGate",
+            "YouTube",
+            "Google Scholar"
+          ],
+          "title": "Social Network",
+          "type": "string"
+        },
+        "username": {
+          "description": "The username of the social network. The link will be generated.",
+          "title": "Username",
+          "type": "string"
+        }
+      },
+      "required": [
+        "network",
+        "username"
+      ],
+      "title": "SocialNetwork",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "RenderCV data model.",
+  "properties": {
+    "cv": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/CurriculumVitae"
+        }
+      ],
+      "description": "The data of the CV.",
+      "title": "Curriculum Vitae"
+    },
+    "design": {
+      "default": {
+        "theme": "classic",
+        "font": "Source Sans 3",
+        "font_size": "10pt",
+        "page_size": "letterpaper",
+        "color": "#004f90",
+        "disable_external_link_icons": false,
+        "disable_page_numbering": false,
+        "page_numbering_style": "NAME - Page PAGE_NUMBER of TOTAL_PAGES",
+        "disable_last_updated_date": false,
+        "last_updated_date_style": "Last updated in TODAY",
+        "header_font_size": "30 pt",
+        "text_alignment": "justified",
+        "seperator_between_connections": "",
+        "use_icons_for_connections": true,
+        "margins": {
+          "entry_area": {
+            "date_and_location_width": "4.5 cm",
+            "education_degree_width": "1 cm",
+            "left_and_right": "0.2 cm",
+            "vertical_between": "0.2 cm"
+          },
+          "header": {
+            "bottom": "0.3 cm",
+            "horizontal_between_connections": "0.5 cm",
+            "vertical_between_name_and_connections": "0.3 cm"
+          },
+          "highlights_area": {
+            "left": "0.4 cm",
+            "top": "0.10 cm",
+            "vertical_between_bullet_points": "0.10 cm"
+          },
+          "page": {
+            "bottom": "2 cm",
+            "left": "2 cm",
+            "right": "2 cm",
+            "top": "2 cm"
+          },
+          "section_title": {
+            "bottom": "0.2 cm",
+            "top": "0.3 cm"
+          }
+        },
+        "show_timespan_in": []
+      },
+      "description": "The design information of the CV. The default is the classic theme.",
+      "discriminator": {
+        "mapping": {
+          "classic": "#/$defs/ClassicThemeOptions",
+          "engineeringresumes": "#/$defs/EngineeringresumesThemeOptions",
+          "moderncv": "#/$defs/ModerncvThemeOptions",
+          "sb2nov": "#/$defs/Sb2novThemeOptions"
+        },
+        "propertyName": "theme"
+      },
+      "oneOf": [
+        {
+          "$ref": "#/$defs/ClassicThemeOptions"
+        },
+        {
+          "$ref": "#/$defs/ModerncvThemeOptions"
+        },
+        {
+          "$ref": "#/$defs/Sb2novThemeOptions"
+        },
+        {
+          "$ref": "#/$defs/EngineeringresumesThemeOptions"
+        }
+      ],
+      "title": "Design"
+    },
+    "locale_catalog": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/LocaleCatalog"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The locale catalog of the CV to allow the support of multiple languages.",
+      "title": "Locale Catalog"
+    }
+  },
+  "required": [
+    "cv"
+  ],
+  "title": "RenderCV",
+  "type": "object",
+  "$id": "https://raw.githubusercontent.com/sinaatalay/rendercv/main/schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}
