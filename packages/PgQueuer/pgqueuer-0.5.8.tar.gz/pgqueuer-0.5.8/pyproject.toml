@@ -1,0 +1,100 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["pip>=22.0.0", "setuptools", "setuptools_scm", "wheel"]
+
+[project]
+authors = [{ name = "janbjorge"}]
+description = "PgQueuer is a Python library leveraging PostgreSQL for efficient job queuing."
+dynamic = ["version"]
+license = { text = "MIT License" }
+name = "PgQueuer"
+readme = "README.md"
+requires-python = ">=3.10"
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "Framework :: AsyncIO",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python",
+    "Topic :: Database",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Utilities",
+    "Topic :: System :: Distributed Computing"
+]
+
+dependencies = [
+    "anyio>=4.0",
+    "pydantic>=2.0.0",
+    "tabulate>=0.9.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/janbjorge/PgQueuer/wiki"
+Homepage = "https://github.com/janbjorge/PgQueuer/"
+Issues = "https://github.com/janbjorge/PgQueuer/issues"
+Repository = "https://github.com/janbjorge/PgQueuer/"
+
+[project.optional-dependencies]
+dev = [
+    "asyncpg",
+    "asyncpg-stubs",
+    "fastapi",
+    "flask",
+    "mypy-extensions",
+    "mypy",
+    "psycopg>=3.2.0",
+    "pytest-asyncio",
+    "pytest",
+    "ruff",
+    "tqdm",
+    "types-tabulate",
+]
+docs = [
+    "myst-parser",
+    "sphinx",
+    "sphinx-rtd-theme",
+]
+
+[tool.setuptools_scm]
+write_to = "src/_version.py"
+
+[tool.ruff]
+line-length = 88
+[tool.ruff.lint]
+select = [
+    "C",
+    "E",
+    "F",
+    "I",
+    "PIE",
+    "Q",
+    "RET",
+    "RSE",
+    "SIM",
+    "W",
+    "C90",
+]
+[tool.ruff.lint.isort]
+combine-as-imports = true
+
+[tool.mypy]
+disallow_untyped_defs = true
+exclude = "^(build)"
+extra_checks = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+python_version = "3.10"
+strict_equality = true
+warn_redundant_casts = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
