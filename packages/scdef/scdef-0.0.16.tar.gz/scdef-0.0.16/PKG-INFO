@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: scdef
+Version: 0.0.16
+Summary: Extract hierarchical signatures of cell state from single-cell data.
+Home-page: https://github.com/cbg-ethz/scdef
+License: MIT
+Author: pedrofale
+Author-email: pedro.miguel.ferreira.pf@gmail.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: anndata (>=0.10.5,<0.11.0)
+Requires-Dist: click (>=8.0.1,<9.0.0)
+Requires-Dist: decoupler (>=1.7.0,<2.0.0)
+Requires-Dist: graphviz (>=0.14.2,<0.15.0)
+Requires-Dist: gseapy (>=1.0.4,<2.0.0)
+Requires-Dist: igraph (>=0.10.4,<0.11.0)
+Requires-Dist: jax (>=0.4.13)
+Requires-Dist: jaxlib (>=0.4.13)
+Requires-Dist: numba (>=0.60.0,<0.61.0)
+Requires-Dist: numpy (>=1.26.4,<2.0.0)
+Requires-Dist: pandas (>=2.2.2,<3.0.0)
+Requires-Dist: scanpy[leidenalg] (>=1.9.5,<2.0.0)
+Requires-Dist: tqdm (>=4.64.0,<5.0.0)
+Project-URL: Repository, https://github.com/cbg-ethz/scdef
+Description-Content-Type: text/markdown
+
+<div align="left">
+  <img src="https://github.com/cbg-ethz/scDEF/raw/main/docs/assets/images/scdef.png", width="300px">
+</div>
+<p></p>
+
+[![pypi](https://img.shields.io/pypi/v/scdef.svg?style=flat)](https://pypi.python.org/pypi/scdef)
+[![build](https://github.com/cbg-ethz/scDEF/actions/workflows/test.yaml/badge.svg)](https://github.com/cbg-ethz/scDEF/actions/workflows/test.yaml)
+[![docs](https://github.com/cbg-ethz/scDEF/actions/workflows/docs.yaml/badge.svg)](https://cbg-ethz.github.io/scDEF/)
+
+Deep exponential families for single-cell data. scDEF learns hierarchies of cell states and their gene signatures from scRNA-seq data. The method can be used for dimensionality reduction, visualization, gene signature identification, clustering at multiple levels of resolution, and batch integration. The informed version (iscDEF) can additionally take known gene lists to jointly assign cells to types and find clusters within each type.
+
+To install scDEF and get started, [read the documentation](https://cbg-ethz.github.io/scDEF).
+
