@@ -1,0 +1,88 @@
+Metadata-Version: 2.1
+Name: datapipe-app
+Version: 0.5.0
+Summary: 
+Author: Andrey Tatarinov
+Author-email: a@tatarinov.co
+Requires-Python: >=3.9,<3.12
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Provides-Extra: gcp
+Provides-Extra: jaeger
+Requires-Dist: click (>=7.1.2)
+Requires-Dist: datapipe-core (>=0.13.13)
+Requires-Dist: fastapi (>=0.69.0)
+Requires-Dist: opentelemetry-exporter-gcp-trace (>=1.3.0,<2.0.0) ; extra == "gcp"
+Requires-Dist: opentelemetry-exporter-jaeger (>=1.8.0,<2.0.0) ; extra == "jaeger"
+Requires-Dist: opentelemetry-instrumentation-fastapi (>=0.35b0)
+Requires-Dist: pydantic-settings (>=2.0.0)
+Requires-Dist: rich (>=13.3.2,<14.0.0)
+Requires-Dist: starlette-exporter
+Requires-Dist: uvicorn[standard] (>=0.17.0)
+Description-Content-Type: text/markdown
+
+# datapipe-app
+
+`datapipe-app` implements two aspects to make every [datapipe](https://github.com/epoch8/datapipe) pipeline to work as
+an application:
+
+1. REST API + debug UI based of FastAPI
+1. `datapipe` CLI tool
+
+## Common usage
+
+Common pattern to use `datapipe-app` is to create `app.py` with the following code:
+
+```
+from datapipe_app import DatapipeApp
+
+from pipeline import ds, catalog, pipeline
+
+app = DatapipeApp(ds, catalog, pipeline)
+```
+
+Where `pipeline` is a module that defines common elements: `ds`, `catalog` and
+`pipeline`.
+
+## REST API + UI
+
+`DatapipeApp` inherits from `FastApi` app and can be started with server like
+`uvicorn`.
+
+```
+uvicorn app:app
+```
+
+### UI
+
+![Datapipe App UI](docs/datapipe-example-app.png)
+
+### REST API
+
+API documentation can be found at `/api/v1alpha1/docs` sub URL.
+
+## CLI
+
+`datapipe` CLI tool implements useful operations.
+
+### run
+
+`datapipe run --pipeline app`
+
+Does full run of a specific pipeline.
+
+### table list
+
+`datapipe table list`
+
+Lists all tables in pipeline.
+
+### table reset-metadata
+
+`datapipe table reset-metadata TABLE`
+
+Resets metadata for a specific table: sets `updated_ts`, `processed_ts`, `hash`
+to `0`.
+
