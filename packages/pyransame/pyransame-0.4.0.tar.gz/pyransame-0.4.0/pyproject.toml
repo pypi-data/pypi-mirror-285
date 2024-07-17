@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "pyransame"
+requires-python = ">=3.8"
+dependencies = [
+    "pyvista>=0.44",
+    "numpy",
+]
+description = "PYthon RAndom SAmpling for MEshes"
+readme = {file = "README.md", content-type = "text/markdown"}
+keywords = ["pyvista", "vtk", "numpy", "mesh", "sample"]
+license = {text = "MIT License"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+]
+authors = [
+  {name = "Matthew Flamm", email = "matthewhflamm0@gmail.com"}
+]
+
+[project.urls]
+"Repository" = "https://github.com/MatthewFlamm/pyransame"
+"Bug Tracker" = "https://github.com/MatthewFlamm/pyransame/issues"
+"Documentation" = "https://matthewflamm.github.io/pyransame/"
+
+[tool.setuptools_scm]
+write_to = "src/pyransame/_version.py"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+namespaces = false
+
+[tool.mypy]
+files = ["src"]
+plugins = "numpy.typing.mypy_plugin"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+addopts = "--doctest-modules"
