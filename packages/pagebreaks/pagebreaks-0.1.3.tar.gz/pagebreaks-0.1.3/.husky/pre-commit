@@ -1,0 +1,7 @@
+jlpm lint-staged
+jlpm run lint:check
+cd backend/pagebreaksip/ && make test
+cd ../..
+jlpm test
+cd ui-tests && jlpm playwright test
+
