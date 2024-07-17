@@ -1,0 +1,108 @@
+stages:
+    - static-checks
+    - test
+    - sonarqube
+    - doc
+    - deploy
+
+default:
+    image: python:3.12
+#
+# Anchors definition
+#
+.unittest_template: &unittests
+    stage: test
+    needs: []
+    script:
+        - pip install pytest pytest-cov coverage-badge
+        - pip install -e .[test]
+        - pytest -v --cov=molecularprofiles --junitxml=report.xml --cov-report=xml:coverage.xml
+        - coverage-badge
+    coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+    artifacts:
+        expire_in: 1 week
+        when: always
+        reports:
+            junit: report.xml
+        paths:
+            - coverage.xml
+            - "*.ecsv"
+            - test_rayleigh_extinction_profile_simtel.txt
+
+workflow:
+    rules:
+        - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+          when: never
+        - when: always
+
+#
+# Job: run PyLint
+#
+pylint:
+    stage: static-checks
+    needs: []
+    script:
+        - pip install pylint pylint-exit anybadge
+        - pip install .[test]
+        - mkdir ./pylint
+        - pylint src/molecularprofiles | tee ./pylint/pylint.log || pylint-exit $?
+        - PYLINT_SCORE=$(sed -n 's/^Your code has been rated at \([-0-9.]*\)\/.*/\1/p' ./pylint/pylint.log)
+        - anybadge --label=Pylint --file=pylint/pylint.svg --value=$PYLINT_SCORE 2=red 4=orange 8=yellow 10=green
+        - echo "Pylint score is $PYLINT_SCORE"
+    artifacts:
+        paths:
+            - ./pylint/
+
+coverage:
+    stage: static-checks
+    <<: *unittests
+
+sonarqube:
+    stage: sonarqube
+    needs:
+        - job: coverage
+          artifacts: true
+    image:
+        name: sonarsource/sonar-scanner-cli:latest
+        entrypoint: [""]
+    variables:
+        SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+        GIT_DEPTH: "0"
+
+    script:
+        - sonar-scanner -Dsonar.branch.name=${CI_COMMIT_BRANCH}
+
+unittests:
+    parallel:
+        matrix:
+        - PYTHON_VERSION: ['3.10', '3.11']
+    image: python:$PYTHON_VERSION
+    allow_failure: true # Remove when actual tests are implemented
+    extends: [.unittest_template]
+
+pages:
+    stage: doc
+    needs: [pylint, unittests]
+    only:
+        - main
+        - tags
+    script:
+        - pip install .[doc]
+        - sphinx-build -b html doc/source public
+    artifacts:
+        paths:
+            - public
+
+pypi:
+  stage: deploy
+  needs: [pylint, unittests, pages]
+  script:
+      - pip install -U twine build
+      - python -m build
+      - twine upload dist/*
+  only:
+      - tags
+  variables:
+      TWINE_NON_INTERACTIVE: 'true'
+      TWINE_USERNAME: __token__
+      TWINE_PASSWORD: $TWINE_PASSWORD
