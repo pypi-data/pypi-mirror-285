@@ -1,0 +1,907 @@
+Metadata-Version: 2.1
+Name: qai-hub-models
+Version: 0.10.0
+Summary: Models optimized for export to run on device.
+Home-page: https://github.com/quic/ai-hub-models
+Author: Qualcomm® Technologies, Inc.
+License: BSD-3
+Requires-Python: >=3.8, <3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Pillow ==10.0.1
+Requires-Dist: deprecation ==2.1.0
+Requires-Dist: fsspec ==2023.6.0
+Requires-Dist: gdown ==4.7.1
+Requires-Dist: gitpython ==3.1.42
+Requires-Dist: huggingface-hub ==0.23.1
+Requires-Dist: ipython ==8.12.3
+Requires-Dist: matplotlib ==3.7.5
+Requires-Dist: numpy ==1.23.1
+Requires-Dist: onnx ==1.14.1
+Requires-Dist: opencv-python ==4.8.1.78
+Requires-Dist: packaging ==23.2
+Requires-Dist: pandas ==1.5.3
+Requires-Dist: prettytable ==3.9.0
+Requires-Dist: protobuf ==3.20.2
+Requires-Dist: pytest ==7.4.2
+Requires-Dist: pyyaml ==6.0.1
+Requires-Dist: requests-toolbelt ==1.0.0
+Requires-Dist: schema ==0.7.5
+Requires-Dist: scipy ==1.8.1
+Requires-Dist: tabulate ==0.9.0
+Requires-Dist: torch ==1.13.1
+Requires-Dist: torchvision ==0.14.1
+Requires-Dist: typing-extensions ==4.5.0
+Requires-Dist: tqdm ==4.66.2
+Requires-Dist: urllib3 ==1.26.18
+Requires-Dist: qai-hub >=0.13.0
+Provides-Extra: controlnet-quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'controlnet-quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'controlnet-quantized'
+Provides-Extra: controlnet_quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'controlnet_quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'controlnet_quantized'
+Provides-Extra: convnext-tiny-w8a16-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'convnext-tiny-w8a16-quantized'
+Provides-Extra: convnext-tiny-w8a8-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'convnext-tiny-w8a8-quantized'
+Provides-Extra: convnext_tiny_w8a16_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'convnext_tiny_w8a16_quantized'
+Provides-Extra: convnext_tiny_w8a8_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'convnext_tiny_w8a8_quantized'
+Provides-Extra: deeplabv3-plus-mobilenet-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'deeplabv3-plus-mobilenet-quantized'
+Provides-Extra: deeplabv3_plus_mobilenet_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'deeplabv3_plus_mobilenet_quantized'
+Provides-Extra: detr-resnet101
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr-resnet101'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr-resnet101'
+Provides-Extra: detr-resnet101-dc5
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr-resnet101-dc5'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr-resnet101-dc5'
+Provides-Extra: detr-resnet50
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr-resnet50'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr-resnet50'
+Provides-Extra: detr-resnet50-dc5
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr-resnet50-dc5'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr-resnet50-dc5'
+Provides-Extra: detr_resnet101
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr_resnet101'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr_resnet101'
+Provides-Extra: detr_resnet101_dc5
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr_resnet101_dc5'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr_resnet101_dc5'
+Provides-Extra: detr_resnet50
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr_resnet50'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr_resnet50'
+Provides-Extra: detr_resnet50_dc5
+Requires-Dist: transformers ==4.41.1 ; extra == 'detr_resnet50_dc5'
+Requires-Dist: timm ==1.0.3 ; extra == 'detr_resnet50_dc5'
+Provides-Extra: dev
+Requires-Dist: boto3 ==1.34.119 ; extra == 'dev'
+Requires-Dist: botocore ==1.34.119 ; extra == 'dev'
+Requires-Dist: coverage ==5.3.1 ; extra == 'dev'
+Requires-Dist: imageio[ffmpeg] ==2.31.5 ; extra == 'dev'
+Requires-Dist: jinja2 ==3.0.3 ; extra == 'dev'
+Requires-Dist: mypy ==0.991 ; extra == 'dev'
+Requires-Dist: pre-commit ==3.5.0 ; extra == 'dev'
+Requires-Dist: pytest-cov ==4.1.0 ; extra == 'dev'
+Requires-Dist: pytest-xdist ==3.3.1 ; extra == 'dev'
+Requires-Dist: ruamel-yaml ==0.18.6 ; extra == 'dev'
+Requires-Dist: schema ==0.7.5 ; extra == 'dev'
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'dev'
+Requires-Dist: tflite ==2.10.0 ; extra == 'dev'
+Requires-Dist: types-PyYAML ==6.0.12.12 ; extra == 'dev'
+Requires-Dist: types-pillow ==10.2.0.20240213 ; extra == 'dev'
+Requires-Dist: types-tabulate ==0.9.0.20240106 ; extra == 'dev'
+Requires-Dist: types-requests ==2.31.0.6 ; extra == 'dev'
+Requires-Dist: keyrings.envvars ==1.1.0 ; (python_version >= "3.9") and extra == 'dev'
+Provides-Extra: facebook-denoiser
+Requires-Dist: hydra-core ==1.3.0 ; extra == 'facebook-denoiser'
+Requires-Dist: torchaudio ==0.13.1 ; extra == 'facebook-denoiser'
+Requires-Dist: PySoundFile ; (sys_platform == "win32") and extra == 'facebook-denoiser'
+Provides-Extra: facebook_denoiser
+Requires-Dist: hydra-core ==1.3.0 ; extra == 'facebook_denoiser'
+Requires-Dist: torchaudio ==0.13.1 ; extra == 'facebook_denoiser'
+Requires-Dist: PySoundFile ; (sys_platform == "win32") and extra == 'facebook_denoiser'
+Provides-Extra: fastsam-s
+Requires-Dist: seaborn ==0.11.0 ; extra == 'fastsam-s'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'fastsam-s'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'fastsam-s'
+Provides-Extra: fastsam-x
+Requires-Dist: seaborn ==0.11.0 ; extra == 'fastsam-x'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'fastsam-x'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'fastsam-x'
+Provides-Extra: fastsam_s
+Requires-Dist: seaborn ==0.11.0 ; extra == 'fastsam_s'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'fastsam_s'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'fastsam_s'
+Provides-Extra: fastsam_x
+Requires-Dist: seaborn ==0.11.0 ; extra == 'fastsam_x'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'fastsam_x'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'fastsam_x'
+Provides-Extra: fcn-resnet50-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'fcn-resnet50-quantized'
+Provides-Extra: fcn_resnet50_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'fcn_resnet50_quantized'
+Provides-Extra: ffnet-122ns-lowres
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-122ns-lowres'
+Provides-Extra: ffnet-40s
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-40s'
+Provides-Extra: ffnet-40s-quantized
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-40s-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'ffnet-40s-quantized'
+Provides-Extra: ffnet-54s
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-54s'
+Provides-Extra: ffnet-54s-quantized
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-54s-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'ffnet-54s-quantized'
+Provides-Extra: ffnet-78s
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-78s'
+Provides-Extra: ffnet-78s-lowres
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-78s-lowres'
+Provides-Extra: ffnet-78s-quantized
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet-78s-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'ffnet-78s-quantized'
+Provides-Extra: ffnet_122ns_lowres
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_122ns_lowres'
+Provides-Extra: ffnet_40s
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_40s'
+Provides-Extra: ffnet_40s_quantized
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_40s_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'ffnet_40s_quantized'
+Provides-Extra: ffnet_54s
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_54s'
+Provides-Extra: ffnet_54s_quantized
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_54s_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'ffnet_54s_quantized'
+Provides-Extra: ffnet_78s
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_78s'
+Provides-Extra: ffnet_78s_lowres
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_78s_lowres'
+Provides-Extra: ffnet_78s_quantized
+Requires-Dist: scikit-image ==0.21.0 ; extra == 'ffnet_78s_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'ffnet_78s_quantized'
+Provides-Extra: googlenet-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'googlenet-quantized'
+Provides-Extra: googlenet_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'googlenet_quantized'
+Provides-Extra: hrnet-pose
+Requires-Dist: yacs ==0.1.8 ; extra == 'hrnet-pose'
+Requires-Dist: mmpose ==1.2.0 ; extra == 'hrnet-pose'
+Requires-Dist: mmcv ==2.1.0 ; extra == 'hrnet-pose'
+Requires-Dist: mmdet ==3.2.0 ; extra == 'hrnet-pose'
+Provides-Extra: hrnet-pose-quantized
+Requires-Dist: yacs ==0.1.8 ; extra == 'hrnet-pose-quantized'
+Requires-Dist: mmpose ==1.2.0 ; extra == 'hrnet-pose-quantized'
+Requires-Dist: mmcv ==2.1.0 ; extra == 'hrnet-pose-quantized'
+Requires-Dist: mmdet ==3.2.0 ; extra == 'hrnet-pose-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'hrnet-pose-quantized'
+Provides-Extra: hrnet_pose
+Requires-Dist: yacs ==0.1.8 ; extra == 'hrnet_pose'
+Requires-Dist: mmpose ==1.2.0 ; extra == 'hrnet_pose'
+Requires-Dist: mmcv ==2.1.0 ; extra == 'hrnet_pose'
+Requires-Dist: mmdet ==3.2.0 ; extra == 'hrnet_pose'
+Provides-Extra: hrnet_pose_quantized
+Requires-Dist: yacs ==0.1.8 ; extra == 'hrnet_pose_quantized'
+Requires-Dist: mmpose ==1.2.0 ; extra == 'hrnet_pose_quantized'
+Requires-Dist: mmcv ==2.1.0 ; extra == 'hrnet_pose_quantized'
+Requires-Dist: mmdet ==3.2.0 ; extra == 'hrnet_pose_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'hrnet_pose_quantized'
+Provides-Extra: huggingface-wavlm-base-plus
+Requires-Dist: transformers ==4.41.1 ; extra == 'huggingface-wavlm-base-plus'
+Requires-Dist: soundfile ==0.12.1 ; extra == 'huggingface-wavlm-base-plus'
+Requires-Dist: librosa ==0.10.1 ; extra == 'huggingface-wavlm-base-plus'
+Requires-Dist: datasets ==2.14.5 ; extra == 'huggingface-wavlm-base-plus'
+Provides-Extra: huggingface_wavlm_base_plus
+Requires-Dist: transformers ==4.41.1 ; extra == 'huggingface_wavlm_base_plus'
+Requires-Dist: soundfile ==0.12.1 ; extra == 'huggingface_wavlm_base_plus'
+Requires-Dist: librosa ==0.10.1 ; extra == 'huggingface_wavlm_base_plus'
+Requires-Dist: datasets ==2.14.5 ; extra == 'huggingface_wavlm_base_plus'
+Provides-Extra: inception-v3-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'inception-v3-quantized'
+Provides-Extra: inception_v3_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'inception_v3_quantized'
+Provides-Extra: lama-dilated
+Requires-Dist: albumentations ==0.5.2 ; extra == 'lama-dilated'
+Requires-Dist: pytorch-lightning ==1.6.0 ; extra == 'lama-dilated'
+Requires-Dist: webdataset ==0.2.86 ; extra == 'lama-dilated'
+Requires-Dist: easydict ==1.10 ; extra == 'lama-dilated'
+Requires-Dist: kornia ==0.5.0 ; extra == 'lama-dilated'
+Requires-Dist: hydra-core ==1.3.0 ; extra == 'lama-dilated'
+Requires-Dist: scikit-learn ==1.1.3 ; extra == 'lama-dilated'
+Requires-Dist: tensorboard ==2.13.0 ; extra == 'lama-dilated'
+Provides-Extra: lama_dilated
+Requires-Dist: albumentations ==0.5.2 ; extra == 'lama_dilated'
+Requires-Dist: pytorch-lightning ==1.6.0 ; extra == 'lama_dilated'
+Requires-Dist: webdataset ==0.2.86 ; extra == 'lama_dilated'
+Requires-Dist: easydict ==1.10 ; extra == 'lama_dilated'
+Requires-Dist: kornia ==0.5.0 ; extra == 'lama_dilated'
+Requires-Dist: hydra-core ==1.3.0 ; extra == 'lama_dilated'
+Requires-Dist: scikit-learn ==1.1.3 ; extra == 'lama_dilated'
+Requires-Dist: tensorboard ==2.13.0 ; extra == 'lama_dilated'
+Provides-Extra: litehrnet
+Requires-Dist: mmpose ==1.2.0 ; extra == 'litehrnet'
+Requires-Dist: mmcv ==2.1.0 ; extra == 'litehrnet'
+Requires-Dist: mmdet ==3.2.0 ; extra == 'litehrnet'
+Provides-Extra: llama-v2-7b-chat-quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'llama-v2-7b-chat-quantized'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'llama-v2-7b-chat-quantized'
+Requires-Dist: psutil ; extra == 'llama-v2-7b-chat-quantized'
+Provides-Extra: llama-v3-8b-chat-quantized
+Requires-Dist: transformers ==4.40.0 ; extra == 'llama-v3-8b-chat-quantized'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'llama-v3-8b-chat-quantized'
+Requires-Dist: psutil ; extra == 'llama-v3-8b-chat-quantized'
+Provides-Extra: llama_v2_7b_chat_quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'llama_v2_7b_chat_quantized'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'llama_v2_7b_chat_quantized'
+Requires-Dist: psutil ; extra == 'llama_v2_7b_chat_quantized'
+Provides-Extra: llama_v3_8b_chat_quantized
+Requires-Dist: transformers ==4.40.0 ; extra == 'llama_v3_8b_chat_quantized'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'llama_v3_8b_chat_quantized'
+Requires-Dist: psutil ; extra == 'llama_v3_8b_chat_quantized'
+Provides-Extra: mediapipe-selfie
+Requires-Dist: tflite ==2.10.0 ; extra == 'mediapipe-selfie'
+Provides-Extra: mediapipe_selfie
+Requires-Dist: tflite ==2.10.0 ; extra == 'mediapipe_selfie'
+Provides-Extra: midas
+Requires-Dist: timm ==1.0.3 ; extra == 'midas'
+Provides-Extra: midas-quantized
+Requires-Dist: timm ==1.0.3 ; extra == 'midas-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'midas-quantized'
+Provides-Extra: midas_quantized
+Requires-Dist: timm ==1.0.3 ; extra == 'midas_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'midas_quantized'
+Provides-Extra: mobilenet-v2-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'mobilenet-v2-quantized'
+Provides-Extra: mobilenet-v3-large-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'mobilenet-v3-large-quantized'
+Provides-Extra: mobilenet_v2_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'mobilenet_v2_quantized'
+Provides-Extra: mobilenet_v3_large_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'mobilenet_v3_large_quantized'
+Provides-Extra: openai-clip
+Requires-Dist: ftfy ==6.1.1 ; extra == 'openai-clip'
+Requires-Dist: regex ==2023.10.3 ; extra == 'openai-clip'
+Provides-Extra: openai_clip
+Requires-Dist: ftfy ==6.1.1 ; extra == 'openai_clip'
+Requires-Dist: regex ==2023.10.3 ; extra == 'openai_clip'
+Provides-Extra: openpose
+Requires-Dist: scipy ==1.8.1 ; extra == 'openpose'
+Provides-Extra: quicksrnetlarge-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'quicksrnetlarge-quantized'
+Provides-Extra: quicksrnetlarge_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'quicksrnetlarge_quantized'
+Provides-Extra: quicksrnetmedium-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'quicksrnetmedium-quantized'
+Provides-Extra: quicksrnetmedium_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'quicksrnetmedium_quantized'
+Provides-Extra: quicksrnetsmall-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'quicksrnetsmall-quantized'
+Provides-Extra: quicksrnetsmall_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'quicksrnetsmall_quantized'
+Provides-Extra: real-esrgan-general-x4v3
+Requires-Dist: scipy ==1.8.1 ; extra == 'real-esrgan-general-x4v3'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'real-esrgan-general-x4v3'
+Requires-Dist: basicsr ==1.4.2 ; extra == 'real-esrgan-general-x4v3'
+Provides-Extra: real-esrgan-x4plus
+Requires-Dist: scipy ==1.8.1 ; extra == 'real-esrgan-x4plus'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'real-esrgan-x4plus'
+Requires-Dist: basicsr ==1.4.2 ; extra == 'real-esrgan-x4plus'
+Provides-Extra: real_esrgan_general_x4v3
+Requires-Dist: scipy ==1.8.1 ; extra == 'real_esrgan_general_x4v3'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'real_esrgan_general_x4v3'
+Requires-Dist: basicsr ==1.4.2 ; extra == 'real_esrgan_general_x4v3'
+Provides-Extra: real_esrgan_x4plus
+Requires-Dist: scipy ==1.8.1 ; extra == 'real_esrgan_x4plus'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'real_esrgan_x4plus'
+Requires-Dist: basicsr ==1.4.2 ; extra == 'real_esrgan_x4plus'
+Provides-Extra: regnet-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'regnet-quantized'
+Provides-Extra: regnet_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'regnet_quantized'
+Provides-Extra: resnet101-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnet101-quantized'
+Provides-Extra: resnet101_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnet101_quantized'
+Provides-Extra: resnet18-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnet18-quantized'
+Provides-Extra: resnet18_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnet18_quantized'
+Provides-Extra: resnet50-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnet50-quantized'
+Provides-Extra: resnet50_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnet50_quantized'
+Provides-Extra: resnext101-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnext101-quantized'
+Provides-Extra: resnext101_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnext101_quantized'
+Provides-Extra: resnext50-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnext50-quantized'
+Provides-Extra: resnext50_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'resnext50_quantized'
+Provides-Extra: riffusion-quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'riffusion-quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'riffusion-quantized'
+Provides-Extra: riffusion_quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'riffusion_quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'riffusion_quantized'
+Provides-Extra: sam
+Requires-Dist: pycocotools ==2.0.7 ; extra == 'sam'
+Provides-Extra: sesr-m5-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'sesr-m5-quantized'
+Provides-Extra: sesr_m5_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'sesr_m5_quantized'
+Provides-Extra: shufflenet-v2-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'shufflenet-v2-quantized'
+Provides-Extra: shufflenet_v2_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'shufflenet_v2_quantized'
+Provides-Extra: squeezenet1-1-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'squeezenet1-1-quantized'
+Provides-Extra: squeezenet1_1_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'squeezenet1_1_quantized'
+Provides-Extra: stable-diffusion-v1-5-quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'stable-diffusion-v1-5-quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'stable-diffusion-v1-5-quantized'
+Provides-Extra: stable-diffusion-v2-1-quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'stable-diffusion-v2-1-quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'stable-diffusion-v2-1-quantized'
+Provides-Extra: stable_diffusion_v1_5_quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'stable_diffusion_v1_5_quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'stable_diffusion_v1_5_quantized'
+Provides-Extra: stable_diffusion_v2_1_quantized
+Requires-Dist: transformers ==4.41.1 ; extra == 'stable_diffusion_v2_1_quantized'
+Requires-Dist: diffusers[torch] ==0.21.4 ; extra == 'stable_diffusion_v2_1_quantized'
+Provides-Extra: stylegan2
+Requires-Dist: click ==8.1.7 ; extra == 'stylegan2'
+Provides-Extra: trocr
+Requires-Dist: transformers ==4.41.1 ; extra == 'trocr'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'trocr'
+Provides-Extra: whisper-base-en
+Requires-Dist: openai-whisper ==20230314 ; extra == 'whisper-base-en'
+Requires-Dist: scipy ==1.8.1 ; extra == 'whisper-base-en'
+Requires-Dist: audio2numpy ==0.1.2 ; extra == 'whisper-base-en'
+Requires-Dist: samplerate ==0.2.1 ; extra == 'whisper-base-en'
+Provides-Extra: whisper-small-en
+Requires-Dist: openai-whisper ==20230314 ; extra == 'whisper-small-en'
+Requires-Dist: scipy ==1.8.1 ; extra == 'whisper-small-en'
+Requires-Dist: audio2numpy ==0.1.2 ; extra == 'whisper-small-en'
+Requires-Dist: samplerate ==0.2.1 ; extra == 'whisper-small-en'
+Provides-Extra: whisper-tiny-en
+Requires-Dist: openai-whisper ==20230314 ; extra == 'whisper-tiny-en'
+Requires-Dist: scipy ==1.8.1 ; extra == 'whisper-tiny-en'
+Requires-Dist: audio2numpy ==0.1.2 ; extra == 'whisper-tiny-en'
+Requires-Dist: samplerate ==0.2.1 ; extra == 'whisper-tiny-en'
+Provides-Extra: whisper_base_en
+Requires-Dist: openai-whisper ==20230314 ; extra == 'whisper_base_en'
+Requires-Dist: scipy ==1.8.1 ; extra == 'whisper_base_en'
+Requires-Dist: audio2numpy ==0.1.2 ; extra == 'whisper_base_en'
+Requires-Dist: samplerate ==0.2.1 ; extra == 'whisper_base_en'
+Provides-Extra: whisper_small_en
+Requires-Dist: openai-whisper ==20230314 ; extra == 'whisper_small_en'
+Requires-Dist: scipy ==1.8.1 ; extra == 'whisper_small_en'
+Requires-Dist: audio2numpy ==0.1.2 ; extra == 'whisper_small_en'
+Requires-Dist: samplerate ==0.2.1 ; extra == 'whisper_small_en'
+Provides-Extra: whisper_tiny_en
+Requires-Dist: openai-whisper ==20230314 ; extra == 'whisper_tiny_en'
+Requires-Dist: scipy ==1.8.1 ; extra == 'whisper_tiny_en'
+Requires-Dist: audio2numpy ==0.1.2 ; extra == 'whisper_tiny_en'
+Requires-Dist: samplerate ==0.2.1 ; extra == 'whisper_tiny_en'
+Provides-Extra: wideresnet50-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'wideresnet50-quantized'
+Provides-Extra: wideresnet50_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'wideresnet50_quantized'
+Provides-Extra: xlsr-quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'xlsr-quantized'
+Provides-Extra: xlsr_quantized
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'xlsr_quantized'
+Provides-Extra: yolonas
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolonas'
+Requires-Dist: stringcase ==1.2.0 ; extra == 'yolonas'
+Requires-Dist: rapidfuzz ==3.8.1 ; extra == 'yolonas'
+Requires-Dist: treelib ==1.6.1 ; extra == 'yolonas'
+Requires-Dist: imagesize ==1.4.1 ; extra == 'yolonas'
+Requires-Dist: einops ==0.3.2 ; extra == 'yolonas'
+Requires-Dist: Deprecated ==1.2.11 ; extra == 'yolonas'
+Requires-Dist: data-gradients ==0.3.1 ; extra == 'yolonas'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolonas'
+Requires-Dist: boto3 ==1.34.119 ; extra == 'yolonas'
+Requires-Dist: torchmetrics ==1.4.0.post0 ; extra == 'yolonas'
+Provides-Extra: yolonas-quantized
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolonas-quantized'
+Requires-Dist: stringcase ==1.2.0 ; extra == 'yolonas-quantized'
+Requires-Dist: rapidfuzz ==3.8.1 ; extra == 'yolonas-quantized'
+Requires-Dist: treelib ==1.6.1 ; extra == 'yolonas-quantized'
+Requires-Dist: imagesize ==1.4.1 ; extra == 'yolonas-quantized'
+Requires-Dist: einops ==0.3.2 ; extra == 'yolonas-quantized'
+Requires-Dist: Deprecated ==1.2.11 ; extra == 'yolonas-quantized'
+Requires-Dist: data-gradients ==0.3.1 ; extra == 'yolonas-quantized'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolonas-quantized'
+Requires-Dist: boto3 ==1.34.119 ; extra == 'yolonas-quantized'
+Requires-Dist: torchmetrics ==1.4.0.post0 ; extra == 'yolonas-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'yolonas-quantized'
+Provides-Extra: yolonas_quantized
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolonas_quantized'
+Requires-Dist: stringcase ==1.2.0 ; extra == 'yolonas_quantized'
+Requires-Dist: rapidfuzz ==3.8.1 ; extra == 'yolonas_quantized'
+Requires-Dist: treelib ==1.6.1 ; extra == 'yolonas_quantized'
+Requires-Dist: imagesize ==1.4.1 ; extra == 'yolonas_quantized'
+Requires-Dist: einops ==0.3.2 ; extra == 'yolonas_quantized'
+Requires-Dist: Deprecated ==1.2.11 ; extra == 'yolonas_quantized'
+Requires-Dist: data-gradients ==0.3.1 ; extra == 'yolonas_quantized'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolonas_quantized'
+Requires-Dist: boto3 ==1.34.119 ; extra == 'yolonas_quantized'
+Requires-Dist: torchmetrics ==1.4.0.post0 ; extra == 'yolonas_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'yolonas_quantized'
+Provides-Extra: yolov7
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov7'
+Requires-Dist: scipy ==1.8.1 ; extra == 'yolov7'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov7'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov7'
+Provides-Extra: yolov7-quantized
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov7-quantized'
+Requires-Dist: scipy ==1.8.1 ; extra == 'yolov7-quantized'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov7-quantized'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov7-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'yolov7-quantized'
+Provides-Extra: yolov7_quantized
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov7_quantized'
+Requires-Dist: scipy ==1.8.1 ; extra == 'yolov7_quantized'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov7_quantized'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov7_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'yolov7_quantized'
+Provides-Extra: yolov8-det
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov8-det'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov8-det'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'yolov8-det'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'yolov8-det'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov8-det'
+Provides-Extra: yolov8-det-quantized
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov8-det-quantized'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov8-det-quantized'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'yolov8-det-quantized'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'yolov8-det-quantized'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov8-det-quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'yolov8-det-quantized'
+Provides-Extra: yolov8-seg
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov8-seg'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'yolov8-seg'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'yolov8-seg'
+Provides-Extra: yolov8_det
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov8_det'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov8_det'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'yolov8_det'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'yolov8_det'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov8_det'
+Provides-Extra: yolov8_det_quantized
+Requires-Dist: object-detection-metrics ==0.4.post1 ; extra == 'yolov8_det_quantized'
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov8_det_quantized'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'yolov8_det_quantized'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'yolov8_det_quantized'
+Requires-Dist: shapely ==2.0.3 ; extra == 'yolov8_det_quantized'
+Requires-Dist: aimet-torch ==1.31.2 ; (sys_platform == "linux") and extra == 'yolov8_det_quantized'
+Provides-Extra: yolov8_seg
+Requires-Dist: seaborn ==0.11.0 ; extra == 'yolov8_seg'
+Requires-Dist: thop ==0.1.1.post2209072238 ; extra == 'yolov8_seg'
+Requires-Dist: ultralytics ==8.0.193 ; extra == 'yolov8_seg'
+
+[![Qualcomm® AI Hub Models](https://qaihub-public-assets.s3.us-west-2.amazonaws.com/qai-hub-models/quic-logo.jpg)](https://aihub.qualcomm.com)
+
+# Qualcomm® AI Hub Models
+
+The [Qualcomm® AI Hub Models](https://aihub.qualcomm.com/) are a collection of
+state-of-the-art machine learning models optimized for performance (latency,
+memory etc.) and ready to deploy on Qualcomm® devices.
+
+* Explore models optimized for on-device deployment of vision, speech, text, and genenrative AI.
+* View open-source recipes to quantize, optimize, and deploy these models on-device.
+* Browse through [performance metrics](https://aihub.qualcomm.com/models) captured for these models on several devices.
+* Access the models through [Hugging Face](https://huggingface.co/qualcomm).
+* [Sign up](https://myaccount.qualcomm.com/signup) to run these models on hosted Qualcomm® devices.
+
+Supported **python package host machine** Operating Systems:
+- Linux (x86, ARM)
+- Windows (x86)
+- Windows (ARM-- ONLY via x86 Python, not ARM Python)
+- MacOS (x86, ARM)
+
+Supported runtimes
+* [TensorFlow Lite](https://www.tensorflow.org/lite)
+* [Qualcomm AI Engine Direct](https://www.qualcomm.com/developer/artificial-intelligence#overview)
+* [ONNX](https://onnxruntime.ai/docs/execution-providers/QNN-ExecutionProvider.html)
+
+Models can be deployed on:
+* Android
+* Windows
+* Linux
+
+Supported compute units
+* CPU, GPU, NPU (includes [Hexagon DSP](https://developer.qualcomm.com/software/hexagon-dsp-sdk/dsp-processor), [HTP](https://developer.qualcomm.com/hardware/qualcomm-innovators-development-kit/ai-resources-overview/ai-hardware-cores-accelerators))
+
+Supported precision
+* Floating Points: FP16
+* Integer: INT8 (8-bit weight and activation on select models), INT4 (4-bit weight, 16-bit activation on select models)
+
+Supported chipsets
+* [Snapdragon 845](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-845-mobile-platform), [Snapdragon 855/855+](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-855-mobile-platform), [Snapdragon 865/865+](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-865-plus-5g-mobile-platform), [Snapdragon 888/888+](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-888-5g-mobile-platform)
+* [Snapdragon 8 Gen 1](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-8-gen-1-mobile-platform), [Snapdragon 8 Gen 2](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-8-gen-2-mobile-platform), [Snapdragon 8 Gen 3](https://www.qualcomm.com/products/mobile/snapdragon/smartphones/snapdragon-8-series-mobile-platforms/snapdragon-8-gen-3-mobile-platform), [Snapdragon X Elite](https://www.qualcomm.com/products/mobile/snapdragon/pcs-and-tablets/snapdragon-x-elite)
+
+Select supported devices
+* Samsung Galaxy S21 Series, Galaxy S22 Series, Galaxy S23 Series, Galaxy S24 Series
+* Xiaomi 12, 13
+* Google Pixel 3, 4, 5
+* Snapdragon X Elite CRD (Compute Reference Device)
+
+and many more.
+
+## Installation
+
+We currently support **Python >=3.8 and <= 3.10.** We recommend using a Python
+virtual environment
+([miniconda](https://docs.anaconda.com/free/miniconda/miniconda-install/) or
+[virtualenv](https://virtualenv.pypa.io/en/latest/)).
+
+You can setup a virtualenv using:
+```
+python -m venv qai_hub_models_env && source qai_hub_models_env/bin/activate
+```
+
+Once the environment is setup, you can install the base package using:
+
+```shell
+pip install qai_hub_models
+```
+
+Some models (e.g. [YOLOv7](https://github.com/WongKinYiu/yolov7)) require
+additional dependencies. You can install those dependencies automatically
+using:
+
+```shell
+pip install "qai_hub_models[yolov7]"
+```
+
+## Getting Started
+
+Each model comes with the following set of CLI demos:
+* Locally runnable PyTorch based CLI demo to validate the model off device.
+* On-device CLI demo that produces a model ready for on-device deployment and runs the model on a hosted Qualcomm® device (needs [sign up](https://myaccount.qualcomm.com/signup)).
+
+All the models produced by these demos are freely available on [Hugging
+Face](https://huggingface.co/qualcomm) or through our
+[website](https://aihub.qualcomm.com/models). See the individual model readme
+files (e.g. [YOLOv7](qai_hub_models/models/yolov7/README.md)) for more
+details.
+
+### Local CLI Demo with PyTorch
+
+[All models](#model-directory) contain CLI demos that run the model in
+**PyTorch** locally with sample input. Demos are optimized for code clarity
+rather than latency, and run exclusively in PyTorch. Optimal model latency can
+be achieved with model export via [Qualcomm® AI
+Hub](https://www.aihub.qualcomm.com).
+
+```shell
+python -m qai_hub_models.models.yolov7.demo
+```
+
+For additional details on how to use the demo CLI, use the `--help` option
+```shell
+python -m qai_hub_models.models.yolov7.demo --help
+```
+
+See the [model directory](#model-directory) below to explore all other models.
+
+---
+
+Note that most ML use cases require some pre and post-processing that are not
+part of the model itself. A python reference implementation of this is provided
+for each model in `app.py`. Apps load & pre-process model input, run model
+inference, and post-process model output before returning it to you.
+
+Here is an example of how the PyTorch CLI works for [YOLOv7](https://github.com/WongKinYiu/yolov7):
+
+```python
+from PIL import Image
+from qai_hub_models.models.yolov7 import Model as YOLOv7Model
+from qai_hub_models.models.yolov7 import App as YOLOv7App
+from qai_hub_models.utils.asset_loaders import load_image
+from qai_hub_models.models.yolov7.demo import IMAGE_ADDRESS
+
+# Load pre-trained model
+torch_model = YOLOv7Model.from_pretrained()
+
+# Load a simple PyTorch based application
+app = YOLOv7App(torch_model)
+image = load_image(IMAGE_ADDRESS, "yolov7")
+
+# Perform prediction on a sample image
+pred_image = app.predict(image)[0]
+Image.fromarray(pred_image).show()
+
+```
+
+### CLI demo to run on hosted Qualcomm® devices
+
+[Some models](#model-directory) contain CLI demos that run the model on a hosted
+Qualcomm® device using [Qualcomm® AI Hub](https://aihub.qualcomm.com).
+
+To run the model on a hosted device, [sign up for access to Qualcomm® AI
+Hub](https://myaccount.qualcomm.com/signup). Sign-in to Qualcomm® AI Hub with your
+Qualcomm® ID. Once signed in navigate to Account -> Settings -> API Token.
+
+With this API token, you can configure your client to run models on the cloud
+hosted devices.
+
+```shell
+qai-hub configure --api_token API_TOKEN
+```
+Navigate to [docs](https://app.aihub.qualcomm.com/docs/) for more information.
+
+The on-device CLI demo performs the following:
+* Exports the model for on-device execution.
+* Profiles the model on-device on a cloud hosted Qualcomm® device.
+* Runs the model on-device on a cloud hosted Qualcomm® device and compares accuracy between a local CPU based PyTorch run and the on-device run.
+* Downloads models (and other required assets) that can be deployed on-device in an Android application.
+
+```shell
+python -m qai_hub_models.models.yolov7.export
+```
+
+Many models may have initialization parameters that allow loading custom
+weights and checkpoints. See `--help` for more details
+
+```shell
+python -m qai_hub_models.models.yolov7.export --help
+```
+
+#### How does this export script work?
+
+As described above, the script above compiles, optimizes, and runs the model on
+a cloud hosted Qualcomm® device. The demo uses [Qualcomm® AI Hub's Python
+APIs](https://app.aihub.qualcomm.com/docs/).
+
+<img src="https://app.aihub.qualcomm.com/docs/_images/How-It-Works.png" alt="Qualcomm® AI Hub explained" width="90%">
+
+Here is a simplified example of code that can be used to run the entire model
+on a cloud hosted device:
+
+```python
+from typing import Tuple
+import torch
+import qai_hub as hub
+from qai_hub_models.models.yolov7 import Model as YOLOv7Model
+
+# Load YOLOv7 in PyTorch
+torch_model = YOLOv7Model.from_pretrained()
+torch_model.eval()
+
+# Trace the PyTorch model using one data point of provided sample inputs to
+# torch tensor to trace the model.
+example_input = [torch.tensor(data[0]) for name, data in torch_model.sample_inputs().items()]
+pt_model = torch.jit.trace(torch_model, example_input)
+
+# Select a device
+device = hub.Device("Samsung Galaxy S23")
+
+# Compile model for a specific device
+compile_job = hub.submit_compile_job(
+    model=pt_model,
+    device=device,
+    input_specs=torch_model.get_input_spec(),
+)
+
+# Get target model to run on a cloud hosted device
+target_model = compile_job.get_target_model()
+
+# Profile the previously compiled model on a cloud hosted device
+profile_job = hub.submit_profile_job(
+    model=target_model,
+    device=device,
+)
+
+# Perform on-device inference on a cloud hosted device
+input_data = torch_model.sample_inputs()
+inference_job = hub.submit_inference_job(
+    model=target_model,
+    device=device,
+    inputs=input_data,
+)
+
+# Returns the output as dict{name: numpy}
+on_device_output = inference_job.download_output_data()
+```
+
+---
+
+### Working with source code
+
+You can clone the repository using:
+
+```shell
+git clone https://github.com/quic/ai-hub-models/blob/main
+cd main
+pip install -e .
+```
+
+Install additional dependencies to prepare a model before using the following:
+```shell
+cd main
+pip install -e ".[yolov7]"
+```
+
+All models have accuracy and end-to-end tests when applicable. These tests as
+designed to be run locally and verify that the PyTorch code produces correct
+results.  To run the tests for a model:
+```shell
+python -m pytest --pyargs qai_hub_models.models.yolov7.test
+```
+---
+
+For any issues, please contact us at ai-hub-support@qti.qualcomm.com.
+
+
+---
+
+### LICENSE
+
+Qualcomm® AI Hub Models is licensed under BSD-3. See the [LICENSE file](../LICENSE).
+
+
+---
+
+## Model Directory
+
+### Computer Vision
+
+| Model | README | Torch App | Device Export | CLI Demo
+| -- | -- | -- | -- | --
+| | | | |
+| **Image Classification**
+| [ConvNext-Tiny](https://aihub.qualcomm.com/models/convnext_tiny) | [qai_hub_models.models.convnext_tiny](qai_hub_models/models/convnext_tiny/README.md) | ✔️ | ✔️ | ✔️
+| [ConvNext-Tiny-w8a16-Quantized](https://aihub.qualcomm.com/models/convnext_tiny_w8a16_quantized) | [qai_hub_models.models.convnext_tiny_w8a16_quantized](qai_hub_models/models/convnext_tiny_w8a16_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [ConvNext-Tiny-w8a8-Quantized](https://aihub.qualcomm.com/models/convnext_tiny_w8a8_quantized) | [qai_hub_models.models.convnext_tiny_w8a8_quantized](qai_hub_models/models/convnext_tiny_w8a8_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [DenseNet-121](https://aihub.qualcomm.com/models/densenet121) | [qai_hub_models.models.densenet121](qai_hub_models/models/densenet121/README.md) | ✔️ | ✔️ | ✔️
+| [EfficientNet-B0](https://aihub.qualcomm.com/models/efficientnet_b0) | [qai_hub_models.models.efficientnet_b0](qai_hub_models/models/efficientnet_b0/README.md) | ✔️ | ✔️ | ✔️
+| [GoogLeNet](https://aihub.qualcomm.com/models/googlenet) | [qai_hub_models.models.googlenet](qai_hub_models/models/googlenet/README.md) | ✔️ | ✔️ | ✔️
+| [GoogLeNetQuantized](https://aihub.qualcomm.com/models/googlenet_quantized) | [qai_hub_models.models.googlenet_quantized](qai_hub_models/models/googlenet_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Inception-v3](https://aihub.qualcomm.com/models/inception_v3) | [qai_hub_models.models.inception_v3](qai_hub_models/models/inception_v3/README.md) | ✔️ | ✔️ | ✔️
+| [Inception-v3-Quantized](https://aihub.qualcomm.com/models/inception_v3_quantized) | [qai_hub_models.models.inception_v3_quantized](qai_hub_models/models/inception_v3_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [MNASNet05](https://aihub.qualcomm.com/models/mnasnet05) | [qai_hub_models.models.mnasnet05](qai_hub_models/models/mnasnet05/README.md) | ✔️ | ✔️ | ✔️
+| [MobileNet-v2](https://aihub.qualcomm.com/models/mobilenet_v2) | [qai_hub_models.models.mobilenet_v2](qai_hub_models/models/mobilenet_v2/README.md) | ✔️ | ✔️ | ✔️
+| [MobileNet-v2-Quantized](https://aihub.qualcomm.com/models/mobilenet_v2_quantized) | [qai_hub_models.models.mobilenet_v2_quantized](qai_hub_models/models/mobilenet_v2_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [MobileNet-v3-Large](https://aihub.qualcomm.com/models/mobilenet_v3_large) | [qai_hub_models.models.mobilenet_v3_large](qai_hub_models/models/mobilenet_v3_large/README.md) | ✔️ | ✔️ | ✔️
+| [MobileNet-v3-Large-Quantized](https://aihub.qualcomm.com/models/mobilenet_v3_large_quantized) | [qai_hub_models.models.mobilenet_v3_large_quantized](qai_hub_models/models/mobilenet_v3_large_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [MobileNet-v3-Small](https://aihub.qualcomm.com/models/mobilenet_v3_small) | [qai_hub_models.models.mobilenet_v3_small](qai_hub_models/models/mobilenet_v3_small/README.md) | ✔️ | ✔️ | ✔️
+| [RegNet](https://aihub.qualcomm.com/models/regnet) | [qai_hub_models.models.regnet](qai_hub_models/models/regnet/README.md) | ✔️ | ✔️ | ✔️
+| [RegNetQuantized](https://aihub.qualcomm.com/models/regnet_quantized) | [qai_hub_models.models.regnet_quantized](qai_hub_models/models/regnet_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [ResNeXt101](https://aihub.qualcomm.com/models/resnext101) | [qai_hub_models.models.resnext101](qai_hub_models/models/resnext101/README.md) | ✔️ | ✔️ | ✔️
+| [ResNeXt101Quantized](https://aihub.qualcomm.com/models/resnext101_quantized) | [qai_hub_models.models.resnext101_quantized](qai_hub_models/models/resnext101_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [ResNeXt50](https://aihub.qualcomm.com/models/resnext50) | [qai_hub_models.models.resnext50](qai_hub_models/models/resnext50/README.md) | ✔️ | ✔️ | ✔️
+| [ResNeXt50Quantized](https://aihub.qualcomm.com/models/resnext50_quantized) | [qai_hub_models.models.resnext50_quantized](qai_hub_models/models/resnext50_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [ResNet101](https://aihub.qualcomm.com/models/resnet101) | [qai_hub_models.models.resnet101](qai_hub_models/models/resnet101/README.md) | ✔️ | ✔️ | ✔️
+| [ResNet101Quantized](https://aihub.qualcomm.com/models/resnet101_quantized) | [qai_hub_models.models.resnet101_quantized](qai_hub_models/models/resnet101_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [ResNet18](https://aihub.qualcomm.com/models/resnet18) | [qai_hub_models.models.resnet18](qai_hub_models/models/resnet18/README.md) | ✔️ | ✔️ | ✔️
+| [ResNet18Quantized](https://aihub.qualcomm.com/models/resnet18_quantized) | [qai_hub_models.models.resnet18_quantized](qai_hub_models/models/resnet18_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [ResNet50](https://aihub.qualcomm.com/models/resnet50) | [qai_hub_models.models.resnet50](qai_hub_models/models/resnet50/README.md) | ✔️ | ✔️ | ✔️
+| [ResNet50Quantized](https://aihub.qualcomm.com/models/resnet50_quantized) | [qai_hub_models.models.resnet50_quantized](qai_hub_models/models/resnet50_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Shufflenet-v2](https://aihub.qualcomm.com/models/shufflenet_v2) | [qai_hub_models.models.shufflenet_v2](qai_hub_models/models/shufflenet_v2/README.md) | ✔️ | ✔️ | ✔️
+| [Shufflenet-v2Quantized](https://aihub.qualcomm.com/models/shufflenet_v2_quantized) | [qai_hub_models.models.shufflenet_v2_quantized](qai_hub_models/models/shufflenet_v2_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [SqueezeNet-1_1](https://aihub.qualcomm.com/models/squeezenet1_1) | [qai_hub_models.models.squeezenet1_1](qai_hub_models/models/squeezenet1_1/README.md) | ✔️ | ✔️ | ✔️
+| [SqueezeNet-1_1Quantized](https://aihub.qualcomm.com/models/squeezenet1_1_quantized) | [qai_hub_models.models.squeezenet1_1_quantized](qai_hub_models/models/squeezenet1_1_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Swin-Base](https://aihub.qualcomm.com/models/swin_base) | [qai_hub_models.models.swin_base](qai_hub_models/models/swin_base/README.md) | ✔️ | ✔️ | ✔️
+| [Swin-Small](https://aihub.qualcomm.com/models/swin_small) | [qai_hub_models.models.swin_small](qai_hub_models/models/swin_small/README.md) | ✔️ | ✔️ | ✔️
+| [Swin-Tiny](https://aihub.qualcomm.com/models/swin_tiny) | [qai_hub_models.models.swin_tiny](qai_hub_models/models/swin_tiny/README.md) | ✔️ | ✔️ | ✔️
+| [VIT](https://aihub.qualcomm.com/models/vit) | [qai_hub_models.models.vit](qai_hub_models/models/vit/README.md) | ✔️ | ✔️ | ✔️
+| [WideResNet50](https://aihub.qualcomm.com/models/wideresnet50) | [qai_hub_models.models.wideresnet50](qai_hub_models/models/wideresnet50/README.md) | ✔️ | ✔️ | ✔️
+| [WideResNet50-Quantized](https://aihub.qualcomm.com/models/wideresnet50_quantized) | [qai_hub_models.models.wideresnet50_quantized](qai_hub_models/models/wideresnet50_quantized/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Image Editing**
+| [AOT-GAN](https://aihub.qualcomm.com/models/aotgan) | [qai_hub_models.models.aotgan](qai_hub_models/models/aotgan/README.md) | ✔️ | ✔️ | ✔️
+| [LaMa-Dilated](https://aihub.qualcomm.com/models/lama_dilated) | [qai_hub_models.models.lama_dilated](qai_hub_models/models/lama_dilated/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Image Generation**
+| [StyleGAN2](https://aihub.qualcomm.com/models/stylegan2) | [qai_hub_models.models.stylegan2](qai_hub_models/models/stylegan2/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Super Resolution**
+| [ESRGAN](https://aihub.qualcomm.com/models/esrgan) | [qai_hub_models.models.esrgan](qai_hub_models/models/esrgan/README.md) | ✔️ | ✔️ | ✔️
+| [QuickSRNetLarge](https://aihub.qualcomm.com/models/quicksrnetlarge) | [qai_hub_models.models.quicksrnetlarge](qai_hub_models/models/quicksrnetlarge/README.md) | ✔️ | ✔️ | ✔️
+| [QuickSRNetLarge-Quantized](https://aihub.qualcomm.com/models/quicksrnetlarge_quantized) | [qai_hub_models.models.quicksrnetlarge_quantized](qai_hub_models/models/quicksrnetlarge_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [QuickSRNetMedium](https://aihub.qualcomm.com/models/quicksrnetmedium) | [qai_hub_models.models.quicksrnetmedium](qai_hub_models/models/quicksrnetmedium/README.md) | ✔️ | ✔️ | ✔️
+| [QuickSRNetMedium-Quantized](https://aihub.qualcomm.com/models/quicksrnetmedium_quantized) | [qai_hub_models.models.quicksrnetmedium_quantized](qai_hub_models/models/quicksrnetmedium_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [QuickSRNetSmall](https://aihub.qualcomm.com/models/quicksrnetsmall) | [qai_hub_models.models.quicksrnetsmall](qai_hub_models/models/quicksrnetsmall/README.md) | ✔️ | ✔️ | ✔️
+| [QuickSRNetSmall-Quantized](https://aihub.qualcomm.com/models/quicksrnetsmall_quantized) | [qai_hub_models.models.quicksrnetsmall_quantized](qai_hub_models/models/quicksrnetsmall_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Real-ESRGAN-General-x4v3](https://aihub.qualcomm.com/models/real_esrgan_general_x4v3) | [qai_hub_models.models.real_esrgan_general_x4v3](qai_hub_models/models/real_esrgan_general_x4v3/README.md) | ✔️ | ✔️ | ✔️
+| [Real-ESRGAN-x4plus](https://aihub.qualcomm.com/models/real_esrgan_x4plus) | [qai_hub_models.models.real_esrgan_x4plus](qai_hub_models/models/real_esrgan_x4plus/README.md) | ✔️ | ✔️ | ✔️
+| [SESR-M5](https://aihub.qualcomm.com/models/sesr_m5) | [qai_hub_models.models.sesr_m5](qai_hub_models/models/sesr_m5/README.md) | ✔️ | ✔️ | ✔️
+| [SESR-M5-Quantized](https://aihub.qualcomm.com/models/sesr_m5_quantized) | [qai_hub_models.models.sesr_m5_quantized](qai_hub_models/models/sesr_m5_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [XLSR](https://aihub.qualcomm.com/models/xlsr) | [qai_hub_models.models.xlsr](qai_hub_models/models/xlsr/README.md) | ✔️ | ✔️ | ✔️
+| [XLSR-Quantized](https://aihub.qualcomm.com/models/xlsr_quantized) | [qai_hub_models.models.xlsr_quantized](qai_hub_models/models/xlsr_quantized/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Semantic Segmentation**
+| [DDRNet23-Slim](https://aihub.qualcomm.com/models/ddrnet23_slim) | [qai_hub_models.models.ddrnet23_slim](qai_hub_models/models/ddrnet23_slim/README.md) | ✔️ | ✔️ | ✔️
+| [DeepLabV3-Plus-MobileNet](https://aihub.qualcomm.com/models/deeplabv3_plus_mobilenet) | [qai_hub_models.models.deeplabv3_plus_mobilenet](qai_hub_models/models/deeplabv3_plus_mobilenet/README.md) | ✔️ | ✔️ | ✔️
+| [DeepLabV3-Plus-MobileNet-Quantized](https://aihub.qualcomm.com/models/deeplabv3_plus_mobilenet_quantized) | [qai_hub_models.models.deeplabv3_plus_mobilenet_quantized](qai_hub_models/models/deeplabv3_plus_mobilenet_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [DeepLabV3-ResNet50](https://aihub.qualcomm.com/models/deeplabv3_resnet50) | [qai_hub_models.models.deeplabv3_resnet50](qai_hub_models/models/deeplabv3_resnet50/README.md) | ✔️ | ✔️ | ✔️
+| [FCN-ResNet50](https://aihub.qualcomm.com/models/fcn_resnet50) | [qai_hub_models.models.fcn_resnet50](qai_hub_models/models/fcn_resnet50/README.md) | ✔️ | ✔️ | ✔️
+| [FCN-ResNet50-Quantized](https://aihub.qualcomm.com/models/fcn_resnet50_quantized) | [qai_hub_models.models.fcn_resnet50_quantized](qai_hub_models/models/fcn_resnet50_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-122NS-LowRes](https://aihub.qualcomm.com/models/ffnet_122ns_lowres) | [qai_hub_models.models.ffnet_122ns_lowres](qai_hub_models/models/ffnet_122ns_lowres/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-40S](https://aihub.qualcomm.com/models/ffnet_40s) | [qai_hub_models.models.ffnet_40s](qai_hub_models/models/ffnet_40s/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-40S-Quantized](https://aihub.qualcomm.com/models/ffnet_40s_quantized) | [qai_hub_models.models.ffnet_40s_quantized](qai_hub_models/models/ffnet_40s_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-54S](https://aihub.qualcomm.com/models/ffnet_54s) | [qai_hub_models.models.ffnet_54s](qai_hub_models/models/ffnet_54s/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-54S-Quantized](https://aihub.qualcomm.com/models/ffnet_54s_quantized) | [qai_hub_models.models.ffnet_54s_quantized](qai_hub_models/models/ffnet_54s_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-78S](https://aihub.qualcomm.com/models/ffnet_78s) | [qai_hub_models.models.ffnet_78s](qai_hub_models/models/ffnet_78s/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-78S-LowRes](https://aihub.qualcomm.com/models/ffnet_78s_lowres) | [qai_hub_models.models.ffnet_78s_lowres](qai_hub_models/models/ffnet_78s_lowres/README.md) | ✔️ | ✔️ | ✔️
+| [FFNet-78S-Quantized](https://aihub.qualcomm.com/models/ffnet_78s_quantized) | [qai_hub_models.models.ffnet_78s_quantized](qai_hub_models/models/ffnet_78s_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [FastSam-S](https://aihub.qualcomm.com/models/fastsam_s) | [qai_hub_models.models.fastsam_s](qai_hub_models/models/fastsam_s/README.md) | ✔️ | ✔️ | ✔️
+| [FastSam-X](https://aihub.qualcomm.com/models/fastsam_x) | [qai_hub_models.models.fastsam_x](qai_hub_models/models/fastsam_x/README.md) | ✔️ | ✔️ | ✔️
+| [MediaPipe-Selfie-Segmentation](https://aihub.qualcomm.com/models/mediapipe_selfie) | [qai_hub_models.models.mediapipe_selfie](qai_hub_models/models/mediapipe_selfie/README.md) | ✔️ | ✔️ | ✔️
+| [SINet](https://aihub.qualcomm.com/models/sinet) | [qai_hub_models.models.sinet](qai_hub_models/models/sinet/README.md) | ✔️ | ✔️ | ✔️
+| [Segment-Anything-Model](https://aihub.qualcomm.com/models/sam) | [qai_hub_models.models.sam](qai_hub_models/models/sam/README.md) | ✔️ | ✔️ | ✔️
+| [Unet-Segmentation](https://aihub.qualcomm.com/models/unet_segmentation) | [qai_hub_models.models.unet_segmentation](qai_hub_models/models/unet_segmentation/README.md) | ✔️ | ✔️ | ✔️
+| [YOLOv8-Segmentation](https://aihub.qualcomm.com/models/yolov8_seg) | [qai_hub_models.models.yolov8_seg](qai_hub_models/models/yolov8_seg/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Object Detection**
+| [DETR-ResNet101](https://aihub.qualcomm.com/models/detr_resnet101) | [qai_hub_models.models.detr_resnet101](qai_hub_models/models/detr_resnet101/README.md) | ✔️ | ✔️ | ✔️
+| [DETR-ResNet101-DC5](https://aihub.qualcomm.com/models/detr_resnet101_dc5) | [qai_hub_models.models.detr_resnet101_dc5](qai_hub_models/models/detr_resnet101_dc5/README.md) | ✔️ | ✔️ | ✔️
+| [DETR-ResNet50](https://aihub.qualcomm.com/models/detr_resnet50) | [qai_hub_models.models.detr_resnet50](qai_hub_models/models/detr_resnet50/README.md) | ✔️ | ✔️ | ✔️
+| [DETR-ResNet50-DC5](https://aihub.qualcomm.com/models/detr_resnet50_dc5) | [qai_hub_models.models.detr_resnet50_dc5](qai_hub_models/models/detr_resnet50_dc5/README.md) | ✔️ | ✔️ | ✔️
+| [MediaPipe-Face-Detection](https://aihub.qualcomm.com/models/mediapipe_face) | [qai_hub_models.models.mediapipe_face](qai_hub_models/models/mediapipe_face/README.md) | ✔️ | ✔️ | ✔️
+| [MediaPipe-Hand-Detection](https://aihub.qualcomm.com/models/mediapipe_hand) | [qai_hub_models.models.mediapipe_hand](qai_hub_models/models/mediapipe_hand/README.md) | ✔️ | ✔️ | ✔️
+| [YOLOv8-Detection](https://aihub.qualcomm.com/models/yolov8_det) | [qai_hub_models.models.yolov8_det](qai_hub_models/models/yolov8_det/README.md) | ✔️ | ✔️ | ✔️
+| [YOLOv8-Detection-Quantized](https://aihub.qualcomm.com/models/yolov8_det_quantized) | [qai_hub_models.models.yolov8_det_quantized](qai_hub_models/models/yolov8_det_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Yolo-NAS](https://aihub.qualcomm.com/models/yolonas) | [qai_hub_models.models.yolonas](qai_hub_models/models/yolonas/README.md) | ✔️ | ✔️ | ✔️
+| [Yolo-NAS-Quantized](https://aihub.qualcomm.com/models/yolonas_quantized) | [qai_hub_models.models.yolonas_quantized](qai_hub_models/models/yolonas_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Yolo-v6](https://aihub.qualcomm.com/models/yolov6) | [qai_hub_models.models.yolov6](qai_hub_models/models/yolov6/README.md) | ✔️ | ✔️ | ✔️
+| [Yolo-v7](https://aihub.qualcomm.com/models/yolov7) | [qai_hub_models.models.yolov7](qai_hub_models/models/yolov7/README.md) | ✔️ | ✔️ | ✔️
+| [Yolo-v7-Quantized](https://aihub.qualcomm.com/models/yolov7_quantized) | [qai_hub_models.models.yolov7_quantized](qai_hub_models/models/yolov7_quantized/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Pose Estimation**
+| [HRNetPose](https://aihub.qualcomm.com/models/hrnet_pose) | [qai_hub_models.models.hrnet_pose](qai_hub_models/models/hrnet_pose/README.md) | ✔️ | ✔️ | ✔️
+| [HRNetPoseQuantized](https://aihub.qualcomm.com/models/hrnet_pose_quantized) | [qai_hub_models.models.hrnet_pose_quantized](qai_hub_models/models/hrnet_pose_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [LiteHRNet](https://aihub.qualcomm.com/models/litehrnet) | [qai_hub_models.models.litehrnet](qai_hub_models/models/litehrnet/README.md) | ✔️ | ✔️ | ✔️
+| [MediaPipe-Pose-Estimation](https://aihub.qualcomm.com/models/mediapipe_pose) | [qai_hub_models.models.mediapipe_pose](qai_hub_models/models/mediapipe_pose/README.md) | ✔️ | ✔️ | ✔️
+| [OpenPose](https://aihub.qualcomm.com/models/openpose) | [qai_hub_models.models.openpose](qai_hub_models/models/openpose/README.md) | ✔️ | ✔️ | ✔️
+| [Posenet-Mobilenet](https://aihub.qualcomm.com/models/posenet_mobilenet) | [qai_hub_models.models.posenet_mobilenet](qai_hub_models/models/posenet_mobilenet/README.md) | ✔️ | ✔️ | ✔️
+| [Posenet-Mobilenet-Quantized](https://aihub.qualcomm.com/models/posenet_mobilenet_quantized) | [qai_hub_models.models.posenet_mobilenet_quantized](qai_hub_models/models/posenet_mobilenet_quantized/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Depth Estimation**
+| [Midas-V2](https://aihub.qualcomm.com/models/midas) | [qai_hub_models.models.midas](qai_hub_models/models/midas/README.md) | ✔️ | ✔️ | ✔️
+| [Midas-V2-Quantized](https://aihub.qualcomm.com/models/midas_quantized) | [qai_hub_models.models.midas_quantized](qai_hub_models/models/midas_quantized/README.md) | ✔️ | ✔️ | ✔️
+
+### Audio
+
+| Model | README | Torch App | Device Export | CLI Demo
+| -- | -- | -- | -- | --
+| | | | |
+| **Speech Recognition**
+| [HuggingFace-WavLM-Base-Plus](https://aihub.qualcomm.com/models/huggingface_wavlm_base_plus) | [qai_hub_models.models.huggingface_wavlm_base_plus](qai_hub_models/models/huggingface_wavlm_base_plus/README.md) | ✔️ | ✔️ | ✔️
+| [Whisper-Base-En](https://aihub.qualcomm.com/models/whisper_base_en) | [qai_hub_models.models.whisper_base_en](qai_hub_models/models/whisper_base_en/README.md) | ✔️ | ✔️ | ✔️
+| [Whisper-Small-En](https://aihub.qualcomm.com/models/whisper_small_en) | [qai_hub_models.models.whisper_small_en](qai_hub_models/models/whisper_small_en/README.md) | ✔️ | ✔️ | ✔️
+| [Whisper-Tiny-En](https://aihub.qualcomm.com/models/whisper_tiny_en) | [qai_hub_models.models.whisper_tiny_en](qai_hub_models/models/whisper_tiny_en/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Audio Enhancement**
+| [Facebook-Denoiser](https://aihub.qualcomm.com/models/facebook_denoiser) | [qai_hub_models.models.facebook_denoiser](qai_hub_models/models/facebook_denoiser/README.md) | ✔️ | ✔️ | ✔️
+
+### Multimodal
+
+| Model | README | Torch App | Device Export | CLI Demo
+| -- | -- | -- | -- | --
+| | | | |
+| [OpenAI-Clip](https://aihub.qualcomm.com/models/openai_clip) | [qai_hub_models.models.openai_clip](qai_hub_models/models/openai_clip/README.md) | ✔️ | ✔️ | ✔️
+| [TrOCR](https://aihub.qualcomm.com/models/trocr) | [qai_hub_models.models.trocr](qai_hub_models/models/trocr/README.md) | ✔️ | ✔️ | ✔️
+
+### Generative Ai
+
+| Model | README | Torch App | Device Export | CLI Demo
+| -- | -- | -- | -- | --
+| | | | |
+| **Image Generation**
+| [ControlNet](https://aihub.qualcomm.com/models/controlnet_quantized) | [qai_hub_models.models.controlnet_quantized](qai_hub_models/models/controlnet_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Riffusion](https://aihub.qualcomm.com/models/riffusion_quantized) | [qai_hub_models.models.riffusion_quantized](qai_hub_models/models/riffusion_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Stable-Diffusion-v1.5](https://aihub.qualcomm.com/models/stable_diffusion_v1_5_quantized) | [qai_hub_models.models.stable_diffusion_v1_5_quantized](qai_hub_models/models/stable_diffusion_v1_5_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Stable-Diffusion-v2.1](https://aihub.qualcomm.com/models/stable_diffusion_v2_1_quantized) | [qai_hub_models.models.stable_diffusion_v2_1_quantized](qai_hub_models/models/stable_diffusion_v2_1_quantized/README.md) | ✔️ | ✔️ | ✔️
+| | | | |
+| **Text Generation**
+| [Baichuan-7B](https://aihub.qualcomm.com/models/baichuan_7b_quantized) | [qai_hub_models.models.baichuan_7b_quantized](qai_hub_models/models/baichuan_7b_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Llama-v2-7B-Chat](https://aihub.qualcomm.com/models/llama_v2_7b_chat_quantized) | [qai_hub_models.models.llama_v2_7b_chat_quantized](qai_hub_models/models/llama_v2_7b_chat_quantized/README.md) | ✔️ | ✔️ | ✔️
+| [Llama-v3-8B-Chat](https://aihub.qualcomm.com/models/llama_v3_8b_chat_quantized) | [qai_hub_models.models.llama_v3_8b_chat_quantized](qai_hub_models/models/llama_v3_8b_chat_quantized/README.md) | ✔️ | ✔️ | ✔️
