@@ -1,0 +1,111 @@
+# All settings are optional.
+
+# /mnt/cgitize by default.
+output_dir = "/tmp/cgitize"
+
+# URL to clone from the output directory. {repo} is replaced by the
+# repository's directory path.
+clone_url = "https://yourhost.com/git/{repo}"
+
+# Clones via SSH by default.
+clone_via_ssh = false
+
+# Unless this is specified, cgit is going to derive the owner from the
+# repository's directory ownership.
+owner = "Your Name"
+
+# GitHub
+# ======
+
+[github]
+# If some of the repositories hosted on GitHub are private (or if you hit the
+# request rate limit), use "access tokens". Set in the config or using the
+# CGITIZE_GITHUB_TOKEN environment variable.
+#token = "XXX"
+# Set the username that owns the token here or using the environment variable
+# CGITIZE_GITHUB_USERNAME.
+#username = "your-username"
+
+[github.users.me]
+name = "cgitize-test"
+# To avoid directory name clashes with other repositories, you can specify a
+# subdirectory to put that user's repositories to.
+dir = "github-dir"
+# Repositories to skip:
+skip = ["repo1", "repo2"]
+
+[github.organizations.goauthentik]
+# For GitHub, you can also specify organizations. The settings are similar to
+# those for users. "goauthentik" is a random organization.
+name = "goauthentik"
+dir = "goauthentik-dir"
+skip = ["version", "testing-setups"]
+
+# Some random repositories hosted on GitHub:
+[github.repositories.lens]
+id = "ekmett/lens"
+[github.repositories.pytomlpp]
+id = "bobfang1992/pytomlpp"
+# You can put repositories in a subdirectory:
+dir = "python"
+
+# Bitbucket
+# =========
+
+# Bitbucket settings are similar to those for GitHub.
+
+[bitbucket]
+# Access tokens are called "app passwords" on Bitbucket.
+# The environment variable is CGITIZE_BITBUCKET_TOKEN.
+#token = "XXX"
+# The environment variable is CGITIZE_BITBUCKET_USERNAME.
+#username = "your-username"
+
+[bitbucket.users.me]
+name = "cgitize-test-workspace"
+dir = "bitbucket-dir"
+#skip = ["repo1", "repo2"]
+
+# Some random repositories hosted on Bitbucket:
+[bitbucket.repositories.cef]
+id = "chromiumembedded/cef"
+dir = "chromiumembedded"
+[bitbucket.repositories.upc-runtime]
+id = "berkeleylab/upc-runtime"
+
+# GitLab
+# ======
+
+# GitLab settings are similar to those for GitHub.
+
+[gitlab]
+# The environment variable is CGITIZE_GITLAB_TOKEN.
+#token = "XXX"
+# The environment variable is CGITIZE_GITLAB_USERNAME.
+#username = "your-username"
+
+[gitlab.users.me]
+name = "cgitize-test"
+dir = "gitlab-dir"
+#skip = ["repo1", "repo2"]
+
+# Some random repositories hosted on Gitlab:
+[gitlab.repositories.gitter]
+id = "gitterHQ/webapp"
+dir = "gitterHQ"
+[gitlab.repositories.graphviz]
+id = "graphviz/graphviz"
+
+# Self-hosted repositories
+# ========================
+
+[repositories]
+
+# Some random repositories hosted on the web:
+[repositories.wintun]
+name = "wintun"
+clone_url = "https://git.zx2c4.com/wintun"
+owner = "Jason A. Donenfeld"
+desc = "Layer 3 TUN Driver for Windows"
+# You can put repositories in a subdirectory:
+dir = "wireguard"
