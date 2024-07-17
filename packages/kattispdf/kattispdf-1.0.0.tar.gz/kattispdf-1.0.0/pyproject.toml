@@ -1,0 +1,24 @@
+[project]
+name = "kattispdf"
+version = "1.0.0"
+authors = [
+  { name="Jorge Hdez", email="jorgehdezplp@proton.me" },
+]
+description = "It enables you to download pdf with problems from https://open.kattis.com"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = ["pylatex", "bs4", "requests"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+
+[project.urls]
+Homepage = "https://github.com/NotTete/kattispdf"
+
+[project.scripts]
+kpdf = "kattispdf:cli"
+
+[build-system]
+requires = ["hatchling", "pylatex", "bs4", "requests"]
+build-backend = "hatchling.build"
