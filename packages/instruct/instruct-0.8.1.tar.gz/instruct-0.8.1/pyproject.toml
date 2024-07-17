@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=65.4.1"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 100
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | python[\d\.]+
+  | python
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+line_length=80
+multi_line_output=3
+
+[tool.git-changelog]
+input = 'CHANGES.rst'
+# in_place = true
+# output = 'CHANGES.rst'
+convention='conventional'
+marker_line = '.. |Changes|'
+template = 'path:CHANGES.rst.template'
+version_regex = '^Version (?P<version>v?[\w\d\.\+]+)'
+filter_commits = 'ade6cd882d2771f4abe9927e78614886f7f01ad6..'
+parse_trailers = true
+parse_refs = true
+versioning = "pep440"
