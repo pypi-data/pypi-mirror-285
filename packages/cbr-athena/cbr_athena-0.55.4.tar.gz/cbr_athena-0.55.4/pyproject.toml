@@ -1,0 +1,39 @@
+[tool.poetry]
+name        = "cbr-athena"
+version     = "v0.55.4"
+description = "CBR Athena"
+authors     = ["Dinis Cruz <dinis.cruz@owasp.org>"]
+license     = "MIT"
+readme      = "README.md"
+homepage    = "https://github.com/the-cyber-boardroom/cbr-athena"
+include     = [{ path = "./poetry.lock" , format = ["sdist"]}]
+
+#[[tool.poetry.source]]
+#name     = "cyber-boardroom"
+#url      = "https://cyber-boardroom-654654216424.d.codeartifact.us-east-1.amazonaws.com/pypi/cyber-boardroom/"
+#priority = "primary"
+#
+#[[tool.poetry.source]]
+#name = "pypi-store"
+#url = "https://cyber-boardroom-654654216424.d.codeartifact.us-east-1.amazonaws.com/pypi/pypi-store"
+#priority = "primary"
+
+[tool.poetry.dependencies]
+python          = "^3.11"
+python-dotenv   = "*"
+cbr_static      = "*"
+boto3           = "*"
+osbot-utils     = "*"
+osbot-aws       = "*"
+osbot_fast_api  = "*"
+osbot_github    = "*"
+fastapi         = "*"
+mangum          = "*"
+uvicorn         = "*"
+openai          = "*"
+pyjwt           = "*"
+
+#[tool.poetry.group.dev.dependencies]
+#pytest      = "*"
+##pytest-cov  = "*"
+##coveralls   = "*"
