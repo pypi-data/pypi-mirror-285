@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "spark-utils"
+version = "1.1.8"
+description = "Utility classes for comfy Spark job authoriing."
+authors = ["ECCO Sneaks & Data <esdsupport@ecco.com>"]
+maintainers = ['GZU <gzu@ecco.com>', 'JRB <ext-jrb@ecco.com>']
+license = 'MIT'
+readme = "README.md"
+repository = 'https://github.com/SneaksAndData/spark-utils'
+
+[tool.poetry.dependencies]
+python = ">=3.9, <3.12"
+hadoop-fs-wrapper = "~0.6.1"
+cryptography = "~36.0"
+delta-spark = "~2.4.0"
+backoff = "~2.2"
+
+kubernetes = { version = "24.2.0", optional = true }
+
+[tool.poetry.extras]
+k8s = [
+    'kubernetes'
+]
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.0"
+pytest-cov = "^2.12"
+pylint = "^2.12"
+black = "~22.12.0"
+
+[build-system]
+requires = ["poetry-core>=1.2.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
