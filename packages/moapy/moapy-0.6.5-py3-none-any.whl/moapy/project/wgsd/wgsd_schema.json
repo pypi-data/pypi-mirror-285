@@ -1,0 +1,480 @@
+[
+  {
+    "path": "wgsd_flow.calc_3dpm",
+    "name": "calc_3dpm",
+    "description": "Return the 3D PM Curve & norminal strength points",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "material": {
+          "type": "object",
+          "description": "gsdMaterial",
+          "properties": {
+            "concrete": {
+              "type": "object",
+              "default": null,
+              "description": "Concrete properties"
+            },
+            "rebar": {
+              "type": "object",
+              "default": null,
+              "description": "Rebar properties"
+            },
+            "tendon": {
+              "type": "object",
+              "default": null,
+              "description": "Tendon properties"
+            }
+          }
+        },
+        "geometry": {
+          "type": "object",
+          "description": "gsdGeometry",
+          "properties": {
+            "concrete": {
+              "type": "object",
+              "default": null,
+              "description": "Concrete geometry"
+            },
+            "rebar": {
+              "type": "object",
+              "default": null,
+              "description": "Rebar geometry"
+            }
+          }
+        },
+        "lcb": {
+          "type": "object",
+          "description": "gsdLcb",
+          "properties": {
+            "uls": {
+              "type": "object",
+              "default": null,
+              "description": "uls load combination"
+            },
+            "sls": {
+              "type": "object",
+              "default": null,
+              "description": "sls load combination"
+            }
+          }
+        },
+        "opt": {
+          "type": "object",
+          "description": "gsdOptions"
+        }
+      },
+      "required": [
+        "material",
+        "geometry",
+        "lcb",
+        "opt"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.calc_prestressing_steel_properties",
+    "name": "calc_prestressing_steel_properties",
+    "description": "Return the material properties of single data based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "object",
+          "description": "units",
+          "properties": {
+            "force": {
+              "type": "string",
+              "default": "kN",
+              "description": "Force unit"
+            },
+            "length": {
+              "type": "string",
+              "default": "m",
+              "description": "Length unit"
+            },
+            "section_dimension": {
+              "type": "string",
+              "default": "mm",
+              "description": "Section dimension unit"
+            },
+            "pressure": {
+              "type": "string",
+              "default": "MPa",
+              "description": "Pressure unit"
+            },
+            "strain": {
+              "type": "string",
+              "default": "%",
+              "description": "Strain unit"
+            }
+          }
+        },
+        "design_code": {
+          "type": "string",
+          "description": "design code"
+        },
+        "stregnth": {
+          "type": "number",
+          "description": "No description provided"
+        },
+        "density": {
+          "type": "number",
+          "description": "density of the concrete"
+        }
+      },
+      "required": [
+        "units",
+        "design_code",
+        "stregnth",
+        "density"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.calc_reinforcing_steel_properties",
+    "name": "calc_reinforcing_steel_properties",
+    "description": "Return the material properties of single data based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "object",
+          "description": "units",
+          "properties": {
+            "force": {
+              "type": "string",
+              "default": "kN",
+              "description": "Force unit"
+            },
+            "length": {
+              "type": "string",
+              "default": "m",
+              "description": "Length unit"
+            },
+            "section_dimension": {
+              "type": "string",
+              "default": "mm",
+              "description": "Section dimension unit"
+            },
+            "pressure": {
+              "type": "string",
+              "default": "MPa",
+              "description": "Pressure unit"
+            },
+            "strain": {
+              "type": "string",
+              "default": "%",
+              "description": "Strain unit"
+            }
+          }
+        },
+        "design_code": {
+          "type": "string",
+          "description": "design code"
+        },
+        "stregnth": {
+          "type": "number",
+          "description": "No description provided"
+        },
+        "density": {
+          "type": "number",
+          "description": "density of the concrete"
+        }
+      },
+      "required": [
+        "units",
+        "design_code",
+        "stregnth",
+        "density"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.calc_uls_model_properties",
+    "name": "calc_uls_model_properties",
+    "description": "Return the ULS model class based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "design_code": {
+          "type": "string",
+          "description": "design code"
+        }
+      },
+      "required": [
+        "design_code"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.conc_properties_design",
+    "name": "conc_properties_design",
+    "description": "Return the concrete material properties based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "units": {
+          "type": "object",
+          "description": "units",
+          "properties": {
+            "force": {
+              "type": "string",
+              "default": "kN",
+              "description": "Force unit"
+            },
+            "length": {
+              "type": "string",
+              "default": "m",
+              "description": "Length unit"
+            },
+            "section_dimension": {
+              "type": "string",
+              "default": "mm",
+              "description": "Section dimension unit"
+            },
+            "pressure": {
+              "type": "string",
+              "default": "MPa",
+              "description": "Pressure unit"
+            },
+            "strain": {
+              "type": "string",
+              "default": "%",
+              "description": "Strain unit"
+            }
+          }
+        },
+        "design_code": {
+          "type": "object",
+          "description": "design code",
+          "properties": {
+            "design_code": {
+              "type": "string",
+              "default": "ACI 318-19",
+              "description": "No description provided"
+            },
+            "sub_code": {
+              "type": "string",
+              "default": "SI",
+              "description": "No description provided"
+            }
+          }
+        },
+        "grade": {
+          "type": "string",
+          "description": "grade of the concrete"
+        },
+        "general": {
+          "type": "object",
+          "description": "general concrete properties",
+          "properties": {
+            "strength": {
+              "type": "integer",
+              "default": 12,
+              "description": "Grade of the concrete"
+            },
+            "elastic_modulus": {
+              "type": "number",
+              "default": 30000,
+              "description": "Elastic modulus of the concrete"
+            },
+            "density": {
+              "type": "number",
+              "default": 2400,
+              "description": "Density of the concrete"
+            },
+            "thermal_expansion_coefficient": {
+              "type": "number",
+              "default": 1e-05,
+              "description": "Thermal expansion coefficient of the concrete"
+            },
+            "poisson_ratio": {
+              "type": "number",
+              "default": 0.2,
+              "description": "Poisson ratio of the concrete"
+            }
+          }
+        },
+        "uls": {
+          "type": "object",
+          "description": "concrete stress options for ULS",
+          "properties": {
+            "material_model": {
+              "type": "string",
+              "default": "Rectangle",
+              "description": "Material model for ULS"
+            },
+            "factor_b1": {
+              "type": "number",
+              "default": 0.85,
+              "description": "Plastic strain limit for ULS"
+            },
+            "compressive_failure_strain": {
+              "type": "number",
+              "default": 0.003,
+              "description": "Failure strain limit for ULS"
+            }
+          }
+        },
+        "sls": {
+          "type": "object",
+          "description": "concrete stress options for SLS",
+          "properties": {
+            "material_model": {
+              "type": "string",
+              "default": "Linear",
+              "description": "Material model for SLS"
+            },
+            "plastic_strain_limit": {
+              "type": "number",
+              "default": 0.002,
+              "description": "Plastic strain limit for SLS"
+            },
+            "failure_compression_limit": {
+              "type": "number",
+              "default": 0.003,
+              "description": "Failure compression limit for SLS"
+            },
+            "material_model_tension": {
+              "type": "string",
+              "default": "interpolated",
+              "description": "Material model for SLS tension"
+            },
+            "failure_tension_limit": {
+              "type": "number",
+              "default": 0.003,
+              "description": "Failure tension limit for SLS"
+            }
+          }
+        }
+      },
+      "required": [
+        "units",
+        "design_code",
+        "grade",
+        "general",
+        "uls",
+        "sls"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.get_schema_of_dataclass",
+    "name": "get_schema_of_dataclass",
+    "description": "    ",
+    "parameters": {}
+  },
+  {
+    "path": "wgsd_flow.get_uls_model_class",
+    "name": "get_uls_model_class",
+    "description": "Return the ULS model class based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "design_code": {
+          "type": "string",
+          "description": "design code"
+        }
+      },
+      "required": [
+        "design_code"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.get_uls_model_schema",
+    "name": "get_uls_model_schema",
+    "description": "Return the ULS model schema based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "design_code": {
+          "type": "string",
+          "description": "design code"
+        }
+      },
+      "required": [
+        "design_code"
+      ]
+    }
+  },
+  {
+    "path": "wgsd_flow.rebar_properties_design",
+    "name": "rebar_properties_design",
+    "description": "Return the material properties based on the design code",
+    "parameters": {
+      "type": "object",
+      "properties": {
+        "general": {
+          "type": "object",
+          "description": "general rebar properties",
+          "properties": {
+            "strength": {
+              "type": "integer",
+              "default": 420,
+              "description": "Grade of the rebar"
+            },
+            "elastic_modulus": {
+              "type": "number",
+              "default": 200000,
+              "description": "Elastic modulus of the rebar"
+            },
+            "density": {
+              "type": "number",
+              "default": 7850,
+              "description": "Density of the rebar"
+            },
+            "thermal_expansion_coefficient": {
+              "type": "number",
+              "default": 1e-05,
+              "description": "Thermal expansion coefficient of the rebar"
+            },
+            "poisson_ratio": {
+              "type": "number",
+              "default": 0.3,
+              "description": "Poisson ratio of the rebar"
+            }
+          }
+        },
+        "uls": {
+          "type": "object",
+          "description": "rebar stress options for ULS",
+          "properties": {
+            "material_model": {
+              "type": "string",
+              "default": "Elastic-Plastic",
+              "description": "Material model for ULS"
+            },
+            "failure_strain": {
+              "type": "number",
+              "default": 0.7,
+              "description": "Failure strain limit for ULS"
+            }
+          }
+        },
+        "sls": {
+          "type": "object",
+          "description": "rebar stress options for SLS",
+          "properties": {
+            "material_model": {
+              "type": "string",
+              "default": "Elastic-Plastic",
+              "description": "Material model for SLS"
+            },
+            "failure_strain": {
+              "type": "number",
+              "default": 0.7,
+              "description": "Failure strain limit for SLS"
+            }
+          }
+        }
+      },
+      "required": [
+        "general",
+        "uls",
+        "sls"
+      ]
+    }
+  }
+]
