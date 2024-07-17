@@ -1,0 +1,31 @@
+[project]
+name = "xaal.dashboard"
+version = "0.4"
+description = "xAAL Dashboard"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "socketio", "html", "dashboard"]
+dependencies = [
+    "xaal.lib",
+    "xaal.monitor",
+    "python-rapidjson",
+    "bottle",
+    "gevent",
+    "gevent-websocket",
+    "python-engineio",
+    "python-socketio",
+    "mako",
+    "requests",
+]
+
+[tool.setuptools.packages.find]
+include = ["xaal.dashboard"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/apps/dashboard/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/apps/dashboard"
