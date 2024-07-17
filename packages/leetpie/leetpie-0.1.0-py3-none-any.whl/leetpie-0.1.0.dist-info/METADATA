@@ -1,0 +1,78 @@
+Metadata-Version: 2.1
+Name: leetpie
+Version: 0.1.0
+Summary: LeetPie: Easily manage your LeetCode solutions.
+Author: Logan
+Author-email: 146642263+logan2d5@users.noreply.github.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: typer[all] (>=0.12.3,<0.13.0)
+Description-Content-Type: text/markdown
+
+# LeetPie
+
+```
+pip install leetpie
+```
+
+**Usage**:
+
+```console
+$ leetpie [OPTIONS] COMMAND [ARGS]...
+```
+
+**Commands**:
+
+- `check`
+- `review`
+- `test`
+
+## `leetpie check`
+
+**Usage**:
+
+```console
+$ leetpie check [OPTIONS]
+```
+
+**Options**:
+
+- `--help`: Show this message and exit.
+
+## `leetpie review`
+
+**Usage**:
+
+```console
+$ leetpie review [OPTIONS] [TAG]
+```
+
+**Arguments**:
+
+- `[TAG]`
+
+**Options**:
+
+- `-s, --solution`: show solution
+- `-m, --markdown`: generate markdown
+- `--help`: Show this message and exit.
+
+## `leetpie test`
+
+**Usage**:
+
+```console
+$ leetpie test [OPTIONS] PROBLEM_ID
+```
+
+**Arguments**:
+
+- `PROBLEM_ID`: [required]
+
+**Options**:
+
+- `--help`: Show this message and exit.
+
