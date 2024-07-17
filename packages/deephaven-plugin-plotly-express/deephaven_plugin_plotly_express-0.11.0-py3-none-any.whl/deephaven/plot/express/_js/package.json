@@ -1,0 +1,78 @@
+{
+  "name": "@deephaven/js-plugin-plotly-express",
+  "version": "0.11.0",
+  "description": "Deephaven plotly express plugin",
+  "keywords": [
+    "Deephaven",
+    "plugin",
+    "deephaven-js-plugin",
+    "plotly",
+    "express"
+  ],
+  "author": "Deephaven Data Labs LLC",
+  "license": "Apache-2.0",
+  "main": "dist/bundle/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/bundle/index.js",
+      "default": "./dist/bundle/index.js"
+    },
+    "./*.js": "./dist/*.js",
+    "./*": "./dist/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deephaven/deephaven-js-plugins"
+  },
+  "bugs": {
+    "url": "https://github.com/deephaven/deephaven-js-plugins/issues"
+  },
+  "homepage": "https://github.com/deephaven/deephaven-js-plugins",
+  "scripts": {
+    "start": "vite build --watch",
+    "build": "tsc && vite build",
+    "update-dh-packages": "node ../../../../tools/update-dh-packages.mjs"
+  },
+  "devDependencies": {
+    "@deephaven/jsapi-types": "1.0.0-dev0.34.0",
+    "@types/deep-equal": "^1.0.1",
+    "@types/plotly.js": "^2.12.18",
+    "@types/plotly.js-dist-min": "^2.3.1",
+    "@types/react": "^17.0.2",
+    "@types/react-plotly.js": "^2.6.0",
+    "@vitejs/plugin-react-swc": "^3.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "typescript": "^4.5.4",
+    "vite": "~4.1.4"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@deephaven/chart": "0.75.0",
+    "@deephaven/components": "0.75.0",
+    "@deephaven/dashboard": "0.75.0",
+    "@deephaven/dashboard-core-plugins": "0.75.0",
+    "@deephaven/icons": "0.75.0",
+    "@deephaven/jsapi-bootstrap": "0.75.0",
+    "@deephaven/log": "0.75.0",
+    "@deephaven/plugin": "0.75.0",
+    "@deephaven/utils": "0.75.0",
+    "deep-equal": "^2.2.1",
+    "nanoid": "^5.0.7",
+    "plotly.js": "^2.29.1",
+    "plotly.js-dist-min": "^2.29.1",
+    "react-plotly.js": "^2.4.0",
+    "react-redux": "^7.2.9"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ]
+}
