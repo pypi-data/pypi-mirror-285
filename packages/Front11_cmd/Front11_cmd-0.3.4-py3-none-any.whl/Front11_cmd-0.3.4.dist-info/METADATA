@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: Front11_cmd
+Version: 0.3.4
+Summary: Default template for PDM package
+Author-email: Nicou11 <lyoungin1204@gmail.com>
+License: MIT
+Project-URL: Homepage, https://github.com/nicou11/Front11_cmd
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: Front11-div >=0.3.0
+Requires-Dist: Front11-multi >=0.1.2
+Requires-Dist: Front11-plus >=0.1.3
+
+# Front11_cmd
+
+## **install**
+
+```
+$ pip install Front11_cmd
+
+```
+
+## **Usage**
+
+```
+x = int(sys.argv[1])
+y = int(sys.argv[2])
+```
+
+```
+$ Front11-plus x y 
+$ Front11-multi x y 
+$ Front11-div x y
+```
+
+## **Code**
+```python
+from front11_plus.front11_plus import add           #더하기
+from front11_div.front11_div import divide          #나누기
+from front11_multi.front11_multi import multiply    #곱하기
+
+import sys
+a = sys.argv[0]
+x = int(sys.argv[1])
+y = int(sys.argv[2])
+
+
+def a():
+    add(x, y)
+
+def m():
+    multiply(x, y)
+
+def d():
+    divide(x, y)
+```
+
+## **Reference**
+-https://github.com/Nicou11/Front11_cmd
+
+-https://github.com/Nicou11/Front11_div
+
+-https://github.com/minju210/Front11_plus
+
+-https://github.com/minju210/Front11_multi
+
+## **Thank you**
