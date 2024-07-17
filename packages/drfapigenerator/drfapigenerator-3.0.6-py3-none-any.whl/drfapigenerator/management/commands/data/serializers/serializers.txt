@@ -1,0 +1,17 @@
+from rest_framework import serializers
+from ..models import {model_name}
+
+class {model_list_serializers}(serializers.ModelSerializer):
+    class Meta:
+        model = {model_name}
+        fields = '__all__'
+
+class {model_retrieve_serializers}(serializers.ModelSerializer):
+    class Meta:
+        model = {model_name}
+        fields = '__all__'
+
+class {model_write_serializers}(serializers.ModelSerializer):
+    class Meta:
+        model = {model_name}
+        fields = '__all__'
