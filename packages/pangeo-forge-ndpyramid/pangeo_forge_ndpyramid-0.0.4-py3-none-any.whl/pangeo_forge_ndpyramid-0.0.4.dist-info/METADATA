@@ -1,0 +1,71 @@
+Metadata-Version: 2.1
+Name: pangeo-forge-ndpyramid
+Version: 0.0.4
+Summary: Pangeo Forge extension libary to generate multi-scale pyramids through pangeo-forge-recipes.
+Author-email: CarbonPlan <tech@carbonplan.org>
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pangeo-forge-recipes
+Requires-Dist: ndpyramid
+Requires-Dist: dask
+Requires-Dist: pyresample
+Requires-Dist: rioxarray
+Provides-Extra: dynamic
+Requires-Dist: version ; extra == 'dynamic'
+Provides-Extra: test
+Requires-Dist: pre-commit ; extra == 'test'
+Requires-Dist: pytest-mypy ; extra == 'test'
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: ruff ; extra == 'test'
+Requires-Dist: rioxarray ; extra == 'test'
+Requires-Dist: pooch ; extra == 'test'
+Requires-Dist: xarray-datatree ; extra == 'test'
+
+<p align="left" >
+<a href='https://carbonplan.org'>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://carbonplan-assets.s3.amazonaws.com/monogram/light-small.png">
+  <img alt="CarbonPlan monogram." height="48" src="https://carbonplan-assets.s3.amazonaws.com/monogram/dark-small.png">
+</picture>
+</a>
+</p>
+
+# Pangeo-Forge-Ndpyramid
+
+[Pangeo-Forge](https://pangeo-forge.readthedocs.io/en/latest/) extension library used to generate pyramids via [ndpyramid](https://github.com/carbonplan/ndpyramid)
+
+[![CI](https://github.com/carbonplan/python-project-template/actions/workflows/main.yaml/badge.svg)](https://github.com/carbonplan/python-project-template/actions/workflows/main.yaml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+
+
+## Usage
+
+`pangeo-forge-ndpyramid` contains an apache-beam transform named `StoreToPyramid` which can be used with `pangeo-forge-recipes` to generate multiscale Zarr stores.
+The two current implemented `ndpyramid` methods are `reproject` and `resample`.
+
+
+### Examples
+
+Examples for creating pyramids via pangeo-forge can be found in `notebooks/reproject_demo.ipynb` and `notebooks/resample.ipynb`.
+
+
+
+## license
+
+All the code in this repository is [MIT](https://choosealicense.com/licenses/mit/)-licensed, but we request that you please provide attribution if reusing any of our digital content (graphics, logo, articles, etc.).
+
+## about us
+
+CarbonPlan is a nonprofit organization that uses data and science for climate action. We aim to improve the transparency and scientific integrity of climate solutions with open data and tools. Find out more at [carbonplan.org](https://carbonplan.org/) or get in touch by [opening an issue](https://github.com/carbonplan/python-project-template/issues/new) or [sending us an email](mailto:hello@carbonplan.org).
