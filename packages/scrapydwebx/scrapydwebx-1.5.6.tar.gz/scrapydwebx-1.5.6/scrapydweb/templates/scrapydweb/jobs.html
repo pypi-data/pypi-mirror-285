@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+
+{% block title %}jobs{% endblock %}
+
+{% block head %}
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+  <style>
+  .count_info {
+    color: #67c23a;
+    font-weight: bold;
+  }
+  .count_warn {
+    color: red;
+    font-weight: bold;
+  }
+  </style>
+
+  {% if SCRAPYD_SERVERS_AMOUNT == 1 and (pageview == 1 or pageview % CHECK_LATEST_VERSION_FREQ == 0) %}
+  <script type="text/javascript" src="https://my8100.herokuapp.com/check_update?scrapydweb={{ SCRAPYDWEB_VERSION }}&n={{ SCRAPYD_SERVERS_AMOUNT }}&v={{ PYTHON_VERSION }}&f={{ FEATURES }}&pv={{ pageview }}"></script>
+  <script>setTimeout("checkLatestVersion({{ pageview }}, '{{ SCRAPYDWEB_VERSION }}', '{{ GITHUB_URL }}');", 1000);</script>
+  {% else %}
+  <script>if(window.localStorage && localStorage.getItem('github') !== null) {localStorage.removeItem('github');}</script>
+  {% endif %}
+{% endblock %}
+
+
+{% block body %}
+{% if (SCRAPYD_SERVERS_AMOUNT == 1 and pageview == 1) or IS_IE_EDGE %}
+<script>(function () {try {checkBrowser();} catch(err) {console.log(err);}})();</script>
+{% endif %}
+
+<h2>
+  <a class="link" target="_blank" href="{{ url }}">Get the list of jobs of all projects in database.</a>
+  <label title="switch to non-database view">
+    <a class="button normal" href="{{ url_jobs_classic }}">Classic</a>
+  </label>
+  <label title="schedule a spider run">
+    <a class="button safe narrow" href="{{ url_schedule }}">+</a>
+  </label>
+  <span id="logparser_last_update" style="color: #67c23a;"></span>
+</h2>
+<h3 id="logparser_alert" style="color: red; display: none;"></h3>
+
+<div id="jobs-table-container">
+{% include 'scrapydweb/jobs_table.html' %}
+</div>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Initialize DataTables
+    var table_settings = {
+      ajax: {
+          url: '{{ url_for('jobs', node=node, format='json', per_page=3000) }}',
+          dataSrc: ''
+      },
+      paging: true,
+      pageLength: 25,
+      searching: true,
+      ordering: true,
+      info: true,
+      autoWidth: false,
+      scrollX: true,
+      errMode: "throw",
+      deferRender: true,
+      columns: [
+          {data: "index"},
+          {data: "project"},
+          {data: "spider"},
+          {data: "job"},
+          {data: "pages"},
+          {data: "items"},
+          {data: null},
+          {data: null},
+          {data: "start"},
+          {data: "runtime"},
+          {data: "finish"},
+          {data: "pid"},
+          {data: null}
+      ],
+      createdRow: function(row, data, dataIndex) {
+          const indexCell = row.cells[0];
+          const projectCell = row.cells[1];
+          const spiderCell = row.cells[2];
+          const jobCell = row.cells[3];
+          const pagesCell = row.cells[4];
+          const itemsCell = row.cells[5];
+          const statsCell = row.cells[6];
+          const actionsCell = row.cells[7];
+          const startCell = row.cells[8];
+          const runtimeCell = row.cells[9];
+          const finishCell = row.cells[10];
+          const pidCell = row.cells[11];
+          const linksCell = row.cells[12];
+
+          const pendingColor = data.start ? 'unset' : 'red';
+          const pendingDisplay = data.start ? '' : 'none';
+          const pagesClass = data.pages == 'N/A' ? 'dd' : data.pages == 0 ? 'count_warn' : 'count_info';
+          const itemsClass = data.items == 'N/A' ? 'dd' : data.items == 0 ? 'count_warn' : 'count_info';
+          const itemsDisplay = (data.show_scrapyd_items && data.url_items) ? '' : 'none';
+          const action = data.finish ? 'Start' : data.pid ? 'Stop' : 'Cancel';
+          const actionClass = data.finish ? 'state safe' : data.pid ? 'state danger' : 'state warning';
+          const displayAction = data.to_be_killed ? 'none' : '';
+          const displayKill = data.to_be_killed ? '' : 'none';
+          const pidColor = data.to_be_killed ? 'red' : 'unset';
+
+          projectCell.style = `color: ${pendingColor}`;
+          spiderCell.style = `color: ${pendingColor}`;
+          jobCell.style = `color: ${pendingColor}`;
+
+          pagesCell.className = pagesClass;
+          itemsCell.className = itemsClass;
+
+          const serverIcon = '<label title="multinode"><svg aria-hidden="true" class="icon">' +
+              '<use xlink:href="#icon-servers"></use></svg></label>'
+
+          statsCell.innerHTML = `<a class="state normal" style="display: ${pendingDisplay}" href="${ data.url_stats }">Stats</a>`
+          if (data.scrapyd_servers_amount > 1){
+              serverAnchor = document.createElement('a');
+              serverAnchor.className = 'state multinode';
+              serverAnchor.style = `display: ${pendingDisplay}`;
+              serverAnchor.href = data.url_clusterreports;
+              serverAnchor.innerHTML = serverIcon;
+              statsCell.insertBefore(serverAnchor, statsCell.firstChild);
+          }
+
+          actionsCell.innerHTML = `` +
+              `<span style="color: red; display: ${ displayKill }">Kill ${ data.pid }</span>` +
+              `<a class="state ${ actionClass }" style="display: ${ displayAction }">${ action }</a>`
+          actionsCell.onclick = function(){handleActionClick(data.url_action)};
+          if (data.scrapyd_servers_amount > 1) {
+              servActionAnchor = document.createElement('a');
+              servActionAnchor.className = 'state multinode';
+              servActionAnchor.style = `display: ${displayAction}`;
+              servActionAnchor.href = data.url_multinode;
+              servActionAnchor.innerHTML = serverIcon;
+              actionsCell.insertBefore(servActionAnchor, actionsCell.lastChild);
+          }
+
+          pidCell.style = `color: ${pidColor}`;
+
+          linksCell.innerHTML = `` +
+              `<a class="state normal" style="display: ${ pendingDisplay }" href="${ data.url_utf8 }">Log</a>` +
+              `<a class="state normal" style="display: ${ pendingDisplay }" href="${ data.url_source }">Source</a>` +
+              `<a class="state normal" style="display: ${ itemsDisplay }" href="${ data.url_items }">Items</a>`
+      }
+
+    }
+    // Function to initialize DataTable
+    function initializeDataTable(selector) {
+      const table = $(selector).DataTable(table_settings);
+      setInterval(function(){
+          table.ajax.reload(null, false); // false to keep the current paging
+          updateStats('{{ url_liststats }}')
+      }, 1000);
+    }
+
+    function handleActionClick(url) {
+      console.log(`url: ${url}`);
+      if (url.indexOf('/api/stop/') == -1) {
+        location.href = url;  // the 'Start' action
+      } else {
+        jobsXHR(url, forcestop=false);
+      }
+    }
+
+    function updateStats(url) {
+      var req = new XMLHttpRequest();
+
+      // Set up a timeout in case the request takes too long
+      req.timeout = 5000; // 5 seconds
+
+      req.onreadystatechange = function() {
+        if (this.readyState == 4) {
+          if (this.status == 200) {
+            var obj = JSON.parse(this.responseText);
+            // console.log(obj);
+            if (obj.status == 'ok') {
+              my$('#logparser_stats').style.display = 'block';  // flash in base.html
+              my$('#logparser_stats').innerText = "LogParser v" + obj.logparser_version + ", last updated at " + obj.last_update_time + ", {{ url_liststats_source }}";
+              var now_timestamp = Date.now() / 1000;
+              var seconds = Math.ceil(Date.now() / 1000 - obj.last_update_timestamp);
+              const secondsStyle = seconds < 20 ? '' : 'color: red';
+              my$('#logparser_last_update').innerHTML = "last LogParser update on Scrapyd server: " + `<span style='${secondsStyle}'>` + seconds + "</span> secs ago";
+              my$('#logparser_alert').style.display = 'none';
+            } else {
+              handleError(obj.status, obj.logparser_version, obj.tip);
+            }
+          } else {
+            handleError(this.status);
+          }
+        }
+      };
+
+      // Handle network errors
+      req.onerror = function() {
+        handleError('Network Error');
+      };
+
+      // Handle timeout errors
+      req.ontimeout = function() {
+        handleError('Timeout');
+      };
+
+      req.open('post', url, true);
+      req.send();
+    }
+
+    function handleError(status, logparser_version, tip) {
+      console.log(status);
+      if (logparser_version) {
+        console.log(logparser_version);
+      }
+      my$('#logparser_alert').style.display = '';
+      my$('#logparser_alert').style.color = 'red';
+      my$('#logparser_alert').innerText = tip || 'There was an error connecting to the Scrapyd server.';
+    }
+
+    // Initialize DataTable on initial load
+    initializeDataTable('#jobs-table');
+
+
+  });
+</script>
+
+{% endblock %}
