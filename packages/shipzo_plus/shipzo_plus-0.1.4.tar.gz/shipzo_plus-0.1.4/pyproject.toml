@@ -1,0 +1,21 @@
+[project]
+name = "shipzo_plus"
+version = "0.1.4"
+description = "Default template for PDM package"
+authors = [
+    {name = "rlaehgus97", email = "starkim625@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/rlaehgus97/shipzo_plus"
+Issues = "https://github.com/rlaehgus97/shipzo_plus/issues"
+
+[project.scripts]
+shipzo-cmd-plus='shipzo_plus.shipzo_plus:plus'
