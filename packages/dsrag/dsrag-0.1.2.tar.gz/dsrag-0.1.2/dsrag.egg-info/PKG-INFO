@@ -1,0 +1,276 @@
+Metadata-Version: 2.1
+Name: dsrag
+Version: 0.1.2
+Summary: State-of-the-art RAG pipeline from D-Star AI
+Author-email: Zach McCormick <zach@d-star.ai>, Nick McCormick <nick@d-star.ai>
+License: MIT License
+        
+        Copyright (c) 2024 SuperpoweredAI
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/D-Star-AI/dsRAG
+Project-URL: Documentation, https://github.com/D-Star-AI/dsRAG
+Project-URL: Contact, https://github.com/D-Star-AI/dsRAG
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Database
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp==3.9.5
+Requires-Dist: aiolimiter==1.1.0
+Requires-Dist: aiosignal==1.3.1
+Requires-Dist: annotated-types==0.7.0
+Requires-Dist: anthropic==0.30.1
+Requires-Dist: anyio==4.4.0
+Requires-Dist: async-timeout==4.0.3
+Requires-Dist: attrs==23.2.0
+Requires-Dist: authlib==1.3.1
+Requires-Dist: boto3==1.34.142
+Requires-Dist: botocore==1.34.142
+Requires-Dist: certifi==2024.7.4
+Requires-Dist: cffi==1.16.0
+Requires-Dist: charset-normalizer==3.3.2
+Requires-Dist: click==8.1.7
+Requires-Dist: cohere==5.5.8
+Requires-Dist: cryptography==42.0.8
+Requires-Dist: distro==1.9.0
+Requires-Dist: docstring-parser==0.16
+Requires-Dist: docx2txt==0.8
+Requires-Dist: exceptiongroup==1.2.1
+Requires-Dist: faiss-cpu==1.8.0.post1
+Requires-Dist: fastavro==1.9.5
+Requires-Dist: filelock==3.15.4
+Requires-Dist: frozenlist==1.4.1
+Requires-Dist: fsspec==2024.6.1
+Requires-Dist: grpcio==1.64.1
+Requires-Dist: grpcio-health-checking==1.64.1
+Requires-Dist: grpcio-tools==1.64.1
+Requires-Dist: h11==0.14.0
+Requires-Dist: httpcore==1.0.5
+Requires-Dist: httpx==0.27.0
+Requires-Dist: httpx-sse==0.4.0
+Requires-Dist: huggingface-hub==0.23.4
+Requires-Dist: idna==3.7
+Requires-Dist: instructor==1.3.4
+Requires-Dist: jiter==0.4.2
+Requires-Dist: jmespath==1.0.1
+Requires-Dist: joblib==1.4.2
+Requires-Dist: jsonpatch==1.33
+Requires-Dist: jsonpointer==3.0.0
+Requires-Dist: langchain-core==0.2.12
+Requires-Dist: langchain-text-splitters==0.2.2
+Requires-Dist: langsmith==0.1.84
+Requires-Dist: markdown-it-py==3.0.0
+Requires-Dist: mdurl==0.1.2
+Requires-Dist: multidict==6.0.5
+Requires-Dist: numpy==1.26.4
+Requires-Dist: ollama==0.2.1
+Requires-Dist: openai==1.35.12
+Requires-Dist: orjson==3.10.6
+Requires-Dist: packaging==24.1
+Requires-Dist: pandas==2.2.2
+Requires-Dist: parameterized==0.9.0
+Requires-Dist: protobuf==5.27.2
+Requires-Dist: pyarrow
+Requires-Dist: pycparser==2.22
+Requires-Dist: pydantic==2.8.2
+Requires-Dist: pydantic-core==2.20.1
+Requires-Dist: pygments==2.18.0
+Requires-Dist: pypdf2==3.0.1
+Requires-Dist: python-dateutil==2.9.0.post0
+Requires-Dist: pytz==2024.1
+Requires-Dist: pyyaml==6.0.1
+Requires-Dist: regex==2024.5.15
+Requires-Dist: requests==2.32.3
+Requires-Dist: rich==13.7.1
+Requires-Dist: s3transfer==0.10.2
+Requires-Dist: scikit-learn==1.5.1
+Requires-Dist: scipy==1.13.1
+Requires-Dist: shellingham==1.5.4
+Requires-Dist: six==1.16.0
+Requires-Dist: sniffio==1.3.1
+Requires-Dist: tenacity==8.5.0
+Requires-Dist: threadpoolctl==3.5.0
+Requires-Dist: tiktoken==0.7.0
+Requires-Dist: tokenizers==0.19.1
+Requires-Dist: tqdm==4.66.4
+Requires-Dist: typer==0.12.3
+Requires-Dist: types-requests==2.31.0.6
+Requires-Dist: types-urllib3==1.26.25.14
+Requires-Dist: typing==3.7.4.3
+Requires-Dist: typing-extensions==4.12.2
+Requires-Dist: tzdata==2024.1
+Requires-Dist: urllib3==1.26.19
+Requires-Dist: validators==0.28.3
+Requires-Dist: voyageai==0.2.3
+Requires-Dist: weaviate-client==4.6.5
+Requires-Dist: yarl==1.9.4
+
+# dsRAG
+[![Discord](https://img.shields.io/discord/1234629280755875881.svg?label=Discord&logo=discord&color=7289DA)](https://discord.gg/NTUVX9DmQ3)
+
+Note: dsRAG was formerly known as spRAG. We recently spun the project out into a new company called D-Star, hence the renaming.
+
+dsRAG is a retrieval engine for unstructured data. It is especially good at handling challenging queries over dense text, like financial reports, legal documents, and academic papers.
+
+dsRAG achieves substantially higher accuracy than vanilla RAG baselines on complex open-book question answering tasks. On one especially challenging benchmark, [FinanceBench](https://arxiv.org/abs/2311.11944), dsRAG gets accurate answers 83% of the time, compared to the vanilla RAG baseline which only gets 19% of questions correct.
+
+There are two key methods used to improve performance over vanilla RAG systems:
+1. AutoContext
+2. Relevant Segment Extraction (RSE)
+
+#### AutoContext
+AutoContext automatically injects document-level context into individual chunks prior to embedding them. This gives the embeddings a much more accurate and complete representation of the content and meaning of the text. In our testing, this feature leads to a dramatic improvement in retrieval quality. In addition to increasing the rate at which the correct information is retrieved, AutoContext also substantially reduces the rate at which irrelevant results show up in the search results. This reduces the rate at which the LLM misinterprets a piece of text in downstream chat and generation applications.
+
+The implementation of AutoContext is fairly straightforward. All we do is generate a 1-2 sentence summary of the document, add the file name to it, and then prepend that to each chunk prior to embedding it.
+
+#### Relevant Segment Extraction
+Relevant Segment Extraction (RSE) is a post-processing step that takes clusters of relevant chunks and intelligently combines them into longer sections of text that we call segments. These segments provide better context to the LLM than any individual chunk can. For simple factual questions, the answer is usually contained in a single chunk; but for more complex questions, the answer usually spans a longer section of text. The goal of RSE is to intelligently identify the section(s) of text that provide the most relevant information, without being constrained to fixed length chunks.
+
+For example, suppose you have a bunch of SEC filings in a knowledge base and you ask “What were Apple’s key financial results in the most recent fiscal year?” RSE will identify the most relevant segment as the entire “Consolidated Statement of Operations” section, which will be 5-10 chunks long. Whereas if you ask “Who is Apple’s CEO?” the most relevant segment will be identified as a single chunk that mentions “Tim Cook, CEO.”
+
+# Tutorial
+
+#### Installation
+To install the python package, run
+```console
+pip install dsrag
+```
+
+#### Quickstart
+By default, dsRAG uses OpenAI for embeddings, Claude 3 Haiku for AutoContext, and Cohere for reranking, so to run the code below you'll need to make sure you have API keys for those providers set as environmental variables with the following names: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, and `CO_API_KEY`. **If you want to run dsRAG with different models, take a look at the "Basic customization" section below.**
+
+You can create a new KnowledgeBase directly from a file using the `create_kb_from_file` function:
+```python
+from dsrag.create_kb import create_kb_from_file
+
+file_path = "dsRAG/tests/data/levels_of_agi.pdf"
+kb_id = "levels_of_agi"
+kb = create_kb_from_file(kb_id, file_path)
+```
+KnowledgeBase objects persist to disk automatically, so you don't need to explicitly save it at this point.
+
+Now you can load the KnowledgeBase by its `kb_id` (only necessary if you run this from a separate script) and query it using the `query` method:
+```python
+from dsrag.knowledge_base import KnowledgeBase
+
+kb = KnowledgeBase("levels_of_agi")
+search_queries = ["What are the levels of AGI?", "What is the highest level of AGI?"]
+results = kb.query(search_queries)
+for segment in results:
+    print(segment)
+```
+
+#### Basic customization
+Now let's look at an example of how we can customize the configuration of a KnowledgeBase. In this case, we'll customize it so that it only uses OpenAI (useful if you don't have API keys for Anthropic and Cohere). To do so, we need to pass in a subclass of `LLM` and a subclass of `Reranker`. We'll use `gpt-3.5-turbo` for the LLM (this is what gets used for document summarization in AutoContext) and since OpenAI doesn't offer a reranker, we'll use the `NoReranker` class for that.
+```python
+from dsrag.llm import OpenAIChatAPI
+from dsrag.reranker import NoReranker
+
+llm = OpenAIChatAPI(model='gpt-3.5-turbo')
+reranker = NoReranker()
+
+kb = KnowledgeBase(kb_id="levels_of_agi", reranker=reranker, auto_context_model=llm)
+```
+
+Now we can add documents to this KnowledgeBase using the `add_document` method. Note that the `add_document` method takes in raw text, not files, so we'll have to extract the text from our file first. There are some utility functions for doing this in the `document_parsing.py` file.
+```python
+from dsrag.document_parsing import extract_text_from_pdf
+
+file_path = "dsRAG/tests/data/levels_of_agi.pdf"
+text = extract_text_from_pdf(file_path)
+kb.add_document(doc_id=file_path, text=text)
+```
+
+# Architecture
+
+## KnowledgeBase object
+A KnowledgeBase object takes in documents (in the form of raw text) and does chunking and embedding on them, along with a few other preprocessing operations. Then at query time you feed in queries and it returns the most relevant segments of text.
+
+KnowledgeBase objects are persistent by default. The full configuration needed to reconstruct the object gets saved as a JSON file upon creation and updating.
+
+## Components
+There are five key components that define the configuration of a KnowledgeBase, each of which are customizable:
+1. VectorDB
+2. ChunkDB
+3. Embedding
+4. Reranker
+5. LLM
+
+There are defaults for each of these components, as well as alternative options included in the repo. You can also define fully custom components by subclassing the base classes and passing in an instance of that subclass to the KnowledgeBase constructor. 
+
+#### VectorDB
+The VectorDB component stores the embedding vectors, as well as a small amount of metadata.
+
+The currently available options are:
+- `BasicVectorDB`
+- `WeaviateVectorDB`
+
+#### ChunkDB
+The ChunkDB stores the content of text chunks in a nested dictionary format, keyed on `doc_id` and `chunk_index`. This is used by RSE to retrieve the full text associated with specific chunks.
+
+The currently available options are:
+- `BasicChunkDB`
+
+#### Embedding
+The Embedding component defines the embedding model.
+
+The currently available options are:
+- `OpenAIEmbedding`
+- `CohereEmbedding`
+- `VoyageAIEmbedding`
+- `OllamaEmbedding`
+
+#### Reranker
+The Reranker components define the reranker. This is used after the vector database search (and before RSE) to provide a more accurate ranking of chunks.
+
+The currently available options are:
+- `CohereReranker`
+
+#### LLM
+This defines the LLM to be used for document summarization, which is only used in AutoContext.
+
+The currently available options are:
+- `OpenAIChatAPI`
+- `AnthropicChatAPI`
+- `OllamaChatAPI`
+
+## Document upload flow
+Documents -> chunking -> embedding -> chunk and vector database upsert
+
+## Query flow
+Queries -> vector database search -> reranking -> RSE -> results
+
+# Community and support
+You can join our [Discord](https://discord.gg/NTUVX9DmQ3) to ask questions, make suggestions, and discuss contributions.
+
+If you need additional support, we also offer consulting and custom development services. Reach out to zach@d-star.ai for more information.
