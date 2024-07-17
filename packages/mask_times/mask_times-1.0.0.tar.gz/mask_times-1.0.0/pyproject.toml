@@ -1,0 +1,18 @@
+[project]
+name = "mask_times"
+version = "1.0.0"
+description = "mulitply func added"
+authors = [
+    {name = "GITSangWoo", email = "dogcenta@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts] 
+multiply='mask_times.times:multiply'
