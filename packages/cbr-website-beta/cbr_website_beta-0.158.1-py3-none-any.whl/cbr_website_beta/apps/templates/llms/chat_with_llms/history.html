@@ -1,0 +1,13 @@
+<div class="container-fluid" id="chat-history">
+    <div class="row ">
+        <div class="col-12">
+            <h1>Chat's History</h1>
+            <br/>
+            <ul>
+                {% for chat_id in chat_ids %}
+                    <li><a href="/web/chat/view/{{ chat_id }}">{{ chat_id }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
