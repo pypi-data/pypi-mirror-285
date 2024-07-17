@@ -1,0 +1,80 @@
+Metadata-Version: 2.1
+Name: points2regions
+Version: 0.0.5
+Summary: A simple and efficient clustering tool for spatial 2D points with categorical labels.
+Home-page: https://github.com/wahlby-lab/Points2Regions
+Author: Axel Andersson
+Author-email: axel.andersson@it.uu.se
+License: MIT
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Image Processing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scikit-image
+Requires-Dist: scikit-learn
+Requires-Dist: scipy
+
+# Points2Regions
+
+Points2Regions is a Python tool designed for clustering and defining regions based on categorical marker data, commonly encountered in spatial biology. It provides methods for feature extraction, clustering, and generating various outputs like label masks, GeoJSON representations, and more.
+
+## Installation
+
+You can install Points2Regions using the following command:
+
+```bash
+pip install points2regions
+```
+
+
+
+## Usage
+
+```python
+from points2regions import Points2Regions
+import pandas as pd
+
+# Example usage with a CSV file
+data = pd.read_csv('https://tissuumaps.dckube.scilifelab.se/private/Points2Regions/toy_data.csv')
+
+# Create the clustering model
+p2r = Points2Regions(
+    data[['X', 'Y']], 
+    data['Genes'], 
+    pixel_width=1, 
+    pixel_smoothing=5
+)
+
+# Cluster with a specified number of clusters
+p2r.fit(num_clusters=15)
+
+# Get cluster label for each marker
+cluster_per_marker = p2r.predict(output='marker')
+
+# Get a label mask
+label_mask, tform = p2r.predict(output='pixel')
+
+# Get connected components
+connected_components, num_components, label_mask, tform  = p2r.predict(output='connected')
+```
+
+## Example
+See the Jupyter Notebook `example.ipynb` for examples.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+
