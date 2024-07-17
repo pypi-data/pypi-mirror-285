@@ -1,0 +1,127 @@
+Metadata-Version: 2.1
+Name: smsaero_api_async
+Version: 3.0.0
+Summary: SmsAero Async API client
+Home-page: https://github.com/smsaero/smsaero_python/
+Author: SmsAero
+Author-email: admin@smsaero.ru
+License: MIT
+Keywords: smsaero,api,smsaero_api_async,sms,hlr,viber
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Communications :: Telephony
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: AUTHORS.md
+Requires-Dist: setuptools
+Requires-Dist: aiohttp
+Provides-Extra: dev
+Requires-Dist: pytest >=8.2.2 ; extra == 'dev'
+Requires-Dist: flake8 >=7.1.0 ; extra == 'dev'
+Requires-Dist: ruff >=0.4.10 ; extra == 'dev'
+Requires-Dist: pylint >=3.2.4 ; extra == 'dev'
+Requires-Dist: tox >=4.15.1 ; extra == 'dev'
+Requires-Dist: mypy >=1.10.0 ; extra == 'dev'
+Requires-Dist: coverage >=7.5.4 ; extra == 'dev'
+Requires-Dist: bandit >=1.7.9 ; extra == 'dev'
+Requires-Dist: build >=1.2.1 ; extra == 'dev'
+Requires-Dist: twine >=5.1.1 ; extra == 'dev'
+
+# SmsAero async API client
+
+[![PyPI version](https://badge.fury.io/py/smsaero-api-async.svg)](https://badge.fury.io/py/smsaero-api-async)
+[![Python Versions](https://img.shields.io/pypi/pyversions/smsaero-api-async.svg)](https://pypi.org/project/smsaero-api-async/)
+[![Downloads](https://pepy.tech/badge/smsaero-api-async)](https://pepy.tech/project/smsaero-api-async)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](MIT-LICENSE)
+
+## Installation (from PyPI):
+
+```bash
+pip install -U smsaero-api-async
+```
+
+## Usage example:
+
+Get credentials from account settings page: https://smsaero.ru/cabinet/settings/apikey/
+
+```python
+import pprint
+import asyncio
+import smsaero
+
+
+SMSAERO_EMAIL = 'your email'
+SMSAERO_API_KEY = 'your api key'
+
+
+async def send_sms(phone: int, message: str) -> None:
+    """
+    Sends an SMS message
+
+    Parameters:
+    phone (int): The phone number to which the SMS message will be sent.
+    message (str): The content of the SMS message to be sent.
+    """
+    api = smsaero.SmsAero(SMSAERO_EMAIL, SMSAERO_API_KEY)
+    try:
+        result = await api.send_sms(phone, message)
+        pprint.pprint(result)
+    finally:
+        await api.close_session()
+
+
+if __name__ == '__main__':
+    asyncio.run(send_sms(70000000000, 'Hello, World!'))
+```
+
+#### Exceptions:
+
+* `SmsAeroException` - base exception class for all exceptions raised by the library.
+* `SmsAeroConnectionException` - exception raised when there is a connection error.
+* `SmsAeroNoMoneyException` - exception raised when there is not enough money in the account.
+
+
+## Command line usage:
+
+```bash
+SMSAERO_EMAIL="your email"
+SMSAERO_API_KEY="your api key"
+
+smsaero_send --email "$SMSAERO_EMAIL" --api_key "$SMSAERO_API_KEY" --phone 70000000000 --message 'Hello, World!'
+```
+
+## Run on Docker:
+
+```bash
+docker pull 'smsaero/smsaero_python_async:latest'
+docker run -it --rm 'smsaero/smsaero_python_async:latest' smsaero_send --email "your email" --api_key "your api key" --phone 70000000000 --message 'Hello, World!'
+```
+
+## Compatibility:
+
+* Currently version of library is compatible with Python 3.6+.
+
+
+## License:
+
+```
+MIT License
+```
