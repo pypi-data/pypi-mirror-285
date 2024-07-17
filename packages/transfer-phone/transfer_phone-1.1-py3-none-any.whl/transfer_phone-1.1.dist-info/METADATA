@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: transfer_phone
+Version: 1.1
+Summary: Defect relation mapping
+Home-page: https://github.com/tieyongjie/transfer_phone
+Author: White.tie
+Author-email: 1042798703@qq.com
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Text Processing :: Indexing
+Classifier: Topic :: Utilities
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Description-Content-Type: text/markdown
+
+
+# 1.安装
+
+```bash
+pip install transfer_phone
+```
+
+# 2.测试用例
+
+```python
+from transfer_phone.transfer_phone import paramTransfer
+if __name__ == '__main__':
+    #安卓手机数据传入 例
+    # 没有对应的瑕疵时穿入空字符串
+    data = {
+        "model": "荣耀 X20",
+        "netWork":"全网通",
+        "purchaseChannel":"国行",
+        "color": "银色",
+        "ram": "6G",
+        "storage": "256G",
+        "warranty_period":"",
+        "damageInfor":
+        {"使用功能": "电池健康度100%|后摄像头拍照有斑|光线/距离感应异常", "屏幕显示": "显示明显老化", "机身外观": "外壳缺失/裂缝/孔变形/翘起/刻字|屏幕硬划痕（≥10毫米）"}
+    }
+    trans = paramTransfer()
+    result = trans.returnSearchPriceParam(data)
+    print(result)
+```
