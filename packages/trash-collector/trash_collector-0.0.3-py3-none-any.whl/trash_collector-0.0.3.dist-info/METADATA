@@ -1,0 +1,53 @@
+Metadata-Version: 2.3
+Name: trash_collector
+Version: 0.0.3
+Summary: Python cli to easily help clean old folders and free up disk space.
+Project-URL: Homepage, https://github.com/Notenlish/trash_collector
+Project-URL: Issues, https://github.com/Notenlish/trash_collector/issues
+Author-email: "Notenlish (Ihsan Carkci)" <notenlish@gmail.com>
+License-File: LICENSE
+Keywords: cleaner,cleanup,disk space,garbage,garbage collector,trash,trash collector
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Requires-Dist: colorama==0.4.6
+Requires-Dist: pytest==8.0.1
+Requires-Dist: shellingham==1.5.4
+Requires-Dist: typer[all]==0.9.0
+Description-Content-Type: text/markdown
+
+# trash_collector
+
+Python cli to easily help clean old folders and free up disk space.
+Use `py -m trash_collector --help` to see the available commands.
+or `python3 -m trash_collector --help` if you are using a linux system.
+
+[Pypi here](https://pypi.org/project/trash-collector/)
+
+## Develop
+
+Setup a venv, activate it and install the requirements
+
+```bash
+py -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+## Testing
+
+Run the tests
+
+```bash
+py -m pytest tests
+```
+
+## Build
+
+`py -m pip install --upgrade build`
+`py -m build`
+
+## Build to test
+
+`pip install .`
