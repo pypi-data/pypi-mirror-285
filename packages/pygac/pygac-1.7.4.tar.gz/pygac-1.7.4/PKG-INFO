@@ -1,0 +1,47 @@
+Metadata-Version: 2.3
+Name: pygac
+Version: 1.7.4
+Summary: NOAA AVHRR GAC/LAC/FRAC reader and calibration
+Project-URL: Homepage, https://github.com/pytroll/pygac
+Project-URL: Bug Tracker, https://github.com/pytroll/pygac/issues
+Project-URL: Documentation, https://pygac.readthedocs.io/en/stable/
+Project-URL: Source Code, https://github.com/pytroll/pygac
+Project-URL: Organization, https://pytroll.github.io/
+Project-URL: Slack, https://pytroll.slack.com/
+Project-URL: Release Notes, https://github.com/pytroll/pygac/blob/main/CHANGELOG.md
+Author-email: The Pytroll Team <pytroll@googlegroups.com>
+License: GPLv3
+License-File: LICENSE.txt
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering
+Requires-Python: >=3.8
+Requires-Dist: bottleneck>=1.0.0
+Requires-Dist: docutils>=0.3
+Requires-Dist: h5py>=2.0.1
+Requires-Dist: numpy>=1.8.0
+Requires-Dist: packaging
+Requires-Dist: pyorbital>=0.3.2
+Requires-Dist: python-geotiepoints>=1.1.8
+Requires-Dist: scipy>=0.8.0
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Description-Content-Type: text/markdown
+
+pygac
+=====
+
+[![Build](https://github.com/pytroll/pygac/actions/workflows/ci.yaml/badge.svg)](https://github.com/pytroll/pygac/actions/workflows/ci.yaml)
+[![Coverage](https://codecov.io/gh/pytroll/pygac/branch/main/graph/badge.svg?token=DQMgf2LxuM)](https://codecov.io/gh/pytroll/pygac)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5832775.svg)](https://doi.org/10.5281/zenodo.5832775)
+
+
+Pygac is a Python package to read, calibrate and navigate data from the AVHRR 
+instrument onboard NOAA and MetOp satellites in GAC and LAC format.
+
+The documentation is available at https://pygac.readthedocs.io/.
