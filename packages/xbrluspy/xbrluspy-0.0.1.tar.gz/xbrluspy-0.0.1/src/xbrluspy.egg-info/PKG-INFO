@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: xbrluspy
+Version: 0.0.1
+Summary: An API wrapper for making requests to the XBRL.US Data filings API
+Author-email: "Ihab P." <hcyip42@gmail.com>
+Project-URL: Homepage, https://github.com/ITP2023/xbrluspy
+Project-URL: Issues, https://github.com/ITP2023/xbrluspy/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+
+# Python Wrapper for the XBRLUS API
+
+This is a library to make requests to the [XBRL US](https://xbrl.us) API.
+
+See the documentation of the API [here](https://xbrlus.github.io/xbrl-api)
+
+## Usage
+```py
+from xbrluspy import XBRLUSClient, EntityEndpoint
+
+client = XBRLUSClient(
+  #get credentials and put them here
+  grant_type="password"
+)
+
+entity = EntityEndpoint(client)
+result = entity.search(
+  params={
+  "entity.cik": "000031222"
+  },
+  fields=[
+    "entity.id"
+  ])
+print(result["data"][0]["entity.id"])
+```
+## Future work
+- Creation of datastructures to obtain type-safe data cleanly
+- Implementation for Cube, Facts and dimension endpoints are incomplete and will be completed the next version.
+
