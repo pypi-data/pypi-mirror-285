@@ -1,0 +1,20 @@
+[project]
+name = "s00zzang_cmd"
+version = "0.2.2"
+description = "Default template for PDM package"
+authors = [
+    {name = "S00zzang", email = "sujinpark8719561@gmail.com"},
+]
+dependencies = [
+    "s00zzang-lotto>=0.2.4",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.scripts]
+s00zzang_cmd = 's00zzang_cmd.cmd:call'
