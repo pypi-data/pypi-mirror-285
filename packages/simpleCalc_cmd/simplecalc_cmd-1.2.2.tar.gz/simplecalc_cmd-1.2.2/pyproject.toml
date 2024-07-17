@@ -1,0 +1,22 @@
+[project]
+name = "simpleCalc_cmd"
+version = "1.2.2"
+description = "Default template for PDM package"
+authors = [
+    {name = "sunwoo", email = "summerham22@gmail.com"},
+]
+dependencies = [
+    "hc_add>=0.1.0",
+    "hc_mul>=0.1.0",
+    "hc_div>=0.1.0"
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+hc_add = 'simplecalc_cmd.simplecalc_cmd:call_add'
+hc_div = 'simplecalc_cmd.simplecalc_cmd:call_div'
+hc_mul = 'simplecalc_cmd.simplecalc_cmd:call_mul'
+[tool.pdm]
+distribution = true
