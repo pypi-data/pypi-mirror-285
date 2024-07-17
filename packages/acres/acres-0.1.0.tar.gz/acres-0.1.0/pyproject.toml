@@ -1,0 +1,47 @@
+[project]
+name = "acres"
+version = "0.1.0"
+description = "Access resources on your terms"
+authors = [
+  {name = "The NiPreps Developers", email = "nipreps@gmail.com"}
+]
+dependencies = [
+  "importlib_resources; python_version < '3.11'",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+
+[build-system]
+requires = ["flit_core>=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.sdist]
+include = [
+  "LICENSE",
+  "tox.ini",
+  "tests/",
+]
+
+[tool.pdm]
+distribution = true
+
+[tool.ruff]
+line-length = 99
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.format]
+quote-style = "single"
