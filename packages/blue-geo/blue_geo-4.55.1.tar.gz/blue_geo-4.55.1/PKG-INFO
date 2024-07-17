@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: blue_geo
+Version: 4.55.1
+Summary: 🌐 AI for precise geospatial data analysis and visualization.
+Home-page: https://github.com/kamangir/blue-geo
+Author: Arash Abadpour (Kamangir)
+Author-email: arash@kamangir.net
+License: Public Domain
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Unix Shell
+Classifier: License :: Public Domain
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: blueness
+Requires-Dist: abcli
+Requires-Dist: boto3
+Requires-Dist: folium
+Requires-Dist: geojson
+Requires-Dist: geopandas
+Requires-Dist: matplotlib
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Requires-Dist: pymysql==0.10.1
+Requires-Dist: pyyaml
+Requires-Dist: pylint
+Requires-Dist: pytest
+Requires-Dist: python-dotenv[cli]
+Requires-Dist: shapely
+Requires-Dist: tqdm
+
+# 🌐 Blue-GEO
+
+AI for precise geospatial data analysis and visualization.
+
+```bash
+pip install blue-geo
+```
+
+| | | |
+|-|-|-|
+| 🌐 [QGIS](https://github.com/kamangir/blue-geo/blob/main/blue_geo/.abcli/QGIS/README.md) | 🇺🇦 [ukraine-timemap](https://github.com/kamangir/blue-geo/blob/main/blue_geo/.abcli/ukraine-timemap/README.md) | 🌈 [vancouver-watching](https://github.com/kamangir/Vancouver-Watching) |
+| [![image](https://raw.githubusercontent.com/kamangir/assets/main/blue-geo/QGIS.jpg)](https://github.com/kamangir/blue-geo/blob/main/blue_geo/.abcli/QGIS/README.md) | [![image](https://github.com/kamangir/assets/blob/main/nbs/ukraine-timemap/QGIS.png?raw=true)](https://github.com/kamangir/blue-geo/blob/main/blue_geo/.abcli/ukraine-timemap/README.md) | [![image](https://kamangir-public.s3.ca-central-1.amazonaws.com/test_vancouver_watching_ingest/animation.gif?raw=true)](https://github.com/kamangir/Vancouver-Watching)  |
+| an AI terraform for [QGIS](https://www.qgis.org/). | `ingest` for the [Bellingcat](https://www.bellingcat.com/) [Civilian Harm in Ukraine TimeMap](https://github.com/bellingcat/ukraine-timemap) dataset, available through [this UI](https://ukraine.bellingcat.com/) and [this API](https://bellingcat-embeds.ams3.cdn.digitaloceanspaces.com/production/ukr/timemap/api.json).  | 🌈 Vancouver watching with AI, last build: [🔗](https://kamangir-public.s3.ca-central-1.amazonaws.com/test_vancouver_watching_ingest/animation.gif). |  |
+| | | |
+| 🌐 [firms](https://github.com/kamangir/blue-geo/blob/main/blue_geo/firms/README.md) | | |
+| 🔥 | | |
+| `ingest` for [FIRMS](https://firms.modaps.eosdis.nasa.gov): Fire Information for Resource Management System. | | |
+
+---
+
+[![PyPI version](https://img.shields.io/pypi/v/blue-geo.svg)](https://pypi.org/project/blue-geo/)
+
+📜 [metadata](https://raw.githubusercontent.com/kamangir/blue-geo/main/metadata.yaml)
+
+---
+
+To use on [AWS SageMaker](https://aws.amazon.com/sagemaker/) replace `<plugin-name>` with the name of the plugin and follow [these instructions](https://github.com/kamangir/notebooks-and-scripts/blob/main/SageMaker.md).
