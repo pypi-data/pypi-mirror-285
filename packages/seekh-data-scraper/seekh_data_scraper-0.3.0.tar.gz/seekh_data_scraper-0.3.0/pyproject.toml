@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "seekh-data-scraper"
+version = "0.3.0"  # Increment the version
+authors = [
+  { name="Your Name", email="your.email@example.com" },
+]
+description = "A package for scraping data from Noba Project, OpenStax, and Wikipedia"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yourusername/data-scraping"
+"Bug Tracker" = "https://github.com/yourusername/data-scraping/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["seekh_data_scraper*"]
