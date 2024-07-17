@@ -1,0 +1,44 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 79
+
+[project]
+name = "solentware-grid"
+version = "3.0"
+authors = [
+  { name="Roger Marsh", email="roger.marsh@solentware.co.uk" },
+]
+description = "Database display classes."
+classifiers = [
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development",
+    "Intended Audience :: Developers",
+    "Development Status :: 3 - Alpha",
+]
+license = {file = "LICENCE"}
+readme = "README"
+dependencies = [
+    "solentware-bind==1.0.1",
+]
+
+[project.urls]
+Homepage = "http://www.solentware.co.uk"
+Repository = "https://github.com/RogerMarsh/solentware-grid.git"
+"Bug Tracker" = "https://github.com/RogerMarsh/solentware-grid/issues"
+
+[tool.setuptools]
+packages = [
+    "solentware_grid",
+    "solentware_grid.core",
+    "solentware_grid.gui",
+]
