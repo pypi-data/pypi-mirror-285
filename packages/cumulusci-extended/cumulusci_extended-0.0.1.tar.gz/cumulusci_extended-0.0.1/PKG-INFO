@@ -1,0 +1,98 @@
+Metadata-Version: 2.3
+Name: cumulusci-extended
+Version: 0.0.1
+Summary: Build and release tools for Salesforce developers
+Project-URL: Homepage, https://github.com/sureshbabu94/CumulusCI
+Project-URL: Changelog, https://cumulusci.readthedocs.io/en/stable/history.html
+Project-URL: Bug Tracker, https://github.com/sureshbabu94/CumulusCI/issues
+Author-email: Suresh Babu <awespmesuresh35@gmail.com>
+License: BSD 3-Clause License
+License-File: AUTHORS.rst
+License-File: LICENSE
+Keywords: cumulusci,salesforce
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Requires-Dist: click
+Requires-Dist: cryptography
+Requires-Dist: defusedxml
+Requires-Dist: docutils<0.17
+Requires-Dist: faker
+Requires-Dist: fs
+Requires-Dist: github3-py
+Requires-Dist: jinja2
+Requires-Dist: keyring<=23.0.1
+Requires-Dist: lxml
+Requires-Dist: markdown-it-py==2.2.0
+Requires-Dist: markupsafe
+Requires-Dist: psutil
+Requires-Dist: pydantic<2
+Requires-Dist: pyjwt
+Requires-Dist: python-dateutil
+Requires-Dist: pytz
+Requires-Dist: pyyaml
+Requires-Dist: requests
+Requires-Dist: requests-futures
+Requires-Dist: rich
+Requires-Dist: robotframework
+Requires-Dist: robotframework-pabot
+Requires-Dist: robotframework-requests
+Requires-Dist: robotframework-seleniumlibrary<6
+Requires-Dist: rst2ansi
+Requires-Dist: salesforce-bulk
+Requires-Dist: sarge
+Requires-Dist: selenium<4
+Requires-Dist: simple-salesforce==1.11.4
+Requires-Dist: snowfakery
+Requires-Dist: sqlalchemy<2
+Requires-Dist: xmltodict
+Provides-Extra: docs
+Requires-Dist: myst-parser; extra == 'docs'
+Requires-Dist: sphinx; extra == 'docs'
+Provides-Extra: lint
+Requires-Dist: black; extra == 'lint'
+Requires-Dist: flake8<4; extra == 'lint'
+Requires-Dist: isort; extra == 'lint'
+Requires-Dist: pre-commit; extra == 'lint'
+Provides-Extra: test
+Requires-Dist: coverage[toml]; extra == 'test'
+Requires-Dist: factory-boy; extra == 'test'
+Requires-Dist: furo; extra == 'test'
+Requires-Dist: jsonschema; extra == 'test'
+Requires-Dist: pytest-cov; extra == 'test'
+Requires-Dist: pytest-random-order; extra == 'test'
+Requires-Dist: pytest-vcr; extra == 'test'
+Requires-Dist: pytest<7.1; extra == 'test'
+Requires-Dist: responses; extra == 'test'
+Requires-Dist: testfixtures; extra == 'test'
+Requires-Dist: tox; extra == 'test'
+Requires-Dist: typeguard<=2.13.3; extra == 'test'
+Requires-Dist: vcrpy; extra == 'test'
+Description-Content-Type: text/markdown
+
+# CumulusCI Extended
+[![PyPI](https://img.shields.io/pypi/v/cumulusci-extended)](https://pypi.org/project/cumulusci-extended/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/cumulusci-extended)
+![PyPI - License](https://img.shields.io/pypi/l/cumulusci-extended)
+
+This is unofficial cumulusci extended version intended to support firefox profile in 'Open Test Browser' for Automation Testing
+## v3.89.0 (2024-06-20)
+
+<!-- Release notes generated using configuration in .github/release.yml at main -->
+
+## What's Changed
+
+### Changes 🎉
+
+-   Added the `list_files` task to display files in an org by [@lakshmi2506](https://github.com/lakshmi2506) in [#3799](https://github.com/SFDO-Tooling/CumulusCI/pull/3799)
+-   The `api_names` option of the `assign_permission_set_licenses` task now accepts either `DeveloperName` or `PermissionSetLicenseKey` by [@lakshmi2506](https://github.com/lakshmi2506) in [#3798](https://github.com/SFDO-Tooling/CumulusCI/pull/3798)
+
+**Full Changelog**: https://github.com/SFDO-Tooling/CumulusCI/compare/v3.88.0...v3.89.0
