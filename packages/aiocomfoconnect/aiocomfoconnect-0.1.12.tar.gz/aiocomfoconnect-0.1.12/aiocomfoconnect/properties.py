@@ -1,0 +1,31 @@
+""" Property definitions """
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+
+from .const import UNIT_NODE, UNIT_NODECONFIGURATION, UNIT_TEMPHUMCONTROL, PdoType
+
+
+@dataclass
+class Property:
+    """Dataclass for a Property"""
+
+    unit: int
+    subunit: int
+    property_id: int
+    property_type: int
+
+
+PROPERTY_SERIAL_NUMBER = Property(UNIT_NODE, 0x01, 0x04, PdoType.TYPE_CN_STRING)
+PROPERTY_FIRMWARE_VERSION = Property(UNIT_NODE, 0x01, 0x06, PdoType.TYPE_CN_UINT32)
+PROPERTY_MODEL = Property(UNIT_NODE, 0x01, 0x08, PdoType.TYPE_CN_STRING)
+PROPERTY_ARTICLE = Property(UNIT_NODE, 0x01, 0x0B, PdoType.TYPE_CN_STRING)
+PROPERTY_COUNTRY = Property(UNIT_NODE, 0x01, 0x0D, PdoType.TYPE_CN_STRING)
+PROPERTY_NAME = Property(UNIT_NODE, 0x01, 0x14, PdoType.TYPE_CN_STRING)
+
+PROPERTY_MAINTAINER_PASSWORD = Property(UNIT_NODECONFIGURATION, 0x01, 0x03, PdoType.TYPE_CN_STRING)
+
+PROPERTY_SENSOR_VENTILATION_TEMP_PASSIVE = Property(UNIT_TEMPHUMCONTROL, 0x01, 0x04, PdoType.TYPE_CN_UINT32)
+PROPERTY_SENSOR_VENTILATION_HUMIDITY_COMFORT = Property(UNIT_TEMPHUMCONTROL, 0x01, 0x06, PdoType.TYPE_CN_UINT32)
+PROPERTY_SENSOR_VENTILATION_HUMIDITY_PROTECTION = Property(UNIT_TEMPHUMCONTROL, 0x01, 0x07, PdoType.TYPE_CN_UINT32)
