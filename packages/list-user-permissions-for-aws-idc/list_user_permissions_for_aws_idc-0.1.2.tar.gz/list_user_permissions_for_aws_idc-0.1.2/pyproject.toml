@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "list-user-permissions-for-aws-idc"
+version = "0.1.2"
+description = "List users and permissions inside AWS Identity Center"
+authors = ["Keith Rozario <krozario@amazon.com>"]
+readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/aws-samples/list-user-permissions-for-aws-idc"
+repository = "https://github.com/aws-samples/list-user-permissions-for-aws-idc"
+keywords = ["aws", "idc", "sso"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+boto3 = "^1.34.91"
+click = "^8.1.7"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+black = "^24.4.0"
+bandit = {extras = ["baseline"], version = "^1.7.8"}
+moto = "^5.0.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    # to ignore datetime.datetime.utcnow() warning from boto
+    "ignore::DeprecationWarning"
+]
+
+[tool.poetry.scripts]
+list-user-permissions-for-aws-idc = "list_user_permissions_for_aws_idc.list_user_permissions_for_aws_idc:main"
