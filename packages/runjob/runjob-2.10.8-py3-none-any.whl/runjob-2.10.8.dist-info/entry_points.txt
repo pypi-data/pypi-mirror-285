@@ -1,0 +1,12 @@
+[console_scripts]
+qcs = runjob.jobstat:batchStat
+qs = runjob.jobstat:main
+qslurm = runjob.jobstat:qslurm
+runbatch = runjob.main:runbatch
+runflow = runjob.main:runflow
+runjob = runjob.main:runflow
+runjob-client = runjob._jobsocket:job_client
+runjob-report = runjob._jobsocket:job_client
+runjob-server = runjob._jobsocket:job_server
+runsge = runjob.main:runjob
+runshell = runjob.main:runjob
