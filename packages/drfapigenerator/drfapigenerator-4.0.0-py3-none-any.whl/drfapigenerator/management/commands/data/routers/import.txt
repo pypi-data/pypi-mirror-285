@@ -1,0 +1,1 @@
+from ..viewsets.{router_viewset_name} import {viewset_name}
