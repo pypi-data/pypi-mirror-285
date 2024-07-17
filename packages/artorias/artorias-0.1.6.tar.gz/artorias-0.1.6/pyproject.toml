@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "artorias"
+version = "0.1.6"
+description = "My web utilities"
+authors = ["Abyssknight <501835725@qq.com>"]
+readme = "README.md"
+packages = [{ include = "artorias" }]
+
+[tool.ruff]
+line-length = 129
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.poetry.dependencies]
+python = "^3.12"
+flask-sqlalchemy = "*"
+flask-migrate = "*"
+flask-cors = "*"
+flask-jwt-extended = "*"
+sqlalchemy = "*"
+celery = "*"
+pydantic-settings = "*"
+redis-om = "*"
+typer = { extras = ["all"], version = "*" }
+
+[tool.poetry.group.dev.dependencies]
+black = "*"
+ipython = "*"
+pre-commit = "*"
+pytest = "*"
+
+[tool.poetry.scripts]
+artorias = 'artorias.commands.main:app'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
