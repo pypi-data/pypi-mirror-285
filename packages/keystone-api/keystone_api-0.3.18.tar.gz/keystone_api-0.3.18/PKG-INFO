@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: keystone-api
+Version: 0.3.18
+Summary: A REST API for managing user resource allocations on HPC systems.
+Keywords: Pitt,CRC,HPC,django
+Author: Daniel Perrefort
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: all
+Provides-Extra: ldap
+Requires-Dist: django (==5.0.7)
+Requires-Dist: django-auth-ldap (==4.8.0) ; extra == "ldap" or extra == "all"
+Requires-Dist: django-celery-beat (==2.6.0)
+Requires-Dist: django-celery-results (==2.5.1)
+Requires-Dist: django-cors-headers (==4.4.0)
+Requires-Dist: django-environ (==0.11.2)
+Requires-Dist: django-filter (==24.2)
+Requires-Dist: django-health-check (==3.18.3)
+Requires-Dist: django-jazzmin (==3.0.0)
+Requires-Dist: djangorestframework (==3.15.2)
+Requires-Dist: djangorestframework-simplejwt (==5.3.1)
+Requires-Dist: drf_spectacular[sidecar] (==0.27.2)
+Requires-Dist: gunicorn (==22.0.0)
+Requires-Dist: psycopg2-binary (==2.9.9)
+Requires-Dist: pyyaml (==6.0.1)
+Requires-Dist: redis (==5.0.7)
+Requires-Dist: tqdm (==4.66.4)
+Requires-Dist: uritemplate (==4.1.1)
+Requires-Dist: whitenoise (==6.7.0)
+Description-Content-Type: text/markdown
+
+# Keystone API
+
+[![](https://app.codacy.com/project/badge/Grade/9ee06ecdddef4f75a8deeb42fa4a9651)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
+The backend REST API for the Keystone allocation management dashboard.
+
+## Resources
+
+- [Keystone-API](https://github.com/pitt-crc/keystone-api): Backend REST API for managing HPC allocations and resources.
+- [Keystone-Web](https://github.com/pitt-crc/keystone-web): Website frontend for HPC administration and self-service.
+- [Keystone-Python-Client](https://github.com/pitt-crc/keystone-python-client): A light-weight Python client for Keystone API.
+- [Keystone-Docs](https://github.com/pitt-crc/keystone-docs): Documentation for the Keystone project and its components.
+

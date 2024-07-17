@@ -1,0 +1,42 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "keystone-api"
+version = "0.3.18"
+readme = "README.md"
+description = "A REST API for managing user resource allocations on HPC systems."
+authors = ["Daniel Perrefort", "Pitt Center for Research Computing"]
+keywords = ["Pitt", "CRC", "HPC", "django"]
+
+[tool.poetry.scripts]
+keystone-api = "keystone_api.manage:main"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "5.0.7"
+django-celery-beat = "2.6.0"
+django-celery-results = "2.5.1"
+django-cors-headers = "4.4.0"
+django-environ = "0.11.2"
+django-filter = "24.2"
+django-health-check = "3.18.3"
+django-jazzmin = "3.0.0"
+djangorestframework = "3.15.2"
+djangorestframework-simplejwt = "5.3.1"
+drf_spectacular = { version = "0.27.2", extras = ["sidecar"] }
+gunicorn = "22.0.0"
+psycopg2-binary = "2.9.9"
+pyyaml = "6.0.1"
+redis = "5.0.7"
+tqdm = "4.66.4"
+uritemplate = "4.1.1"
+whitenoise = "6.7.0"
+
+# Optional dependencies installed via extras
+django-auth-ldap = { version = "4.8.0", optional = true }
+
+[tool.poetry.extras]
+ldap = ["django-auth-ldap"]
+all = ["django-auth-ldap"]
