@@ -1,0 +1,156 @@
+
+# Land Use Mix Python Package
+
+## Overview
+
+The `landusemix` package provides tools for calculating land use mix indices. These indices can be used to measure the diversity and concentration of land use areas, which is valuable for GIS researchers and urban planners.
+
+## Features
+
+- **Entropy Index**: Measures the diversity of land use. Values range from 0 (no diversity) to 1 (maximum diversity).
+- **Herfindahl-Hirschman Index (HHI)**: Measures the concentration of land use. Values range from 0 (many small equally-sized areas) to 10,000 (one single area).
+
+## Installation
+
+You can install the package using pip:
+
+```sh
+pip install landusemix
+```
+
+## Usage
+
+Here's how you can use the `landusemix` package to calculate the entropy and HHI indices.
+
+### Importing the Package
+
+```python
+from landusemix import LandUseMixIndices
+```
+
+To import the utility functions of the package:
+
+```python
+from landusemix.utils import *
+```
+
+### Loading Data
+
+```python
+# Example land use areas (in square meters)
+land_use_areas = {
+    'residential': 5000,
+    'commercial': 3000,
+    'industrial': 2000,
+}
+
+# Create an instance of the LandUseMixIndices class
+mix_indices = LandUseMixIndices(land_use_areas)
+
+# Calculate the entropy index
+entropy = mix_indices.entropy_index()
+print(f"Entropy Index: {entropy}")
+
+# Calculate the Herfindahl-Hirschman Index (HHI)
+hhi = mix_indices.herfindahl_hirschman_index()
+print(f"Herfindahl-Hirschman Index: {hhi}")
+```
+
+You can also load data from various formats including GeoJSON, Shapefile, and CSV.
+
+#### Example: Loading GeoJSON Data
+
+```python
+geojson_data = load_geojson('path_to_your_file.geojson')
+```
+
+#### Example: Loading Shapefile Data
+
+```python
+shapefile_data = load_shapefile('path_to_your_file.shp')
+```
+
+#### Example: Loading CSV Data
+
+```python
+csv_data = load_csv('path_to_your_file.csv')
+```
+
+### Using Sample Data
+
+The package includes sample data files for testing and demonstration purposes.
+
+#### Example: Loading Sample GeoJSON Data
+
+```python
+geojson_gdf = load_sample_geojson()
+geojson_gdf['area'] = geojson_gdf.geometry.area
+sample_land_use_areas = geojson_gdf.groupby('use')['area'].sum().to_dict()
+print(sample_land_use_areas)
+```
+
+#### Example: Loading Sample Shapefile Data
+
+```python
+shapefile_gdf = load_sample_shapefile()
+shapefile_gdf['area'] = shapefile_gdf.geometry.area  # Ensure the CRS is in a metric format for accurate area calculation 
+sample_land_use_areas = shapefile_gdf.groupby('use')['area'].sum().to_dict()
+print(sample_land_use_areas)
+```
+
+#### Example: Loading Sample CSV Data
+
+```python
+sample_land_use_areas = sample_csv.set_index('use')['area'].to_dict()
+print(sample_land_use_areas)
+```
+
+## Indices Description
+
+- **Entropy Index**: 
+
+The entropy index (ENT) is a measure of diversity in land use types within a given area. It is calculated using the following formula:
+
+$$ \mathrm{ENT}=-\frac{\left[\sum_{i=1}^k P_i \ln \left(P_i\right)\right]}{\ln (k)} $$
+
+Here's an explanation of the parameters in this formula:
+
+$P_i$: This represents the proportion of the total area that is occupied by the ith land use type. It is calculated by dividing the area of the ith land use type by the total area.
+
+$ln(P_i)$: This is the natural logarithm of P_i.
+
+$\sum$: This is the sum operator. It sums the product of P_i and ln(P_i) for all land use types from i = 1 to i = k.
+
+$k$: This is the total number of different land use types.
+
+$ln(k)$: This is the natural logarithm of k.
+
+The ENT value will be between 0 and 1. A higher ENT value indicates a more diverse mix of land use types, while a lower ENT value indicates a less diverse mix.
+
+- **Herfindahl-Hirschman Index (HHI)**: 
+
+The Herfindahl-Hirschman Index (HHI) is a measure of the concentration of land use types within a given area. It is calculated using the following formula:
+
+$$ \mathrm{HHI}=\sum_{i=1}^k\left(100 \times P_i\right)^2 $$
+
+Here's an explanation of the parameters in this formula:
+
+$P_i$: This represents the proportion of the total area that is occupied by the ith land use type. It is calculated by dividing the area of the ith land use type by the total area.
+
+$100 x P_i$: This is the proportion of the ith land use type, expressed as a percentage.
+
+$(100 x P_i)^2$: This squares the percentage proportion of the ith land use type.
+
+$\sum$: This is the sum operator. It sums the squared percentage proportions for all land use types from i = 1 to i = k.
+
+The HHI value will be between 0 and 10000 (if expressed as a percentage). A higher HHI value indicates a less diverse mix of land use types (i.e., a higher concentration of certain types), while a lower HHI value indicates a more diverse mix.
+
+For more detailed documentation, please visit our [ReadTheDocs page](https://landusemix.readthedocs.io).
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for more details.
+
+## Contact
+
+For any questions or support, please reach out to <akyol.mehmet@metu.edu.tr>.
