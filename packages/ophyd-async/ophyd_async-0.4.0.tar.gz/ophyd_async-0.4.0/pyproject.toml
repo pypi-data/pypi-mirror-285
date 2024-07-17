@@ -1,0 +1,149 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm[toml]>=6.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ophyd-async"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+description = "Asynchronous Bluesky hardware abstraction code, compatible with control systems like EPICS and Tango"
+dependencies = [
+    "networkx>=2.0",
+    "numpy<2.0.0",
+    "packaging",
+    "pint",
+    "bluesky>=1.13.0a3",
+    "event_model",
+    "p4p",
+    "pyyaml",
+    "colorlog",
+    "pydantic>=2.0",
+    "pydantic-numpy",
+]
+dynamic = ["version"]
+license.file = "LICENSE"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+ca = ["aioca>=1.6"]
+pva = ["p4p"]
+dev = [
+    "ophyd_async[pva]",
+    "ophyd_async[ca]",
+    "black",
+    "flake8",
+    "flake8-isort",
+    "Flake8-pyproject",
+    "h5py",
+    "inflection",
+    "ipython",
+    "ipywidgets",
+    "matplotlib",
+    "myst-parser",
+    "numpydoc",
+    "ophyd",
+    "pickleshare",
+    "pipdeptree",
+    "pre-commit",
+    "pydata-sphinx-theme>=0.12",
+    "pyepics>=3.4.2",
+    "pyside6==6.7.0",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-faulthandler",
+    "pytest-rerunfailures",
+    "pytest-timeout",
+    "ruff",
+    "sphinx<7.4.0",              # https://github.com/bluesky/ophyd-async/issues/459
+    "sphinx-autobuild",
+    "autodoc-pydantic",
+    "sphinxcontrib-mermaid",
+    "sphinx-copybutton",
+    "sphinx-design",
+    "super_state_machine",
+    "tox-direct",
+    "types-mock",
+    "types-pyyaml",
+]
+
+[project.scripts]
+ophyd-async = "ophyd_async.__main__:main"
+
+[project.urls]
+GitHub = "https://github.com/bluesky/ophyd-async"
+
+[[project.authors]] # Further authors may be added by duplicating this section
+email = "tom.cobb@diamond.ac.uk"
+name = "Tom Cobb"
+
+
+[tool.setuptools_scm]
+write_to = "src/ophyd_async/_version.py"
+
+[tool.pytest.ini_options]
+# Run pytest with all our checkers, and don't spam us with massive tracebacks on error
+addopts = """
+    --tb=native -vv --strict-markers --doctest-modules
+    --doctest-glob="*.rst" --doctest-glob="*.md" --ignore=docs/examples
+    """
+# https://iscinumpy.gitlab.io/post/bound-version-constraints/#watch-for-warnings
+filterwarnings = "error"
+# Doctest python code in docs, python code in src docstrings, test functions in tests
+testpaths = "docs src tests"
+log_format = "%(asctime)s,%(msecs)03d %(levelname)s (%(threadName)s) %(message)s"
+log_date_format = "%H:%M:%S"
+
+markers = [
+    "motorsim: require the motorsim IOC to be running",
+    "adsim: require the ADsim IOC to be running",
+]
+asyncio_mode = "auto"
+
+[tool.coverage.run]
+data_file = "/tmp/ophyd_async.coverage"
+
+[tool.coverage.paths]
+# Tests are run from installed location, map back to the src directory
+source = ["src", "**/site-packages/"]
+
+# tox must currently be configured via an embedded ini string
+# See: https://github.com/tox-dev/tox/issues/999
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist=True
+
+[testenv:{pre-commit,type-checking,tests,docs}]
+# Don't create a virtualenv for the command, requires tox-direct plugin
+direct = True
+passenv = *
+allowlist_externals =
+    pytest
+    pre-commit
+    mypy
+    sphinx-build
+    sphinx-autobuild
+commands =
+    tests: pytest --cov=ophyd_async --cov-report term --cov-report xml:cov.xml {posargs}
+    type-checking: ruff check src tests {posargs}
+    pre-commit: pre-commit run --all-files --show-diff-on-failure {posargs}
+    docs: sphinx-{posargs:build -EW --keep-going} -T docs build/html
+"""
+
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 88
+lint.select = [
+    "C4",   # flake8-comprehensions - https://beta.ruff.rs/docs/rules/#flake8-comprehensions-c4
+    "E",    # pycodestyle errors - https://beta.ruff.rs/docs/rules/#error-e
+    "F",    # pyflakes rules - https://beta.ruff.rs/docs/rules/#pyflakes-f
+    "W",    # pycodestyle warnings - https://beta.ruff.rs/docs/rules/#warning-w
+    "I001", # isort
+]
