@@ -1,0 +1,27 @@
+[build-system]
+requires = ["poetry-core>=1.0.3"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "aipkgs-sentry"
+version = "1.0.3"
+description = "Sentry integration for aipy packages"
+authors = ["Alexy <alexy.ib@outlook.com>"]
+license = "MIT"
+readme = "README.rst"
+homepage = "https://gitlab.com/aipy/public/packages.git"
+repository = "https://gitlab.com/aipy/public/packages.git"
+keywords = ["ai"]
+include = [
+    "LICENSE",
+]
+
+[tool.poetry.dependencies]
+python = "^3.11.4"
+sentry-sdk = "^2.4.0"
+
+[tool.poetry.extras]
+flask = ["sentry-sdk"]
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
