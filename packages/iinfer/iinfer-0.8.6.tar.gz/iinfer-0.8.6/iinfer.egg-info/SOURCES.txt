@@ -1,0 +1,244 @@
+LICENSE
+README.md
+setup.py
+iinfer/__init__.py
+iinfer/__main__.py
+iinfer/config.yml
+iinfer/logconf_client.yml
+iinfer/logconf_gui.yml
+iinfer/logconf_install.yml
+iinfer/logconf_postprocess.yml
+iinfer/logconf_redis.yml
+iinfer/logconf_server.yml
+iinfer/logconf_web.yml
+iinfer/version.py
+iinfer.egg-info/PKG-INFO
+iinfer.egg-info/SOURCES.txt
+iinfer.egg-info/dependency_links.txt
+iinfer.egg-info/entry_points.txt
+iinfer.egg-info/requires.txt
+iinfer.egg-info/top_level.txt
+iinfer/app/__init__.py
+iinfer/app/app.py
+iinfer/app/client.py
+iinfer/app/common.py
+iinfer/app/filer.py
+iinfer/app/injection.py
+iinfer/app/install.py
+iinfer/app/options.py
+iinfer/app/postprocess.py
+iinfer/app/predict.py
+iinfer/app/redis.py
+iinfer/app/server.py
+iinfer/app/web.py
+iinfer/app/commons/convert.py
+iinfer/app/commons/module.py
+iinfer/app/commons/redis_client.py
+iinfer/app/injections/after_cls_jadge_injection.py
+iinfer/app/injections/after_csv_injection.py
+iinfer/app/injections/after_det_filter_injection.py
+iinfer/app/injections/after_det_jadge_injection.py
+iinfer/app/injections/after_http_injection.py
+iinfer/app/injections/after_seg_bbox_injection.py
+iinfer/app/injections/after_seg_filter_injection.py
+iinfer/app/injections/after_showimg_injection.py
+iinfer/app/injections/before_grayimg_injection.py
+iinfer/app/postprocesses/cls_jadge.py
+iinfer/app/postprocesses/csv.py
+iinfer/app/postprocesses/det_clip.py
+iinfer/app/postprocesses/det_face_store.py
+iinfer/app/postprocesses/det_filter.py
+iinfer/app/postprocesses/det_jadge.py
+iinfer/app/postprocesses/httpreq.py
+iinfer/app/postprocesses/seg_bbox.py
+iinfer/app/postprocesses/seg_filter.py
+iinfer/app/postprocesses/showimg.py
+iinfer/app/predicts/__init__.py
+iinfer/app/predicts/diffusers_stablediffusionpipeline_txt2img.py
+iinfer/app/predicts/insightface_det.py
+iinfer/app/predicts/llamaindex_elyza_search.py
+iinfer/app/predicts/mmdet_det_YoloX.py
+iinfer/app/predicts/mmdet_det_YoloX_Lite.py
+iinfer/app/predicts/mmpretrain_cls_swin.py
+iinfer/app/predicts/mmpretrain_cls_swin_Lite.py
+iinfer/app/predicts/mmseg_seg_PSPNet.py
+iinfer/app/predicts/mmseg_seg_San.py
+iinfer/app/predicts/mmseg_seg_SwinUpernet.py
+iinfer/app/predicts/onnx_cls_EfficientNet_Lite4.py
+iinfer/app/predicts/onnx_det_TinyYoloV3.py
+iinfer/app/predicts/onnx_det_YoloV3.py
+iinfer/app/predicts/onnx_det_YoloX.py
+iinfer/app/predicts/onnx_det_YoloX_Lite.py
+iinfer/docker/Dockerfile
+iinfer/docker/__init__.py
+iinfer/docker/docker-compose.yml
+iinfer/docker/__pycache__/__init__.cpython-311.pyc
+iinfer/docker/scripts/start.sh
+iinfer/extensions/label_coco.txt
+iinfer/extensions/label_voc.txt
+iinfer/extensions/configs/mmdet/yolox_l_8xb8-300e_coco.py
+iinfer/extensions/configs/mmdet/yolox_s_8xb8-300e_coco.py
+iinfer/extensions/configs/mmdet/yolox_tiny_8xb8-300e_coco.py
+iinfer/extensions/configs/mmdet/yolox_tta.py
+iinfer/extensions/configs/mmpretrain/swin-base_16xb64_in1k-384px.py
+iinfer/extensions/configs/mmpretrain/swin-large_16xb64_in1k-384px.py
+iinfer/extensions/configs/mmpretrain/swin-small_16xb64_in1k.py
+iinfer/extensions/configs/mmpretrain/swin-tiny_16xb64_in1k.py
+iinfer/extensions/configs/mmseg/pspnet_r101-d8_4xb2-80k_cityscapes-512x1024.py
+iinfer/extensions/configs/mmseg/pspnet_r18-d8_4xb2-80k_cityscapes-512x1024.py
+iinfer/extensions/configs/mmseg/pspnet_r50-d8_4xb2-80k_cityscapes-512x1024.py
+iinfer/extensions/configs/mmseg/san-vit-b16_coco-stuff164k-640x640.py
+iinfer/extensions/configs/mmseg/san-vit-l14_coco-stuff164k-640x640.py
+iinfer/extensions/configs/mmseg/swin-base-patch4-window12-in1k-384x384-pre_upernet_8xb2-160k_ade20k-512x512.py
+iinfer/extensions/configs/mmseg/swin-base-patch4-window12-in22k-384x384-pre_upernet_8xb2-160k_ade20k-512x512.py
+iinfer/extensions/configs/mmseg/swin-small-patch4-window7-in1k-pre_upernet_8xb2-160k_ade20k-512x512.py
+iinfer/extensions/configs/mmseg/swin-tiny-patch4-window7-in1k-pre_upernet_8xb2-160k_ade20k-512x512.py
+iinfer/extensions/injection/after_cls_jadge_injection.json
+iinfer/extensions/injection/after_csv_injection.json
+iinfer/extensions/injection/after_det_filter_injection.json
+iinfer/extensions/injection/after_det_jadge_injection.json
+iinfer/extensions/injection/after_http_injection.json
+iinfer/extensions/injection/after_seg_bbox_injection.json
+iinfer/extensions/injection/after_seg_filter_injection.json
+iinfer/extensions/injection/after_showimg_injection.json
+iinfer/extensions/injection/before_gray_injection.json
+iinfer/licenses/LICENSE.Babel.2.15.0(BSD License).txt
+iinfer/licenses/LICENSE.Jinja2.3.1.4(BSD License).txt
+iinfer/licenses/LICENSE.MarkupSafe.2.1.5(BSD License).txt
+iinfer/licenses/LICENSE.PyYAML.6.0.1(MIT License).txt
+iinfer/licenses/LICENSE.Pygments.2.18.0(BSD License).txt
+iinfer/licenses/LICENSE.Sphinx.7.3.7(BSD License).txt
+iinfer/licenses/LICENSE.alabaster.0.7.16(BSD License).txt
+iinfer/licenses/LICENSE.argcomplete.3.4.0(Apache Software License).txt
+iinfer/licenses/LICENSE.async-timeout.4.0.3(Apache Software License).txt
+iinfer/licenses/LICENSE.backports.tarfile.1.2.0(MIT License).txt
+iinfer/licenses/LICENSE.bottle-websocket.0.2.9(MIT License).txt
+iinfer/licenses/LICENSE.bottle.0.12.25(MIT License).txt
+iinfer/licenses/LICENSE.certifi.2024.6.2(Mozilla Public License 2.0 (MPL 2.0)).txt
+iinfer/licenses/LICENSE.cffi.1.16.0(MIT License).txt
+iinfer/licenses/LICENSE.charset-normalizer.3.3.2(MIT License).txt
+iinfer/licenses/LICENSE.click.8.1.7(BSD License).txt
+iinfer/licenses/LICENSE.colorama.0.4.6(BSD License).txt
+iinfer/licenses/LICENSE.contourpy.1.2.1(BSD License).txt
+iinfer/licenses/LICENSE.cycler.0.12.1(BSD License).txt
+iinfer/licenses/LICENSE.docutils.0.20.1(BSD License; GNU General Public License (GPL); Public Domain; Python Software Foundation License).txt
+iinfer/licenses/LICENSE.filterpy.1.4.5(MIT License).txt
+iinfer/licenses/LICENSE.fonttools.4.53.0(MIT License).txt
+iinfer/licenses/LICENSE.gevent-websocket.0.10.1(Copyright 2011-2017 Jeffrey Gelens jeffrey@noppo.pro).txt
+iinfer/licenses/LICENSE.gevent.24.2.1(MIT License).txt
+iinfer/licenses/LICENSE.greenlet.3.0.3(MIT License).txt
+iinfer/licenses/LICENSE.idna.3.7(BSD License).txt
+iinfer/licenses/LICENSE.imagesize.1.4.1(MIT License).txt
+iinfer/licenses/LICENSE.importlib_metadata.8.0.0(Apache Software License).txt
+iinfer/licenses/LICENSE.iniconfig.2.0.0(MIT License).txt
+iinfer/licenses/LICENSE.jaraco.classes.3.4.0(MIT License).txt
+iinfer/licenses/LICENSE.jaraco.context.5.3.0(MIT License).txt
+iinfer/licenses/LICENSE.jaraco.functools.4.0.1(MIT License).txt
+iinfer/licenses/LICENSE.keyring.25.2.1(MIT License).txt
+iinfer/licenses/LICENSE.kiwisolver.1.4.5(BSD License).txt
+iinfer/licenses/LICENSE.markdown-it-py.3.0.0(MIT License).txt
+iinfer/licenses/LICENSE.matplotlib.3.9.0(Python Software Foundation License).txt
+iinfer/licenses/LICENSE.mdurl.0.1.2(MIT License).txt
+iinfer/licenses/LICENSE.more-itertools.10.3.0(MIT License).txt
+iinfer/licenses/LICENSE.motpy.0.0.10(MIT License).txt
+iinfer/licenses/LICENSE.nh3.0.2.17(MIT).txt
+iinfer/licenses/LICENSE.numpy.2.0.0(BSD License).txt
+iinfer/licenses/LICENSE.opencv-python.4.10.0.84(Apache Software License).txt
+iinfer/licenses/LICENSE.packaging.24.1(Apache Software License; BSD License).txt
+iinfer/licenses/LICENSE.pillow.10.3.0(Historical Permission Notice and Disclaimer (HPND)).txt
+iinfer/licenses/LICENSE.pip.24.0(MIT License).txt
+iinfer/licenses/LICENSE.pkginfo.1.10.0(MIT License).txt
+iinfer/licenses/LICENSE.pluggy.1.5.0(MIT License).txt
+iinfer/licenses/LICENSE.prettytable.3.10.0(BSD License).txt
+iinfer/licenses/LICENSE.pycparser.2.22(BSD License).txt
+iinfer/licenses/LICENSE.pyparsing.3.1.2(MIT License).txt
+iinfer/licenses/LICENSE.pytest-order.1.2.1(MIT License).txt
+iinfer/licenses/LICENSE.pytest.8.2.2(MIT License).txt
+iinfer/licenses/LICENSE.python-dateutil.2.9.0.post0(Apache Software License; BSD License).txt
+iinfer/licenses/LICENSE.pywin32-ctypes.0.2.2(BSD-3-Clause).txt
+iinfer/licenses/LICENSE.readme_renderer.43.0(Apache Software License).txt
+iinfer/licenses/LICENSE.redis.5.0.7(MIT License).txt
+iinfer/licenses/LICENSE.requests-mock.1.12.1(Apache Software License).txt
+iinfer/licenses/LICENSE.requests-toolbelt.1.0.0(Apache Software License).txt
+iinfer/licenses/LICENSE.requests.2.32.3(Apache Software License).txt
+iinfer/licenses/LICENSE.rfc3986.2.0.0(Apache Software License).txt
+iinfer/licenses/LICENSE.rich.13.7.1(MIT License).txt
+iinfer/licenses/LICENSE.scipy.1.14.0(BSD License).txt
+iinfer/licenses/LICENSE.setuptools.65.5.0(MIT License).txt
+iinfer/licenses/LICENSE.six.1.16.0(MIT License).txt
+iinfer/licenses/LICENSE.snowballstemmer.2.2.0(BSD License).txt
+iinfer/licenses/LICENSE.sphinx-intl.2.2.0(BSD License).txt
+iinfer/licenses/LICENSE.sphinx-rtd-theme.2.0.0(MIT License).txt
+iinfer/licenses/LICENSE.sphinx-sitemap.2.6.0(MIT License).txt
+iinfer/licenses/LICENSE.sphinx_fontawesome.0.0.6(GNU General Public License v2 (GPLv2)).txt
+iinfer/licenses/LICENSE.sphinxcontrib-applehelp.1.0.8(BSD License).txt
+iinfer/licenses/LICENSE.sphinxcontrib-devhelp.1.0.6(BSD License).txt
+iinfer/licenses/LICENSE.sphinxcontrib-htmlhelp.2.0.5(BSD License).txt
+iinfer/licenses/LICENSE.sphinxcontrib-jquery.4.1(BSD License).txt
+iinfer/licenses/LICENSE.sphinxcontrib-jsmath.1.0.1(BSD License).txt
+iinfer/licenses/LICENSE.sphinxcontrib-qthelp.1.0.7(BSD License).txt
+iinfer/licenses/LICENSE.sphinxcontrib-serializinghtml.1.1.10(BSD License).txt
+iinfer/licenses/LICENSE.tabulate.0.9.0(MIT License).txt
+iinfer/licenses/LICENSE.twine.5.1.1(Apache Software License).txt
+iinfer/licenses/LICENSE.urllib3.2.2.2(MIT License).txt
+iinfer/licenses/LICENSE.wcwidth.0.2.13(MIT License).txt
+iinfer/licenses/LICENSE.wheel.0.43.0(MIT License).txt
+iinfer/licenses/LICENSE.wxPython.4.2.1(wxWindows Library License (httpsopensource.orglicenseswxwindows.php)).txt
+iinfer/licenses/LICENSE.zipp.3.19.2(MIT License).txt
+iinfer/licenses/LICENSE.zope.event.5.0(Zope Public License).txt
+iinfer/licenses/LICENSE.zope.interface.6.4.post2(Zope Public License).txt
+iinfer/licenses/files.txt
+iinfer/web/annotation.html
+iinfer/web/filer.html
+iinfer/web/gui.html
+iinfer/web/showimg.html
+iinfer/web/webcap.html
+iinfer/web/assets/bootstrap/bootstrap.bundle.min.5.0.2.js
+iinfer/web/assets/bootstrap/bootstrap.bundle.min.5.3.0.js
+iinfer/web/assets/bootstrap/bootstrap.min.5.0.2.css
+iinfer/web/assets/bootstrap/bootstrap.min.5.3.0.css
+iinfer/web/assets/filer/filer.js
+iinfer/web/assets/filer/main.css
+iinfer/web/assets/filer/main.js
+iinfer/web/assets/iinfer/favicon.ico
+iinfer/web/assets/iinfer/favicons.zip
+iinfer/web/assets/iinfer/filer_modal.js
+iinfer/web/assets/iinfer/icon.png
+iinfer/web/assets/iinfer/icon3.png
+iinfer/web/assets/iinfer/list_cmd.js
+iinfer/web/assets/iinfer/list_pipe.js
+iinfer/web/assets/iinfer/main.js
+iinfer/web/assets/iinfer/open_capture.js
+iinfer/web/assets/iinfer/open_output_json.js
+iinfer/web/assets/iinfer/view_raw.js
+iinfer/web/assets/iinfer/view_result.js
+iinfer/web/assets/jquery/jquery.min.3.2.0.js
+iinfer/web/assets/jquery-resizable/jquery-resizable.min.js
+iinfer/web/assets/jquery-ui/AUTHORS.txt
+iinfer/web/assets/jquery-ui/LICENSE.txt
+iinfer/web/assets/jquery-ui/jquery-ui.min.css
+iinfer/web/assets/jquery-ui/jquery-ui.min.js
+iinfer/web/assets/jquery-ui/jquery-ui.structure.min.css
+iinfer/web/assets/jquery-ui/jquery-ui.theme.min.css
+iinfer/web/assets/jquery-ui/package.json
+iinfer/web/assets/jquery-ui/images/ui-icons_444444_256x240.png
+iinfer/web/assets/jquery-ui/images/ui-icons_555555_256x240.png
+iinfer/web/assets/jquery-ui/images/ui-icons_777620_256x240.png
+iinfer/web/assets/jquery-ui/images/ui-icons_777777_256x240.png
+iinfer/web/assets/jquery-ui/images/ui-icons_cc0000_256x240.png
+iinfer/web/assets/jquery-ui/images/ui-icons_ffffff_256x240.png
+iinfer/web/assets/lightbox2/css/lightbox.min.css
+iinfer/web/assets/lightbox2/images/close.png
+iinfer/web/assets/lightbox2/images/loading.gif
+iinfer/web/assets/lightbox2/images/next.png
+iinfer/web/assets/lightbox2/images/prev.png
+iinfer/web/assets/lightbox2/js/lightbox.min.js
+iinfer/web/assets/showimg/showimg.js
+iinfer/web/assets/split-pane/split-pane.css
+iinfer/web/assets/split-pane/split-pane.js
+iinfer/web/assets/tree-menu/css/tree-menu.css
+iinfer/web/assets/tree-menu/image/file.png
+iinfer/web/assets/tree-menu/image/folder-close.png
+iinfer/web/assets/tree-menu/image/folder-open.png
+iinfer/web/assets/tree-menu/js/tree-menu.js
+iinfer/web/assets/webcap/webcap.js
