@@ -1,0 +1,99 @@
+Metadata-Version: 2.1
+Name: brigid
+Version: 0.6.1
+Summary: Static site generator.
+Home-page: https://github.com/Tiendil/brigid
+License: BSD-3-Clause
+Keywords: blog,blog-engine,site,markdown,cms,content management system,personal site
+Author: Aliaksei Yaletski (Tiendil)
+Author-email: a.eletsky@gmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: Environment :: Web Environment
+Classifier: Framework :: AsyncIO
+Classifier: Framework :: FastAPI
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Server
+Classifier: Topic :: Office/Business :: News/Diary
+Classifier: Topic :: Text Processing :: Markup
+Classifier: Topic :: Text Processing :: Markup :: HTML
+Classifier: Topic :: Text Processing :: Markup :: Markdown
+Requires-Dist: beautifulsoup4 (==4.12.*)
+Requires-Dist: fastapi (==0.109.*)
+Requires-Dist: feedgenerator (==2.1.*)
+Requires-Dist: html5lib (==1.1.*)
+Requires-Dist: jinja2 (==3.1.*)
+Requires-Dist: markdown (==3.5.*)
+Requires-Dist: pillow (==10.2.*)
+Requires-Dist: pydantic (==2.5.*)
+Requires-Dist: pydantic-settings (==2.1.*)
+Requires-Dist: pymdown-extensions (==10.7.*)
+Requires-Dist: python-frontmatter (==1.1.*)
+Requires-Dist: sentry-sdk (==1.39.*)
+Requires-Dist: structlog (==24.1.*)
+Requires-Dist: toml (==0.10.*)
+Requires-Dist: typer (==0.9.*)
+Project-URL: Repository, https://github.com/Tiendil/brigid
+Description-Content-Type: text/markdown
+
+# Brigid
+
+A simple blog engine, but not simpler than it should be.
+
+## Demo
+
+- My blog: [tiendil.org](https://tiendil.org/) — look there to see all the features in action.
+- Sources of the blog: https://github.com/Tiendil/tiendil-org-content — look there to see how content is organized.
+
+Or run from the root of the repository:
+
+```bash
+poetry install
+
+./bin/dev-server.sh
+```
+
+## Features
+
+- Markdown as a source code for articles.
+- Multi-language support by design.
+- Mobile-friendly.
+- SEO-friendly.
+- No cookies.
+- Monolithic design: install and run. No need to look for plugins and themes.
+
+### Some specific features
+
+Brigid is not a static site generator, i.e. you should run brigid process to access the site. It gives some advantages over classic static site generators.
+
+- Redirects.
+- Nice tags filtering (for wide pages only, for now).
+- Detect language by headers.
+- Sentry reporting.
+- More features are coming.
+
+## Design principles
+
+A very subjective list of design principles I follow in this project:
+
+- One solid, stable, simple, up-to-date solution. Just install and run.
+- Markdown won => use markdown as the primary source for posts.
+- TOML won => use TOML for metadata and frontmatter instead of YAML.
+- No unnecessary or unused features.
+- Design for not trivial posts: long, multilanguage, images, code, etc.
+- Server-side rendering is good. Use it as the primary approach.
+- Use minimum JS only when it is really required.
+- No CSS experiments, only stable verified solutions.
+
