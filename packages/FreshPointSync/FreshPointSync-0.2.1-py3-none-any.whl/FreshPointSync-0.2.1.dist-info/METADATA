@@ -1,0 +1,223 @@
+Metadata-Version: 2.1
+Name: FreshPointSync
+Version: 0.2.1
+Summary: FreshPoint webpage data parser and syncer.
+Author-email: Konstantin Mykhailov <constantinemykhailov@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2023 Konstantin
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/mykhakos/FreshPointSync
+Keywords: freshpoint,freshpoint.cz
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: aiohttp
+Classifier: Framework :: AsyncIO
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Other Audience
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Natural Language :: Czech
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup :: HTML
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: aiohttp >=3.7
+Requires-Dist: certifi >=2020.4.5
+Requires-Dist: beautifulsoup4 >=4.9
+Requires-Dist: lxml >=4.5
+Requires-Dist: pydantic >=2.0
+Requires-Dist: unidecode >=1.3
+Requires-Dist: typing-extensions >=4.3 ; python_version < "3.10"
+Provides-Extra: build
+Requires-Dist: build ; extra == 'build'
+Requires-Dist: twine ; extra == 'build'
+Provides-Extra: dev
+Requires-Dist: tox ; extra == 'dev'
+Requires-Dist: freshpointsync[lint] ; extra == 'dev'
+Requires-Dist: freshpointsync[test] ; extra == 'dev'
+Requires-Dist: freshpointsync[doc] ; extra == 'dev'
+Requires-Dist: freshpointsync[build] ; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: sphinx ; extra == 'docs'
+Requires-Dist: sphinx-copybutton ; extra == 'docs'
+Requires-Dist: autodoc-pydantic ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ; extra == 'docs'
+Provides-Extra: lint
+Requires-Dist: mypy ; extra == 'lint'
+Requires-Dist: ruff ; extra == 'lint'
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: pytest-asyncio ; extra == 'test'
+
+=================================================================
+FreshPointSync: Data Parser and Syncer for FreshPoint.cz Webpages
+=================================================================
+
+Welcome to FreshPointSync, your go-to asynchronous tool for extracting and 
+tracking data from *my.freshpoint.cz* product webpages.
+
+`FreshPoint <https://freshpoint.cz/>`__ is a Czech service providing vending
+machines with healthy snacks, lunches, and desserts for companies.
+Unfortunately, the company does not offer any public API for accessing product
+data, such as availability and prices. FreshPointSync is here to help.
+
+Key Features
+------------
+
+⚡ **Asynchronous I/O**. FreshPointSync uses ``asyncio`` and ``aiohttp`` for
+efficient web requests, optimal performance, and responsiveness.
+
+🥄 **Robust HTML Scraping**. FreshPointSync utilizes ``beautifulsoup4`` for 
+comprehensive product information extraction from the webpage HTML content.
+
+📊 **Advanced Data Modeling and Analysis**. FreshPointSync employs ``pydantic`` 
+for modeling, analyzing, and serializing extracted data.
+
+🔔 **Event-Driven Handlers**. FreshPointSync implements the *observer pattern* 
+to register handlers for specific events, such as product availability changes.
+
+🔍 **Detailed Logging and Error Handling**. FreshPointSync ensures reliability 
+and ease of debugging with ``logging`` and safe runners to handle unexpected
+exceptions.
+
+🛠️ **Clean and Readable Code**. FreshPointSync adheres to *PEP 8* standards and 
+utilizes *type hints*, ensuring the code is clear, concise, and easy to work 
+with.
+
+📜 **Comprehensive Documentation**. FreshPointSync offers extensive in-code
+documentation as well as an official user guide and tutorials hosted on the
+`Read the Docs <https://freshpointsync.readthedocs.io>`__ platform.
+
+Installation
+------------
+
+FreshPointSync supports Python 3.8 and higher. Official library releases can be
+found on `📦 PyPI <https://pypi.org/project/freshpointsync/>`__. To install
+the latest stable version of FreshPointSync, use the following CLI command:
+
+.. code-block:: console
+
+   $ pip install freshpointsync
+
+To install the latest development version directly from the project's
+`📁 GitHub repository <https://github.com/mykhakos/FreshPointSync>`__, use
+the following CLI command:
+
+.. code-block:: console
+
+   $ pip install git+https://github.com/mykhakos/FreshPointSync
+
+You can also install optional development dependencies using the following CLI
+commands:
+
+- For building documentation:
+
+.. code-block:: console
+
+   $ pip install freshpointsync[docs]
+
+- For running tests:
+
+.. code-block:: console
+
+   $ pip install freshpointsync[tests]
+
+- For linting the code:
+
+.. code-block:: console
+
+   $ pip install freshpointsync[lint]
+
+- For building the package:
+
+.. code-block:: console
+
+   $ pip install freshpointsync[build]
+
+- For all development dependencies (combines all the above options):
+
+.. code-block:: console
+
+   $ pip install freshpointsync[dev]
+
+Minimal Example
+---------------
+
+The following example demonstrates how to fetch data from a FreshPoint webpage 
+based on its specific location ID and print the location name, overall product
+count, and the number of available products. The extracted data is then dumped
+to a JSON file.
+
+.. code-block:: python
+
+    import asyncio
+    from freshpointsync import ProductPage
+
+    LOCATION_ID = 296  # from https://my.freshpoint.cz/device/product-list/296
+    CACHE_FILENAME = f'pageData_{LOCATION_ID}.json'
+
+    async def main() -> None:
+        async with ProductPage(location_id=LOCATION_ID) as page:
+            await page.update()
+
+            products_available = [
+                p for p in page.data.products.values() if p.is_available
+            ]
+            print(
+                f'Location name: {page.data.location}\n'
+                f'Product count: {len(page.data.products)} '
+                f'({len(products_available)} in stock)'
+            )
+
+        page_data = page.data.model_dump_json(indent=4, by_alias=True)
+        with open(CACHE_FILENAME, 'w', encoding='utf-8') as file:
+            file.write(page_data)
+
+    if __name__ == '__main__':
+        asyncio.run(main())
+
+Reporting Issues and Contributing
+---------------------------------
+
+FreshPointSync is an open-source project in its early development stages. If you
+encounter any issues or have suggestions for improvements, please report them on
+the `GitHub Issue tracker <https://github.com/mykhakos/FreshPointSync/issues>`__.
+
+Contributions to FreshPointSync are also welcome! If you would like
+to contribute, please fork the repository, implement your changes, and open
+a Pull Request with a detailed description of your work on the
+`GitHub Pull Request page <https://github.com/mykhakos/FreshPointSync/pulls>`__.
+
+License
+-------
+
+FreshPointSync is distributed under the MIT License.
