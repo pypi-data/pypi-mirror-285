@@ -1,0 +1,231 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_sectionproperty/report_sectprop": {
+      "post": {
+        "summary": "Report Sectprop",
+        "operationId": "report sectprop",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/report_sectprop"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "title": "Response Report Sectprop"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "SectionProperty": {
+        "properties": {
+          "Area": {
+            "type": "number",
+            "title": "Area",
+            "description": "Area",
+            "default": 0.0
+          },
+          "Asy": {
+            "type": "number",
+            "title": "Asy",
+            "description": "Asy",
+            "default": 0.0
+          },
+          "Asz": {
+            "type": "number",
+            "title": "Asz",
+            "description": "Asz",
+            "default": 0.0
+          },
+          "Ixx": {
+            "type": "number",
+            "title": "Ixx",
+            "description": "Ixx",
+            "default": 0.0
+          },
+          "Iyy": {
+            "type": "number",
+            "title": "Iyy",
+            "description": "Iyy",
+            "default": 0.0
+          },
+          "Izz": {
+            "type": "number",
+            "title": "Izz",
+            "description": "Izz",
+            "default": 0.0
+          },
+          "Cy": {
+            "type": "number",
+            "title": "Cy",
+            "description": "Cy",
+            "default": 0.0
+          },
+          "Cz": {
+            "type": "number",
+            "title": "Cz",
+            "description": "Cz",
+            "default": 0.0
+          },
+          "Syp": {
+            "type": "number",
+            "title": "Syp",
+            "description": "Syp",
+            "default": 0.0
+          },
+          "Sym": {
+            "type": "number",
+            "title": "Sym",
+            "description": "Sym",
+            "default": 0.0
+          },
+          "Szp": {
+            "type": "number",
+            "title": "Szp",
+            "description": "Szp",
+            "default": 0.0
+          },
+          "Szm": {
+            "type": "number",
+            "title": "Szm",
+            "description": "Szm",
+            "default": 0.0
+          },
+          "Ipyy": {
+            "type": "number",
+            "title": "Ipyy",
+            "description": "Ipyy",
+            "default": 0.0
+          },
+          "Ipzz": {
+            "type": "number",
+            "title": "Ipzz",
+            "description": "Ipzz",
+            "default": 0.0
+          },
+          "Zy": {
+            "type": "number",
+            "title": "Zy",
+            "description": "Zy",
+            "default": 0.0
+          },
+          "Zz": {
+            "type": "number",
+            "title": "Zz",
+            "description": "Zz",
+            "default": 0.0
+          },
+          "ry": {
+            "type": "number",
+            "title": "Ry",
+            "description": "ry",
+            "default": 0.0
+          },
+          "rz": {
+            "type": "number",
+            "title": "Rz",
+            "description": "rz",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "Section Property",
+        "description": "Section Property"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "report_sectprop": {
+        "properties": {
+          "sectprop": {
+            "$ref": "#/components/schemas/SectionProperty"
+          }
+        },
+        "type": "object",
+        "required": [
+          "sectprop"
+        ],
+        "title": "report sectprop"
+      }
+    }
+  }
+}
