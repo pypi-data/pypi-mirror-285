@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "python-glowplug"
+version = "0.3.6"
+description = "A collection of utilities for common DB maintenance operations in SQLAlchemy"
+authors = ["Joe Nudell <jnudell@hks.harvard.edu>"]
+readme = "README.md"
+license = "MIT"
+repository = "https://github.com/jnu/python-glowplug"
+packages = [
+    { include = "glowplug", from = "src" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+sqlalchemy = "^2"
+alembic = "^1.5"
+pydantic = "^2"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
