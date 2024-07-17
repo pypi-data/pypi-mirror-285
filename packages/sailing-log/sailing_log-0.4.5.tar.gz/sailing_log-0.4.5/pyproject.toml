@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sailing_log"
+version = "0.4.5"
+authors = [
+  { name="Julian M. Kleber", email="julian.m.kleber@gmail.com" },
+]
+description = "Simple logger class for usage in data streams related to deep learning, reinforcement learning, and high performance computing"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+        "Operating System :: OS Independent",
+]
+dependencies = [
+    "amarium",
+]
+[project.urls]
+"Homepage" = "https://www.codeberg.org/cap_jmk/sailing-log.git"
+"Bug Tracker" = "https://www.codeberg.org/cap_jmk/sailing-log.git/issues"
+
+[tool.setuptools]
+
+packages = ["sailing_log"]
+
