@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: xaal.sensfloor
+Version: 0.2
+Summary: xAAL devices for Future Shape SensFloor
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/SensFloor/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/SensFloor
+Keywords: xaal,Sense Floor
+Classifier: Programming Language :: Python
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+Requires-Dist: xaal.schemas
+Requires-Dist: python-socketio ==5.0.0
+Requires-Dist: aiohttp
+
+
+xaal.sensfloor
+==============
+This is a gateway for Future Shape Sensfloor to xAAL. It use the websocket API provided by the Sensfloor.
+
+https://future-shape.com/en/system/
+
+
+WARNINGs
+--------
+- Sensfloor is only compliant w/ socketio 5.0.0 (won't work on 5.5.*)
+- Due to mess in engineio signal handler, the GW is unable to call eng.shutdown()
+  => This is enought for me right now, but still be carefull.
+  => This bug raise a RuntineError on exit.. but not on console/self.shutdown()
