@@ -1,0 +1,28 @@
+[project]
+name = "donzo_cmd"
+version = "0.1.2"
+description = "Default template for PDM package"
+authors = [
+    {name = "mangG907", email = "mang.gee@gmail.com"},
+]
+dependencies = [
+    "donzo-plus>=0.1.1",
+    "donzo-multiple>=0.1.1",
+    "donzo-divide>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+#[project.scripts]
+#plus(a,b) = 'donzo_cmd.cmd:plus'
+#multiple = 'donzo_cmd.cmd:multiple'
+#divide = 'donzo_cmd.cmd:divide'
+
+[tool.pdm]
+distribution = true
+
+
+[project.urls]
+Homepage =" https://github.com/mangG907/donzo_cmd"
+Issues = "https://github.com/mangG907/donzo_cmd/issues"
