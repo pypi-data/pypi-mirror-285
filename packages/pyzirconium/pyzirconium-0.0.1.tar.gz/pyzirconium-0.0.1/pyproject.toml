@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pyzirconium"
+version = "0.0.1"
+readme = "README.md"
+license = {file = "LICENSE"}
+
+authors = [
+  {name = "Piotr Żarczyński", email = "piotr.zarczynski.06@gmail.com"},
+  {name = "Szymon Baluszek"},
+  {name = "Piotr Michnal"}
+]
+
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "scipy",
+    "scikit-learn"
+]
+
+[project.urls]
+Homepage = "https://github.com/SBaluszek/zirconium"
