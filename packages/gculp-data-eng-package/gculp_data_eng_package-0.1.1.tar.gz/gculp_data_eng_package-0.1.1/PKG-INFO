@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: gculp-data-eng-package
+Version: 0.1.1
+Summary: Grant Culp Modern Data Stack Open Source Project
+Author: Grant Culp
+Author-email: culpgrant21@gmail.com
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: dagster (>=1.5.12,<2.0.0)
+Requires-Dist: dagster-duckdb (==0.22.4)
+Requires-Dist: dagster-polars (>=0.3.1,<0.4.0)
+Requires-Dist: dagster-slack (>=0.22.0,<0.23.0)
+Requires-Dist: dagster-webserver (>=1.5.5,<2.0.0)
+Requires-Dist: dbt-core (==1.7.7)
+Requires-Dist: dbt-duckdb (>=1.6.2,<2.0.0)
+Requires-Dist: polars[pyarrow] (==0.20.13)
+Requires-Dist: pyright (>=1.1.345,<2.0.0)
+Requires-Dist: pytest (>=8.0.0,<9.0.0)
+Requires-Dist: sphinx (==7.2.6)
+Requires-Dist: tenacity (>=8.2.3,<9.0.0)
+Description-Content-Type: text/markdown
+
+## Strava Modern Data Stack
+This is a project used to analyze my strava data using the modern data stack
+
+## Project Inspiration
+Please check out the other amazing projects that inspired me and this project
+- https://github.com/matsonj/nba-monte-carlo
+- https://github.com/dagster-io/mdsfest-opensource-mds
+
+## Run Locally
+- Set `PYTHONPATH` environment variable
+
+## Renovate
+https://developer.mend.io/github/culpgrant/strava_mds
+
+# TODO:
+- look into package called dbt-coverage
+- A unit test to make sure every function is added in the __all__ in the __init__ file (Why again?)
+
+- still need to finalize Dagster working via docker locally
+- DBT add a test that all yml files in the DBT project start with `_`
+- Run the CI Pipeline as apart of the Release Pipeline
+- And Update the CI Pipline to have python as an environment variable
+
+- For the release pipeline how can I get the description like Polars has (Performance Improvements, Features, Bugs, Documentation, Misc) and then list the PR in those areas
+

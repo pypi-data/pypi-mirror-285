@@ -1,0 +1,119 @@
+[tool.poetry]
+name = "gculp-data-eng-package"
+version = "0.1.1"
+description = "Grant Culp Modern Data Stack Open Source Project"
+authors = ["Grant Culp <culpgrant21@gmail.com>"]
+packages = [
+    { include = "core_library" },
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dagster = "^1.5.12"
+dagster-webserver = "^1.5.5"
+dbt-duckdb = "^1.6.2"
+pytest = "^8.0.0"
+dbt-core = "1.7.7"
+tenacity = "^8.2.3"
+sphinx = "7.2.6"
+polars = {version = "0.20.13", extras = ["pyarrow"]}
+dagster-polars = "^0.3.1"
+dagster-duckdb = "0.22.4"
+pyright = "^1.1.345"
+dagster-slack = "^0.22.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.5.0"
+ruff = "^0.2.0"
+pytest-cov = "^4.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+exclude = [
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+ignore-init-module-imports = true
+fix = true
+
+# Same as Black.
+line-length = 88
+indent-width = 4
+
+# Assume Python 3.8
+target-version = "py38"
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+select = ["E4", "E7", "E9", "F", "I001"]
+ignore = []
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+known-first-party = ["mds_dagster"]
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = false
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+[tool.interrogate]
+verbose = 1
+fail-under = 100
+ignore-init-module = true
+ignore-property-decorators = true
+exclude = ["tests", "scratch"]
+
+[tool.dagster]
+module_name = "mds_dagster"
+
+[tool.coverage.run]
+omit = [
+    "scratch/*",
+    "tests/*",
+]
+
+[tool.pyright]
+exclude = ["**/scratch"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::dagster.ExperimentalWarning", # ignore dagster ExperimentalWarning
+]
