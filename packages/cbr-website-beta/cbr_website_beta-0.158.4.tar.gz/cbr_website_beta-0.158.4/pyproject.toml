@@ -1,0 +1,50 @@
+[tool.poetry]
+name        = "cbr-website-beta"
+version     = "v0.158.4"
+description = "CBR Website - Beta"
+authors     = ["Dinis Cruz <dinis.cruz@owasp.org>"]
+license     = "MIT"
+readme      = "README.md"
+homepage    = "https://github.com/the-cyber-boardroom/cbr-website-beta"
+
+#[[tool.poetry.source]]
+#name     = "cyber-boardroom"
+#url      = "https://cyber-boardroom-654654216424.d.codeartifact.us-east-1.amazonaws.com/pypi/cyber-boardroom/"
+#priority = "primary"
+#
+#[[tool.poetry.source]]
+#name = "pypi-store"
+#url = "https://cyber-boardroom-654654216424.d.codeartifact.us-east-1.amazonaws.com/pypi/pypi-store"
+#priority = "primary"
+
+[tool.poetry.dependencies]
+python             = "^3.11"
+cbr_content        = "*"
+cbr_web_components = "0.8.0"
+cbr_static         = "*"
+cbr_athena         = "*"
+osbot-aws          = "*"
+osbot-utils        = "*"
+osbot-fast-api     = "*"
+python-dotenv      = "*"
+boto3              = "*"
+fastapi            = "*"
+flask              = "*"
+werkzeug           = "*"
+pydantic           = "*"
+#flask              = "2.0.2"
+#Flask-Minify       = "0.37"
+#Werkzeug           = "2.0.3"
+requests           = "*"
+markdown           = "*"
+
+#[tool.poetry.group.dev.dependencies]
+#pytest      = "*"
+#pytest-cov  = "*"
+#coveralls   = "*"
+
+#[tool.setuptools.packages.find]
+#where = ["."]
+#include = ["cbr_website_beta*"]
+
+# export --without-hashes --format=requirements.txt > requirements.txt
