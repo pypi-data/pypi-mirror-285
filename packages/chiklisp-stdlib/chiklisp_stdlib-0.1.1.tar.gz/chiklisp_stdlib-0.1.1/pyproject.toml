@@ -1,0 +1,15 @@
+[project]
+name = "chiklisp_stdlib"
+description = "Chiklisp `.clib` standard library files"
+authors = [{name = "Richard Kiss", email = "him@richardkiss.com"}]
+license = {file = "LICENSE"}
+readme = "README.md"
+version = "0.1.1"
+dependencies = ["importlib_resources"]  # this is only needed for py38
+
+[project.optional-dependencies]
+dev = ["pytest", "chik_base", "chiklisp_puzzles", "klvm_tools_rs"]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
