@@ -1,0 +1,40 @@
+Service:
+  RegionId: cn-hangzhou
+  DeployType: ros
+  DeployMetadata:
+    SupplierDeployMetadata:
+      AcrImageArtifactRelation:
+        # 相应的，ros模板中也需要采用该伪参数
+        '{{ "{% raw %}{{ computenest::acrimage::image }}{% endraw %}" }}':
+          ArtifactId: ${Artifact.Artifact_1.ArtifactId}
+          ArtifactVersion: ${Artifact.Artifact_1.ArtifactVersion}
+    TemplateConfigs:
+      - Name: ECS单机版
+        Url: 'ros_templates/template.yaml'
+        # 未选择部署地域则采用 []
+        AllowedRegions:{% if AllowedRegions -%}
+          {%- for region in AllowedRegions %}
+          - {{ region }}{%- endfor %}
+        {%- else -%}
+          - []
+        {%- endif %}
+  ServiceType: private
+  ServiceInfo:
+    Locale: zh-CN
+    ShortDescription: demo
+    Image: 'resources/icons/service_logo.png'
+Artifact:
+  Artifact_1:
+    ArtifactType: AcrImage
+    # 采用与image_name相同的ArtifactName
+    ArtifactName: {{ ImageName }}
+    ArtifactProperty:
+      RepoName: ${AcrImageBuilder.AcrImage_1.RepoName}
+      Tag: ${AcrImageBuilder.AcrImage_1.Tag}
+AcrImageBuilder:
+  AcrImage_1:
+    # dockerfile路径
+    DockerFilePath: {{ DockerfilePath }}
+    # 采用与image_name相同的repoName
+    RepoName: {{ ImageName }}
+    Tag: {{ Tag }}
