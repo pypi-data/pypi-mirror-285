@@ -1,0 +1,7 @@
+Sitemap: ${tales:absolute_url(request.root)}/sitemap.xml
+
+User-agent: *
+Disallow: /--static--/
+Disallow: /api/<tal:loop repeat="(interface, name) tools_configuration.tables_names.items()">
+Disallow: /${tools_configuration.tables_manager_name}/${name}/</tal:loop><tal:loop repeat="path disallow">
+Disallow: ${path}/</tal:loop>
