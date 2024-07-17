@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: opendp
+Version: 0.10.0a20240716001
+Summary: Python bindings for the OpenDP Library
+Home-page: https://opendp.org
+Author: The OpenDP Project
+Author-email: info@opendp.org
+License: UNKNOWN
+Project-URL: Source, https://github.com/opendp/opendp
+Project-URL: Issues, https://github.com/opendp/opendp/issues
+Project-URL: Documentation, https://docs.opendp.org/
+Keywords: differential privacy
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: ../LICENSE
+Provides-Extra: numpy
+Requires-Dist: numpy <2.0,>=1.17 ; extra == 'numpy'
+Requires-Dist: randomgen ; extra == 'numpy'
+Provides-Extra: polars
+Requires-Dist: polars ==1.1.0 ; extra == 'polars'
+Requires-Dist: pyarrow ; extra == 'polars'
+Requires-Dist: scikit-learn ; extra == 'polars'
+Requires-Dist: numpy <2.0,>=1.17 ; extra == 'polars'
+Requires-Dist: randomgen ; extra == 'polars'
+Provides-Extra: scikit-learn
+Requires-Dist: scikit-learn ; extra == 'scikit-learn'
+Requires-Dist: numpy <2.0,>=1.17 ; extra == 'scikit-learn'
+Requires-Dist: randomgen ; extra == 'scikit-learn'
+
+Placeholder README.md for developer installs.   
+Refer to the root-level README.md.
+
