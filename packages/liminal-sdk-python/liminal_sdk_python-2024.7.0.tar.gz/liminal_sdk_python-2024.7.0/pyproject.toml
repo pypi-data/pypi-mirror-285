@@ -1,0 +1,117 @@
+[build-system]
+requires = [ "poetry-core==1.9.0",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+follow_imports = "silent"
+ignore_missing_imports = true
+no_implicit_optional = true
+platform = "linux"
+python_version = "3.11"
+show_error_codes = true
+strict_equality = true
+warn_incomplete_stub = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.poetry]
+name = "liminal-sdk-python"
+version = "2024.07.0"
+description = "The Liminal SDK for Python"
+readme = "README.md"
+authors = [ "Aaron Bach <ab@liminal.ai>",]
+license = "Apache-2.0"
+repository = "https://github.com/liminal-ai-security/liminal-sdk-python"
+classifiers = [ "License :: OSI Approved :: MIT License", "Programming Language :: Python", "Programming Language :: Python :: 3", "Programming Language :: Python :: 3.11", "Programming Language :: Python :: 3.12", "Programming Language :: Python :: Implementation :: CPython", "Programming Language :: Python :: Implementation :: PyPy",]
+[[tool.poetry.packages]]
+include = "liminal"
+from = "."
+
+[tool.poetry.dependencies]
+cryptography = "==42.0.8"
+httpx = "0.27.0"
+mashumaro = "3.13.1"
+msal = "1.29.0"
+python = "^3.11.8"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/liminal-ai-security/liminal-sdk-python/issues"
+Changelog = "https://github.com/liminal-ai-security/liminal-sdk-python/releases"
+
+[tool.coverage.report]
+exclude_lines = [ "TYPE_CHECKING", "raise NotImplementedError",]
+fail_under = 100
+show_missing = true
+
+[tool.coverage.run]
+source = [ "liminal",]
+
+[tool.pylint.BASIC]
+class-const-naming-style = "any"
+expected-line-ending-format = "LF"
+
+[tool.pylint.DESIGN]
+max-attributes = 20
+
+[tool.pylint.FORMAT]
+max-line-length = 88
+
+[tool.pylint.MAIN]
+py-version = "3.12"
+ignore = [ "tests",]
+jobs = 2
+init-hook = "from pathlib import Path; import sys; from pylint.config import find_default_config_files; sys.path.append( str(Path(next(find_default_config_files())).parent.joinpath('pylint/plugins'))\n    ) "
+load-plugins = [ "pylint.extensions.code_style", "pylint.extensions.typing",]
+persistent = false
+fail-on = [ "I",]
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [ "too-many-arguments", "too-many-lines", "too-many-locals", "duplicate-code", "anomalous-backslash-in-string", "assert-on-string-literal", "assert-on-tuple", "await-outside-async", "bad-classmethod-argument", "bad-format-string", "bad-format-string-key", "bad-staticmethod-argument", "bad-str-strip-call", "bad-string-format-type", "bare-except", "bidirectional-unicode", "binary-op-exception", "broad-exception-caught", "cell-var-from-loop", "comparison-of-constants", "comparison-with-itself", "consider-alternative-union-syntax", "consider-iterating-dictionary", "consider-merging-isinstance", "consider-using-alias", "consider-using-dict-comprehension", "consider-using-generator", "consider-using-get", "consider-using-set-comprehension", "consider-using-sys-exit", "consider-using-ternary", "continue-in-finally", "duplicate-bases", "duplicate-except", "duplicate-key", "duplicate-string-formatting-argument", "duplicate-value", "empty-docstring", "eval-used", "exec-used", "expression-not-assigned", "f-string-without-interpolation", "forgotten-debug-statement", "format-needs-mapping", "format-string-without-interpolation", "function-redefined", "global-variable-not-assigned", "implicit-str-concat", "import-self", "inconsistent-quotes", "invalid-all-object", "invalid-bytes-returned", "invalid-character-backspace", "invalid-character-esc", "invalid-character-nul", "invalid-character-sub", "invalid-character-zero-width-space", "invalid-envvar-default", "invalid-hash-returned", "invalid-index-returned", "invalid-length-returned", "invalid-name", "keyword-arg-before-vararg", "line-too-long", "literal-comparison", "logging-format-interpolation", "logging-fstring-interpolation", "logging-not-lazy", "logging-too-few-args", "logging-too-many-args", "misplaced-future", "missing-class-docstring", "missing-final-newline", "missing-format-string-key", "missing-function-docstring", "missing-module-docstring", "mixed-format-string", "multiple-imports", "named-expr-without-context", "nested-min-max", "no-method-argument", "no-self-argument", "nonexistent-operator", "nonlocal-without-binding", "not-in-loop", "notimplemented-raised", "pointless-statement", "property-with-parameters", "protected-access", "raise-missing-from", "return-in-init", "return-outside-function", "self-cls-assignment", "singleton-comparison", "subprocess-run-check", "super-with-arguments", "superfluous-parens", "syntax-error", "too-few-format-args", "too-few-public-methods", "too-many-branches", "too-many-format-args", "too-many-return-statements", "too-many-star-expressions", "too-many-statements", "trailing-comma-tuple", "truncated-format-string", "try-except-raise", "undefined-all-variable", "undefined-variable", "ungrouped-imports", "unidiomatic-typecheck", "unnecessary-comprehension", "unnecessary-direct-lambda-call", "unnecessary-lambda-assignment", "unnecessary-pass", "unneeded-not", "unspecified-encoding", "unused-argument", "unused-format-string-argument", "unused-format-string-key", "unused-import", "unused-variable", "use-a-generator", "use-dict-literal", "use-list-literal", "used-prior-global-declaration", "useless-else-on-loop", "useless-import-alias", "useless-object-inheritance", "useless-return", "wildcard-import", "wrong-import-order", "wrong-import-position", "yield-inside-async-function", "yield-outside-function", "abstract-class-instantiated", "arguments-differ", "assigning-non-slot", "assignment-from-no-return", "assignment-from-none", "bad-exception-cause", "bad-format-character", "bad-reversed-sequence", "bad-super-call", "bad-thread-instantiation", "catching-non-exception", "comparison-with-callable", "deprecated-class", "dict-iter-missing-items", "format-combined-specification", "global-variable-undefined", "import-error", "inconsistent-mro", "inherit-non-class", "init-is-generator", "invalid-class-object", "invalid-enum-extension", "invalid-envvar-value", "invalid-format-returned", "invalid-hash-returned", "invalid-metaclass", "invalid-overridden-method", "invalid-repr-returned", "invalid-sequence-index", "invalid-slice-index", "invalid-slots", "invalid-slots-object", "invalid-star-assignment-target", "invalid-str-returned", "invalid-unary-operand-type", "invalid-unicode-codec", "isinstance-second-argument-not-valid-type", "method-hidden", "misplaced-format-function", "missing-format-argument-key", "missing-format-attribute", "missing-kwoa", "no-member", "no-value-for-parameter", "non-iterator-returned", "non-str-assignment-to-dunder-name", "nonlocal-and-global", "not-a-mapping", "not-an-iterable", "not-async-context-manager", "not-callable", "not-context-manager", "overridden-final-method", "raising-bad-type", "raising-non-exception", "redundant-keyword-arg", "relative-beyond-top-level", "self-cls-assignment", "signature-differs", "star-needs-assignment-target", "subclassed-final-class", "super-without-brackets", "too-many-function-args", "typevar-double-variance", "typevar-name-mismatch", "unbalanced-dict-unpacking", "unbalanced-tuple-unpacking", "unexpected-keyword-arg", "unhashable-member", "unpacking-non-sequence", "unsubscriptable-object", "unsupported-assignment-operation", "unsupported-binary-operation", "unsupported-delete-operation", "unsupported-membership-test", "used-before-assignment", "using-final-decorator-in-unsupported-version", "wrong-exception-operation",]
+enable = [ "useless-suppression", "use-symbolic-message-instead",]
+
+[tool.pylint.TYPING]
+runtime-typing = false
+
+[tool.pylint.CODE_STYLE]
+max-line-length-suggestions = 72
+
+[tool.ruff.lint]
+select = [ "ALL",]
+ignore = [ "ANN101", "ANN102", "D202", "D203", "D213", "PLR0913", "PLW2901", "PT012", "TCH", "COM812", "COM819", "D206", "D300", "E111", "E114", "E117", "ISC001", "ISC002", "Q000", "Q001", "Q002", "Q003", "W191",]
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+known-first-party = [ "liminal", "tests",]
+combine-as-imports = true
+split-on-trailing-comma = false
+
+[tool.ruff.lint.per-file-ignores]
+"liminal/client.py" = [ "SLF001",]
+"tests/*" = [ "ARG001", "FBT001", "PLR2004", "S101", "SLF001",]
+
+[tool.poetry.group.dev.dependencies]
+blacken-docs = "1.18.0"
+codespell = "2.3.0"
+darglint = "1.8.1"
+mypy = "1.10.1"
+packaging = "==24.1"
+pre-commit = "3.7.1"
+pre-commit-hooks = "4.6.0"
+pylint = "3.2.5"
+pytest = "8.2.2"
+pytest-asyncio = "0.23.7"
+pytest-cov = "5.0.0"
+pytest-httpx = "0.30.0"
+ruff = "0.5.1"
+
+[tool.poetry.group.dev.dependencies.coverage]
+version = "7.6.0"
+extras = [ "toml",]
