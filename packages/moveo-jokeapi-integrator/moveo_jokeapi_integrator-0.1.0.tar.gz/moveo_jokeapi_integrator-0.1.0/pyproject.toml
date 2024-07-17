@@ -1,0 +1,38 @@
+[project]
+name = "moveo-jokeapi-integrator"
+version = "0.1.0"
+description = "Library that integrates moveo's dialog's webhooks to jokeAPI (getJoke endpoint)"
+authors = [
+    { name = "Jones Sabino", email = "jones.sabino@gmail.com" },
+]
+dependencies = [
+    "requests>=2.32.3",
+    "pydantic>=2.8.2",
+    "fastapi>=0.111.1",
+    "python-box>=7.2.0",
+    "loguru>=0.7.2",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+exclude = [
+    "tests",
+]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.2.2",
+    "ruff>=0.5.1",
+    "pyright>=1.1.371",
+]
