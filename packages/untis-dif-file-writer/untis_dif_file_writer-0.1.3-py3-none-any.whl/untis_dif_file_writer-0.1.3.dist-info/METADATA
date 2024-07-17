@@ -1,0 +1,53 @@
+Metadata-Version: 2.1
+Name: untis-dif-file-writer
+Version: 0.1.3
+Summary: A library to write dif-files from Untis.
+Author: Johannes Lieberherr
+Author-email: johannes.lieberherr@ttools.ch
+Requires-Python: >=3.8
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: start-end-logging (>=0.1.5,<0.2.0)
+Project-URL: GitHub Repository, https://github.com/jlieberherr/untis-dif-file-writer
+Description-Content-Type: text/markdown
+
+# untis-dif-file-writer
+
+A simple Python package to write dif-files from Untis.
+
+See https://platform.untis.at/HTML/WebHelp/de/untis/index.html -> search for "export dif" -> Export/Import DIF-Dateien.
+
+## Installation
+
+```pip install untis-dif-file-writer``` or ```poetry add untis-dif-file-writer```
+
+## Usage
+
+```
+from untis_dif_file_writer.writers import write_dif_file, write_xml_file, write_all_dif_files, UntisFileNumber
+
+# Write the students dif-file:
+write_dif_file(UntisFileNumber.STUDENTEN, 
+               "path/to/Untis.exe",
+               "path/to/Untis-file",
+               path_output_folder="path/to/output/folder"),
+               output_file_name="students.TXT")
+
+# Write the xml-file:
+write_xml_file("path/to/Untis.exe", "path/to/Untis-file")
+               
+# Write all dif-files:
+write_all_dif_files("path/to/Untis.exe", "path/to/Untis-file")
+```
+
+Index of columns in dif-files:
+
+```
+from untis_dif_file_writer.dif_files_columns import UntisFileKlassen
+
+print(UntisFileKlassen.MIN_STUNDEN_PRO_TAG.value) 
+```
