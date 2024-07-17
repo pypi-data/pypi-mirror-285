@@ -1,0 +1,34 @@
+Metadata-Version: 2.1
+Name: xaal.ipx800
+Version: 0.2
+Summary: xAAL devices for IPX-800 Ethernet Control System
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/IPX-800/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/IPX-800
+Keywords: xaal,ipx-800
+Classifier: Programming Language :: Python
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+Requires-Dist: gevent
+
+xaal.ipx800
+===========
+This package contains a xAAL gateway for IPX-800 Ethernet Control System.
+We tested it with IPX-800 V3.
+
+
+Usage
+-----
+To run the gateway:
+
+- edit your config file (*ipx800.ini*)
+- launch *python -m xaal.ipx800*
+
+
+TODO
+----
+Due to time constraint, only channel outputs (relays) are supported right now.
+You can add easily analog or digital inputs, everything is ready.
