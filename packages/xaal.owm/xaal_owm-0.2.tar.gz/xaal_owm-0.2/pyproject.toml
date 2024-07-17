@@ -1,0 +1,19 @@
+[project]
+name = "xaal.owm"
+version = "0.2"
+description = "xAAL devices for OpenWeather Map"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "own", "weather"]
+dependencies = ["xaal.lib", "xaal.schemas", "pyowm==2.10.0"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.owm"]
