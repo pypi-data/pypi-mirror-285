@@ -1,0 +1,139 @@
+[project]
+name = "TraceAnalyser"
+dynamic = ["version"]
+description = "Time Series Analysis Software"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+  {name = "Piers Turner"},
+  {email = "piers.turner@physics.ox.ac.uk"},
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Framework :: napari",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy",
+    "qtpy",
+    "scipy",
+    "scikit-learn",
+    "pymatreader",
+    "pyqtgraph",
+    "pomegranate==0.14.8",
+    "pandas",
+    "matplotlib",
+    "scipy",
+    "tqdm",
+    "hmmlearn",
+    "pyqtgraph",
+    "originpro",
+    "tensorflow[and-cuda]",
+    "mat4py",
+    "tsaug",
+    "tensorboard",
+    "parmap",
+    "openpyxl",
+    "retrying",
+    "glob2",
+    "pyqt5-tools",
+    "torch",
+    "tsai",
+    "ipykernel",
+]
+
+[project.optional-dependencies]
+testing = [
+    "tox",
+    "pytest",  # https://docs.pytest.org/en/latest/contents.html
+    "pytest-cov",  # https://pytest-cov.readthedocs.io/en/latest/
+    "pytest-qt",  # https://pytest-qt.readthedocs.io/en/latest/
+    "napari",
+    "pyqt5",
+]
+
+[project.scripts]
+ebfret = "TraceAnalyser.GUI.ebfret_utils:launch_ebfret_instance"
+analysis = "TraceAnalyser.main_window:start_gui"
+traceanalyser = "TraceAnalyser.main_window:start_gui"
+
+[project.urls]
+"Bug Tracker" = "https://github.com/piedrro/TraceAnalyser/issues"
+"Documentation" = "https://github.com/piedrro/TraceAnalyser#README.md"
+"Source Code" = "https://github.com/piedrro/TraceAnalyser"
+"User Support" = "https://github.com/piedrro/TraceAnalyser/issues"
+
+[build-system]
+requires = ["setuptools>=42.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "TraceAnalyser.__init__.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml","*.dll","*.m","*.h5"]
+
+[tool.black]
+line-length = 79
+target-version = ['py39', 'py310']
+
+[tool.ruff]
+line-length = 79
+lint.select = [
+    "E", "F", "W", #flake8
+    "UP", # pyupgrade
+    "I", # isort
+    "BLE", # flake8-blind-exception
+    "B", # flake8-bugbear
+    "A", # flake8-builtins
+    "C4", # flake8-comprehensions
+    "ISC", # flake8-implicit-str-concat
+    "G", # flake8-logging-format
+    "PIE", # flake8-pie
+    "SIM", # flake8-simplify
+]
+lint.ignore = [
+    "E501", # line too long. let black handle this
+    "UP006", "UP007", # type annotation. As using magicgui require runtime type annotation then we disable this.
+    "SIM117", # flake8-simplify - some of merged with statements are not looking great with black, reanble after drop python 3.9
+]
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".mypy_cache",
+    ".pants.d",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "*vendored*",
+    "*_vendor*",
+]
+
