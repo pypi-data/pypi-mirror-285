@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2024 pydot contributors
+#
+# SPDX-License-Identifier: MIT
+
+include *.md
+include *.txt
+include LICENSES/*.txt
+include ChangeLog
+include .reuse/dep5
+prune .github
+exclude .git*
+graft test
+prune test/from-past-to-future
+global-exclude test.svg
+
