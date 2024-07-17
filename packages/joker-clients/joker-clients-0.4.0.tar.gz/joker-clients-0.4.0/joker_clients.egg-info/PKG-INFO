@@ -1,0 +1,56 @@
+Metadata-Version: 2.1
+Name: joker-clients
+Version: 0.4.0
+Summary: simple clients for simple and dedicated services
+Home-page: https://github.com/frozflame/joker-clients
+Author: frozflame
+Author-email: frozflame@outlook.com
+License: GNU General Public License (GPL)
+Keywords: joker
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+joker-clients
+=============
+
+simple clients for simple and dedicated services
+
+Develop
+-------
+
+Get code
+
+    git clone ssh://git@github.com/frozflame/joker-clients.git
+    cd joker-clients
+
+Install requirements
+
+    virtualenv venv
+    source venv/bin/activate
+    pip install -r requirements.txt
+    pip install -e .
+
+Run tests
+
+    pip install -U pytest joker
+    pytest -vs tests/
+
+Code quality check
+
+    pip install flake8
+    flake8 joker/
+
+Symlink `pre-commit` script
+
+    (cd .git/hooks; ln -sf ../../tests/dev/pre-commit)
+
