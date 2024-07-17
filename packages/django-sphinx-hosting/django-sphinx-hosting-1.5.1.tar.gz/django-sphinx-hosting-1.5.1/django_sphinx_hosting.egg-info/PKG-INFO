@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: django-sphinx-hosting
+Version: 1.5.1
+Summary: Reusable Django app for hosting Sphinx documentation privately.
+Home-page: https://github.com/caltechads/django-sphinx-hosting
+Author: Caltech IMSS ADS
+Author-email: imss-ads-staff@caltech.edu
+Project-URL: Documentation, https://django-sphinx-hosting.readthedocs.io/en/latest/
+Project-URL: Source, https://github.com/caltechads/django-sphinx-hosting
+Project-URL: Issues, https://github.com/caltechads/django-sphinx-hosting/issues
+Keywords: documentation,sphinx,django
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Framework :: Django :: 3.2
+Classifier: Framework :: Django :: 4.0
+Classifier: Framework :: Django :: 4.1
+Classifier: Framework :: Django :: 4.2
+Classifier: Framework :: Django :: 5.0
+Classifier: Topic :: Documentation :: Sphinx
+Classifier: Topic :: Software Development :: Documentation
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown; charset=UTF-8
+License-File: LICENSE.txt
+
+# django-sphinx-hosting
+
+**Documentation**: [django-sphinx-hosting.readthedocs.org](https://django-sphinx-hosting.readthedocs.org)
+
+This reusable Django application provides models, views, permissions, REST API
+endpoints and management commands for making a private Sphinx documentation
+hosting platform.
+
+This is useful for when you want Sphinx documentation for your internal software
+projects, but that is too sensitive to be shared with a third party.
+
+## Features
+
+* Users must be authenticated to view docs
+* Multiple levels of privileges within the system based on Django authentication
+* Manage multiple versions of your docs per project
+* Automatically build and display navigation for each version of your documentaion
+* Renders all documentation published within with a consistent theme
+* Tag projects with classifiers to refine searching and filtering
+* Search across all projects
+* Use REST API to programmatically interact with the system.  Useful for
+  integrating into a CI/CD system
+
+## Installation and Configuration
+
+See the [documentation](https://django-sphinx-hosting.readthedocs.org) for how
+to install and configure `django-sphinx-hosting` in your Django project.
