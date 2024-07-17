@@ -1,0 +1,119 @@
+Metadata-Version: 2.1
+Name: osl
+Version: 0.8.0
+Summary: OHBA Software Library
+Author: OHBA Analysis Group
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Mathematics
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: matplotlib
+Requires-Dist: mne~=1.3.1
+Requires-Dist: scikit-learn
+Requires-Dist: fslpy
+Requires-Dist: sails
+Requires-Dist: tabulate
+Requires-Dist: pyyaml>=5.1
+Requires-Dist: neurokit2
+Requires-Dist: jinja2==3.0.3
+Requires-Dist: glmtools
+Requires-Dist: numba
+Requires-Dist: nilearn
+Requires-Dist: dask
+Requires-Dist: distributed
+Requires-Dist: parse
+Requires-Dist: opencv-python
+Requires-Dist: panel
+Requires-Dist: h5io
+Provides-Extra: dev
+Requires-Dist: setuptools>=41.0.1; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: coverage; extra == "dev"
+Requires-Dist: flake8; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: sphinx==4.0.2; extra == "doc"
+Requires-Dist: numpydoc; extra == "doc"
+Requires-Dist: sphinx_gallery; extra == "doc"
+Requires-Dist: pydata-sphinx-theme; extra == "doc"
+Provides-Extra: full
+Requires-Dist: setuptools>=41.0.1; extra == "full"
+Requires-Dist: pytest; extra == "full"
+Requires-Dist: pytest-cov; extra == "full"
+Requires-Dist: coverage; extra == "full"
+Requires-Dist: flake8; extra == "full"
+Requires-Dist: sphinx==4.0.2; extra == "full"
+Requires-Dist: numpydoc; extra == "full"
+Requires-Dist: sphinx_gallery; extra == "full"
+Requires-Dist: pydata-sphinx-theme; extra == "full"
+
+# OHBA Software Library (OSL)
+
+Tools for MEG/EEG analysis.
+
+Documentation: https://osl.readthedocs.io/en/latest/.
+
+## Installation
+
+See the [official documentation](https://osl.readthedocs.io/en/latest/install.html) for recommended installation instructions.
+
+Alternatively, OSL can be installed from source code within a [Miniconda](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html) (or [Anaconda](https://docs.anaconda.com/free/anaconda/install/index.html)) environment using the following.
+
+### Linux
+
+```
+git clone https://github.com/OHBA-analysis/osl.git
+cd osl
+conda env create -f envs/linux.yml
+conda activate osl
+pip install -e .
+```
+
+### Mac
+
+```
+git clone https://github.com/OHBA-analysis/osl.git
+cd osl
+conda env create -f envs/mac.yml
+conda activate osl
+pip install -e .
+```
+
+## Removing OSL
+
+Simply removing the conda environment and delete the repository:
+```
+conda env remove -n osl
+rm -rf osl
+```
+
+## For Developers
+
+Run tests:
+```
+cd osl
+pytest tests
+```
+or to run a specific test:
+```
+cd osl/tests
+pytest test_file_handling.py
+```
+
+Build documentation:
+```
+python setup.py build_sphinx
+```
+Compiled docs can be found in `doc/build/html/index.html`.
