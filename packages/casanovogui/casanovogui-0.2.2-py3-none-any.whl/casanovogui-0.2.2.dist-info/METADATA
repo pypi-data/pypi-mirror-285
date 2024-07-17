@@ -1,0 +1,40 @@
+Metadata-Version: 2.1
+Name: casanovogui
+Version: 0.2.2
+Summary: A streamlit GUI for the casanovo.
+Author-email: Patrick Garrett <pgarrett@scripps.edu>
+Classifier: Programming Language :: Python :: 3
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: streamlit
+Requires-Dist: pandas
+Requires-Dist: plotly
+Requires-Dist: peptacular ==2.1.0
+Requires-Dist: pyteomics
+Requires-Dist: numpy
+Requires-Dist: tinydb
+Requires-Dist: pydantic
+Requires-Dist: casanovo ~=4.2.0
+Requires-Dist: platformdirs
+
+# Try it out: https://casanovogui.streamlit.app/search
+
+## Install from GitHub
+
+```bash
+git clone https://github.com/pgarrett-scripps/CasanovoGui.git
+cd CasanovoGui
+pip install -r requirements.txt
+pip install .
+casanovo gui
+```
+
+## Install from PyPi
+
+```bash
+pip install casanovogui
+casanovogui
+```
