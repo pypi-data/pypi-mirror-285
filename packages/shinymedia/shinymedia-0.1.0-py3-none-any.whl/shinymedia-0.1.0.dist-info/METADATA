@@ -1,0 +1,98 @@
+Metadata-Version: 2.1
+Name: shinymedia
+Version: 0.1.0
+Summary: Extends the Shiny web framework with controls for multimedia input/output.
+Author-email: Joe Cheng <joe@posit.co>
+License: Copyright 2024 Posit Software, PBC
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        
+Project-URL: homepage, https://github.com/jcheng5/shinymedia
+Project-URL: documentation, https://github.com/jcheng5/shinymedia
+Keywords: video,audio,shiny
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup :: HTML
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: faicons
+Requires-Dist: htmltools
+Requires-Dist: shiny
+Provides-Extra: dev
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: flake8 ; extra == 'dev'
+Requires-Dist: isort ; extra == 'dev'
+Requires-Dist: wheel ; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: jupyter ; extra == 'docs'
+Requires-Dist: quartodoc ; extra == 'docs'
+
+# shinymedia
+
+**shinymedia** is a Python package that provides [Shiny](https://shiny.posit.co/py/) UI controls for recording and playing back media.
+
+At this time it includes two components:
+
+- `shinymedia.input_video_clip` for recording video clips using attached cameras
+- `shinymedia.audio_spinner` for playing back audio with a spinning visualization
+
+You can see these two components in action together in our [live demo](https://jcheng.shinyapps.io/multimodal/) ([source code](https://github.com/jcheng5/multimodal)), or keep reading.
+
+## Installation
+
+From PyPI:
+
+```bash
+pip install shinymedia
+```
+
+Or to install the latest from GitHub:
+
+```bash
+pip install "shinymedia @ git+https://github.com/posit-dev/shinymedia?subdirectory=python-package"
+```
+
+## Development
+
+### JavaScript
+
+To develop the JavaScript components, you will need to have Node.js installed. Then, `npm install` in this directory to install dependencies.
+
+After making changes to the TypeScript code in srcts, run `npm run build` to compile to JavaScript (or `npm run watch` to automatically recompile on changes). You can also run `npm run typecheck` to check for TypeScript type errors.
+
+### Python
+
+To develop the Python package, you can install it in editable mode:
+
+```bash
+pip install -e python-package
+```
+
+### Documentation
+
+To build the documentation, first install additional dependencies:
+
+```bash
+pip install -e "python-package[docs]"
+```
+
+Then:
+
+```bash
+cd quarto
+quartodoc build  # Build reference docs
+quarto preview   # Serve the docs locally
+```
