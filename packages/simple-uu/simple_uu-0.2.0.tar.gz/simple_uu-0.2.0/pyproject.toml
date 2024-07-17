@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "simple-uu"
+version = "0.2.0"
+description = "Includes easy-to-use functions to encode/decode binary data to/from UU format. In addition, includes a structured and intuitive interface for seamless extraction of content and metadata, emphasizing user ease and the organized handling of Uuencoded data."
+authors = ["galactixx"]
+license = "MIT License"
+readme = "README.md"
+keywords = [
+    "uu",
+    "uuencoded",
+    "encoding",
+    "decoding"
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+charset-normalizer = "^3.3.2"
+filetype = "^1.2.0"
+unix-perms = "^0.4.0"
+rich = "^13.7.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+allow_redefinition = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_decorators = false
+disallow_untyped_defs = true
+no_implicit_optional = true
+show_error_codes = true
+strict_equality = true
+warn_unused_ignores = true
