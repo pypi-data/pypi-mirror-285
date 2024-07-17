@@ -1,0 +1,19 @@
+[project]
+name = "xaal.warp10"
+version = "0.1"
+description = "xAAL logger for warp10"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "warp10"]
+dependencies = ["xaal.lib", "urllib3"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.warp10"]
