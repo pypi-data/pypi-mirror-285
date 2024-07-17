@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: mdtablegen
+Version: 1.0.2
+Summary: A Markdown Table Generator
+Author-email: Steve Benson <steve@xelphene.net>
+Project-URL: Homepage, https://github.com/xelphene/mdtablegen
+Project-URL: Bug Tracker, https://github.com/xelphene/mdtablegen/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+
+# About mdtablegen
+
+This is a Python module to generate Markdown tables. Specifically the
+Markdown dialect that HL docgen (and derivatives) speak. A few existing
+Python Markdown generator libraries don't exactly do this.
+
+# Example Output
+
+```
++---------------+----------+-----------+----------------------+----------------------------+
+| Address       | Port     | Service   | Fingerprint          | Comments                   |
++===============+==========+===========+======================+============================+
+| 172.22.150.88 | 443/tcp  | ssl|http  | Some httpd           | Here's a comment           |
++---------------+----------+-----------+----------------------+----------------------------+
+| 172.22.150.88 | 8089/tcp | ssl|http  | Some httpd           |                            |
++---------------+----------+-----------+----------------------+----------------------------+
+| 172.22.30.10  | 53/tcp   | domain    | (unknown banner: ... | This looks interesting     |
++---------------+----------+-----------+----------------------+----------------------------+
+| 172.22.30.119 | 22/tcp   | ssh       | ProFTPD mod_sftp ... |                            |
+```
+
