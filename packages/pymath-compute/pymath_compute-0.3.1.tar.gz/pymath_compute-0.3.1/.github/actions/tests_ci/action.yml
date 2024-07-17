@@ -1,0 +1,29 @@
+name: Tests CI 🧪
+description: CI Action to perform the tests execution
+
+# ----------------------------------- #
+#          DEFINE THE STEPS           #
+# ----------------------------------- #
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code 🔍
+      uses: actions/checkout@v2
+
+    - name: Set up Python 🐍
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies 🏗️
+      shell: bash
+      run: |
+        pip install poetry
+        poetry install
+        poetry run maturin develop --release
+
+    - name: Run tests 🧪
+      shell: bash
+      run: poetry run pytest

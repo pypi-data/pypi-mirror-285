@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "pymath_compute"
+version = "0.3.1"
+description = "Tool to handle mathematical operations using Variables and Mathematical Expressions."
+authors = ["ricardoleal20 <rick.leal420@gmail.com>"]
+homepage = "https://pymath.ricardoleal20.dev"
+documentation = "https://pymath.ricardoleal20.dev/docs/"
+repository = "https://github.com/ricardoleal20/pymath_compute"
+license = "MIT"
+readme = "README.md"
+keywords = ["scientific_computing", "applied_math", "optimization"]
+classifiers = [
+    "Topic :: Scientific Development :: Mathematical Optimization",
+    "Topic :: Scientific Development :: Applied Mathematics",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.13"
+numpy = ">=1.26.4"
+scipy = ">=1.13.1"
+maturin = ">=1.7.0"
+matplotlib = ">=3.9.1"
+
+
+[tool.poetry.dev-dependencies]
+pylint = "~=3.2.5"
+pytest = "~=8.2.2"
+pytest-cov = "~=5.0"
+pytest-xdist = "~=3.6.1"
+reflex = ">=0.5.5"
+
+[build-system]
+requires = ["maturin>=1.7.0"]
+build-backend = "maturin"
+
+[tool.maturin]
+bindings = "pyo3"
+module-name = "pymath_compute.engine"
+
+[tool.pylint]
+ignore-paths = ["pymath_compute/engine/*"]
+disable = ["E0401", "E0611"]
+fail-under = 9.8
