@@ -1,0 +1,14 @@
+#import os
+#from dataguzzler_python.subproc import subproc
+from dataguzzler_python import visa
+from pyvisa import ResourceManager
+
+global visa_rm
+global visa_resources
+
+if not "visa_rm" in globals() or globals()["visa_rm"] is None:
+    visa_rm = ResourceManager()
+    visa_resources = visa_rm.list_resources()
+    pass
+
+
