@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: xaal.yeelight
+Version: 0.3
+Summary: xAAL gateway for Yeelight devices
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/Yeelight/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/Yeelight
+Keywords: xaal,yeelight
+Classifier: Programming Language :: Python
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+Requires-Dist: xaal.schemas
+Requires-Dist: gevent
+Requires-Dist: yeelight
+Requires-Dist: decorator
+
+xaal.yeelight
+=============
+This package provides a xAAL gateway for Yeelight lights. It support most of the Yeelight lights and bulbs.
+You have to enable local control on your Yeelight device to use this package. You can do this by enabling
+the "LAN Control" option in the Yeelight app.
+
+The gateway detects the Yeelight devices on the network and creates a xAAL device for each of them. Check
+*yeelight.ini* after the first run to see the devices created.
+
+
+Notes
+-----
+This gateway doesn't use the asyncio API provides by the Yeelight library. Instead, it use gevent. This code
+is a bit old, and need some refactoring to use the asyncio API. But it works well for now.

@@ -1,0 +1,20 @@
+[project]
+name = "xaal.yeelight"
+version = "0.3"
+description = "xAAL gateway for Yeelight devices"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "yeelight"]
+dependencies = ["xaal.lib", "xaal.schemas", "gevent", "yeelight", "decorator"]
+
+[tool.setuptools.packages.find]
+include = ["xaal.yeelight"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/Yeelight/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/Yeelight"
