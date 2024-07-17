@@ -1,0 +1,43 @@
+{% import 'utils.jinja' as utils %}
+
+CREATE TABLE data_metrics__count_c_resource_count_{{ src|lower }}_{{ period|lower }} AS (
+{%- set orig_cat_field = cat_field %}
+WITH
+src_status AS {{ utils.extract_status(src) }},
+src_category AS {{ utils.extract_category_codes(src, cat_field, cat_systems) }},
+
+simplified AS (
+    SELECT
+        src.id,
+
+        {%- if cat_field %}
+        {{ utils.coalesce_missing('src_category.category') }} AS {{ cat_field }},
+        {%- endif %}
+
+        -- Parse string datetime into a single period string
+        {% if dates %}
+        {{ utils.get_date_string(dates, period) }} AS {{ period }},
+        {% endif %}
+
+        {% call utils.coalesce_missing() %}
+            src_status.status
+        {% endcall %} AS status
+    FROM {{ src }} AS src
+    LEFT JOIN src_status
+    ON src.id = src_status.id
+    LEFT JOIN src_category
+    ON src.id = src_category.id
+)
+
+{% call utils.make_counts('simplified', output_mode) %}
+    {%- if cat_field %}
+    {{ cat_field }},
+    {%- endif %}
+
+    {%- if dates %}
+    {{ period }},
+    {%- endif %}
+
+    status
+{% endcall %}
+);
