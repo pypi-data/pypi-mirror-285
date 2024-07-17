@@ -1,0 +1,58 @@
+[tool.poetry]
+name = "kaskade"
+version = "2.3.2"
+description = "kaskade is a terminal user interface for kafka"
+authors = ["Saúl Piña <sauljabin@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/sauljabin/kaskade"
+repository = "https://github.com/sauljabin/kaskade"
+documentation = "https://github.com/sauljabin/kaskade"
+keywords = ["kafka", "kaskade"]
+classifiers = [
+    "Environment :: Console",
+    "Operating System :: MacOS",
+    "Operating System :: Unix"
+]
+include = [
+    "LICENSE",
+]
+packages = [
+    { include = "kaskade" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10 <3.13"
+cloup = "^3.0"
+textual =  "^0.72"
+confluent-kafka = {extras = ["avro", "json", "protobuf"], version = "^2.5"}
+
+[tool.poetry.dev-dependencies]
+black = "*"
+faker = "*"
+toml = "*"
+pre-commit = "*"
+ruff = "*"
+mypy = "*"
+types-attrs = "*"
+types-protobuf = "*"
+changeloggh = "*"
+textual-dev = "*"
+typos = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+line-length = 100
+
+[tool.typos]
+type.lock.extend-glob = ["*.lock"]
+type.lock.check-file = true
+
+[tool.poetry.scripts]
+kaskade = "kaskade.main:cli"
