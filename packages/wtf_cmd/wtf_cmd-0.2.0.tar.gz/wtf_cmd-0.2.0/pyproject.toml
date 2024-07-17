@@ -1,0 +1,21 @@
+[project]
+name = "wtf_cmd"
+version = "0.2.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "thephunkmonk", email = "andrewchoi1218@gmail.com"},
+]
+dependencies = [
+    "wtf-plus>=0.1.0",
+    "wtf-div>=0.1.0",
+    "wtf-mul>=0.1.0",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+wtf-cmd = "wtf_cmd.cmd:cmd_f"
+
+[tool.pdm]
+distribution = true 
