@@ -1,0 +1,35 @@
+title: Client of BuildGrid Metering service
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  base-url:
+    type: string
+  token-path:
+    type: string
+  retry_max_attempts:
+    type: number
+    minimum: 0
+  retry_exp_base:
+    type: number
+    minimum: 0
+  retry_multiplier:
+    type: number
+    minimum: 0
+  retry_max_wait:
+    type: number
+    minimum: 0
+  retry_http_statuses:
+    type: array
+    items:
+      type: number
+  retry_exceptions:
+    type: array
+    items:
+      type: string
+  retry_cause_exceptions:
+    type: array
+    items:
+      type: string
+required:
+  - base-url

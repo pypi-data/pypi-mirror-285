@@ -1,0 +1,11 @@
+title: SQL CAS storage backend
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  sql:
+    type: connection
+  sql-ro:
+    type: connection
+required:
+  - sql

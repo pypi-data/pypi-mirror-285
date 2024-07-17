@@ -1,0 +1,16 @@
+title: Replicated Storage backend
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  storages:
+    type: array
+    minItems: 2
+    items:
+      type: storage
+      properties:
+        storage:
+      required:
+        - storage
+required:
+  - storages
