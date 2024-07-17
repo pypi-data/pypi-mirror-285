@@ -1,0 +1,168 @@
+#:import tr mygnuhealth.lang.tr
+
+<NewUserScreen>:
+    name: "newuser"
+    BoxLayout:
+        id: newuser_box
+        spacing: self.height*0.05  # Provide spacing 5% of the actual box height
+        padding: self.height*0.05
+        orientation: "vertical"
+        Image:
+            source:"./images/gnu_health-logo.png"
+            pos_hint: {'center_x': 0.5}
+
+
+        Label:
+            id: welcome_label
+            pos_hint: {'center_x': 0.5}
+            markup: True
+            halign: 'center'
+            text_size: welcome_label.size
+            text:
+                "[b]Welcome![/b]\n\n To get the best out MyGNUHealth, I need " \
+                "some basic information from you.\n" \
+                "You will also initialize your personal private key that " \
+                "will grant you access to the application"
+            color: hexcolor('#32393a')
+
+        TextInput:
+            id: username
+            size_hint: (1, None)
+            height: newuser_box.height * 0.1
+            pos_hint: {'center_x': 0.5}
+            multiline: False
+            halign: 'center'
+            padding: 0, self.height/3
+            hint_text: tr._("Your Name")
+            write_tab: False
+
+        BoxLayout:
+            width: username.width
+            pos_hint: {'center_x': 0.5}
+            spacing: newuser_box.height*0.05
+            padding: self.height*0.05
+
+            Spinner:
+                id: sex
+                pos_hint: {'center_y': 0.5}
+                text: tr._("Sex")
+                size_hint: (None, None)
+                height: newuser_box.height * 0.1
+                values: root.sex_map.get_names()
+
+            BoxLayout:
+                spacing: newuser_box.height*0.05
+                padding: newuser_box.height*0.05
+                Label:
+                    height: newuser_box.height * 0.1
+                    pos_hint: {'center_y': 0.5}
+                    text_size: self.size
+                    text: tr._("DoB")
+                    halign: 'center'
+                    valign: 'middle'
+                    color: hexcolor('#32393a')
+                    multiline: False
+                    write_tab: False
+
+                TextInput:
+                    id: bday
+                    size_hint: (0.4, None)
+                    height: newuser_box.height * 0.1
+                    input_filter: 'int'
+                    pos_hint: {'center_y': 0.5}
+                    multiline: False
+                    halign: 'center'
+                    padding: 0, self.height/3
+                    hint_text: tr._("dd")
+                    write_tab: False
+
+                TextInput:
+                    id: bmonth
+                    size_hint: (0.4, None)
+                    height: newuser_box.height * 0.1
+                    pos_hint: {'center_y': 0.5}
+                    input_filter: 'int'
+                    multiline: False
+                    halign: 'center'
+                    padding: 0, self.height/3
+                    hint_text: tr._("mm")
+                    write_tab: False
+
+                TextInput:
+                    id: byear
+                    pos_hint: {'center_y': 0.5}
+                    size_hint: (0.5, None)
+                    height: newuser_box.height * 0.1
+                    input_filter: 'int'
+                    multiline: False
+                    halign: 'center'
+                    padding: 0, self.height/3
+                    hint_text: tr._("yyyy")
+                    write_tab: False
+
+        BoxLayout:
+            width: username.width
+            pos_hint: {'center_x': 0.5}
+            #spacing: newuser_box.height*0.05
+            #padding: newuser_box.height*0.05
+
+            Slider:
+                id: height
+                min: 50
+                max: 230
+                value: 160
+                step: 1
+                orientation: 'horizontal'
+            Label:
+                markup: True
+                height: newuser_box.height * 0.1
+                text: "[b]" + tr._("Height:") + "[/b] " + str(height.value) + " " + tr._("cm")
+                color: hexcolor('#32393a')
+
+        BoxLayout:
+            size_hint: (None, 0.3)
+            spacing: newuser_box.height*0.05
+            padding: newuser_box.height*0.05
+            width: username.width
+            pos_hint: {'center_x': 0.5}
+
+        BoxLayout:
+            width: username.width
+            pos_hint: {'center_x': 0.5}
+            spacing: newuser_box.height*0.05
+            padding: newuser_box.height*0.05
+
+            TextInput:
+                id: pkey
+                size_hint: (0.5, None)
+                height: newuser_box.height * 0.1
+                multiline: False
+                halign: 'center'
+                padding: 0, self.height/3
+                hint_text: tr._("Personal key")
+                password: True
+                write_tab: False
+
+            TextInput:
+                id: pkey_confirm
+                size_hint: (0.5, None)
+                height: newuser_box.height * 0.1
+                multiline: False
+                halign: 'center'
+                padding: 0, self.height/3
+                hint_text: tr._("Repeat Personal Key")
+                password: True
+                write_tab: False
+
+        Button:
+            id: save_button
+            text: "Save"
+            pos_hint: {'center_x': 0.5}
+            height: newuser_box.height * 0.1
+            background_color: hexcolor("#07879a")
+
+            on_release:
+                root.init_user(username.text, sex.text, height.value, \
+                bday.text, bmonth.text, byear.text, pkey.text, \
+                pkey_confirm.text
+                )

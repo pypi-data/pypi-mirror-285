@@ -1,0 +1,125 @@
+#:import tr mygnuhealth.lang.tr
+
+<BluetoothSettingsScreen>:
+    name: "bluetooth_settings"
+    
+    BoxLayout:
+        padding: 10
+        spacing: 20
+        orientation: "vertical"
+
+        Image:
+            id: bt_image
+            source:"./images/bluetooth_settings-icon.png"
+            pos_hint: {'center_x': 0.5}
+            size_hint: 0.1, 0.15
+            
+        Spinner:
+            id: device_spinner
+            pos_hint: {'center_x': 0.5}
+            size_hint: 0.8, 0.2
+            values: root.bluetooth_settings.device_map.get_names()
+            # Use the model/code instad of the descriptive name for searching
+            btdev: str(root.bluetooth_settings.device_map.get_code(self.text))
+            on_text: root.read_device_info(self.btdev)
+
+        BoxLayout:
+            pos_hint: {'center_x': 0.5}
+            size_hint: 0.8, 0.5
+            spacing: 15
+            orientation: "horizontal"
+ 
+            Image:
+                btdev: str(root.bluetooth_settings.device_map.get_code(device_spinner.text)) if device_spinner.text else 'InfiniTime'
+                source: "./images/"+ self.btdev + ".png" 
+                # pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                #size_hint: 0.5, None
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 5
+                size_hint: 0.9, 0.4
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
+                TextInput:
+                    id: address
+                    pos_hint: {'center_y': 0.5}
+                    size_hint: 1, 0.30
+                    multiline: False
+                    halign: 'center'
+                    hint_text: tr._("Device UID")
+                    write_tab: False
+
+                Button:
+                    id: discover_device
+                    pos_hint: {'center_x': 0.5}
+                    text: tr._("Discover")
+                    size_hint: None, 0.30
+                    # Note: same size_hint, botton's width looks a bit
+                    # smaller than TextInput, so we add 2 to adjust.
+                    width: address.width + 2
+                    background_color: hexcolor("#07879a")
+                    btdev: str(root.bluetooth_settings.device_map.get_code(device_spinner.text))
+                    on_release:
+                        root.discover_device(self.btdev)
+                
+        GridLayout:
+            cols: 4
+            size_hint: 0.8, 0.2
+            pos_hint: {'center_x': 0.5}
+
+            ToggleButton:
+                id: weight
+                text: tr._("weight")
+
+            ToggleButton:
+                id: hr
+                text: tr._("hr")
+
+            ToggleButton:
+                id: bp
+                text: tr._("bp")
+
+            ToggleButton:
+                id: osat
+                text: tr._("osat")
+
+            ToggleButton:
+                id: glucose
+                text: tr._("glucose")
+
+            ToggleButton:
+                id: steps
+                text: tr._("steps")
+
+            ToggleButton:
+                id: kcal
+                text: tr._("kcal")
+
+            ToggleButton:
+                id: sleep
+                text: tr._("sleep")
+            
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 0.6, 0.1
+            pos_hint: {'center_x': 0.5}
+
+            Button:
+                id: update_btdevice_button
+                text: tr._("Update settings")
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                background_color: hexcolor("#07879a")
+                btdev: str(root.bluetooth_settings.device_map.get_code(device_spinner.text))
+                features:
+                    {'hr':hr.state,'bp':bp.state,'weight':weight.state,'steps':steps.state,
+                    'glucose':glucose.state,'osat':osat.state, 'sleep':sleep.state,'kcal':kcal.state}
+                on_release:
+                    root.bluetooth_settings.update_device_info(addr=address.text, model=self.btdev,
+                    features=self.features)
+
+            Button:
+                id: button_syncbt
+                text: tr._("Sync")
+                background_color: hexcolor("#07879a")
+                on_press: root.sync_device(addr=address.text, model=device_spinner.btdev, features=update_btdevice_button.features)

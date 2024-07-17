@@ -1,0 +1,42 @@
+#:import tr mygnuhealth.lang.tr
+
+<TrackerPsychoMoodStatsScreen>:
+    name: "tracker_psycho_mood_stats"
+
+    BoxLayout:
+        orientation: "vertical"
+        padding: 5
+        spacing: 10
+        halign: 'center'
+
+        DateRange:
+            id: date_range
+            pos_hint: {'center_x':0.5, 'center_y':0.5}
+            size_hint: (None, None)
+            width: max(root.width * 0.6, 300)
+            height: max(root.height * 0.07, 35)
+            date_start: root.date_start
+            date_end: root.date_end
+            update_range_function: root.update_pots
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 10
+            bar_inactive_color: self.bar_color
+            position_hint: {'center_x':0.5}
+
+            BoxLayout:
+                orientation: "vertical"
+                size: root.width, min(root.width, 1000) * 1.25
+                size_hint_y: None
+                padding: 5
+                spacing: 10
+
+                Image:
+                    id: mood_plot_image
+                    texture: root.mood_plot
+
+                Image:
+                    id: energy_plot_image
+                    texture: root.energy_plot
