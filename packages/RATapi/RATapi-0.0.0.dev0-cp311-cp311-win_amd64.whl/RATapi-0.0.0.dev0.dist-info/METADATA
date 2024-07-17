@@ -1,0 +1,57 @@
+Metadata-Version: 2.1
+Name: RATapi
+Version: 0.0.0.dev0
+Summary: Python extension for the Reflectivity Analysis Toolbox (RAT)
+Home-page: https://github.com/RascalSoftware/python-RAT
+Author: 
+Author-email: 
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: numpy >=1.20
+Requires-Dist: prettytable >=3.9.0
+Requires-Dist: pydantic >=2.7.2
+Requires-Dist: matplotlib >=3.8.3
+Requires-Dist: StrEnum >=0.4.15 ; python_version < "3.11"
+Provides-Extra: dev
+Requires-Dist: pytest >=7.4.0 ; extra == 'dev'
+Requires-Dist: pytest-cov >=4.1.0 ; extra == 'dev'
+Requires-Dist: ruff >=0.4.10 ; extra == 'dev'
+Provides-Extra: matlab_2021a
+Requires-Dist: matlabengine ==9.10.3 ; extra == 'matlab_2021a'
+Provides-Extra: matlab_2021b
+Requires-Dist: matlabengine ==9.11.21 ; extra == 'matlab_2021b'
+Provides-Extra: matlab_2022a
+Requires-Dist: matlabengine ==9.12.19 ; extra == 'matlab_2022a'
+Provides-Extra: matlab_2022b
+Requires-Dist: matlabengine ==9.13.9 ; extra == 'matlab_2022b'
+Provides-Extra: matlab_2023a
+Requires-Dist: matlabengine ==9.14.3 ; extra == 'matlab_2023a'
+Provides-Extra: matlab_2023b
+Requires-Dist: matlabengine ==23.2.1 ; extra == 'matlab_2023b'
+Provides-Extra: matlab_latest
+Requires-Dist: matlabengine ; extra == 'matlab_latest'
+
+python-RAT
+==========
+Python-RAT is the Python interface for the [Reflectivity Algorithm Toolbox](https://github.com/RascalSoftware/RAT) (RAT).
+
+Install
+=======
+To install in local directory:
+
+    git clone --recurse-submodules https://github.com/RascalSoftware/python-RAT.git
+    cd python-RAT
+    pip install -e .
+
+matlabengine is an optional dependency only required for Matlab custom functions. The version of matlabengine should match the version of Matlab installed on the machine. This can be installed as shown below:
+
+    pip install -e .[Matlab-2023a]
+
+Development dependencies can be installed as shown below
+
+    pip install -e .[Dev]    
+
+To build wheel:
+
+    pip install build
+    python -m build --wheel
