@@ -1,0 +1,19 @@
+[project]
+name = "xaal.sensfloor"
+version = "0.1"
+description = "xAAL devices for Future Shape SensFloor"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "Sense Floor"]
+dependencies = ["xaal.lib", "xaal.schemas", "python-socketio==5.0.0", "aiohttp"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.sensfloor"]
