@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: icore
+Version: 1.0.10
+Summary: Modulo de icore.
+Home-page: https://github.com/illimitar/icore.git
+Author: Hermílio Alves
+Author-email: hermilio@illimitar.com.br
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: dash
+Requires-Dist: pandas
+Requires-Dist: dash-mantine-components
+Requires-Dist: elastic-apm
+Requires-Dist: dash_iconify
+Requires-Dist: dash_ag_grid
+Requires-Dist: sqlalchemy
+Requires-Dist: pymssql
+Requires-Dist: mysql-connector-python
+Requires-Dist: blinker
+Requires-Dist: gunicorn
+
+# icore
+
+Projeto icore componentes do illi
+
+pip install setuptools  
+pip install twine
+python setup.py sdist bdist_wheel
+
+twine upload dist/\*
+
+pip install --no-cache-dir icore
