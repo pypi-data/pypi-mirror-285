@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  release:
+    types:
+      - published
+
+jobs:
+  publish:
+    name: Publish on PyPI
+    runs-on: ubuntu-latest
+    environment:
+      name: publish
+      url: https://pypi.org/p/glass
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: pipx run build
+      - uses: pypa/gh-action-pypi-publish@v1.9.0
