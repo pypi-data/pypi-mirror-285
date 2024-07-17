@@ -1,0 +1,2252 @@
+openapi: 3.0.0
+info:
+  license:
+    name: BSD License
+  version: '1.0.0'
+  title: 'SNMP Simulator Management REST API'
+  description: >
+    Management API is designed to support complete SNMP Simulator work flow
+    remotely. As such, Management API supports SNMP Agent creation,
+    configuration and eventual tear down. Simulation data can be uploaded,
+    modified, removed and exposed under different circumstances. On top of
+    that, SNMP agents can be grouped together to form "virtual lab" that
+    can be brought up/down altogether.
+
+
+    Typical management work flow looks like this:
+
+
+    1. Create SNMP Agent using `/agents` REST API endpoint. You can supply
+       complete agent configuration at once or add/modify it incrementally.
+       Important configuration items include: SNMP Engine ID, SNMPv3 VACM
+       user(s) credentials.
+
+       The other important aspect of agent configuration is its simulation
+       data selection rules. These take shape of `selectors` strings guiding
+       agent's probing `.snmprec` files under simulation data directory.
+       The default selector set is applied automatically if not given.
+
+    2. Create SNMP transport endpoint(s) using `/endpoints`. These are the
+       address(es) where SNMP agent is listening for inbound SNMP commands.
+       When creating an endpoint, bind it to one specific SNMP agent.
+
+    3. Create SNMP simulation data by uploading the entire `.snmprec` file
+       via `/recordings` endpoint. The path and the name of this file
+       is used by the agent for simulation data selection.
+
+    4. Optionally, add your new SNMP agent to a new or existing lab via
+       `/labs` endpoint.
+
+servers:
+  - url: https://virtserver.swaggerhub.com/etingof/snmpsim-mgmt/1.0.0
+  - url: http://127.0.0.1:5000/snmpsim/mgmt/v1
+
+paths:
+  /endpoints:
+    get:
+      description: >
+        This resource represents a list of all existing transport endpoints
+        that can be used by SNMP agents.
+      summary: >
+        List all existing transport endpoints
+      parameters:
+        - name: name
+          in: query
+          description: >
+            Search transport endpoint by name
+          required: false
+          schema:
+            type: string
+        - name: protocol
+          in: query
+          description: >
+            Search transport endpoint by protocol
+          required: false
+          schema:
+            type: string
+        - name: address
+          in: query
+          description: >
+            Search transport endpoint by address
+          required: false
+          schema:
+            type: string
+            enum: ["udpv4", "udpv6"]
+      responses:
+        "200":
+          description: >
+            An array of transport endpoints
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Endpoints"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new SNMP transport endpoint
+      requestBody:
+        description: >
+          Receive a new endpoint object bound to an existing SNMP agent.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndpointRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /endpoints/{id}:
+    description: >
+      This resource represents a single SNMP transport endpoint identified
+      by `id`.
+    get:
+      summary: Info for a specific SNMP transport endpoint
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the endpoint to retrieve
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Endpoint"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete SNMP transport endpoint
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the endpoint to retrieve
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /recordings:
+    description: >
+      This resource represents a collection of simulation data recordings. Each
+      `recording` in the collection corresponds to a single `.snmprec` file.
+    get:
+      summary: >
+        List all existing simulation data recordings.
+      responses:
+        "200":
+          description: >
+            An array of simulation data recordings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Recordings"
+            text/plain:
+              schema:
+                type: string
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /recordings/{path}:
+    description: >
+      This resource represents a single simulation data recording identified
+      by `path`.
+    get:
+      summary: Info for a specific simulation data object
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Simulation file path relative to data root
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Simulation file contents
+          content:
+            text/plain:
+              schema:
+                type: string
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new simulation data recording
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Simulation file path relative to data root
+          schema:
+            type: string
+      requestBody:
+        description: >
+          Receive the entire .snmprec file in a text or compressed form.
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Replace existing or create a new simulation data recording
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Simulation file path relative to data root
+          schema:
+            type: string
+      requestBody:
+        description: >
+          Receive the entire .snmprec file in a text or compressed form.
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+          application/octet-stream:
+            schema:
+              type: string
+              format: binary
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete simulation data object
+      parameters:
+        - name: path
+          in: path
+          required: true
+          description: Simulation file path relative to data root
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /users:
+    description: >
+      This resource represents SNMP USM users.
+    get:
+      summary: >
+        List all existing SNMP USM users
+      parameters:
+        - name: name
+          in: query
+          description: >
+            Search user by SNMP Secutory Name
+          required: false
+          schema:
+            type: string
+        - name: user
+          in: query
+          description: >
+            Search user by SNMP user name
+          required: false
+          schema:
+            type: string
+        - name: auth_proto
+          in: query
+          description: >
+            Search user by SNMPv3 authentication protocol
+          required: false
+          schema:
+            type: string
+            enum: ["MD5", "SHA", "SHA224", "SHA256", "SHA384", "SHA512", "NONE"]
+        - name: priv_proto
+          in: query
+          description: >
+            Search user by SNMPv3 privacy  protocol
+          required: false
+          schema:
+            type: string
+            enum: ["DES", "3DES", "AES", "AES128", "AES192", "AES192BLMT", "AES256",
+                   "AES256BLMT", "NONE"]
+      responses:
+        "200":
+          description: >
+            An array of SNMP USM user entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new SNMP USM user
+      requestBody:
+        description: >
+          New SNMP engine object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /users/{id}:
+    description: >
+      This resource represents a single SNMP USM user identified
+      by `id`.
+    get:
+      summary: Info for a specific SNMP USM user entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of SNMP USM user entry to retrieve
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete SNMP USM user entry
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of SNMP USM user entry to retrieve
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /engines:
+    description: >
+      This resource represents SNMP engines.
+    get:
+      summary: >
+        List all existing SNMP engines
+      parameters:
+        - name: name
+          in: query
+          description: >
+            Search engine by name
+          required: false
+          schema:
+            type: string
+        - name: engine_id
+          in: query
+          description: >
+            Search engine by SNMP Engine ID
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: >
+            An array of SNMP engines
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Engines"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new SNMP engine
+      requestBody:
+        description: >
+          New SNMP engine object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EngineRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /engines/{id}:
+    description: >
+      This resource represents a single SNMP engine identified
+      by `id`.
+    get:
+      summary: Info for a specific SNMP engine endpoint
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of SNMP engine to retrieve
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Engine"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of SNMP engine to retrieve
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /engines/{id}/user/{user_id}:
+    description: >
+      This resource represents a SNMP USM user identified by `user_id`
+      associated with SNMP engine `id`.
+    put:
+      summary: Add existing SNMP USM user to SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP engine
+          schema:
+            type: integer
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of the SNMP USM user
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Remove SNMP USM user from SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP engine
+          schema:
+            type: integer
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of the SNMP USM user
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /engines/{id}/endpoint/{endpoint_id}:
+    description: >
+      This resource represents a SNMP transport endpoint identified by
+      `endpoint_id` associated with SNMP engine `id`.
+    put:
+      summary: Attach existing SNMP transport endpoint to SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP engine
+          schema:
+            type: integer
+        - name: endpoint_id
+          in: path
+          required: true
+          description: The ID of the SNMP transport endpoint
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Remove SNMP USM user from SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP engine
+          schema:
+            type: integer
+        - name: endpoint_id
+          in: path
+          required: true
+          description: The ID of the SNMP transport endpoint
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+  /selectors:
+    description: >
+      This resource represents a list of all SNMP simulation data selectors.
+    get:
+      summary: >
+        List all existing SNMP simulation data selectors
+      parameters:
+        - name: comment
+          in: query
+          description: >
+            Search selectors by comment
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: >
+            An array of SNMP simulation data selectors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Selectors"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new SNMP simulation data selector
+      requestBody:
+        description: >
+          New SNMP data selectors
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SelectorRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /selectors/{id}:
+    description: >
+      This resource represents a single SNMP simulation data selector
+      by `id`.
+    get:
+      summary: Info for a specific SNMP simulation data selector
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the selector to retrieve
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Selector"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete SNMP simulation data selector
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the selector to retrieve
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /agents:
+    description: >
+      This resource represents a list of all SNMP agents.
+    get:
+      summary: >
+        List all existing SNMP agents
+      parameters:
+        - name: name
+          in: query
+          description: >
+            Search agents by name
+          required: false
+          schema:
+            type: string
+        - name: data_dir
+          in: query
+          description: >
+            Search agents by data directory
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: >
+            An array of SNMP agents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Agents"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new SNMP agent
+      requestBody:
+        description: >
+          New SNMP agent object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /agents/{id}:
+    description: >
+      This resource represents a single SNMP agent identified
+      by `id`.
+    get:
+      summary: Info for a specific SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the agent to retrieve
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Agent"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the agent to retrieve
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /agents/{id}/engine/{engine_id}:
+    description: >
+      This resource represents a SNMP engine identified by `engine_id`
+      associated with SNMP agent `id`.
+    put:
+      summary: Add existing SNMP engine to SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP agent
+          schema:
+            type: integer
+        - name: engine_id
+          in: path
+          required: true
+          description: The ID of the SNMP engine
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Remove SNMP engine from SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP agent
+          schema:
+            type: integer
+        - name: engine_id
+          in: path
+          required: true
+          description: The ID of the SNMP engine
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /agents/{id}/selector/{selector_id}/{order}:
+    description: >
+      This resource represents simulation data selector identified by
+      `selector_id` associated with SNMP agent `id`.
+    put:
+      summary: Add existing simulation data selecltor to SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP agent
+          schema:
+            type: integer
+        - name: selector_id
+          in: path
+          required: true
+          description: The ID of the simulation data selector
+          schema:
+            type: integer
+        - name: order
+          in: path
+          required: true
+          description: Relative matching order of this selector
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /agents/{id}/selector/{selector_id}:
+    description: >
+      This resource represents simulation data selector identified by
+      `selector_id` associated with SNMP agent `id`.
+    delete:
+      summary: Remove simulation data selector from SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the SNMP agent
+          schema:
+            type: integer
+        - name: selector_id
+          in: path
+          required: true
+          description: The ID of the simulation data selector
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /labs:
+    get:
+      description: >
+        This resource represents a list of all existing virtual laboratories.
+      summary: >
+        List all existing virtual laboratories
+      parameters:
+        - name: name
+          in: query
+          description: >
+            Search labs by name
+          required: false
+          schema:
+            type: string
+        - name: power
+          in: query
+          description: >
+            Search labs by power state
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: >
+            An array of virtual laboratories
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Labs"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create new virtual laboratory
+      requestBody:
+        description: >
+          New lab optionally containing SNMP agent IDs.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /labs/{id}:
+    description: >
+      This resource represents a virtual laboratory identified by `id`.
+    get:
+      summary: Virtual laboratory information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the virtual laboratory
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Lab"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete virtual laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the virtual laboratory
+          schema:
+            type: integer
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /labs/{id}/agent/{agent_id}:
+    description: >
+      This resource represents a SNMP agent identified by `agent_id`
+      associated with a virtual laboratory identified by `id`.
+    put:
+      summary: Add existing SNMP agent to a virtual laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the virtual laboratory
+          schema:
+            type: integer
+        - name: agent_id
+          in: path
+          required: true
+          description: The ID of the SNMP agent
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Remove SNMP agent from the virtual laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the virtual laboratory
+          schema:
+            type: integer
+        - name: agent_id
+          in: path
+          required: true
+          description: The ID of the SNMP agent
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /labs/{id}/power/{state}:
+    description: >
+      This resource represents the power state of the entire virtual laboratory.
+      The virtual laboratory is identified by `id`, power state can be
+      queried and modified.
+    put:
+      summary: Change power state of the virtual laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the virtual laboratory
+          schema:
+            type: integer
+        - name: state
+          in: path
+          required: true
+          description: Desired power state of the entire lab
+          schema:
+            type: string
+            enum: ['on', 'off']
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags:
+    get:
+      description: >
+        This resource represents a list of tags
+      summary: >
+        List of tags.
+      parameters:
+        - name: name
+          in: query
+          description: >
+            Search tags by name
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: >
+            An array of tags
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tags"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      summary: Create a new tag
+      requestBody:
+        description: >
+          New tag optionally linking other entities
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TagRequired"
+      responses:
+        "201":
+          description: >
+            A single tag that has been created.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}:
+    description: >
+      This resource represents a tag identified by `id`.
+    get:
+      summary: Tag information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of tag
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Updated tag information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete a tag
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/endpoint:
+    post:
+      summary: Create a new taggd SNMP transport endpoint
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      requestBody:
+        description: >
+          Receive a new endpoint object bound to an existing SNMP agent.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EndpointRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/endpoint/{endpoint_id}:
+    description: >
+      This resource represents a SNMP transport endpoint identified by
+      `endpoint_id` tagged with a tag identified by `id`.
+    put:
+      summary: Tag SNMP transport endpoint
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: endpoint_id
+          in: path
+          required: true
+          description: The ID of SNMP transport endpoint
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Untag SNMP transport endpoint
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: endpoint_id
+          in: path
+          required: true
+          description: The ID of SNMP transport endoint
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/user:
+    post:
+      summary: Create a new tagged SNMP USM user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      requestBody:
+        description: >
+          New SNMP engine object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/user/{user_id}:
+    description: >
+      This resource represents a SNMP USM user identified by `user_id` tagged
+      with a tag identified by `id`.
+    put:
+      summary: Tag SNMP USM user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of SNMP USM user
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Untag SNMP USM user
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: user_id
+          in: path
+          required: true
+          description: The ID of SNMP USM user
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/engine:
+    post:
+      summary: Create a new SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      requestBody:
+        description: >
+          New SNMP engine object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EngineRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/engine/{engine_id}:
+    description: >
+      This resource represents a SNMP engine identified by
+      `engine_id` tagged with a tag identified by `id`.
+    put:
+      summary: Tag SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: engine_id
+          in: path
+          required: true
+          description: The ID of SNMP engine
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Untag SNMP engine
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of tag
+          schema:
+            type: integer
+        - name: engine_id
+          in: path
+          required: true
+          description: The ID of SNMP engine
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/selector:
+    post:
+      summary: Create a new tagged SNMP simulation data selector
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      requestBody:
+        description: >
+          New SNMP data selectors
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SelectorRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/selector/{selector_id}:
+    description: >
+      This resource represents a SNMP simulation recording selector identified
+      by `selector_id` tagged with a tag identified by `id`.
+    put:
+      summary: Tag SNMP simulation recording selector
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: selector_id
+          in: path
+          required: true
+          description: The ID of SNMP simulation recording selector
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Untag SNMP simulation recording selector
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of tag
+          schema:
+            type: integer
+        - name: selector_id
+          in: path
+          required: true
+          description: The ID of SNMP simulation recording selector
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/agent:
+    post:
+      summary: Create a new tagged SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      requestBody:
+        description: >
+          New SNMP agent object
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/agent/{agent_id}:
+    description: >
+      This resource represents a SNMP agent identified by
+      `agent_id` tagged with a tag identified by `id`.
+    put:
+      summary: Tag SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: agent_id
+          in: path
+          required: true
+          description: The ID of SNMP agent
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Untag SNMP agent
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of tag
+          schema:
+            type: integer
+        - name: agent_id
+          in: path
+          required: true
+          description: The ID of SNMP agent
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/lab:
+    post:
+      summary: Create new tagged virtual laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+      requestBody:
+        description: >
+          New lab optionally containing SNMP agent IDs.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LabRequired"
+      responses:
+        "201":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/lab/{lab_id}:
+    description: >
+      This resource represents a virtual SNMP laboratory identified by
+      `lab_id` tagged with a tag identified by `id`.
+    put:
+      summary: Tag virtual SNMP laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of the tag
+          schema:
+            type: integer
+        - name: lab_id
+          in: path
+          required: true
+          description: The ID of virtual SNMP laboratory
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Untag virtual SNMP laboratory
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of tag
+          schema:
+            type: integer
+        - name: lab_id
+          in: path
+          required: true
+          description: The ID of virtual SNMP laboratory
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Null response
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /tags/{id}/objects:
+    description: >
+      This resource represents all SNMP simulator control plane objects
+       tagged with a tag identified by `id`.
+    delete:
+      summary: Delete all tagged objects
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The ID of tag
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Updated tag information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        default:
+          description: Unspecified error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+components:
+  schemas:
+    EndpointRequired:
+      description: >
+        Required fields of SNMP transport endpoint object.
+        Each SNMP engine can bind one or more transport endpoints.
+        Each transport endpoint can only be bound by one SNMP engine.
+      type: object
+      required:
+        - protocol
+        - address
+      properties:
+        protocol:
+          type: string
+          enum: ["udpv4", "udpv6"]
+        address:
+          type: string
+          pattern: ".*"  # IPv4:port, IPv6:port, FQDN(?)
+
+    EndpointOptional:
+      description: >
+        Optional fields of SNMP transport endpoint object.
+      type: object
+      properties:
+        id:
+          description: >
+            Transport endpoint unique ID
+          type: integer
+          format: int64
+        name:
+          description: >
+            Descriptive name of this transport endpoint e.g. "port123 at vif456"
+          type: string
+        tags:
+          description: >
+            Tags tagging this SNMP transport endpoint
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    Endpoint:
+      description: >
+        SNMP transport endpoint object.
+        Each SNMP engine can bind one or more transport endpoints.
+        Each transport endpoint can only be bound by one SNMP engine.
+      allOf:
+        - $ref: "#/components/schemas/EndpointRequired"
+        - $ref: "#/components/schemas/EndpointOptional"
+
+    Endpoints:
+      description: >
+        Collection of SNMP transport endpoints.
+      type: array
+      items:
+        $ref: "#/components/schemas/Endpoint"
+
+    UserRequired:
+      description: >
+        Required fields of SNMPv3 USM user object.
+        Contains SNMPv3 credentials grouped by user name.
+      required:
+        - user
+      properties:
+        user:
+          description: >
+            USM user name.
+          type: string
+          minLength: 1
+          maxLength: 32
+
+    UserOptional:
+      description: >
+        Required fields of SNMPv3 USM user object.
+        Contains SNMPv3 credentials grouped by user name.
+      properties:
+        id:
+          description: >
+            Unique ID
+          type: integer
+          format: int64
+        name:
+          description: >
+            SNMP security name of this entry.
+          type: string
+        auth_key:
+          description: >
+            USM user authentication key
+          type: string
+          minLength: 8
+          maxLength: 32
+        auth_proto:
+          description: >
+            User authentication protocol
+          type: string
+          enum: ["MD5", "SHA", "SHA224", "SHA256", "SHA384", "SHA512", "NONE"]
+        priv_key:
+          description: >
+            USM user privacy (encryption) key
+          type: string
+          minLength: 8
+          maxLength: 32
+        priv_proto:
+          type: string
+          enum: ["DES", "3DES", "AES", "AES128", "AES192", "AES192BLMT", "AES256",
+                 "AES256BLMT", "NONE"]
+        tags:
+          description: >
+            Tags tagging this SNMP USM user
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    User:
+      description: >
+        SNMPv3 USM user object.
+        Contains SNMPv3 credentials grouped by user name.
+      allOf:
+        - $ref: "#/components/schemas/UserRequired"
+        - $ref: "#/components/schemas/UserOptional"
+
+    Users:
+      description: >
+        Collection of SNMP USM users.
+      type: array
+      items:
+        $ref: "#/components/schemas/User"
+
+    EngineRequired:
+      description: >
+        Required fields of SNMP Engine object.
+      type: object
+      required:
+        - engine_id
+      properties:
+        engine_id:
+          description: >
+            Administratively assigned, unique (within an administrative domain) ID
+            of SNMP engine. Newly created objects missing this field will have it
+            autogenerated.
+          type: string
+          pattern: ".*"  # TODO: three distinct formats
+
+    EngineOptional:
+      description: >
+        Optional fields of SNMP Engine object.
+      type: object
+      properties:
+        id:
+          description: >
+            Unique ID
+          type: integer
+          format: int64
+        users:
+          description: >
+            SNMP USM user entries associated with this SNMP engine
+          type: array
+          items:
+            $ref: "#/components/schemas/User"
+        endpoints:
+          description: >
+            SNMP transport endpoint IDs associated with this SNMP engine
+          type: array
+          items:
+            $ref: "#/components/schemas/Endpoint"
+        tags:
+          description: >
+            Tags tagging this SNMP engine
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    Engine:
+      description: >
+        Represents a unique, independent and fully operational SNMP engine, though
+        not yet attached to any transport endpoints.
+      allOf:
+        - $ref: "#/components/schemas/EngineRequired"
+        - $ref: "#/components/schemas/EngineOptional"
+
+    Engines:
+      description: >
+        Collection of SNMP engines.
+      type: array
+      items:
+        $ref: "#/components/schemas/Engine"
+
+    SelectorRequired:
+      description: >
+        Required fields of Selector object.
+
+    SelectorOptional:
+      description: >
+        Optional fields of Selector object.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        comment:
+          description: >
+            Description of this selector
+          type: string
+
+        template:
+          description: >
+            Am expandable template or a static path to simulation data file
+          type: string
+
+        tags:
+          description: >
+            Tags tagging this SNMP simulation recording selector
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    Selector:
+      description: >
+        Each selector should end up being a path to a simulation data
+        file relative to the command responder's data directory. The
+        value of the selector can be static or, more likely, it contains
+        templates that are expanded at run time. Each template can expand
+        into some property of the inbound request.
+
+        Known templates include:
+
+        * ${context-engine-id}
+
+        * ${context-name}
+
+        * ${endpoint-id}
+
+        * ${source-address}
+
+      allOf:
+        - $ref: "#/components/schemas/SelectorRequired"
+        - $ref: "#/components/schemas/SelectorOptional"
+
+    Selectors:
+      description: >
+        Collection of selectors.
+      type: array
+      items:
+        $ref: "#/components/schemas/Selector"
+
+    AgentRequired:
+      description: >
+        Required fields of SNMP agent object.
+      type: object
+
+    AgentOptional:
+      description: >
+        Optional fields of SNMP agent object.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          description: >
+            Descriptive name of this agent e.g. "cisco5300"
+          type: string
+        data_dir:
+          description: >
+            Simulation data directory for this agent to use
+          type: string
+        engines:
+          description: >
+            SNMP engines associated with this SNMP agent
+          type: array
+          items:
+            $ref: "#/components/schemas/Agent"
+        selectors:
+          description: >
+            Ordered list of selectors probed by the agent to find a simulation
+            data file. Default selector set is:
+
+            1. ${context-engine-id}/${context-name}/${transport-id}/${source-address}.snmprec
+
+            2. ${context-engine-id}/${context-name}/${transport-id}.snmprec
+
+            3. ${context-engine-id}/${context-name}.snmprec
+
+            4. ${context-engine-id}.snmprec
+
+          type: array
+          items:
+            $ref: "#/components/schemas/Selector"
+        tags:
+          description: >
+            Tags tagging this SNMP agent
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    Agent:
+      description: >
+        Represents SNMP agent. Consists of SNMP engine and transport
+        endpoints it binds.
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/AgentRequired"
+        - $ref: "#/components/schemas/AgentOptional"
+
+    Agents:
+      type: array
+      items:
+        $ref: "#/components/schemas/Agent"
+
+    RecordingRequired:
+      description: >
+        Required fields of Recording object.
+      type: object
+      required:
+        - path
+      properties:
+        path:
+          description: >
+            Path to the `.snmprec` file on the filesystem under a simulation data
+            directory where this recording resides.
+          type: string
+
+    RecordingOptional:
+      description: >
+        Required fields of Recording object.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          description: >
+            Descriptive name of this recording e.g. "cisco5300 routing and L2 tables"
+          type: string
+
+    Recording:
+      description: >
+        Represents a single simulation data file residing by `path` under
+        simulation data root.
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/RecordingRequired"
+        - $ref: "#/components/schemas/RecordingOptional"
+
+    Recordings:
+      description: >
+        A collection of SNMP recordings
+      type: object
+      properties:
+        recordings:
+          type: array
+          items:
+            $ref: "#/components/schemas/Recording"
+
+    LabRequired:
+      description: >
+        Required fields of Lab object.
+      type: object
+
+    LabOptional:
+      description: >
+        Optional fields of Lab object.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          description: >
+            Descriptive name of this lab e.g. "cisco switching shop"
+          type: string
+        agents:
+          description: >
+            SNMP agents belonging to this lab
+          type: array
+          items:
+            $ref: "#/components/schemas/Agent"
+        power:
+            description: >
+              Power state of SNMP agents in this lab
+            type: string
+            enum: ["on", "off"]
+        tags:
+          description: >
+            Tags tagging this SNMP lab
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    Lab:
+      description: >
+        Group of SNMP agents belonging to the same virtual laboratory. Some
+        operations can be applied to them all at once.
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/LabRequired"
+        - $ref: "#/components/schemas/LabOptional"
+
+    Labs:
+      description: >
+        A collection of virtual laboratories.
+      type: array
+      items:
+        $ref: "#/components/schemas/Lab"
+
+    TagRequired:
+      description: >
+        Required fields of Tag object.
+      type: object
+
+    TagOptional:
+      description: >
+        Optional fields of Tag object.
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          description: >
+            Name of this tag e.g. "labX"
+          type: string
+        description:
+          description: >
+            Descriptive name of this tag e.g. "All lab X resources"
+          type: string
+        endpoints:
+          description: >
+            SNMP transport endpoints tagged with this tag
+          type: array
+          items:
+            type: object
+            properties:
+              _links:
+                $ref: "#/components/schemas/Links"
+        users:
+          description: >
+            SNMP USM users tagged with this tag
+          type: array
+          items:
+            type: object
+            properties:
+              _links:
+                $ref: "#/components/schemas/Links"
+        engines:
+          description: >
+            SNMP engines tagged with this tag
+          type: array
+          items:
+            type: object
+            properties:
+              _links:
+                $ref: "#/components/schemas/Links"
+        selectors:
+          description: >
+            SNMP selectors tagged with this tag
+          type: array
+          items:
+            type: object
+            properties:
+              _links:
+                $ref: "#/components/schemas/Links"
+        agents:
+          description: >
+            SNMP agents tagged with this tag
+          type: array
+          items:
+            type: object
+            properties:
+              _links:
+                $ref: "#/components/schemas/Links"
+        labs:
+          description: >
+            Virtual SNMP labs tagged with this tag
+          type: array
+          items:
+            type: object
+            properties:
+              _links:
+                $ref: "#/components/schemas/Links"
+
+    Tag:
+      description: >
+        Tag that tags a collection of SNMP simulator control plane resources.
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/TagRequired"
+        - $ref: "#/components/schemas/TagOptional"
+
+    Tags:
+      description: >
+        A collection of tags.
+      type: array
+      items:
+        $ref: "#/components/schemas/Tag"
+
+    Links:
+      type: object
+      properties:
+        self:
+          description: >
+            URI pointing to the instance of one object in a collection
+          type: string
+        collection:
+          description: >
+            URI pointing to the entire collection of similar objects
+          type: string
+
+    Error:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: integer
+          format: int32
+        message:
+          type: string
