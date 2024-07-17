@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: xaal.htu21d
+Version: 0.1
+Summary: xAAL devices for I2C HTU21D sensors
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/sensors/HTU21D/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/sensors/HTU21D
+Keywords: xaal,i2c sensors
+Classifier: Programming Language :: Python
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+
+
+xAAL support for HTU21D sensors
+===============================
+HTU21D combine a temperature and humidity sensors in a single package.
+You can find some breakboard for less than 5$ on ebay. 
+
+This program simply export the temperature & humidity on the xAAL bus.
+
+We tested this on a Raspberry PI 3, but it should work with any device
+that has a I2C bus. 
+
+Original HTU21D Python module come from the weather station project:
+https://github.com/raspberrypi/weather-station/blob/master/HTU21D.py
+
