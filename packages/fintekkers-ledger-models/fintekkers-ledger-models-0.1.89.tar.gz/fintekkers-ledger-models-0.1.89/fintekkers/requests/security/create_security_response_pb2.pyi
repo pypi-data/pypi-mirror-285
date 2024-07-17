@@ -1,0 +1,22 @@
+from fintekkers.models.security import security_pb2 as _security_pb2
+from fintekkers.requests.security import create_security_request_pb2 as _create_security_request_pb2
+from fintekkers.requests.util.errors import summary_pb2 as _summary_pb2
+from google.protobuf import descriptor as _descriptor
+from google.protobuf import message as _message
+from typing import ClassVar as _ClassVar, Mapping as _Mapping, Optional as _Optional, Union as _Union
+
+DESCRIPTOR: _descriptor.FileDescriptor
+
+class CreateSecurityResponseProto(_message.Message):
+    __slots__ = ["errors_or_warnings", "object_class", "security_request", "security_response", "version"]
+    ERRORS_OR_WARNINGS_FIELD_NUMBER: _ClassVar[int]
+    OBJECT_CLASS_FIELD_NUMBER: _ClassVar[int]
+    SECURITY_REQUEST_FIELD_NUMBER: _ClassVar[int]
+    SECURITY_RESPONSE_FIELD_NUMBER: _ClassVar[int]
+    VERSION_FIELD_NUMBER: _ClassVar[int]
+    errors_or_warnings: _summary_pb2.SummaryProto
+    object_class: str
+    security_request: _create_security_request_pb2.CreateSecurityRequestProto
+    security_response: _security_pb2.SecurityProto
+    version: str
+    def __init__(self, object_class: _Optional[str] = ..., version: _Optional[str] = ..., security_request: _Optional[_Union[_create_security_request_pb2.CreateSecurityRequestProto, _Mapping]] = ..., security_response: _Optional[_Union[_security_pb2.SecurityProto, _Mapping]] = ..., errors_or_warnings: _Optional[_Union[_summary_pb2.SummaryProto, _Mapping]] = ...) -> None: ...
