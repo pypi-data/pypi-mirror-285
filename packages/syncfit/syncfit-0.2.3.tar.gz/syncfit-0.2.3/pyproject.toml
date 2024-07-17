@@ -1,0 +1,58 @@
+[build-system]
+requires = ['setuptools>=64']
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "syncfit"
+authors = [{name = "Noah Franz", email = "nfranz@arizona.edu"},
+	   {name = "Collin Christy", email = "collinchristy@arizona.edu"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+dynamic = ["version"]
+
+requires-python = ">=3.9"
+
+classifiers = [
+  "License :: OSI Approved :: BSD License",
+  "Topic :: Scientific/Engineering",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "License :: OSI Approved :: BSD License",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Development Status :: 1 - Planning"
+]
+
+dependencies = [
+  "numpy>=1.20",
+  "matplotlib",
+  "scipy",
+  "astropy",
+  "emcee",
+  "dynesty"
+  ]
+
+[project.optional-dependencies]
+docs = [
+     "syncfit",
+     "Sphinx",
+     "myst_parser",
+     "nbsphinx",
+     "sphinx-book-theme",
+     "sphinx_copybutton",
+     "autodoc",
+     "ipykernel"
+]
+
+[project.urls]
+Home = "https://github.com/alexander-group/syncfit"
+
+[tool.setuptools.packages.find]
+where = ['src']
+
+[tool.setuptools.dynamic]
+version = {attr = 'syncfit._version.__version__'}
