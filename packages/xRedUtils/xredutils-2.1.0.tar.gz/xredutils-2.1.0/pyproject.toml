@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xRedUtils"
+version = "2.1.0"
+authors = [{ name="xRedCrystalx" }]
+description = "Simple, general purpose functions in one place!"
+requires-python = ">=3.12"
+readme = "README.rst"
+
+classifiers = [
+    "Natural Language :: English",
+    "Intended Audience :: Developers",
+
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+
+    "Topic :: Utilities"
+]
+
+[project.urls]
+Homepage = "https://github.com/xRedCrystalx/xRedUtils"
+Issues = "https://github.com/xRedCrystalx/xRedUtils/issues"
+
+[tool.setuptools.packages.find]
+include = [
+    "xRedUtils",
+    "xRedUtils.modules",
+    "xRedUtilsAsync",
+    "xRedUtilsAsync.modules",
+    "xRedUtilsTests",
+    "xRedUtilsTests.loaders"
+]
+exclude = ["TODO", "NOTES.txt", "assets"]
