@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "dialsim"
+version = "0.0.10"
+authors = [
+  { name="Jiho Kim", email="jiho.kim@kaist.ac.kr" },
+  { name="Woosog Chay", email="benchay@kaist.ac.kr" },
+]
+description = "DialSim package"
+keywords = ["conversational agents", "simulator", "evaluation", "natural language processing"]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.9,<3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "toml",
+  "torch",
+  "types-toml",
+  "accelerate",
+  "bitsandbytes",
+  "google-generativeai",
+  "huggingface-hub",
+  "openai",
+  "transformers",
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "sentencepiece",
+  "nltk",
+  "rank-bm25",
+  "func-timeout"
+]
+
+[project.urls]
+"Homepage" = "https://dialsim.github.io/"
+"Bug Tracker" = "https://github.com/jiho283/Simulator/issues"
