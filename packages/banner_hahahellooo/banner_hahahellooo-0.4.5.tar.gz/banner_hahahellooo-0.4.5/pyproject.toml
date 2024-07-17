@@ -1,0 +1,27 @@
+[project]
+name = "banner_hahahellooo"
+version = "0.4.5"
+description = "Banner Output Program"
+authors = [
+    {name = "hahahellooo", email = "hahahello777@gmail.com"},
+]
+dependencies = [
+    "pyfiglet>=1.0.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+
+[project.scripts]
+show-banner = 'banner_hahahellooo.banner:show'
+show-lotto = 'hahahellooo_lotto.draw:lotto'
+
+[project.urls]
+Homepage = "http://github.com/hahahellooo/banner_hahahellooo"
+Issues = "http://github.com/hahahellooo/banner_hahahellooo/issues"
+
