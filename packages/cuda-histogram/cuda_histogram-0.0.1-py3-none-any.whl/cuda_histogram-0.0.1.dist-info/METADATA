@@ -1,0 +1,108 @@
+Metadata-Version: 2.3
+Name: cuda-histogram
+Version: 0.0.1
+Summary: Histogramming tools on CUDA.
+Project-URL: Homepage, https://github.com/Saransh-cpp/cuda-histogram
+Project-URL: Bug Tracker, https://github.com/Saransh-cpp/cuda-histogram/issues
+Project-URL: Discussions, https://github.com/Saransh-cpp/cuda-histogram/discussions
+Project-URL: Changelog, https://github.com/Saransh-cpp/cuda-histogram/releases
+Author-email: "Lindsey Gray, Saransh Chopra" <lagray@fnal.gov>
+Maintainer-email: The Scikit-HEP admins <scikit-hep-admins@googlegroups.com>
+License: BSD 3-Clause License
+        
+        Copyright (c) 2024, Saransh Chopra.
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        * Redistributions of source code must retain the above copyright notice, this
+          list of conditions and the following disclaimer.
+        
+        * Redistributions in binary form must reproduce the above copyright notice,
+          this list of conditions and the following disclaimer in the documentation
+          and/or other materials provided with the distribution.
+        
+        * Neither the name of the vector package developers nor the names of its
+          contributors may be used to endorse or promote products derived from
+          this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+License-File: LICENSE
+Classifier: Development Status :: 1 - Planning
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Requires-Dist: awkward>=2.6.3
+Requires-Dist: boost-histogram
+Requires-Dist: cupy-cuda12x>=13.1.0
+Requires-Dist: hist>=2
+Requires-Dist: numpy>=1.22.0
+Requires-Dist: scipy>=1.1.0
+Provides-Extra: dev
+Requires-Dist: pre-commit; extra == 'dev'
+Requires-Dist: pytest-cov>=3; extra == 'dev'
+Requires-Dist: pytest-mpl; extra == 'dev'
+Requires-Dist: pytest>=6; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: furo>=2023.08.17; extra == 'docs'
+Requires-Dist: myst-parser>=0.13; extra == 'docs'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'docs'
+Requires-Dist: sphinx-copybutton; extra == 'docs'
+Requires-Dist: sphinx>=7.0; extra == 'docs'
+Provides-Extra: plot
+Requires-Dist: bokeh!=3.0.*,>=2.4.2; extra == 'plot'
+Requires-Dist: matplotlib>=3; extra == 'plot'
+Requires-Dist: mplhep>=0.1.18; extra == 'plot'
+Provides-Extra: test
+Requires-Dist: coffea>=2024.6.0; extra == 'test'
+Requires-Dist: uproot!=5.3.3,!=5.3.4,!=5.3.5,>=5.3.0; extra == 'test'
+Description-Content-Type: text/markdown
+
+# cuda-histogram
+
+[![Actions Status][actions-badge]][actions-link]
+[![Documentation Status][rtd-badge]][rtd-link]
+
+[![PyPI version][pypi-version]][pypi-link]
+[![Conda-Forge][conda-badge]][conda-link]
+[![PyPI platforms][pypi-platforms]][pypi-link]
+
+[![GitHub Discussion][github-discussions-badge]][github-discussions-link]
+
+<!-- SPHINX-START -->
+
+<!-- prettier-ignore-start -->
+[actions-badge]:            https://github.com/Saransh-cpp/cuda-histogram/workflows/CI/badge.svg
+[actions-link]:             https://github.com/Saransh-cpp/cuda-histogram/actions
+[conda-badge]:              https://img.shields.io/conda/vn/conda-forge/cuda-histogram
+[conda-link]:               https://github.com/conda-forge/cuda-histogram-feedstock
+[github-discussions-badge]: https://img.shields.io/static/v1?label=Discussions&message=Ask&color=blue&logo=github
+[github-discussions-link]:  https://github.com/Saransh-cpp/cuda-histogram/discussions
+[pypi-link]:                https://pypi.org/project/cuda-histogram/
+[pypi-platforms]:           https://img.shields.io/pypi/pyversions/cuda-histogram
+[pypi-version]:             https://img.shields.io/pypi/v/cuda-histogram
+[rtd-badge]:                https://readthedocs.org/projects/cuda-histogram/badge/?version=latest
+[rtd-link]:                 https://cuda-histogram.readthedocs.io/en/latest/?badge=latest
+
+<!-- prettier-ignore-end -->
