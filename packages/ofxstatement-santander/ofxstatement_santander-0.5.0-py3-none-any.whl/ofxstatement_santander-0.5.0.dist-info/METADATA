@@ -1,0 +1,71 @@
+Metadata-Version: 2.1
+Name: ofxstatement-santander
+Version: 0.5.0
+Summary: ofxstatement plugin to handle Santander transaction files
+Author-email: R Vadai <rvadai@segence.com>
+Project-URL: repository, https://github.com/robvadai/ofxstatement-santander
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: ofxstatement-qif ==0.6.0
+Provides-Extra: dev
+Requires-Dist: ofxstatement ==0.9.1 ; extra == 'dev'
+Requires-Dist: pytest ==8.2.0 ; extra == 'dev'
+Requires-Dist: pytest-cov ==5.0.0 ; extra == 'dev'
+Requires-Dist: prospector ==1.10.3 ; extra == 'dev'
+Requires-Dist: bandit ==1.7.8 ; extra == 'dev'
+Requires-Dist: setuptools ==69.5.1 ; extra == 'dev'
+Requires-Dist: build ==1.2.1 ; extra == 'dev'
+Requires-Dist: black ==24.4.2 ; extra == 'dev'
+
+OFX Statement Santander plugin
+==============================
+
+![Workflow Status](https://github.com/robvadai/ofxstatement-santander/actions/workflows/test.yaml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/robvadai/ofxstatement-santander/badge.svg?branch=main)](https://coveralls.io/github/robvadai/ofxstatement-santander?branch=main)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+## Summary
+
+Converts Santander transaction files to [Open Financial Exchange (OFX)](https://en.wikipedia.org/wiki/Open_Financial_Exchange) format.
+
+It is a plugin for [ofxstatement](https://github.com/kedder/ofxstatement).
+
+At the moment it only supports converting [Quicken Interchange Format (QIF)](https://en.wikipedia.org/wiki/Quicken_Interchange_Format) files to OFX for Santander United Kingdom bank accounts.
+
+This plugin also installs the [OFX Statement QIF plugin](https://github.com/robvadai/ofxstatement-qif), because it relies on its functionality.
+
+## Installation
+
+```shell
+pip install ofxstatement-santander
+```
+
+## Usage
+
+```shell
+ofxstatement convert -t santander-uk-qif transactions.qif transactions.ofx
+```
+
+## Configuration
+
+```shell
+ofxstatement edit-config
+```
+
+And enter e.g. this:
+```ini
+[santander-uk-qif]
+plugin = santander-uk-qif
+currency = GBP
+account = Quiffen Default Account
+separator = \n
+day-first = true
+encoding = utf-8
+```
