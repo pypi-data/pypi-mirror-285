@@ -1,0 +1,148 @@
+/*
+    See the JupyterLab Developer Guide for useful CSS Patterns:
+
+    https://jupyterlab.readthedocs.io/en/stable/developer/css.html
+*/
+/* stylelint-disable-next-line selector-class-pattern */
+.jp-ToolbarButtonComponent.lm-mod-hidden {
+  display: none;
+}
+
+.jp-Cell.jp-Notebook-cell:not(.jp-pb-selectedPagebreak) {
+  opacity: 0.8;
+}
+
+.jp-Notebook .jp-Cell.jp-CodeCell.jp-Notebook-cell.jp-pb-pagebreakCodeCell {
+  /* position: relative;
+    left: 50px; */
+  margin-left: 50px;
+}
+
+.jp-Notebook.jp-mod-commandMode
+  .jp-Cell.jp-Notebook-cell.jp-mod-active.jp-mod-selected:not(
+    .jp-mod-multiSelected
+  ) {
+  &.jp-pb-pagebreakEven {
+    background: rgb(42 194 255);
+  }
+
+  &.jp-pb-pagebreakOdd {
+    background: rgb(70 194 93);
+  }
+}
+
+.lm-Widget .jp-Notebook .jp-Cell.jp-Notebook-cell {
+  margin-left: 50px;
+
+  &.jp-pb-pagebreakEven {
+    background: rgb(42 194 255 / 70%);
+  }
+
+  &.jp-pb-pagebreakOdd {
+    background: rgb(70 194 93 / 70%);
+  }
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.jp-Notebook .jp-Cell.jp-RawCell.jp-Notebook-cell.jp-pb-pagebreakCell {
+  margin-left: 0;
+  position: relative;
+  margin-bottom: 15px;
+
+  &.jp-pb-pagebreakEven {
+    background: rgb(42 194 255);
+  }
+
+  &.jp-pb-pagebreakOdd {
+    background: rgb(70 194 93);
+  }
+}
+
+.jp-Notebook .jp-Cell.jp-MarkdownCell.jp-Notebook-cell.jp-pb-header {
+  margin-top: 0;
+  margin-left: 0;
+
+  &.jp-pb-pagebreakEven {
+    background: rgb(42 194 255);
+  }
+
+  &.jp-pb-pagebreakOdd {
+    background: rgb(70 194 93);
+  }
+}
+
+.lm-Widget.jp-Notebook-footer {
+  margin-top: 0;
+}
+
+.jp-Notebook-cell.jp-mod-dropTarget-bottom,
+.jp-Notebook.jp-mod-commandMode
+  .jp-Notebook-cell.jp-mod-active.jp-mod-selected.jp-mod-dropTarget-bottom {
+  border-bottom-color: var(--jp-private-notebook-selected-color);
+  border-bottom-style: solid;
+  /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+  border-bottom-width: 2px;
+  margin-bottom: 0;
+}
+
+/* .jp-pb-variableList {
+  :hover {
+    background: var(--jp-layout-color1);
+  }
+} */
+.jp-pb-badFormatting {
+  background: var(--jp-rendermime-error-background) !important;
+}
+
+.jp-pb-pluginstatus-header {
+  background: var(--jp-rendermime-error-background);
+  text-align: center;
+  padding: 5px 0;
+  min-height: 40px;
+}
+
+.jp-pb-pluginstatus-maintext {
+  color: var(--jp-error-color0);
+  font-weight: bold;
+}
+
+.jp-pb-pluginstatus-bottomtext {
+  color: var(--jp-content-font-color2);
+}
+
+.jp-pb-poorly-formed-export {
+  color: var(--jp-error-color0);
+  text-decoration-line: underline;
+  text-decoration-thickness: auto;
+  text-decoration-style: wavy;
+}
+
+.jp-pb-poorly-formed-export ::before {
+  content: '';
+}
+
+.jp-pb-poorly-formed-export-hover ::before {
+  content: 'Export Statement Poorly Formed, should look like:\A "export { var1 var2 var3 }"';
+  visibility: hidden;
+  opacity: 0;
+  width: 40%;
+  background-color: var(--jp-layout-color1);
+  color: var(--jp-content-font-color0);
+  text-align: left;
+  border-radius: 5px;
+  padding: 5px;
+  white-space: pre-line;
+  border-color: var(--md-grey-700);
+
+  /* font-family: var(--jp-code-font-family-default); */
+  transition: opacity 1s ease-in-out;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 110%;
+}
+
+.jp-pb-poorly-formed-export-hover :hover::before {
+  opacity: 1;
+  visibility: visible;
+}
