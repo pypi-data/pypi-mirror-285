@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: pytoolbelt-cli
+Version: 0.2.3
+Summary: A CLI tool to help teams share internal tooling written in python.
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests>=2.26.0
+Requires-Dist: pydantic>=1.8.2
+Requires-Dist: gitdb==4.0.11
+Requires-Dist: GitPython==3.1.43
+Requires-Dist: Jinja2==3.1.4
+Requires-Dist: pydantic==2.7.4
+Requires-Dist: pydantic_core==2.18.4
+Requires-Dist: python-dotenv==1.0.1
+Requires-Dist: PyYAML==6.0.1
+Requires-Dist: semver==3.0.2
+Requires-Dist: giturlparse==0.12.0
+Requires-Dist: rich==13.7.1
+Provides-Extra: dev
+Requires-Dist: setuptools==70.3.0; extra == "dev"
+Requires-Dist: build==1.2.1; extra == "dev"
+Requires-Dist: python-semantic-release==9.8.5; extra == "dev"
+Requires-Dist: pytest==8.2.2; extra == "dev"
+Requires-Dist: black==24.4.2; extra == "dev"
+Requires-Dist: isort==5.13.2; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs==1.6.0; extra == "docs"
+Requires-Dist: mkdocstrings-python==1.10.5; extra == "docs"
+Requires-Dist: mkdocs-material==9.5.29; extra == "docs"
+Requires-Dist: markdown-include==0.8.1; extra == "docs"
+
+[![Blueprint fonts](https://see.fontimg.com/api/renderfont4/BWWo5/eyJyIjoiZnMiLCJoIjo4NywidyI6MTAwMCwiZnMiOjg3LCJmZ2MiOiIjMUNBN0ZGIiwiYmdjIjoiI0ZGRkZGRiIsInQiOjF9/UHl0b29sYmVsdA/typo-draft-demo.png)](https://www.fontspace.com/category/blueprint)
+
+# Currently in BETA Development - Not production ready!
+
+
+### Sharing python tooling within your organization, the easy way.
+
+## What is Pytoolbelt?
+Pytoolbelt is a CLI, written in python, intended to remove the barrier to developing, sharing, testing and documenting internal tooling
+within your organization. 
+
+It treats a standard git repo as a `toolbelt`, which is basically a mono repo with all of your python tools and scripts that you want to share and document for use within your organization.
+
+It also allows your team to define one or more python environments (venv) that can be re-used for multiple tools. 
+
+## Why Pytoolbelt?
+Python is a wonderful language for writing scripts and small tools, but sharing them within your organization can be a pain.
+`virtual environments`, `requirements.txt`, `setup.py`, `makefile`,  `pyproject.toml` packaging, versioning, documentation, testing, public / private artifact repositories (pypi) etc.... 
+
+Pytoolbelt takes care of all of that for you. It leverages
+best practices and existing tools in the python ecosystem to make it easy to share your tools with your colleagues.
+
+## Getting Started
+pytoolbelt can be installed via pip:
+```bash
+pip install pytoolbelt-cli
+```
+
+
+## License
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
