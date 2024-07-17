@@ -1,0 +1,67 @@
+========================
+Miscellaneous Components
+========================
+
+.. contents::
+
+
+Description
+===========
+
+This package contains a number of modules which do not have an obvious home in an existing sibling package, or have been kept separate deliberately.
+
+   Main package (solentware_misc).
+
+   workarounds subpackage.
+
+      * dialogues.py - wrappers for messagebox and filedialog functions.
+      * workarounds.py - workarounds for problems met in Tkinter functions.
+
+   core subpackage.
+
+      * callthreadqueue.py - run methods from a queue in a thread.
+      * configuration.py - access and update configuration file items.
+      * getconfigurationitem.py - get item from configuration file.
+      * null.py - Null object from Python Cookbook.
+      * utilities.py - Some name and date methods.
+
+   gui subpackage.
+
+      * colourslider.py - widget for choosing colours.
+      * configuredialogue.py - widgets for editing configuration files.
+      * dialogue.py - widgets for dialogues and reports.
+      * fontchooser.py - widget for selecting fonts.
+      * frame.py - customised Tkinter.Frame widget for notebook style GUI.
+      * help.py - create widgets to display help files.
+      * logpanel.py - widgets for displaying task logs.
+      * logtextbase.py - widgets for displaying background task logs.
+      * panel.py - customised Tkinter.Frame widget for notebook style GUI.
+      * reports.py - customised Tkinter.Toplevel for reports and dialogues.
+      * startstop.py - functions for application start, stop, and exceptions.
+      * tasklog.py - run task in thread and report progress.
+      * textentry.py - customised Tkinter.Text widget.
+      * textreadonly.py - customised Tkinter.Text widget.
+      * texttab.py - customised Tkinter.Text widget.
+      * threadqueue.py - add api.callthreadqueue to gui.frame.
+
+
+Installation Instructions
+=========================
+
+This package is available on PyPI so can be installed by typing
+
+   python -m pip install --user solentware-misc
+
+at the command prompt.
+
+See `Python`_ and `pip`_ documentation for alternatives and platform-specific points.
+
+
+Notes
+=====
+
+The frame, panel, logpanel,and threadqueue, modules are obsolete given the addition of ttk:notebook to tk after Tk8.4 and access via tkinter.
+
+
+.. _Python: https://python.org
+.. _pip: https://packaging.python.org/installing
