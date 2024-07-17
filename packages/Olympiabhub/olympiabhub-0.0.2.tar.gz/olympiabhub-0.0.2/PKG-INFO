@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: Olympiabhub
+Version: 0.0.2
+Summary: Librairie pour interagir avec l'API Olympia.
+Home-page: https://github.com/nicolassaint/olympiabhub
+Author: Bercy Hub
+Author-email: nicolas.saint@finances.gouv.fr
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+
+<img src="static/Marianne.png" alt="Marianne" width="150"/>
+
+# Olympiabhub
+
+Olympiabhub est une librairie Python pour interagir avec l'API Olympia.
+
+## Installation
+
+Vous pouvez installer la librairie via pip :
+
+```sh
+pip install olympiabhub
+```
+
+## Documentation
+
+1. Chat depuis Nubonyxia
+
+```py
+from olympiabhub import OlympiaAPI
+
+api = OlympiaAPI(token=API_TOKEN)
+
+reponse = api.ChatNubonyxia(modele, prompt)
+```
+
+2. Chat depuis un environnement sans proxy
+
+```py
+from olympiabhub import OlympiaAPI
+
+api = OlympiaAPI(token=API_TOKEN)
+
+reponse = api.Chat(modele, prompt)
+```
