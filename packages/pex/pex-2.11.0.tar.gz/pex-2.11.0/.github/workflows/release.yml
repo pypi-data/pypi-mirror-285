@@ -1,0 +1,136 @@
+name: Release
+on:
+  push:
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: The tag to manually run a deploy for.
+        required: true
+jobs:
+  org-check:
+    name: Check GitHub Organization
+    if: ${{ github.repository_owner == 'pex-tool' }}
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Noop
+        run: "true"
+  determine-tag:
+    name: Determine the release tag to operate against.
+    needs: org-check
+    runs-on: ubuntu-22.04
+    outputs:
+      release-tag: ${{ steps.determine-tag.outputs.release-tag }}
+      release-version: ${{ steps.determine-tag.outputs.release-version }}
+    steps:
+      - name: Determine Tag
+        id: determine-tag
+        run: |
+          if [[ -n "${{ github.event.inputs.tag }}" ]]; then
+            RELEASE_TAG=${{ github.event.inputs.tag }}
+          else
+            RELEASE_TAG=${GITHUB_REF#refs/tags/}
+          fi
+          if [[ "${RELEASE_TAG}" =~ ^v[0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo "release-tag=${RELEASE_TAG}" >> $GITHUB_OUTPUT
+            echo "release-version=${RELEASE_TAG#v}" >> $GITHUB_OUTPUT
+          else
+            echo "::error::Release tag '${RELEASE_TAG}' must match 'v\d+.\d+.\d+'."
+            exit 1
+          fi
+  pypi:
+    name: Publish sdist and wheel to PyPI
+    needs: determine-tag
+    runs-on: ubuntu-22.04
+    environment: Release
+    permissions:
+      id-token: write
+    steps:
+      - name: Checkout Pex ${{ needs.determine-tag.outputs.release-tag }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.determine-tag.outputs.release-tag }}
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build sdist and wheel
+        uses: pantsbuild/actions/run-tox@b16b9cf47cd566acfe217b1dafc5b452e27e6fd7
+        with:
+          tox-env: package -- --no-pex --additional-format sdist --additional-format wheel --embed-docs --clean-docs
+      - name: Publish Pex ${{ needs.determine-tag.outputs.release-tag }}
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          print-hash: true
+          verbose: true
+  github-release:
+    name: Create Github Release
+    needs: determine-tag
+    runs-on: ubuntu-22.04
+    environment: Release
+    permissions:
+      id-token: write
+      attestations: write
+      contents: write
+      discussions: write
+    steps:
+      - name: Checkout Pex ${{ needs.determine-tag.outputs.release-tag }}
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.determine-tag.outputs.release-tag }}
+          # This ensures we get all branches and tags which is needed for `tox -e package`.
+          fetch-depth: 0
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Package Pex ${{ needs.determine-tag.outputs.release-tag }} PEX
+        uses: pantsbuild/actions/run-tox@b16b9cf47cd566acfe217b1dafc5b452e27e6fd7
+        with:
+          tox-env: package -- --embed-docs
+      - name: Generate Pex ${{ needs.determine-tag.outputs.release-tag }} PDF
+        uses: pantsbuild/actions/run-tox@b16b9cf47cd566acfe217b1dafc5b452e27e6fd7
+        with:
+          tox-env: docs -- --no-html --pdf
+      - name: Generate Pex ${{ needs.determine-tag.outputs.release-tag }} Artifact Attestations
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
+            dist/pex
+            dist/docs/pdf/pex.pdf
+      - name: Prepare Changelog
+        id: prepare-changelog
+        uses: a-scie/actions/changelog@v1.5
+        with:
+          changelog-file: ${{ github.workspace }}/CHANGES.md
+          version: ${{ needs.determine-tag.outputs.release-version }}
+      - name: Create ${{ needs.determine-tag.outputs.release-tag }} Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.determine-tag.outputs.release-tag }}
+          name: pex ${{ needs.determine-tag.outputs.release-version }}
+          body_path: ${{ steps.prepare-changelog.outputs.changelog-file }}
+          draft: false
+          prerelease: false
+          files: |
+            dist/pex
+            dist/docs/pdf/pex.pdf
+          fail_on_unmatched_files: true
+          discussion_category_name: Announcements
+  deploy-docsite:
+    name: Trigger Deploy Doc Site
+    needs:
+      - determine-tag
+      - pypi
+      - github-release
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Dispatch `release-docs` Event
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          event-type: release-docs
+          client-payload: |-
+            {
+              "ref": "${{ github.ref }}"
+            }
