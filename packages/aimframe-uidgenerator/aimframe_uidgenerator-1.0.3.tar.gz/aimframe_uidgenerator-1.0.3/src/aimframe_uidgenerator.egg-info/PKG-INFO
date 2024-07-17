@@ -1,0 +1,28 @@
+Metadata-Version: 2.1
+Name: aimframe_uidgenerator
+Version: 1.0.3
+Summary: 雪花id生成器-解决时钟回拨问题
+Author: worldofchu
+Author-email: worldofchu@163.com
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# **uidgenerator-snowflakeid**
+
+根据经典的雪花id算法，实现python的本地ip地址滚动映射到5+5位centerid和worerid，并解决时钟回拨问题。
+
+> [!IMPORTANT]
+>
+> 使用方法
+>
+> ```
+> from aimframe_uidgenerator.uidgenerator.usnowflake import USnowflake
+> 
+> def snowflakeid():
+>  snowflake = USnowflake.Default()
+>  return snowflake.NextId()
+> ```
+>
+> 
+
