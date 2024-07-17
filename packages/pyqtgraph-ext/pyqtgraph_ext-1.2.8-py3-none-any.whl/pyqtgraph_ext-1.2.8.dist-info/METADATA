@@ -1,0 +1,69 @@
+Metadata-Version: 2.1
+Name: pyqtgraph-ext
+Version: 1.2.8
+Summary: Collection of PyQtGraph widgets/tools.
+Keywords: pyqtgraph
+Home-page: https://github.com/marcel-goldschen-ohm/pyqtgraph-ext
+Author-Email: Marcel Goldschen-Ohm <goldschen-ohm@utexas.edu>
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3 :: Only
+Project-URL: Homepage, https://github.com/marcel-goldschen-ohm/pyqtgraph-ext
+Project-URL: Repository, https://github.com/marcel-goldschen-ohm/pyqtgraph-ext
+Requires-Python: >=3.9
+Requires-Dist: numpy>=1.26.2
+Requires-Dist: qtpy>=2.4.1
+Requires-Dist: qtawesome>=1.3.0
+Requires-Dist: pyqtgraph>=0.13.3
+Requires-Dist: pyqt-ext>=1.2.7
+Description-Content-Type: text/markdown
+
+# pyqtgraph-ext
+Collection of [PyQtGraph](https://www.pyqtgraph.org) widgets/tools with custom styling or behavior.
+
+![GitHub Tag](https://img.shields.io/github/v/tag/marcel-goldschen-ohm/pyqtgraph-ext?cacheSeconds=1)
+![build-test](https://github.com/marcel-goldschen-ohm/pyqtgraph-ext/actions/workflows/build-test.yml/badge.svg)
+
+![GitHub Release](https://img.shields.io/github/v/release/marcel-goldschen-ohm/pyqtgraph-ext?include_prereleases&cacheSeconds=1)
+![publish](https://github.com/marcel-goldschen-ohm/pyqtgraph-ext/actions/workflows/publish.yml/badge.svg)
+
+- [Install](#install)
+- [AxisRegion](#axisregion)
+- [View](#view)
+- [Plot](#plot)
+- [Figure](#figure)
+- [PlotGrid](#plotgrid)
+- [Graph](#graph)
+
+# Install
+Requires a PyQt package. Should work with PySide6, PyQt6, or PyQt5.
+```shell
+pip install PySide6
+```
+Install latest release version:
+```shell
+pip install pyqtgraph-ext
+```
+Or install latest development version:
+```shell
+pip install pyqtgraph-ext@git+https://github.com/marcel-goldschen-ohm/pyqtgraph-ext
+```
+
+# AxisRegion
+`pyqtgraph.LinearRegionItem` with text label.
+
+# View
+`pyqtgraph.ViewBox` that knows how to draw `AxisRegion`s.
+
+# Plot
+`pyqtgraph.PlotItem` with MATLAB styling.
+
+# Figure
+`pyqtgraph.PlotWidget` with MATLAB styling.
+
+# PlotGrid
+`pyqtgraph.GraphicsLayoutWidget` that can set the size of all `View`s to be the same.
+
+# Graph
+`pyqtgraph.PlotDataItem` with context menu and style dialog.
