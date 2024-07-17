@@ -1,0 +1,80 @@
+Metadata-Version: 2.1
+Name: charachorder.py
+Version: 0.5.1
+Summary: A wrapper for CharaChorder's Serial API written in Python
+Home-page: https://github.com/CharaChorder/charachorder.py
+Author: GetPsyched
+Author-email: dev@getpsyched.dev
+License: MIT
+Project-URL: Documentation, https://charachorder.github.io/charachorder.py
+Project-URL: Issue tracker, https://github.com/CharaChorder/charachorder.py/issues
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: >=3.9.0
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: inquirer
+Requires-Dist: pyserial
+
+# charachorder.py
+
+A wrapper for [CharaChorder](https://www.charachorder.com)'s [Serial API](https://docs.charachorder.com/SerialAPI.html) written in Python
+
+> **Warning:**
+> This project is in beta; breaking changes will occur without notice. Please wait for v1.0.0
+
+## Features
+
+- Supports all major versions of Python3.
+- Exhaustive list of commands as in the Serial API.
+- Events (coming soon).
+
+## Installation
+
+**Python 3.9 or higher is required.**
+
+```sh
+# Linux/macOS
+python3 -m pip install -U charachorder.py
+
+# Windows
+py -3 -m pip install -U charachorder.py
+```
+
+To install the development version, run the following:
+```sh
+git clone https://github.com/CharaChorder/charachorder.py
+cd charachorder.py
+python3 -m pip install -U .
+```
+
+## Usage
+
+```py
+from charachorder import CharaChorder
+
+for device in CharaChorder.list_devices():
+    # Method 1
+    with device:
+        print(device.get_id())
+
+    # Method 2
+    device.open()
+    print(device.get_id())
+    device.close()
+```
+
+## Links
+
+- [Documentation](https://charachorder.github.io/charachorder.py)
+- [CharaChorder's Official Discord Server](https://discord.gg/QZJeZGtznG)
