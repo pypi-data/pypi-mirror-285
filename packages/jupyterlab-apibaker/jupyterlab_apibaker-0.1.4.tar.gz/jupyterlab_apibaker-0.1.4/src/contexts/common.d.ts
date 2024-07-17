@@ -1,0 +1,4 @@
+type CommonContextType = {
+     currentUser: string;
+};
+
