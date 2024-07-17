@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "fastapi-rtk"
+dynamic = ["version"]
+authors = [
+  { name="Matthias Leinweber", email="m.leinweber@datatactics.de" },
+]
+description = "A small example package"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "fastapi-users[sqlalchemy,oauth]", "sqlalchemy_utils", "alembic"
+]
+
+[tool.setuptools_scm]
+root = ".."
+
+
+[project.urls]
+Homepage = "https://github.com/dttctcs/fastapi-rtk"
+Issues = "https://github.com/dttctcs/fastapi-rtk/issues"
+
+[project.scripts]
+fastapi = "fastapi_rtk.cli:main"
