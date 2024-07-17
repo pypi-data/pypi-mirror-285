@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=69.5", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neuroflow-yalab"
+version = "0.1.4"
+description = "NeuroFlow: A streamlined toolkit for DWI post-processing, offering advanced analysis and visualization for neuroimaging research."
+readme = "README.rst"
+authors = [
+  {name = "Gal Kepler", email = "galkepler@gmail.com"}
+]
+maintainers = [
+  {name = "Gal Kepler", email = "galkepler@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+license = {text = "MIT license"}
+dependencies = [
+    "typer",
+    "click",
+    "geopy~=2.4",
+    "gspread~=6.1",
+    "Jinja2~=3.1",
+    "meteostat~=1.6",
+    "nibabel~=5.2",
+    "nilearn~=0.10",
+    "nipype~=1.8",
+    "numpy~=1.26",
+    "oauth2client~=4.1",
+    "pandas~=2.2",
+    "scipy~=1.13",
+    "matplotlib~=3.8",
+    "dipy~=1.9",
+    "ipywidgets~=8.1",
+    "virtualenv~=20.25",
+    "tox~=4.14",
+    "black~=24.4",
+    "flake8~=7.0",
+    "isort~=5.13",
+    "ruff~=0.3",
+    "setuptools~=69.5",
+]
+
+[project.optional-dependencies]
+dev = [
+    "coverage",  # testing
+    "mypy",  # linting
+    "pytest",  # testing
+    "ruff",  # linting
+    "black",  # linting
+    "flake8",  # linting
+    "isort",  # linting
+    "tox",  # testing
+]
+
+[project.scripts]
+neuroflow = "neuroflow.cli:cli"
+
+[project.urls]
+bugs = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/issues"
+changelog = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}/blob/master/changelog.md"
+homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.project_slug }}"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
+
+[tool.flake8]
+max-line-length = 88
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+
+# Mypy
+# ----
+
+[tool.mypy]
+files = "."
+
+# Use strict defaults
+strict = true
+warn_unreachable = true
+warn_no_return = true
+
+[[tool.mypy.overrides]]
+# Don't require test functions to include types
+module = "tests.*"
+disable_error_code = "attr-defined"
