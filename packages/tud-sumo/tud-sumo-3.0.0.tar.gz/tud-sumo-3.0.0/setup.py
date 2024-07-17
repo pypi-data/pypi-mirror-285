@@ -1,0 +1,33 @@
+from distutils.core import setup
+setup(
+  name = 'tud-sumo',
+  packages = ['tud-sumo'],
+  version = '3.0.0',
+  license='Apache-2.0',
+  description = 'TU Delft SUMO wrapper',
+  author = 'Callum Evans',
+  author_email = 'c.evans@tudelft.nl',
+  url = 'https://tud-sumo.github.io/docs/',
+  download_url = 'https://github.com/tud-sumo/tud-sumo/archive/refs/tags/v3.0.0.tar.gz',
+  keywords = ['TRAFFIC SIMULATOR', 'MICROSCOPIC', 'SUMO'],
+  install_requires=[
+          'traci',
+          'numpy',
+          'matplotlib',
+          'mpl-tools',
+          'tqdm',
+          'shapely',
+      ],
+  classifiers=[
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Science/Research',
+    'Topic :: Scientific/Engineering',
+    'License :: OSI Approved :: Apache Software License',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
+  ],
+)
