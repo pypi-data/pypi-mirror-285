@@ -1,0 +1,31 @@
+#:import tr mygnuhealth.lang.tr
+
+<TrackerBioWeightStatsScreen>:
+    name: "tracker_bio_weight_stats"
+    
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 5
+        spacing: 10
+
+        DateRange:
+            id: date_range
+            pos_hint: {'center_x':0.5, 'center_y':0.5}
+            size_hint: (None, None)
+            width: max(root.width * 0.6, 300)
+            height: max(root.height * 0.07, 35)
+            date_start: root.date_start
+            date_end: root.date_end
+            update_range_function: root.update_pots
+
+        Image:
+            id: weight_chart
+            texture: root.weight_plot
+                
+        # For future use when pygal Svg will better integrate with Kivy
+        # See the SvgWidget class on 
+        # SvgWidget:
+        #    id: weight_chart
+
+

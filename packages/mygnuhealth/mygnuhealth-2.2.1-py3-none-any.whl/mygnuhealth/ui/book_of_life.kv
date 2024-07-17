@@ -1,0 +1,151 @@
+#:import ScrollEffect  kivy.effects.scroll.ScrollEffect
+#:import tr mygnuhealth.lang.tr
+
+<ScrollableLabel>:
+    Label:
+        size_hint_y: None
+        height: self.texture_size[1]
+        text_size: self.width, None
+        padding: 8
+        markup: True
+        text: root.text
+
+<BookofLifeSummaryButton>:
+    background_color: 0, 0, 0, 0
+    text_size: self.size
+    padding: 10
+    markup: True
+    halign: 'left'
+    valign: 'top'
+
+    canvas.before:
+        Color:
+            rgba: utils.get_color_from_hex('#d7edf0')
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [5,]
+
+<BookofLifeScreen>:
+    name: "book_of_life"
+
+    bolgrid: bolgrid
+
+    BoxLayout:
+        id: bolpage
+        orientation: "vertical"
+        size: root.width, root.height
+        position_hint: {'center_x':0.5, 'center_y':0.5}
+        padding: 10
+        spacing: 20
+
+        Image:
+            id: icon_bol
+            source: "./images/book_of_life-icon.png"
+            size_hint: (0.5, None)
+            pos_hint: {'center_x': 0.5}
+
+        BoxLayout:
+            id: fedinput
+            orientation: "horizontal"
+            size_hint: (1, 0.1)
+            position_hint: {'center_x':0.5}
+            spacing: 10
+            Button:
+                id: new_pol
+                background_normal: "./images/new_page_of_life-icon.png"
+                background_down: "./images/new_page_of_life-icon.png"
+                border: 0, 0, 0, 0
+                height: fedkey.height
+                width: fedkey.height
+                size_hint_y: None
+                size_hint_x: None
+                on_release:
+                    app.last_known_screen = root.manager.current
+                    root.manager.current= 'page_of_life'
+
+            TextInput:
+                id: fedkey
+                size_hint: (0.33, None)
+                position_hint: {'center_x':0.5}
+                height: max(root.height * 0.07, 35)
+                multiline: False
+                halign: 'center'
+                hint_text: tr._("Federation Key")
+                password: True
+                write_tab: False
+
+
+            Button:
+                id: sync
+                background_normal: "./images/sync-icon.png"
+                background_down: "./images/sync-icon.png"
+                border: 0, 0, 0, 0
+                height: fedkey.height
+                width: fedkey.height
+                size_hint_y: None
+                size_hint_x: None
+                on_release:
+                    app.last_known_screen = root.manager.current
+                    root.sync_book(fedkey.text, 'sync')
+
+        ScrollView:
+            id: bolscroll
+            do_scroll_x: False
+            do_scroll_y: True
+            effect_cls: 'ScrollEffect'
+            size_hint : 1, 0.5
+            position_hint: {'center_x':0.5}
+
+            # Make border for pages of life entries
+            canvas.after:
+                Color:
+                    rgb: utils.get_color_from_hex('#136f84')
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+            GridLayout:
+                id: bolgrid
+                cols: 2
+                height: self.minimum_height
+                size_hint_y: None
+                row_default_height: 90
+                cols_minimum: {0: bolpage.width * 0.3, 1: bolpage.width * 0.6}
+                spacing: 5
+                padding: 5
+
+        BoxLayout:
+            id: show_pols_group
+            orientation: "horizontal"
+            size_hint: (1, None)
+            height: max(root.height * 0.07, 35)
+            position_hint: {'center_x':0.5}
+            spacing: 10
+
+            Button:
+                id: show_previous_pols_group
+                text: tr._(' < ')
+                on_release:
+                    root.show_previous_pols_group()
+
+            Label:
+                id: show_pols_groups_info
+                markup: True
+
+            Button:
+                id: show_next_pols_group
+                text: tr._(' > ')
+                on_release:
+                    root.show_next_pols_group()
+
+            TextInput:
+                id: input_pols_group
+                input_filter: 'int'
+                multiline: False
+                write_tab: False
+                foreground_color: utils.get_color_from_hex('#136f84')
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                on_text:
+                    root.jump_to_pols_group(input_pols_group.text)
+

@@ -1,0 +1,105 @@
+#:import tr mygnuhealth.lang.tr
+#:import DateRange mygnuhealth.date_picker.DateRange
+
+
+<ArrowButton>:
+    background_normal: ""
+    background_down: ""
+    background_color: 1, 1, 1, 0
+    size_hint: .1, .1
+
+<MonthYearLabel>:
+    pos_hint: {"top": 1, "center_x": .5}
+    size_hint: None, 0.1
+    halign: "center"
+
+<MonthsManager>:
+    pos_hint: {"top": .9}
+    size_hint: 1, .9
+
+<ButtonsGrid>:
+    cols: 7
+    rows: 7
+    size_hint: 1, 1
+    pos_hint: {"top": 1}
+
+<DayAbbrLabel>:
+    text_size: self.size[0], None
+    halign: "center"
+
+<DayAbbrWeekendLabel>:
+    color: 1, 0, 0, 1
+
+<DayButton>:
+    group: "day_num"
+
+<DayNumWeekendButton>:
+    background_color: 1, 0, 0, 1
+
+<DateRange>:
+    BoxLayout:
+        orientation: 'horizontal'
+        padding: 0
+        spacing: 5
+
+        DatePicker:
+            id: date_start
+            size_hint: 0.3, 1
+            init_date: root.date_start
+
+        Label:
+            size_hint: 0.05, 1
+            text: '>'
+            color: hexcolor('#32393a')
+
+        DatePicker:
+            id: date_end
+            size_hint: 0.3, 1
+            init_date: root.date_end
+
+        Button:
+            id: button
+            text: tr._("Update")
+            size_hint: 0.2, 1
+            on_release:
+                root.update_range(date_start.text, date_end.text, root.update_range_function)
+
+
+<DatePickerPopupContent>:
+    calendar: calendar.__self__
+    date_input: date_input.__self__
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 0
+        spacing: 5
+
+        CalendarWidget:
+            id: calendar
+            size_hint: 1, 0.9
+            init_date: root.init_date,
+            touch_switch: root.touch_switch
+            quit_function: root.quit_calendar
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint: 1, 0.1
+
+            TextInput:
+                id: date_input
+                hint_text: tr._('y-m-d|m-d|d or [+-]num[ymdw]')
+                multiline: False
+                size_hint: 0.7, 1
+
+                on_text:
+                    root.select_date(self.text)
+
+                on_text_validate:
+                    root.quit_calendar()
+
+            Button:
+                id: today_button
+                size_hint: 0.3, 1
+                text: tr._('Today')
+                on_release:
+                    root.select_today()

@@ -1,0 +1,25 @@
+#:import tr mygnuhealth.lang.tr
+
+<TrackerLifestyleNutritionStatsScreen>:
+    name: "tracker_lifestyle_nutrition_stats"
+
+    BoxLayout:
+        orientation: "vertical"
+        size: root.width, root.height
+        padding: 5
+        spacing: 10
+
+        DateRange:
+            id: date_range
+            pos_hint: {'center_x':0.5, 'center_y':0.5}
+            size_hint: (None, None)
+            width: max(root.width * 0.6, 300)
+            height: max(root.height * 0.07, 35)
+            date_start: root.date_start
+            date_end: root.date_end
+            update_range_function: root.update_pots
+
+        Image:
+            id: nutrition_plot_image
+            texture: root.nutrition_plot
+
