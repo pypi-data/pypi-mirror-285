@@ -1,0 +1,26 @@
+[project]
+name = "shipzo_cmd"
+version = "0.2.2"
+description = "project package"
+authors = [
+    {name = "hun0219", email = "gsw98000@gmail.com"},
+]
+dependencies = [
+    "shipzo-plus>=0.1.4",
+    "shipzo-mult>=0.1.3",
+    "shipzo-divide>=0.1.1",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.urls]
+GitHub = "https://github.com/hun0219/shipzo_cmd"
+
+#[project.scripts]
+#1plus = 'shipzo_plus.cmd:sum'
+#mult = 'shipzo_mult.shipzo_mult:mult'
+#div = 'shipzo_divide.shipzo_divide:divide'
+
+[tool.pdm]
+distribution = true
