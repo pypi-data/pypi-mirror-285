@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "targeting_platform"
+version = "0.3.1"
+license = { text = "GPL-3.0" }
+description = "Set targeting in diffrent advertisment platforms."
+authors = [{ name = "Siarhei Ivanou", email = "sinusu@gmail.com" }]
+maintainers = [{ name = "Siarhei Ivanou", email = "sinusu@gmail.com" }]
+readme = "README.md"
+classifiers = [
+  "Programming Language :: Python :: 3.11",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+]
+keywords = ["dsp", "google dv360", "meta marketing api", "the trade desk"]
+dependencies = [
+  "requests==2.31.0",
+  "typing_extensions==4.11.0",
+  "redis[hiredis]==5.0.3",
+  "facebook_business==20.0.0",
+  "google-api-python-client==2.126.0",
+  "pytz==2024.1",
+  "h3==3.7.6",
+  "pandas==2.2.2",
+  "numpy==1.26.4",
+]
+
+[project.urls]
+Homepage = "https://gitlab.com/dsp6802915/targeting_platform"
+Documentation = "https://targeting-platform-dsp6802915-32831787e4a994dfa12bcd1ddb4f2c051.gitlab.io/"
+
+[project.optional-dependencies]
+dev = [
+  "coverage", # testing
+  "mypy",     # linting
+  "pytest",   # testing
+  "ruff",     # linting
+]
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+log_cli = "True"
+log_cli_level = "INFO"
+
+[tool.mypy]
+files = "."
+
+# Use strict defaults
+strict = true
+warn_unreachable = true
+warn_no_return = true
+
+[tool.ruff]
+line-length = 180
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "D", "F", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"**/tests/**" = ["D"]
+"__init__.py" = ["D"]
