@@ -1,0 +1,3 @@
+We present a framework that combines a feature engineering step to transform tabular ASV abundance data to sample wised image-format using functional microbial annotation databases, with a residual spatial attention transformer block architecture for phenotype classification. 
+
+We find that our model delivers improved predictive accuracy performance across multiclass classification compared to similar methods. More importantly, our approach provides interpretable feature importance through image classification saliency methods. This enables the extraction of taxa markers (features) associated with a disease outcome but also their associated functional microbial traits and metabolites.
