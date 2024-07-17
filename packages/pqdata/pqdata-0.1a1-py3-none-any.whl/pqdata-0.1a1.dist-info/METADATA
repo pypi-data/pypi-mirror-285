@@ -1,0 +1,80 @@
+Metadata-Version: 2.3
+Name: pqdata
+Version: 0.1a1
+Summary: Parquet-based serialization for scverse
+Project-URL: Documentation, https://gtca.github.io/pqdata
+Project-URL: Source, https://github.com/gtca/pqdata
+Project-URL: Home-page, https://github.com/gtca/pqdata
+Author: Danila Bredikhin
+Maintainer-email: Danila Bredikhin <danila@stanford.edu>
+License-Expression: BSD-3-Clause
+License-File: LICENSE
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.10
+Requires-Dist: pandas
+Requires-Dist: pyarrow
+Requires-Dist: scipy
+Provides-Extra: dev
+Requires-Dist: setuptools-scm; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: myst-parser; extra == 'doc'
+Requires-Dist: nbsphinx; extra == 'doc'
+Requires-Dist: pydata-sphinx-theme; extra == 'doc'
+Requires-Dist: readthedocs-sphinx-search; extra == 'doc'
+Requires-Dist: recommonmark; extra == 'doc'
+Requires-Dist: sphinx; extra == 'doc'
+Requires-Dist: sphinx-autodoc-typehints; extra == 'doc'
+Requires-Dist: sphinx-automodapi; extra == 'doc'
+Requires-Dist: sphinx-book-theme; extra == 'doc'
+Requires-Dist: sphinxcontrib-bibtex; extra == 'doc'
+Provides-Extra: test
+Requires-Dist: anndata; extra == 'test'
+Requires-Dist: mudata; extra == 'test'
+Requires-Dist: pytest; extra == 'test'
+Requires-Dist: pytest-cov; extra == 'test'
+Requires-Dist: zarr; extra == 'test'
+Description-Content-Type: text/markdown
+
+[![PyPi version](https://img.shields.io/pypi/v/pqdata)](https://pypi.org/project/pqdata)
+
+# pqdata
+
+Experimental Parquet-based I/O for [scverse](https://scverse.org) data structures.
+
+## Installation
+
+```
+pip install pqdata
+# or
+pip install git+https://github.com/gtca/pqdata
+```
+
+> [!WARNING]
+> This package is experimental, and API can change between versions as well as the file structure.
+
+## Motivation
+
+TODO
+
+## Features and integrations
+
+TODO
+
+### I/O
+
+[Example notebook](/docs/examples/pqdata-serialization-intro.ipynb). I/O with pqdata works like this:
+
+```py
+from pqdata import write_anndata, write_mudata
+write_anndata(adata, "pbmc3k_anndata.pqdata")
+write_mudata(mdata, "pbmc5k_citeseq_mudata.pqdata")
+
+from pqdata import read_anndata, read_mudata
+adata = read_anndata("pbmc3k_anndata.pqdata")
+mdata = read_mudata("pbmc5k_citeseq_mudata.pqdata")
+```
