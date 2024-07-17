@@ -1,0 +1,517 @@
+CHANGES
+=======
+
+v3.0.2
+------
+
+* chore(master): release 3.0.2 (#329)
+* fix: update expected TimeEntry Project mapping field (#328)
+
+v3.0.1
+------
+
+* chore(master): release 3.0.1 (#326)
+* fix: bootstrap timezone (#325)
+
+v3.0.0
+------
+
+* chore(master): release 3.0.0 (#301)
+* feat!: migration to v9 api version (#303)
+* chore: python 3.12 support (#319)
+* feat: print description for toggl start (#316)
+* feat: add limit option to ls (#314)
+* fix: Set default color to toggl's default 1 (#302)
+* feat: respect XDG spec for configuration files (#300)
+
+v2.4.4
+------
+
+* chore(master): release 2.4.4 (#299)
+* ci: fix build to produced versioned builds
+* ci: build distribution packages
+* revert: pbr removal
+* ci: merge release workflows (#293)
+* ci: fix publish workflow
+* docs: cleanup badges (#290)
+* chore: bump pytest-mock from 3.6.1 to 3.10.0 (#265)
+* chore: bump mkdocs from 1.2.3 to 1.4.2 (#272)
+* chore: bump click from 8.0.3 to 8.1.3 (#247)
+* chore: bump notify-py from 0.3.3 to 0.3.42 (#283)
+* chore: release trigger commit (#287)
+* ci: update actions versions (#286)
+* Replace unmaintained PTable with prettytable (#249)
+* ci: swapping travis for github actions, take 2 (#279)
+* Fix default value of \`estimated\_hours\` (#285)
+* chore: supported python versions (#232)
+
+v2.4.3
+------
+
+* fix: handling of zero duration time entries (#231)
+* chore: deps update (#230)
+* chore: deps bump (#213)
+* feat: task for start command (#211)
+* fix: sum command respects configured timezone (#205)
+* chore: upgrade to github-native dependabot (#186)
+
+v2.4.2
+------
+
+* feat: use new api url (#185)
+
+v2.4.1
+------
+
+* fix: start cmd and billable in non-premium workspace
+
+v2.4.0
+------
+
+* feat: support for billable
+* Show durations aggregation at sum command (#170)
+* Bump factory-boy from 3.0.1 to 3.1.0 (#168)
+* Bump pbr from 5.5.0 to 5.5.1 (#165)
+* Return two digits output at duration\_format (#169)
+* Bump pytest from 6.1.0 to 6.1.2 (#166)
+* Bump mkdocs-material from 6.0.1 to 6.1.6 (#171)
+* Bump notify-py from 0.2.3 to 0.3.1 (#172)
+* fix: wrong config mapping of values (#163)
+* docs: fix typo (#162)
+
+v2.3.0
+------
+
+* Add hex\_color to the projects (#150)
+* Bump mkdocs-material from 5.5.11 to 6.0.1 (#159)
+* Bump pbr from 5.4.5 to 5.5.0 (#160)
+* Bump pytest from 6.0.1 to 6.1.0 (#158)
+* Bump pytest-cov from 2.9.0 to 2.10.1 (#154)
+* Bump inquirer from 2.6.3 to 2.7.0 (#151)
+* Bump notify-py from 0.2.2 to 0.2.3 (#153)
+* fix: where default workspace was always set, and uid was never set (#156)
+
+v2.2.1
+------
+
+* chore: fixing typo in travis
+* fix: circular import (#141)
+* chore: drop upper bound on python version (#143)
+* docs: update
+* Bump pytest from 5.4.2 to 6.0.1
+* Bump factory-boy from 2.12.0 to 3.0.1
+* Bump pytest-mock from 3.1.0 to 3.3.1
+* Bump mkdocs-material from 5.2.2 to 5.5.11
+* Bump pendulum from 2.1.0 to 2.1.2
+
+v2.2.0
+------
+
+* tweaks
+* fix: tests
+* feat: theme support
+* feat: rework of goal and sum commands
+* chore: drop python 3.5 support
+* feat: date-format config support
+* feat: sum and day command functions (#136)
+* ci: disabling integration tests for ci
+* feat: python 3.8 support
+* test: fixing tests
+* chore: update dependencies
+* Test coverage for continue descrition (#110)
+* Remove click typecheck from entry\_continue
+* Update mkdocs-material from 4.0.1 to 4.1.1
+* Update pytest-mock from 1.10.1 to 1.10.3
+* Update pytest from 4.3.0 to 4.4.0
+* Update pbr from 5.1.2 to 5.1.3
+* Update click-completion from 0.5.0 to 0.5.1
+* Migrating from adam-uhlir.me to uhlir.dev
+
+v2.1.0
+------
+
+* Changelog
+* Update pytest version
+* Docs improvement
+* Tags fixes & properly working Premium/Non-premium tests
+* Changelog
+* Adding 'me' command to print current, user's information
+* Fixing User's timeofday\_format choices
+* Changelog
+* Doc for Tags
+* Tests for Tags
+* Disabling GET detail for Tag
+* Fixing removing of Tags
+* Proper package name for version retrieval (#103)
+* Fixing tests for MappingField default attribute have passed config
+* Update mkdocs-material from 3.2.0 to 4.0.1
+* Update pytest-mock from 1.10.0 to 1.10.1
+* Update pytest from 4.1.1 to 4.2.1
+* Update pbr from 5.1.1 to 5.1.2
+* removed 'get' cli command for tags
+* Apply suggestions from code review: fixed failing lookup of tags by ID
+* Travis - Restricting integration tests to non-PR builds
+* Fixing correctly trying multiple fields
+* Forgot to change a final mention from 'Client' to 'Tag'
+* Added cli commands for tags. Don't always seem to work with ID as SPEC, but name works
+* Adding Tag to api.\_\_init\_\_
+* removed unnecessary specification of TagSet
+* Added Tag and TagSet classes to models
+* One last change for correct python\_requires
+* Fixing missed passing of config instance
+
+v2.0.2
+------
+
+* Fixing calculation of entrie's duration using correct timezone (#93)
+* Tweaks
+
+v2.0.1
+------
+
+* Correct required Python version
+
+v2.0.0
+------
+
+* Adding support to Travis for creating GitHub releases
+* PyUp badge and configuration
+* Update pytest-cov from 2.6.0 to 2.6.1
+* Update pytest from 4.0.2 to 4.1.1
+* Pinning latest dependencies
+* Fixing field's read restriction
+* Dropping Beta notification
+* Support for non-readable fields and created\_with usage of this feature (#89)
+* Refactoring is\_read\_only flag on TogglField into write flag
+* Fixing README in PyPi and other twekas
+
+v2.0.0b3
+--------
+
+* Changelog
+* Fixing test because of new year is here!
+* Dropping relative imports
+* Fixing ConfigBootstrap.get\_api\_key for wrong usage of inquirer's name attribute
+* Trying to get Pypi to take my Markdown readme
+
+v2.0.0b2
+--------
+
+* Changelog and tweaks
+* Fixing conversion of duration from miliseconds to seconds for report's Time Entries
+* Support for fetching all TimeEntries using Reports API
+* Allowing API wrapper's users to set custom default config object
+* Tweaking
+* Correct Python versions specification
+* Making public ConfigBootstrap.get\_api\_token()
+* Support for Google Analytics tracking
+* Support for PyPi markdown readme
+* Limit deployment to PyPi only to one build
+* Adding note about Beta
+
+v2.0.0b1
+--------
+
+* Modification of CHANGELOG
+* Beta release info
+* Mypy gitignore
+* Including default rule for 120 chars per line limit
+* Polishing code style errors
+* Finishing documentation
+* Revert of inline type hinting back to comment based
+* Documentation, types and tweaks
+* Enabling list as choices for ChoiceField
+* Fixing spaces in --fields option
+* Support for .editorconfig
+* Working on documentation
+* Adding support for command completion
+* Refactoring Workspace Users's commands as Workspace->Users commands
+* Travis support for automatic Docs deployment
+* Fixing Deprecation warning for collections.abc import
+* Adding CNAME to docs in order to keep correctly pointed GH Pages
+* Bumping version of requests because of CVE-2018-18074
+* Linting cleanup
+* Fixing for Python 3.5
+* Badges & required Python version
+* Fixing config instance for tests
+* Adding support for TravisCI
+* Introducing some delay between retries
+* Styling cleanup
+* Reworking versioning of TogglCLi and migrations
+* Using custom config file for all tests
+* Docs tweak
+* pbr support
+* Basic docs setup
+* Tweaks of tests & config
+* Meta info about the project. Basic setup
+* Fixing from 'Toggle' to 'Toggl'
+* Correct exposition of Env vars for commands
+* Support for retries of API calls
+* Preventing assignment of not-saved Entity (eq. without ID) as mapped entity
+* Dummy config bootstrap for Window's users
+* Sorting TimeEntries
+* Enabling configuration of time format
+* Tests for Time Entries & modifications along
+* Introducing SetField and using it for TimeEntry.tags field
+* Filtering TimeEntries by projects&tags
+* Tweaking CLI commands for Time Entries
+* Fixing Filtering of Time Entries based on time
+* Fixing ListFields handling None
+* Tests for Projects & test framework tweaks
+* Adding support for Premium fields
+* Integration tests for Clients
+* Polishing integration testing framework
+* Implementing exit codes handling
+* Improving the testing framework with ParsedResult
+* Droping requirements.txt as setup.py can substitute it
+* Refactoring to pass whole ctx.obj into helpers & support for --simple and --header/--no-header
+* Support for Integration tests
+* Ignoring direnv config for easy account setup for integration tests and work on the project
+* Adding support for Project's users
+* Fixing detection of changes for ListField
+* Basic configuration manipulation through CLI
+* Support for keeping the timezone setting default to Toggl's setting
+* Proper persisting behaviour (removing options which are None) & default workspace setter
+* Fixing evaluate\_conditions to work correctly with MappingField values & small bugfixes
+* Refactoring invitating of users under Workspace from WorkspaceUsers
+* Fixing dependencies versions
+* Proper Workspacing of all related Entities in CLI
+* Handling exceptions for CLI usecase
+* Introducing confirmation of deletion to the commands
+* Adding str representations for Entities which does not have name field
+* Fixing choices set for User's beginning\_of\_week
+* Introducing Fields lookup set to ResourceType & small fixes on the way
+* Polishing to\_dict() behaviour
+* Refactoring TogglSet for easier overloading of building URLs
+* Fixing behaviour of 'default' attribute in MappinField & test coverage
+* Fixing helpers to correctly use getattr()
+* Fixing correct typing for TogglEntity's instances
+* Fixing tracking changes in PropertyField
+* Description and comments
+* Some meta info modifications
+* Some tests for fields
+* Test coverage for base.py + typing support
+* Adding htmlcov to gitignore
+* Coverage reporting & some tweaking
+* Making current test-suite working
+* Preparing for unit-testing
+* Refactoring cli.py into package
+* Adding some TODOs
+* Adding possibility to specify fields set for listings
+* Coloring get output
+* Validation of existence for MappedFields
+* Propagation of config through every command
+* Fixing correct behaviour when response has response['data'] == None
+* Adding migration for 2.0.0 version
+* Refactoring utils.py into module
+* Initial IniConfigMigrator implementation
+* Removing some TODOs
+* Diff mode for FieldType
+* Legacy cleanup
+* Adding www commands
+* Tasks for Time Entries
+* Support for Tasks
+* Tags for TimeEntry + Fields option for listing
+* Adding support for ListField
+* Refactoring api.base to move Fields definition into separate file
+* Allowing user to leave the selection of timezone on pendulum's local\_timezone capabilities
+* Integration of pendulum for datetime management
+* Introducing Pendulum & Refactoring ConfigBootstrap
+* Changing default logging level to ERROR
+* Fixing ToggleSet's objects creation logick
+* adding support for ordering of the entries
+* Adding possibility to get format a field's value
+* TimeEntry implementation
+* Adding support for listing sub-commands for Click
+* Adding support for coppying entities
+* DateTimeField: accept only datetime object & type check
+* Refactoring TogglSet to not require url parameter and instead use information provided from the binded class
+* Adding support for binding a ToggleSet during Entity's creation with metaclass
+* Fixing ToggleEntityMeta to not override objects property
+* Fixing proper deserializtion for PropertyField
+* Refactoring creation of deserailized instances
+* PropertyField
+* Changing structure of tests
+* DateTime support in TogglCLI (DateTimeField etc.)
+* Proper handling of returned Errors from API server with granular Exceptions
+* Changing \_\_fields\_\_ to OrderedDict & get\_entity to check for valid spec type and casting
+* Adding update supports for additional Entities
+* Support for edits and update for Clients
+* Admin support
+* Config's default\_workspace returns Workspace entity
+* Adding current user instance to Config instance
+* Refactoring Config
+* User's signup
+* Workspace's users
+* User model
+* Adding MappingField
+* Adding support for logging, verbose, debug and quiet modificators
+* Refactoring TogglEntity to support TogglField
+* Refactoring api file into package
+* Drop Python 2.7 support
+* Adding support for WorkspaceUsers
+* Implementing Workspaces tweaks
+* Adding Workspaces
+* Refactoring listing, detail and removable CLI actions into general functions
+* Adding support for mapped fields
+* Drop old ProjectList implementation
+* Refactor compare\_dicts() into evaluate\_conditions() to accept entity
+* Adding Projects support & Entity field's validation
+* Refactoring ToggleSet to work primarily with Workspaces
+* Adding support for disabling editying and deleting Entity
+* Refactor \_ENTITY\_URL into get\_url method
+* Remove client
+* Adding clients add, ls, and get - debugging TogglEntity & TogglSet
+* Implementing TogglSet for fetching data
+* Tweaking TogglEntity
+* Fixing estimating local timezone
+* Small tweaks
+* TMP commit
+* Adding CachedFactory + default workspace configuration
+* Adding inquirer and rework the ConfigBootstrap
+* Adding coverage dependency
+* ResourceType tests
+* Test DurationType
+* DateTimeType test
+* Adding ResourceType which validates if resource exists + custom exceptions
+* Adding Click CLI tool + basic group + first add command
+* Refactoring Config and adding ConfigBootsrap an interactive setup of configuration with user
+* Test tweaks
+* Adding Tox integration for Python 2.7, 3.5 and 3.6
+* Adding setup.py
+* When TimeEntry is started it uses start time fetched from Toggl API and not now()
+* Query function toggl returns parsed JSON as dict
+* Refactoring tests, adding pytest integration, test requirements
+* PEP-8 love, fixing mutability of default values
+* Refactoring structure of files, introducing toggle module with splitted files
+* Proper shebang
+
+v1.0.0
+------
+
+* Proper setup.py with console\_scripts support
+* Setup.py support
+* Add ability to specify project by ID with # character (ex. #123456)
+* Fixes #77
+* Making tests work under Py3
+* Changing string formatting to use 'format' function
+* Fixing iterators for Py3
+* Adding run function for interactive window usage
+* Adding VS project file
+* Fix broken Markdown headings
+* Update toggl.sh
+* Safely pass arguments from bash to python
+* Changed to the MIT License
+* fixes #61
+* Fix missing dependency of python-dateutil
+* reflect latest --help
+* revert f3dd093
+* fixed tabs with spaces
+* Update README
+* updated README
+* continue behaviour config per #39
+* add continue from
+* fix indent
+* allow STOP to stop web-started entries with no description
+* allow DURATION instead of START/DURATION|STOP in add command
+* fix bug introduced by f14bd20
+* updated docs and --help to reflect latest changes
+* continue without args continues last entry
+* Update toggl.py with recent patches
+* Rename Unicode\_iCal to toggl.sh
+* Update with ls extensions, ical and unicode fixes
+* toggl.sh
+* add optional duration to start
+* fixed comment
+* fixed comment
+* Updated ClientList to handle unicode characters. Thanks to @tomeriksen for the fix
+* The tests are obsolete because of recent changes, but at least they all pass now
+* Use floor div for time calculations
+* Use six for handling API differences
+* Replace tabs with spaces
+* Use print as function and fix octal constant
+* Change shebang to use usr/bin/env python
+* Add requirements.txt
+* Fixed an issue where omitting a workspace raised an error
+* Resolving KeyError bug
+* update project list
+* show workspaces and workspace's projects
+* use workspace to create TimeEntry
+* use workspace to select projects
+* add WorkspaceList class
+* update README requirements
+* TimeEntry.start(): use start endpoint when start\_time is now
+* Updated link to contributor website
+* Updated README to reflect API auth changes
+* default authentication with api\_token
+* user can use api\_token to authenticate himself
+* Fixed bug with continue not printing when the entry was restarted
+* Updated README
+* Added tearDownModule to tests to remove toggl entries added by the tests
+* Create unit tests for continue operation
+* Refactored continue operation
+* Refactored rm operation and wrote unit tests for it
+* Refactoring and added some unit tests
+* Started refactoring of stop command
+* Refactored "now" command into OO
+* Refactored listing latest time entries
+* Completed refactoring of start time entry
+* Refactored starting a time entry
+* Refactored adding a time entry
+* Major refactoring into more of an MVC pattern with utility classes and one utility function
+* Fixed a bug with processing datetime command line arguments
+* Refactored add\_entry into OO style
+* Minor refactoring
+* Refactored start entry into OO
+* Refactored all date/time functions into a DateAndTime singleton
+* Minor changes
+* Bringing oo\_refactor branch up to date with master
+* General refactoring and use of the singleton pattern to ensure we don't make multiple unnecessary calls to toggl.com
+* Refactored how output is handled
+* Added \*.pyc to .gitignore
+* Refactored toggl user data into a new User class. Also added support for the singleton pattern to ensure we don't make multiple calls to toggl.com unnecessarily
+* Fixed a bug when starting an entry with an invalid project name
+* Refactored projects into an object
+* Started refactoring into OO. List of clients is first
+* Added feature to print start/stop time on a start, stop, or continue action
+* Updated usage in README
+* Removed ignore\_start\_times configuration option. It was unused
+* Minor cleanup
+* Fixing time\_description to time\_entry change
+* Fixed a bug when continuing entries from previous days
+* Updated configuration directions
+* Added usage information to README
+* Added function to continue a time entry
+* Refactoring
+* Fixes 14 - add time entry not working
+* Removing debug strings
+* Add completed time entries w/ duration or end time
+* removing a debugging line
+* make add\_time entry use start\_datetime and duration
+* Fixes #17 - listing time entries with no project
+* Updating last modified date
+* Fixes #16 - time entry with start time ignored
+* Clarify api\_token login configuration
+* Support empty descriptions in ls
+* Previous commit broke now function
+* Fixes #10 - performance improvement listing time entries
+* Resolves #4 - clients displayed with projects
+* Fixes #13 - verbose listing tasks errors
+* Added os.chmod() to the newly created .togglrc file
+* Updating creation comments
+* Fixes #5 - bad date sorting on ls function
+* Updated link to issues
+* Updated readme documentation
+* Fixes #3 - look up default workspace id
+* Fixes #7 #5 - fixed date limits to the v8 format
+* Displays project name when showing a time entry
+* Fixes #2 - starting time entry with project
+* Updating documentation
+* Fixes #1 - remove time entry testing
+* Initial revisions to API v8
+* Add a rm command and support for start/stop times. Move config to a file
+* Added 'www' command to visit toggl.com
+* Reformatted the output of 'ls' to organize by date and sum times
+* Added support for HH:MM:SS durations
+* Added option to ignore starting and ending times
+* Initial commit
