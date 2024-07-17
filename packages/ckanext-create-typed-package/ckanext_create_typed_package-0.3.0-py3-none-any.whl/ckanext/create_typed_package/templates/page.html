@@ -1,0 +1,15 @@
+{% ckan_extends %}
+
+{% block page %}
+    {% if not h.ctp_use_separate_route() %}
+        <div data-module="ctp-type-selector"></div>
+    {% endif %}
+    {{ super() }}
+{% endblock page %}
+
+{% block scripts %}
+    {{ super() }}
+    {% if not h.ctp_use_separate_route() %}
+        {% include 'create_typed_package/snippets/asset.html' %}
+    {% endif %}
+{% endblock scripts %}
