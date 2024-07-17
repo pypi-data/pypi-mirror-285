@@ -1,0 +1,20 @@
+[project]
+name = "xaal.zwave"
+version = "0.2"
+description = "xAAL gateway for Zwave"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "zwave"]
+dependencies = ["xaal.lib", "python_openzwave", "prettytable"]
+
+[tool.setuptools.packages.find]
+include = ["xaal.zwave"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/ZWave/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/ZWave"
