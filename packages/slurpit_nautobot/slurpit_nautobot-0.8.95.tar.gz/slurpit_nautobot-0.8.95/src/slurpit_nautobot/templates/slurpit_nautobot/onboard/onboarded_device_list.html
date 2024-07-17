@@ -1,0 +1,76 @@
+{% load buttons %}
+{% load i18n %}
+
+<div class="show {% if request.GET.tab == 'onboarded' %}active{% endif %}" id="onboarded-device-list" role="tabpanel" aria-labelledby="onboarded-device-list-tab">
+  <div class="row">
+    <div class="col-sm-4 col-md-3 pull-right">
+      <form method="GET" id="search-form" action="#">
+          <input type="hidden" name="tab" value={{request.GET.tab}} />
+          <div class="input-group">
+              {{ search_form.q }}
+              <span class="input-group-btn">
+                  <button type="submit" class="btn btn-primary" id="search-btn">
+                      <i class="mdi mdi-magnify"></i>
+                  </button>
+              </span>
+          </div>
+      </form>
+    </div>
+  </div>
+  <div class="form form-horizontal">
+    <div class="card">
+      <div class="card-body htmx-container table-responsive" id="object_list">
+        <form method="post" class="form form-horizontal">
+          {% csrf_token %}
+          {# Object table controls #}
+          {# Form buttons #}
+
+          <div class="table-responsive">
+            <div id="select_all_box" class="hidden panel panel-default noprint">
+                <div class="panel-body">
+                    <div class="checkbox-inline">
+                        <label for="select_all">
+                            <input type="checkbox" id="select_all" name="_all" />
+                            Select <strong>all {{ table.rows|length }} {{ table.data.verbose_name_plural }}</strong> matching query
+                        </label>
+                    </div>
+                </div>
+            </div>
+          </div>
+          
+          <div class="col-md-12">
+            <div class="noprint bulk-buttons">
+              <div class="bulk-button-group">
+                  {% block bulk_buttons %}
+                  <div class="" role="group">
+                      <button type="submit" name="_rename" formaction="{% url 'plugins:slurpit_nautobot:onboard' %}?remove=true&onboarded=true&return_url={% url 'plugins:slurpit_nautobot:slurpitimporteddevice_list' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="btn btn-danger protect-btn" >
+                        <i class="mdi mdi-close" aria-hidden="true"></i> {% trans "Remove" %}
+                      </button>
+                  </div>
+                  {% endblock %}
+              </div>
+            </div>
+          </div>
+          <p id="syncStatusCaption">
+          </p>
+      
+          {% block table %}
+            {% include "slurpit_nautobot/table.html" %}
+          {% endblock %}
+        </form>
+      </div>
+    </div>
+  </div>
+ </div>
+
+ <script>
+  var searchBtn = document.getElementById("search-btn")
+
+  var searchForm = document.getElementById("search-form")
+
+  if(searchBtn) {
+    searchBtn.addEventListener("click", function(event) {
+      searchForm.submit()
+    })
+  }
+</script>

@@ -1,0 +1,76 @@
+{% load i18n %}
+{% load helpers %}
+{% load static %}
+{% load form_helpers %}
+
+<div class="row my-2">
+    <div class="col col-md-5">
+        <div class="panel panel-default">
+        
+            <div style="padding: 10px;">
+                <strong style="font-size: 15px;">Sync your Slurp'it Device Interface to Nautobot</strong><br />
+                <span>
+                    After obtaining Device Interface information from Slurp'it, Set default values for some values before inserting them into the Nautobot.
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-2">
+    <div class="col col-md-5">
+        <div class="panel panel-default">
+            <div class="tab-pane show active interface-tab-pane " id="edit-form" role="tabpanel" aria-labelledby="object-list-tab">
+            <form action="" method="post" enctype="multipart/form-data" class="form-object-edit">
+                {% csrf_token %}
+                <input type="hidden" value="interface" name="mappingtype"/>
+                <div class="panel-body">
+                    <div id="form_fields">
+                        <div class="field-group my-2">
+                            {% render_field form.enable_reconcile %}
+                            {% render_field form.status %}
+                            {% render_field form.label %}
+                            {% render_field form.type %}
+                            {% render_field form.vrf %}
+                            {% render_field form.description %}
+                            {% render_field form.mode %}
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="panel-footer" style="text-align: right;">
+                    <button type="submit" name="_update" class="btn btn-primary protect-btn">
+                        {% trans "Save" %}
+                    </button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+  .interface-tab-pane .row {
+    display: grid !important;
+  }
+
+  .interface-tab-pane label.text-lg-end {
+    text-align: left !important;
+  }
+
+  .interface-tab-pane .offset-3 {
+    margin-left: 0px !important;
+  }
+
+  .interface-tab-pane .mb-3 {
+    margin-bottom: 3px !important;
+  }
+
+  html[data-nautobot-color-mode=dark] .interface-tab-pane .mb-3 {
+    margin-bottom: 3px !important;
+  }
+
+  .interface-tab-pane .form-text {
+    display: none !important;
+  }
+</style>

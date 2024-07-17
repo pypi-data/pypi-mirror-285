@@ -1,0 +1,30 @@
+{% extends 'generic/object_edit.html' %}
+
+{% block buttons %}
+    {% if editing %}
+        <button type="submit" name="_update" class="btn btn-primary protect-btn">Update</button>
+    {% else %}
+        <button type="submit" name="_create" class="btn btn-primary protect-btn">Create</button>
+        <button type="submit" name="_addanother" class="btn btn-primary protect-btn">Create and Add Another</button>
+    {% endif %}
+    <a href="{{ return_url }}" class="btn btn-default protect-btn">Cancel</a>
+
+    <script>
+        const projectButtons = document.querySelectorAll('.protect-btn');
+
+        projectButtons.forEach(button => {
+        button.addEventListener('click', protectButton);
+        });
+        function protectButton(event) {
+            buttonName = event.target.textContent
+            setTimeout(() => recoverButton(event, buttonName), 1500);
+            event.target.classList.add('disabled');
+            event.target.textContent = 'Please wait'
+        }
+        function recoverButton(event, buttonName) {
+            event.target.classList.remove('disabled');
+            event.target.textContent = buttonName
+        }
+    </script>
+
+{% endblock %}

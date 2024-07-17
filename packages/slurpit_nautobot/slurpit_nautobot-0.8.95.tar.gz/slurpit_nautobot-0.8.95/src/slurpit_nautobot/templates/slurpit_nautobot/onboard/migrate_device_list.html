@@ -1,0 +1,103 @@
+{% load buttons %}
+{% load i18n %}
+{% load helpers %}
+{% load static %}
+
+<div class=" show {% if request.GET.tab == 'new' or request.GET.tab is None %}active{% endif %}" id="new-device-list" role="tabpanel" aria-labelledby="new-device-list-tab">
+    <div class="row">
+      <div class="col-sm-4 col-md-3 pull-right">
+        <form method="GET" id="search-form" action="#">
+            <input type="hidden" name="tab" value={{request.GET.tab}} />
+            <div class="input-group">
+                {{ search_form.q }}
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary" id="search-btn">
+                        <i class="mdi mdi-magnify"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+      </div>
+    </div>
+
+    <form method="post" class="form form-horizontal">
+         <!-- sync button -->
+        {# Object table controls #}
+        
+      {% csrf_token %}
+      {# "Select all" form #}
+      <div class="table-responsive">
+        <div id="select_all_box" class="hidden panel panel-default noprint">
+            <div class="panel-body">
+                <div class="checkbox-inline">
+                    <label for="select_all">
+                        <input type="checkbox" id="select_all" name="_all" />
+                        Select <strong>all {{ table.rows|length }} {{ table.data.verbose_name_plural }}</strong> matching query
+                    </label>
+                </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="form form-horizontal">
+        {% csrf_token %}
+        <input type="hidden" name="return_url" value="{% if return_url %}{{ return_url }}{% else %}{{ request.path }}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}{% endif %}" />
+
+        {# Object table #}
+
+            {% if prerequisite_model %}
+              {% include 'inc/missing_prerequisites.html' %}
+            {% endif %}
+
+        <div class="card">
+          <div class="card-body htmx-container table-responsive" id="object_list">
+            <div class="col-md-12">
+              <div class="pull-left noprint">
+                <div class="dropdown mb-3">
+                  <button type="button" class="btn  btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="mdi mdi-refresh"></i>&nbsp;{% trans "Migrate" %} <span class="caret"></span>
+                  </button>
+                  {% block bulk_buttons %}
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                        <button type="submit" name="_rename" formaction="{% url 'plugins:slurpit_nautobot:onboard' %}?migrate=create&return_url={% url 'plugins:slurpit_nautobot:slurpitimporteddevice_list' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="btn">
+                          <i class="mdi mdi-plus" aria-hidden="true"></i> {% trans "Re-Create device" %}
+                        </button>
+                    </li>
+                    <li>
+                        <button type="submit" name="_rename" formaction="{% url 'plugins:slurpit_nautobot:onboard' %}?migrate=update&return_url={% url 'plugins:slurpit_nautobot:slurpitimporteddevice_list' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="btn">
+                          <i class="mdi mdi-pencil" aria-hidden="true"></i> {% trans "Update existing device" %}
+                        </button>
+                    </li>
+                  </ul>
+                  <button type="submit" name="_rename" formaction="{% url 'plugins:slurpit_nautobot:onboard' %}?remove=true&return_url={% url 'plugins:slurpit_nautobot:slurpitimporteddevice_list' %}{% if request.GET %}?{{ request.GET.urlencode }}{% endif %}" class="btn btn-danger ms-2 protect-btn" style="margin-left: 5px;">
+                    <i class="mdi mdi-close" aria-hidden="true"></i> {% trans "Remove" %}
+                  </button>
+                  {% endblock %}
+                </div>
+                <span>In green is the incoming change from Slurp'it</span>
+              </div>
+              
+            </div>
+            {% block table %}
+              {% include "slurpit_nautobot/table.html" %}
+            {% endblock %}
+          </div>
+        </div>
+
+        
+      </div>
+    </form>
+  </div>
+
+  <script>
+    var searchBtn = document.getElementById("search-btn")
+
+    var searchForm = document.getElementById("search-form")
+
+    if(searchBtn) {
+      searchBtn.addEventListener("click", function(event) {
+        searchForm.submit()
+      })
+    }
+</script>
