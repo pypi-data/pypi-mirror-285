@@ -1,0 +1,40 @@
+{% load helpers %}
+<div class="card">
+    <h5 class="card-header">Inventory Monitor</h5>
+    <div class="card-body">
+        {% if device_probes %}
+            <table class="table table-hover">
+                <tr>
+                    <th>ID</th>
+                    <th>Time</th>
+                    <th>Name</th>
+                    <th>Serial</th>
+                    <th>Part</th>
+                </tr>
+                {% for probe in device_probes %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'plugins:inventory_monitor:probe_list' %}{{ probe.id }}/">{% firstof probe.id %}</a>
+                        </td>
+                        <td>{{ probe.time }}</td>
+                        <td>{{ probe.name }}</td>
+                        <td>{{ probe.serial }}</td>
+                        <td>{{ probe.part }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="text-muted">None</div>
+        {% endif %}
+        {% if total_device_probes_count > 1 %}
+            <!--{% if object|meta:'verbose_name' == 'device' %}-->
+            <div class="text-muted">
+                Displaying {{ device_probes.count }} of {{ total_device_probes_count }} probed items (<a href="{% url 'plugins:inventory_monitor:probe_list' %}?device_id={{ object.pk }}&latest_only_per_device=True">View
+                full list</a>)
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="text-muted"></div>
+    {% endif %}
+</div>
+</div>

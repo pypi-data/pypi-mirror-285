@@ -1,0 +1,152 @@
+{% extends "generic/object.html" %}
+{% load render_table from django_tables2 %}
+{% load django_tables2 %}
+{% load plugins %}
+{% load tabs %}
+{% block content %}
+  <div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Component</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th>Serial</th>
+              <td>{{ object.serial }}</td>
+            </tr>
+            <tr>
+              <th>Serial Actual</th>
+              <td>{{ object.serial_actual }}</td>
+            </tr>
+            <tr>
+              <th>Part Number</th>
+              <td>{{ object.partnumber }}</td>
+            </tr>
+            <tr>
+              <th>Vendor</th>
+              <td>{{ object.vendor }}</td>
+            </tr>
+            <tr>
+              <th>Device</th>
+              <td>
+                {% if object.device %}
+                  <a href="{{ object.device.get_absolute_url }}">{{ object.device }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Inventory Item</th>
+              <td>
+                {% if object.inventory_item %}
+                  <a href="{{ object.inventory_item.get_absolute_url }}">{{ object.inventory_item }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Site</th>
+              <td>
+                {% if object.site %}
+                  <a href="{{ object.site.get_absolute_url }}">{{ object.site }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Location</th>
+              <td>
+                {% if object.location %}
+                  <a href="{{ object.location.get_absolute_url }}">{{ object.location }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Project</th>
+              <td>{{ object.project }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Component Info</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th>Warranty Start</th>
+              <td>{{ object.warranty_start }}</td>
+            </tr>
+            <tr>
+              <th>Warranty End</th>
+              <td>{{ object.warranty_end }}</td>
+            </tr>
+            <tr>
+              <th>Items</th>
+              <td>{{ object.quantity }}</td>
+            </tr>
+            <tr>
+              <th>Price</th>
+              <td>{{ object.price|to_czech_crown }}</td>
+            </tr>
+            <tr>
+              <th>Asset Number</th>
+              <td>{{ object.asset_number }}</td>
+            </tr>
+            <tr>
+              <th>Order Contract</th>
+              <td>
+                {% if object.order_contract %}
+                  <a href="{{ object.order_contract.get_absolute_url }}">{{ object.order_contract }}</a>
+                {% else %}
+                  {{ ''|placeholder }}
+                {% endif %}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-6">{% include "inc/panels/custom_fields.html" %}</div>
+    <div class="col col-md-6">
+      {% include "inc/panels/tags.html" %}
+      {% include "inc/panels/comments.html" %}
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-12">
+      <div class="card">
+        <h5 class="card-header">Services</h5>
+        <div class="card-body table-responsive">
+          {% render_table component_services_table %}
+          {% include "inc/paginator.html" with paginator=component_services_table.paginator page=component_services_table.page %}
+        </div>
+        <div class="card-footer text-end noprint">
+          <a href="{% url 'plugins:inventory_monitor:componentservice_list' %}?component={{ object.id }}"
+             class="btn btn-info btn-sm">
+            <i class="mdi mdi-format-list-bulleted" aria-hidden="true"></i> Service list
+          </a>
+          <a href="{% url 'plugins:inventory_monitor:componentservice_add' %}?component={{ object.id }}&return_url={{ request.path }}"
+             class="btn btn-primary btn-sm">
+            <i class="mdi mdi-plus-thick" aria-hidden="true"></i> Add Service
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-6">{% plugin_left_page object %}</div>
+    <div class="col col-md-6">{% plugin_right_page object %}</div>
+  </div>
+  <div class="row mb-3">
+    <div class="col col-md-12">{% plugin_full_width_page object %}</div>
+  </div>
+{% endblock content %}
