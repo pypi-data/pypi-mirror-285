@@ -1,0 +1,49 @@
+image: python:3.10
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+
+lint:
+  stage: test
+  script:
+    - python -m pip install -q ".[lint,typecheck,csv]"
+    - python -m ruff check
+    - python -m ruff format --check
+    - python -m pyright
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'main'
+
+publish:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  id_tokens:
+    PYPI_ID_TOKEN:
+      aud: pypi
+  before_script:
+    - apk add git
+    - git checkout $CI_COMMIT_BRANCH
+  script:
+    # tag
+    - apk add py3-pip
+    - python -m pip install -q python-semantic-release
+    - TAG=$(semantic-release version --minor --print-tag 2>/dev/null)
+    - release-cli create --tag-name $TAG
+    - git fetch
+    - git checkout $TAG
+    # build
+    - python -m pip install -q build
+    - python -m build
+    # publish
+    - apk add curl jq
+    - python -m pip install -q twine id
+    - oidc_token=$(python -m id PYPI)
+    - resp=$(curl -X POST https://pypi.org/_/oidc/mint-token -d "{\"token\":\"${oidc_token}\"}")
+    - api_token=$(echo "${resp}" | jq --raw-output '.token')
+    - twine upload -u __token__ -p "${api_token}" dist/*
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
+      when: manual

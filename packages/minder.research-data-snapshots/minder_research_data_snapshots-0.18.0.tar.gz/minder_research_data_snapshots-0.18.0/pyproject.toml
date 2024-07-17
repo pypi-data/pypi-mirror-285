@@ -1,0 +1,24 @@
+[project]
+name = "minder.research-data-snapshots"
+dependencies = ["platformdirs~=4.0", "requests~=2.0", "tqdm~=4.0"]
+dynamic = ["version"]
+readme = "README.md"
+requires-python = ">=3.10"
+
+[build-system]
+requires = ["setuptools-scm"]
+
+[tool.setuptools_scm]
+
+[project.optional-dependencies]
+lint = ["ruff"]
+typecheck = ["pyright"]
+dev = ["minder.research-data-snapshots[lint,typecheck]"]
+csv = ["pyarrow>=13", "pandas~=2.0"]
+
+[tool.ruff]
+line-length = 120
+lint.select = ["E", "F", "B"]
+
+[tool.coverage.run]
+omit = ["*/__main__.py"]
