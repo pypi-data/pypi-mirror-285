@@ -1,0 +1,2 @@
+class TemperatureError(Exception):
+    pass
