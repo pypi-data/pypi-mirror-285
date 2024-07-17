@@ -1,0 +1,22 @@
+[project]
+name = "shipzo_divide"
+version = "0.1.1"
+description = "Default template for PDM package"
+authors = [
+    {name = "rlaehgus97", email = "starkim625@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = true
+
+[project.urls]
+Homepage = "https://github.com/rlaehgus97/shipzo_divide"
+Issues = "https://github.com/rlaehgus97/shipzo_divide/issues"
+
+[project.scripts]
+shipzo-cmd-divide='shipzo_divide.shipzo_divide:divide'
