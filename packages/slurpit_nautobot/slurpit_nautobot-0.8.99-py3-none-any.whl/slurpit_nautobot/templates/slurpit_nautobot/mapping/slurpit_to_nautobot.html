@@ -1,0 +1,67 @@
+{% load buttons %}
+{% load i18n %}
+{% load helpers %}
+{% load static %}
+{% load form_helpers %}
+
+<ul class="nav nav-tabs px-3 sub-nav">    
+  <li class="nav-item" role="presentation">
+    <a class="nav-tab nav-link {% if request.GET.subtab == 'ipam' or request.GET.subtab is None %}active{% endif %}" href="?tab=slurpit_to_nautobot&subtab=ipam">
+      IPAM
+    </a>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-tab nav-link {% if request.GET.subtab == 'interface' %}active{% endif %}" href="?tab=slurpit_to_nautobot&subtab=interface">
+      Interfaces
+    </a>
+  </li>
+
+  <li class="nav-item" role="presentation">
+    <a class="nav-tab nav-link {% if request.GET.subtab == 'prefix' %}active{% endif %}" href="?tab=slurpit_to_nautobot&subtab=prefix">
+      Prefixes
+    </a>
+  </li>
+
+</ul>
+
+<div class="tab-content">
+  {% if request.GET.subtab == 'ipam' or request.GET.subtab is None %}
+    {% include "slurpit_nautobot/mapping/ipam.html" %}
+  {% elif request.GET.subtab == 'interface' %}
+    {% include "slurpit_nautobot/mapping/interface.html" %}
+  {% elif request.GET.subtab == 'prefix' %}
+    {% include "slurpit_nautobot/mapping/prefix.html" %}
+  {% endif %}
+</div>
+
+<style>
+  .sub-nav .nav-tab.nav-link.active {
+    border: 0px !important;
+    border-bottom: 2px solid #0d6efd !important;
+    font-weight: bold !important;
+  }
+
+  .sub-tab-content {
+    padding: 1rem 0 !important;
+  }
+  .sub-nav {
+    background: transparent !important;
+  }
+  input {
+    border: 1px solid #c9c9c9 !important;
+  }
+
+  .form-group .col-md-3, .form-group .col-md-9 {
+    width: 100%;
+  }
+  .form-group .control-label {
+    text-align: left !important;
+  }
+  .form-group .col-md-offset-3 {
+    margin-left: 0px;
+  }
+  .form-group input[type='text'] {
+    width: 100%;
+  }
+</style>
