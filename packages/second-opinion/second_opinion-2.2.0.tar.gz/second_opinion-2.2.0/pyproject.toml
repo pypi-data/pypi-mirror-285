@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "second_opinion"
+version = "2.2.0"
+authors = [
+  { name="Wayne Bratley", email="wayne@plural.ai" },
+]
+description = "Generates AI Code Reviews"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License", 
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "openai>=1.35.13"
+]
+
+[project.urls]
+Homepage = "https://github.com/wayneplural/second-opinion"
+Issues = "https://github.com/wayneplural/second-opinion/issues"
+
+[project.scripts]
+second-opinion = "second_opinion:main"
+
