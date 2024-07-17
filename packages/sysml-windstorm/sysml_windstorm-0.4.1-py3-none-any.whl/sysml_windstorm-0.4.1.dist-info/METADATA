@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: sysml-windstorm
+Version: 0.4.1
+Summary: Tool to support SysMLv2 model templating for any text based file.
+License: MIT
+Author: Christopher Cox
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: fire (==0.6.0)
+Requires-Dist: jinja2 (==3.1.4)
+Requires-Dist: requests (==2.32.3)
+Description-Content-Type: text/markdown
+
+# windstorm
+SysML 2.0 Analysis Toolset
+
+## Jinja Usage
+Any text based file (.json, .py, .txt, .m) can be templated with [Jinja](https://jinja.palletsprojects.com).
+
+```
+{{ windstorm('myVar') }}
+```
+
+Versions after 0.4.0 support Excel files, even though they are not pure text.
+
+## SysMLv2 API
+When pointed at an appropriate SysMLv2 API, windstorm will pull all of the
+parameters for use in the jinja templates.
+
+```
+windstorm -a http://your_api_address:9000 -p project_uuid element_name
+```
+
