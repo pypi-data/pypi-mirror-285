@@ -1,0 +1,19 @@
+[project]
+name = "xaal.aqara"
+version = "0.1"
+description = "xAAL devices for Xiaomi / Aqara"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "aqara"]
+dependencies = ["xaal.lib", "gevent", "pycryptodomex"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.aqara"]
