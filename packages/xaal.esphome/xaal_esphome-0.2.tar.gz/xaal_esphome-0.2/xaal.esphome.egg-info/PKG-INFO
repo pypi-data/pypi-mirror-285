@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: xaal.esphome
+Version: 0.2
+Summary: xAAL gateway for ESPHome devices
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/ESPHome/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/ESPHome
+Keywords: xaal,esphome
+Classifier: Programming Language :: Python
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+Requires-Dist: aioesphomeapi
+
+xaal.esphome
+============
+This package provides a simple way to integrate ESPHome devices with xAAL.
+
+
+Usage
+-----
+
+.. code:: shell
+
+  python -m xaal.esphome
+  # or
+  xaal-pkgrun esphome
+
+- support Switch, Lamp and Contact right now
+- more support still to come.
