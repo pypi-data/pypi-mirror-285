@@ -1,0 +1,72 @@
+<div class="flex flex-col rounded break-words border bg-white border-slate-200 p-4 shadow w-full">
+    <h3 class="text-xl font-bold flex flex-row justify-between mb-3 border-b border-slate-300 pb-3">
+        <a id="check-{{ checks.index }}">{{ checks.help }}</a>
+        {% comment %} <span class="bg-red-100 text-red-600 rounded px-2 py-1 text-sm border border-red-600">Failed</span> {% endcomment %}
+    </h3>
+    <div class="flex flex-col gap-3">
+        <div class="flex flex-row justify-between items-center">
+            <strong class="text-base">{{ checks.index }}.{{ checks.help }}</strong>
+            <a href="{{ checks.helpUrl }}" target="_blank">Learn more</a>
+        </div>
+        <div class="flex flex-row justify-between items-center">
+            <span>{{ checks.id }}</span>
+            <strong>{{ checks.wcag }}</strong>
+        </div>
+        <div class="flex flex-row justify-between items-center">
+            <span>{{ checks.description }}</span>
+            <strong>{{ checks.impact }}</strong>
+        </div>
+        <div class="flex flex-row justify-left items-center gap-3">
+            <strong>Issue Tags:</strong>
+            {% for tag in checks.tags %}
+                <span class="py-1 px-2 text-center font-semibold text-sm rounded bg-blue-600 text-slate-100">{{ tag }}</span>
+            {% endfor %}
+        </div>
+        {% if checks.nodes %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Issue Description</th>
+                        <th>To solve this violation, you need to...</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for node in checks.nodes %}
+                        <tr>
+                            <td>{{ node.index }}</td>
+                            <td>
+                                <p>
+                                    <strong>Element location</strong>
+                                </p>
+                                <pre><code class="css">{{node.target_nodes}}</code></pre>
+                                <p>
+                                    <strong>Element source</strong>
+                                </p>
+                                <pre><code class="html">{{node.html}}</code></pre>
+                            </td>
+                            <td>
+                                {% if node.fix_summaries %}
+                                    <div class="text-break">
+                                        {% for fix in node.fix_summaries %}
+                                            <strong>{{ fix.highlight }}</strong>
+                                            <ul class="list-decimal mx-3 w-full">
+                                                {% for content in fix.list %}<li class="mx-3 text-sm text-slate-700">{{ content }}</li>{% endfor %}
+                                            </ul>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                {% if checks.related_nodes_any %}
+                                    <p>
+                                        <strong>Related node:</strong>
+                                    </p>
+                                    <pre><code class="html">{{checks.related_nodes_any}}</code></pre>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
