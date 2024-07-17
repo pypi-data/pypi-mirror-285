@@ -1,0 +1,27 @@
+joapuiib@FP:~/git_tutorial (main) $ echo "Hello world!"
+(venv) joapuiib@FP:~/git_tutorial (main) $ git diff
+diff --git a/README.md b/README.md
+index 6d747b3..ff524e4 100644
+--- a/README.md
++++ b/README.md
+@@ -1,2 +1,4 @@
+ # Tutorial de Git
+ Estem aprenent a utilitzar Git!
++
++Hem modificat un fitxer existent.
+-Hem eliminat un fitxer.
+joapuiib@FP:~/git_tutorial (main) $ git push
+Total 0 (delta 0), reused 0 (delta 0), pack-reused 0
+To /home/joapuiib/gitflow_example/remot
+   0fb88ef..9e34bb0  develop -> develop
+joapuiib@FP:~/git_tutorial (main) $ git lga
+* f853946 - (7 minutes ago) README: Afegits autors - Mar (origin/feature/author)
+| * cc8c388 - (9 minutes ago) LICENSE: Afegida llicència - Pau (origin/feature/license)
+|/  
+| * 9e34bb0 - (15 minutes ago) README: Afegida descripció del projecte - Anna (HEAD -> develop, origin/develop, feature/readme, origin/feature/readme)
+|/  
+* 0fb88ef - (29 minutes ago) 1. Primer commit - Joan Puigcerver (origin/main, origin/HEAD, main)
+[user@host ~ (main)] $ echo "Hello, world!"
+(venv) [user@host ~] $ echo "Hello, world!"
+(example) $ ls -l
+

@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pygments-shell-console" # change this to a package name for your plugin
+version = "0.0.1"
+dependencies = ["pygments"]
+readme = "README.md"
+
+
+[project.entry-points."pygments.lexers"]
+shellconsole_lexer = "shellconsole_lexer:ShellConsoleLexer"
+
+# [project.entry-points."pygments.formatters"]
+# example_formatter = "example_formatter:ExampleFormatter"
+
+[project.entry-points."pygments.styles"]
+shellconsole-style = "shellconsole_style:ShellConsoleStyle"
+
+# [project.entry-points."pygments.filters"]
+# example-filter = "example_filter:ExampleFilter"
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
