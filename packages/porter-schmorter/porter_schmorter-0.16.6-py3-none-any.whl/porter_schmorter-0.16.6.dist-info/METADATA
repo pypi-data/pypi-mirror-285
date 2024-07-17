@@ -1,0 +1,79 @@
+Metadata-Version: 2.1
+Name: porter-schmorter
+Version: 0.16.6
+Summary: porter is a framework for exposing machine learning models via REST APIs.
+Author-email: Dante Gates <dantedgates@gmail.com>
+Project-URL: Homepage, https://github.com/dantegates/porter
+Project-URL: Bug Tracker, https://github.com/dantegates/porter/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Flask <4.0.0,>=3.0.0
+Requires-Dist: numpy >=1.24.0
+Requires-Dist: pandas >=2.0.0
+Requires-Dist: joblib >=1.3.0
+Requires-Dist: fastjsonschema >=2.18.0
+Provides-Extra: all
+Requires-Dist: porter-schmorter[dev,keras-utils,sklearn-utils] ; extra == 'all'
+Provides-Extra: dev
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: sphinx ; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme ; extra == 'dev'
+Requires-Dist: tensorflow >=2.16 ; extra == 'dev'
+Provides-Extra: keras-utils
+Requires-Dist: keras >=3.0 ; extra == 'keras-utils'
+Provides-Extra: sklearn-utils
+Requires-Dist: scikit-learn >=1.3.0 ; extra == 'sklearn-utils'
+
+# porter
+
+| | |
+| --- | --- |
+| Testing | ![Unit Tests](https://github.com/dantegates/porter/actions/workflows/unit-tests.yml/badge.svg) |
+| Documentation |  [![Documentation Status](https://readthedocs.org/projects/porter/badge/?version=latest)](https://porter.readthedocs.io/en/latest/?badge=latest) |
+| Meta | [![License](https://img.shields.io/pypi/l/porter-schmorter)](./LICENSE) [![PyPI](https://img.shields.io/pypi/v/porter-schmorter)](https://pypi.org/project/porter-schmorter/) [![Python](https://img.shields.io/pypi/pyversions/porter-schmorter.svg)](https://pypi.org/project/porter-schmorter/) |
+
+
+
+
+`porter` is a framework for data scientists who want to quickly and reliably deploy machine learning models as REST APIs. 
+
+Simplicity is a core goal of this project. The following 6 lines of code are a fully functional example. While this should the most common use case, `porter` is also designed to be easily extended to cover the remaining cases not supported out of the box.
+
+```python
+from porter.datascience import WrappedModel
+from porter.services import ModelApp, PredictionService
+
+my_model = WrappedModel.from_file('my-model.pkl')
+prediction_service = PredictionService(model=my_model, name='my-model', api_version='v1')
+
+app = ModelApp([prediction_service])
+app.run()
+```
+
+Features include:
+
+* **Practical design**: suitable for projects ranging from proof-of-concept to production grade software.
+* **Framework-agnostic design**: any object with a `predict()` method will do, which means `porter` plays nicely with [sklearn](https://scikit-learn.org/stable/), [keras](https://keras.io/backend/), or [xgboost](https://xgboost.readthedocs.io/en/latest/) models. Models that don't fit this pattern can be easily wrapped and used in ``porter``.
+* **OpenAPI integration**: lightweight, Pythonic schema specifications support automatic validation of HTTP request data and generation of API documentation using Swagger.
+* **Boiler plate reduction**: `porter` takes care of API logging and error handling out of the box, and supports streamlined model loading from `.pkl` and `.h5` files stored locally or on AWS S3.
+* **Robust testing**: a comprehensive test suite ensures that you can use `porter` with confidence. Additionally, `porter` has been extensively field tested.
+
+# Installation
+
+`porter` can be installed with `pip` for `python3.9` and higher as follows:
+
+```
+pip install porter-schmorter  # because porter was taken
+```
+
+For more details, see [this page](https://porter.readthedocs.io/en/latest/installation.html).
+
+# Documentation
+For more information, see the [documentation](https://porter.readthedocs.org).
