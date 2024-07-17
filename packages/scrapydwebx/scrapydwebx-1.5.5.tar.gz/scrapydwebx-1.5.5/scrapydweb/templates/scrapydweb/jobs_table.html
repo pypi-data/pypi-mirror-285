@@ -1,0 +1,67 @@
+<table id="jobs-table" class="compact display nowrap order-column">
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>Project</th>
+      <th>Spider</th>
+      <th>Job</th>
+      <th>Pages</th>
+      <th>Items</th>
+      <th>Stats</th>
+      <th>Action</th>
+      <th>Start</th>
+      <th>Runtime</th>
+      <th>Finish</th>
+      <th>PID</th>
+      <th>Links</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job in jobs.items %}
+        {% set pending_color = 'unset' if job.start else 'red' %}
+        {% set pending_display = '' if job.start else 'none' %}
+        {% set to_be_killed = true if job.to_be_killed else false %}
+        {% set pages = job.pages | default('') %}
+        {% set items = job.items | default('') %}
+        {% set pages_class = {'N/A': 'dd', 0: 'count_warn'}.get(job.pages | default('N/A'), 'count_info') %}
+        {% set items_class = {'N/A': '', 0: 'count_warn'}.get(job.items | default('N/A'), 'count_info') %}
+        {% set stats_class = 'state normal' if job.finish else 'state safe' %}
+        {% set items_display = '' if SHOW_SCRAPYD_ITEMS and job.url_items else 'none' %}
+        {% set action = (job.finish and 'Start') or (job.pid and 'Stop') or 'Cancel'%}
+        {% set action_class = 'state safe' if job.finish else 'state danger' if job.pid else 'state warning' %}
+        {% set display_action = '' if not job.to_be_killed else 'none' %}
+        {% set display_kill = '' if job.to_be_killed else 'none' %}
+        {% set pid_color = 'red' if job.to_be_killed else 'unset' %}
+    <tr>
+      <td>{{ job.index }}</td>
+      <td style="color: {{ pending_color }}">{{ job.project }}</td>
+      <td style="color: {{ pending_color }}">{{ job.spider }}</td>
+      <td style="color: {{ pending_color }}">{{ job.job }}</td>
+      <td class="{{ pages_class }}">{{ job.pages }}</td>
+      <td class="{{ items_class }}">{{ job.items }}</td>
+      <td>
+        {% if SCRAPYD_SERVERS_AMOUNT > 1 %}
+        <a class="state multinode" style="display: {{ pending_display }}" href="{{ job.url_clusterreports }}">{{ g.multinode|safe }}</a>
+        {% endif %}
+        <a class="state normal" style="display: {{ pending_display }}" href="{{ job.url_stats }}" target="_blank">Stats</a>
+      </td>
+      <td>
+        <span style="color: red; display: {{ display_kill }}">Kill {{ job.pid }}</span>
+        {% if SCRAPYD_SERVERS_AMOUNT > 1 %}
+        <a class="state multinode" style="display: {{ display_action }}" href="{{ job.url_multinode }}">{{ g.multinode|safe }}</a>
+        {% endif %}
+        <a class="state {{ action_class }}" style="display: {{ display_action }}" href="{{ job.url_action }}">{{ action }}</a>
+      </td>
+      <td>{{ job.start }}</td>
+      <td>{{ job.runtime }}</td>
+      <td>{{ job.finish }}</td>
+      <td style="color: {{ pid_color }}">{{ job.pid }}</td>
+      <td>
+        <a class="state normal" style="display: {{ pending_display }}" href="{{ job.url_utf8 }}" target="_blank">Log</a>
+        <a class="state normal" style="display: {{ pending_display }}" href="{{ job.url_source }}" target="_blank">Source</a>
+        <a class="state normal" style="display: {{ items_display }}" href="{{ job.url_items }}" target="_blank">Items</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
