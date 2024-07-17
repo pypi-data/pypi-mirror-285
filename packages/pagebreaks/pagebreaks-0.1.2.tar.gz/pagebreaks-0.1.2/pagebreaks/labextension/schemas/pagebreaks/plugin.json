@@ -1,0 +1,37 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "Pagebreaks",
+  "description": "Pagebreaks settings.",
+  "type": "object",
+  "properties": {
+    "enableLogging": {
+      "type": "boolean",
+      "title": "Enable Logging?",
+      "description": "Whether to activate logging. For the entire study, should be checked",
+      "default": true
+    },
+    "enablePlugin": {
+      "type": "boolean",
+      "title": "Enable Pagebreaks?",
+      "description": "Whether to activate the Pagebreaks Plugin. For the second half of the study, should be checked.",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "jupyter.lab.toolbars": {
+    "Cell": [
+      {
+        "name": "add-pagebreak",
+        "command": "toolbar-button:add-pagebreak"
+      },
+      {
+        "name": "merge-pagebreak",
+        "command": "toolbar-button:merge-pagebreak"
+      },
+      {
+        "name": "run-pagebreak",
+        "command": "toolbar-button:run-pagebreak"
+      }
+    ]
+  }
+}
