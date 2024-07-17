@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Py-Html-Graph</title>
+    <script>
+        (function (d) {
+            var config = {
+                kitId: 'ccp7pog',
+                scriptTimeout: 3000,
+                async: true
+            },
+                h = d.documentElement, t = setTimeout(function () { h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive"; }, config.scriptTimeout), tk = d.createElement("script"), f = false, s = d.getElementsByTagName("script")[0], a; h.className += " wf-loading"; tk.src = 'https://use.typekit.net/' + config.kitId + '.js'; tk.async = true; tk.onload = tk.onreadystatechange = function () { a = this.readyState; if (f || a && a != "complete" && a != "loaded") return; f = true; clearTimeout(t); try { Typekit.load(config) } catch (e) { } }; s.parentNode.insertBefore(tk, s)
+        })(document);
+    </script>
+    <style>
+        /* To disable the behavior of most elements */
+        * {
+            line-height: 1;
+            font-size: 2vw;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            text-decoration: none;
+            overflow: hidden;
+            box-sizing: border-box;
+            color: #000;
+            background-color: rgba(0, 0, 0, 0);
+            font-family: sans-serif;
+            display: block;
+            list-style: none;
+            flex-direction: row;
+            gap: 0;
+            border-radius: 0;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font-weight: 400;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-flow: nowrap;
+            vertical-align: top;
+            caret-color: #000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* To disable the behavior in specific status */
+        *:visited,
+        *:active,
+        *:hover,
+        *:focus,
+        *:focus-within,
+        *:focus-visible,
+        *:checked {
+            color: #000;
+            outline: 0;
+            text-decoration: none;
+        }
+
+        /* I haven't encountered this, but I see this in other reset css */
+        *::before {
+            content: '';
+            display: none;
+        }
+
+        *::after {
+            content: '';
+            display: none;
+        }
+
+        /* Head will show because it is set to block previously */
+        head {
+            display: none;
+        }
+
+        /* Set to overflow hidden previously, but overflow-y should be scrollable */
+        html {
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        /* Same to head */
+        script {
+            display: none;
+        }
+
+        style {
+            display: none;
+        }
+
+        /* To disable the influence of scroll bar in width, that will affect the consistency of using vw */
+        main {
+            width: 100vw;
+        }
+
+        /* To hide the scroll bar of whole page */
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <style>
+        html {
+            background-color: #eee;
+        }
+
+        * {
+            color: #282828;
+            font-family: "fot-seurat-pron", sans-serif;
+            font-weight: 500;
+        }
+
+        h1,
+        h2,
+        a {
+            margin-left: 5vw;
+        }
+
+        h1 {
+            padding-top: 2vw;
+            font-size: 3vw;
+            padding-bottom: 1.25vw;
+        }
+
+        #desc {
+            padding-left: 3vw;
+            padding-bottom: 2vw;
+            font-size: 1.5vw;
+            color: #6f6f6f;
+        }
+
+        a {
+            margin-top: 9vw;
+            font-size: 1.5vw;
+            text-decoration: underline !important;
+            color: rgb(208, 0, 255) !important;
+            width: fit-content;
+            font-size: 2vw;
+        }
+
+        a:active {
+            color: rgb(57, 190, 5) !important;
+        }
+
+        footer {
+            margin-top: 3vw;
+            width: 100%;
+            padding-bottom: 2vw;
+        }
+
+        footer>p {
+            font-size: 1.125vw;
+            text-align: center;
+            line-height: 1.35;
+            color: #8f8f8f !important;
+        }
+
+        footer a {
+            display: inline;
+            font-size: 1.125vw;
+            margin: 0;
+            line-height: 1.2;
+            color: #8f8f8f !important;
+        }
+
+        footer a:hover {
+            color: #8f8f8f !important;
+        }
+
+        footer div {
+            margin-bottom: 1vw;
+            width: 85vw;
+            height: 0.1vw;
+            border-radius: 0.05vw;
+            background-color: #c2c2c2;
+            margin-left: 7.5vw;
+        }
+
+        #title {
+            margin: 0;
+            text-align: center;
+            line-height: 1.2;
+            font-size: 3vw;
+            font-family: "ar-yuangbstd", sans-serif;
+        }
+
+        #container {
+            display: flex;
+            width: 30vw;
+            padding-left: 35vw;
+            height: 2.5vw;
+            box-sizing: content-box;
+            padding-top: 1.5vw;
+        }
+
+        input {
+            height: 100%;
+            font-size: 1.25vw;
+            width: 23.5vw;
+            border: 0.15vw solid #909090;
+            border-radius: 0.5vw;
+            padding-left: 0.5vw;
+            caret-color: rgb(208, 0, 255);
+        }
+
+        input::placeholder {
+            color: #a0a0a0;
+        }
+
+        #go {
+            margin: 0;
+            height: 100%;
+            font-size: 1.5vw;
+            width: 5vw;
+            text-decoration: none !important;
+            color: #282828 !important;
+            line-height: 2.5vw;
+            text-align: center;
+            background-color: rgb(208, 0, 255);
+            color: #fff !important;
+            margin-left: 1.5vw;
+            box-sizing: border-box;
+            border-radius: 0.75vw;
+            cursor: not-allowed;
+        }
+
+        #desc2 {
+            text-align: center;
+            padding-left: 25vw;
+            padding-right: 25vw;
+            line-height: 1.5;
+            font-family: "ar-yuangbstd", sans-serif;
+            font-size: 1.25vw;
+            padding-top: 1.5vw;
+            color: #555;
+        }
+
+        #error {
+            text-align: center;
+            padding-left: 20vw;
+            padding-right: 20vw;
+            line-height: 1.5;
+            font-family: "ar-yuangbstd", sans-serif;
+            font-size: 2vw;
+            padding-top: 1.5vw;
+            color: red;
+            height: 6vw;
+            box-sizing: content-box;
+        }
+
+        .st {
+            padding-left: 7.5vw;
+            font-size: 1.5vw;
+            line-height: 2;
+            color: rgb(208, 0, 255);
+        }
+
+        .sp {
+            padding-left: 7.5vw;
+            padding-right: 7.5vw;
+            font-size: 1.25vw;
+            line-height: 1.5;
+            text-align: justify;
+        }
+
+        #first {
+            padding-top: 4vw;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Py-Html-Graph</h1>
+    <h2 id="desc">A high-performance interactive numpy line chart viewer, good supplement for the awful matplotlib.
+    </h2>
+    <main id="main">
+        <h2 id="title">Local Forwarding Server</h2>
+        <div id="container">
+            <input type="text" placeholder="192.168.0.123:8080">
+            <a id="go">Go</a>
+        </div>
+        <p id="desc2">
+            Please input the server address directly (IP + port), no http:// or later url. <br>Like 192.168.0.123:8080,
+            10.0.0.147:9000, etc.
+        </p>
+        <p id="error">$jtc.phg.lfs.error$</p>
+        <p class="st" id="first">What does this webpage do?</p>
+        <p class="sp">
+            The content of this website (Py-Html-Graph) requires Cross-Origin-Opener-Policy http header.
+            But if using a non-local server (not access through 127.0.0.1 or localhost) and using http (not https), the
+            broswer will disallow this header.
+            This webpage acts as a forwarding server, which will forward the http request between you and the remote
+            server.
+            So the browser will "think" that it is communicating with 127.0.0.1 (or localhost), and the header will be
+            valid.
+        </p>
+    </main>
+    <footer>
+        <div></div>
+        <p>
+            py-html-graph: a high-performance interactive numpy line chart viewer, good supplement for the awful
+            matplotlib
+        </p>
+        <p>
+            Github:
+            <a href="https://github.com/jtc1246/py-html-graph" target="_blank">github.com/jtc1246/py-html-graph</a>
+        </p>
+    </footer>
+</body>
+
+<script>
+    var go = document.getElementById("go");
+    var input = document.querySelector("input");
+
+    var error = document.getElementById("error");
+    if(error.innerHTML.startsWith('$')){
+        error.innerHTML = "";
+    }
+
+    var addr_valid = (addr) => {
+        addr = addr.split(' ').join('');
+        var ip = addr;
+        if (addr.indexOf(":") !== -1) {
+            if (addr.split(":").length !== 2) {
+                return false;
+            }
+            var port = addr.split(":")[1];
+            var port_int = parseInt(port);
+            if (port_int.toString() !== port) {
+                return false;
+            }
+            if (port <= 0 || port > 65535) {
+                return false;
+            }
+            ip = addr.split(":")[0];
+        }
+        var ip_parts = ip.split(".");
+        if (ip_parts.length !== 4) {
+            return false;
+        }
+        for (var i = 0; i < 4; i++) {
+            var part = ip_parts[i];
+            var part_int = parseInt(part);
+            if (part_int.toString() !== part) {
+                return false;
+            }
+            if (part_int < 0 || part_int > 255) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    input.addEventListener('input', () => {
+        var addr = input.value;
+        addr = addr.split(' ').join('');
+        if (addr_valid(addr)) {
+            go.style.cursor = "pointer";
+            go.href = '/' + addr;
+            document.getElementById("error").innerHTML = "";
+        } else {
+            go.style.cursor = "not-allowed";
+            go.removeAttribute("href");
+            document.getElementById("error").innerHTML = "Input is not valid.";
+        }
+    });
+
+    input.addEventListener('keypress', function(event) {
+        console.log('keypress');
+        if (event.keyCode === 13) {
+            go.click();
+        }
+    });
+
+    window.addEventListener('load', ()=> {
+        var addr = input.value;
+        if(addr.length === 0){
+            return;
+        }
+        addr = addr.split(' ').join('');
+        if (addr_valid(addr)) {
+            go.style.cursor = "pointer";
+            go.href = '/' + addr;
+            document.getElementById("error").innerHTML = "";
+        } else {
+            go.style.cursor = "not-allowed";
+            go.removeAttribute("href");
+            document.getElementById("error").innerHTML = "Input is not valid.";
+        }
+    });
+</script>
+
+</html>
