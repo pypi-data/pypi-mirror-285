@@ -1,0 +1,65 @@
+[tool.poetry]
+name = "spond-classes"
+version = "0.11.0"
+description = "Experimental Python class abstraction layer for `spond` package."
+authors = ["elliot-100 <3186037+elliot-100@users.noreply.github.com>"]
+readme = "README.md"
+homepage = "https://github.com/elliot-100/Spond-classes"
+repository = "https://github.com/elliot-100/Spond-classes"
+packages = [{include = "spond_classes"}]
+include = ["CHANGELOG.md"]
+license = "GPL-3.0-only"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+spond = ">=1.0.0"
+pydantic = ">=2.7.1"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = ">=3.1.1"
+ruff = ">=0.5.0"
+
+[tool.poetry.group.test.dependencies]
+mypy = ">=1.8.0"
+pytest = ">=8.1.1"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
+enable_error_code = ["ignore-without-code"]  # Require specific codes for ignores
+warn_unused_configs = true
+strict = true
+disallow_any_generics = false
+
+[tool.ruff]
+target-version = "py310"  # Ruff doesn't respect Python dependency in [tool.poetry.dependencies]
+
+[tool.ruff.lint]
+
+select = ["ALL"]
+
+# Ignore rules that conflict with Ruff formatter:
+#   COM812 Trailing comma missing
+#   ISC001 Implicitly concatenated string literals on one line
+
+# Ignore other rules:
+#   D205 1 blank line required between summary line and description
+
+ignore = ["COM812", "ISC001", "D205"]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore rules that aren't relevant in tests:
+#   S101 Use of assert detected
+#   F841 Local variable is assigned to but never used (triggered by testing raises)
+"**/{tests}/*" = ["S101", "F841"]
+
+# Ignore rules that conflict with Mypy
+#   PLC0414 Import alias does not rename original package
+"__init__.py" = ["PLC0414"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
