@@ -1,0 +1,24 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "mmpycorex"
+authors = [{name = "Henry Pinkard", email = "henry.pinkard.open.source@gmail.com"}]
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent"
+]
+dependencies = [
+    "pymmcore",
+    "pyjavaz==1.2.4",
+    "requests",
+    "wget"
+]
+dynamic = ["version"]
+description = "Python package for unified MMCore access through pymmcore or ZMQ-MMCoreJ + associated utilities"
+readme = "README.md"
+
+[project.urls]
+Home = "https://github.com/micro-manager/mmpycorex"
