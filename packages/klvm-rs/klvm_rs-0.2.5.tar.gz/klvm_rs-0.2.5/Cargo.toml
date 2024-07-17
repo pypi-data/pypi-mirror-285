@@ -1,0 +1,46 @@
+[workspace]
+members = ["tools", "wasm"]
+exclude = ["wheel"]
+
+[package]
+name = "klvmr"
+version = "0.2.5"
+authors = ["Richard Kiss <him@richardkiss.com>"]
+edition = "2021"
+license = "Apache-2.0"
+description = "Implementation of `klvm` for Chik Network's cryptocurrency"
+homepage = "https://github.com/Chik-Network/klvm_rs/"
+repository = "https://github.com/Chik-Network/klvm_rs/"
+readme = "README.md"
+
+[lib]
+name = "klvmr"
+crate-type = ["rlib"]
+
+[features]
+# when enabling the "counters" features, the KLVM interpreter is instrumented to
+# collect counters about the programs it executes
+counters = []
+
+# when enabled, pre-eval and post-eval callbacks are enabled. This is useful for
+# debugging and tracing of programs.
+pre-eval = []
+
+[profile.release]
+lto = true
+
+[dependencies]
+hex = "=0.4.3"
+lazy_static = "=1.4.0"
+num-bigint = "=0.4.3"
+num-traits = "=0.2.15"
+num-integer = "=0.1.45"
+# the experimental feature enables hashing to curves
+bls12_381 = { version = "=0.8.0", features = ["experimental"] }
+# the newer sha2 crate doesn't implement the digest traits required by HKDF
+group = "=0.13.0"
+sha2 = "=0.9.9"
+openssl = { version = "=0.10.52", features = ["vendored"], optional = true }
+
+[dev-dependencies]
+rstest = "=0.17.0"
