@@ -1,0 +1,6 @@
+mutation CreateAssay($name: String!, $active: Boolean!, $baseline: jsonb!, $id: uuid!, $summarizer: jsonb!, $targeting: jsonb!, $window: jsonb!, $scheduling: jsonb!) {
+  insert_assays_v2_one(object: {name: $name, active: $active, baseline: $baseline, id: $id, summarizer: $summarizer, targeting: $targeting, window: $window, scheduling: $scheduling}) {
+    id
+  }
+}
+

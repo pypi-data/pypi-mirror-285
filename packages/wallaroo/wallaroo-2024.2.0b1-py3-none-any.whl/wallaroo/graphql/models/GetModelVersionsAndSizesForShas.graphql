@@ -1,0 +1,7 @@
+query GetModelVersionsAndSizesForShas($shas: [bpchar!]!) {
+  model(where: {sha: {_in: $shas}}) {
+    model_version
+    sha
+    file_size
+  }
+}

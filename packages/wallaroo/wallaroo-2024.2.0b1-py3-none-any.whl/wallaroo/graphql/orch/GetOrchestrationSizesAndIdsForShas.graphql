@@ -1,0 +1,7 @@
+query GetOrchestrationSizesAndIdsForShas($shas: [bpchar!]!) {
+  orchestration(where: {sha: {_in: $shas }}) {
+    id
+    sha
+    file_size
+  }
+}

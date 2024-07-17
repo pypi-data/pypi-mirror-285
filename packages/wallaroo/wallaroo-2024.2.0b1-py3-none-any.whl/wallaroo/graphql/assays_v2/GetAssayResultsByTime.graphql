@@ -1,0 +1,15 @@
+query GetAssayResultsByTime($id: uuid!, $start: timestamptz!, $end: timestamptz!) {
+  assay_result_v2(where: {assay_id: {_eq: $id}, window_end: {_gte: $start, _lte: $end}}, order_by: {window_end: desc}) {
+    assay_id
+    scores
+    status
+    summaries
+    window_end
+    window_start
+    created_at
+    updated_at
+    assays_v2 {
+      targeting
+    }
+  }
+}

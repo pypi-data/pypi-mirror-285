@@ -1,0 +1,13 @@
+query GetShasAndDeploymentStatusForModelVersions($versions: [String!]!) {
+  model(where: {model_version: {_in: $versions}}) {
+    model_version
+    sha
+    model_configs {
+      deployment_model_configs {
+        deployment {
+          deployed
+        }
+      }
+    }
+  }
+}

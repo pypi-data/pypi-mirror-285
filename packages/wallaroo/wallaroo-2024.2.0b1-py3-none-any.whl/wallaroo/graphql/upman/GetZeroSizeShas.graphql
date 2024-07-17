@@ -1,0 +1,8 @@
+query GetZeroSizeShas {
+  model(where: { file_size: { _eq: 0 } }, distinct_on: sha ) {
+    sha
+  }
+  orchestration(where: { file_size: { _eq: 0 } }, distinct_on: sha ) {
+    sha
+  }
+}
