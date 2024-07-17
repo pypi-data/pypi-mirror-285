@@ -1,0 +1,83 @@
+[project]
+name = "layrz-sdk"
+version = "3.0.12"
+description = "Layrz SDK for Python"
+authors = [
+  {name = "Golden M, Inc.", email = "software@goldenm.com"}
+]
+requires-python = ">=3.10"
+
+maintainers = [
+  {name = "Kenny Mochizuki", email = "kenny@goldenm.com"},
+  {name = "Luis Reyes", email = "lreyes@goldenm.com"},
+  {name = "Kasen Li", email = "kli@goldenm.com"},
+]
+
+readme = "README.md"
+
+license = {text = "MIT License"}
+
+keywords = [
+  "sdk",
+  "goldenm",
+  "lcl",
+  "layrz compute language",
+  "layrz",
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+  "requests",
+  "xlsxwriter",
+  "tzdata"
+]
+
+[project.urls]
+Repository = "https://github.com/goldenm-software/layrz-sdk"
+Changelog = "https://github.com/goldenm-software/layrz-sdk/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+indent-width = 2
+line-length = 120
+
+exclude = [".venv"]
+
+[tool.ruff.lint]
+ignore = [
+  "F401", # Unused import
+  "E701", # Multiple statements on one line
+  "TD003", # Missing issue link
+  'ANN401', # Type Any has no effect
+  'ANN101', # Missing type annotation for self
+]
+
+exclude = [
+  ".venv",
+  "test.py"
+]
+
+select = [
+  "I", # isort
+  "E", "W", # pycodestyle
+  "F", # pyflakes
+  "B", # flakes8-bugbear
+  "TD", # flake8-todo
+  "DJ", # flake8-django
+  "DTZ", # flake8-datetimez
+  "T20", # flake8-print # En un futuro
+  "PYI", # flake8-pyi
+  "ANN", # flake8-annotations
+]
+
+[tool.ruff.format]
+quote-style = "single"
+indent-style = "space"
+docstring-code-format = true
