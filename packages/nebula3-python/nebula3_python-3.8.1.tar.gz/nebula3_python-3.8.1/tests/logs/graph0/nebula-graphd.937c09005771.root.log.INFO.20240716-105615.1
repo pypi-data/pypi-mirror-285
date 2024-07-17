@@ -1,0 +1,53 @@
+Log file created at: 2024/07/16 10:56:15
+Running on machine: 937c09005771
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20240716 10:56:15.563107     1 GraphDaemon.cpp:122] Starting Graph HTTP Service
+I20240716 10:56:15.567906     7 WebService.cpp:124] Web service started on HTTP[19669]
+I20240716 10:56:15.568095     1 GraphDaemon.cpp:136] Number of networking IO threads: 4
+I20240716 10:56:15.568106     1 GraphDaemon.cpp:145] Number of worker threads: 4
+I20240716 10:56:15.569555     1 MetaClient.cpp:80] Create meta client to "172.28.1.3":9559
+I20240716 10:56:15.569571     1 MetaClient.cpp:81] root path: /usr/local/nebula, data path size: 0
+I20240716 10:56:16.677567     1 MetaClient.cpp:3263] Load leader of "172.28.2.1":9779 in 61 space
+I20240716 10:56:16.679121     1 MetaClient.cpp:3263] Load leader of "172.28.2.2":9779 in 61 space
+I20240716 10:56:16.679132     1 MetaClient.cpp:3263] Load leader of "172.28.2.3":9779 in 0 space
+I20240716 10:56:16.679138     1 MetaClient.cpp:3269] Load leader ok
+I20240716 10:56:16.681437     1 MetaClient.cpp:162] Register time task for heartbeat!
+I20240716 10:56:16.681879     1 GraphSessionManager.cpp:337] Total of 10 sessions are loaded
+E20240716 10:56:16.707211     1 MemoryUtils.cpp:167] Total memory less than untracked 50 Mib, MemoryTracker limit is not set properly,  Current memory stats:MemoryStats: 8589934592.000GiB/34.000MiB
+I20240716 10:56:16.707547     1 MemoryUtils.cpp:171] MemoryTracker set static ratio: 0.8
+I20240716 10:56:16.708043     1 Snowflake.cpp:17] WorkerId init success: 1
+I20240716 10:56:16.708212    38 GraphServer.cpp:63] Starting nebula-graphd on 127.0.0.1:9669
+I20240716 10:56:17.915799    21 GraphService.cpp:77] Authenticating user root from 172.28.0.1:40842
+E20240716 10:56:18.022665    20 QueryInstance.cpp:151] Execution had been killed, query: show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;show hosts;
+I20240716 10:56:18.023592    19 GraphService.cpp:77] Authenticating user root from 172.28.0.1:40848
+I20240716 10:56:18.027424    20 GraphService.cpp:77] Authenticating user root from 172.28.0.1:40862
+I20240716 10:56:18.565124    35 MetaClient.cpp:3263] Load leader of "172.28.2.1":9779 in 61 space
+I20240716 10:56:18.565975    35 MetaClient.cpp:3263] Load leader of "172.28.2.2":9779 in 61 space
+I20240716 10:56:18.565985    35 MetaClient.cpp:3263] Load leader of "172.28.2.3":9779 in 0 space
+I20240716 10:56:18.565991    35 MetaClient.cpp:3269] Load leader ok
+I20240716 10:56:20.673646    35 MetaClient.cpp:3263] Load leader of "172.28.2.1":9779 in 63 space
+I20240716 10:56:20.674299    35 MetaClient.cpp:3263] Load leader of "172.28.2.2":9779 in 63 space
+I20240716 10:56:20.674307    35 MetaClient.cpp:3263] Load leader of "172.28.2.3":9779 in 0 space
+I20240716 10:56:20.674321    35 MetaClient.cpp:3269] Load leader ok
+I20240716 10:56:28.035332    22 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54534
+I20240716 10:56:28.037084    19 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.064313    19 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54568
+I20240716 10:56:28.065945    21 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.084017    20 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54586
+I20240716 10:56:28.085423    19 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+E20240716 10:56:28.087464    22 GraphSessionManager.cpp:50] Get session `1721127388108617' failed:Session not existed!
+E20240716 10:56:28.087500    22 GraphService.cpp:165] Get session for sessionId: 1721127388108617 failed: Session `1721127388108617' not found: Session not existed!
+I20240716 10:56:28.102066    22 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54616
+I20240716 10:56:28.103505    19 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.104411    22 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test_2', space id: 65
+I20240716 10:56:28.111052    19 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.120790    22 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54624
+I20240716 10:56:28.126724    21 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54656
+I20240716 10:56:28.128075    19 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.133853    20 GraphService.cpp:77] Authenticating user root from 172.28.0.1:54672
+I20240716 10:56:28.135457    20 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:35.001487     1 GraphDaemon.cpp:176] Signal 15(Terminated) received, stopping this server
+I20240716 10:56:35.700354    38 GraphServer.cpp:74] nebula-graphd on 127.0.0.1:9669 has been stopped
+I20240716 10:56:35.700506     1 GraphDaemon.cpp:161] The graph Daemon stopped
+I20240716 10:56:35.700520     1 GraphServer.cpp:109] The graph server has been stopped

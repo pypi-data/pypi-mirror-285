@@ -1,0 +1,42 @@
+Log file created at: 2024/07/16 10:56:15
+Running on machine: 92597cc6e883
+Running duration (h:mm:ss): 0:00:00
+Log line format: [IWEF]yyyymmdd hh:mm:ss.uuuuuu threadid file:line] msg
+I20240716 10:56:15.861776     1 GraphDaemon.cpp:122] Starting Graph HTTP Service
+I20240716 10:56:15.866983     7 WebService.cpp:124] Web service started on HTTP[19669]
+I20240716 10:56:15.867039     1 GraphDaemon.cpp:136] Number of networking IO threads: 4
+I20240716 10:56:15.867053     1 GraphDaemon.cpp:145] Number of worker threads: 4
+I20240716 10:56:15.870857     1 MetaClient.cpp:80] Create meta client to "172.28.1.3":9559
+I20240716 10:56:15.870891     1 MetaClient.cpp:81] root path: /usr/local/nebula, data path size: 0
+I20240716 10:56:16.983916     1 MetaClient.cpp:3263] Load leader of "172.28.2.1":9779 in 61 space
+I20240716 10:56:16.984733     1 MetaClient.cpp:3263] Load leader of "172.28.2.2":9779 in 61 space
+I20240716 10:56:16.984741     1 MetaClient.cpp:3263] Load leader of "172.28.2.3":9779 in 0 space
+I20240716 10:56:16.984745     1 MetaClient.cpp:3269] Load leader ok
+I20240716 10:56:16.986317     1 MetaClient.cpp:162] Register time task for heartbeat!
+I20240716 10:56:16.986776     1 GraphSessionManager.cpp:337] Total of 10 sessions are loaded
+E20240716 10:56:17.023183     1 MemoryUtils.cpp:167] Total memory less than untracked 50 Mib, MemoryTracker limit is not set properly,  Current memory stats:MemoryStats: 8589934592.000GiB/34.000MiB
+I20240716 10:56:17.023468     1 MemoryUtils.cpp:171] MemoryTracker set static ratio: 0.8
+I20240716 10:56:17.023880     1 Snowflake.cpp:17] WorkerId init success: 1
+I20240716 10:56:17.024034    38 GraphServer.cpp:63] Starting nebula-graphd on 127.0.0.1:9669
+I20240716 10:56:18.728565    35 MetaClient.cpp:3263] Load leader of "172.28.2.1":9779 in 61 space
+I20240716 10:56:18.729601    35 MetaClient.cpp:3263] Load leader of "172.28.2.2":9779 in 61 space
+I20240716 10:56:18.729610    35 MetaClient.cpp:3263] Load leader of "172.28.2.3":9779 in 0 space
+I20240716 10:56:18.729615    35 MetaClient.cpp:3269] Load leader ok
+I20240716 10:56:20.862354    35 MetaClient.cpp:3263] Load leader of "172.28.2.1":9779 in 63 space
+I20240716 10:56:20.863859    35 MetaClient.cpp:3263] Load leader of "172.28.2.2":9779 in 63 space
+I20240716 10:56:20.863876    35 MetaClient.cpp:3263] Load leader of "172.28.2.3":9779 in 0 space
+I20240716 10:56:20.863883    35 MetaClient.cpp:3269] Load leader ok
+I20240716 10:56:28.038348    21 GraphService.cpp:77] Authenticating user root from 172.28.0.1:36834
+I20240716 10:56:28.039938    19 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.067102    22 GraphService.cpp:77] Authenticating user root from 172.28.0.1:36870
+I20240716 10:56:28.068497    22 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.088539    20 GraphService.cpp:77] Authenticating user root from 172.28.0.1:36876
+I20240716 10:56:28.089848    22 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.129210    20 GraphService.cpp:77] Authenticating user root from 172.28.0.1:36916
+I20240716 10:56:28.130609    22 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:28.137156    22 GraphService.cpp:77] Authenticating user root from 172.28.0.1:36926
+I20240716 10:56:28.138808    22 SwitchSpaceExecutor.cpp:45] Graph switched to `session_pool_test', space id: 64
+I20240716 10:56:34.963510     1 GraphDaemon.cpp:176] Signal 15(Terminated) received, stopping this server
+I20240716 10:56:35.894739    38 GraphServer.cpp:74] nebula-graphd on 127.0.0.1:9669 has been stopped
+I20240716 10:56:35.894910     1 GraphDaemon.cpp:161] The graph Daemon stopped
+I20240716 10:56:35.894927     1 GraphServer.cpp:109] The graph server has been stopped
