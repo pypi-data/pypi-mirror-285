@@ -1,0 +1,111 @@
+Metadata-Version: 2.1
+Name: PyListFunctions
+Version: 0.3.3
+Summary: some functions for list（￣︶￣）↗　(and some other functions)
+Home-page: https://space.bilibili.com/1654383134
+Author: BL_30G
+Author-email: 2842621898@qq.com
+License: UNKNOWN
+Keywords: python,list,clean,functions
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Utilities
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Classifier: Programming Language :: Python :: 3.14
+Description-Content-Type: text/markdown
+
+制作者：\ `BL_30G <https://space.bilibili.com/1654383134>`__
+============================================================
+
+版权归属：\ `BL_30G <https://space.bilibili.com/1654383134>`__
+==============================================================
+
+安装要求：无任何依赖库
+----------------------
+
+Python版本：\ **3.9及以上**
+---------------------------
+
+Version: **0.3**
+----------------
+
+使用方法：from listFunctions import \*
+--------------------------------------
+
+更新日志：
+----------
+
+**0.1：** 原始函数(暂且只有一个<(＿　＿)> )：tidy_up_list()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+   <h4>
+
+tidy_up_list特性([STRIKEOUT:bug])：会将list内的str(float)自动转换成float
+比如：str(‘3.1415926536’)会转变成float(3.1415926536)
+
+.. raw:: html
+
+   </h4>
+
+**0.2：** 添加函数:deeply_tidy_up_list()和bubble_sort()
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. raw:: html
+
+   <h4>
+
+更改tidy_up_list()形参为：list
+
+.. raw:: html
+
+   </h4>
+
+.. raw:: html
+
+   <h4>
+
+所有函数已添加自检条件，均可放心使用~
+
+.. raw:: html
+
+   </h4>
+
+**0.2.1：** 修复安装不了的问题（发癫写的setup.py，总之0.1~0.2的版本都安装不了
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**0.2.2：** 修复tidy_up_list()和deeply_tidy_up_list()遇空列表,字典,集合，会报错”ValueError: list.remove(x): X Not in List”的问题
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+别问我为什么没有以上的版本，原因是之前脑瘫整出来的包不测试直接上传，后面删了工程重新发了一遍（极悲
+--------------------------------------------------------------------------------------------------
+
+**0.3：** 新增replace_str()函数，去除deeply_tidy_up_list()除lst外的任何形参，bubble_sort()增判断列表元素条件，可放心使用（真的
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+现在tidy_up_list()函数的特性：遇到str(int)或str(float)的类型会自动转换原本的类型
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+比如: test = str(‘114514’) (列表内的元素)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+在使用tidy_up_list()函数后会变成int(114514)，(float同理)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+要是有人不需要自动转换的功能的话，我后面可能也会做额外的形参来修复的 (已经动了点，但是没时间做)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+**0.3.1(0.3.2)：** 修复replace_str()形参__c长度大于__nc长度时删除原字符不干净的问题
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+###\ **0.3.3：**
+修复replace_str()所有问题，可放心使用（其实是我想不起来了(悲）
+
+
