@@ -1,0 +1,25 @@
+name: Publish to PyPi
+
+on:
+    release:
+        types:
+            - published
+
+    # Allows to run this workflow manually from the Actions tab
+    workflow_dispatch:
+
+jobs:
+    publish:
+        
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: actions/checkout@v4
+            -   name: Set up Python 3.9
+                uses: actions/setup-python@v3
+                with:
+                    python-version: 3.9
+                    cache: pip
+            -   name: To PyPI using Flit
+                uses: AsifArmanRahman/to-pypi-using-flit@v1
+                with:
+                    password: ${{ secrets.PYPI_API_TOKEN }}
