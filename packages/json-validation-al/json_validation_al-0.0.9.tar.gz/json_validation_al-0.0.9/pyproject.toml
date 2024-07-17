@@ -1,0 +1,44 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "json_validation_al"
+version = "0.0.9"
+dependencies = ["jsonschema==4.23.0"]
+requires-python = ">= 3.8"
+authors = [
+  {name = "Tiaan Nieuwoudt",email = "tiaan@al.co.za"}
+]
+maintainers = [
+  {name = "Tiaan Nieuwoudt", email = "tiaan@al.co.za"}
+]
+description = "A wrapper package for the jsonschema library to validate JSON data against a schema."
+readme = "README.md"
+license = {file = "LICENSE.txt"}
+keywords = ["json", "validate", "validation", "schema", "jsonschema"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+
+    # Pick your license as you wish (see also "license" above)
+    "License :: OSI Approved :: MIT License",
+
+  # Specify the Python versions you support here.
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+
+]
+
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/json_validation_al"]
+
+[tool.hatch.build.targets.dist]
+packages = ["src/json_validation_al"]

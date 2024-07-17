@@ -1,0 +1,114 @@
+Metadata-Version: 2.3
+Name: json_validation_al
+Version: 0.0.9
+Summary: A wrapper package for the jsonschema library to validate JSON data against a schema.
+Author-email: Tiaan Nieuwoudt <tiaan@al.co.za>
+Maintainer-email: Tiaan Nieuwoudt <tiaan@al.co.za>
+License: Copyright (c) 2016 The Python Packaging Authority (PyPA)
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of
+        this software and associated documentation files (the "Software"), to deal in
+        the Software without restriction, including without limitation the rights to
+        use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+        of the Software, and to permit persons to whom the Software is furnished to do
+        so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE.txt
+Keywords: json,jsonschema,schema,validate,validation
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.8
+Requires-Dist: jsonschema==4.23.0
+Description-Content-Type: text/markdown
+
+# JSON Validation
+
+This Python package provides a simple and intuitive way to validate JSON data against a specified schema. It is designed to be easy to use and highly customizable.
+
+## Installation
+
+You can install JSON Validation using pip:
+
+```shell
+pip install json-validation
+```
+
+## Usage
+
+To use JSON Validation in your Python code, you first need to import the `Validator` class:
+
+```python
+from json_validation import Validator
+```
+
+Next, you can create an instance of the `Validator` class and specify the JSON schema you want to validate against:
+
+```python
+validator = Validator(schema)
+```
+
+You can then use the `validate` method to validate your JSON data:
+
+```python
+result = validator.validate(data)
+```
+
+The `validate` method returns a boolean value indicating whether the data is valid according to the schema. You can also access detailed validation errors using the `errors` property of the `Validator` instance.
+
+## Examples
+
+Here are some examples to help you get started:
+
+```python
+# Create a schema
+schema = {
+    "type": "object",
+    "properties": {
+        "name": {"type": "string"},
+        "age": {"type": "number"}
+    },
+    "required": ["name"]
+}
+
+# Create a Validator instance
+validator = Validator(schema)
+
+# Validate JSON data
+data = {
+    "name": "John",
+    "age": 30
+}
+result = validator.validate(data)
+
+if result:
+    print("Data is valid!")
+else:
+    print("Data is invalid.")
+    print(validator.errors)
+```
+
+## Contributing
+
+Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request on the GitHub repository.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
