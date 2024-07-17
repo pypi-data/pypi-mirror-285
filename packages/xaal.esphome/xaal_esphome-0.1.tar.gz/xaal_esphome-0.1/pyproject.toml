@@ -1,0 +1,19 @@
+[project]
+name = "xaal.esphome"
+version = "0.1"
+description = "xAAL gateway for for ESPHome devices"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = ["xaal", "esphome"]
+dependencies = ["xaal.lib", "aioesphomeapi"]
+
+
+[tool.setuptools.packages.find]
+include = ["xaal.esphome"]
