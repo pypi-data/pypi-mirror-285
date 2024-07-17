@@ -1,0 +1,101 @@
+[project]
+name = "pz-rail-yaw"
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+description = "Wrapper around the yet_another_wizz clustering redshift code for RAIL"
+readme = {file = "README.md", content-type = "text/markdown"}
+authors = [
+    { name = "LSST Dark Energy Science Collaboration (DESC)", email = "lsst-desc-rail-admin@slac.stanford.edu" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+]
+dynamic = ["version"]
+
+dependencies = [
+    "numpy",
+    "h5py",
+    "pz-rail-base>=1.0.3",
+    "qp-prob",
+    # fix yet_another_wizz version; if there is a new release, issue a new
+    # patch or minor version release, depending on the changes requred
+    "yet_another_wizz==2.5.8",
+]
+
+[project.urls]
+Repository = "https://github.com/LSSTDESC/rail_yaw.git"
+
+# On a mac, install optional dependencies with `pip install '.[dev]'` (include the single quotes)
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov", # Used to report total code coverage
+    "pytest-skip-slow", # skip the slow pipeline tests
+    "pre-commit", # Used to run checks before finalizing a git commit
+    "pylint", # Used for static linting of files
+    "black", # code style
+    "nbconvert", # for pre-commit tasks
+]
+
+[build-system]
+requires = [
+    "setuptools>=62", # Used to build and package the Python project
+    "setuptools_scm>=6.2", # Gets release version from git. Makes it available programmatically
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+write_to = "src/rail/yaw_rail/_version.py"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+]
+addopts = [
+    "--cov=rail",
+    "--cov-report=html",
+    "--slow",
+]
+
+[tool.pylint]
+disable = [
+    "abstract-method",
+    "invalid-name",
+    "too-many-statements",
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "too-few-public-methods",
+    "duplicate-code",
+    "use-dict-literal",
+    "broad-exception-caught",
+    # some yet_another_wizz API calls violate this
+    "too-many-arguments",
+    # some other nuisances
+    "unspecified-encoding",
+]
+max-line-length = 110
+max-locals = 50
+max-branches = 25
+max-public-methods = 50
+
+[tool.black]
+include = ".pyi?$"
+exclude = """
+/(
+    .git
+    | .hg
+    | .mypy_cache
+    | .tox
+    | .venv
+    | _build
+    | buck-out
+    | build
+    | dist
+)/
+"""
