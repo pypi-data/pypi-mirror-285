@@ -1,0 +1,210 @@
+Metadata-Version: 2.1
+Name: asleep
+Version: 0.4.13
+Summary: A sleep classification tool for wearables
+Author-email: Hang Yuan <angerhangy@gmail.com>
+Maintainer-email: Hang Yuan <angerhangy@gmail.com>
+License: # Academic Use Licence
+        
+        **These licence terms apply to all licences granted by THE CHANCELLOR, MASTERS AND SCHOLARS OF THE UNIVERSITY OF OXFORD whose administrative offices are at University Offices, Wellington Square, Oxford OX1 2JD, United Kingdom (the “University”) for use of “SSL-wearables” (“the Software”) through this website (https://github.com/OxWearables) (the ”Website”). 
+        
+        By downloading the Software through the Website, you (the “Licensee”) are confirming that you agree that your use of the Software is subject to these licence terms**
+        
+        **PLEASE READ THESE LICENCE TERMS CAREFULLY BEFORE DOWNLOADING THE SOFTWARE. IF YOU DO NOT AGREE TO THESE LICENCE TERMS YOU SHOULD NOT DOWNLOAD THE SOFTWARE.**
+        
+        **THE SOFTWARE IS INTENDED FOR USE BY ACADEMICS CARRYING OUT RESEARCH AND NOT FOR USE BY CONSUMERS OR COMMERCIAL BUSINESSES.**
+        
+        **1.	Academic Use Licence**  
+        1.1	The Licensee is granted a limited non-exclusive and non-transferable royalty free licence to download and use the Software provided that the Licensee will:
+        - (a)	limit their use of the Software to their own internal academic non-commercial research which is undertaken for the purposes of education or other scholarly use;
+        - (b)	not use the Software for or on behalf of any third party or to provide a service or integrate all or part of the Software into a product for sale or license to third parties;
+        - (c)	use the Software in accordance with the prevailing instructions and guidance for use given on the Website and comply with procedures on the Website for user identification, authentication and access;
+        - (d)	comply with all applicable laws and regulations with respect to their use of the Software; and
+        - (e)	ensure that the Copyright Notice “Copyright © 2022, University of Oxford” appears prominently wherever the Software is reproduced and is referenced or cited with the Copyright Notice when the Software is described in any research publication or on any documents or other material created using the Software.
+        
+        
+        1.2	The Licensee may only reproduce, modify, transmit or transfer the Software where:
+        - (a)	such reproduction, modification, transmission or transfer is for academic, research or other scholarly use;
+        - (b)	the conditions of this Licence are imposed upon the receiver of the Software or any modified Software;
+        - (c)	all original and modified Source Code is included in any transmitted software program; and
+        - (d)	the Licensee grants the University an irrevocable, indefinite, royalty free, non-exclusive unlimited licence to use and sub-licence any modified Source Code as part of the Software.
+        
+        
+        1.3	The University reserves the right at any time and without liability or prior notice to the Licensee to revise, modify and replace the functionality and performance of the access to and operation of the Software. 
+        
+        
+        1.4	The Licensee acknowledges and agrees that the University owns all intellectual property rights in the Software.  The Licensee shall not have any right, title or interest in the Software.
+        
+        
+        1.5	This Licence will terminate immediately and the Licensee will no longer have any right to use the Software or exercise any of the rights granted to the Licensee upon any breach of the conditions in Section 1 of this Licence.
+        
+        
+        **2.	Indemnity and Liability**  
+        2.1	The Licensee shall defend, indemnify and hold harmless the University against any claims, actions, proceedings, losses, damages, expenses and costs (including without limitation court costs and reasonable legal fees) arising out of or in connection with the Licensee's possession or use of the Software, or any breach of these terms by the Licensee.
+        
+        2.2	The Software is provided on an ‘as is’ basis and the Licensee uses the Software at their own risk. No representations, conditions, warranties or other terms of any kind are given in respect of the the Software and all statutory warranties and conditions are excluded to the fullest extent permitted by law. Without affecting the generality of the previous sentences, the University gives no implied or express warranty and makes no representation that the Software or any part of the Software: (a) will enable specific results to be obtained; or (b) meets a particular specification or is comprehensive within its field or that it is error free or will operate without interruption; or (c) is suitable for any particular, or the Licensee's specific purposes. 
+        
+        2.3	Except in relation to fraud, death or personal injury, the University's liability to the Licensee for any use of the Software, in negligence or arising in any other way out of the subject matter of these licence terms, will not extend to any incidental or consequential damages or losses, or any loss of profits, loss of revenue, loss of data, loss of contracts or opportunity, whether direct or indirect.
+        
+        2.4	The Licensee hereby irrevocably undertakes to the University not to make any claim against any employee, student, researcher or other individual engaged by the University, being a claim which seeks to enforce against any of them any liability whatsoever in connection with these licence terms or their subject-matter. 
+        
+        
+        **3.	General**  
+        **3.1	Severability** - If any provision (or part of a provision) of these licence terms is found by any court or administrative body of competent jurisdiction to be invalid, unenforceable or illegal, the other provisions shall remain in force.  
+        **3.2	Entire Agreement** - These licence terms constitute the whole agreement between the parties and supersede any previous arrangement, understanding or agreement between them relating to the Software.  
+        **3.3	Law and Jurisdiction** - These licence terms and any disputes or claims arising out of or in connection with them shall be governed by, and construed in accordance with, the law of England. The Licensee irrevocably submits to the exclusive jurisdiction of the English courts for any dispute or claim that arises out of or in connection with these licence terms.
+        
+        
+        If you are interested in using the Software commercially, please contact Oxford University Innovation Limited to negotiate a licence. Contact details are enquiries@innovation.ox.ac.uk
+        
+Project-URL: Homepage, https://github.com/OxWearables/asleep
+Project-URL: Bug Reports, https://github.com/OxWearables/asleep/issues
+Project-URL: Source, https://github.com/OxWearables/asleep
+Keywords: sleep,wearables,machine learning
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Healthcare Industry
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Medical Science Apps.
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: peppercorn
+Requires-Dist: actipy
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: scipy
+Requires-Dist: joblib
+Requires-Dist: torch
+Requires-Dist: torchvision
+Requires-Dist: transforms3d
+Requires-Dist: stepcount
+Requires-Dist: hydra-core
+Requires-Dist: matplotlib
+Provides-Extra: dev
+Requires-Dist: check-manifest ; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: coverage ; extra == 'test'
+
+# asleep: a sleep classifier for wearable sensor data using machine learning
+This is a Python package for classifying sleep stages from wearable sensor data / wrist - worn accelerometer. The underlying model
+was trained and tested in 1000 + nights of multi - centre polysomnography with tri - axial accelerometer data.
+
+The key features of this package are as follows:
+* A simple and easy - to - use API for sleep stage classification.
+* Sleep / wake metric estimation including total sleep duration and sleep efficiency.
+* Sleep architecture metric estimation including rapid - eye - movement(REM) / NREM sleep duration.
+
+
+![](https://raw.githubusercontent.com/OxWearables/asleep/main/assets/figure.jpg)
+
+
+# Dependencies
+- Python 3.8
+- Java 8 (1.8.0) or greater
+
+Check with:
+```bash
+$ python --version
+$ java -version
+```
+
+# Installation
+```bash
+$ pip install asleep
+```
+
+# Usage
+All the processing will be much faster after the first time because the model weights will to have to be downloaded
+the first time that the package is used.
+```shell
+# Process an AX3 file
+$ get_sleep sample.cwa
+
+# Or an ActiGraph file
+$ get_sleep sample.gt3x
+
+# Or a GENEActiv file
+$ get_sleep sample.bin
+
+# Or a CSV file (see data format below)
+$ get_sleep sample.csv
+```
+
+Output
+```shell
+Summary
+-------
+{
+    "Filename": "sample.cwa",
+    "Filesize(MB)": 65.1,
+    "Device": "Axivity",
+    "DeviceID": 2278,
+    "ReadErrors": 0,
+    "SampleRate": 100.0,
+    "ReadOK": 1,
+    "StartTime": "2013-10-21 10:00:07",
+    "EndTime": "2013-10-28 10:00:01",
+    "Total sleep duration(min)": 655.7,
+    "Total overnight sleep(min)": 43132,
+    ...
+}
+
+Estimated total sleep duration
+---------------------
+              total sleep duration(min)
+time
+2013 - 10 - 21     435.2
+2013 - 10 - 22     436.2
+2013 - 10 - 23    432.2
+...
+
+Output: outputs /sample/
+```
+
+# Visualisation
+You can visualise the sleep parameters using the following command:
+```shell
+$ visu_sleep PATH_TO_OUTPUT_FOLDER
+```
+
+
+# Processing CSV files
+If a CSV file is provided, it must have the following header: time, x, y, z.
+
+Example:
+```shell
+time, x, y, z
+2013 - 10 - 21 10: 00: 08.000, -0.078923, 0.396706, 0.917759
+2013 - 10 - 21 10: 00: 08.010, -0.094370, 0.381479, 0.933580
+2013 - 10 - 21 10: 00: 08.020, -0.094370, 0.366252, 0.901938
+2013 - 10 - 21 10: 00: 08.030, -0.078923, 0.411933, 0.901938
+```
+
+
+# Citation
+If you want to use our package for your project, please cite our paper below:
+```bibtex
+@article{yuan2024self,
+  title={Self-supervised learning of accelerometer data provides new insights for sleep and its association with mortality},
+  author={Yuan, Hang and Plekhanova, Tatiana and Walmsley, Rosemary and Reynolds, Amy C and Maddison, Kathleen J and Bucan, Maja and Gehrman, Philip and Rowlands, Alex and Ray, David W and Bennett, Derrick and others},
+  journal={NPJ digital medicine},
+  volume={7},
+  number={1},
+  pages={86},
+  year={2024},
+  publisher={Nature Publishing Group UK London}
+}
+```
+
+# Acknowledgements
+We would like to thank all our code contributors, manuscript co - authors, and research participants for their help in making this work possible. The
+data processing pipeline of this repository is based on the [step_count](https://github.com/OxWearables/stepcount) package from our group. Special
+thanks to @chanshing for his help in developing the package.
