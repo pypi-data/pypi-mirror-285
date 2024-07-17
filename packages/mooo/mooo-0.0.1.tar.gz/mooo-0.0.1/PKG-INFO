@@ -1,0 +1,90 @@
+Metadata-Version: 2.1
+Name: mooo
+Version: 0.0.1
+Summary: A simple http proxy
+Author-email: Hang <bebound@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 Hang
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/bebound/mooo
+Project-URL: Source, https://github.com/bebound/mooo/
+Keywords: HTTP,proxy
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp>=3.9.5
+Provides-Extra: test
+Requires-Dist: requests; extra == "test"
+Requires-Dist: pytest; extra == "test"
+
+mooo
+---------
+
+`mooo` is a lightweight HTTP proxy written in Python. You can start it in the server that you can use it as a proxy
+server.
+
+## Quick Start
+
+### Installation
+
+`pip install mooo`
+
+### Usage
+
+1. Start the proxy server
+
+```bash
+mooo --host 0.0.0.0 --port 8080
+```
+
+2. Use the proxy server to access the internet
+
+```bash
+curl http://your_proxy_server:8080/{http_url}
+git clone http://your_proxy_server:8080/{github_url}
+```
+
+> [!WARNING]
+> The proxy server auto proxy the local network, it could be a security issue.
+> Please use it in docker or specify `--allow-domain` to limit the domain that the proxy server can access.
+
+## Docker Guide
+
+```bash
+docker run -p 8080:8080 bebound/mooo --host 0.0.0.0 --port=8080
+```
+
+## Parameters
+
+| Parameter | Description        | Default   |
+|-----------|--------------------|-----------|
+| `--host`  | The listening host | 127.0.0.1 |
+| `--port`  | The listening port | 8080      |

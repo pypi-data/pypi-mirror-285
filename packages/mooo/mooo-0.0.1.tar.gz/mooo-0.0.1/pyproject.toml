@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mooo"
+dynamic = ["version"]
+description = "A simple http proxy"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["HTTP", "proxy"]
+authors = [
+    {name = "Hang", email = "bebound@gmail.com" }
+]
+classifiers = [
+    # How mature is this project? Common values are
+    #   3 - Alpha
+    #   4 - Beta
+    #   5 - Production/Stable
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+]
+
+dependencies = [
+    "aiohttp>=3.9.5"
+]
+#
+[project.optional-dependencies]
+test = ["requests", "pytest"]
+
+[project.urls]
+"Homepage" = "https://github.com/bebound/mooo"
+"Source" = "https://github.com/bebound/mooo/"
+
+[project.scripts]
+mooo = "mooo.proxy:main"
+
+
+[tool.setuptools.dynamic]
+version = { attr = "mooo.__version__" }
