@@ -1,0 +1,135 @@
+Metadata-Version: 2.1
+Name: django-spam-classifier
+Version: 0.1.1
+Summary: Classify contact form messages as spam or not.
+Home-page: https://gitlab.com/sturm/django-spam-classifier
+Author: Ben Sturmfels
+Author-email: ben@sturm.com.au
+Project-URL: Source, https://gitlab.com/sturm/django-spam-classifier
+Project-URL: Bug Reports, https://gitlab.com/sturm/django-spam-classifier/-/issues
+Classifier: Development Status :: 7 - Inactive
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django >=4.0
+
+# Django Spam Classifier
+
+Contact form spam getting you down? We know the feeling. It's demeaning,
+draining and relentless.
+
+This a very basic Django app that uses `dbacl` Bayesian text classification tool
+to filter out contact form spam. It's not perfect, but it works very well on
+blocking the really offensive English text spam. The app was written to avoid
+depending on external services like reCAPTCHA or Akismet - these services work
+well enough, but introduce some privacy concerns.
+
+
+## Limitations
+
+*Update July 2024: The author is no longer actively using or maintaining this package and is instead replacing website contact forms with email links. While `django-spam-classifier` is reasonably effective when trained, the increasing volume of automated contact form spam means that even a small proportion getting through is overwhelming for many small websites. Additionally the "dbacl" package is no longer available in current versions of Debian and Ubuntu, so it's more complicated to deploy this tool on new installations.*
+
+Currently doesn't work so well on non-English text, very short input, garbage
+input or HTML only with a single hyperlink. It's possible that `dbacl` may have
+options to deal more effectively with this.
+
+Additionally, `dbacl` seems to be not so actively maintained, and is currently
+not available on Debian Bullseye. I may switch to `bogofilter` or other Bayesian
+filtering options in the future.
+
+
+## Getting started
+
+ - Install `django-spam-classifier`
+ - Install `dbacl` via your OS package manager
+ - Add a `BASE_DIR` setting
+ - Enable Django `django.contrib.sites` app and configure your site domain via
+   Django Admin (used for training links in emails)
+ - Add `'classifier'` to your `INSTALLED_APPS` setting
+ - Add `path('', include('classifier.urls')),` to your project's `urls.py`
+ - Run `python manage.py migrate`
+ - Create the `classifier_data` directory to hold the classifier database
+ - In contact form call `classifier.is_spam()` on all text accepted by your
+   form:
+
+       spam, submission = is_spam('\n'.join(submission_fields))
+       if spam:
+           # Throw away the form submission and don't notify anyone.
+       else:
+           # Process the form submission as normal.
+           
+   Doing so will internally use `dbacl` to classify the submission as spam or
+   not spam and generate a confidence of 0-100. Spam/not-spam with a high
+   confidence is processed as you'd expect. If the confidence is below the
+   `RECORD_AND_DISCARD_CONFIDENCE`, the submission is treated as not spam
+   because confidence is too low to make a safe decision. The body is recorded
+   in the `Submissions` model and can be manually classified via the Django
+   Admin. If the confidence is above `RECORD_AND_DISCARD_CONFIDENCE` but below
+   `SILENTLY_DISCARD_CONFIDENCE`, the submission is treated as confidently spam,
+   but also recorded to the `Submissions` model for manual classification.
+
+ - Add a training link to the footer of any notification email you send::
+ 
+       email_body = email_body + spam_footer(submission, site)
+
+   Which will output something like:
+
+       --
+       Spam score: spam (15% confidence)
+       Train as spam: https://example.com/classifier/1704/spam/
+       Train as not spam: https://example.com/classifier/1704/not-spam/
+
+ - Ensure you have a logging configuration set up so you can see log messages
+ - Add a cron job to regularly (eg. daily) update the training database with any
+   new manual classifications you've made:
+ 
+       python manage.py train
+ - Visit the Django Admin and classify the low-confidence submissions you receive.
+ - Tune the Django settings as desired (optional):
+
+       CLASSIFIER = {
+          'SILENTLY_DISCARD_CONFIDENCE': 90,  # Defaults to 80
+         'RECORD_AND_DISCARD_CONFIDENCE': 75,  # Defaults to 60
+       }
+
+
+## Development
+
+Create a venv and install the development requirements:
+
+    python3 -m python3.8 -m venv --system-site-packages [VENV-PATH]
+    source [VENV_PATH]/bin/activate
+    python -m pip install Django pytz
+
+*TODO: There is undoubtedly a better way of installing dev-dependencies. Perhaps
+poetry or flit? Are they the only tools that handle this? What's generally accepted?*
+
+Run tests with `tox` or:
+
+    PYTHONPATH=src:.:$PYTHONPATH DJANGO_SETTINGS_MODULE=tests.test_settings pytest tests
+
+Create migrations with:
+
+    DJANGO_SETTINGS_MODULE=tests.test_settings python -m django makemigrations
+
+# Release History
+
+## 0.1.0 (2022-08-26)
+
+ - Add some manual labelling to improve performance on non-English text and HTML
+ - Add admin filter for auto and manual spam status
+ - Update URLConfs for Django 4
+
+
+## 0.0.7 (2021-10-01)
+
+ - Add admin actions to bulk mark spam/not-spam
+ - Add tox
+
+
+## 0.0.6 (2021-03-15)
+
+ - Respond with a 404 if a classifier submission doesn't exist
