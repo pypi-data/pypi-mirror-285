@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: xaal.zwave
+Version: 0.1
+Summary: xAAL devices for Zwave
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Keywords: xaal,zwave
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+Requires-Dist: python_openzwave
+Requires-Dist: prettytable
+
+
+xaal.zwave
+==========
+This package provides a gateway to connect Zwave devices to the xAAL.
+It uses the openzwave library to communicate with the Zstick.
+As the openzwave library is outdated, it is recommended to use an old
+version of Python (tested w/ 3.8.12) to run this gateway.
+
+
+Install & Config
+----------------
+- Install the gateway as usual, *pip install xaal.zwave*
+- Plug the Zstick
+- Run the gateway w/ *python -m xaal.zwave*
+- Change the serial port in the config file *zwave.ini* if needed.
+- The gateway will detect all paired products with the Zstick so, no
+  addtionnal config is needed
+
+Products
+--------
+- Supported products are in products/, feel free to add (and submit)
+  your own devices.
