@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "electronunitconverter"
+version="1.0.0"
+authors = [
+    {name = "Lorenzo Peri"},
+]
+description = "A CLI tool to convert units."
+requires-python = ">=3.9"
+license = {file = "LICENSE"}
+readme = "README.md"
+dependencies = [
+'scipy'
+]
+
+[project.optional-dependencies]
+test = ["pytest", "numpy"]
+
+[project.scripts]
+UnitConverter = "electronunitconverter.__main__:main"
+
+[project.urls]
+Homepage = "https://https://github.com/LorenzoPeri17/UnitConverter"
+
+[tool.pytest.ini_options]
+testpaths = [
+    "src/tests",
+]
