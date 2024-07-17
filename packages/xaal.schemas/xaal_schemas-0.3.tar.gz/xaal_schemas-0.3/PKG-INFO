@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: xaal.schemas
+Version: 0.3
+Summary: xAAL devices build from schemas
+Author-email: Jerome Kerdreux <Jerome.Kerdreux@imt-atlantique.fr>
+License: GPL License
+Project-URL: Homepage, https://recherche.imt-atlantique.fr/xaal/
+Project-URL: Documentation, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/libs/schemas/README.rst
+Project-URL: Source, https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/libs/schemas
+Keywords: xaal,home-automation
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Home Automation
+Description-Content-Type: text/x-rst
+Requires-Dist: xaal.lib
+
+xaal.schemas
+============
+
+Introduction
+------------
+This package contains stuffs to build some code from the schemas. Right now,
+it mainly contains the "devices.py" module which is generated via the builder
+script.
+
+This module contains a function that return an instance for each dev-type.
+For example, if you want to use a lamp.basic, you can simply write something
+like this. 
+
+.. code-block:: python
+
+    from xaal.schemas import devices
+    from xaal.lib import tools
+
+    lamp = devices.lamp()
+    lamp.address = tools.get_random_uuid()
+
+
+WARNING
+-------
+This package will be updated regulary (that mainly why this files isn't in 
+xaal.lib package), so don't modify the files unless you really know what 
+you do. 
+
+If your device isn't in this package, please send us a email to add a schema
+or use the xaal.lib.Device API directly. (don't tweak devices.py)
+
+TODO
+----
+Right now xaal.lib.Attribute doesn't support type checking (You know, it's
+Python anyway..) but I think we should provide some default type checking,
+in devices module.
