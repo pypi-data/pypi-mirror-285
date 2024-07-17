@@ -1,0 +1,52 @@
+Metadata-Version: 2.1
+Name: Knorket_TrustMesh
+Version: 0.2.0
+Summary: Knorket router exposes internal private services via zero-trust
+Home-page: 
+Author: ockhamlabs
+Author-email: hello@ockhamlabs.ai
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+Requires-Dist: pylint
+Requires-Dist: pylint-exit
+Requires-Dist: pyinstaller
+Requires-Dist: tqdm
+Requires-Dist: psutil
+Requires-Dist: packaging
+Requires-Dist: pyjwt
+Requires-Dist: colorama
+Requires-Dist: jinja2
+Requires-Dist: distro
+Requires-Dist: pyyaml
+
+## To make changes 
+
+### change version in setup.py 
+
+```sh
+pip3 install -e . 
+```
+
+```sh
+python3 -m build 
+```
+
+```sh
+python3 -m twine upload dist/* 
+```
+
+### To use this package 
+
+```sh
+pip3 install Knorket-TrustMesh
+```
+
+### Example command to register a router
+
+```sh
+Knorket-TrustMesh --jwt enroll.txt 
+```
