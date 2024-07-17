@@ -1,0 +1,315 @@
+openapi: 3.0.1
+info:
+  title: Remote Actions API
+  description: Trigger and query remote actions using the Nexthink API.
+  version: 1.0.0
+servers:
+  - url: 'https://instance.api.region.nexthink.cloud'
+tags:
+  - name: Remote actions
+    description: Remote actions API
+paths:
+  /api/v1/act/execute:
+    post:
+      summary: Trigger a remote action
+      description: Triggers the execution of a remote action for a set of devices.
+      operationId: executeRA
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+            nullable: true
+      requestBody:
+        description: The configuration of the execution.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecutionRequest'
+        required: true
+      responses:
+        '200':
+          description: OK - Successful execution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecutionResponse'
+        '400':
+          description: 'Bad request - Invalid request, see the error code for details.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: |
+            Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to execute the remote action.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/act/remote-action:
+    get:
+      summary: List remote actions
+      description: 'Retrieves the remote actions, including their configuration information.'
+      operationId: getAllRemoteActions
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Successful listing.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RemoteAction'
+        '400':
+          description: 'Bad request - Invalid request, see the error code for details.'
+        '401':
+          description: Unauthorized - No valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to get remote action information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/act/remote-action/details:
+    get:
+      summary: Get remote action details
+      description: Retrieve the configuration of a specific remote action.
+      operationId: getRemoteActionByNqlId
+      parameters:
+        - name: nql-id
+          in: query
+          description: The nql-id of the remote action
+          required: true
+          schema:
+            type: string
+          example: '#ExampleRA'
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK - Remote action configuration retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemoteAction'
+        '401':
+          description: Unauthorized - no valid authentication credentials.
+        '403':
+          description: No permission - Not authorized to get that information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: Not found - No remote action associated with that NQL ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    ErrorResponse:
+      required:
+        - code
+        - message
+      type: object
+      properties:
+        code:
+          minLength: 1
+          type: string
+          description: error code
+        message:
+          minLength: 1
+          type: string
+          description: error message
+    ExecutionRequest:
+      required:
+        - devices
+        - remoteActionId
+      type: object
+      properties:
+        remoteActionId:
+          minLength: 1
+          type: string
+          description: The ID of the remote action to execute
+          example: '#ExampleRA'
+        params:
+          type: object
+          additionalProperties:
+            type: string
+          description: 'Any parameters to send to the script. Leave the object empty if there are none. Example: {StartType: "Automatic", StatusChange: "On", SetStartTypeTo: "Manual"}'
+        devices:
+          maxItems: 10000
+          minItems: 1
+          type: array
+          description: Nexthink Collector IDs of the devices that the remote action should be executed on
+          items:
+            type: string
+        expiresInMinutes:
+          maximum: 10080
+          minimum: 60
+          type: integer
+          description: The amount of time in minutes before the execution will expire if a targeted device does not come online to process it.
+          format: int32
+          example: 60
+    ExecutionResponse:
+      required:
+        - requestId
+      type: object
+      properties:
+        requestId:
+          minLength: 1
+          type: string
+          description: The Nexthink ID of the request created that spawned the executions. Use this ID to query remote action executions in NQL.
+          example: 7fbd96a7-b717-43a7-8973-9c6adbca3a56
+        expiresInMinutes:
+          maximum: 10080
+          minimum: 1
+          type: integer
+          description: The amount of time in minutes before the execution will expire if a targeted device does not come online to process it.
+          format: int32
+          example: 60
+    Input:
+      required:
+        - allowCustomValue
+        - description
+        - id
+        - name
+        - options
+        - usedByMacOs
+        - usedByWindows
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        usedByWindows:
+          type: boolean
+        usedByMacOs:
+          type: boolean
+        options:
+          type: array
+          items:
+            type: string
+        allowCustomValue:
+          type: boolean
+    Output:
+      required:
+        - description
+        - id
+        - name
+        - type
+        - usedByMacOs
+        - usedByWindows
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        description:
+          type: string
+        usedByWindows:
+          type: boolean
+        usedByMacOs:
+          type: boolean
+    Purpose:
+      type: string
+      enum:
+        - DATA_COLLECTION
+        - REMEDIATION
+    RemoteAction:
+      required:
+        - builtInContentVersion
+        - description
+        - id
+        - name
+        - origin
+        - purpose
+        - scriptInfo
+        - targeting
+        - uuid
+      type: object
+      properties:
+        id:
+          type: string
+        uuid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        origin:
+          type: string
+        builtInContentVersion:
+          type: string
+        purpose:
+          type: array
+          items:
+            $ref: '#/components/schemas/Purpose'
+        targeting:
+          $ref: '#/components/schemas/Targeting'
+        scriptInfo:
+          $ref: '#/components/schemas/ScriptInfo'
+    RunAsOption:
+      type: string
+      enum:
+        - LOCAL_SYSTEM
+        - INTERACTIVE_USER
+    ScriptInfo:
+      required:
+        - hasScriptMacOs
+        - hasScriptWindows
+        - inputs
+        - outputs
+        - runAs
+        - timeoutSeconds
+      type: object
+      properties:
+        runAs:
+          $ref: '#/components/schemas/RunAsOption'
+        timeoutSeconds:
+          type: integer
+          format: int32
+        hasScriptWindows:
+          type: boolean
+        hasScriptMacOs:
+          type: boolean
+        inputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Input'
+        outputs:
+          type: array
+          items:
+            $ref: '#/components/schemas/Output'
+    Targeting:
+      required:
+        - apiEnabled
+        - manualAllowMultipleDevices
+        - manualEnabled
+      type: object
+      properties:
+        apiEnabled:
+          type: boolean
+        manualEnabled:
+          type: boolean
+        manualAllowMultipleDevices:
+          type: boolean
