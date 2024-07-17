@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: ultrastarParser
+Version: 0.3.5
+Summary: Parser for Ultrastar text files.
+Home-page: https://github.com/randompersona1/ultrastarParser
+License: MIT
+Keywords: ultrastar,parser,karaoke
+Author: randompersona1
+Author-email: 74961116+randompersona1@users.noreply.github.com
+Requires-Python: >=3.7
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+
+# UltrastarParser
+
+Contains methods to read or edit ultrastar files or directories.
+
+Not yet implemented:
+
+- Auto-detecting duet
+- Auto-detecting missing information including files, previewstart, language, genre
+
+## Installation
+
+Use the package manager of your choice: [pypi](https://pypi.org/project/ultrastarParser/)
+
+## Usage
+
+1. Make a backup. I cannot guarantee your files won't go up in flames. If something does go wrong, please file an issue.
+
+- The library contains classes either for managing a single song or a library of songs.
+- After editing a song, use `<UltraStarFile>.flush()` to flush changes back to the file system. Any changes made after opening/parsing will be overwritten by this.
+- Certain formattings will be lost. For example, attributes (like #ARTIST) will always be converted to uppercase. The current goal is to be able to parse files that adhere to the [Official Ultrastar Format Specification](https://usdx.eu/format/)
+- For the forseeable future, editing the songtext and notes is unsupported
+
