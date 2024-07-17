@@ -1,0 +1,18 @@
+[project]
+name = "seokbong_add"
+version = "1.0.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Seokxkyu", email = "kyuseok000@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+seokbong_add = 'seokbong_add.add:add'
+seokbong_plus = 'seokbong_add.add:seokbong_plus'
+
+[tool.pdm]
+distribution = true
