@@ -1,0 +1,553 @@
+Metadata-Version: 2.1
+Name: ceph-nvmeof
+Version: 1.2.16.dev20240717064903
+Summary: Service to provide Ceph storage over NVMe-oF protocol
+Author-Email: Ilya Dryomov <idryomov@gmail.com>, Mykola Golub <mykola.golub@clyso.com>, Sandy Kaur <sandy.kaur@ibm.com>, Ernesto Puerta <epuertat@redhat.com>, Yin Congmin <congmin.yin@intel.com>, Scott Peterson <scott.d.peterson@intel.com>, Jason Dillaman <dillaman@redhat.com>, Anita Shekar <anita.shekar@ibm.com>
+License: GNU LESSER GENERAL PUBLIC LICENSE
+        Version 3, 29 June 2007
+        
+        Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+        
+        Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.
+        
+        This version of the GNU Lesser General Public License incorporates the terms and conditions of version 3 of the GNU General Public License, supplemented by the additional permissions listed below.
+        
+        0. Additional Definitions.
+        
+        As used herein, “this License” refers to version 3 of the GNU Lesser General Public License, and the “GNU GPL” refers to version 3 of the GNU General Public License.
+        
+        “The Library” refers to a covered work governed by this License, other than an Application or a Combined Work as defined below.
+        
+        An “Application” is any work that makes use of an interface provided by the Library, but which is not otherwise based on the Library. Defining a subclass of a class defined by the Library is deemed a mode of using an interface provided by the Library.
+        
+        A “Combined Work” is a work produced by combining or linking an Application with the Library. The particular version of the Library with which the Combined Work was made is also called the “Linked Version”.
+        
+        The “Minimal Corresponding Source” for a Combined Work means the Corresponding Source for the Combined Work, excluding any source code for portions of the Combined Work that, considered in isolation, are based on the Application, and not on the Linked Version.
+        
+        The “Corresponding Application Code” for a Combined Work means the object code and/or source code for the Application, including any data and utility programs needed for reproducing the Combined Work from the Application, but excluding the System Libraries of the Combined Work.
+        
+        1. Exception to Section 3 of the GNU GPL.
+        
+        You may convey a covered work under sections 3 and 4 of this License without being bound by section 3 of the GNU GPL.
+        
+        2. Conveying Modified Versions.
+        
+        If you modify a copy of the Library, and, in your modifications, a facility refers to a function or data to be supplied by an Application that uses the facility (other than as an argument passed when the facility is invoked), then you may convey a copy of the modified version:
+        
+        a) under this License, provided that you make a good faith effort to ensure that, in the event an Application does not supply the function or data, the facility still operates, and performs whatever part of its purpose remains meaningful, or
+        b) under the GNU GPL, with none of the additional permissions of this License applicable to that copy.
+        3. Object Code Incorporating Material from Library Header Files.
+        
+        The object code form of an Application may incorporate material from a header file that is part of the Library. You may convey such object code under terms of your choice, provided that, if the incorporated material is not limited to numerical parameters, data structure layouts and accessors, or small macros, inline functions and templates (ten or fewer lines in length), you do both of the following:
+        
+        a) Give prominent notice with each copy of the object code that the Library is used in it and that the Library and its use are covered by this License.
+        b) Accompany the object code with a copy of the GNU GPL and this license document.
+        4. Combined Works.
+        
+        You may convey a Combined Work under terms of your choice that, taken together, effectively do not restrict modification of the portions of the Library contained in the Combined Work and reverse engineering for debugging such modifications, if you also do each of the following:
+        
+        a) Give prominent notice with each copy of the Combined Work that the Library is used in it and that the Library and its use are covered by this License.
+        b) Accompany the Combined Work with a copy of the GNU GPL and this license document.
+        c) For a Combined Work that displays copyright notices during execution, include the copyright notice for the Library among these notices, as well as a reference directing the user to the copies of the GNU GPL and this license document.
+        d) Do one of the following:
+        0) Convey the Minimal Corresponding Source under the terms of this License, and the Corresponding Application Code in a form suitable for, and under terms that permit, the user to recombine or relink the Application with a modified version of the Linked Version to produce a modified Combined Work, in the manner specified by section 6 of the GNU GPL for conveying Corresponding Source.
+        1) Use a suitable shared library mechanism for linking with the Library. A suitable mechanism is one that (a) uses at run time a copy of the Library already present on the user's computer system, and (b) will operate properly with a modified version of the Library that is interface-compatible with the Linked Version.
+        e) Provide Installation Information, but only if you would otherwise be required to provide such information under section 6 of the GNU GPL, and only to the extent that such information is necessary to install and execute a modified version of the Combined Work produced by recombining or relinking the Application with a modified version of the Linked Version. (If you use option 4d0, the Installation Information must accompany the Minimal Corresponding Source and Corresponding Application Code. If you use option 4d1, you must provide the Installation Information in the manner specified by section 6 of the GNU GPL for conveying Corresponding Source.)
+        5. Combined Libraries.
+        
+        You may place library facilities that are a work based on the Library side by side in a single library together with other library facilities that are not Applications and are not covered by this License, and convey such a combined library under terms of your choice, if you do both of the following:
+        
+        a) Accompany the combined library with a copy of the same work based on the Library, uncombined with any other library facilities, conveyed under the terms of this License.
+        b) Give prominent notice with the combined library that part of it is a work based on the Library, and explaining where to find the accompanying uncombined form of the same work.
+        6. Revised Versions of the GNU Lesser General Public License.
+        
+        The Free Software Foundation may publish revised and/or new versions of the GNU Lesser General Public License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.
+        
+        Each version is given a distinguishing version number. If the Library as you received it specifies that a certain numbered version of the GNU Lesser General Public License “or any later version” applies to it, you have the option of following the terms and conditions either of that published version or of any later version published by the Free Software Foundation. If the Library as you received it does not specify a version number of the GNU Lesser General Public License, you may choose any version of the GNU Lesser General Public License ever published by the Free Software Foundation.
+        
+        If the Library as you received it specifies that a proxy can decide whether future versions of the GNU Lesser General Public License shall apply, that proxy's public statement of acceptance of any version is permanent authorization for you to choose that version for the Library.
+Project-URL: Repository, https://github.com/ceph/ceph-nvmeof.git
+Requires-Python: ~=3.9
+Requires-Dist: grpcio~=1.53.0
+Requires-Dist: grpcio_tools~=1.53.0
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: pyyaml>=6.0.1
+Requires-Dist: prometheus_client~=0.19.0
+Requires-Dist: netifaces~=0.11.0
+Description-Content-Type: text/markdown
+
+[![CI](https://github.com/ceph/ceph-nvmeof/actions/workflows/build-container.yml/badge.svg)](https://github.com/ceph/ceph-nvmeof/actions/workflows/build-container.yml)
+# Ceph NVMe over Fabrics (NVMe-oF) Gateway
+
+This project provides block storage on top of Ceph for platforms (e.g.: VMWare) without
+native Ceph support (RBD), replacing existing approaches (iSCSI) with a newer and [more
+versatile standard (NVMe-oF)](https://nvmexpress.org/specification/nvme-of-specification/).
+
+Essentially, it allows to export existing RBD images as NVMe-oF namespaces.
+The [creation and management of RBD images](https://docs.ceph.com/en/latest/rbd/) is not within the scope of this component.
+
+## Installation
+
+### Requirements
+
+* Linux-based system with at least 16 GB of available RAM. [Fedora 37](https://fedoraproject.org/) is recommended.
+* SELinux in permissive mode:
+
+  ```bash
+  sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config
+  setenforce 0
+  ```
+
+### Dependencies
+
+* `moby-engine` (`docker-engine`) (v20.10) and `docker-compose` (v1.29). These versions are just indicative
+*  `make` (only needed to launch `docker-compose` commands).
+
+To install these dependencies in Fedora:
+
+```bash
+sudo dnf install -y make moby-engine docker-compose
+```
+
+Some [post-installation steps](https://docs.docker.com/engine/install/linux-postinstall/) are required to use `docker` with regular users:
+
+```bash
+sudo groupadd docker
+sudo usermod -aG docker $USER
+```
+
+### Steps
+
+To launch a containerized environment with a Ceph cluster and a NVMe-oF gateway (this is not the [prescribed deployment for production purposes](https://docs.ceph.com/en/quincy/install/#recommended-methods), but for testing and development tasks alone):
+
+1. Get this repo:
+
+    ```bash
+    git clone https://github.com/ceph/ceph-nvmeof.git
+    cd ceph-nvmeof
+    git submodule update --init --recursive
+    ```
+
+1. Configure the environment (basically to allocate huge-pages, which requires entering the user password):
+
+    ```bash
+    make setup
+    ```
+
+1. Download the container images:
+
+    ```bash
+    make pull
+    ```
+
+1. Deploy the containers locally:
+
+    ```bash
+    make up
+    ```
+
+1. Check that the deployment is up and running:
+
+    ```bash
+    $ make ps
+
+        Name                    Command                  State                               Ports
+    -----------------------------------------------------------------------------------------------------------------------
+    ceph              sh -c ./vstart.sh --new $V ...   Up (healthy)   5000/tcp, 6789/tcp, 6800/tcp, 6801/tcp, 6802/tcp,
+                                                                      6803/tcp, 6804/tcp, 6805/tcp, 80/tcp
+    nvmeof_nvmeof_1   python3 -m control -c ceph ...   Up             0.0.0.0:4420->4420/tcp,:::4420->4420/tcp,
+                                                                      0.0.0.0:5500->5500/tcp,:::5500->5500/tcp,
+                                                                      0.0.0.0:8009->8009/tcp,:::8009->8009/tcp
+    ```
+
+1. The environment is ready to provide block storage on Ceph via NVMe-oF.
+
+## Usage Demo
+
+### Configuring the NVMe-oF Gateway
+
+The following command executes all the steps required to set up the NVMe-oF environment:
+
+```bash
+$ make demo
+docker-compose  exec  ceph bash -c "rbd -p rbd info demo_image || rbd -p rbd create demo_image --size 10M"
+rbd: error opening image demo_image: (2) No such file or directory
+docker-compose  run --rm nvmeof-cli --server-address 192.168.13.3 --server-port 5500 subsystem add --subsystem "nqn.2016-06.io.spdk:cnode1"
+Adding subsystem nqn.2016-06.io.spdk:cnode1: Successful
+docker-compose  run --rm nvmeof-cli --server-address 192.168.13.3 --server-port 5500 namespace add --subsystem "nqn.2016-06.io.spdk:cnode1" --rbd-pool rbd --rbd-image demo_image
+Adding namespace 1 to nqn.2016-06.io.spdk:cnode1: Successful
+docker-compose  run --rm nvmeof-cli --server-address 192.168.13.3 --server-port 5500 listener add --subsystem "nqn.2016-06.io.spdk:cnode1" --host-name fbca1a3d3ed8 --traddr 192.168.13.3 --trsvcid 4420
+Adding listener 192.168.13.3:4420 to nqn.2016-06.io.spdk:cnode1: Successful
+docker-compose  run --rm nvmeof-cli --server-address 2001:db8::3 --server-port 5500 listener add --subsystem "nqn.2016-06.io.spdk:cnode1" --host-name fbca1a3d3ed8 --traddr 2001:db8::3 --trsvcid 4420 --adrfam IPV6
+Adding listener [2001:db8::3]:4420 to nqn.2016-06.io.spdk:cnode1: Successful
+docker-compose  run --rm nvmeof-cli --server-address 192.168.13.3 --server-port 5500 host add --subsystem "nqn.2016-06.io.spdk:cnode1" --host "*"
+Allowing any host for nqn.2016-06.io.spdk:cnode1: Successful
+```
+
+#### Manual Steps
+
+The same configuration can also be manually run:
+
+1. First of all, let's create the `cephnvmf` shortcut to interact with the NVMe-oF gateway:
+
+    ```bash
+    eval $(make alias)
+    ```
+
+1.  In order to start working with the NVMe-oF gateway, we need to create an RBD image first (`demo_image` in the `rbd` pool):
+
+    ```bash
+    make rbd
+    ```
+
+1. Create a subsystem:
+
+    ```bash
+    cephnvmf subsystem add --subsystem nqn.2016-06.io.spdk:cnode1
+    ```
+
+1. Add a namespace:
+
+    ```bash
+    cephnvmf namespace add --subsystem nqn.2016-06.io.spdk:cnode1 --rbd-pool rbd --rbd-image demo_image
+    ```
+
+1. Create a listener so that NVMe initiators can connect to:
+
+    ```bash
+    cephnvmf listener add ---subsystem nqn.2016-06.io.spdk:cnode1 --host-name host_name -a gateway_addr -s 4420
+    ```
+
+1. Define which hosts can connect:
+
+    ```bash
+    cephnvmf host add --subsystem nqn.2016-06.io.spdk:cnode1 --host "*"
+    ```
+
+
+### Mounting the NVMe-oF volume
+
+Once the NVMe-oF target is
+
+1. Install requisite packages:
+
+    ```bash
+    sudo dnf install nvme-cli
+    sudo modprobe nvme-fabrics
+    ```
+
+1. Ensure that the listener is reachable from the NVMe-oF initiator:
+
+    ```bash
+    $ sudo nvme discover -t tcp -a 192.168.13.3 -s 4420
+
+    Discovery Log Number of Records 1, Generation counter 2
+    =====Discovery Log Entry 0======
+    trtype:  tcp
+    adrfam:  ipv4
+    subtype: nvme subsystem
+    treq:    not required
+    portid:  0
+    trsvcid: 4420
+    subnqn:  nqn.2016-06.io.spdk:cnode1
+    traddr:  192.168.13.3
+    eflags:  not specified
+    sectype: none
+    ```
+
+1. Connect to desired subsystem:
+
+    ```bash
+    sudo nvme connect -t tcp --traddr 192.168.13.3 -s 4420 -n nqn.2016-06.io.spdk:cnode1
+    ```
+
+1. List the available NVMe targets:
+
+    ```bash
+    $ sudo nvme list
+    Node                  Generic               SN                   Model                                    Namespace Usage                      Format           FW Rev
+    --------------------- --------------------- -------------------- ---------------------------------------- --------- -------------------------- ---------------- --------
+    /dev/nvme1n1          /dev/ng1n1            Ceph00000000000001   Ceph bdev Controller                     1          10,49  MB /  10,49  MB      4 KiB +  0 B   23.01
+    ...
+    ```
+
+1. Create a filesystem on the desired target:
+
+    ```bash
+    $  sudo mkfs /dev/nvme1n1
+    mke2fs 1.46.5 (30-Dec-2021)
+    Discarding device blocks: done
+    Creating filesystem with 2560 4k blocks and 2560 inodes
+
+    Allocating group tables: done
+    Writing inode tables: done
+    Writing superblocks and filesystem accounting information: done
+    ```
+
+1. Mount and use the storage volume
+
+    ```bash
+    $ mkdir /mnt/nvmeof
+    $ sudo mount /dev/nvme1n1 /mnt/nvmeof
+
+    $ ls /mnt/nvmeof
+    lost+found
+
+    $ sudo bash -c "echo Hello NVMe-oF > /mnt/nvmeof/hello.txt"
+
+    $ cat /mnt/nvmeof/hello.txt
+    Hello NVMe-oF
+    ```
+
+### Start Discovery Service(Optional)
+
+The discovery service can provide all the targets that the current user can access, and these target information is sourced from ceph omap. These targets may be running or just a record.
+
+1. Start Discovery Service
+    ```bash
+    $ python3 -m control.discovery
+    ```
+
+2. To start discovery service container in docker-compose environment
+   ```bash
+   $ docker-compose up --detach discovery
+   ```
+
+3. Discover targets from discovery service. The default port is 8009.
+   ```bash
+   $ nvme discover -t tcp -a 192.168.13.3 -s 8009
+   ```
+
+## Advanced
+
+### Configuration
+
+This service comes with a pre-defined configuration that matches the most common use cases. For advanced configuration, please update the settings at the `.env` file. That file is automatically read by `docker-compose`. However, it's a perfectly valid bash source, so that it can also be used as:
+
+```bash
+source .env
+echo $NVMEOF_VERSION...
+```
+
+### mTLS Configuration for testing purposes
+
+For testing purposes, self signed certificates and keys can be generated locally using OpenSSL.
+
+For the server, generate credentials for the server named 'my.server' and save them in files called server.key and server.crt. Additionally, specify subject alternative names using the gateway group nodes' IPs in the openssl command.
+
+```bash
+$ openssl req -x509 -newkey rsa:4096 -nodes -keyout server.key -out server.crt -days 3650 -subj '/CN=my.server' -addext "subjectAltName=IP:192.168.13.3,IP:192.168.13.4,IP:192.168.13.5,IP:192.168.13.6"
+```
+
+For client:
+
+```bash
+$ openssl req -x509 -newkey rsa:4096 -nodes -keyout client.key -out client.crt -days 3650 -subj '/CN=client1'
+```
+
+Indicate the location of the keys and certificates in the config file:
+
+```ini
+[mtls]
+
+server_key = ./server.key
+client_key = ./client.key
+server_cert = ./server.crt
+client_cert = ./client.crt
+```
+
+### Huge-Pages
+
+[DPDK requires hugepages](https://doc.dpdk.org/guides/linux_gsg/sys_reqs.html#linux-gsg-hugepages) to be set up:
+
+```bash
+sh -c 'echo 4096 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages'
+```
+
+This is automatically done in the `make setup` step. The amount of hugepages can be configured with `make setup HUGEPAGES=512`.
+
+## Development
+
+### Set-up
+The development environment relies on containers (specifically `docker-compose`) for building and running the components. This has the benefit that, besides `docker` and `docker-compose`, no more dependencies need to be installed in the host environment.
+
+Once the GitHub repo has been cloned, remember to initialize its git submodules (`spdk`, which in turn depends on other submodules):
+
+```bash
+git submodule update --init --recursive
+```
+
+For building, SELinux might cause issues, so it's better to set it to permissive mode:
+
+```bash
+# Change it for the running session
+sudo setenforce 0
+
+# Persist the change across boots
+sudo sed -i -E 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+```
+
+### Building
+
+#### Containers
+
+To avoid having to deal with `docker-compose` commands, this provides a `Makefile` that wraps those as regular `make` targets:
+
+To build the container images from the local sources:
+
+```bash
+make build
+```
+
+The resulting images should be like these:
+
+```bash
+$ docker images
+REPOSITORY                    TAG       IMAGE ID       CREATED         SIZE
+quay.io/ceph/nvmeof-cli       0.0.1     8277cd0cce2d   7 minutes ago   995MB
+quay.io/ceph/nvmeof           0.0.1     34d7230dcce8   7 minutes ago   439MB
+quay.io/ceph/vstart-cluster   17.2.6    cb2560975055   8 minutes ago   1.27GB
+quay.io/ceph/spdk             23.01     929e22e22ffd   8 minutes ago   342MB
+```
+
+* `spdk` is an intermediate image that contains an RPM-based installation of spdk with `rbd` support enabled.
+* `nvmeof` is built from the `spdk` container by installing the Python package.
+* `nvmeof-cli` provides a containerized environment to run CLI commands that manage the `nvmeof` service via gRPC.
+* `ceph` is a sandboxed (vstart-based) Ceph cluster for testing purposes.
+
+For building a specific service:
+
+```bash
+make build SVC=nvmeof
+```
+
+#### Stand-alone Packages
+
+To generate independent RPM and Python wheel packages:
+
+```bash
+make export-rpms export-python
+RPMs exported to:
+/tmp/rpm/x86_64/spdk-libs-23.01-0.x86_64.rpm
+/tmp/rpm/x86_64/spdk-devel-23.01-0.x86_64.rpm
+/tmp/rpm/x86_64/spdk-23.01-0.x86_64.rpm
+Python wheel exported to:
+/tmp/ceph_nvmeof-0.0.1-py3-none-any.whl
+```
+
+To install nvmeof-cli as a CLI tool from the above Python wheel package, (or alternatively only build the cli package):
+```
+make export-python
+pip install /tmp/ceph_nvmeof-0.0.1-py3-none-any.whl
+ceph-nvmeof // use nvmeof-cli tool!
+```
+
+This can also be installed from https://pypi.org/project/ceph-nvmeof/, by running `pip3 install ceph-nvmeof`.
+
+### Development containers
+
+To avoid having to re-build container on every code change, developer friendly containers are provided:
+
+```bash
+docker-compose up nvmeof-devel
+```
+
+Devel containers provide the same base layer as the production containers but with the source code mounted at run-time.
+
+### Adding, removing or updating Python dependencies
+
+Python dependencies are specified in the file `pyproject.toml`
+([PEP-621](https://peps.python.org/pep-0621/)), specifically under the `dependencies` list.
+
+After modifying it, the dependency lockfile (`pdm.lock`) needs to be updated accordingly (otherwise container image builds will fail):
+
+```bash
+make update-lockfile
+git add pdm.lock
+```
+
+## Help
+
+To obtain a detailed list of `make` targets, run `make help`:
+
+```
+Makefile to build and deploy the Ceph NVMe-oF Gateway
+
+Usage:
+    make [target] [target] ... OPTION=value ...
+
+Targets:
+
+  Basic targets:
+      clean           Clean-up environment
+      export-python   Build Ceph NVMe-oF Gateway Python package and copy it to /tmp
+      export-rpms     Build SPDK RPMs and copy them to $(EXPORT_DIR)/rpm
+      setup           Configure huge-pages (requires sudo/root password)
+      up              Services
+      update-lockfile Update dependencies in lockfile (pdm.lock)
+
+    Options:
+      EXPORT_DIR      Directory to export packages (RPM and Python wheel) (Default: /tmp)
+      up: SVC         Services (Default: nvmeof)
+
+  Deployment commands (docker-compose):
+      build           Build SVC images
+      down            Shut down deployment
+      events          Receive real-time events from containers
+      exec            Run command inside an existing container
+      images          List images
+      logs            View SVC logs
+      pause           Pause running deployment
+      port            Print public port for a port binding
+      ps              Display status of SVC containers
+      pull            Download SVC images
+      push            Push nvmeof and nvmeof-cli containers images to quay.io registries
+      restart         Restart SVC
+      run             Run command CMD inside SVC containers
+      shell           Exec shell inside running SVC containers
+      stop            Stop SVC
+      top             Display running processes in SVC containers
+      unpause         Resume paused deployment
+      up              Launch services
+
+    Options:
+      CMD             Command to run with run/exec targets (Default: )
+      DOCKER_COMPOSE  Docker-compose command (Default: docker-compose)
+      OPTS            Docker-compose subcommand options (Default: )
+      SCALE           Number of instances (Default: 1)
+      SVC             Docker-compose services (Default: )
+
+  Demo:
+      demo            Expose RBD_IMAGE_NAME as NVMe-oF target
+
+  Miscellaneous:
+      alias           Print bash alias command for the nvmeof-cli. Usage: "eval $(make alias)"
+```
+
+Targets may accept options: `make run SVC=nvme OPTS=--entrypoint=bash`.
+
+## Monitoring and Observability
+Each gateway daemon implements a prometheus exporter endpoint, which can expose performance and relevant metadata over port 10008/tcp. The endpoint is enabled by default, but if you don't see port 10008 listening, check the `ceph-nvmeof.conf` file.
+```
+enable_prometheus_exporter = True
+```
+
+The image below shows a sample Grafana dashboard that provides a good starting point for monitoring the performance and configuration of an NVMe-oF gateway group.
+![dashboard](monitoring/Ceph-NVMe-oF-Gateways-Dashboard.png)
+
+The JSON for the dashboard can be found [here](monitoring/Ceph-NVMe-oF-Gateways-Dashboard.json), and can simply be imported into your Grafana instance. *Note: Although Grafana v11 was used to develop the dashboard, it should work in v10.x as well.*
+  
+
+## Troubleshooting
+
+## Contributing and Support
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
+## Code of Conduct
+
+See [Ceph's Code of Conduct](https://ceph.io/en/code-of-conduct/).
+
+## License
+
+See [`LICENSE`](LICENSE).
