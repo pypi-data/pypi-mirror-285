@@ -1,0 +1,56 @@
+[functions.is_discharging]
+description = "Check if battery is discharging (i.e. in use)."
+type = "boolean"
+[functions.is_charging]
+description = "Check if battery is charging."
+type = "boolean"
+[functions.percent]
+description = "Return percentage charge of battery in [0, 100]."
+[functions.minutes_to_empty]
+description = "Minutes of battery life left (may be empty if not known yet)."
+[functions.minutes_to_full]
+description = "Minutes until the battery is charged (may be 0 if full, or empty if not on charge or not known)."
+[functions.capacity]
+description = "Battery's current capacity in mWh (mAh on macOS)."
+[functions.design_capacity]
+description = "Battery's original capacity in mWh (mAh on macOS)."
+
+
+# Some of the extra pipes are to produce a standardised format and may not be necessary depending on your purpose.
+# The unixy `grep -qv foo; echo $?` idiom is useful for "does this contain foo"
+
+[commands.macos]
+# pmset -g batt outputs a fairly standard format
+is_discharging = "pmset -g batt | head -n1 | grep -qv \"'Battery Power'\"; echo $?"
+is_charging = "pmset -g batt | grep InternalBattery | grep -qv '; charging'; echo $?"
+percent = "pmset -g batt | grep InternalBattery | grep -Eo '\\d+%'| grep -Eo '\\d+'"
+minutes_to_empty = "pmset -g batt | grep discharging | grep -Eo '\\d+:\\d+' | awk '{S=($1*60)+$2}END{print S}' FS=:"
+minutes_to_full = "pmset -g batt | grep ' charg' | grep -Eo '\\d+:\\d+' | awk '{S=($1*60)+$2}END{print S}' FS=:"
+# TODO: can these be faster? it's a tad slow
+capacity = "ioreg -l -w0 | grep '\"MaxCapacity\" = ' | grep -Eo '\\d+'"
+design_capacity = "ioreg -l -w0 | grep '\"DesignCapacity\" = ' | grep -Eo '\\d+'"
+
+[commands.linux]
+# cf https://askubuntu.com/questions/69556/how-do-i-check-the-batterys-status-via-the-terminal
+# note that `upower -d | grep FOO | head -n1`
+# is faster than `upower -i $(upower -e | grep FOO | head -n1 ) | grep FOO`
+is_discharging = "upower -d | grep state | head -n1 | grep -qv 'discharging'; echo $? "
+is_charging = "upower -d | grep state | head -n1 | grep -qv ' charging'; echo $?"
+percent = "upower -d | grep percentage | head -n1 | grep -Eo '[0-9]+'"
+# upower outputs in minutes and hours; awk handles this
+minutes_to_empty = "upower -d | grep 'time to empty' | head -n1 | grep hours | grep -Eo '[0-9\\.]+ .' | awk '{print int($1 * ($2==\"m\"?1:60))}'"
+minutes_to_full = "upower -d | grep 'time to full' | head -n1 | grep hours | grep -Eo '[0-9\\.]+ .' | awk '{print int($1 * ($2==\"m\"?1:60))}'"
+capacity = "upower -d | grep 'energy-full:' | head -n1 | grep -Eo '[0-9]+' | awk '{print $1 * 1000}'"
+design_capacity = "upower -d | grep 'energy-full-design:' | head -n1 | grep -Eo '[0-9]+' | awk '{print $1 * 1000}'"
+
+[commands.windows] # using powershell
+# cf https://learn.microsoft.com/en-us/windows/win32/cimwin32prov/win32-battery
+is_discharging = "(Get-WmiObject -Class 'BatteryStatus' -Namespace 'root\\wmi').Discharging | %{[int32]$_}"
+is_charging = "(Get-WmiObject -Class 'BatteryStatus' -Namespace 'root\\wmi').Charging | %{[int32]$_}"
+percent = "((WMIC PATH Win32_Battery Get EstimatedChargeRemaining) -split '\\n')[2]"
+# 0x4444444 = 71582788 means N/A (not a magical 136yr battery. imagine)
+# for some reason PS dislikes a ternary if operator here, so we use the classic index-list-by-bool trick
+minutes_to_empty = "[int32]((WMIC PATH Win32_Battery Get EstimatedRunTime) -split '\\n')[2] | %{@('', $_)[$_ -ne 71582788]}"
+minutes_to_full = "Get-WmiObject -Class 'BatteryStatus' -Namespace 'root\\wmi' | Where-Object Charging | %{[int32](((Get-WmiObject -Class 'BatteryFullChargedCapacity' -Namespace 'root\\wmi').FullChargedCapacity - $_.RemainingCapacity) / $_.ChargeRate * 60)}"
+capacity = "((WMIC PATH Win32_Battery Get FullChargeCapacity) -split '\\n')[2]"
+design_capacity = "((WMIC PATH Win32_Battery Get DesignCapacity) -split '\\n')[2]"
