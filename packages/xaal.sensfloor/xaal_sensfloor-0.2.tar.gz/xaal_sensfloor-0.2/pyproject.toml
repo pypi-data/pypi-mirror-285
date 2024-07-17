@@ -1,0 +1,20 @@
+[project]
+name = "xaal.sensfloor"
+version = "0.2"
+description = "xAAL devices for Future Shape SensFloor"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = ["Programming Language :: Python", "Topic :: Home Automation"]
+keywords = ["xaal", "Sense Floor"]
+dependencies = ["xaal.lib", "xaal.schemas", "python-socketio==5.0.0", "aiohttp"]
+
+[tool.setuptools.packages.find]
+include = ["xaal.sensfloor"]
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/devices/protocols/SensFloor/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/devices/protocols/SensFloor"
