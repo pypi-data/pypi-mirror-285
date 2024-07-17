@@ -1,0 +1,353 @@
+openapi: 3.0.3
+info:
+  title: Enrichment API
+  description: |
+    Enrich object data in the Nexthink inventory with specific information. Update the values of any number of fields for any number of objects. The enrichment 
+    process is asynchronous, a success response does not guarantee that the enrichment will be successful.
+  version: 1.1.0
+  contact: {}
+tags:
+  - name: enrichment
+    description: Enrichment operations
+servers:
+  - url: 'https://instance.api.region.nexthink.cloud'
+security:
+  - bearerAuth: []
+paths:
+  /api/v1/enrichment/data/fields:
+    post:
+      summary: Enrich fields for given objects
+      description: |
+        Enrich any number of fields for given objects. Enrichment can be done for manual custom fields (any object) or for the virtualization
+        fields (devices only).
+      operationId: enrichmentDataFields
+      requestBody:
+        description: The different objects to be enriched with the given fields and values used for the enrichment.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichmentRequest'
+            examples:
+              'Multiple devices, multiple fields':
+                value:
+                  enrichments:
+                    - identification:
+                        - name: device/device/name
+                          value: DEVICE-1
+                      fields:
+                        - name: device/device/virtualization/desktop_pool
+                          value: Desktop Pool DC2
+                        - name: device/device/virtualization/type
+                          value: 2
+                        - name: device/device/virtualization/last_update
+                          value: '2023-10-03T15:00:00.000Z'
+                        - name: device/device/#<custom_field_name>
+                          value: custom_value_1
+                    - identification:
+                        - name: device/device/uid
+                          value: f9a936fb-6256-4caf-8f59-c6a6b6f620a7
+                      fields:
+                        - name: device/device/#<custom_field_name>
+                          value: custom_value_2
+                        - name: device/device/#<another_custom_field_name>
+                          value: custom_value_3
+                  domain: virtualization_and_custom_fields
+              'Multiple users, multiple fields':
+                value:
+                  enrichments:
+                    - identification:
+                        - name: user/user/sid
+                          value: S-1-12-1-4253575810-1105532049-3537677963-370044704
+                      fields:
+                        - name: user/user/#<custom_field_name>
+                          value: custom_value_1
+                    - identification:
+                        - name: user/user/uid
+                          value: d6a936fb-6256-4caf-8f59-c6a6b6f620a7
+                      fields:
+                        - name: user/user/#<custom_field_name>
+                          value: custom_value_2
+                    - identification:
+                        - name: user/user/upn
+                          value: user@company.com
+                      fields:
+                        - name: user/user/#<custom_field_name>
+                          value: custom_value_3
+                  domain: custom_fields
+              'Multiple binaries, multiple fields':
+                value:
+                  enrichments:
+                    - identification:
+                        - name: binary/binary/uid
+                          value: e5a936fb-6256-4caf-8f59-c6a6b6f620a7
+                      fields:
+                        - name: binary/binary/#<custom_field_name>
+                          value: custom_value_1
+                    - identification:
+                        - name: binary/binary/uid
+                          value: e5a936fb-6256-4caf-8f59-c6a6b6f620a7
+                      fields:
+                        - name: binary/binary/#<custom_field_name>
+                          value: custom_value_2
+                  domain: custom_fields
+              'Multiple packages, multiple fields':
+                value:
+                  enrichments:
+                    - identification:
+                        - name: package/package/uid
+                          value: 8bb08c1a-4c19-4856-b071-5fb2d3586e17
+                      fields:
+                        - name: package/package/#<custom_field_name>
+                          value: custom_value_1
+                    - identification:
+                        - name: package/package/uid
+                          value: cc908308-7cc0-4853-8f4e-fe83281fea1a
+                      fields:
+                        - name: package/package/#<custom_field_name>
+                          value: custom_value_2
+                  domain: custom_fields
+      responses:
+        '200':
+          description: Successful enrichment response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+              examples:
+                Successful enrichment:
+                  value:
+                    status: success
+        '207':
+          description: 'Partial success enrichment response - some invalid enrichment, see error codes for details'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PartialSuccessResponse'
+              examples:
+                Partial success:
+                  value:
+                    status: partial_success
+                    errors:
+                      - identification:
+                          - name: device/device/name
+                            value: DEVICE-1
+                        errors:
+                          - message: Wrong type for field 'device/device/virtualization/desktop_pool'
+                            code: ENRICH_011
+        '400':
+          description: 'Bad request - invalid enrichment, see error codes for details'
+          content:
+            application/json:
+              schema:
+                anyOf:
+                  - $ref: '#/components/schemas/BadRequestResponse'
+                  - $ref: '#/components/schemas/Error'
+              examples:
+                Objects error (ALL objects contain errors):
+                  value:
+                    status: error
+                    errors:
+                      - identification:
+                          - name: device/device/name
+                            value: DEVICE-1
+                        errors:
+                          - message: Wrong type for field 'device/device/virtualization/desktop_pool'
+                            code: ENRICH_011
+                      - identification:
+                          - name: device/device/name
+                            value: DEVICE-2
+                        errors:
+                          - message: Wrong type for field 'device/device/virtualization/hostname'
+                            code: ENRICH_011
+                Global error (missing required fields):
+                  value:
+                    message: 'Missing required field(s) [identification: must not be empty]'
+                    code: ENRICH_001
+                Global error (maximum number of objects):
+                  value:
+                    message: Reached maximum objects per request. The limit is 5000 and the request has 10000 objects.
+                    code: ENRICH_042
+        '401':
+          description: Unauthorized - invalid authentication credentials
+        '403':
+          description: Forbidden - no permission to trigger enrichment
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ForbiddenResponse'
+              example:
+                message: Forbidden
+    parameters: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    BadRequestResponse:
+      description: Error response when ALL objects in the request contain errors
+      type: object
+      properties:
+        status:
+          description: Status of the request
+          type: string
+          enum:
+            - error
+        errors:
+          description: List of all the individual errors for all objects
+          type: array
+          minimum: 1
+          items:
+            $ref: '#/components/schemas/IndividualObjectError'
+    Enrichment:
+      description: Enrichment composed of the identification information of the desired object and the fields to be enriched (names and values)
+      type: object
+      properties:
+        identification:
+          description: List of fields to be used to identify the object
+          type: array
+          minimum: 1
+          maximum: 1
+          items:
+            $ref: '#/components/schemas/Identification'
+        fields:
+          description: List of fields to be enriched
+          type: array
+          minimum: 1
+          items:
+            $ref: '#/components/schemas/Field'
+      required:
+        - identification
+        - fields
+    EnrichmentRequest:
+      description: Objects to be enriched (with desired fields and values) and domain (configurable)
+      type: object
+      properties:
+        enrichments:
+          description: List of enrichments
+          type: array
+          minimum: 1
+          maximum: 5000
+          items:
+            $ref: '#/components/schemas/Enrichment'
+        domain:
+          description: Domain for which the given enrichment applies. For information and tracking purposes mainly
+          minLength: 1
+          type: string
+      required:
+        - enrichments
+        - domain
+    Error:
+      description: An error composed of a message and a code
+      type: object
+      properties:
+        message:
+          description: Error message with descriptive information about
+          minLength: 1
+          type: string
+        code:
+          description: Internal error code
+          minLength: 1
+          type: string
+    Field:
+      description: 'Enrichment information for the given object, composed of the name of field to be enriched and the desired value'
+      type: object
+      properties:
+        name:
+          description: Name of the field to be enriched
+          type: string
+          enum:
+            - device/device/virtualization/desktop_pool
+            - device/device/virtualization/hostname
+            - device/device/virtualization/hypervisor_name
+            - device/device/virtualization/type
+            - device/device/virtualization/environment_name
+            - device/device/virtualization/desktop_broker
+            - device/device/virtualization/disk_image
+            - device/device/virtualization/last_update
+            - device/device/#<custom_field_name>
+            - device/device/#<another_custom_field_name>
+            - user/user/#<custom_field_name>
+            - binary/binary/#<custom_field_name>
+            - package/package/#<custom_field_name>
+        value:
+          description: Desired value to be used while enriching
+          oneOf:
+            - type: string
+            - type: integer
+            - type: string
+              format: date
+      required:
+        - name
+        - value
+    ForbiddenResponse:
+      description: Error response when no permissions
+      type: object
+      properties:
+        message:
+          description: Error message when no permissions
+          type: string
+    Identification:
+      description: 'Identification information for the given object, composed of the name of the field and the value used to identify'
+      type: object
+      properties:
+        name:
+          description: Name of the field to be used to identify the object
+          type: string
+          enum:
+            - device/device/name
+            - device/device/uid
+            - user/user/sid
+            - user/user/uid
+            - user/user/upn
+            - binary/binary/uid
+            - package/package/uid
+        value:
+          description: Value to be used to identify the object
+          type: string
+      required:
+        - name
+        - value
+    IndividualObjectError:
+      description: 'Error for an individual object, composed of identification information about the object and the list of errors'
+      type: object
+      properties:
+        identification:
+          description: Field to be used to identify the object
+          type: array
+          minimum: 1
+          maximum: 1
+          items:
+            $ref: '#/components/schemas/Identification'
+        errors:
+          description: List of all the errors for the given object
+          type: array
+          minimum: 1
+          items:
+            $ref: '#/components/schemas/Error'
+    PartialSuccessResponse:
+      description: Partial success response when some of the objects in the request contain errors but other objects are processed
+      type: object
+      properties:
+        status:
+          description: Status of the request
+          type: string
+          enum:
+            - partial_success
+        errors:
+          description: List of all the individual errors for those objects with error
+          type: array
+          minimum: 1
+          items:
+            $ref: '#/components/schemas/IndividualObjectError'
+    SuccessResponse:
+      description: Response when ALL objects have been processed correctly
+      type: object
+      properties:
+        status:
+          description: Status of the request
+          type: string
+          enum:
+            - success
