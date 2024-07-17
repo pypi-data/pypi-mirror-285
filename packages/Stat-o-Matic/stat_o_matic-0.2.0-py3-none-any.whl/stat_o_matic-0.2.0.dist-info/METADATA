@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: Stat-o-Matic
+Version: 0.2.0
+Summary: 
+Author: unrecognized
+Author-email: a@b.com
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: boto3 (>=1.34.22,<2.0.0)
+Requires-Dist: click (>=8.1.3,<9.0.0)
+Requires-Dist: importlib_metadata (>=4.6.0) ; python_full_version < "3.10.0"
+Requires-Dist: platformdirs (>=3.10,<5.0)
+Requires-Dist: questionary (>=2.0.1,<3.0.0)
+Requires-Dist: rich-click (>=1.7.4,<2.0.0)
+Requires-Dist: shandy-sqlfmt (>=0.19.0)
+Requires-Dist: textual (==0.49.0)
+Requires-Dist: textual-fastdatatable (==0.7.1)
+Requires-Dist: textual-textarea (==0.11.3)
+Requires-Dist: tomli (>=2.0.1,<3.0.0) ; python_full_version < "3.11.0"
+Requires-Dist: tomlkit (>=0.12.3,<0.13.0)
+Description-Content-Type: text/markdown
+
+# Stat-o-Matic
+
+
+## How to use it?
+
+1. `pipx install stata-o-matic`
+2. create a config file `~/.config/stat_o_matic/config.ini`
+ A sample config file is added here
+```ini
+[STATA]
+path=/Applications/Stata/StataMP.app/Contents/MacOS/stata-mp
+```
+3. run `construct` in your terminal
+
+
+
