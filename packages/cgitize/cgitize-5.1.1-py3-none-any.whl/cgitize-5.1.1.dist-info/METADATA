@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: cgitize
+Version: 5.1.1
+Summary: Self-host your repositories using cgit
+Author-email: Egor Tensin <egor@tensin.name>
+License: MIT
+Project-URL: Homepage, https://github.com/egor-tensin/cgitize
+Project-URL: Bug Tracker, https://github.com/egor-tensin/cgitize/issues
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Version Control :: Git
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: atlassian-python-api ~=3.28.0
+Requires-Dist: PyGithub ~=1.0
+Requires-Dist: python-gitlab ~=2.0
+Requires-Dist: tomli ~=1.0
+Requires-Dist: importlib-metadata ~=4.0 ; python_version < "3.8"
+
+cgitize
+=======
+
+[![CI](https://github.com/egor-tensin/cgitize/actions/workflows/ci.yml/badge.svg)](https://github.com/egor-tensin/cgitize/actions/workflows/ci.yml)
+
+Self-host your repositories using cgit.
+
+Supports cloning all of your repositories from major hosting providers:
+
+* GitHub,
+* Bitbucket,
+* GitLab.
+
+Example output can be found at https://git.tensin.name/.
+
+Installation
+------------
+
+    pip install cgitize
+
+Usage
+-----
+
+Pass the path to the config to `cgitize` (/etc/cgitize/cgitize.toml by
+default):
+
+    cgitize --config path/to/cgitize.toml
+
+See an example config file at [examples/cgitize.toml].
+
+cgitize uses the `git` executable, which might use `ssh` internally.
+Make sure the required keys are loaded to a ssh-agent (or, _preferably_, use
+access tokens/application passwords).
+
+[examples/cgitize.toml]: examples/cgitize.toml
+
+### Docker
+
+You can run `cgitize` in a Docker container.
+A separate image includes a web server with a configured cgit installation.
+
+Please see [docker/README.md](docker/README.md) for details.
+
+Mirror maintenance
+------------------
+
+Update the URL of an existing repository mirror:
+
+    git remote set-url origin git@examples.com/username/name.git
+
+Development
+-----------
+
+See [DEVELOPMENT.md](DEVELOPMENT.md).
+
+License
+-------
+
+Distributed under the MIT License.
+See [LICENSE.txt] for details.
+
+[LICENSE.txt]: LICENSE.txt
