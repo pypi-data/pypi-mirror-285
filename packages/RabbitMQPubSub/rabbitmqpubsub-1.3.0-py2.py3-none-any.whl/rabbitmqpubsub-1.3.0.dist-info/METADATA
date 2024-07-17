@@ -1,0 +1,60 @@
+Metadata-Version: 2.1
+Name: RabbitMQPubSub
+Version: 1.3.0
+Summary: RabbitMQ helpers for pubsub.
+Author-email: Nebojsa Mrkic <mrkic.nebojsa@gmail.com>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: Apache Software License
+Requires-Dist: pika>=1.3.0
+Requires-Dist: dateutils
+Requires-Dist: aiormq
+Requires-Dist: orjson
+Requires-Dist: pytest ; extra == "tests"
+Requires-Dist: mock ; extra == "tests"
+Requires-Dist: requests ; extra == "tests"
+Requires-Dist: pytest-runner ; extra == "tests"
+Requires-Dist: pre-commit ; extra == "tests"
+Requires-Dist: pytest-mock ; extra == "tests"
+Project-URL: Home, https://github.com/nmrkic/RabbitMQPubSub
+Provides-Extra: tests
+
+# RabbitMQ Pub-Sub
+
+This project provides a simple implementation of the publish-subscribe pattern using RabbitMQ, making it easy to set up communication between different parts of your application.
+
+## Prerequisites
+
+Ensure you have the following installed before proceeding:
+
+- RabbitMQ server
+- Python 3
+
+## Installation
+
+1. Install the required Python dependencies:
+
+   ```bash
+   pip install .
+   ```
+
+## Usage
+
+While this project was initially standalone, it is now integrated into a larger project. For practical usage, we recommend utilizing the `mrkutil` library, which includes implemented methods for this library. Check out the [mrkutil GitHub repository](https://github.com/ivke-99/mrkutil/) for more details and examples. However, feel free to adapt this library for your own needs.
+
+## Authors
+
+- [@nmrkic](https://github.com/nmrkic)
+
+## Deployment to PyPI
+
+To deploy this package to PyPI, use the following commands:
+
+```bash
+flit build
+flit publish
+```
+
+## Contributing
+
+Contributions are always welcome! If you have any suggestions or improvements, feel free to submit a pull request or open an issue.
+
