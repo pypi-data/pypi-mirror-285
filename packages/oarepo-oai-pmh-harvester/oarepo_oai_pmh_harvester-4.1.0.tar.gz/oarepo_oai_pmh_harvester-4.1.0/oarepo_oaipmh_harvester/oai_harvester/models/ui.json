@@ -1,0 +1,173 @@
+{
+    "module": "oarepo_oaipmh_harvester.oai_harvester.models",
+    "file": "oarepo_oaipmh_harvester/oai_harvester/models/ui.json",
+    "alias": "oarepo-oaipmh-harvester",
+    "detail": "model",
+    "input": "model",
+    "help": ".help",
+    "label": ".label",
+    "hint": ".hint",
+    "children": {
+        "$schema": {
+            "detail": "keyword",
+            "input": "keyword",
+            "help": "$schema.help",
+            "label": "$schema.label",
+            "hint": "$schema.hint"
+        },
+        "baseurl": {
+            "detail": "url",
+            "input": "url",
+            "required": true,
+            "help": "baseurl.help",
+            "label": "baseurl.label",
+            "hint": "baseurl.hint"
+        },
+        "batch_size": {
+            "detail": "integer",
+            "input": "integer",
+            "help": "batch_size.help",
+            "label": "batch_size.label",
+            "hint": "batch_size.hint",
+            "facet": "batch_size"
+        },
+        "code": {
+            "detail": "keyword",
+            "input": "keyword",
+            "required": true,
+            "help": "code.help",
+            "label": "code.label",
+            "hint": "code.hint"
+        },
+        "comment": {
+            "detail": "fulltext",
+            "input": "fulltext",
+            "help": "comment.help",
+            "label": "comment.label",
+            "hint": "comment.hint"
+        },
+        "created": {
+            "detail": "datetime",
+            "input": "datetime",
+            "help": "created.help",
+            "label": "created.label",
+            "hint": "created.hint"
+        },
+        "id": {
+            "detail": "keyword",
+            "input": "keyword",
+            "help": "id.help",
+            "label": "id.label",
+            "hint": "id.hint"
+        },
+        "loader": {
+            "detail": "keyword",
+            "input": "keyword",
+            "help": "loader.help",
+            "label": "loader.label",
+            "hint": "loader.hint",
+            "facet": "loader"
+        },
+        "max_records": {
+            "detail": "integer",
+            "input": "integer",
+            "help": "max_records.help",
+            "label": "max_records.label",
+            "hint": "max_records.hint",
+            "facet": "max_records"
+        },
+        "metadataprefix": {
+            "detail": "keyword",
+            "input": "keyword",
+            "required": true,
+            "help": "metadataprefix.help",
+            "label": "metadataprefix.label",
+            "hint": "metadataprefix.hint",
+            "facet": "metadataprefix"
+        },
+        "name": {
+            "detail": "keyword",
+            "input": "keyword",
+            "required": true,
+            "help": "name.help",
+            "label": "name.label",
+            "hint": "name.hint"
+        },
+        "pid": {
+            "detail": false,
+            "input": false,
+            "help": "pid.help",
+            "label": "pid.label",
+            "hint": "pid.hint",
+            "children": {
+                "obj_type": {
+                    "detail": "keyword",
+                    "input": "keyword",
+                    "help": "pid/obj_type.help",
+                    "label": "pid/obj_type.label",
+                    "hint": "pid/obj_type.hint"
+                },
+                "pid_type": {
+                    "detail": "keyword",
+                    "input": "keyword",
+                    "help": "pid/pid_type.help",
+                    "label": "pid/pid_type.label",
+                    "hint": "pid/pid_type.hint"
+                },
+                "pk": {
+                    "detail": "integer",
+                    "input": "integer",
+                    "help": "pid/pk.help",
+                    "label": "pid/pk.label",
+                    "hint": "pid/pk.hint"
+                },
+                "status": {
+                    "detail": "keyword",
+                    "input": "keyword",
+                    "help": "pid/status.help",
+                    "label": "pid/status.label",
+                    "hint": "pid/status.hint"
+                }
+            }
+        },
+        "setspecs": {
+            "detail": "keyword",
+            "input": "keyword",
+            "required": true,
+            "help": "setspecs.help",
+            "label": "setspecs.label",
+            "hint": "setspecs.hint",
+            "facet": "setspecs"
+        },
+        "transformers": {
+            "detail": "array",
+            "input": "array",
+            "required": true,
+            "help": "transformers.help",
+            "label": "transformers.label",
+            "hint": "transformers.hint",
+            "child": {
+                "detail": "keyword",
+                "input": "keyword",
+                "help": "transformers.help",
+                "label": "transformers.label",
+                "hint": "transformers.hint",
+                "facet": "transformers"
+            }
+        },
+        "updated": {
+            "detail": "datetime",
+            "input": "datetime",
+            "help": "updated.help",
+            "label": "updated.label",
+            "hint": "updated.hint"
+        },
+        "writer": {
+            "detail": "keyword",
+            "input": "keyword",
+            "help": "writer.help",
+            "label": "writer.label",
+            "hint": "writer.hint"
+        }
+    }
+}
