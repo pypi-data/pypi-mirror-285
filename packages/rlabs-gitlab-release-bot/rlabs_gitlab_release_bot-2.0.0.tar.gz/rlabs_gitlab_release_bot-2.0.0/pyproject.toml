@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "rlabs-gitlab-release-bot"
+version = "2.0.0"
+description = ""
+authors = ["RomanLabs <rromanotero@romanlabs.com>"]
+readme = "README.md"
+license = "LGPL-3.0-or-later"
+packages = [{include = "rlabs_gitlab_release_bot", from = "src"}]
+
+[tool.poetry.scripts]
+manual-test-run = "rlabs_gitlab_release_bot.manual_test_run:main"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mypy = "^1.10.0"
+rich = "^13.7.1"
+semver = "^3.0.2"
+rlabs-mini-gitlab = "^2.0.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.10.0"
+pytest = "^8.2.1"
+toml = "^0.10.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
