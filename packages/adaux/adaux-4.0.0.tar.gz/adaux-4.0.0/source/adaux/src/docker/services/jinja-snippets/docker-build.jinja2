@@ -1,0 +1,20 @@
+build:
+    context: {{ aux.payload.docker_settings.project_dir }}
+    dockerfile: devops/docker/{{ opts.service_name }}.dockerfile
+    cache_from:
+    - {{ opts.image_name }}
+    {%- if opts.get("pip_cred_vars",[]) | length or opts.get("base_match",[]) or set_args %}
+    args:
+        {% for cred in opts.get("pip_cred_vars",[]) -%}
+            {{ cred }}: ${{ cred }}
+        {% endfor -%}
+        {% for match in opts.get("base_match",[]) -%}
+            {{ match[1] }}: ${{ match[1] }}
+        {% endfor -%}
+    {%- endif %}
+    {%- if opts.get("labels",{}) | length %}
+    labels:
+        {% for key, val in opts.labels.items() -%}
+            {{ key }}: {{ val }}
+        {% endfor -%}
+    {%- endif %}
