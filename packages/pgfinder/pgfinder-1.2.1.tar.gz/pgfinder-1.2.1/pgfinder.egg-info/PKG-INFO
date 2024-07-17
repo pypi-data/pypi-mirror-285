@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: pgfinder
+Version: 1.2.1
+Summary: Peptidoglycan analysis
+License: GNU Lesser GPLv3
+Project-URL: Source, https://github.com/Mesnage-Org/pgfinder
+Project-URL: Bug_Tracker, https://github.com/Mesnage-Org/pgfinder/issues
+Project-URL: Documentation, https://pgfinder.readthedocs.io/en/latest/
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Science/Research
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: pyyaml
+Provides-Extra: tests
+Requires-Dist: py; extra == "tests"
+Requires-Dist: pytest>=7.0; extra == "tests"
+Requires-Dist: pytest-cov; extra == "tests"
+Requires-Dist: pytest-mpl; extra == "tests"
+Requires-Dist: pytest-regtest; extra == "tests"
+Requires-Dist: pytest-xdist; extra == "tests"
+Provides-Extra: docs
+Requires-Dist: sphinx; extra == "docs"
+Requires-Dist: myst_parser; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Requires-Dist: pydata_sphinx_theme; extra == "docs"
+Requires-Dist: sphinx_markdown_tables; extra == "docs"
+Requires-Dist: sphinx-autoapi; extra == "docs"
+Requires-Dist: sphinx-autodoc-typehints; extra == "docs"
+Requires-Dist: sphinx-multiversion; extra == "docs"
+Requires-Dist: sphinx_rtd_theme; extra == "docs"
+Requires-Dist: sphinxcontrib-mermaid; extra == "docs"
+Requires-Dist: sphinxcontrib-napoleon; extra == "docs"
+Provides-Extra: dev
+Requires-Dist: black; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: ruff; extra == "dev"
+Provides-Extra: pypi
+Requires-Dist: build; extra == "pypi"
+Requires-Dist: setuptools_scm[toml]>=6.2; extra == "pypi"
+Requires-Dist: wheel; extra == "pypi"
