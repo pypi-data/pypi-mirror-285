@@ -1,0 +1,45 @@
+Metadata-Version: 2.1
+Name: tl3
+Version: 0.0.4
+Summary: Two-line element (TLE) management with a focus on downloading and operating on every TLE ever published by Space-Track
+Author: Liam Robinson
+Author-email: robin502@purdue.edu
+Requires-Python: >=3.9
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: alive-progress (>0.0.1)
+Requires-Dist: asynciolimiter (>=0.0.1)
+Requires-Dist: duckdb (>=0.0.1)
+Requires-Dist: httpx (>=0.0.1)
+Requires-Dist: polars (>=0.0.1)
+Requires-Dist: pyarrow (>=0.0.1)
+Requires-Dist: python-dotenv (>=0.0.1)
+Requires-Dist: spacetrack (>=0.0.1)
+Project-URL: Bug Tracker, https://github.com/ljrobins/mirage/issues
+Project-URL: Documentation, https://ljrobins.github.io/mirage-docs
+Project-URL: Homepage, https://github.com/ljrobins/mirage
+Description-Content-Type: text/x-rst
+
+TL3
+...
+
+``tl3`` provides two things: the ability to automatically and efficiently download every two-line element (TLE) ever published by Space-Track (while staying within the API-imposed rate limit), and piping the 28 GB of resulting .txt files into a parquet file for efficient analysis using packages like ``duckdb`` or ``polars``.
+
+Installation
+............
+
+``pip install tl3``
+
+Use
+...
+
+Once installed, 
