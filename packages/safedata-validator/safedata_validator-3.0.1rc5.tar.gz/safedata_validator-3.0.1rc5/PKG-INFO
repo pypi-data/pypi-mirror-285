@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: safedata_validator
+Version: 3.0.1rc5
+Summary: Validation and publication tool for data files in the SAFE data submission format.
+Home-page: https://safedata-validator.readthedocs.io/
+License: MIT
+Author: David Orme
+Author-email: d.orme@imperial.ac.uk
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: appdirs (>=1.4.4,<2.0.0)
+Requires-Dist: configobj (>=5.0.6,<6.0.0)
+Requires-Dist: dominate (>=2.6.0,<3.0.0)
+Requires-Dist: dotmap (>=1.3.30,<2.0.0)
+Requires-Dist: jinja2 (>=3.1.3,<4.0.0)
+Requires-Dist: openpyxl (>=3.0.10,<4.0.0)
+Requires-Dist: python-dateutil (>=2.8.2,<3.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: rispy (>=0.7.1,<0.8.0)
+Requires-Dist: shapely (>=2.0.4,<3.0.0)
+Requires-Dist: simplejson (>=3.17.6,<4.0.0)
+Requires-Dist: sympy (>=1.10.1,<2.0.0)
+Requires-Dist: tqdm (>=4.64.0,<5.0.0)
+Requires-Dist: typing-extensions (>=4.8.0,<5.0.0)
+Project-URL: Repository, https://github.com/imperial_college_london/safedata_validator
+Description-Content-Type: text/markdown
+
+# The safedata_validator package
+
+[![codecov](https://codecov.io/gh/ImperialCollegeLondon/safedata_validator/branch/develop/graph/badge.svg)](https://codecov.io/gh/ImperialCollegeLondon/safedata_validator)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ImperialCollegeLondon/safedata_validator/develop.svg)](https://results.pre-commit.ci/latest/github/ImperialCollegeLondon/safedata_validator/develop)
+
+This package provides methods to validate XLSX files containing formatted data and
+metadata using the SAFE Project data format.
+
+See the main documentation for a detailed description and usage:
+
+> [https://safedata-validator.readthedocs.io](https://safedata-validator.readthedocs.io)
+
+## Development notes
+
+Detailed notes for those interested in assisting with development of the package can be
+found [here](docs/developers/package_development.md).
+
