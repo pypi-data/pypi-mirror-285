@@ -1,0 +1,22 @@
+[project]
+name = "lib_test_pip_samir539"
+version = "0.0.7"
+description = "basic math lib"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/samir539/lib_test_pip"
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["lib_test_pip_samir539/*"]
