@@ -1,0 +1,66 @@
+version: "3.8"
+services:
+  {{ b7s_type }}:
+    container_name: {{ b7s_type }}
+    build: .
+    command: 
+      - allora-node
+      - --role=worker
+      - --peer-db=/data/{{ b7s_type }}/peer-database
+      - --function-db=/data/{{ b7s_type }}/function-database
+      - --runtime-path=/app/runtime
+      - --runtime-cli=bls-runtime
+      - --workspace=/data/{{ b7s_type }}/workspace
+      - --private-key=/data/{{ b7s_type }}/key/priv.bin
+      - --log-level=debug
+      - --port=9011
+      - --topic={{ allora_topic_id }}
+      - --boot-nodes=/ip4/172.19.0.100/tcp/9010/p2p/{{ head_peer_id }}
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
+    env_file:
+      - .env
+    depends_on:
+      - head
+    networks:
+      b7s-local:
+        aliases:
+          - {{ b7s_type }}
+        ipv4_address: 172.19.0.5
+
+  head:
+    container_name: head
+    image: alloranetwork/allora-inference-base-head:latest
+    command: 
+      - allora-node
+      - --role=head
+      - --peer-db=/data/head/peer-database
+      - --function-db=/data/head/function-database
+      - --runtime-path=/app/runtime
+      - --runtime-cli=bls-runtime
+      - --workspace=/data/head/workspace
+      - --private-key=/data/head/key/priv.bin
+      - --log-level=debug
+      - --port=9010
+      - --rest-api=:6000
+    ports:
+      - "6000:6000"
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data
+
+    networks:
+      b7s-local:
+        aliases:
+          - head
+        ipv4_address: 172.19.0.100
+
+networks:
+  b7s-local:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/24
