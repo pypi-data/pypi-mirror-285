@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "skylers-cli"
+version = "1.0.2"
+description = "Skyler's toolbox of handy CLI utils"
+authors = ["bouldersky <skyarnold1@me.com>"]
+readme = "README.md"
+packages = [{ include = "skylers_cli", from = "src" }]
+
+[tool.poetry.scripts]
+sc = "skylers_cli.cli.main:app"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = { extras = ["all"], version = "^0.6.1" }
+chevron = "^0.14.0"
+pydicom = "^2.4.4"
+python-magic = "^0.4.27"
+pylibmagic = "^0.5.0"
+
+[tool.poetry.group.dev.dependencies]
+black = { extras = ["d"], version = "^24.4.2" }
+flake8 = "^7.1.0"
+pytest-cov = "^5.0.0"
+# https://github.com/psf/black/issues/1928#issuecomment-910337314
+typing-extensions = "^4.12.2"
+commitizen = "^3.27.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.2"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "1.0.2"
+tag_format = "$version"
+version_files = [
+    "pyproject.toml:^version"
+]
+bump_message = "bump: version $current_version → $new_version [skip ci]"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+target-version = ["py312", "py311", "py310"]
+include = ".*\\.py"
