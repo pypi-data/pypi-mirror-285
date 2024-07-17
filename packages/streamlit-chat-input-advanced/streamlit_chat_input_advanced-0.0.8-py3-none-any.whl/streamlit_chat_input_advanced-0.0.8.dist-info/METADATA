@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: streamlit-chat-input-advanced
+Version: 0.0.8
+Summary: Streamlit component that allows you catch arrow up keyboard event
+Home-page: 
+Author: shuvava
+Author-email: john@example.com
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: streamlit >=0.63
+Provides-Extra: devel
+Requires-Dist: wheel ; extra == 'devel'
+Requires-Dist: pytest ==7.4.0 ; extra == 'devel'
+Requires-Dist: playwright ==1.39.0 ; extra == 'devel'
+Requires-Dist: requests ==2.31.0 ; extra == 'devel'
+Requires-Dist: pytest-playwright-snapshot ==1.0 ; extra == 'devel'
+Requires-Dist: pytest-rerunfailures ==12.0 ; extra == 'devel'
+
+# streamlit-chat-input-advanced
+
+Streamlit component that allows you catch arrow up keyboard event
+
+it implements ability to 
+* clear textarea when user press Escape
+
+  ![Example message cleanup on Escape|200x100](example_msg_cleanup.gif)
+* allow go back and forth by message history 
+
+    ![Chat history example](example_chat_history.gif)
+
+## Installation instructions
+
+```sh
+pip install streamlit-chat-input-advanced
+```
+
+## Usage instructions
+
+```python
+import streamlit as st
+
+from chat_input_advanced import chat_input_avd
+
+value = chat_input_avd()
+
+st.write(value)
+```
