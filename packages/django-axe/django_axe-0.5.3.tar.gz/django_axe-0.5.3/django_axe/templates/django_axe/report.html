@@ -1,0 +1,120 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="description" content="Add your meta description here" />
+        <meta name="keywords" content="Add your meta keywords here" />
+        <meta charset="utf-8" />
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <link href="{% static "django_axe/css/main.css" %}" rel="stylesheet" />
+        <script src="{% static "django_axe/js/highlight.js" %}"></script>
+        <title>Django AXE</title>
+    </head>
+    <body class="relative h-screen bg-slate-100 text-slate-800 text-sm antialiased">
+        <nav id="header" class="w-full">
+            <div class="w-full  flex flex-wrap items-center justify-between gap-3 mt-0 px-4 py-2">
+                <a class="toggleColour flex flex-row gap-3 items-center font-bold text-3xl"
+                   href="{% url 'home' %}">
+                    <svg width="32"
+                         height="32"
+                         viewBox="0 0 24 24"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M7 9L12 10M17 9L12 10M12 10V13M12 13L10 18M12 13L14 18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M12 7C11.7239 7 11.5 6.77614 11.5 6.5C11.5 6.22386 11.7239 6 12 6C12.2761 6 12.5 6.22386 12.5 6.5C12.5 6.77614 12.2761 7 12 7Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    <span>Django AXE</span>
+                </a>
+                <h1 class="text-3xl font-bold">Accessibility Results for {{ projectKey }} project</h1>
+                <a class="bg-indigo-600 !text-slate-100 px-4 py-2 hover:bg-red-600 hover:border-red-600 rounded border border-indigo-600 flex flex-row items-center gap-3"
+                   href="{% url 'django_axe:reset' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                         width="16"
+                         height="16"
+                         fill="currentColor"
+                         class="bi bi-trash"
+                         viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z" />
+                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z" />
+                    </svg>
+                    <span>Clear Report</span></a>
+            </div>
+        </nav>
+        <div class="container mx-auto flex flex-wrap flex-col items-center mt-4 gap-3">
+            <div class="flex flex-col rounded break-words border bg-white border-slate-200 p-4 shadow w-full">
+                <h3 class="text-xl font-bold flex flex-row justify-between mb-3 border-b border-slate-300 pb-3">
+                    <strong>Accessibility Violations</strong>
+                    <span class="bg-red-100 text-red-600 rounded px-2 py-1 text-sm border border-red-600">{{ violations_table|length }}</span>
+                </h3>
+                {% include "django_axe/list_table.html" with node_list=violations_table %}
+            </div>
+            {% for checks in violations_details %}
+                {% include "django_axe/list_card.html" with checks=checks %}
+            {% endfor %}
+            <div class="flex flex-col rounded break-words border bg-white border-slate-200 p-4 shadow w-full">
+                <h3 class="text-xl font-bold flex flex-row justify-between mb-3 pb-3 border-b border-slate-300">
+                    Passed axe
+                    <span class="text-green-600">{{ checks_passed|length }}</span>
+                </h3>
+                {% include "django_axe/list_table.html" with node_list=checks_passed_table %}
+            </div>
+            {% for checks in checks_passed_details %}
+                {% include "django_axe/list_card.html" with checks=checks %}
+            {% endfor %}
+            <div class="flex flex-col rounded break-words border bg-white border-slate-200 p-4 shadow w-full">
+                <h3 class="text-xl font-bold flex flex-row justify-between mb-3 pb-3 border-b border-slate-300">
+                    <strong>Incomplete AXE Checks</strong>
+                    <span class="bg-red-100 text-red-600 rounded px-2 py-1 text-sm border border-red-600">{{ checks_incomplete|length }}</span>
+                </h3>
+                <p>
+                    <em>What 'incomplete' axe checks means?</em>
+                </p>
+                <p>
+                    Incomplete results were aborted and require further testing. This
+                    can happen either because of technical restrictions to what the rule
+                    can test, or because a javascript error occurred.
+                </p>
+                <p>
+                    <a href="https://www.deque.com/axe/core-documentation/api-documentation/#results-object">Visit axe API Documentation</a>
+                    to learn more.
+                </p>
+                {% include "django_axe/list_table.html" with node_list=checks_incomplete_table %}
+            </div>
+            {% for checks in checks_incomplete_details %}
+                {% include "django_axe/list_card.html" with checks=checks %}
+            {% endfor %}
+            <div class="flex flex-col rounded break-words border bg-white border-slate-200 p-4 shadow w-full">
+                <h3 class="text-xl font-bold flex flex-row justify-between mb-3  pb-3 border-b border-slate-300">
+                    Inapplicable checks <span class="bg-slate-900 text-slate-100 px-3 py-1 rounded">{{ checks_inapplicable|length }}</span>
+                </h3>
+                <p>
+                    <em>What 'inapplicable' axe checks means?</em>
+                </p>
+                <p>
+                    The inapplicable array lists all the rules for which no matching
+                    elements were found on the page.
+                </p>
+                <p>
+                    <a href="https://www.deque.com/axe/core-documentation/api-documentation/#results-object">Visit axe API Documentation</a>
+                    to learn more.
+                </p>
+                {% include "django_axe/list_table.html" with node_list=checks_inapplicable_table %}
+            </div>
+            {% if rules %}
+                <div class="flex flex-col rounded break-words border bg-white border-slate-200 p-4 shadow w-full">
+                    <h3 class="text-xl font-bold flex flex-row justify-between mb-3 pb-3 border-b border-slate-300">
+                        AXE was running with {{ rules|length }} rules.
+                    </h3>
+                    {% include "django_axe/list_table.html" with node_list=rules %}
+                </div>
+                {% comment %} {% for checks in rules %}
+                    {% include "django_axe/list_card.html" with checks=checks %}
+                {% endfor %} {% endcomment %}
+            {% endif %}
+        </div>
+    </body>
+</html>
