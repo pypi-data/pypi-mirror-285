@@ -1,0 +1,21 @@
+[tool.black]
+include = '\.py$'
+line-length = 100
+quiet = true
+skip-magic-trailing-comma = true
+
+[tool.isort]
+line_length = 100
+profile = "black"
+
+[tool.coverage.run]
+omit = [
+  "*/gen/*",
+  "*/__init__.py",
+  "*/_version.py",
+  "test_unit/*",
+  "test_e2e/*",
+  "*/_BaseEnum.py",
+  "*/_DictDeserializable.py",
+  "superblocks_types/*",
+]
