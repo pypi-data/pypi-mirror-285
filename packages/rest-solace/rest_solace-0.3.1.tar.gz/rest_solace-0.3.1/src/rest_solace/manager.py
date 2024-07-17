@@ -1,0 +1,873 @@
+from .http_client import HttpClient
+from urllib.parse import urlsplit, urlunsplit
+import warnings
+from warnings import *
+
+class Manager():
+
+    config_base_path = "/SEMP/v2/config"
+    
+    def __init__(self, user_name:str, password:str,
+                 host:str, semp_port:str= "8080", verify_ssl=False) -> None:
+        """Class for creating a Manage object for communicating with a broker regarding management stuff.
+
+        Args:
+            username (str): Username of user with admin level access to the broker.
+            password (str): Password for the username provided.
+            host (str): Broker address (IPv4)
+            SEMP_port (str): Management port used for management stuff on the broker side using Solace Element Management Protocol v2.
+        """
+
+        self.http_client = HttpClient(host= host,
+                                      port= semp_port,
+                                      user_name= user_name,
+                                      password= password,
+                                      verify_ssl= verify_ssl)
+
+
+    #=====about functions===== (Finished)
+    
+    def get_about_api(self, throw_exception= True)->dict:
+        """This provides metadata about the SEMP API, such as the version of the API supported by the broker.
+
+        Args:
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: Requested data.
+        """
+
+        endpoint = self.config_base_path+"/about/api"
+
+        res = self.http_client.http_get(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def get_current_user_info(self, throw_exception= True)->dict:
+        """Get Session and access level information about the user accessing the SEMP API.
+
+        Args:
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: Requested data.
+        """
+        endpoint = self.config_base_path+"/about/user/msgVpns"
+
+        res = self.http_client.http_get(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+    def get_message_vpn_access_list(self, throw_exception= True)->dict:
+        """Get a list of all the VPNs the username used to access the SEMP API has access to.
+
+        Args:
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: Requested data.
+        """
+        endpoint = self.config_base_path+"/about/user/msgVpns"
+
+        res = self.http_client.http_get(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+    def get_message_vpn_access_info(self, msgVpnName, throw_exception= True)->dict:
+        """This provides information about the Message VPN access level for the provided VPN, for the username used to access the SEMP API.
+
+        Args:
+            msgVpnName (str): Name of the message vpn you want to know about.
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: Requested data.
+        """
+        endpoint = self.config_base_path+f"/about/user/msgVpns/{msgVpnName}"
+
+        res = self.http_client.http_get(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+
+    #=====VPN functions===== (Pending)
+
+
+
+    #Finished. Now need to give same options to fetch.
+    def request_vpn_objects(self, count:int= 10, where= None, 
+                            select= '*', opaquePassword= None,
+                            throw_exception= True)->dict:
+        """Get list of message VPNs and info regarding them based on specified parameters.
+        
+        Note: 
+            This function directly passes parameters to an endpoint and could require the use of pagination to access all values.
+            It is recommended that you use get_all_vpn_objects() function instead which grantees all info, but uses more bandwidth.
+
+        For more info: 
+            https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/msgVpn/getMsgVpns
+
+        Args:
+            count (int): Limits the number of objects in the response. default is 10.
+                         Ideally your applications should always be written to handle pagination instead of massive counts.
+            where (str): Specify that a response should include only objects that satisfy certain conditions.
+                         Expects comma-separated list of expressions. 
+                         All expressions must be true for the object to be included in the response.
+                         For more info, consult: https://docs.solace.com/Admin/SEMP/SEMP-Features.htm#Filtering
+            select (str): Select only certain attributes to return. 
+                          Expects comma-separated list of attribute names.
+                          Give value 'msgVpnName,enabled' to see only names and enabled status.
+                          For more info, consult: https://docs.solace.com/Admin/SEMP/SEMP-Features.htm#Select
+            opaquePassword (str): Password to retrieve attributes with the opaque property. 
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: Requested data.
+        """
+
+        endpoint = self.config_base_path+f"/msgVpns?count={str(count)}&select={select}"
+
+        if where != None:
+            endpoint+="&where={where}"
+
+        if opaquePassword != None:
+            endpoint+="&opaquePassword={opaquePassword}"
+
+        res = self.http_client.http_get(endpoint= endpoint)
+        
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def fetch_all_vpn_objects(self, where= None, 
+                              select= '*', opaquePassword= None)->dict[list, list]:
+        """Uses pagination to fetch and compile a list of all vpn objects.
+
+        Args:
+            select (str, optional): selection query. Defaults to "*".
+            where (str): Specify that a response should include only objects that satisfy certain conditions.
+                         Expects comma-separated list of expressions. 
+                         All expressions must be true for the object to be included in the response.
+                         For more info, consult: https://docs.solace.com/Admin/SEMP/SEMP-Features.htm#Filtering
+            opaquePassword (str): Password to retrieve attributes with the opaque property. 
+
+        Returns:
+            dict: list of pages
+        """
+
+        endpoint = self.config_base_path+f"/msgVpns?count=100&select={select}"
+
+        if where != None:
+            endpoint+="&where={where}"
+
+        if opaquePassword != None:
+            endpoint+="&opaquePassword={opaquePassword}"
+
+        data= list()
+        links= list()
+        
+        res = self.http_client.http_get(endpoint= endpoint)
+        res.raise_for_status()
+        res = res.json()
+
+        data.extend(res["data"])
+        links.extend(res["links"])
+             
+        while True:
+            paging_url= res['meta'].get('paging')
+
+            if paging_url == None:
+                break
+            else:
+                split= urlsplit(paging_url['nextPageUri'])
+                endpoint= urlunsplit(("", "", split.path, split.query, split.fragment))
+
+                res = self.http_client.http_get(endpoint)
+                res.raise_for_status()
+                res = res.json()
+
+                data.extend(res["data"])
+                links.extend(res["links"])
+            
+        return {"data":data, "links":links}
+
+    def list_message_vpns(self)->list:
+        """List all the message VPNs on the broker.
+
+        Returns:
+            list: List of all the message VPNs.
+        """
+
+        data = self.fetch_all_vpn_objects(select="msgVpnName")["data"]
+        names = [name["msgVpnName"] for name in data]
+
+        return names
+
+    def message_vpn_exists(self, msgVpnName:str)->bool:
+        """Returns True if the message VPN specified exists, else False..
+
+        Args:
+            msgVpnName (str): Name of the message VPN.
+
+        Returns:
+            bool: True if vpn exists else False.
+        """
+
+        names= self.list_message_vpns()
+        return True if msgVpnName in names else False
+
+    def create_message_vpn(self, msgVpnName:str, enabled:bool= True, 
+                           maxMsgSpoolUsage:int= 1500,
+                           authenticationBasicEnabled:bool= True, 
+                           authenticationBasicType:str= "none",
+                           serviceRestIncomingPlainTextEnabled:bool= True,
+                           serviceRestIncomingPlainTextListenPort:int= 0,
+                           serviceRestMode:str= "messaging",
+                           throw_exception= True, **kwargs):
+        """Create a new VPN on the broker.
+
+        For more info:
+            https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/msgVpn/createMsgVpn
+
+        Args:
+            msgVpnName (str): Name for the new vpn.
+            enabled (bool): enable or disable the vpn.
+            authenticationBasicEnabled (bool): Basic authentication is authentication that involves 
+                                               the use of a username and password to prove identity.
+            authenticationBasicType (str): The type of basic authentication to use for clients connecting to the Message VPN. Can be one of:
+                                            1) "internal" - Internal database. Authentication is against Client Usernames.
+                                            2) "ldap" - LDAP authentication. An LDAP profile name must be provided.
+                                            3) "radius" - RADIUS authentication. A RADIUS profile name must be provided.
+                                            4) "none" - No authentication. Anonymous login allowed.
+
+            serviceRestIncomingPlainTextEnabled (bool): Enable or disable the plain-text REST service for incoming clients in the Message VPN.
+            serviceRestIncomingPlainTextListenPort (int): The port number for incoming plain-text REST clients that connect to the Message VPN. 
+                                                          The port must be unique across the message backbone. 
+                                                          A value of 0 means that the listen-port is unassigned and cannot be enabled.
+            serviceRestMode (str): The REST service mode for incoming REST clients that connect to the Message VPN. The options are:
+                                    1) "messaging" - Act as a message broker on which REST messages are queued.
+                                    2) "gateway" - Act as a message gateway through which REST messages are propagated.
+
+        Returns:
+            _type_: _description_
+        """
+
+        endpoint = self.config_base_path+f"/msgVpns"
+
+        body = {"msgVpnName": msgVpnName,
+                "enabled": enabled,
+                "authenticationBasicEnabled": authenticationBasicEnabled,
+                "authenticationBasicType": authenticationBasicType,
+                "maxMsgSpoolUsage": maxMsgSpoolUsage,
+                "serviceRestIncomingPlainTextEnabled": serviceRestIncomingPlainTextEnabled,
+                "serviceRestIncomingPlainTextListenPort": serviceRestIncomingPlainTextListenPort,
+                "serviceRestMode": serviceRestMode
+                }
+
+        body = body | kwargs
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def delete_message_vpn(self, msgVpnName:str, throw_exception= True)->dict:
+        """Delete the specified message VPN (Provided there is nothing inside it that would prevent you from deleting it).
+
+        Args:
+            msgVpnName (str): Name of the VPN you wish to delete.
+            throw_exception (bool, optional): throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: data on the deleted VPN.
+        """
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}"
+
+        res = self.http_client.http_delete(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def get_message_vpn_info(self, msgVpnName:str, select:str= "*", 
+                             opaquePassword:str= None, throw_exception:bool= True)->dict:
+        """Returns the message VPN object for the requested vpn.
+
+        Args:
+            msgVpnName (str): Name of the message vpn
+            select (str, optional): Query string to select the specific attributes you wish returned. Defaults to "*".
+            opaquePassword (str): Password to retrieve attributes with the opaque property. 
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: requested data.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}?select={select}"
+
+        if opaquePassword != None:
+            endpoint+="&opaquePassword={opaquePassword}"
+
+        res = self.http_client.http_get(endpoint= endpoint)
+        
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+
+    def update_message_vpn(self, msgVpnName:str, update_attributes:dict,
+                           select:str= "*", opaquePassword:str= None, 
+                           throw_exception:bool= True)->dict:
+        """Updates the message vpn for the provided attributes in the 'update_attributes' parameter.
+        Any attribute missing from the request will be left unchanged.
+
+        Args:
+            msgVpnName (str): Name of the message vpn
+            update_attributes (dict): A dict where the keys are the attributes you wish to update and the values are the new values.
+                                      Any attribute missing from the request will be left unchanged.
+            select (str, optional): Query string to select the specific attributes you wish returned in the response. Defaults to "*".
+            opaquePassword (str): Password to retrieve attributes with the opaque property. 
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: data of the updated message vpn.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}?select={select}"
+
+        if opaquePassword != None:
+            endpoint+="&opaquePassword={opaquePassword}"
+
+        res = self.http_client.http_patch(endpoint= endpoint, payload= update_attributes)
+        
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+    def replace_message_vpn(self, msgVpnName:str, replacement_vpn_object:dict,
+                            select:str= "*", opaquePassword:str= None, 
+                            throw_exception:bool= True)->dict:
+        """Replaces the message vpn object with the one you provide.
+        Any attribute missing from the request will be set to its default value, 
+        subject to a few exceptions you may read about here:
+        https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/msgVpn/replaceMsgVpn
+
+        Args:
+            msgVpnName (str): Name of the message vpn
+            replacement_vpn_object (dict): A dict where the keys are the attributes you wish to specify for your replacement VPN.
+                                           Any attribute missing from the request will be set to its default value (subject to a few exceptions).
+            select (str, optional): Query string to select the specific attributes you wish returned in the response. Defaults to "*".
+            opaquePassword (str): Password to retrieve attributes with the opaque property. 
+            throw_exception (bool, optional): Throw exception incase request error code indicates an error. 
+                                              Defaults to True.
+
+        Returns:
+            dict: data of the updated message vpn.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}?select={select}"
+
+        if opaquePassword != None:
+            endpoint+="&opaquePassword={opaquePassword}"
+
+        res = self.http_client.http_patch(endpoint= endpoint, payload= replacement_vpn_object)
+        
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+
+    #client profile
+
+    def fetch_all_client_profiles(self, msgVpnName= "default", select= "*"):
+
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/clientProfiles?count=1&select={select}"
+
+        data= list()
+        links= list()
+        
+        res = self.http_client.http_get(endpoint= endpoint)
+        res.raise_for_status()
+        res = res.json()
+
+
+        data.extend(res["data"])
+        links.extend(res["links"])
+             
+        while True:
+            paging_url= res['meta'].get('paging')
+
+            if paging_url == None:
+                break
+            else:
+                split= urlsplit(paging_url['nextPageUri'])
+                endpoint= urlunsplit(("", "", split.path, split.query, split.fragment))
+
+                res = self.http_client.http_get(endpoint)
+                res.raise_for_status()
+                res = res.json()
+
+                data.extend(res["data"])
+                links.extend(res["links"])
+            
+        return {"data":data, "links":links}
+
+    def list_all_client_profiles(self, msgVpnName= "default")->list:
+
+        data = self.fetch_all_client_profiles(select= "clientProfileName", msgVpnName= msgVpnName)["data"]
+        names = [name["clientProfileName"] for name in data]
+
+        return names
+
+    def client_profile_exists(self, msgVpnName, clientProfileName)->bool:
+
+        names= self.list_all_client_profiles(msgVpnName)
+        return True if clientProfileName in names else False
+
+    def update_client_profile(self, msgVpnName, clientProfileName= "default", 
+                              allowGuaranteedMsgReceiveEnabled:bool= True,
+                              allowGuaranteedMsgSendEnabled:bool= True,
+                              throw_exception= True, **kwargs):
+
+        #To change setting manually: 
+        #select vpn, access_control tab -> user profiles tab -> <profile name> -> allow client to <setting>
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/clientProfiles/{clientProfileName}"
+        
+        body = {"msgVpnName": msgVpnName,
+                "clientProfileName": clientProfileName,
+                'allowGuaranteedMsgReceiveEnabled': allowGuaranteedMsgReceiveEnabled, #required for queue binding to work & guaranteed messaging.
+                'allowGuaranteedMsgSendEnabled': allowGuaranteedMsgSendEnabled, #required for guaranteed messaging.
+                }
+
+        body = body | kwargs
+
+        res = self.http_client.http_patch(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+
+    #client username
+
+    def update_client_username(self, msgVpnName, clientUsername= "default", 
+                               enabled:bool= True,
+                               throw_exception= True, **kwargs):
+        #https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/clientUsername/updateMsgVpnClientUsername
+
+        #To change setting manually: 
+        #select vpn, access_control tab -> clint usernames tab -> <client user name> -> enable
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/clientUsernames/{clientUsername}"
+        
+        body = {'enabled': enabled}
+
+        body = body | kwargs
+
+        res = self.http_client.http_patch(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+
+
+    
+
+    
+
+
+    # Topic endpoint
+    
+    def create_topic_endpoint(self, topicEndpointName:str, msgVpnName:str= "default", throw_exception:bool= True, **kwargs) -> dict:
+        """Create a topic endpoint to receive messages. 
+           A topic endpoint attracts messages published to a topic for which the topic endpoint has a subscriber asking for messages with that topic. 
+           They can only be used by subscribers created using Solace Java Message Service (JMS). You cannot subscribe to them using a REST server.
+
+        WARNING: 
+            In solace, the concepts of "topic endpoint" and just "topic" are 2 different things!!
+            The "topic" for "topic endpoints" is defined by the subscriber who will subscribe to this topic, 
+            unlike "queue endpoint" where the "topic" can be defined through the solace broker webUI or a management port. 
+            This library does not support subscribing to a topic endpoint.
+            
+
+        Args:
+            topicEndpointName (str): The Name that you wish to assign to your new topic end point.
+            msgVpnName (str, optional): Name of the VPN within which you wish your topic endpoint to exist in. Defaults to "default".
+            throw_exception (bool, optional): Throw exception if the response code indicates an error. Defaults to True.
+        
+        **kwargs: 
+            Support for some kwargs parameters may vary between the different versions of solace broker. Consult the docs for this end point to know more:
+            solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/topicEndpoint/createMsgVpnTopicEndpoint
+
+        Returns:
+            dict: HTTP response converted to json format.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/topicEndpoints"
+
+        body = {"msgVpnName": msgVpnName,
+                "topicEndpointName": topicEndpointName}
+
+        body = body | kwargs
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+
+    # Queue endpoint
+
+    def create_queue_endpoint(self, queueName:str, msgVpnName:str= "default", ingressEnabled:bool= True, egressEnabled:str= True,
+                              permission:str= "consume", respectTtlEnabled= True, throw_exception:bool= True, **kwargs) -> dict:
+        """Create a queue endpoint to receive messages. 
+
+        Args:
+            queueName (str): The Name that you wish to assign to your new queue end point.
+            msgVpnName (str, optional): Name of the VPN within which you wish your queue endpoint to exist in. Defaults to "default".
+            ingressEnabled (bool, optional): Enable or disable the reception of messages to the Queue.
+            egressEnabled (bool, optional): Enable or disable the transmission of messages from the Queue.
+            permission (str, optional): The permission level for all consumers of the Queue, excluding the owner.
+            respectTtlEnabled (str, optional): Enable or disable the respecting of the time-to-live (TTL) for messages in the Queue. 
+                                               When enabled, expired messages are discarded or moved to the DMQ.
+                                               Defaults to True.
+            throw_exception (bool, optional): Throw exception if the response code indicates an error. Defaults to True.
+        
+        **kwargs: 
+            Support for some kwargs parameters may vary between the different versions of solace broker. 
+            Consult the docs for this end point to know more:
+            https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/queue/createMsgVpnQueue
+
+        Returns:
+            dict: HTTP response converted to json format.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/queues"
+
+        body = {"msgVpnName": msgVpnName,
+                "queueName": queueName,
+                "ingressEnabled": ingressEnabled,
+                "egressEnabled": egressEnabled,
+                "permission": permission,
+                "respectTtlEnabled": respectTtlEnabled
+                }
+
+        body = body | kwargs
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+    def delete_queue_endpoint(self, queueName:str, msgVpnName:str= "default", throw_exception:bool= True)->dict:
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/queues/{queueName}"
+
+        res = self.http_client.http_delete(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def subscribe_to_topic_on_queue(self, subscriptionTopic:str, queueName:str, 
+                                    msgVpnName:str= "default", throw_exception:bool= True) -> dict:
+        """Subscribe to a topic on a queue endpoint. 
+        Any messages published with the given topic will end up accumulating in the given queue.
+        
+        Args:
+            subscriptionTopic (str): Name of the topic you wish to subscribe to.
+            queueName (str): The name the queue endpoint where the subscription will take place.
+            msgVpnName (str, optional): Name of the VPN within which your queue exists. Defaults to "default".
+            throw_exception (bool, optional): Throw exception if the response code indicates an error. Defaults to True.
+        
+        Returns:
+            dict: HTTP response converted to json format.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/queues/{queueName}/subscriptions"
+
+        body = {"subscriptionTopic": subscriptionTopic,
+                "queueName": queueName,
+                "msgVpnName": msgVpnName,
+                }
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+
+    # RDP stuff
+
+    def create_rest_delivery_point(self, restDeliveryPointName:str, enabled:str= True, service:str= "REST", vendor:str= "Custom",
+                                   clientProfileName:str= 'default', msgVpnName:str= "default", throw_exception:bool= True) -> dict:
+        """Create a REST delivery point. A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers (subscribers).
+
+        Args:
+            restDeliveryPointName (str): Name of the new REST delivery point.
+            enabled (str, optional): Enable or disable the REST Delivery Point. Defaults to True.
+            service (str, optional): The name of the service that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Defaults to "REST".
+            vendor (str, optional): The name of the vendor that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Defaults to "Custom".
+            clientProfileName (str, optional): Client Profiles are used to assign common configuration properties to clients that have been successfully authorized. Defaults to 'default'.
+            msgVpnName (str, optional): Name of the VPN within which you wish your REST delivery point to exist in. Defaults to "default".
+            throw_exception (bool, optional): Throw exception if the response code indicates an error. Defaults to True.
+
+        Returns:
+            dict: HTTP response converted to json format.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/restDeliveryPoints"
+
+        body = {"restDeliveryPointName": restDeliveryPointName,
+                "msgVpnName": msgVpnName,
+                'enabled': enabled,
+                'service': service,
+                'vendor': vendor,
+                'clientProfileName': clientProfileName
+                }
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+    def delete_rest_delivery_point(self, restDeliveryPointName:str, msgVpnName:str= "default", throw_exception:bool= True) -> dict:
+            
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}"
+
+        res = self.http_client.http_delete(endpoint= endpoint)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def specify_rest_consumer(self, restDeliveryPointName:str, restConsumerName:str, remoteHost:str, 
+                              remotePort:int, enabled:str= True, msgVpnName:str= "default", 
+                              tlsEnabled:bool= False, throw_exception:bool= True, **kwargs) -> dict:
+        """Specify a new rest consumer (subscriber) to add to the list of consumers within a REST delivery point. 
+        When an incoming message is received in a queue, a queue binding object then sends the messages to the specified Consumers through the REST delivery point.
+        Here we specify mainly the host and port of the consumer, along with a name for convince.
+
+        Args:
+            restDeliveryPointName (str): Name of the REST delivery point where you wish to specify the new consumer.
+            msgVpnName (str, optional): Name of the VPN within which you wish your REST delivery point to exist in. Defaults to "default".
+            throw_exception (bool, optional): Throw exception if the response code indicates an error. Defaults to True.
+
+        **kwargs: 
+            Support for some kwargs parameters may vary between the different versions of solace broker. Consult the docs for this end point to know more:
+            https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/all/createMsgVpnRestDeliveryPointRestConsumer
+
+
+        Returns:
+            dict: HTTP response converted to json format.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/restConsumers"
+
+        body = {"restDeliveryPointName": restDeliveryPointName,
+                "msgVpnName": msgVpnName,
+                "restConsumerName": restConsumerName,
+                "remoteHost": remoteHost,
+                "remotePort": remotePort,
+                "enabled": enabled,
+                "tlsEnabled": tlsEnabled
+                }
+        
+        body = body | kwargs
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+    
+    def create_queue_binding(self, restDeliveryPointName:str, queueBindingName:str, postRequestTarget:str= "/",
+                             requestTargetEvaluation:str= "none", msgVpnName:str= "default", throw_exception:bool= True) -> dict:
+        """A Queue Binding for a REST Delivery Point attracts messages to be delivered to REST consumers.
+
+        Note:
+            If the queue does not exist it can be created subsequently.
+            Also, for more info in this endpoint, visit: https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html#/all/createMsgVpnRestDeliveryPointQueueBinding
+
+        Args:
+            restDeliveryPointName (str): Name of the REST delivery point where you wish to bind a queue to a consumer.
+            queueBindingName (str): Name of the queue which you wish to bind to a REST consumer.
+            postRequestTarget (str, optional): The request-target string to use when sending requests.
+            requestTargetEvaluation (str, optional): The type of evaluation to perform on the request target. Defaults to "none".
+            msgVpnName (str, optional): Name of the VPN within which you wish your queue binding to exist in. Defaults to "default".
+            throw_exception (bool, optional): Throw exception if the response code indicates an error. Defaults to True.. Defaults to True.
+
+        Returns:
+            dict: HTTP response converted to json format.
+        """
+        
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/queueBindings"
+
+        body = {"restDeliveryPointName": restDeliveryPointName,
+                "queueBindingName": queueBindingName,
+                "postRequestTarget": postRequestTarget,
+                "gatewayReplaceTargetAuthorityEnabled": False, #Only applicable in Rest Gateway mode
+                "msgVpnName": msgVpnName,
+                "requestTargetEvaluation": requestTargetEvaluation
+                }
+
+        res = self.http_client.http_post(endpoint= endpoint, payload= body)
+
+        if throw_exception:
+            res.raise_for_status()
+        return res.json()
+
+    def restart_rest_delivery_point(self, restDeliveryPointName:str, msgVpnName:str= "default"):
+
+        endpoint = self.config_base_path+f"/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}"
+
+        #disable rdp
+        self.http_client.http_patch(endpoint= endpoint, payload= {'enabled': False})
+
+        #enable rdp
+        self.http_client.http_patch(endpoint= endpoint, payload= {'enabled': True})
+
+
+    #miscellaneous 
+
+    def auto_rest_messaging_setup_utility(self, msgVpnName:str, queueName:str, subscriptionTopic:str|None, 
+                                          restDeliveryPointName:str, restConsumerName:str,
+                                          remoteHost:str, remotePort:int, postRequestTarget='/',
+                                          clientProfileName= "default", clientUsername= "default",
+                                          attempt_revert_if_error= True)->None:
+        """
+        A single utility function that automatically sets up a queue for you on your vpn of choice that is 
+        ready to communicate with your consumer out of the box!!
+        Makes it so that you can start sending messages after running just this one function.
+        
+        Note: 
+            * Requires a message VPN set to messaging mode.
+            * All brokers come with a default messaging VPN named "default". 
+            * The default VPN is already set to messaging mode.
+            * This function will update the UserProfile connected to the given user (which is usually the "default profile") to 
+              allow guaranteed message sending and receive. IF you don't want that, update the user's profile beforehand.
+    
+        It performs the following steps:
+
+            record user settings
+
+            enable user on the vpn (exit if this fails)
+
+            get user's profile
+
+            record the profile's settings
+
+            update the profile to send and receive guaranteed messages (if it fails, revert user settings)
+
+            check if given queue exists
+            create a new queue (if it fails, revert last settings)
+
+            subscribe to a topic on the queue
+
+            create RDP (if fails, delete the queue)
+
+            register consumer (if fails, delete queue and rdp)
+
+            register queue binding (if fails, delete queue and rdp)
+
+
+
+
+
+
+            1) Enable the user with the given user name on the given VPN (if not already enabled)
+            1) Updates user parameters to allow sending and receiving persistent messages.
+            1) Create a new queue with input output enabled and permission to be used by consumers.\n
+            2) Have the queue subscribe to a new topic (optional).\n
+            3) Create a new rest delivery endpoint to manage rest message delivery.\n
+            4) Register your consumer to the rest delivery endpoint.\n
+            5) Register a queue binding in your rest delivery endpoint to bind your queue to your consumer.\n
+
+            
+        Args:
+            msgVpnName (str): The message VPN where your setup will be done. 
+            queueName (str|None): Name for new queue where the setup will be done. 
+            subscriptionTopic (str): Name of a topic you want your queue to subscribe to. This is recommended but optional. To skip pass None.
+            restDeliveryPointName (str): Name for your new rest delivery endpoint to manage rest message delivery.
+            restConsumerName (str): Assign a rest consumer to your rest delivery endpoint with the given name. This name is just for your reference.
+            remoteHost (str): IPv4 address at which your consumer is running at.
+            remotePort (int): The port that your consumer uses to listen for incoming messages.
+            postRequestTarget (str): The rest endpoint on the consumer side that will be targeted when sending the message.
+            clientProfileName (str, optional): Client Profiles are used to assign common configuration properties to clients that have been successfully authorized. Defaults to 'default'.
+            clientUsername (str, optional): A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
+            attempt_revert_if_error (bool, optional): Tries to the operations performed if one of them fails. 
+                                                      Won't work if the errors were because your connection to your broker is lost.  
+        """
+
+
+        #step0
+        self.update_client_username(msgVpnName= msgVpnName, 
+                                    clientUsername= clientUsername,
+                                    enabled= True)
+
+        #step0 (get current client profile settings )
+        self.update_client_profile(msgVpnName= msgVpnName, clientProfileName= clientProfileName)
+        
+
+        #step1
+        self.create_queue_endpoint(queueName=queueName, msgVpnName=msgVpnName, throw_exception= False)
+
+        #step2
+        if subscriptionTopic != None:
+            self.subscribe_to_topic_on_queue(msgVpnName= msgVpnName,
+                                             subscriptionTopic= subscriptionTopic,
+                                             queueName= queueName)
+            
+        #step3
+        res = self.create_rest_delivery_point(msgVpnName= msgVpnName, 
+                                              restDeliveryPointName= restDeliveryPointName, 
+                                              throw_exception=False,
+                                              clientProfileName= clientProfileName)
+        #print(res)
+
+        #step4
+        res = self.specify_rest_consumer(msgVpnName= msgVpnName, 
+                                         restDeliveryPointName= restDeliveryPointName,
+                                        restConsumerName= restConsumerName,
+                                        remoteHost= remoteHost,
+                                        remotePort= remotePort, throw_exception= False)
+        
+        #print(res)
+        
+        # #step5
+        res = self.create_queue_binding(msgVpnName= msgVpnName,
+                                        restDeliveryPointName= restDeliveryPointName,
+                                        queueBindingName= queueName,
+                                        postRequestTarget= postRequestTarget, throw_exception= False)
+        
+        #print(res)
+
+    def update_parameters(self, user_name:str, password:str,
+                        host:str, SEMP_port:str, verify_ssl=False):
+    
+        self.http_client = HttpClient(host= host,
+                                      port= SEMP_port,
+                                      user_name= user_name,
+                                      password= password,
+                                      verify_ssl= verify_ssl)
+    
