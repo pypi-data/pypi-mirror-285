@@ -1,0 +1,52 @@
+[build-system]
+requires      = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["python", 'reports']
+include = ['pdstools*']
+exclude = ['/tests/*', '*.dist-info', '/docs/*']
+
+[tool.setuptools.package-data]
+"*" = ['*.qmd']
+
+[project]
+name = "pdstools"
+dynamic = ["version", "dependencies"]
+description = "Open source tooling that helps Data Scientists to analyze Pega models and conduct impactful analyses."
+readme = "README.md"
+authors = [ { name = "Stijn Kas", email = "stijn.kas@pega.com" } ] 
+license = {text = "Apache-2.0"}
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+]
+keywords = [
+    "pega",
+    "pegasystems",
+    "pds",
+    "pdstools",
+    "cdhtools",
+    "datascientist",
+    "tools",
+]
+requires-python = ">=3.8"
+
+[tool.setuptools.dynamic]
+version = {attr="pdstools.__version__"}
+dependencies = {file = ["python/requirements.txt"]}
+
+[project.optional-dependencies]
+docs = ['sphinx','furo','sphinx-autoapi','nbsphinx','sphinx-copybutton','myst-parser']
+app = ['streamlit>=1.23', 'quarto', 'papermill', 'itables', 'jinja2>=3.1', 'xlsxwriter>=3.0', 'tabulate', 'st-pages']
+
+[project.urls]
+"Homepage" = "https://github.com/pegasystems/pega-datascientist-tools"
+"Bug Tracker" = "https://github.com/pegasystems/pega-datascientist-tools/issues"
+"Wiki" = "https://github.com/pegasystems/pega-datascientist-tools/wiki"
+"Docs" = "https://pegasystems.github.io/pega-datascientist-tools/"
+
+[project.scripts]
+pdstools = 'pdstools.app.cli:main'
