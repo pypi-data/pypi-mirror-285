@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - include_role:
+        name: "{{ item }}"
+      loop:
+        - apt
+        - php
+
+    - include_role:
+        name: fail2ban
+      when: not insecure_skip_fail2ban
