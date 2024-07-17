@@ -1,0 +1,44 @@
+# Proximity Analysis with ArcPy
+
+Perform spatial proximity analysis using ArcPy with ease. This package provides a Python class `proximity` tailored for analyzing spatial relationships in GIS data, specifically designed for Urban Institute's Quality of Life (QOL) spatial variables.
+
+## Installation
+
+Install `proximityuri` from PyPI using pip:
+
+pip install proximityui
+
+## Usage
+
+import proximityuri as P
+
+# Example usage:
+prox_analysis = P.proximity('TaxData2023', 'Pharmacy2024')
+
+# Merge additional pharmacy data
+prox_analysis.merge('Pharmacy', 'PharmacyUnmatched')
+
+# Add a new field for residential proximity to pharmacy
+prox_analysis.addfield('ResNearPharmacy')
+
+# Summarize the results
+prox_analysis.summarize('r', 'd', ProjectGDB)
+
+# Export summarized results to a text file
+prox_analysis.exporttxt(path, 'QOL_46_2023.txt')
+
+## Methods
+
+__init__(self, tax_parcel_feature_class, proximity_feature_class): Initialize the proximity class with the tax parcel feature class and proximity feature class.
+
+merge(self, *feature_classes_to_be_merged): Merge proximity feature classes from multiple sources into one feature class for analysis.
+
+addfield(self, new_field_name): Add a new field to the tax parcel feature class.
+
+summarize(self, near_residential_output_table, housing_units_table, geodatabase): Summarize residential units near the proximity feature class and export results to a geodatabase.
+
+exporttxt(self, output_directory, final_txt_name): Export summarized results to a text file in the specified directory.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
