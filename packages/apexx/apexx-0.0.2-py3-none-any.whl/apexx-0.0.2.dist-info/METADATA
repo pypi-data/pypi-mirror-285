@@ -1,0 +1,97 @@
+Metadata-Version: 2.1
+Name: apexx
+Version: 0.0.2
+Summary: Apex-x is a project to create a new project by using a blueprint for ANY LANGUAGE!
+Home-page: https://github.com/n25a/Apex
+Author: Nima Mashhadi M. Reza
+Author-email: n.twenty.five.a@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: asgiref ==3.8.1
+Requires-Dist: certifi ==2024.6.2
+Requires-Dist: charset-normalizer ==3.3.2
+Requires-Dist: click ==8.1.7
+Requires-Dist: Django ==4.2.13
+Requires-Dist: django-emoji ==2.2.2
+Requires-Dist: emoji ==2.12.1
+Requires-Dist: idna ==3.7
+Requires-Dist: markdown-it-py ==3.0.0
+Requires-Dist: mdurl ==0.1.2
+Requires-Dist: Pygments ==2.18.0
+Requires-Dist: requests ==2.32.3
+Requires-Dist: rich ==13.7.1
+Requires-Dist: shellingham ==1.5.4
+Requires-Dist: sqlparse ==0.5.0
+Requires-Dist: tqdm ==4.66.4
+Requires-Dist: typer ==0.12.3
+Requires-Dist: typing-extensions ==4.12.2
+Requires-Dist: urllib3 ==2.2.2
+
+# Apex-X
+
+<div align="center">
+  <img src=".github/assets/logo.jpg" width="500" height="500" align="center">
+</div>
+
+## What is Apex-X?
+Apex is a simple and lightweight project to create a new project by using a blueprint for ANY LANGUAGE! 
+Apex find all tags and variables in the blueprint and replace them with the values that you provide.  
+You need know the syntax of the tags and variables to use Apex correctly in your blueprint.
+
+## How to use Apex-X?
+You can install it with pip:
+```bash
+pip install apexx
+```
+
+After install the Apex-X, you can use it in your terminal:
+```bash
+apexx path/to/blueprint
+```
+
+After that, Apex will ask you for selecting the tags and the values of variables in the blueprint.
+
+## Apex-X Syntax
+
+### tags in blueprint
+Tag is a section of code that labeled with a name. You can use tags in your blueprint to customize the blueprint for your project.  
+The syntax of the tag in file is:
+
+```python
+def func_one():
+    pass
+
+# @apex:tag_name:tag
+def func_two():
+    pass
+# @apex:end
+```
+
+You can specify the tag name in comment with `@apex:tag_name:tag`. To end the tag section, you can
+use `@apex:end` in the comment.
+Apex will find the tag section and asking you that want this section or not.  
+If you want to use tag for just file or folder, you can use the tag syntax in the file or folder name.
+```bash
+|
+|--- file_name@apex:tag_name:tag
+|
+|--- folder_name@apex:tag_name:tag
+    |
+    |--- file_name
+```
+
+### variables in blueprint
+To use variables in the blueprint, you can use the syntax below:
+
+```python
+def func_one():
+    print("@apex:variable_name:var")
+```
+
+For declaring a variable anywhere in the blueprint, you just need write `@apex:variable_name:var`.
+Apex will find the variable and asking you for the value of the variable.
+
