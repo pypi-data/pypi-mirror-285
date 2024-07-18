@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: cukoo_fastapi_addto
+Version: 0.0.2
+Summary: framework addto for fastapi
+Home-page: https://github.com/phailin/cukoo_fastapi_addto
+Author: phailin
+Author-email: phailin791@hotmail.com
+License: MIT
+Platform: all
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: Chinese (Simplified)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries
+License-File: LICENSE
+Requires-Dist: fastapi>=0.111.1
+Requires-Dist: SQLAlchemy>=2.0.31
+Requires-Dist: pydantic>=2.8.2
+Requires-Dist: loguru>=0.7.2
+Requires-Dist: python-jose[cryptography]>=3.3.0
+Requires-Dist: passlib>=1.7.4
+Requires-Dist: bcrypt>=4.0.1
+Requires-Dist: python-multipart>=0.0.9
+
+# Cukoo Fastapi Package Addto
+
+This package is a fastapi package that adds a new endpoint to the Cukoo Fastapi package. The endpoint is called "addto" and it takes two parameters: "name" and "value". The "name" parameter is a string that represents the name of the item to be added, and the "value" parameter is a string that represents the value of the item to be added. The endpoint returns a JSON response that contains the name and value of the item that was added.
+The package is installed using pip:
+
+```
+pip install cukoo-fastapi-addto
+```
+
+The package can be imported into a fastapi application using:
+
+```
+from cukoo_fastapi_addto.framework.base_schema import BaseSchemas
+```
