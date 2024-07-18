@@ -1,0 +1,33 @@
+Metadata-Version: 2.3
+Name: pretty_print_dmeurer
+Version: 1.2.1
+Summary: Makes the ANSI codes easy to use
+Project-URL: Homepage, https://github.com/DMeurer/pretty_print_dmeurer
+Project-URL: Issues, https://github.com/DMeurer/pretty_print_dmeurer/issues
+Author-email: Dominik Meurer <dom.meurer@gmx.de>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+
+# Pretty Print
+
+## Usage
+
+```Python
+import pretty_print_dmeurer as pp
+pp.color_demo()
+pp.text_demo()
+
+print(f"{pp.Colors.BG.aqua_bright}Hello World{pp.reset}")
+```
+
+
+## Build 
+
+```PowerShell
+py -m build
+py -m twine upload --repository pypi dist/*
+```
