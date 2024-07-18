@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "perfectreports"
+version = "0.0.15"
+#name = "perfectreportstest"
+#version = "0.0.12"
+authors = [{ name="Genesis Thomas", email="genesis.thomas@perforce.com" }]
+description = "Custom Reports"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dynamic = ["dependencies"]
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.scripts]
+perfectreports = "perfectreports.main_cli:main"
