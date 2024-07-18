@@ -1,0 +1,1 @@
+SELECT * FROM gtm_latam_arg.stg_oceo.oceo_omuser_latest
