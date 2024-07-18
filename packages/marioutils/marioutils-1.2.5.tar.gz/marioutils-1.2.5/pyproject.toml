@@ -1,0 +1,35 @@
+[project]
+name = "marioutils"
+version = "1.2.5"
+authors = [
+  { name="Mario Hernandez", email="mariohertu@gmail.com" },
+]
+description = "Utils library for DB connection and logging"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+"pymssql >= 2.2.11", 
+"sqlalchemy >= 2.0.25", 
+"mariadb >= 1.1.10", 
+"azure-core >= 1.30.2", 
+"azure-identity >= 1.17.1",
+"azure-storage-blob >= 12.20.0"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targers.sdist]
+include = ["marioutils/*"]
+
+[project.urls]
+Homepage = "https://github.com/MarioHdzCtu/MarioUtils"
+Issues = "https://github.com/MarioHdzCtu/MarioUtils/issues"                                                                                     
