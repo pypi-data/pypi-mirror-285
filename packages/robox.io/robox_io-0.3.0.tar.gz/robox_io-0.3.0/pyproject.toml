@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "robox.io"
+version = "0.3.0"
+description = ""
+packages = [
+  {include = "robox"}
+]
+authors = ["Roberto Sales"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+typer = {extras = ["all"], version = "^0.12.3"}
+fastapi = "^0.111.0"
+filelock = "^3.14.0"
+gevent = "^24.2.1"
+mechanize = "^0.4.10"
+jinja2 = "^3.1.4"
+pydantic = "^2.7.3"
+rich = "^13.7.1"
+pyyaml = "^6.0.1"
+requests = "^2.32.3"
+latexbuild = "^0.2.2"
+pydantic-xml = {extras = ["lxml"], version = "^2.11.0"}
+python-iso639 = "^2024.4.27"
+
+[tool.poetry.scripts]
+rbc = "robox.main:app"
+rbx = "robox.box.main:app"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+ruff = "^0.4.10"
+pre-commit = "^3.7.1"
+mkdocs = "^1.6.0"
+mkdocs-material = "^9.5.28"
+mkdocs-macros-plugin = "^1.0.5"
+termynal = "^0.12.1"
+mkdocstrings = {extras = ["python"], version = "^0.25.1"}
+griffe-fieldz = "^0.1.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+# On top of the defaults (`E4`, E7`, `E9`, and `F`), enable flake8-bugbear (`B`) and flake8-quotes (`Q`).
+select = ["E4", "E7", "E9", "F", "B", "I", "TID", "SLF"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
