@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools","setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name="qmsa"
+dynamic = ["version"]
+
+authors = [{ name="Susy Exists", email="susy@materials.wiki" }]
+description = "Quantum Modelling Simulation Analysis is a Python package to improve workflow efficiency in various material realted calculations."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = ["numpy==1.26.4"
+]
+
+[project.urls]
+Homepage = "https://github.com/susyexists/qmsa"
+
+
+[tool.setuptools_scm]
