@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "FM12_transform"
+version = "0.0.13"
+authors = [
+  { name="Alexander Thompson", email="alexander.thompson@noaa.gov" },
+]
+description = "Package for converting FM12 SYNOP TAC messages or an individual SYNOP message to BUFR4"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 1 - Planning"
+]
+dynamic = ["dependencies"]
+keywords = [
+    'WMO',
+    'SYNOP', 'FM-12',
+    'BUFR',
+    'decoding',
+    'weather',
+    'observations'
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+fm12_transform = "FM12_transform.cli:cli"
+
+[project.urls]
+"Homepage" = "https://github.com/pypa/sampleproject"
+"Bug Tracker" = "https://github.com/pypa/sampleproject/issues"
