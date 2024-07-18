@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "edgegap-database"
+version = "1.11.0"
+description = "The Edgegap Database library includes various tools and helpers for interacting with Database and Migrations. It is designed for use within the Edgegap organization."
+authors = ["Bastien Roy <bastien@edgegap.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+psycopg-c = "^3.1.18"
+psycopg2 = "^2.9.9"
+sqlmodel = "^0.0.18"
+alembic = "^1.13.1"
+pydantic = "^2.7.1"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.31"}
+asyncpg = "^0.29.0"
+aiosqlite = "^0.20.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.0"
+pytest-asyncio = "^0.23.6"
+pytest-mock = "^3.14.0"
+pytest-cov = "^5.0.0"
+ruff = "^0.4.2"
+pytest-html = "^4.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+extend = "../../3rdparty/ruff/ruff.toml"
+
