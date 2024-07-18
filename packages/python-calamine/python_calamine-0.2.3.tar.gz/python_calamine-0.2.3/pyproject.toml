@@ -1,0 +1,49 @@
+[project]
+name = "python-calamine"
+requires-python = ">=3.8"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+]
+
+[tool.isort]
+include_trailing_comma = true
+line_length = 88
+multi_line_output = 3
+profile = "black"
+
+[tool.mypy]
+python_version = "3.8"
+ignore_missing_imports = false
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[build-system]
+requires = ["maturin>=1,<2"]
+build-backend = "maturin"
+
+[tool.maturin]
+module-name = "python_calamine._python_calamine"
+python-source = "python"
+
+[tool.poetry]
+name = "python-calamine"
+version = "0.2.3"
+description = ""
+authors = ["Dmitriy <dimastbk@proton.me>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+packaging = "^23.1"
+
+[tool.poetry.group.dev.dependencies]
+maturin = "^1.0.1"
+pre-commit = "^3.0.1"
+pytest = "^8.0.0"
+pandas = {version = "^2.0.0", extras = ["excel"]}
