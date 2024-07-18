@@ -1,0 +1,31 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+sporestack = {editable = true, path = ".", extras = ["cli"]}
+
+[dev-packages]
+black = "~=24.0"
+mypy = "~=1.0"
+pytest = "~=8.0"
+pytest-cov = "~=5.0"
+pytest-mock = "~=3.6"
+pytest-socket = "~=0.7.0"
+ruff = "~=0.3.4"
+
+respx = "~=0.21.1"
+
+# Building
+flit = "~=3.8"
+wheel = "*"
+build = "~=1.0"
+# Publishing
+twine = "~=5.0"
+
+# Docs
+pdoc = "~=14.0"
+
+# Python `make` implementation
+almost-make = "~=0.5.2"
