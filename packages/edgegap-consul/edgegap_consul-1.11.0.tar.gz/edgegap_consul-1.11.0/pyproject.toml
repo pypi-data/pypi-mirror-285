@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "edgegap-consul"
+version = "1.11.0"
+description = "The Edgegap Consul library includes various tools and helpers for interacting with Consul. It is designed for use within the Edgegap organization."
+authors = ["Bastien Roy <bastien@edgegap.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = { version = "^3.9.5", extras = ["speedups"] }
+pydantic = "^2.7.1"
+python-consul = "^1.1.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+pytest = "^8.2.0"
+pytest-asyncio = "^0.23.6"
+pytest-mock = "^3.14.0"
+ruff = "^0.4.2"
+pytest-html = "^4.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+extend = "../../3rdparty/ruff/ruff.toml"
