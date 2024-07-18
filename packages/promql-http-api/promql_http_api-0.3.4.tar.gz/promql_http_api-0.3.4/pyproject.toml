@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "promql-http-api"
+version = "0.3.4"
+description = "Query a Prometheus server and get a Pandas DataFrame"
+homepage = "https://github.com/nir-arad/promql-http-api"
+repository = "https://github.com/nir-arad/promql-http-api"
+readme = "README.md"
+license = "Apache-2.0"
+keywords = ["prometheus", "promql", "pandas", "dataframe"]
+authors = ["Nir Arad"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+httpx = ">=0.27.0"
+requests = ">=2.31.0"
+pandas = ">=2.0.0"
+numpy = ">=2.0.0"
+types-setuptools = ">=68.0.0"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=7.1"
+pytest-cov = ">=3.0.0"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/nir-arad/promql-http-api/issues"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = ">=6.26.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[package]
+include = ["py.typed"]
