@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: aio-bunny
+Version: 0.0.1
+Summary: Asyncio compatible wraper around the aio-pika library for consumining messages.
+Author: Mehdi Kamani <mkamani@sheypoor.com>
+Author-email: 
+License: MIT License
+Project-URL: Documentation, https://aio-bunny.readthedocs.org/
+Project-URL: Source, https://github.com/itsmehdi97/aio-bunny
+Platform: all
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Topic :: Internet
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Microsoft
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Requires-Python: >=3.10, <4
+License-File: LICENSE
+Requires-Dist: aio-pika <10,>=6.8.0
+Provides-Extra: develop
+Requires-Dist: aio-pika ; extra == 'develop'
+Requires-Dist: async-generator ; extra == 'develop'
+Requires-Dist: coverage !=4.3 ; extra == 'develop'
+Requires-Dist: coveralls ; extra == 'develop'
+Requires-Dist: pylama ; extra == 'develop'
+Requires-Dist: pytest ; extra == 'develop'
+Requires-Dist: pytest-asyncio ; extra == 'develop'
+Requires-Dist: pytest-cov ; extra == 'develop'
+Requires-Dist: shortuuid ; extra == 'develop'
+Requires-Dist: nox ; extra == 'develop'
+Requires-Dist: sphinx ; extra == 'develop'
+Requires-Dist: sphinx-autobuild ; extra == 'develop'
+Requires-Dist: timeout-decorator ; extra == 'develop'
+Requires-Dist: tox >=2.4 ; extra == 'develop'
+
