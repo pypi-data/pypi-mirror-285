@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[metadata]
+name = "remotecurl"
+version = "1.1.2"
+
+[tool.setuptools.packages]
+find = {}  # Scan the project directory with the default parameters
+
+[tool.setuptools.package-data]
+"*" = ["*.*"] # Include resources
+
+[project]
+name = "remotecurl"
+version = "1.1.2"
+authors = [
+  { name="Wes-KW", email="dotdotdashdash2024@hotmail.com" },
+]
+dependencies = [
+  "beautifulsoup4>=4.12.3",
+  "certifi>=2023.11.17",
+  "jsmin>=3.0.1",
+  "pycurl>=7.45.3",
+  "Brotli>=1.1.0",
+  "zstd>=1.5.5.1"
+]
+description = "RemoteCurl"
+readme = "README.md"
+requires-python = ">=3.5, <4"
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux"
+]
+
+[project.urls]
+Homepage = "https://github.com/Wes-KW/RemoteCurl"
+Issues = "https://github.com/Wes-KW/RemoteCurl/issues"
