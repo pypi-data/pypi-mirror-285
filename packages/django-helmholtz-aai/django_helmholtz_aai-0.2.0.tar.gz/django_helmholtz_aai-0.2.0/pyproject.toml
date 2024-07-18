@@ -1,0 +1,146 @@
+# SPDX-FileCopyrightText: 2022-2023 Helmholtz-Zentrum hereon GmbH
+#
+# SPDX-License-Identifier: CC0-1.0
+
+[build-system]
+build-backend = 'setuptools.build_meta'
+requires = ['setuptools >= 61.0', 'versioneer[toml]']
+
+[project]
+name = "django-helmholtz-aai"
+dynamic = ["version"]
+description = "A generic Django app to login via Helmholtz AAI"
+
+readme = "README.md"
+keywords = [
+    "Helmholtz AAI",
+
+    "authlib",
+
+    "oauth",
+
+    "hifis",
+
+    "login",
+
+    "hgf",
+    ]
+
+authors = [
+    { name = 'Philipp S. Sommer', email = 'philipp.sommer@hereon.de' },
+    { name = 'Housam Dibeh', email = 'hcdc_support@hereon.de' },
+    { name = 'Hatef Takyar', email = 'hcdc_support@hereon.de' },
+]
+maintainers = [
+    { name = 'Philipp S. Sommer', email = 'philipp.sommer@hereon.de' },
+]
+license = { text = 'EUPL-1.2' }
+
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Typing :: Typed",
+]
+
+requires-python = '>= 3.9'
+dependencies = [
+    # add your dependencies here
+    "Django>=3.1",
+    "authlib",
+    "requests",
+]
+
+[project.urls]
+Homepage = 'https://codebase.helmholtz.cloud/hcdc/django/django-helmholtz-aai'
+Documentation = "https://django-helmholtz-aai.readthedocs.io/en/latest/"
+Source = "https://codebase.helmholtz.cloud/hcdc/django/django-helmholtz-aai"
+Tracker = "https://codebase.helmholtz.cloud/hcdc/django/django-helmholtz-aai/issues/"
+
+
+[project.optional-dependencies]
+testsite = [
+    "tox",
+    "isort==5.12.0",
+    "black==23.1.0",
+    "blackdoc==0.3.8",
+    "flake8==6.0.0",
+    "pre-commit",
+    "mypy==1.4.1",
+    "pytest-cov",
+    "reuse",
+    "cffconvert",
+    "django-environ",
+    "django-stubs==4.2.3",
+    "pytest-django",
+]
+docs = [
+    "autodocsumm",
+    "sphinx-rtd-theme",
+    "hereon-netcdf-sphinxext",
+    "sphinx-design",
+    "django-environ",
+
+]
+dev = [
+    "django-helmholtz-aai[testsite]",
+    "django-helmholtz-aai[docs]",
+    "PyYAML",
+    "types-PyYAML",
+]
+
+
+[tool.mypy]
+ignore_missing_imports = true
+plugins = [
+    "mypy_django_plugin.main",
+]
+
+[tool.django-stubs]
+django_settings_module = "testproject.settings"
+
+[tool.setuptools]
+zip-safe = false
+license-files = ["LICENSES/*"]
+
+[tool.setuptools.package-data]
+django_helmholtz_aai = ["py.typed"]
+
+[tool.setuptools.packages.find]
+namespaces = false
+exclude = [
+    'docs',
+    'tests*',
+    'examples'
+]
+
+[tool.pytest.ini_options]
+addopts = '-v'
+DJANGO_SETTINGS_MODULE = "testproject.settings"
+
+[tool.versioneer]
+VCS = 'git'
+style = 'pep440'
+versionfile_source = 'django_helmholtz_aai/_version.py'
+versionfile_build = 'django_helmholtz_aai/_version.py'
+tag_prefix = 'v'
+parentdir_prefix = 'django-helmholtz-aai-'
+
+[tool.isort]
+profile = "black"
+line_length = 79
+src_paths = ["django_helmholtz_aai"]
+float_to_top = true
+known_first_party = "django_helmholtz_aai"
+
+[tool.black]
+line-length = 79
+target-version = ['py39']
+
+[tool.coverage.run]
+omit = ["django_helmholtz_aai/_version.py"]
