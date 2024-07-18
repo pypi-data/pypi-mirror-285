@@ -1,0 +1,123 @@
+<p align="center">
+  <img src="/logo.png" alt="Kaizen Logo" width="200"/>
+</p>
+
+<h1 align="center">Kaizen: AI-Powered Code Quality Assistant</h1>
+
+<p align="center">
+  <strong>Find bugs before your customers do!</strong>
+</p>
+
+<p align="center">
+  <a href="https://github.com/Cloud-Code-AI/"><img src="https://img.shields.io/github/stars/Cloud-Code-AI/cloudcode" alt="Github Stars"></a>
+  <a href="https://github.com/Cloud-Code-AI/cloudcode/pulse"><img src="https://img.shields.io/github/commit-activity/w/Cloud-Code-AI/cloudcode" alt="Commits-per-week"></a>
+  <a href="https://discord.gg/W33Hh5yWpj"><img src="https://img.shields.io/discord/1156434217966764033.svg?style=social&logo=discord" alt="Discord"></a>
+  <a href="https://opensource.org/license/mit"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+  <a href="https://hub.docker.com/r/cloudcodeai/kaizen-app"><img src="https://img.shields.io/docker/pulls/cloudcodeai/kaizen-app.svg?style=flat-square" alt="Docker Pulls"></a>
+</p>
+
+<p align="center">
+  <a href="https://www.cloudcode.ai/book-a-demo.html"><img src="https://img.shields.io/badge/Book%20a%20Demo-Book%20Now-brightgreen" alt="Book a Demo"></a>
+  <a href="https://cloudcode.ai/#cta"><img src="https://img.shields.io/badge/Get%20Started-Sign%20Up-blue" alt="Sign Up for Free"></a>
+  <a href="https://github.com/apps/kaizen-bot"><img src="https://img.shields.io/badge/Get%20Kaizen%20App-Install-8A2BE2" alt="Install Kaizen App"></a>
+</p>
+
+## 🚀 What is Kaizen?
+
+Kaizen is an open-source AI-powered suite that revolutionizes your code quality assurance process. It seamlessly integrates with your existing workflows to enhance software quality and streamline development.
+
+### 🔍 Key Features
+
+- **🤖 AI-Powered Code Reviews**: Automated pull request reviews with insightful summaries and improvement suggestions.
+- **🧪 Smart Test Generation**: 
+  - End-to-end tests based on your application's code and documentation.
+  - Unit test generation for Python (with TypeScript and React support coming soon!).
+- **🎨 UI Testing and Review**: Comprehensive reviews for UI components with automatic test generation.
+- **🔬 Code Scanning**: Identify potential issues before they become problems.
+
+## 🌟 Why Choose Kaizen?
+
+- **👁️ Catch Bugs Early**: Identify issues before your customers do.
+- **⏱️ Save Time**: Automate tedious code review and testing tasks.
+- **💡 Continuous Improvement**: Foster a culture of constant code quality enhancement.
+- **🔗 Easy Integration**: Seamlessly fits your existing development workflow.
+
+## 🏁 Getting Started
+
+### Quick Start with Cloud Platform
+
+1. Visit [https://beta.cloudcode.ai](https://beta.cloudcode.ai)
+2. Sign up for an account
+3. Follow the on-screen instructions to connect your repository
+
+### Local Installation
+
+1. Install Kaizen:
+   ```bash
+   pip install kaizen-cloudcode
+   ```
+
+2. Generate tests:
+   ```bash
+   PYTHONPATH=. poetry run python examples/basic/generate.py
+   ```
+
+3. Execute tests:
+   ```bash
+   PYTHONPATH=. poetry run python examples/basic/execute.py
+   ```
+   or
+   ```bash
+   pytest -v .kaizen/ui-tests/
+   ```
+
+## 🔧 GitHub App Setup
+
+For PR review and description updates:
+
+1. Follow our [GitHub App Setup Guide](docs/pages/github_app.md)
+2. Deploy the API using Docker:
+   ```bash
+   docker-compose up
+   ```
+
+> 📝 Note: Create a `.env` file from `.env.example` and store the GitHub app PEM file as `GITHUB_APP_KEY.pem`.
+
+## 🎥 See Kaizen in Action
+
+<p align="center">
+  <a href="https://www.youtube.com/watch?v=280CfSQs2ss">
+    <img src="https://img.youtube.com/vi/280CfSQs2ss/0.jpg" alt="Kaizen Introduction">
+  </a>
+</p>
+
+## 📂 Project Structure
+
+- `github_app`: API server for the GitHub app
+- `kaizen`: Main logic for LLM interaction and data processing
+- `docs`: Project documentation
+- `examples`: Sample code for various use cases
+
+## 🤝 Contributing
+
+We welcome contributions! Here's how you can help:
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📄 License
+
+Kaizen is released under the MIT License.
+
+## 📞 Contact
+
+Need help or have questions? Reach out to us at support@cloudcode.ai.
+
+---
+
+<p align="center">
+  Made with ❤️ by the Kaizen team
+</p>
