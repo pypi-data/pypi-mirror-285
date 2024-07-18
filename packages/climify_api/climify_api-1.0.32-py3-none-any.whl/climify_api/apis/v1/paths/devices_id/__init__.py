@@ -1,0 +1,1 @@
+from climify_api.apis.v1.paths.devices_id.get import GetDeviceById
