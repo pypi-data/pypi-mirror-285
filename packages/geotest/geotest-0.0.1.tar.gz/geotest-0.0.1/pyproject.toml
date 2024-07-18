@@ -1,0 +1,30 @@
+[project]
+name = "geotest"
+version = "0.0.1"
+description = "This is a test package for automated package deployment using github actions"
+authors = [
+    { name = "geovicco-dev", email = "geovicco.dev@gmail.com" }
+]
+dependencies = [
+    "typer>=0.12.3",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+license = "MIT"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/geotest"]
+
+[project.scripts]
+"geotest" = "geotest:main"
