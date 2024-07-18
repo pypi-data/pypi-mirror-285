@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: webpage2content
+Version: 1.0.2
+Summary: A simple Python package to extract text content from a webpage.
+Home-page: https://github.com/Mighty-Data-Inc/webpage2content
+Author: Mikhail Voloshin
+Author-email: mvol@mightydatainc.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+
+# webpage2content
+
+A simple Python package that takes a web page (by URL) and extracts its main human-readable content. It uses LLM technology to remove all of the boilerplate webpage cruft (headers, footers, copyright and accessibility notices, advertisements, login and search controls, etc.) that isn't part of the main content of the page.
+
+## Installation
+
+```bash
+pip install webpage2content
+```
+
+## Usage
+
+```python
+import openai
+from webpage2content import webpage2content
+
+text = webpage2content("http://mysite.com", openai.OpenAI())
+print(text)
+```
+
+## CLI
+
+You can invoke webpage2content from the command line.
+
+```cmd
+C:> webpage2content https://slashdot.com/
+```
+
+If you don't have your OPENAI_API_KEY environment variable set, you can pass it to the CLI invocation as a second argument.
+
+```cmd
+C:> webpage2content https://slashdot.com/ sk-ABCD1234
+```
+
+
