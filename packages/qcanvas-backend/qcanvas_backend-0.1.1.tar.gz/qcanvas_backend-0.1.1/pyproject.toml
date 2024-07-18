@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "qcanvas-backend"
+version = "0.1.1"
+description = ""
+authors = ["Qcanvas <QCanvas@noreply.codeberg.org>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+SQLAlchemy = "^2.0.29"
+gql = "^3.5.0"
+beautifulsoup4 = "^4.12.3"
+asynctaskpool = "^0.2.0"
+qcanvas-api-clients = "^0.2.0"
+pydantic = "^2.7.0"
+httpx = "^0.27.0"
+yt-dlp = "^2024.4.9"
+asynchronize = "^0.0.1"
+stones-custom = "^0.2.1"
+rich = "^13.7.1"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+qenerate-custom = "^0.6.5"
+aiosqlite = "^0.20.0"
+black = "^24.4.2"
+block-timer = "^0.2.0"
+
+[tool.poetry.group.local-deps]
+optional = true
+
+[tool.poetry.group.local-deps.dependencies]
+asynctaskpool = { path = "../TaskPool/", develop = true }
+qcanvas-api-clients = { path = "../QCanvas-API-Clients/", develop = true }
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.1.1"
+pytest-asyncio = "^0.23.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
