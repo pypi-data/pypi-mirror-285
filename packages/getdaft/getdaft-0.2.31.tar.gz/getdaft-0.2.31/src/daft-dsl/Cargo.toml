@@ -1,0 +1,18 @@
+[dependencies]
+common-error = {path = "../common/error", default-features = false}
+common-treenode = {path = "../common/treenode", default-features = false}
+daft-core = {path = "../daft-core", default-features = false}
+daft-sketch = {path = "../daft-sketch", default-features = false}
+itertools = {workspace = true}
+pyo3 = {workspace = true, optional = true}
+serde = {workspace = true}
+serde_json = {workspace = true}
+typetag = "0.2.16"
+
+[features]
+python = ["dep:pyo3", "common-error/python", "daft-core/python", "common-treenode/python"]
+
+[package]
+edition = {workspace = true}
+name = "daft-dsl"
+version = {workspace = true}

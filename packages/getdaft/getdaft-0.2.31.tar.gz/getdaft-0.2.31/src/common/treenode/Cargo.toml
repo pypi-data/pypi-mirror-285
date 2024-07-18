@@ -1,0 +1,10 @@
+[dependencies]
+common-error = {path = "../error", default-features = false}
+
+[features]
+python = ["common-error/python"]
+
+[package]
+edition = {workspace = true}
+name = "common-treenode"
+version = {workspace = true}
