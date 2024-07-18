@@ -1,0 +1,175 @@
+Metadata-Version: 2.1
+Name: mrx-link
+Version: 1.5.0.dev9
+Summary: A simple AI/ML modeling tool, Link™ ensures a smoother flow and a better experience throughout the model development cycle.
+Author-email: makinarocks <mrx.dev@makinarocks.ai>
+License: proprietary
+Project-URL: Homepage, https://link.makinarocks.ai
+Project-URL: Documentation, https://makinarocks-link.readme.io/docs
+Project-URL: Discussions, https://makinarocks-link.readme.io/discuss
+Keywords: Jupyter,JupyterLab,JupyterLab3
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Framework :: Jupyter
+Classifier: Framework :: Jupyter :: JupyterLab :: 3
+Classifier: Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: black <=22.12,>=19.3b0
+Requires-Dist: click >=8.0
+Requires-Dist: Cython >=3.0
+Requires-Dist: graphviz >=0.19
+Requires-Dist: isort >=5.7
+Requires-Dist: Jinja2 >=3.0
+Requires-Dist: jsondiff >=2.0.0
+Requires-Dist: jupyter-server <3,>=1.16.0
+Requires-Dist: jupyterlab <3.7,>=3.6
+Requires-Dist: mrx-link-core <1.6,>=1.5.0.dev4
+Requires-Dist: mrx-link-git <1.2,>=1.1.1.dev1
+Requires-Dist: nbdime <3.2,>=3.1
+Requires-Dist: pexpect >=4.7
+Requires-Dist: pycryptodome >=3.14
+Requires-Dist: pydantic >=1.8.0
+Requires-Dist: PyYAML >=5.4
+Requires-Dist: pyzmq >=17
+Requires-Dist: sqlalchemy <2.0,>=1.4
+Requires-Dist: protobuf ==3.20.1 ; sys_platform == "darwin" and platform_machine == "arm64"
+Provides-Extra: dev
+Requires-Dist: flake8 >=3.9 ; extra == 'dev'
+Requires-Dist: jupyter-packaging >=0.10 ; extra == 'dev'
+Requires-Dist: mypy >=0.910 ; extra == 'dev'
+Requires-Dist: pre-commit >=2.13 ; extra == 'dev'
+Requires-Dist: pylint >=2.9 ; extra == 'dev'
+Requires-Dist: pytest >=6.2 ; extra == 'dev'
+Requires-Dist: pytest-cov >=2.12 ; extra == 'dev'
+Requires-Dist: pytest-mock >=3.6 ; extra == 'dev'
+Requires-Dist: websockets >=9.1 ; extra == 'dev'
+
+[![Binder](https://static.mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=Link_Intro.ipynb)
+
+<div style="text-align:center"><p><img src="https://user-images.githubusercontent.com/18215796/186842421-4af16476-8c68-47e8-a941-c16d6bb1c43b.png" /></p></div>
+
+# Link
+
+> _A simple AI/ML modeling tool developed as an extension of JupyterLab, Link ensures a smoother flow and a better experience throughout the model development cycle._
+
+[Discussions](https://makinarocks-link.readme.io/discuss) | [Docs](https://makinarocks-link.readme.io/docs) | [Link SDK](https://makinarocks-link.readme.io/reference/introduction) | [Release Note](https://makinarocks-link.readme.io/changelog) | [Website](https://link.makinarocks.ai) | [Youtube](https://youtu.be/uM2uPG-1eQQ) | [Technical Support](https://link.makinarocks.ai/technical_support.html)
+
+## Usage Environment
+
+| Supported Platform | Linux (AMD64, ARM64) / macOS (Intel, Apple Silicon) / Windows |
+| ------------------ | ------------------------------------------------------------- |
+| Python Version     | `3.8`, `3.9`, `3.10`                                          |
+| Requirements       | Git                                                           |
+
+## Getting Started
+
+We recommend installing our program in a new virtual environment.
+
+Step 1. Install Link with the following command.
+
+```bash
+python3 -m pip install --upgrade mrx-link
+```
+
+Step 2. After installation, run JupyterLab.
+
+```bash
+python3 -m jupyterlab
+```
+
+If you wish to install it as a Desktop Application, please download from [here](https://link.makinarocks.ai/download.html).<br/>
+And if you want to try Link on your browser, please click [here](https://mybinder.org/v2/gh/makinarocks/makina-link-release/main?urlpath=lab/tree/Link-Intro.ipynb).
+
+## Main Features
+
+**_Pipeline Creation_**
+
+Create a pipeline with notebook cells to improve code readability and reproducibility.
+
+![pipeline_creation](https://user-images.githubusercontent.com/18215796/186842853-dbe3d0ec-7388-4706-9755-580e04dbf1db.gif)
+
+**_Caching Management_**
+
+Store execution results for respective cells to minimize redundant cell executions.
+
+![caching_management](https://user-images.githubusercontent.com/18215796/186842403-66c6fabf-d395-4e76-8fdc-91145c869113.gif)
+
+**_Remote Resources_**
+
+Optimize the use of server resources by using separate resources for different pipeline components.
+
+![remote_resources](https://user-images.githubusercontent.com/18215796/206979875-e486c0f3-a5f2-484a-90c3-72e321c91019.gif)
+
+**_Hyper-Parameter Optimizer_**
+
+Link provides a hyper-parameter feature, which works to find optimal hyper-parameters in an automated manner.
+
+![hpo_multiple_edited](https://user-images.githubusercontent.com/18215796/206979329-38349f8c-b5f5-4892-be93-8839f277411e.gif)
+
+**_Version Control_**
+
+Link provides a version control feature, where you can easily view changes to your pipeline and merge conflicts.
+
+![version_control](https://user-images.githubusercontent.com/18215796/186842427-6156ff9a-70ea-4345-8cb4-56aa95471aff.gif)
+
+**_Link SDK_**
+
+Link provides an SDK, where you can easily run the Link notebook file with the command line interface, and create, run, export pipelines with Python code. ([Learn more](https://makinarocks-link.readme.io/reference/introduction))
+
+![link_sdk](https://user-images.githubusercontent.com/18215796/221751603-f08eee59-0c2b-4b76-a953-92d5283fc380.png)
+
+**_Other Features_**
+
+- Convert your pipelines to Kubeflow (`.yaml`) pipelines.
+- Convert your components to executable Python (`.py`) code.
+
+## Examples
+
+- [Link Introduction](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=Link_Intro.ipynb)
+- [Deep Q-Network Reinforcement Learning for the CartPole Environment](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/Deep_Q-Network_Reinforcement_Learning.ipynb)
+- [Denoising Autoencoder with PyTorch](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/Denoising_Autoencoder.ipynb)
+- [Iris Classification](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/Iris_EDA_and_Modeling.ipynb)
+- [MNIST Image Classification with PyTorch](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/MNIST_Classification.ipynb)
+- [MNIST Image Generation with VAE](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/MNIST_Generation_with_VAE.ipynb)
+- [Sequential Data Classification](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/Text_Classification_with_RNN.ipynb)
+- [Spiral-Distributed Data Classification](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/Spiral_Classification.ipynb)
+- [Titanic Data EDA and Modeling](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/Titanic_EDA_and_Modeling.ipynb)
+- [XGBoost Example](https://mybinder.org/v2/gh/makinarocks/mrx-link-binder/main?labpath=sample-notebooks/XGBoost.ipynb)
+
+## Help and Support
+
+- Product Page: [https://link.makinarocks.ai](https://link.makinarocks.ai/index.html)
+- Official Documentation: [https://makinarocks-link.readme.io/docs](https://makinarocks-link.readme.io/docs)
+- Release Notes: [https://makinarocks-link.readme.io/changelog](https://makinarocks-link.readme.io/changelog)
+- Technical Support: Contact [Technical Support](https://link.makinarocks.ai/technical_support.html) for any questions or issues
+
+## Team
+
+- Chan Baek ([@chan-python](https://github.com/chan-python))
+- Daesung Kim ([@JakeisDaeSung](https://github.com/JakeisDaeSung))
+- Dohu Jeon ([@adc0612](https://github.com/adc0612))
+- Eunyoo Byeon ([@EunyooByeon](https://github.com/EunyooByeon))
+- Hongji Kim ([@HongJi-Kim](https://github.com/HongJi-Kim))
+- Hooncheol Shin ([@hunhoon21](https://github.com/hunhoon21))
+- Hwiyeon Cho ([@hwyncho](https://github/com/hwyncho))
+- Hyeonseok Shin ([@hyeonseok](https://github.com/hyeonseok))
+- Jaeseong Choe ([@sorrychoe](https://github.com/sorrychoe))
+- Jonghyeok Lee ([@daisy0y](https://github.com/daisy0y))
+- Jungmin Park ([@jungminpark1234](https://github.com/jungminpark1234))
+- Ryeong Yi ([@ryeongYi](https://github.com/ryeongYi))
+- Sangwoo Shim ([@borishim](https://github.com/borishim))
+- Woojin Cha ([@Xena123kiki](https://github.com/Xena123kiki))
+- Yongjin Shin ([@YongjinShin306](https://github.com/YongjinShin306))
+
+## Contributors
+
+- Byoungwan Kim ([@bwkim71](https://github.com/bwkim71))
+- Hwan Chang ([@aiworld-git](https://github.com/aiworld-git))
