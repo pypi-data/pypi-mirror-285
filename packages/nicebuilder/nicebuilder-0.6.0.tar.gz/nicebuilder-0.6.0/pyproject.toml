@@ -1,0 +1,26 @@
+[project]
+name = "nicebuilder"
+version = "0.6.0"
+description = "Tiny framework for building NiceGUI applications"
+authors = [
+    { name = "Masuda Shinsuke", email = "shinsuke.masuda@gmail.com" }
+]
+dependencies = [
+    "nicegui>=1.4.19",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = []
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nicebuilder"]
