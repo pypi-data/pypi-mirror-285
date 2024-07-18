@@ -1,0 +1,40 @@
+[project]
+authors = [
+    { name = "enoch", email = "lanxenet@gmail.com" },
+]
+dependencies = [
+    "grpcio>=1.64.1",
+    "google-api>=0.1.12",
+    "protobuf>=5.27.2",
+]
+description = "jquant grpc client for python"
+name = "jquant"
+readme = "README.md"
+requires-python = ">=3.11"
+version = "0.1.0-beta.5"
+
+[project.license]
+text = "MIT"
+
+[tool.setuptools]
+py-modules = []
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=23.10.0",
+    "pytest>=8.2.2",
+]
+
+[tool.pdm.scripts]
+
+[tool.pytest.ini_options]
+addopts = "-s"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
