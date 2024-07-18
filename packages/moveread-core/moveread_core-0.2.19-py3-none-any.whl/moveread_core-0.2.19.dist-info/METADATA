@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: moveread-core
+Version: 0.2.19
+Summary: Core Moveread Dataset
+Author-email: Marcel Claramunt <marcel@moveread.com>
+Project-URL: repo, https://github.com/moveread/core.git
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: pydantic
+Requires-Dist: haskellian
+Requires-Dist: robust-extraction2
+Requires-Dist: chess-pairings
+Requires-Dist: chess-notation
+Requires-Dist: python-kv
+Requires-Dist: scoresheet-models
+Requires-Dist: chess-utils
+Requires-Dist: sequence-edits
+Provides-Extra: cli
+Requires-Dist: ocr-dataset ; extra == 'cli'
+Requires-Dist: files-dataset ; extra == 'cli'
+Requires-Dist: typer ; extra == 'cli'
+Requires-Dist: fs-tools ; extra == 'cli'
+Requires-Dist: python-dotenv ; extra == 'cli'
+
+# Moveread Core Dataset
+
+### CLI
+
+#### Exporting
+
+**Important**
+- Exporting `boxes` will yield one box per PGN move.
+- To export the labeled boxes, use `core export ocr` instead 
+
+```bash
+core export pgn -v --glob 'path/to/core' > sans.txt
+core export labels -v --glob 'path/to/cores/*' > labels.txt
+core export boxes -vg 'path/**/*' --recursive -o path/to/files-dataset
+core export ocr -vgr '**' -o path/to/ocr-dataset
+```
+
+#### Nonlocal Core
+  
+```bash
+core --meta 'azure+cosmos://<CONN_STR>?db=games&container=games' --blobs 'azure+blob://...' export # [...]
+core --env export # [...] Loads CORE_META and CORE_BLOBS from .env file
+core -e export --prefix tournament/ export labels # exports from tournament only
+core -e export -p tournament/group/1 # exports from tournament/group/1 only
+```
+
+Or you can dump to local first:
+
+```bash
+core -e dump --prefix tournament -o local-tournament
+```
