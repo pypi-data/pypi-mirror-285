@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: ai-models-graphcast-gfs
+Version: 0.0.8
+Summary: Run graphcast ai weather models with capabilities for GFS and GDAS initial conditions and NetCDF output
+Home-page: https://github.com/jacob-radford/ai-models-graphcast-gfs
+Author: Jacob Radford
+Author-email: jacob.t.radford@gmail.com
+License: Apache License Version 2.0
+Keywords: tool
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: dm-tree
+Requires-Dist: dm-haiku ==0.0.10
+
+# ai-models-graphcast-gfs
+
+`ai-models-graphcast-gfs` is an extension of the [ai-models-graphcast](https://github.com/ecmwf-lab/ai-models-graphcast) package, which itself is a plugin to run Google Deepmind's [GraphCast](https://github.com/deepmind/graphcast) with [ai-models](https://github.com/ecmwf-lab/ai-models).
+
+GraphCast: Learning skillful medium-range global weather forecasting, arXiv preprint: 2212.12794, 2022. https://arxiv.org/abs/2212.12794
+
+GraphCast was created by Remi Lam, Alvaro Sanchez-Gonzalez, Matthew Willson, Peter Wirnsberger, Meire Fortunato, Ferran Alet, Suman Ravuri, Timo Ewalds, Zach Eaton-Rosen, Weihua Hu, Alexander Merose, Stephan Hoyer, George Holland, Oriol Vinyals, Jacklynn Stott, Alexander Pritzel, Shakir Mohamed and Peter Battaglia.
+
+The model weights are made available for use under the terms of the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0). You may obtain a copy of the License at: https://creativecommons.org/licenses/by-nc-sa/4.0/.
+
+## Installation
+
+To install the package, run:
+
+```bash
+pip install ai-models-graphcast-gfs
+```
+
+This will install the package and most of its dependencies.
+
+Then to install graphcast dependencies (and Jax on GPU):
+
+
+### Graphcast and Jax
+
+Graphcast depends on Jax, which needs special installation instructions for your specific hardware.
+
+Please see the [installation guide](https://github.com/google/jax#installation) to follow the correct instructions.
+
+We have prepared two `requirements.txt` you can use. A CPU and a GPU version:
+
+For the preferred GPU usage:
+```
+pip install -r requirements-gpu.txt -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+```
+
+For the slower CPU usage:
+```
+pip install -r requirements.txt
+```
