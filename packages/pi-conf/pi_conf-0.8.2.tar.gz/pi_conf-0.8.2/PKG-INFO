@@ -1,0 +1,76 @@
+Metadata-Version: 2.1
+Name: pi-conf
+Version: 0.8.2
+Summary: Easy configs for python projects
+License: MIT
+Author: parnell
+Author-email: 3028114+parnell@users.noreply.github.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: yaml
+Requires-Dist: platformdirs (>=3.0.0)
+Requires-Dist: toml (>=0.10.2,<0.11.0) ; python_full_version > "3.0.0" and python_version < "3.11"
+Description-Content-Type: text/markdown
+
+# P-Conf
+
+Easy use Configs for python projects. Allows loading the config files in the application directory (os specific). Once set the config can be used as a singleton across the project or pass around.
+
+## Locations for the config file
+The following are the default locations that will be searched
+*  ```~/.config/<appname>/config.(toml|json|ini|yaml)```
+* ```<system config directory>/<appname>/config.(toml|json|ini|yaml)```
+
+## Example code
+
+The example code uses the following as the example configuration file
+```toml
+# My config.toml file
+foo = 1
+[bar]
+a = 2
+```
+
+### Using inside of a single script
+```python
+from pi_conf import load_config
+cfg = load_config("ourappname")
+
+print(cfg.foo) # 1
+print(cfg.bar.a) # 2
+```
+
+
+### Using inside of applications
+The following is the preferred way of using the pi-conf module. 
+
+```python
+# __init__.py
+
+from pi_conf import load_config
+cfg = load_config("ourappname") ## Loads the config from the application <appname> directory
+
+```
+
+### Using the config in files
+Once it the config has been set you can use it from any file doing either of the following methods.
+* Option 1
+```python
+from ourappname import cfg ## Import cfg from what we set in __init__.py
+
+print(cfg.foo) # 1
+```
+
+* Option 2
+```python
+from pi_conf import load_config ## Just load it again
+cfg = load_config("ourappname")
+
+print(cfg.foo) # 1
+```
+
