@@ -1,0 +1,33 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.sdist]
+ignore-vcs = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/task_track"]
+
+[project]
+# caution: hatchling turns hyphens into underscores when looking for directories
+name="task-track"
+version = "0.0.11"
+authors = [
+  { name="Austin Richards", email="austinjrichards@outlook.com" },
+]
+description = "A dead simple cli time tracker"
+dependencies = ["tabulate"]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.scripts]
+track = "task_track.track:track_main"
+
+[project.urls]
+Homepage = "https://github.com/ostin-r/task-track"
+
