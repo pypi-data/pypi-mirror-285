@@ -1,0 +1,102 @@
+Metadata-Version: 2.1
+Name: olangfuse
+Version: 0.1.0
+Summary: A wrapper for Langfuse to manage Trace with full CRUD operations.
+Home-page: 
+Author: Trinh Do Duy Hung
+Author-email: trinhhungsss492@gmail.com
+License: MIT
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Open Langfuse
+Open Langfuse is your ultimate tool for seamless Trace management, offering comprehensive operations like Download, Create, Update, and the unique DELETE feature. Simply log in to Langfuse and experience hassle-free access without needing to revisit the website. Enjoy the ease and efficiency of this powerful library.
+
+## Usage
+To begin, ensure you log in to your Langfuse host at least once each time you start or restart your computer.
+
+Next, install the library by running the <b>setup.py</b> file. Use the following command:
+```bash
+pip install -r requirements.txt
+python setup.py install
+```
+
+When completed, you can use the library by importing it in your code:
+```python
+from olangfuse import OpenLangfuse
+
+open_langfuse = OpenLangfuse()
+
+
+def dowload_traces():
+    # Download traces from Langfuse in the last 24 hours
+    time_start = (datetime.now() - timedelta(days=1)).strftime("%d/%m/%Y")
+    time_end = datetime.now().strftime("%d/%m/%Y")
+    traces = open_langfuse.download_traces(
+        time_start=time_start,
+        time_end=time_end,
+    )
+    return traces
+
+def delete_traces():
+    open_langfuse.delete_traces(
+        trace_ids=[trace.id for trace in traces]
+        project_id=traces[0].projectId
+    )
+    print("Delete traces successfully")
+
+print(download_traces())
+delete_traces()
+```
+
+But before run code, you must setup environment variables:
+```bash
+export LANGFUSE_HOST="<YOUR_LANGFUSE_URL>"
+export LANGFUSE_PUBLIC_KEY="pk-lf-<YOUR_PUBLIC_KEY>"
+export LANGFUSE_SECRET_KEY="sk-lf-<YOUR_SECRET_KEY>"
+```
+
+Other, we also support you setup some optional environment variables:
+| Environment Variable | Description | Default Value |
+|----------------------|-------------|---------------|
+| LANGFUSE_FLUSH_AT | The maximum number of events to batch up before sending. | 150 |
+| LANGFUSE_THREADS | The number of threads to use for sending events. | 10 |
+| LANGFUSE_TIMEOUT | The timeout for sending events. | 10 |
+| LANGFUSE_MAX_RETRIES | The maximum number of retries to send events. | 3 |
+| LANGFUSE_FLUSH_INTERVAL | The maximum time to wait before sending a batch. | 0.5 |
+| LANGFUSE_VERIFY_SSL | Whether to verify the SSL certificate. | True |
+| COOKIE_AUTH | The cookie auth to login into Langfuse. | Auto find |
+
+## Support browser
+
+Due to we use 3rd party library to fetch cookie auth, so we only support some browser:
+
+| Browser | Support | Tested |
+|---------|---------|--------|
+| Chrome | ✅ | ✅ |
+| Firefox | ✅ | ✅ |
+
+## Support OS
+OS we support: In this version, we only support Ubuntu 20.04 LTS.
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
+## Contributing
+
+I really need your help to make this project better. Reverse engineering is hard and time-consuming work. So I really appreciate any help you can provide.
+If you would like to contribute to the project, please follow the following steps:
+1. Fork the repository
+2. Clone the project to your local machine
+3. Create a new branch
+4. Make your changes and create tests for those changes
+5. Run the tests and make sure they all pass
+6. Run pre-commit hooks
+7. Commit your changes and push to your branch
+8. Create a pull request
+
+## Contact
+If you have any questions, feel free to contact me at [email](mailto:hung.trinh@paradox.ai) or [slack](https://aiolivia.slack.com/team/U062J5DQ76U)
+
+Thank you for your interest in this project!
