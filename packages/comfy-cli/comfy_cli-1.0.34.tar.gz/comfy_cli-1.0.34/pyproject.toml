@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "comfy-cli"
+license = {file = "LICENSE"}
+version = "v1.0.34" # Will be filled in by the CI/CD pipeline. Check publish_package.py.
+requires-python = ">= 3.9"
+description = "A CLI tool for installing and using ComfyUI."
+readme = "README.md"
+keywords = ["comfyui", "stable diffusion"]
+
+maintainers = [
+  {name = "Yoland Yan", email = "yoland@drip.art"},
+  {name = "James Kwon", email = "hongilkwon316@gmail.com"},
+  {name = "Robin Huang", email = "robin@drip.art"},
+  {name = "Dr.Lt.Data", email = "dr.lt.data@gmail.com"}
+]
+
+dependencies = [
+    "typer>=0.9.0",
+    "GitPython",
+    "rich",
+    "requests",
+    "charset-normalizer>=3.0.0",
+    "pyyaml",
+    "typing-extensions>=4.7.0",
+    "mixpanel",
+    "questionary",
+    "psutil",
+    "tomlkit",
+    "pathspec",
+    "httpx",
+    "packaging",
+    "websocket-client"
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)"
+]
+
+[project.scripts]
+comfy = "comfy_cli.__main__:main"
+comfy-cli = "comfy_cli.__main__:main"
+comfycli = "comfy_cli.__main__:main"
+
+[project.urls]
+Repository = "https://github.com/drip-art/comfy-cli.git"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["comfy_cli*"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
