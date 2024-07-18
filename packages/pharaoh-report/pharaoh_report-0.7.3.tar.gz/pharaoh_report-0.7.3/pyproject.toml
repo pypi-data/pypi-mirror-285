@@ -1,0 +1,332 @@
+[build-system]
+# See https://pypi.org/project/hatchling/
+requires = ["hatchling", "hatch-vcs>=0.3"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "pharaoh-report"
+dynamic = ["version"]
+description = """Pharaoh is a Sphinx-based Python framework
+for generating reports in various formats by combining the
+power of configurable Jinja templates and Python scripts
+for asset generation."""
+readme.content-type = "text/markdown"
+readme.file = "README.md"
+authors = [{ name = "Johannes Loibl", email = "" }]
+license = { text = "MIT" }
+keywords = [
+    "reporting",
+    "sphinx",
+    "jinja",
+    "templating",
+]
+requires-python = ">=3.9.2"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Utilities",
+]
+urls.Documentation = "https://infineon.github.io/pharaoh-dev/"
+urls.Homepage = "https://infineon.github.io/pharaoh-dev/"
+urls."Release Notes" = "https://infineon.github.io/pharaoh-dev/changelog.html"
+urls.Source = "https://github.com/Infineon/pharaoh-dev"
+urls.Tracker = "https://github.com/Infineon/pharaoh-dev/issues"
+
+dependencies = [
+    "attrs",
+    "click", # CLI
+    "omegaconf", # yaml R/W
+    "natsort", # sorting paths naturally
+    "pyyaml!=5.3.0",
+    "pluggy",
+    "nbconvert", # used to programmatically execute asset notebooks
+    "mistletoe", # Markdown to HTML
+    # Sphinx, theme & extensions
+    "sphinx >=7.2.5, <8.0",
+    "sphinxcontrib-jquery",
+    "sphinx-design",
+    "sphinx-rtd-theme",
+    #    "sphinx-toolbox",
+    #    "sphinx-data-viewer",
+    # Jinja & extensions
+    "jinja2",
+    "jinja2-git",
+    "jinja2-ansible-filters",
+    "wrapt",
+]
+
+[project.optional-dependencies]
+bokeh = [
+    "bokeh>=3.0.0,<3.3.0; python_version>='3.9'",
+    "bokeh>=3.1.0,<3.3.0; python_version>='3.11'",
+    "selenium>=4.11",
+]
+holoviews = [
+    "holoviews",
+    "holoviews>=1.16; python_version>='3.11'",
+]
+matplotlib = ["matplotlib"]
+plotly = [
+    "plotly",
+    # Newer kaleido versions leads to deadlocks, see https://github.com/plotly/Kaleido/issues/110"
+    "kaleido==0.1.0.post1; platform_system=='Windows'",
+    "kaleido; platform_system=='Linux'",
+]
+jupyter = [
+    "jupyter",
+    "jupyter_contrib_nbextensions",
+]
+pandas = [
+    "pandas>=1.5", # reset_index(names=...)
+]
+pdf = [
+    "sphinxcontrib-svg2pdfconverter", # https://pypi.org/project/sphinxcontrib-svg2pdfconverter/
+]
+all-plotting = [
+    "pharaoh-report[pandas,bokeh,holoviews,matplotlib,plotly,jupyter]",
+]
+docs = [
+    "sphinx<8",
+    "sphinx-rtd-theme",
+    "sphinx-design",
+    "sphinxcontrib-jquery",
+    "sphinx-jinja",
+    "sphinx-copybutton",
+]
+dev = [
+    "pytest",
+    "pytest-sugar",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-timeout",
+    "pytest-xdist",
+    "pytest-randomly",
+    "mypy",
+    "pharaoh-report[all-plotting,docs]",
+]
+
+[project.scripts]
+pharaoh = "pharaoh.cli:cli"
+
+[tool.hatch]
+build.dev-mode-dirs = ["src"]
+build.targets.sdist.packages = ["src"]
+build.targets.wheel.packages = ["src/pharaoh"]
+build.hooks.vcs.version-file = "src/pharaoh/version.py"
+version.source = "vcs"
+
+# https://hatch.pypa.io/latest/config/environment/overview/
+[tool.hatch.envs.default]
+installer = "uv"
+python = "3.11"  # Specifies the Python version for the default development environment
+features = ["dev"]
+
+[tool.hatch.envs.default.env-vars]
+
+[tool.hatch.envs.default.scripts]
+# Runs all tests
+test = [
+    """python -c "from pathlib import Path;Path('.tmp').mkdir(parents=True, exist_ok=True)" """,
+    "pytest --basetemp=.tmp/pytest --timeout=120 -n={env:PYTEST_XDIST_AUTO_NUM_WORKERS:auto} {args}",
+]
+
+# Runs all tests including coverage and junit xml output
+cov = [
+    """python -c "from pathlib import Path;Path('.tmp').mkdir(parents=True, exist_ok=True)" """,
+    """pytest \
+        --basetemp=.tmp/pytest \
+        {args: \
+        --junitxml .tmp/junit.{env_name}.xml \
+        --cov \
+        --cov-context test \
+        --cov-config pyproject.toml \
+        --cov-report term-missing:skip-covered \
+        --cov-report html:.tmp/htmlcov \
+        --cov-report xml:.tmp/coverage.{env_name}.xml \
+        --no-cov-on-fail \
+        --timeout=120 \
+        -n={env:PYTEST_XDIST_AUTO_NUM_WORKERS:auto} \
+    }""",
+]
+
+# Installs the current package in editable mode.
+# This script may be used to quickly install missing entry points or dependencies
+# that are not tracked by Hatch.
+dev = [
+    "hatch build",
+    "{env:HATCH_UV} pip install -e .",
+]
+
+# Cleans files that are ignored by Git
+clean = [
+    "git clean -ffX .tmp",  # Temporary files from testing
+    "git clean -fX .coverage*",
+    "git clean -fX dist",  # Built documentation and distributions (wheels etc)
+    "git clean -fX src/*/version.py",
+]
+
+# Builds documentation with upcoming changelog and runs link checks
+docs = [
+    "hatch build",
+    "python docs/cli/generate_cli_command_docs.py",
+    "sphinx-build -E -W -b html docs dist/docs",
+    "- sphinx-build -b linkcheck docs dist/docs",
+]
+
+# Runs mypy
+type = "hatch run ci:mypy --install-types --non-interactive src {args}"
+
+# Runs ruff without auto-fixes
+style = "ruff check {args:.}"
+
+# Runs pre-commit (includes ruff with auto-fixes and other stuff) on all files
+fix = [
+    "pre-commit install",
+    "pre-commit run {args:--all-files}",
+]
+
+
+[tool.hatch.envs.all]
+dev-mode = false  # for matrix tests we want the packages to be installed non-editable
+
+# https://hatch.pypa.io/latest/config/environment/advanced/#matrix
+[[tool.hatch.envs.all.matrix]]
+python = ["3.9", "3.10", "3.11", "3.12"]
+
+# An environment for CI only to speed up env creation for certain jobs
+[tool.hatch.envs.ci]
+skip-install = true
+
+
+########
+# Ruff #
+########
+[tool.ruff]
+# https://docs.astral.sh/ruff/settings
+target-version = "py39"
+line-length = 120
+fix = false  # Allow autofix for all enabled rules (when `--fix`) is provided.
+show-fixes = true
+unsafe-fixes = true
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",  # bugbear
+    "C4",  # flake8-comprehensions
+    "DTZ",  # flake8-datetimez
+    "EM",  # flake8-errmsg
+    "FA",  # flake8-future-annotations
+    "PIE",  # flake8-pie
+    "PT",  # flake8-pytest-style
+    "RSE",  # flake8-raise
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "TID252",  # flake8-tidy-imports -> convert relative-imports (makes absolufiy-imports hook redundant)
+    "TCH",  # flake8-type-checking
+    "PLE",  # Pylint - errors
+    "PLW",  # Pylint - warnings
+    "PLC",  # Pylint - conventions
+    "RUF",  # Ruff-specific rules
+]
+ignore = [
+    "PLW2901",  # Pylint - warnings: redefined-loop-name
+    "E501", # https://docs.astral.sh/ruff/faq/#is-the-ruff-linter-compatible-with-black
+]
+exclude = [
+    "tests/templates/*"
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["pharaoh", "test"]
+required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"api.py" = ["F401"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+
+############
+# Coverage #
+############
+# https://coverage.readthedocs.io/en/latest/config.html#
+[tool.coverage.run]
+source_pkgs = ["pharaoh"]
+branch = true
+parallel = true
+relative_files = true
+
+[tool.coverage.paths]
+ifx_pharaoh = ["src/pharaoh", "*site-packages/pharaoh"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "pragma: nocover",
+    "def __repr__",
+    "def __str__",
+    "raise AssertionError",
+    "no cov",
+    "if __name__ == \"__main__\":",
+    "if TYPE_CHECKING:",
+]
+
+
+##########
+# PyTest #
+##########
+# https://docs.pytest.org/en/stable/reference/customize.html#pyproject-toml
+[tool.pytest.ini_options]
+# timeout = 30
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--tb=auto -ra --showlocals -vv"
+testpaths = [
+    "tests/unit",
+    "tests/integration",
+]
+
+
+########
+# MYPY #
+########
+# https://justincaustin.com/blog/mypy-tips-and-tricks/
+[tool.mypy]
+# disallow_any_generics = true
+# disallow_incomplete_defs = true
+# disallow_untyped_calls = true
+# disallow_untyped_decorators = true
+# disallow_untyped_defs = true
+follow_imports = "normal"
+ignore_missing_imports = true
+no_implicit_reexport = true
+show_error_codes = true
+show_error_context = true
+strict_equality = true
+strict_optional = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_ignores = true
+disable_error_code = [
+    "import-untyped",
+    "no-redef",
+    "union-attr",
+    "attr-defined",
+]
