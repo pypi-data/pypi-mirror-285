@@ -1,0 +1,118 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "lasagna-ai"
+dynamic = ["version"]
+description = 'Layered agents!'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["ai", "agent", "agents", "llm", "hierarchical", "layers", "layered"]
+authors = [
+  { name = "Ryan Henning", email = "ryan@rhobota.com" },
+]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: MacOS",
+  "Operating System :: Microsoft :: Windows",
+  "Operating System :: POSIX :: Linux",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = [
+  "svs",
+  "aiohttp[speedups]",
+  "python-dotenv",
+  "colorama",
+]
+
+[project.urls]
+Documentation = "https://github.com/Rhobota/lasagna-ai#readme"
+Issues = "https://github.com/Rhobota/lasagna-ai/issues"
+Source = "https://github.com/Rhobota/lasagna-ai"
+
+[project.optional-dependencies]
+openai = [
+  "openai>=1.34.0",
+]
+anthropic = [
+  "anthropic>=0.28.1",
+]
+dev = [
+  "mypy>=1.10.0",
+  "pytest>=8.1.1",
+  "pytest-asyncio>=0.23.6",
+]
+example-deps = [
+  "sympy",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lasagna"]
+
+[tool.hatch.version]
+path = "src/lasagna/__init__.py"
+
+[tool.hatch.envs.types]
+features = ["dev", "example-deps", "openai", "anthropic"]
+
+[[tool.hatch.envs.types.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/lasagna tests examples}"
+
+[tool.hatch.envs.hatch-test]
+features = ["dev", "openai", "anthropic"]
+
+[[tool.hatch.envs.hatch-test.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.coverage.run]
+source_pkgs = ["lasagna", "tests"]
+branch = true
+parallel = true
+omit = []
+
+[tool.coverage.paths]
+lasagna = ["src/lasagna", "*/lasagna-ai/src/lasagna"]
+tests = ["tests", "*/lasagna-ai/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.mypy]
+mypy_path = ["src"]
+implicit_reexport = false
+allow_redefinition = true
+strict_equality = true
+warn_return_any = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unreachable = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
