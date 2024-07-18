@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: myerson
+Version: 0.1.4
+Summary: A python package to calculate Myerson values from game theory and use them as explanations for graph neural networks.
+Author-email: "Samuel K. R. Homberg" <samuel.homberg@uni-muenster.de>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Dist: tqdm
+Requires-Dist: torch >= 2.0.1, < 3
+Requires-Dist: numpy >= 1.25, < 2
+Requires-Dist: torch_geometric >= 2.3.1, < 3
+Requires-Dist: sphinx_rtd_theme ; extra == "docs"
+Requires-Dist: sphinx ; extra == "docs"
+Requires-Dist: pytest ; extra == "test"
+Project-URL: Documentation, https://myerson.readthedocs.io/en/latest/
+Project-URL: Source, https://github.com/SamuelHomberg/myerson
+Provides-Extra: docs
+Provides-Extra: test
+
+![Myerson logo banner](docs/source/images/logo_banner.svg "Myerson")
+
+[![test](https://github.com/SamuelHomberg/myerson/actions/workflows/test.yml/badge.svg)](https://github.com/SamuelHomberg/myerson/actions/workflows/test.yml)
+[![Documentation Status](https://readthedocs.org/projects/myerson/badge/?version=latest)](https://myerson.readthedocs.io/en/latest/?badge=latest)
+
+# Calculate Myerson values and explain GNNs
+
+This package implements the Myerson solution concept from cooperative game theory. The Myerson values attribute every player of a game their fair contribution to the games payoff. Myerson values are related to Shapley values but the player cooperation is restricted by a graph.
+
+A graph neural network (GNN) can be treated as a coalition function for a game and the Myerson values can be used as feature attribution explanations to understand a model prediction. This package also implements Methods to explain PyG GNNs with Myerson values.
+
+Calculating the Myerson value scales exponentially with bigger graphs / more players. Therfore, Monte Carlo sampling techniques were implemented to approximate the Myerson values.
+
+## Installation
+Install the package with the following command:
+
+```bash
+pip install -i https://test.pypi.org/simple/ myerson
+```
+
+## Examples and Documentation
+Example uses can be found [here](https://myerson.readthedocs.io/en/latest/get_started.html#get-started). The full documentation can be found at https://myerson.readthedocs.io/.
+
+## Citation
+
+TBD.
