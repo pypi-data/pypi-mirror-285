@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!-- This file is part the pim-memos-module for Tryton from m-ds.de.
+ The COPYRIGHT file at the top level of
+ this repository contains the full copyright notices and license terms.-->
+<tryton>
+    <data>
+
+        <!-- usergroup for editors -->
+        <record model="res.group" id="group_note_edit">
+            <field name="name">PIM-Memos Editor</field>
+        </record>
+        <!-- administrator is member -->
+        <record model="res.user-res.group" id="user_admin_group_note_edit">
+            <field name="user" ref="res.user_admin"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+
+        <!-- table access - memo -->
+        <record model="ir.model.access" id="access_note-group_note_edit">
+            <field name="model" search="[('model', '=', 'pim_memos.note')]"/>
+            <field name="group" ref="group_note_edit"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <!-- rule access -->
+        <record model="ir.rule.group" id="rule_note_edit">
+            <field name="name">Edit Notes</field>
+            <field name="model" search="[('model', '=', 'pim_memos.note')]"/>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <!-- owner-only access -->
+        <record model="ir.rule" id="rule_note_edit_line1">
+            <field name="domain"
+                eval="[('create_uid', '=', Eval('user_id', -1))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rule_note_edit"/>
+        </record>
+        <record model="ir.rule.group-res.group" id="rule_note_edit-group_note_edit">
+            <field name="rule_group" ref="rule_note_edit"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+
+        <!-- report -->
+        <record model="ir.action-res.group" id="report_note_pdf-group_note_edit">
+            <field name="action" ref="report_note_pdf"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+        <record model="ir.action-res.group" id="report_note_html-group_note_edit">
+            <field name="action" ref="report_note_html"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+
+        <!-- table access - category -->
+        <record model="ir.model.access" id="access_category-group_note_edit">
+            <field name="model" search="[('model', '=', 'pim_memos.category')]"/>
+            <field name="group" ref="group_note_edit"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <!-- rule access -->
+        <record model="ir.rule.group" id="rule_category_edit">
+            <field name="model" search="[('model', '=', 'pim_memos.category')]"/>
+            <field name="name">Edit Categories</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <!-- owner-only access -->
+        <record model="ir.rule" id="rule_category_edit_line1">
+            <field name="domain"
+                eval="[('create_uid', '=', Eval('user_id', -1))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rule_category_edit"/>
+        </record>
+        <record model="ir.rule.group-res.group" id="rule_category_edit-group_note_edit">
+            <field name="rule_group" ref="rule_category_edit"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+
+        <!-- menu -->
+        <record model="ir.ui.menu-res.group" id="menu_note_tree-group_note_edit">
+            <field name="menu" ref="menu_note_tree"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+        <record model="ir.ui.menu-res.group" id="menu_note_list-group_note_edit">
+            <field name="menu" ref="menu_note_list"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+        <record model="ir.ui.menu-res.group" id="menu_category_tree2-group_note_edit">
+            <field name="menu" ref="menu_category_tree2"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+        <record model="ir.ui.menu-res.group" id="menu_category_list-group_note_edit">
+            <field name="menu" ref="menu_category_list"/>
+            <field name="group" ref="group_note_edit"/>
+        </record>
+
+    </data>
+</tryton>
