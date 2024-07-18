@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: mlcvzoo_base
+Version: 6.2.0
+Summary: MLCVZoo Base Package
+Author: Maximilian Otten, email =  <maximilian.otten@iml.fraunhofer.de>, Christian Hoppe, email =  <christian.hoppe@iml.fraunhofer.de>, Oliver Bredtmann, email =  <oliver.bredtmann@dbschenker.com>, Thilo Bauer, email =  <thilo.bauer@dbschenker.com>, Oliver Urbann, email =  <oliver.urbann@iml.fraunhofer.de>, Jan Basrawi, email =  <jan.basrawi@dbschenker.com>, Luise Weickhmann, email =  <luise.weickhmann@iml.fraunhofer.de>, Luca Kotulla, email =  <luca.kotulla@iml.fraunhofer.de>
+License: Open Logistics Foundation License 1.3
+Project-URL: homepage, https://git.openlogisticsfoundation.org/silicon-economy/base/ml-toolbox/mlcvzoo-base
+Project-URL: repository, https://git.openlogisticsfoundation.org/silicon-economy/base/ml-toolbox/mlcvzoo-base
+Project-URL: documentation, https://git.openlogisticsfoundation.org/silicon-economy/base/ml-toolbox/mlcvzoo-base/-/blob/main/documentation/index.adoc
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Requires-Python: <4.0,>=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: yaml-config-builder <9,>=8
+Requires-Dist: related-mltoolbox <2.0,>=1.0
+Requires-Dist: attrs >=20
+Requires-Dist: numpy !=1.19.52,<2,>=1.19.2
+Requires-Dist: opencv-python !=4.5.5.64,<4.9.0.0,>=4.5
+Requires-Dist: opencv-contrib-python !=4.5.5.64,<4.9.0.0,>=4.5
+Requires-Dist: dataclasses-json >=0.5
+Requires-Dist: tqdm >=4.61
+Requires-Dist: imageio >=2.9
+Requires-Dist: pillow >=8.2
+Requires-Dist: mlflow >=1.22
+Requires-Dist: terminaltables >=3.1
+Requires-Dist: tensorboardX >=2.5
+Requires-Dist: gitpython >=3
+Requires-Dist: shapely >=2
+Provides-Extra: dev
+Requires-Dist: mock >=4.0 ; extra == 'dev'
+Requires-Dist: pytest >=7.0 ; extra == 'dev'
+Requires-Dist: pytest-cov >=3.0.0 ; extra == 'dev'
+Requires-Dist: black >=22 ; extra == 'dev'
+Requires-Dist: mypy >=0.961 ; extra == 'dev'
+Requires-Dist: pylint >=2.9.6 ; extra == 'dev'
+Requires-Dist: isort <6.0,>=5.0 ; extra == 'dev'
+Requires-Dist: pytest-mock >=3.7 ; extra == 'dev'
+Requires-Dist: sphinx >=7.1.0 ; extra == 'dev'
+
+# MLCVZoo Base
+
+The MLCVZoo is an SDK for simplifying the usage of various (machine learning driven)
+computer vision algorithms. The package **mlcvzoo_base** provides the base modules
+that are defining the MLCVZoo API. Furthermore, it includes modules that allow to handle
+and process the data structures of the MLCVZoo, as well as providing modules for
+running evaluations / calculation of metrics.
+
+Further information about the MLCVZoo can be found [here](documentation).
+
+## Install
+`
+pip install mlcvzoo-base
+`
+
+## Technology stack
+
+- Python
+
+## Developer Documentation (WIP)
+A [Sphinx-based developer documentation](https://silicon-economy.pages.fraunhofer.de/base/ml-toolbox/mlcvzoo-base/index.html) is hosted via Gitlab Pages and accessibly for authorized SE Gitlab users.
