@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["malet", "malet.plot_utils"]
+package-dir = {""="src"}
+
+[project]
+name = "malet"
+version = "0.2.1"
+description = "Malet: a tool for machine learning experiment"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {file = "LICENSE"}
+keywords = ["machine learning", "experiment", "plot"]
+authors = [
+  {name = "Dongyeop Lee", email = "dylee23@postech.ac.kr"},
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    'absl-py==1.0.0',
+    'gitpython',
+    'pandas',
+    'matplotlib',
+    'ml-collections==0.1.0',
+    'numpy',
+    'rich',
+    'seaborn',
+]
+
+[project.scripts]
+malet-plot = "malet.plot:main"
+
+[project.urls]
+Repository = "https://github.com/edong6768/Malet.git"
