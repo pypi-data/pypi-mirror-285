@@ -1,0 +1,20 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        image: prostructura/gitlab-cli:latest
+        command: [
+            release-cli,
+            --server-url, $CI_SERVER_URL,
+            --job-token, $CI_JOB_TOKEN,
+            --project-id, $CI_PROJECT_ID,
+            create,
+            --name, "Release ${RELEASE_TAG:-}",
+            --tag-name, "${RELEASE_TAG:-}",
+            --description, "${RELEASE_DESCRIPTION:-}",
+            {% for asset in opts.assets %}
+            --assets-link, "{{ asset }}",
+            {% endfor %}
+            --ref, $CI_COMMIT_SHA
+        ]
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}

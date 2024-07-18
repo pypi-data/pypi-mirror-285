@@ -1,0 +1,4 @@
+    tags:
+    {%- for x in aux.ci.jobs.get(key,{}).get("tags",[]) %}
+    -   {{ x }}
+    {%- endfor %}

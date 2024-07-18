@@ -1,0 +1,5 @@
+{% macro include_docker_build_(aux, opts, set_args) %}{% include "docker-build.jinja2" %}{% endmacro %}
+{% macro include_docker_build(aux, opts, set_args=False) %}{{ include_docker_build_(aux, opts, set_args) | indent(8)}}{% endmacro %}
+{% macro include_platform(aux) %}{% include "platform.jinja2" | indent(8) %}{% endmacro %}
+{% macro include_pytest_command(aux, opts) %}{% include "pytest_command.jinja2" | indent(4) %}{% endmacro %}
+{% macro include_ansible_env(aux, opts) %}{% filter indent(width=8) %}{% include "ansible_env.jinja2" %}{% endfilter %}{% endmacro %}
