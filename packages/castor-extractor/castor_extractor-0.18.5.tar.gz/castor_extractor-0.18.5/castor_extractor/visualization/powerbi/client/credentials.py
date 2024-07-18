@@ -1,0 +1,28 @@
+from typing import List, Optional
+
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from .constants import Urls
+
+POWERBI_ENV_PREFIX = "CASTOR_POWERBI_"
+
+
+class PowerbiCredentials(BaseSettings):
+    """Class to handle PowerBI rest API permissions"""
+
+    model_config = SettingsConfigDict(
+        env_prefix=POWERBI_ENV_PREFIX,
+        extra="ignore",
+        populate_by_name=True,
+    )
+
+    client_id: str
+    tenant_id: str
+    secret: str = Field(repr=False)
+    scopes: List[str] = [Urls.DEFAULT_SCOPE]
+
+    @field_validator("scopes", mode="before")
+    @classmethod
+    def _check_scopes(cls, scopes: Optional[List[str]]) -> List[str]:
+        return scopes if scopes is not None else [Urls.DEFAULT_SCOPE]
