@@ -1,0 +1,6 @@
+{{ dataframe }}
+
+{% set let_line = 'let ' + table_id + ' = new DataTable("#' + table_id + '", {scrollY: "300px", scrollX: true});' %}
+<script defer type="text/javascript">
+    {{ let_line }}
+</script>
