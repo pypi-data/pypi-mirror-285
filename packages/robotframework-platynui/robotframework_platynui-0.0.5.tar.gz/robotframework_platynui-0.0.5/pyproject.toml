@@ -1,0 +1,265 @@
+[build-system]
+requires = ["hatchling", "hatch-build-scripts"]
+build-backend = "hatchling.build"
+
+[project]
+name = "robotframework-platynui"
+dynamic = ["version"]
+description = 'PlatynUI is a library for Robot Framework that enables easy and cross-platform desktop UI automation with a comprehensive set of keywords for interacting with desktop applications.'
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "Apache-2.0" }
+keywords = []
+authors = [{ name = "Daniel Biehl", email = "daniel.biehl@imbus.de" }]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "Framework :: Robot Framework :: Library",
+  "Programming Language :: C#",
+]
+dependencies = [
+  "typing-extensions",
+  "robotframework-pythonlibcore>=4.4.0",
+  "robotframework-assertion-engine>=3.0.0",
+  "pythonnet>=3.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/imbus/robotframework-platynui#readme"
+Issues = "https://github.com/imbus/robotframework-platynui/issues"
+Source = "https://github.com/imbus/robotframework-platynui"
+
+[project.scripts]
+"PlatynUI.UiAutomation.Spy" = "PlatynUI.technology.uiautomation.spy.__main__:main"
+
+[tool.hatch.version]
+path = "src/PlatynUI/__about__.py"
+
+[tool.hatch.build]
+dev-mode-dirs = ["src"]
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/PlatynUI"]
+sources = ["src"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["src/PlatynUI/technology/uiautomation/runtime"]
+
+
+[[tool.hatch.build.hooks.build-scripts.scripts]]
+commands = ["hatch run clean-runtime", "hatch run build-runtime"]
+artifacts = {}
+
+[tool.hatch.envs.default]
+installer = "uv"
+dependencies = [
+  "pytest",
+  "pytest-mock",
+  "pytest-rerunfailures",
+  "pytest-xdist",
+  "pytest-html",
+  "pytest-cov",
+  "mypy",
+  "ruff",
+  "black",
+  "GitPython",
+  "semantic-version",
+  "robotremoteserver",
+  "robotframework-tidy",
+  "robotframework-robocop",
+]
+# features = ["all"]
+# pre-install-commands = ["install-packages"]
+
+[tool.hatch.envs.default.scripts]
+build-runtime-netfx = "dotnet publish -c release -f net481 -p:DebugSymbols=false -P:DebugType=None -o src/PlatynUI/technology/uiautomation/runtime/netfx ./src/PlatynUI.Technology.UiAutomation.Spy"
+build-runtime-coreclr = "dotnet publish -c release -f net8.0-windows -p:DebugSymbols=false -P:DebugType=None -o src/PlatynUI/technology/uiautomation/runtime/coreclr ./src/PlatynUI.Technology.UiAutomation.Spy"
+build-runtime = ["build-runtime-netfx", "build-runtime-coreclr"]
+
+# clean-runtime = "dotnet clean -c release -f net8.0-windows -o src/PlatynUI/technology/uiautomation/runtime ./src/PlatynUI.Technology.UiAutomation.Spy"
+clean-runtime = "python scripts/rm.py src/PlatynUI/technology/uiautomation/runtime"
+
+[tool.hatch.envs.types]
+extra-dependencies = ["mypy>=1.0.0"]
+[tool.hatch.envs.types.scripts]
+check = "mypy --install-types --non-interactive {args:src/PlatynUI tests}"
+
+[tool.coverage.run]
+source_pkgs = ["robotframework_platynui", "tests"]
+branch = true
+parallel = true
+omit = ["src/PlatynUI/__about__.py"]
+
+[tool.coverage.paths]
+robotframework_platynui = [
+  "src/robotframework_platynui",
+  "*/robotframework-platynui/src/PlatynUI",
+]
+tests = ["tests", "*/robotframework-platynui/tests"]
+
+[tool.coverage.report]
+exclude_lines = ["no cov", "if __name__ == .__main__.:", "if TYPE_CHECKING:"]
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+extend-exclude = ["typings"]
+
+[tool.ruff.lint]
+ignore = ["E741", "N805", "N999", "RUF012", "RUF006", "ISC001"]
+select = [
+  "E",
+  "F",
+  "W",
+  "I",
+  "N",
+  #"UP",
+  "YTT",
+  #"ANN",
+  #"BLE",
+  #"B",
+  #"A"
+  #"COM"
+  # "C4", # TODO enable this
+  "DTZ",
+  "T10",
+  # "EM",
+  "ISC",
+  "G",
+  #"INP",
+  "PIE",
+  # "T20",
+  "PT",
+  "Q",
+  "RET",
+  # "SIM", # TODO enable this
+  # "TID",
+  # "TCH",
+  # "ARG",
+  # "PTH", # TODO enable this
+  # "SLF", #  TODO enable this
+  # "ERA", # TODO enable this
+  "RSE",
+  # "PL",
+  #"TRY",
+  "RUF",
+  # "TID"
+]
+
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]
+
+[tool.ruff.lint.isort]
+detect-same-package = true
+# known-first-party = ["robotcode"]
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+mark-parentheses = false
+
+# black
+
+[tool.black]
+line-length = 120
+target-version = ['py38']
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+#addopts = "-ra -vv -rf"
+addopts = "-ra -rf --tb=short -vv"
+filterwarnings = "ignore:.*Using or importing the ABCs from 'collections' instead of from 'collections.abc'.*:DeprecationWarning"
+testpaths = ["tests"]
+junit_suite_name = "robotcode"
+#console_output_style = "classic"
+# log_cli = true
+# log_cli_level = 4
+# log_cli_format = "%(levelname)s %(name)s: %(message)s"
+faulthandler_timeout = 240
+
+
+# mypy
+
+[tool.mypy]
+python_version = "3.8"
+strict = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unreachable = true
+implicit_reexport = false
+implicit_optional = true
+disallow_untyped_decorators = false
+disallow_subclassing_any = false
+explicit_package_bases = true
+namespace_packages = true
+exclude = [
+  '^\.mypy_cache/',
+  '^\.venv/',
+  '^\.hatch/',
+  "^build/",
+  "^dist/",
+  "^out/",
+  "^playground/",
+  "^scripts/",
+  "^typings/",
+]
+mypy_path = ["src", "typings"]
+disable_error_code = ["type-abstract"]
+
+# allow_untyped_calls = true
+
+[[tool.mypy.overrides]]
+module = [
+  "robot.*",
+  "clr",
+  "System.*",
+  "RobotFramework.*",
+  "robotlibcore.*",
+  "pythonnet.*",
+]
+ignore_missing_imports = true
+no_implicit_reexport = false
+
+[[tool.mypy.overrides]]
+module = [
+  "Sytem.*",
+  "Microsoft.*",
+  "PlatynUI.Technology.UiAutomation.*",
+  "typings.*",
+]
+ignore_errors = true
+
+# pyright
+[tool.pyright]
+exclude = ["**/.hatch", "**/node_modules", "**/__pycache__", "bundled/libs"]
+typeCheckingMode = "off"
+pythonVersion = "3.8"
+stubPath = "typings"
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+bump_message = "chore(release): bump version $current_version → $new_version"
+tag_format = "v$version"
+version_scheme = "semver"
+version_provider = "scm"
+update_changelog_on_bump = false
+# major_version_zero = true
+changelog_incremental = true
+changelog_merge_prerelease = true
+gpg_sign = true
+annotated_tag = true
+pre_bump_hooks = [
+  # "hatch env remove lint",
+  "hatch run build:update-git-versions",
+  "hatch run build:update-changelog",
+  "git add .",
+]
