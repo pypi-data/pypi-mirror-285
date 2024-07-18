@@ -1,0 +1,193 @@
+import time
+import sys
+import os
+from tabulate import tabulate
+
+class debugtime():
+    def __init__(self, initial_message=None, verbose=False, precision=3):
+        self.precision = precision
+        self.verbose = verbose
+        self.clear()
+        self.data = []
+        if initial_message is None:
+            initial_message = f'start debugtime {time.ctime()}'
+        self.add(initial_message)
+
+    def clear(self):
+        self.data = []
+
+    def add(self, msg=''):
+        self.data.append((msg, len(sys.modules), time.perf_counter()))
+        if self.verbose:
+            print(msg)
+
+    def get_table(self, precision=None, with_mod_count=True, tablefmt="outline"):
+        if precision is None:
+            precision = self.precision
+        prec = self.precision
+        m0, n0, t0 = self.data[0]
+        tprev= t0
+        header = ['Message', '# Modules', 'Delta Time', 'Total Time']
+        if with_mod_count:
+            table = [[m0, n0, 0, 0]]
+        else:
+            table = [[m0, 0, 0]]
+            header = ['Message', 'Delta Time', 'Total Time']
+
+        for m, n, t in self.data[1:]:
+            tt = f"{(t-t0):.{prec}f}"
+            dt = f"{(t-tprev):.{prec}f}"
+            if with_mod_count:
+                table.append([m, n, dt, tt])
+            else:
+                table.append([m, dt, tt])
+            tprev = t
+        ffmt = f".{prec}f"
+        return tabulate(table, header, floatfmt=ffmt, tablefmt=tablefmt)
+
+    def show(self, precision=None, with_mod_count=True, tablefmt="outline"):
+        print(self.get_table(precision=precision,
+                             with_mod_count=with_mod_count, tablefmt=tablefmt))
+
+
+dt = debugtime(initial_message='foo' , verbose=True)
+import locale
+dt.add('imported locale')
+import wx
+dt.add('imported wx')
+import wxutils, wxmplot
+dt.add('imported wxmplot')
+
+from wx.adv import AboutBox, AboutDialogInfo, SplashScreen
+import wx.adv
+from wx.lib import *
+dt.add('imported wx.adv')
+from larch.site_config import icondir
+dt.add('imported larch.site_config')
+
+LARIX_TITLE = "Larix: XAS Visualization and Analysis"
+ICON_FILE = 'onecone.ico'
+
+# class LarchWxApp(wx.App):
+#     """wrapper for wx apps, with the following arguments and features:
+#
+#     _larch (None or Interpreter):   instance of Larch Interpreter [None]
+#     version_info (None or string):  larch version to check for updates [None]
+#     with_inspect (bool):            use wx inspection tool for debugging [False]
+#     with_c_locale (bool):           whether to force C locale [True]
+#
+#     """
+#     def __init__(self, _larch=None, version_info=None, with_inspect=False,
+#                  with_c_locale=True, **kws):
+#         self._larch = _larch
+#         self.version_info = version_info
+#         self.with_inspect = with_inspect
+#         self.with_c_locale = with_c_locale
+#         wx.App.__init__(self, **kws)
+#
+#     def OnInit(self):
+#         self.createApp()
+#         if self.with_inspect:
+#             self.ShowInspectionTool()
+#         return True
+#
+#     def createApp(self):
+#         return True
+#
+#     def InitLocale(self):
+#         """over-ride wxPython default initial locale"""
+#         if self.with_c_locale:
+#             self._initial_locale = None
+#             locale.setlocale(locale.LC_ALL, 'C')
+#         else:
+#             lang, enc = locale.getdefaultlocale()
+#             self._initial_locale = wx.Locale(lang, lang[:2], lang)
+#             locale.setlocale(locale.LC_ALL, lang)
+#
+#     def run(self):
+#         self.MainLoop()
+
+class LarixApp(wx.App):
+    def __init__(self, _larch=None, filename=None, check_version=True,
+                 mode='xas', with_c_locale=True, with_wx_inspect=False, **kws):
+        self._larch = _larch
+        self.filename = filename
+        self.mode = mode
+        self.with_c_locale = with_c_locale
+        self.with_wx_inspect = with_wx_inspect
+        self.check_version = check_version
+        wx.App.__init__(self,**kws)
+
+    def OnInit(self):
+        LarixSplashScreen(filename=self.filename,
+                          check_version=self.check_version,
+                          mode=self.mode,
+                          with_wx_inspect=self.with_wx_inspect,
+                          )# .Show()
+        return True
+
+    def createApp(self):
+        return True
+
+    def InitLocale(self):
+        """over-ride wxPython default initial locale"""
+        if self.with_c_locale:
+            self._initial_locale = None
+            locale.setlocale(locale.LC_ALL, 'C')
+        else:
+            lang, enc = locale.getdefaultlocale()
+            self._initial_locale = wx.Locale(lang, lang[:2], lang)
+            locale.setlocale(locale.LC_ALL, lang)
+
+
+class LarixSplashScreen(SplashScreen):
+    def __init__(self, **kws):
+        self.kws = kws
+        bmp = wx.Image(os.path.join(icondir, ICON_FILE)).ConvertToBitmap()
+        SplashScreen.__init__(self, bmp,
+                              wx.adv.SPLASH_CENTRE_ON_SCREEN|wx.adv.SPLASH_TIMEOUT,
+                              8000, None, -1)
+        dt.add("SPLASH")
+        self.Show()
+        self.Raise()
+        wx.Yield()
+        self.fc = wx.CallAfter(self.ShowMain)
+        dt.add("SPLASH Init Done")
+
+    def ShowMain(self):
+        dt.add("SHOW MAIN ")
+        from larch.wxxas.xasgui import LarixFrame
+        dt.add("imported LFrame ")
+
+        self.frame = LarixFrame(**self.kws)
+        dt.add("created LFrame ")
+        dt.show()
+        wx.GetApp().SetTopWindow(self.frame)
+        if self.kws.get('wx_debug', False):
+           wx.GetApp().ShowInspectionTool()
+        for k in sys.modules:
+            if k.startswith('wx.') and 'lib' in k or 'adv' in k:
+                print(k)
+        return True
+
+
+def larix(**kws):
+    LarixApp(**kws)
+
+# if __name__ == "__main__":
+#     import argparse
+#     parser = argparse.ArgumentParser(description=LARIX_TITLE)
+#     parser.add_argument(
+#         '-f', '--filename',
+#         dest='filename',
+#         help='data file to load')
+#     parser.add_argument(
+#         '-m', '--mode',
+#         dest='mode',
+#         help='mode to start larix')
+#     parser.add_argument(
+#         '-w', '--wx_debug',
+#         dest='wx_debug',
+#         help='wx debugging mode')
+#     args = parser.parse_args()
+#     LarixApp(**vars(args)).MainLoop()

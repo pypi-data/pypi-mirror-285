@@ -1,0 +1,62 @@
+import wx
+from larch.site_config import icondir
+class LarixApp(LarchWxApp):
+    def __init__(self, filename=None, check_version=True, mode='xas',
+                 wx_debug=False, **kws):
+        self.filename = filename
+        self.mode = mode
+        self.wx_debug = wx_debug
+        self.check_version = check_version
+        LarchWxApp.__init__(self,**kws)
+
+    def OnInit(self):
+        splash = LarixSplashScreen(filename=self.filename,
+                                   check_version=self.check_version,
+                                   mode=self.mode, wx_debug=self.wx_debug)
+        splash.Show()
+        return True
+
+class LarixSplashScreen(SplashScreen):
+    def __init__(self, **kws):
+        self.kws = kws
+        bmp = wx.Image(os.path.join(icondir, ICON_FILE)).ConvertToBitmap()
+        SplashScreen.__init__(self, bmp,
+                              wx.adv.SPLASH_CENTRE_ON_SCREEN|wx.adv.SPLASH_TIMEOUT,
+                              3000, None, -1)
+        self.Bind(wx.EVT_CLOSE, self.OnClose)
+        self.fc = wx.CallAfter(self.ShowMain)
+
+    def OnClose(self, evt):
+        # Make sure the default handler runs too so this window gets
+        # destroyed
+        evt.Skip()
+        self.Hide()
+
+    def ShowMain(self):
+        self.frame = LarixFrame(**self.kws)
+        wx.GetApp().SetTopWindow(self.frame)
+        if self.kws.get('wx_debug', False):
+            wx.GetApp().ShowInspectionTool()
+        return True
+
+
+def larix(**kws):
+    LarixApp(**kws)
+
+if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description=LARIX_TITLE)
+    parser.add_argument(
+        '-f', '--filename',
+        dest='filename',
+        help='data file to load')
+    parser.add_argument(
+        '-m', '--mode',
+        dest='mode',
+        help='mode to start larix')
+    parser.add_argument(
+        '-w', '--wx_debug',
+        dest='wx_debug',
+        help='wx debugging mode')
+    args = parser.parse_args()
+    LarixApp(**vars(args)).MainLoop()
