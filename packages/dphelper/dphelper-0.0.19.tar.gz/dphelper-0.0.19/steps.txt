@@ -1,0 +1,15 @@
+# prepare build utils
+python -m pip install --upgrade build
+python -m pip install --upgrade twine
+
+# build
+python -m build
+
+
+# for testing. upload to test repository
+python -m twine upload --repository testpypi dist/*
+# For the username, use __token__. For the password, use the token value, including the pypi- prefix
+# check url: https://test.pypi.org/project/dphelper
+
+# upload to real pypi
+twine upload dist/*

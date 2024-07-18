@@ -1,0 +1,24 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dphelper"
+version = "0.0.19"
+authors = [
+  { name="Egidijus Gylys", email="EgidijusGylys1@gmail.com" },
+  { name="Vilius Visockas", email="vilius.visockas@gmail.com" },
+  { name="Žygimantas Remeika", email="Zygimantas.Remeika@gmail.com"}
+]
+description = "Handle common scraping problems, help linking data platform entities"
+readme = "readme.md"
+requires-python = ">=3.7"
+dependencies = [
+    "requests",
+    "pydantic",
+    "fake_headers"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
