@@ -1,0 +1,24 @@
+# poetry self add poetry-plugin-export  ## in case is not installed
+# poetry config warnings.export false  ## following last line
+# poetry update
+# poetry export --without-hashes --format=requirements.txt > requirements.txt 
+# twine upload -r pypi dist/*
+
+[tool.poetry]
+name = "sstc-core"
+version = "0.1.3"
+description = ""
+authors = ["Jobelund <124563223+jobelund@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{include = "sstc_core", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mkdocs = "^1.5.3"
+pytest = "^7.4.3"
+pyyaml = "^6.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
