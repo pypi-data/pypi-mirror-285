@@ -1,0 +1,18 @@
+# if sql query returns >0 results, fail_msg will be printed 
+rule_name, fail_msg, rule_sql
+prior_notice_duration_min required for booking_type = 1, prior_notice_duration_min required for Up to same-day booking with advance notice (booking_type =1), SELECT * from booking_rules where booking_type = 1 AND prior_notice_duration_min is NULL
+prior_notice_last_day required for booking_type = 2, prior_notice_duration_min required for Up to prior day(s) booking (booking_type =2), SELECT * from booking_rules where booking_type = 2 AND prior_notice_last_day is NULL
+arrival_time cond forb, arrival_time forbidden when stop_times.start_pickup_drop_off_window or stop_times.end_pickup_drop_off_window are defined, SELECT * from stop_times where arrival_time is NOT NULL AND (start_pickup_drop_off_window IS NOT NULL OR end_pickup_drop_off_window IS NOT NULL)
+departure_time cond forb, departure_time forbidden when stop_times.start_pickup_drop_off_window or stop_times.end_pickup_drop_off_window are defined, SELECT * from stop_times where departure_time is NOT NULL AND (start_pickup_drop_off_window IS NOT NULL OR end_pickup_drop_off_window IS NOT NULL)
+prior_notice_duration_min cond req, prior_notice_duration_min required for booking_type = 1, SELECT * from booking_rules where prior_notice_duration_min IS NULL and booking_type = 1
+prior_notice_duration_min cond forb, prior_notice_duration_min forbidden unless booking_type = 1, SELECT * from booking_rules where prior_notice_duration_min IS NOT NULL and booking_type != 1
+prior_notice_duration_max cond forb, prior_notice_duration_max forbidden unless booking_type = 0 and 2, "SELECT * from booking_rules where prior_notice_duration_max IS NOT NULL and booking_type IN (0,2)"
+prior_notice_last_day cond req, prior_notice_last_day required for booking_type = 2, SELECT * from booking_rules where prior_notice_last_day IS NULL and booking_type = 2
+prior_notice_last_day cond forb, prior_notice_last_day forbidden unless booking_type = 2, SELECT * from booking_rules where prior_notice_last_day IS NOT NULL and booking_type != 2
+prior_notice_last_time cond req, prior_notice_last_time required if prior_notice_last_day defined, SELECT * from booking_rules where prior_notice_last_time IS NULL and prior_notice_last_day IS NOT NULL
+prior_notice_last_time cond forb, prior_notice_last_time forbidden if prior_notice_last_day is not defined, SELECT * from booking_rules where prior_notice_last_time IS NOT NULL and prior_notice_last_day IS NULL
+prior_notice_start_day cond forb-bt0, prior_notice_start_day forbidden for booking_type = 0, SELECT * from booking_rules where prior_notice_start_day IS NOT NULL and booking_type = 0
+prior_notice_start_day cond forb-bt1, prior_notice_start_day forbidden for booking_type = 1 if prior_notice_duration_max is defined, SELECT * from booking_rules where prior_notice_last_day IS NOT NULL and booking_type = 1 AND prior_notice_duration_max IS NOT NULL
+prior_notice_start_time cond req, prior_notice_start_time required if prior_notice_start_day defined, SELECT * from booking_rules where prior_notice_start_time IS NULL and prior_notice_start_day IS NOT NULL
+prior_notice_start_time cond forb, prior_notice_start_time forbidden if prior_notice_start_day is not defined, SELECT * from booking_rules where prior_notice_start_time IS NOT NULL and prior_notice_start_day IS NULL
+prior_notice_service_id cond forb, prior_notice_service_id forbidden if booking_type is not 2, SELECT * from booking_rules WHERE prior_notice_service_id is NOT NULL and booking_type !=2

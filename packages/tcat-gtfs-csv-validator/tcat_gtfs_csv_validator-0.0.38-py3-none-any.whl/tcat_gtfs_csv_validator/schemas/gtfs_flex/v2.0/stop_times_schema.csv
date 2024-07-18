@@ -1,0 +1,19 @@
+# this file documents the stop_times.txt of file schema of the 
+# gtfs_flex v2 spec
+# this file is used as input to the gtfs_csv_validator
+# FieldName, Type, Required (from GTFS spec)
+FieldName, Type, Required, sqliteType
+stop_id, ID, Required, "text not null unique"
+stop_sequence, Non-negative Integer, Required, "int not null check(stop_sequence>=0)"
+arrival_time, Time, Conditionally Required, "text"
+departure_time, Time, Conditionally Required, "text"
+start_pickup_drop_off_window, Time, Conditionally Required, "text"
+end_pickup_drop_off_window, Time, Conditionally Required, "text"
+pickup_type, Enum, Conditionally Forbidden, "int check(pickup_type IN (0,1,2,3))"
+drop_off_type, Enum, Conditionally Forbidden, "int check(drop_off_type IN (0,1,2,3))"
+mean_duration_factor, Float, Conditionally Forbidden, "real"
+mean_duration_offset, Float, Conditionally Forbidden, "real"
+safe_duration_factor, Float, Conditionally Forbidden, "real"
+safe_duration_offset, Float, Conditionally Forbidden, "real"
+pickup_booking_rule_id, ID, Optional, "text"
+drop_off_booking_rule_id, ID, Optional, "text"

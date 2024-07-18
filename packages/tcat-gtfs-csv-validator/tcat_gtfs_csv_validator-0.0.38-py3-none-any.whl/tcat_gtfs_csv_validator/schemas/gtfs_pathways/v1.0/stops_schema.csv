@@ -1,0 +1,32 @@
+# this file documents the stops.txt of file schema of the gtfs_pathways v1 spec
+# this file is used as input to the gtfs_csv_validator
+# FieldName, Type, Required (from GTFS spec)
+FieldName, Type, Required, sqliteType
+stop_id, ID, Required, "text not null unique"
+stop_code, Text, Optional, "text"
+stop_name, Text, Optional, "text"
+stop_desc, Text, Optional, "text"
+stop_lat, Latitude, Optional, "real check(stop_lat >= -90 AND stop_lat <=90)"
+stop_lon, Longitude, Optional, "real check(stop_lat >= -180 AND stop_lat <=180)"
+zone_id, ID, Optional, "text"
+stop_url, URL, Optional, "text"
+location_type, Enum, Optional, "int check(location_type IN (0,1,2,3,4))"
+parent_station, ID, Optional, "text"
+stop_timezone, Timezone, Optional, "text"
+wheelchair_boarding, Enum, Optional, "int check(wheelchair_boarding IN (0,1,2))"
+level_id, ID, Optional, "text"
+platform_code, Text, Optional, "text"
+
+# TODO - zone_id is not null text, but optional, left as text
+
+# stop_name is conditionally required, put that check in rules
+# required for locations which are tuype 0, 1, 2 optional for 3, 4
+
+#stop_lat is required for 0, 1, 2 optional for 3, 4
+
+# parent_station is conditionally required - required for 2, 3, 4 optional for 0, 
+# forbidden for 1
+
+# put all fks in rules
+
+# in rules, check that timezone is a valid timezone string

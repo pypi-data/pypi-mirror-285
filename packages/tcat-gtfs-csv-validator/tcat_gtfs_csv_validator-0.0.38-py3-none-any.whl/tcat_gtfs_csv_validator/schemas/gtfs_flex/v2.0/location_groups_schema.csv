@@ -1,0 +1,7 @@
+# this file documents the location_groups file schema of the gtfs_flex v2 spec
+# this file is used as input to the gtfs_csv_validator
+# FieldName, Type, Required (from GTFS spec)
+FieldName, Type, Required, sqliteType
+location_group_id, ID, Required, "text not null"
+location_id, ID, Optional, "text"
+level_name, Text, Optional, "text"
