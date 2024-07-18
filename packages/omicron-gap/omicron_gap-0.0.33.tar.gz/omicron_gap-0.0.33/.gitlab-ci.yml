@@ -1,0 +1,111 @@
+include:
+  - project: computing/gitlab-ci-templates
+    file:
+      - python.yml
+
+stages:
+  - build
+  - deploy
+  - lint
+  - test
+  - docs
+
+
+
+
+# -- lint -------------------
+#
+# These jobs check the code
+# for quality issues
+#
+
+.lint:
+  stage: lint
+  image: igwn/base:conda
+
+flake8:
+  extends:
+    # https://computing.docs.ligo.org/gitlab-ci-templates/python/#.python:flake8
+    - build
+    - .lint
+  needs: []
+  script:
+    - echo "Linting code... This will take about 10 seconds."
+    - conda install flake8
+    - flake8
+
+# -- build ------------------
+build:
+  stage: build
+  image: igwn/base:conda
+
+
+  script:
+    - conda install c-compiler cxx-compiler m2crypto pykerberos flake8
+    - mamba install  python-ldas-tools-framecpp ldas-tools-framecpp
+    - python -m pip install .
+
+# -- deploy -----------------
+
+pages:
+  stage: test
+  script:
+    - mkdir -p public
+    - cp -vR docs/build/html/* public/
+
+  dependencies:
+    - docs
+  artifacts:
+    paths:
+      - public
+
+# testing
+test:
+  image: igwn/base:conda
+
+  script:
+    - conda install pytest
+    - conda install m2crypto pykerberos c-compiler cxx-compiler flake8
+    - mamba install  python-ldas-tools-framecpp ldas-tools-framecpp
+
+    - python -m pip install .
+    # show us what variables are available
+    - printenv
+    # make sure all programs can at least run
+    - omicron-gaps --help >/dev/null
+    - omicron-batch-merge-dir  --help >/dev/null
+    - omicron-channel-check  --help >/dev/null
+    - omicron-compare-dirs  --help >/dev/null
+    - omicron-subdag-create  --help >/dev/null
+    - omicron-find-gaps  --help >/dev/null
+    - omicron-gaps  --help >/dev/null
+    - omicron-gap-analysis  --help >/dev/null
+    - omicron-gap-plot-animator  --help >/dev/null
+    - omicron-logfile-backup  --help >/dev/null
+    - omicron-merge-days  --help >/dev/null
+    - omicron-metric-day-merge  --help >/dev/null
+    - omicron-plot-gaps  --help >/dev/null
+    - omicron-segfile-print  --help >/dev/null
+
+# -- docs -------------------
+#
+# These jobs run the sphinx
+# documentation build
+#
+
+docs:
+  stage: deploy
+  image: areeda/sphinx_latex
+  extends:
+    - build
+  script:
+#    - conda install make texlive-core
+    - python -m pip install sphinx sphinx-rtd-theme sphinx-tabs sphinxcontrib-programoutput2 numpydoc
+    - mamba install  python-ldas-tools-framecpp ldas-tools-framecpp  m2crypto pykerberos
+    - pip install .
+    - pushd docs
+    - make html
+    - popd
+  artifacts:
+    paths:
+      - docs/build/html
