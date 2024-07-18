@@ -1,0 +1,22 @@
+Metadata-Version: 2.1
+Name: tracelynx-cli
+Version: 0.1.16
+Summary: The TraceLynx CLI tool for processing the xml generated in the test execution to generate the xml for the predicted links
+Author-email: TraceLynx <axel.reichwein@koneksys.com>
+Maintainer-email: TraceLynx <axel.reichwein@koneksys.com>
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: click
+Requires-Dist: httpx
+
+
+xml_report library
+
+# Usage
+
+To use the library, you can create a script or run it directly from the command line:
+
+python xml_report/xml_processor.py jest_test_suite/reports/ jest_test_suite/link_prediction_example.json a.xml
+
+This setup provides a basic structure for processing multiple XML files and creating a new XML file. The logic for creating and merging the XML content will be added in the process_xml_files function.
