@@ -1,0 +1,156 @@
+[project]
+name = "xdsl"
+description = "xDSL"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT License" }
+authors = [{ name = "Mathieu Fehr", email = "mathieu.fehr@ed.ac.uk" }]
+classifiers = ["Programming Language :: Python :: 3"]
+dependencies = [
+    "immutabledict<4.2.1",
+    "typing-extensions>=4.7,<4.13",
+    "ordered-set==4.1.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "pip<25.0",
+    # Update precommit version when black updates
+    "black[jupyter]==24.4.2",
+    "toml<0.11",
+    "pytest-cov",
+    "coverage<8.0.0",
+    "ipykernel",
+    "pytest<8.3",
+    "nbval<0.12",
+    "filecheck==1.0.0",
+    "lit<19.0.0",
+    "marimo==0.7.5",
+    "pre-commit==3.7.1",
+    "ruff==0.5.2",
+    "asv<0.7",
+    "isort==5.13.2",
+    "nbconvert>=7.7.2,<8.0.0",
+    "textual-dev==1.5.1",
+    "pytest-asyncio==0.23.7",
+    "pyright==1.1.345",
+]
+gui = ["textual==0.72.0", "pyclip==0.7"]
+onnx = ["onnx==1.16.1"]
+riscv = ["riscemu==2.2.7"]
+wgpu = ["wgpu==0.16.0"]
+
+[project.urls]
+Homepage = "https://xdsl.dev/"
+"Source Code" = "https://github.com/xdslproject/xdsl"
+"Issue Tracker" = "https://github.com/xdslproject/xdsl/issues"
+
+[project.scripts]
+xdsl-opt = "xdsl.tools.xdsl_opt:main"
+irdl-to-pyrdl = "xdsl.tools.irdl_to_pyrdl:main"
+xdsl-run = "xdsl.tools.xdsl_run:main"
+xdsl-gui = "xdsl.interactive.app:main"
+xdsl-stubgen = "xdsl.utils.dialect_stub:make_all_stubs"
+
+[tool.setuptools]
+platforms = ["Linux", "Mac OS-X", "Unix"]
+zip-safe = false
+
+[tool.setuptools.package-data]
+xdsl = ["py.typed", "interactive/*.tcss", "_version.py"]
+
+[build-system]
+requires = ["setuptools>=42", "wheel", "versioneer[toml]"]
+build-backend = "setuptools.build_meta"
+
+[tool.pyright]
+reportImportCycles = false
+reportMissingModuleSource = false
+enableTypeIgnoreComments = false
+typeCheckingMode = "strict"
+"include" = ["docs", "xdsl", "tests", "bench"]
+"exclude" = [
+    "tests/dialects/test_memref.py",
+    "tests/frontend/onnx/test_build_ir.py",
+    "tests/frontend/onnx/test_type.py",
+    "tests/test_frontend_op_resolver.py",
+    "tests/test_frontend_python_code_check.py",
+    "xdsl/frontend/onnx/ir_builder.py",
+    "xdsl/frontend/onnx/type.py",
+    "xdsl/interpreters/experimental/wgpu.py",
+    "xdsl/interpreters/onnx.py",
+]
+"ignore" = [
+    "docs/marimo",
+    "tests/filecheck/frontend/dialects/builtin.py",
+    "tests/filecheck/frontend/dialects/invalid.py",
+    "tests/filecheck/frontend/dialects/arith.py",
+    "tests/filecheck/frontend/dialects/scf.py",
+    "tests/filecheck/frontend/programs/invalid.py",
+    "xdsl/_version.py",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+select = ["E", "F", "W", "I", "UP", "PT", "TID251"]
+ignore = [
+    "E741",  # https://beta.ruff.rs/docs/rules/ambiguous-variable-name/
+    "PT006", # https://beta.ruff.rs/docs/rules/pytest-parametrize-names-wrong-type/
+    "PT007", # https://beta.ruff.rs/docs/rules/pytest-parametrize-values-wrong-type/
+    "PT011", # https://beta.ruff.rs/docs/rules/pytest-raises-too-broad/
+    "PT012", # https://beta.ruff.rs/docs/rules/pytest-raises-with-multiple-statements/
+    "PT015", # https://beta.ruff.rs/docs/rules/pytest-assert-always-false/
+]
+line-length = 300
+target-version = "py310"
+
+[tool.ruff.flake8-tidy-imports.banned-api]
+"xdsl.parser.core".msg = "Use xdsl.parser instead."
+"xdsl.parser.attribute_parser".msg = "Use xdsl.parser instead."
+"xdsl.parser.affine_parser".msg = "Use xdsl.parser instead."
+"xdsl.ir.core".msg = "Use xdsl.ir instead."
+"xdsl.irdl.common".msg = "Use xdsl.irdl instead"
+"xdsl.irdl.constraints".msg = "Use xdsl.irdl instead"
+"xdsl.irdl.attributes".msg = "Use xdsl.irdl instead"
+"xdsl.irdl.operations".msg = "Use xdsl.irdl instead"
+"xdsl.ir.affine.affine_expr".msg = "Use xdsl.ir.affine instead"
+"xdsl.ir.affine.affine_map".msg = "Use xdsl.ir.affine instead"
+"xdsl.ir.affine.affine_set".msg = "Use xdsl.ir.affine instead"
+
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F403"]
+"tests/filecheck/frontend/programs/invalid.py" = ["F811", "F841"]
+"tests/filecheck/frontend/dialects/invalid.py" = ["F811"]
+"tests/test_declarative_assembly_format.py" = ["F811"]
+"versioneer.py" = ["ALL"]
+"_version.py" = ["ALL"]
+"**/{docs/marimo}/*" = ["E501"]
+
+[tool.ruff.mccabe]
+max-complexity = 10
+
+[tool.black]
+# When updating this list, please update `.pre-commit-config.yaml`
+exclude = """
+/(__pycache__|.asv|venv|build|tests/filecheck)/
+|versioneer.py$
+|xdsl/_version.py$
+|docs/marimo
+"""
+
+[tool.pytest.ini_options]
+python_files = ["tests/*test_*.py", "docs/*test_*.py"]
+python_classes = "Test_*"
+python_functions = "test_*"
+addopts = ["--durations=20", "--maxfail=5"]
+
+[tool.versioneer]
+VCS = "git"
+style = "pep440"
+versionfile_source = "xdsl/_version.py"
+versionfile_build = "xdsl/_version.py"
+tag_prefix = "v"
