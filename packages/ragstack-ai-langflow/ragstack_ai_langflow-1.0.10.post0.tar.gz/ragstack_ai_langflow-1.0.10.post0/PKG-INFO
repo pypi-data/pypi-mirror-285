@@ -1,0 +1,107 @@
+Metadata-Version: 2.1
+Name: ragstack-ai-langflow
+Version: 1.0.10.post0
+Summary: RAGStack Langflow
+Home-page: https://github.com/datastax/ragstack-ai-langflow
+License: BUSL-1.1
+Keywords: nlp,langchain,openai,gpt,gui
+Author: DataStax
+Maintainer: Carlos Coelho
+Maintainer-email: carlos@langflow.org
+Requires-Python: >=3.10,<3.13
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: cassio
+Provides-Extra: couchbase
+Provides-Extra: deploy
+Provides-Extra: local
+Requires-Dist: assemblyai (>=0.26.0,<0.27.0)
+Requires-Dist: beautifulsoup4 (>=4.12.2,<5.0.0)
+Requires-Dist: boto3 (>=1.34.0,<2.0.0)
+Requires-Dist: cassio[cassio] (>=0.1.7,<0.2.0) ; extra == "cassio"
+Requires-Dist: celery[redis] (>=5.3.6,<6.0.0) ; extra == "deploy"
+Requires-Dist: certifi (>=2023.11.17,<2025.0.0)
+Requires-Dist: chromadb (>=0.4,<0.5)
+Requires-Dist: cohere (>=5.5.3,<6.0.0)
+Requires-Dist: couchbase[couchbase] (>=4.2.1,<5.0.0) ; extra == "couchbase"
+Requires-Dist: crewai[tools] (>=0.36.0,<0.37.0)
+Requires-Dist: ctransformers (>=0.2.10,<0.3.0) ; extra == "local"
+Requires-Dist: dspy-ai (>=2.4.0,<3.0.0)
+Requires-Dist: elasticsearch (>=8.12.0,<9.0.0)
+Requires-Dist: faiss-cpu (>=1.8.0,<2.0.0)
+Requires-Dist: fake-useragent (>=1.5.0,<2.0.0)
+Requires-Dist: fastavro (>=1.8.0,<2.0.0)
+Requires-Dist: firecrawl-py (>=0.0.16,<0.0.17)
+Requires-Dist: flower (>=2.0.0,<3.0.0) ; extra == "deploy"
+Requires-Dist: gitpython (>=3.1.43,<4.0.0)
+Requires-Dist: google-api-python-client (>=2.130.0,<3.0.0)
+Requires-Dist: google-search-results (>=2.4.1,<3.0.0)
+Requires-Dist: huggingface-hub[inference] (>=0.22.0,<0.23.0)
+Requires-Dist: json-repair (>=0.25.2,<0.26.0)
+Requires-Dist: kubernetes (>=30.1.0,<31.0.0)
+Requires-Dist: langchain-anthropic (>=0.1.6,<0.2.0)
+Requires-Dist: langchain-astradb (>=0.3.3,<0.4.0)
+Requires-Dist: langchain-aws (>=0.1.6,<0.2.0)
+Requires-Dist: langchain-chroma (>=0.1.1,<0.2.0)
+Requires-Dist: langchain-cohere (>=0.1.5,<0.2.0)
+Requires-Dist: langchain-google-calendar-tools (>=0.0.1,<0.0.2)
+Requires-Dist: langchain-google-genai (>=1.0.1,<2.0.0)
+Requires-Dist: langchain-google-vertexai (>=1.0.3,<2.0.0)
+Requires-Dist: langchain-groq (>=0.1.3,<0.2.0)
+Requires-Dist: langchain-milvus (>=0.1.1,<0.2.0)
+Requires-Dist: langchain-mistralai (>=0.1.6,<0.2.0)
+Requires-Dist: langchain-mongodb (>=0.1.6,<0.2.0)
+Requires-Dist: langchain-nvidia-ai-endpoints (>=0.1.2,<0.2.0)
+Requires-Dist: langchain-openai (>=0.1.1,<0.2.0)
+Requires-Dist: langchain-pinecone (>=0.1.0,<0.2.0)
+Requires-Dist: langfuse (>=2.33.0,<3.0.0)
+Requires-Dist: langsmith (>=0.1.86,<0.2.0)
+Requires-Dist: langwatch (>=0.1.9,<0.2.0)
+Requires-Dist: litellm (>=1.38.0,<2.0.0)
+Requires-Dist: llama-cpp-python (>=0.2.0,<0.3.0) ; extra == "local"
+Requires-Dist: markdown (>=3.6,<4.0)
+Requires-Dist: markupsafe (>=2.1.3,<3.0.0)
+Requires-Dist: metal-sdk (>=2.5.0,<3.0.0)
+Requires-Dist: metaphor-python (>=0.1.11,<0.2.0)
+Requires-Dist: networkx (>=3.1,<4.0)
+Requires-Dist: numexpr (>=2.8.6,<3.0.0)
+Requires-Dist: pgvector (>=0.2.3,<0.3.0)
+Requires-Dist: pinecone-client (>=3.0.3,<4.0.0)
+Requires-Dist: psycopg (>=3.1.9,<4.0.0)
+Requires-Dist: psycopg-binary (>=3.1.9,<4.0.0)
+Requires-Dist: psycopg2-binary (>=2.9.6,<3.0.0)
+Requires-Dist: pyarrow (>=14.0.0,<15.0.0)
+Requires-Dist: pyautogen (>=0.2.0,<0.3.0)
+Requires-Dist: pymongo (>=4.6.0,<5.0.0)
+Requires-Dist: pytube (>=15.0.0,<16.0.0)
+Requires-Dist: pywin32 (>=306,<307) ; sys_platform == "win32"
+Requires-Dist: qdrant-client (>=1.9.0,<2.0.0)
+Requires-Dist: qianfan (==0.3.5)
+Requires-Dist: ragstack-ai-langflow-base (==1.0.10.post0)
+Requires-Dist: redis (>=5.0.1,<6.0.0) ; extra == "deploy"
+Requires-Dist: sentence-transformers (>=2.3.1,<3.0.0) ; extra == "local"
+Requires-Dist: supabase (>=2.3.0,<3.0.0)
+Requires-Dist: types-cachetools (>=5.3.0.5,<6.0.0.0)
+Requires-Dist: unstructured[docx,md,pptx] (>=0.14.4,<0.15.0)
+Requires-Dist: upstash-vector (>=0.4.0,<0.5.0)
+Requires-Dist: weaviate-client
+Requires-Dist: wikipedia (>=1.4.0,<2.0.0)
+Requires-Dist: yfinance (>=0.2.40,<0.3.0)
+Requires-Dist: youtube-transcript-api (>=0.6.2,<0.7.0)
+Requires-Dist: zep-python (>=2.0.0rc5,<3.0.0)
+Project-URL: Documentation, https://docs.datastax.com/en/ragstack
+Project-URL: Repository, https://github.com/datastax/ragstack-ai-langflow
+Description-Content-Type: text/markdown
+
+# RAGStack Langflow
+
+## Documentation
+
+[DataStax RAGStack Documentation](https://docs.datastax.com/en/ragstack/docs/index.html)
+
+## 📄 License
+
+RAGStack Langflow is released under the BUSL License. See the [LICENSE](LICENSE.md) file for details.
