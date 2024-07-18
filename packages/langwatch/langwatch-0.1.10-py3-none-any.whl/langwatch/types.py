@@ -1,0 +1,175 @@
+from typing import Any, Dict, List, Literal, Optional, Union
+from typing_extensions import TypedDict
+
+
+ChatRole = Literal[
+    "system", "user", "assistant", "function", "tool", "guardrail", "unknown"
+]
+
+
+class FunctionCall(TypedDict, total=False):
+    name: str
+    arguments: str
+
+
+class ToolCall(TypedDict):
+    id: str
+    type: str
+    function: FunctionCall
+
+
+class ChatMessage(TypedDict, total=False):
+    role: ChatRole
+    content: Optional[str]
+    function_call: Optional[FunctionCall]
+    tool_calls: Optional[List[ToolCall]]
+
+
+class TypedValueChatMessages(TypedDict):
+    type: Literal["chat_messages"]
+    value: List[ChatMessage]
+
+
+class TypedValueText(TypedDict):
+    type: Literal["text"]
+    value: str
+
+
+class TypedValueList(TypedDict):
+    type: Literal["list"]
+    value: List["SpanInputOutput"]
+
+
+class GuardrailResult(TypedDict, total=False):
+    status: Literal["processed", "skipped", "error"]
+    passed: bool
+    score: Optional[float]
+    details: Optional[str]
+
+
+class TypedValueGuardrailResult(TypedDict):
+    type: Literal["guardrail_result"]
+    value: GuardrailResult
+
+
+class TypedValueRaw(TypedDict):
+    type: Literal["raw"]
+    value: str
+
+
+JSONSerializable = Union[str, int, float, bool, None, Dict[str, Any], List[Any]]
+
+
+class TypedValueJson(TypedDict):
+    type: Literal["json"]
+    value: JSONSerializable
+
+
+class ErrorCapture(TypedDict):
+    message: str
+    stacktrace: List[str]
+
+
+SpanInputOutput = Union[
+    TypedValueText,
+    TypedValueChatMessages,
+    TypedValueJson,
+    TypedValueGuardrailResult,
+    TypedValueRaw,
+    TypedValueList,
+]
+
+
+class SpanTimestamps(TypedDict, total=False):
+    started_at: int
+    first_token_at: Optional[int]
+    finished_at: int
+
+
+SpanTypes = Literal["span", "llm", "chain", "tool", "agent", "guardrail", "rag"]
+
+
+class BaseSpan(TypedDict):
+    type: SpanTypes
+    name: Optional[str]
+    span_id: str
+    parent_id: Optional[str]
+    trace_id: str
+    input: Optional[SpanInputOutput]
+    output: Optional[SpanInputOutput]
+    error: Optional[ErrorCapture]
+    timestamps: SpanTimestamps
+
+
+class LLMSpanParams(TypedDict, total=False):
+    temperature: float
+    stream: bool
+    functions: Optional[List[Dict[str, Any]]]
+    tools: Optional[List[Dict[str, Any]]]
+    tool_choice: Optional[str]
+
+
+class LLMSpanMetrics(TypedDict, total=False):
+    prompt_tokens: Optional[int]
+    completion_tokens: Optional[int]
+
+
+class LLMSpan(TypedDict, total=False):
+    type: Literal["llm"]
+    name: Optional[str]
+    span_id: str
+    parent_id: Optional[str]
+    trace_id: str
+    input: Optional[SpanInputOutput]
+    output: Optional[SpanInputOutput]
+    error: Optional[ErrorCapture]
+    timestamps: SpanTimestamps
+    model: Optional[str]
+    params: Optional[LLMSpanParams]
+    metrics: Optional[LLMSpanMetrics]
+
+
+class RAGChunk(TypedDict, total=False):
+    document_id: Optional[str]
+    chunk_id: Optional[str]
+    content: Union[str, dict, list]
+
+
+class RAGSpan(TypedDict, total=False):
+    type: Literal["rag"]
+    name: Optional[str]
+    span_id: str
+    parent_id: Optional[str]
+    trace_id: str
+    input: Optional[SpanInputOutput]
+    output: Optional[SpanInputOutput]
+    error: Optional[ErrorCapture]
+    timestamps: SpanTimestamps
+    contexts: List[RAGChunk]
+
+
+Span = Union[LLMSpan, RAGSpan, BaseSpan]
+
+
+class Experiment(TypedDict):
+    experiment_id: str
+    variant: int
+
+
+PrimitiveType = Union[str, int, float, bool, None]
+
+ExtraType = Union[
+    PrimitiveType,
+    List[PrimitiveType],
+    Dict[str, PrimitiveType],
+    Dict[str, Dict[str, PrimitiveType]],  # Allow up to 2 levels of nesting
+]
+
+TraceMetadata = Dict[str, ExtraType]
+
+
+class CollectorRESTParams(TypedDict):
+    trace_id: str
+    metadata: Optional[TraceMetadata]
+    spans: List[Span]
+    expected_output: Optional[str]
