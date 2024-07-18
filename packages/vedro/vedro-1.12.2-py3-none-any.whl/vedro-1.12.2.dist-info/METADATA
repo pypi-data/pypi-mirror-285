@@ -1,0 +1,68 @@
+Metadata-Version: 2.1
+Name: vedro
+Version: 1.12.2
+Summary: Pragmatic Testing Framework
+Home-page: https://github.com/vedro-universe/vedro
+Author: Nikita Tsvetkov
+Author-email: tsv1@fastmail.com
+License: Apache-2.0
+Project-URL: Docs, https://vedro.io/
+Project-URL: GitHub, https://github.com/vedro-universe/vedro
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: cabina <2.0,>=0.7
+Requires-Dist: filelock <4.0,>=3.5
+Requires-Dist: niltype <2.0,>=0.3
+Requires-Dist: pyparsing <4.0,>=3.0
+Requires-Dist: rich <14.0,>=11.0
+
+# Vedro
+
+[![Codecov](https://img.shields.io/codecov/c/github/vedro-universe/vedro/master.svg?style=flat-square)](https://codecov.io/gh/vedro-universe/vedro)
+[![PyPI](https://img.shields.io/pypi/v/vedro.svg?style=flat-square)](https://pypi.python.org/pypi/vedro/)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/vedro?style=flat-square)](https://pypi.python.org/pypi/vedro/)
+[![Python Version](https://img.shields.io/pypi/pyversions/vedro.svg?style=flat-square)](https://pypi.python.org/pypi/vedro/)
+
+## Installation
+
+```shell
+$ pip3 install vedro
+```
+
+## Usage
+
+```python
+# ./scenarios/decode_base64_encoded_string.py
+import base64
+import vedro
+
+class Scenario(vedro.Scenario):
+    subject = "decode base64 encoded string"
+
+    def given(self):
+        self.encoded = "YmFuYW5h"
+
+    def when(self):
+        self.decoded = base64.b64decode(self.encoded)
+
+    def then(self):
+        assert self.decoded == b"banana"
+```
+
+```shell
+$ vedro run
+```
+
+## Documentation
+
+🚀 [vedro.io](https://vedro.io/docs/quick-start)
