@@ -1,0 +1,36 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apter"
+version = "0.10"
+authors = [
+    {name = "U. Melendez", email = "apterpy@bfjournal.com"},
+]
+description = "A sweet project configuration package"
+readme = "README.rst"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "parse>=1.19.0",
+    "PyYaml>=5.4.1",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/ulygit/apter"
+"Bug Tracker" = "https://github.com/ulygit/apter/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "--verbose"
+testpaths = ["tests"]
