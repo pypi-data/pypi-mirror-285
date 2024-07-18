@@ -1,0 +1,5 @@
+from pprint import pprint
+
+error = {'error': {'message': "Failed to call a function. Please adjust your prompt. See 'failed_generation' for more details.", 'type': 'invalid_request_error', 'code': 'tool_use_failed', 'failed_generation': '```\n{\n  "tool_calls": [\n    {\n      "id": "pending",\n      "type": "function",\n      "function": {\n        "name": "print_companies"\n      },\n      "parameters": {\n        "companies": [\n          {\n            "name": "Aether Innovations",\n            "address": {\n              "street": "150 Futura Plaza"\n            },\n            "speciality": "sustainable energy solutions"\n          },\n          {\n            "name": "Gastronauts",\n            "address": {\n              "street": "45 Flavor Street"\n            },\n            "speciality": "urban dining experiences"\n          },\n          {\n            "name": "SereneScape",\n            "address": {\n              "street": "800 Tranquil Trail"\n            },\n            "speciality": "digital wellness"\n          }\n        ]\n      }\n    }\n  ]\n}\n```'}}
+
+pprint(error)
