@@ -1,0 +1,114 @@
+[tool.poetry]
+name = "edgeql_qb"
+version = "0.4.5"
+description = "EdgeQL Query Builder"
+authors = ["Ivan Larin <pentusha@gmail.com>"]
+license = "MIT"
+maintainers = ["Ivan Larin <pentusha@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/Pentusha/edgeql-qb"
+repository = "https://github.com/Pentusha/edgeql-qb"
+keywords = ["edgedb", "edgeql"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+packages = [
+    { include = "edgeql_qb" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.dev-dependencies]
+mypy = "^1.10.1"
+pre-commit = "^3.7.1"
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+edgedb = "^2.0.0"
+ruff = "^0.5.2"
+pyright = "^1.1.372"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+exclude = [
+    ".git",
+    "__pycache__",
+]
+line-length = 99
+
+lint.ignore = ["D10", "D203", "D213"]
+lint.select = [
+    "C9",  # mccabe
+    "D",  # pycodestyle
+    "E",  # error
+    "F",  # pyflakes
+    "W",  # warning
+    "Q",  # flake8-quotes
+    "T20",  # flake8-print
+    "SIM",  # flake8-simplify
+    "ERA",  # flake8-eradicate
+    "DTZ",  # flake8-datetimez
+    "UP",  # pyupgrade
+    "FBT",  # flake8-boolean-trap
+    "I",  # isort
+    "RUF",  # ruff specific
+    "PL",  # pylint
+    "PIE",  # flake8-pie
+    "G",  # flake8-logging-format
+    "C4",  # flake8-comprehensions
+    "N",  # pep8-naming
+    "COM",  # flake8-commas
+    "ASYNC",  # flake8-async
+    "PGH",  # pygrep-hooks
+    "G",  # flake8-logging-format
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 3
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+    "F401",
+    "F403",
+]
+"tests/**/test_*.py" = [
+    "D10",  # missing docstring
+    "PLR2004",  # magick values
+]
+"edgeql_qb/types.py" = [
+    "N801",  # invalid-class-name
+]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+
+[tool.ruff.lint.flake8-implicit-str-concat]
+allow-multiline = false
+
+[tool.mypy]
+# plugins =
+# --strict
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_return_any = true
+implicit_reexport = false
+strict_equality = true
+ignore_missing_imports = false
+# --strict end
