@@ -1,0 +1,99 @@
+Metadata-Version: 2.1
+Name: DisnanaLG
+Version: 1.0.4
+Summary: seaborn-analyzer: data visualization of regression, classification and distribution
+Author: Disnana
+Author-email: support@disnana.com
+Maintainer: Disnana
+Maintainer-email: support@disnana.com
+License: BSD 3-Clause
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.6
+
+===========================
+DisnanaLG
+===========================
+
+ライセンスキーを生成するためのPythonモジュールです。ランダム性を持たせたライセンスキーの生成が可能で、カスタマイズオプションも豊富に用意されています。
+
+特徴
+===========================
+
+- ランダムな長さの部分を持つライセンスキーの生成
+- セパレーターのカスタマイズ
+- 総文字数やセパレーターの数を指定可能
+
+インストール方法
+===========================
+
+このパッケージはPyPIに登録されています。以下のコマンドでインストールできます。
+
+.. code-block:: bash
+
+    pip install DisnanaLG
+
+使用方法
+===========================
+
+基本的な使用方法の例を以下に示します。
+
+.. code-block:: python
+
+    import DisnanaLG
+
+    # デフォルトのライセンスキーを生成
+    print(DisnanaLG.license_key())
+
+    # カスタマイズされたライセンスキーを生成
+    print(DisnanaLG.license_key_v2(min_part_length=4, max_part_length=8, num_parts=4, separator='-', total_length=25))
+    print(DisnanaLG.license_key_v2(min_part_length=4, max_part_length=8, total_separators=3))
+
+オプション設定
+===========================
+
+`license_key_v2` 関数は以下のパラメータを受け取ります。
+
+- **min_part_length (int)**: 各部分の最小長さを指定します。デフォルトは3です。
+- **max_part_length (int)**: 各部分の最大長さを指定します。デフォルトは6です。
+- **num_parts (int)**: ライセンスキーの部分の数を指定します。デフォルトは6です。
+- **separator (str)**: 部分間のセパレーターを指定します。デフォルトは '-' です。
+- **total_length (int)**: ライセンスキーの総文字数を指定します。デフォルトは None（指定なし）です。
+- **total_separators (int)**: ライセンスキーのセパレーターの数を指定します。デフォルトは None（指定なし）です。このオプションを指定すると、`num_parts` は `total_separators + 1` に設定されます。
+
+戻り値
+===========================
+
+- **str**: 生成されたライセンスキーを返します。
+
+例
+===========================
+
+以下に具体的な使用例を示します。
+
+.. code-block:: python
+
+    import DisnanaLG
+
+    # デフォルトのライセンスキーを生成
+    print(DisnanaLG.license_key())
+    # 出力例: 'A1B-C2D-E3F-G4H-I5J-K6L'
+
+    # カスタマイズされたライセンスキーを生成
+    print(DisnanaLG.license_key_v2(min_part_length=4, max_part_length=8, num_parts=4, separator='-', total_length=25))
+    # 出力例: 'A1B2-C3D4-E5F6-G7H8-1234'
+
+    # セパレーターの数で指定したライセンスキーを生成
+    print(DisnanaLG.license_key_v2(min_part_length=4, max_part_length=8, total_separators=3))
+    # 出力例: 'A1B2-C3D4-E5F6-G7H8'
+
+ライセンス
+===========================
+
+このプロジェクトはBSD 3-Clauseライセンスの下で公開されています。詳細については、`LICENSE` ファイルを参照してください。
