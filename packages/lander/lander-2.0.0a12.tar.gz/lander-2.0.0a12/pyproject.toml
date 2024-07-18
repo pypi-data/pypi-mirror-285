@@ -1,0 +1,186 @@
+[project]
+# https://packaging.python.org/en/latest/specifications/declaring-project-metadata/
+name = "lander"
+description = "HTML landing page generator for PDF/LaTeX documents"
+license = {file = "LICENSE"}
+readme= "README.rst"
+keywords = [
+    "rubin",
+    "lsst",
+]
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "Operating System :: POSIX",
+    "Typing :: Typed",
+]
+requires-python = ">=3.11"
+dependencies = [
+    "python-dateutil>=2.6.0",
+    "Jinja2>=2.10.1",
+    "pydantic >= 2.0.0",
+    "email-validator", # for pydantic
+    "bleach",
+    "pypandoc",
+    "panflute>=2",  # https://github.com/sergiocorreia/panflute#supported-pandoc-versions
+    "GitPython",
+    "typer",
+    "base32-lib",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    # Testing
+    "pytest",
+    "pytest-asyncio",
+    "coverage[toml]",
+    "beautifulsoup4",
+    "types-bleach",
+    "types-setuptools",
+    "types-PyYAML",
+    "coverage[toml]",
+    "mypy",
+    # Documentation
+    "documenteer[guide]",
+    "scriv"
+]
+
+[project.urls]
+Homepage = "https://github.com/lsst-sqre/lander"
+Source = "https://github.com/lsst-sqre/lander"
+
+[project.entry-points.'lander.parsers']
+article = "lander.parsers.article:ArticleParser"
+
+[project.entry-points.'lander.themes']
+base = "lander.themes.base:BaseTheme"
+minimalist = "lander.themes.minimalist:MinimalistTheme"
+
+[project.scripts]
+lander = "lander.cli:app"
+lander-deparagraph = "lander.ext.parser.pandoc.filters.deparagraph:main"
+
+[build-system]
+requires = [
+    "setuptools>=61",
+    "wheel",
+    "setuptools_scm[toml]>=6.2"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[tool.black]
+line-length = 79
+target-version = ["py312"]
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | build
+  | dist
+)/
+'''
+# Use single-quoted strings so TOML treats the string like a Python r-string
+#  Multi-line strings are implicitly treated by black as regular expressions
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source = ["lander"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/*/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:"
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+python_files = [
+    "tests/*.py",
+    "tests/*/*.py"
+]
+
+[tool.mypy]
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+local_partial_types = true
+no_implicit_reexport = true
+strict_equality = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true
+plugins = [
+    "pydantic.mypy"
+]
+
+# Use the generic Ruff configuration in ruff.toml and extend it with only
+# project-specific settings. Add a [tool.ruff.lint.extend-per-file-ignores]
+# section for project-specific ignore rules.
+[tool.ruff]
+extend = "ruff-shared.toml"
+
+[tool.ruff.lint]
+ignore = [
+    "ANN101",
+    "ANN102",
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"src/lander/ext/parser/texutils/extract.py" = [
+    "C901", # allow large functions in this module
+    "PLR0912", # allow large functions in this module
+]
+"src/lander/settings.py" = [
+    "C901", # allow large functions in this module
+    "PLR0912", # allow large functions in this module
+]
+"src/lander/cli.py" = [
+    "T201", # allow print statements in CLI scripts
+]
+"tests/**/*.py" = [
+    "T201", # allow print statements in tests
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["lander", "tests"]
+split-on-trailing-comma = false
+
+
+[tool.scriv]
+categories = [
+    "Backwards-incompatible changes",
+    "New features",
+    "Bug fixes",
+    "Other changes",
+]
+entry_title_template = "{{ version }} ({{ date.strftime('%Y-%m-%d') }})"
+format = "md"
+md_header_level = "2"
+new_fragment_template = "file:changelog.d/_template.md.jinja"
+skip_fragments = "_template.md.jinja"
