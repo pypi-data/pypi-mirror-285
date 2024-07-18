@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "edgegap-factory"
+version = "1.9.0"
+description = "Edgegap library for creating SqlModel"
+authors = ["Maxime Boisvert <maxime.boisvert@edgegap.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlmodel = "^0.0.18"
+sqlalchemy = "^2.0.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+pytest = "^8.2.1"
+pytest-asyncio = "^0.23.7"
+pytest-mock = "^3.14.0"
+ruff = "^0.4.4"
+pytest-html = "^4.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
