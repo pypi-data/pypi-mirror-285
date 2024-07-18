@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: pyhoptico
+Version: 0.2.0
+Summary: Python client for the Hoptico website.
+License: MIT
+Author: Hoptico
+Author-email: no-reply@hoptico.com
+Requires-Python: >=3.11,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Description-Content-Type: text/markdown
+
+# Hoptico Python Client (`pyhoptico`)
+
+This is the Python client for the Hoptico web service.
+
+## Usage
+
+```py
+from pyhoptico import HopticoClient
+auth_token = 'secret_....'
+c = HopticoClient(auth_token)
+c.search_beverages('Arrogant')
+```
