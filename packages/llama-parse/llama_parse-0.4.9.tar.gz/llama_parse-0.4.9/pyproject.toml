@@ -1,0 +1,20 @@
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "llama-parse"
+version = "0.4.9"
+description = "Parse files into RAG-Optimized formats."
+authors = ["Logan Markewich <logan@llamaindex.ai>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "llama_parse"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+llama-index-core = ">=0.10.29"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+ipykernel = "^6.29.0"
