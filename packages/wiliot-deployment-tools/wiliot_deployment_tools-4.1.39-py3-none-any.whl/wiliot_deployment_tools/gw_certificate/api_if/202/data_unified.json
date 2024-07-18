@@ -1,0 +1,71 @@
+{
+    "type": "object",
+    "properties": {
+        "gatewayId": {
+            "type": "string",
+            "maxLength": 36
+        },
+        "gatewayType": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "number"
+        },
+        "packets": {
+            "oneOf": [
+                        {
+                            "description": "Unified Packet",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "aliasBridgeId": {
+                                        "type": "string"
+                                    },
+                                    "timestamp": {
+                                        "type": "number"
+                                    },
+                                    "sequenceId": {
+                                        "type": "number"
+                                    },
+                                    "rssi": { 
+                                        "type": "number"
+                                    },
+                                    "payload": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["aliasBridgeId", "timestamp", "sequenceId", "payload"]
+                            } 
+                        }
+            ]
+        }
+    },
+    "required": [
+        "gatewayId",
+        "gatewayType",
+        "timestamp",
+        "packets"
+    ],
+    "dependentSchemas": {
+        "location": {
+            "properties": {
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "lat": {
+                            "type": "number"
+                        },
+                        "lng": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "lat",
+                        "lng"
+                    ]
+                }
+            }
+        }
+    }
+}
