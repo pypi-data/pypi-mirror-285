@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "setuptools_scm[toml]>=6.2", "chiklisp_builder==0.1.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hsmk"
+description = "Hardware security module simulator for chik bls12_381 signatures"
+authors = [{ name = "Richard Kiss", email = "him@richardkiss.com" }]
+license = { file = "LICENSE" }
+readme = "README.md"
+dependencies = [
+  "segno==1.4.1",
+  "chik_base>=0.1.5",
+  "chiklisp_puzzles>=0.1.1",
+]
+# version is defined with `setuptools_scm`
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = ["flake8>=4.0.1", "black>=22.6", "pytest"]
+
+[project.scripts]
+hsmk = "hsmk.cmds.hsmk:main"
+hsmpk = "hsmk.cmds.hsmpk:main"
+hsmgen = "hsmk.cmds.hsmgen:main"
+hsmmerge = "hsmk.cmds.hsmmerge:main"
+hsm_test_spend = "hsmk.cmds.hsm_test_spend:main"
+hsm_dump_sb = "hsmk.cmds.hsm_dump_sb:main"
+hsm_dump_us = "hsmk.cmds.hsm_dump_us:main"
+qrint = "hsmk.cmds.qrint:main"
+hsmwizard = "hsmk.cmds.hsmwizard:main"
+poser_gen = "hsmk.cmds.poser_gen:main"
+poser_verify = "hsmk.cmds.poser_verify:main"
+
+# version is defined with `setuptools_scm`
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
