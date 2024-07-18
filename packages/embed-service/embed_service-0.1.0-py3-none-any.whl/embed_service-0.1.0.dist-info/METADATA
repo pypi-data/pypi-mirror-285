@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: embed-service
+Version: 0.1.0
+Summary: A simple command-line tool for testing srv-embed-service.
+Home-page: https://github.com/BI4ALL/embed-service
+Author: Rafael Silva
+Author-email: rtsilva@bi4all.pt
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: cachetools (==5.4.0)
+Requires-Dist: certifi (==2024.7.4)
+Requires-Dist: charset-normalizer (==3.3.2)
+Requires-Dist: google-api-core (==2.19.1)
+Requires-Dist: google-auth (==2.32.0)
+Requires-Dist: google-cloud-core (==2.4.1)
+Requires-Dist: google-cloud-storage (==2.17.0)
+Requires-Dist: google-crc32c (==1.5.0)
+Requires-Dist: google-resumable-media (==2.7.1)
+Requires-Dist: googleapis-common-protos (==1.63.2)
+Requires-Dist: idna (==3.7)
+Requires-Dist: proto-plus (==1.24.0)
+Requires-Dist: protobuf (==5.27.2)
+Requires-Dist: pyasn1 (==0.6.0)
+Requires-Dist: pyasn1-modules (==0.4.0)
+Requires-Dist: requests (==2.32.3)
+Requires-Dist: rsa (==4.9)
+Requires-Dist: urllib3 (==2.2.2)
+
+### Syntax
+
+```bash
+python main.py -b=bucket_name -p=file_prefix -a=app_url -o=operation
+```
+
+Where:
+- **bucket_name**: GCS Bucket name where files are
+- **file_prefix**: [Optional] GCS File prefix where files are.
+- **app_url**: Cloud Run app url.
+- **operation**: delete, embed or summarize 
