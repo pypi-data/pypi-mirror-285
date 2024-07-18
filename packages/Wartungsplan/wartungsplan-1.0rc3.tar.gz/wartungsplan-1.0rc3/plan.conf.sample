@@ -1,0 +1,40 @@
+[calendar]
+#Path to ics file. Calendar only needs to be readable.
+calendarfile = /media/shareX/Wartungspläne.ics
+
+[mail]
+server = smtp.example.com
+port = 465
+password = kCHvJeUy4Gd2XgsXXYFqUtjk
+sender = tom_jones@example.com
+recipient = michael_jackson@example.com
+
+[otrs]
+server = http://localhost
+username = restapiuser
+password = AiX3sheeIyahf8aaQuah2wio
+#customUser = root@localhost
+#queue = Queueebene1::Queueebene2
+#state = New
+#priority = 1 very low
+#priority = 2 low
+#priority = 3 normal
+#priority = 4 high
+#priority = 5 very high
+#footer = Ticket automatically created by Wartungsplan
+
+[headers]
+# Configure here the available (allowed) headers with their
+# default value (defaults overwrite backend options)
+#
+# For mail
+#X-Priority = 3
+#X-TicketID =
+#To = example@example.com
+#
+# For OTRS
+#tickettitel = Titel
+queue = Misc
+#queue = Queueebene1::Queueebene2
+#state = New
+#priority = 1 very low
