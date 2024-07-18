@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: fourthdimension
+Version: 2.0.3
+Summary: fourthdimension
+Home-page: https://gitee.com/hustai/FourthDimension
+Author: ytkj
+Author-email: lijinxin@yantu-ai.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+Requires-Dist: jpype1
+
+
+### &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 使用示例
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FourthDimension支持批量导入一个文件目录下的所有文档，“path/”是存放文档的文件目录名称。
+```python
+from fourthdimension import fd_client
+
+myKbName = "myKbName"
+fd_client.createKB(myKbName)
+result = fd_client.importDocuments(myKbName, "path/", fd_client.Summarizing)
+if result.getCode() != 0:
+     print("导入失败，错误信息：" + result.getMsg())
+else:
+     print("导入成功。")
+     
+FdResult<List<Chunk>result = fd_client.query(myKbName, "my question")
+if result.getCode() != 0:
+    print("查询失败，错误信息：" + result.getMsg())
+else:
+    print(result.getData())
+
+# 添加文档
+result = fd_client.addDocument(myKbName, "/path/source_file_name", "/path/target_file_name", fd_client.SUMMARIZING)
+# 修改文档
+result = fd_client.updateDocument(myKbName, "/path/source_file_name", "/path/target_file_name", fd_client.SUMMARIZING)
+# 删除文档
+result = fd_client.deleteDocument(myKbName, "/path/target_file_name")
+# 删除知识库
+result = fd_client.deleteKB(myKbName)
+
+result = fd_client.ruminate(myKbName, fd_client.SUMMARIZING)
+if result.getCode() != 0:
+    print("反刍失败，错误信息：" + result.getMsg())
+else:
+    print("反刍成功。")
