@@ -1,0 +1,112 @@
+[tool.poetry]
+name = "premiscale"
+version = "v0.0.7"
+description = "A Kubernetes controller that automatically scales and administers private virtual and physical infrastructure"
+authors = ["Emma Doyle <emma@premiscale.com>"]
+maintainers = ["Emma Doyle <emma@premiscale.com>"]
+license = "BSL 1.1"
+readme = "README.md"
+homepage = "https://premiscale.com"
+repository = "https://github.com/premiscale/premiscale"
+documentation = "https://docs.premiscale.com"
+packages = [
+  { include = "premiscale", from = "src" }
+]
+include = [
+  "LICENSE"
+]
+exclude = [
+  "src/premiscale/config/examples",
+  "src/premiscale/config/docs"
+]
+keywords = [
+    "premiscale",
+    "kubernetes",
+    "virtual machine",
+    "infrastructure",
+    "autoscaling",
+    "asg",
+    "qemu",
+    "xen",
+    "esx",
+    "esxi",
+    "kvm",
+    "libvirt"
+]
+# https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Hardware",
+    "Topic :: System :: Clustering",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+    "Natural Language :: English",
+    "License :: Other/Proprietary License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+yamale = "^5"
+Flask = "^3.0.0"
+flask-cors = "^4.0"
+websockets = "^12.0"
+libvirt-python = "^10"
+setproctitle = "^1.3"
+sqlmodel = "^0"
+cattrs = "^23.2.3"
+attrs = "^23.2.0"
+ruamel-yaml = "^0.18.6"
+prometheus-client = "^0.20.0"
+wrapt = "^1.16.0"
+xmltodict = "^0.13.0"
+tinyflux = "^1.0.0"
+grpcio = "^1.64.1"
+cachetools = "^5.3.3"
+influxdb-client = {extras = ["ciso"], version = "^1.44.0"}
+
+requests = "^2.32.3"
+pyhumps = "^3.8.0"
+[tool.poetry.group.profile.dependencies]
+memray = "^1.12"
+pytest-memray = "^1.6.0"
+
+[tool.poetry.group.dev.dependencies]
+twine = "^5"
+pylint = "^3"
+pre-commit = "^3"
+cogapp = "^3.4"
+mypy = "^1"
+pydoclint = "^0.5.0"
+pdoc = "^14.5.0"
+types-pyyaml = "^6.0.12.20240311"
+types-requests = "^2.32.0.20240602"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+premiscale = "premiscale.cli:main"
+
+[tool.mypy]
+python_version = "3.10"
+strict_optional = true
+ignore_missing_imports = true
+
+[tool.pydoclint]
+style = "google"
+require-return-section-when-returning-nothing = false
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = "invalid-name,wrong-import-order,superfluous-parens,line-too-long,missing-final-newline,logging-fstring-interpolation,too-many-instance-attributes,unused-argument,unused-import"
+fail-under = 2
+
+[tool.pylint.MASTER]
+init-hook = "import sys; sys.path.append('.')"

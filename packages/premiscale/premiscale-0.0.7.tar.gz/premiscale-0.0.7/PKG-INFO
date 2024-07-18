@@ -1,0 +1,92 @@
+Metadata-Version: 2.1
+Name: premiscale
+Version: 0.0.7
+Summary: A Kubernetes controller that automatically scales and administers private virtual and physical infrastructure
+Home-page: https://premiscale.com
+License: BSL 1.1
+Keywords: premiscale,kubernetes,virtual machine,infrastructure,autoscaling,asg,qemu,xen,esx,esxi,kvm,libvirt
+Author: Emma Doyle
+Author-email: emma@premiscale.com
+Maintainer: Emma Doyle
+Maintainer-email: emma@premiscale.com
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: Other/Proprietary License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: System :: Clustering
+Classifier: Topic :: System :: Hardware
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Utilities
+Requires-Dist: Flask (>=3.0.0,<4.0.0)
+Requires-Dist: attrs (>=23.2.0,<24.0.0)
+Requires-Dist: cachetools (>=5.3.3,<6.0.0)
+Requires-Dist: cattrs (>=23.2.3,<24.0.0)
+Requires-Dist: flask-cors (>=4.0,<5.0)
+Requires-Dist: grpcio (>=1.64.1,<2.0.0)
+Requires-Dist: influxdb-client[ciso] (>=1.44.0,<2.0.0)
+Requires-Dist: libvirt-python (>=10,<11)
+Requires-Dist: prometheus-client (>=0.20.0,<0.21.0)
+Requires-Dist: pyhumps (>=3.8.0,<4.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: ruamel-yaml (>=0.18.6,<0.19.0)
+Requires-Dist: setproctitle (>=1.3,<2.0)
+Requires-Dist: sqlmodel (>=0,<1)
+Requires-Dist: tinyflux (>=1.0.0,<2.0.0)
+Requires-Dist: websockets (>=12.0,<13.0)
+Requires-Dist: wrapt (>=1.16.0,<2.0.0)
+Requires-Dist: xmltodict (>=0.13.0,<0.14.0)
+Requires-Dist: yamale (>=5,<6)
+Project-URL: Documentation, https://docs.premiscale.com
+Project-URL: Repository, https://github.com/premiscale/premiscale
+Description-Content-Type: text/markdown
+
+# PremiScale
+
+![GitHub Release](https://img.shields.io/github/v/release/premiscale/premiscale?include_prereleases&sort=semver&display_name=release&link=https%3A%2F%2Fgithub.com%2Fpremiscale%2Fpremiscale%2Freleases)
+![Business License 1.1](https://img.shields.io/badge/License-Business_Source_1.1-red)
+
+
+PremiScale is a controller that brings autoscaling of virtual and physical infrastructure to local, self-hosted and private data centers, with a particular focus on integrating with the Kubernetes [cluster autoscaler](https://github.com/kubernetes/autoscaler).
+
+## Architecture
+
+PremiScale uses [libvirt](https://libvirt.org/) to connect to hosts and manage lifecycles of virtual machines. The Libvirt daemon provides a rich API for interacting with hypervisors, hosts and virtual machines.
+
+The controller can be configured to run in two different modes, including `kubernetes` and `standalone` modes. In either configuration, the controller aims to start only relevant processes for both data collection and managing virtual machines and hardware.
+
+### Standalone
+
+In `standalone` mode, the controller starts its own time series data collection process.
+
+<p align="center" width="100%">
+  <img width="100%" src="https://raw.githubusercontent.com/premiscale/premiscale/master/img/premiscale-architecture-controller_internal_autoscaler_enabled.svg" alt="premiscale architecture: internal autoscaler enabled">
+</p>
+
+### Kubernetes
+
+Starting the controller in `kubernetes` mode starts relevant components of the controller that allow it to interface with the cluster autoscaler.
+
+<p align="center" width="100%">
+  <img width="100%" src="https://raw.githubusercontent.com/premiscale/premiscale/master/img/premiscale-architecture-controller_internal_autoscaler_disabled.svg" alt="premiscale architecture: internal autoscaler disabled">
+</p>
+
+Note that, in this configuration, the controller does not require a time series database. State is still reconciled, but the time series signal comes from the cluster autoscaler instead.
+
+## Configuration
+
+The controller is configured in a couple ways, including its command line interface, environment variables (as indicated in the help text below), and through the required config file (all versions of which are documented [here](https://github.com/premiscale/premiscale/tree/master/src/premiscale/config/docs) in this repository).
+
+## Installation
+
+This project is intended to be deployed to Kubernetes, whether you intend to integrate with the cluster autoscaler or not.
+
+See the Helm [chart README](https://github.com/premiscale/premiscale/tree/master/helm/premiscale) for an overview of controller installation.
+
