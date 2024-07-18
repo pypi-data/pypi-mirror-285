@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: emucore-direct
+Version: 1.0.6
+Summary: QCi's client package for EmuCore FPGA reservoir computer
+Author: Quantum Computing Inc.
+Author-email: support@quantumcomputinginc.com
+Requires-Python: <3.11,>=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: grpcio==1.47.0
+Requires-Dist: grpcio-tools==1.47.0
+Requires-Dist: numpy<2,>=1.22.1
+Requires-Dist: protobuf==3.20.3
+Requires-Dist: scipy<2,>=1.11.1
+Requires-Dist: bitstring<5,>=4.1.2
+Provides-Extra: test
+Requires-Dist: sphinx-rtd-theme>=1.3.0; extra == "test"
+Requires-Dist: nbconvert>=7.16.3; extra == "test"
+Requires-Dist: black<23,>=22.6.0; extra == "test"
+Requires-Dist: build<0.11.0,>=0.10.0; extra == "test"
+Requires-Dist: check-manifest<0.49,>=0.48; extra == "test"
+Requires-Dist: coverage[toml]<7,>=6.4.2; extra == "test"
+Requires-Dist: pylint<3,>=2.14.0; extra == "test"
+Requires-Dist: pytest<8,>=7.1.0; extra == "test"
+Requires-Dist: nbsphinx<1,>=0.9.3; extra == "test"
+Requires-Dist: scikit-learn<2,>=1.3.0; extra == "test"
+Requires-Dist: matplotlib<4,>=3.7.2; extra == "test"
+Provides-Extra: dev
+Requires-Dist: scikit-learn<2,>=1.3.0; extra == "dev"
+Requires-Dist: matplotlib<4,>=3.7.2; extra == "dev"
+Requires-Dist: jupyterlab<5,>=4.0.5; extra == "dev"
+Requires-Dist: ipykernel<7,>=6.25.1; extra == "dev"
+
+# emucore-direct
+
+This package is the companion client to Quantum Computing Inc.'s (QCi) EmuCore FPGA based reservoir computer. This device can be used to solve a variety of problems related to serial data structures including time series prediction, image recognition, and text classification. It is fast, affordable, energy-efficient, and brings the power of a standalone edge computing to your desktop. This package provides a lightweight communication interface with the EmuCore device.
+
+
+
+## Additional Resources
+
+- [Package documentation](https://quantumcomputinginc.com/learn/reference-documentation/emucore-direct)
+- [EmuCore Device Info](https://quantumcomputinginc.com/products/emucore)
+- [QCi website](https://quantumcomputinginc.com/)
