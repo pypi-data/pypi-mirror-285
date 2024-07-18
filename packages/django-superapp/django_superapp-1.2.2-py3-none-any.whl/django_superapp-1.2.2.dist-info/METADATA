@@ -1,0 +1,93 @@
+Metadata-Version: 2.1
+Name: django_superapp
+Version: 1.2.2
+Summary: Build your startup's product faster.
+Home-page: https://github.com/django-superapp/django-superapp
+Author: Django SuperApp
+Author-email: django-superapp@bringes.io
+License: MIT
+Project-URL: Bug Reports, https://github.com/django-superapp/django-superapp/issues
+Project-URL: Source, https://github.com/django-superapp/django-superapp
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: System Administrators
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 5.0
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application
+Classifier: Operating System :: OS Independent
+Classifier: Natural Language :: English
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: Django >=5.0.0
+Requires-Dist: click >=8.1.7
+Requires-Dist: copier >=9.2.0
+Requires-Dist: sysrsync >=1.1.1
+
+# Django SuperApp
+**Superapp** boosts developer efficiency by allowing them to start projects quickly with **pre-built standalone apps**. Each app has its own `settings.py` and `urls.py` files, which are automatically recognized by the system. This modular setup makes Django projects more organized and scalable, saving developers time and effort.
+
+![django-superapp-demo](https://django-superapp.bringes.io/assets/docs/admin-portal/admin-portal.png "Django SuperApp")
+
+### Getting Started
+```bash
+# Install django_superapp
+pipx install django_superapp --force
+
+# Setup the project
+django_superapp bootstrap-project \
+        --template-repo https://github.com/django-superapp/django-superapp-default-project \
+        ./my_superapp;
+cd my_superapp;
+
+# Setup Admin Portal
+cd superapp/apps;
+django_superapp bootstrap-app \
+    --template-repo https://github.com/django-superapp/django-superapp-admin-portal \
+    ./admin_portal;
+cd ../../;
+
+# Setup Authentication
+cd superapp/apps;
+django_superapp bootstrap-app \
+    --template-repo https://github.com/django-superapp/django-superapp-authentication \
+    ./authentication;
+cd ../../;
+
+# Start the project
+make setup-sample-env
+make start-docker
+
+# Setup env variables
+export $(cat .env.local | xargs)
+
+# Apply migrations
+docker-compose exec web python3 manage.py migrate;
+
+# Create superuser
+docker-compose exec web python3 manage.py createsuperuser
+
+# Open the web interface
+http://localhost:8080/
+```
+
+### Documentation
+For a more detailed documentation, visit [https://django-superapp.bringes.io](https://django-superapp.bringes.io).
+
+### Development
+```bash
+source venv/bin/activate
+make install-requirements
+make install
+make release
+```
