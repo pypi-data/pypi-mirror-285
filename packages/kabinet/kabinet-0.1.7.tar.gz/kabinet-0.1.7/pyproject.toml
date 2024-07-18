@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "kabinet"
+version = "0.1.7"
+description = ""
+authors = ["jhnnsrs <jhnnsrs@gmail.com>"]
+packages = [{include = "kabinet"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+rath = {version = ">=0.5.0", extras = ["websockets"]}
+dokker = ">=0.1.25"
+
+[tool.mypy]
+exclude = ["venv/","kabinet/api", "tests"]
+ignore_missing_imports = true
+
+
+[tool.ruff]
+extend-select = ["ANN", "D1"]
+ignore = ["ANN101"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "konviktion/api",
+    "tests"
+]
+
+# Same as Black.
+line-length = 300
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^4.1.0"
+mypy = "^1.8.0"
+pytest = "^7.4.4"
+black = "^24.1.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
