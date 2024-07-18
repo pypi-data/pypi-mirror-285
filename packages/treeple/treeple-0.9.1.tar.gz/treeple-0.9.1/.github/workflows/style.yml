@@ -1,0 +1,50 @@
+name: "Style checks"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.number }}-${{ github.event.type }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    paths:
+      - "**.py"
+      - "**.pxd"
+      - "**.pyx"
+  push:
+    branches: [main]
+    paths:
+      - "**.py"
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: read  # to fetch code (actions/checkout)
+
+jobs:
+  style:
+    name: Formatting, lint, style, and type-checks
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          architecture: "x64"
+
+      - name: Install packages for Ubuntu
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libopenblas-dev libatlas-base-dev liblapack-dev
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r style_requirements.txt
+
+      # check formatting of the code style
+      - name: Check code formatting
+        run: make pre-commit
