@@ -1,0 +1,117 @@
+[tool.poetry]
+name = "arkitekt-next"
+version = "0.7.30"
+description = "client for the arkitekt_next platform"
+authors = ["jhnnsrs <jhnnsrs@gmail.com>"]
+license = "MIT"
+packages = [{ include = "arkitekt_next" }]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+herre = ">=0.4.3"
+fakts = ">=0.5.0"
+mikro-next = { version = ">=0.1.24", python = "^3.10", optional = true }
+kabinet = { version = ">=0.1.7", optional = true,  python = "^3.9" }
+fluss-next = { version = ">=0.1.69", optional = true }
+reaktion-next= { version = ">=0.1.59", python = "^3.8", optional = true }
+rekuest-next= { version = ">=0.2.13", python = "^3.8", optional = true }
+unlok-next= { version = ">=0.1.64", python = "^3.8", optional = true }
+rich-click = { version = ">=1.6.1", optional = true }
+watchfiles = { version = ">=0.18.1", optional = true }
+turms = { version = ">=0.5.0", python = "^3.9", optional = true }
+semver = { version = ">=3.0.1", optional = true }
+dokker = ">=0.1.21"
+koil = ">=0.3.6"
+
+
+[tool.poetry.extras]
+cli = ["rich-click", "watchfiles", "turms", "semver", "rekuest-next"]
+all = [
+    "rich-click",
+    "watchfiles",
+    "turms",
+    "semver",
+    "reaktion-next",
+    "rekuest-next",
+    "mikro-next",
+    "kabinet",
+    "fluss-next",
+]
+
+[tool.mypy]
+exclude = ["venv/"]
+ignore_missing_imports = true
+
+
+[tool.ruff]
+extend-select = ["ANN", "D1"]
+extend-ignore = ["ANN101", "ANN002", "ANN003"]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Same as Black.
+line-length = 100
+
+[tool.poetry.group.dev.dependencies]
+testcontainers = "3.7.0"
+autoflake = "^1.7.7"
+pytest = "^7.2.0"
+pytest-asyncio = "^0.20.2"
+aiohttp = "^3.8.3"
+websockets = "^10.4"
+black = "^23.1.0"
+pytest-cov = "^4.0.0"
+pytest-aiohttp = "^1.0.4"
+ruff = "^0.0.254"
+mypy = "^1.0.1"
+types-pyyaml = "^6.0.12.12"
+pyqt5-stubs = "^5.15.6.0"
+
+
+[tool.poetry.scripts]
+arkitekt-next = "arkitekt_next.cli.main:cli"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+qt_api = "pyqt5"
+markers = [
+    "integration: marks tests that require a running server",
+    "qt: marks tests that require a running qt application",
+    "cli: marks tests that require a running cli",
+]
+
+
+[[tool.pydoc-markdown.loaders]]
+type = "python"
+search_path = ["arkitekt_next"]
+
+[tool.pydoc-markdown.renderer]
+type = "docusaurus"
+docs_base_path = "website/docs"
