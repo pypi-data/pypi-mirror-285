@@ -1,0 +1,37 @@
+{# NOT IN USE #}
+{% set settings = namespace() %}
+
+{% from 'macros/global_settings.yml.j2' import init_settings %}
+{{ init_settings(settings) }}
+
+{% include 'sections/validate_inputs.yml.j2' %}
+
+{# WARNING: This name `bod_ts` must be first part in the template! #}
+{% include 'sections/bod_timestamp.yml.j2' %}
+
+{# START EXPERIMENT #}
+{% if persona_definition %}
+- name: "persona"
+  raw_string: |
+    {{ settings.start_token }}{{ canonicalize_user_name(username) }}: {{ escape_special_characters(persona_definition) }}{{ settings.eom }}
+  {% set settings.start_token = settings.bom %}
+{% endif %}
+
+{% set character_definition_messages = get_character_priming(character, username) %}
+{% if character_definition_messages %}
+  {% for message_dict in character_definition_messages %}
+    {% set message = canonicalize_user_name(message_dict.get("src", "")) + ": " + message_dict.get("text", "") %}
+- name: "character_definition_message_{{ loop.index }}"
+  raw_string: |
+    {{ settings.start_token }}{{ maybe_inject_narrator(escape_special_characters(message)) }}{{ settings.eom }}
+    {% set settings.start_token = settings.bom %}
+  {% endfor %}
+{% endif %}
+
+{# END EXPERIMENT #}
+
+{% include 'sections/chat_context_message_pins_raw.yml.j2' %}
+
+{% include 'sections/chat_context_messages_raw.yml.j2' %}
+
+{% include 'sections/reply_prompt.yml.j2' %}

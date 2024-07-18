@@ -1,0 +1,79 @@
+# Description: Template used for testing ONLY.
+
+{% set bod = "<|beginningofdialog|>" %}
+{% set bom = "<|beginningofmessage|>" %}
+{% set eom = "<|endofmessage|>" %}
+# Use this to represent explicit whitespace at the beginning or end of `raw_string`.
+{% set space = "<|space|>" %}
+
+- name: "bod_ts"
+  raw_string: |
+    {{ bod }}{{ timestamp }}
+
+{% for message in character_definition_messages %}
+- name: "character_definition_message_{{ loop.index }}"
+  raw_string: |
+    {% if loop.index > 1 %}{{ bom }}{% else %}{{ space }}{% endif %}{{ maybe_inject_narrator(escape_special_characters(message)) }}{{ eom }}
+{% endfor %}
+
+- name: "chat_type"
+  raw_string: |
+    chat_type: {{ chat_type }}
+
+{% if persona_definition %}
+- name: "test_persona_definition"
+  raw_string: |
+    {{ persona_definition }}
+{% endif %}
+
+{% if character %}
+- name: "test_character_participant_name"
+  raw_string: |
+    {{ character["participant__name"] }}
+
+- name: "test_character_title"
+  raw_string: |
+    {{ character["title"] }}
+
+- name: "test_character_description"
+  raw_string: |
+    {{ character["description"] }}
+
+- name: "test_character_definition"
+  raw_string: |
+    {{ character["definition"] }}
+
+- name: "test_character_sanitized_definition"
+  raw_string: |
+    {{ character["sanitized_definition"] }}
+
+- name: "test_character_greeting"
+  raw_string: |
+    {{ character["greeting"] }}
+
+- name: "test_character_safety"
+  raw_string: |
+    {{ character["safety"] }}
+{% endif %}
+
+{% if is_proactive %}
+# TODO: test proactive_metadata
+
+- name: "test_is_proactive"
+  raw_string: |
+    This is a proactive message.
+{% endif %}
+
+- name: "test_country_code"
+  raw_string: |
+    User country code is: {{ user_country_code }}
+
+{% for message in chat_history %}
+- name: "message_{{ loop.index }}"
+  raw_string: |
+    {{ bom }}{{ escape_special_characters(message) }}{{ eom }}
+{% endfor %}
+
+- name: "reply_prompt"
+  raw_string: |
+    {{ bom }}{{ reply_prompt }}
