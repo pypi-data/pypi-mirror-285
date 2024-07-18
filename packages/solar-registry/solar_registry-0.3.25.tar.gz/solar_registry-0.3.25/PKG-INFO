@@ -1,0 +1,53 @@
+Metadata-Version: 2.1
+Name: solar-registry
+Version: 0.3.25
+Summary: Generate and merge meta data for testsolar test tools
+Author-Email: asiazhang <asiazhang2002@gmail.com>
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Project-URL: Repository, https://github.com/OpenTestSolar/solar-registry
+Requires-Python: >=3.9
+Requires-Dist: requests>=2.31.0
+Requires-Dist: pydantic>=2.7.1
+Requires-Dist: typer>=0.12.3
+Requires-Dist: pyyaml>=6.0.1
+Requires-Dist: retry>=0.9.2
+Requires-Dist: loguru>=0.7.2
+Requires-Dist: cos-python-sdk-v5>=1.9.30
+Description-Content-Type: text/markdown
+
+# solar-registry
+命令行工具`solar-registry`，提供以下功能：
+
+- 根据测试工具的`testtool.yaml`生成对应的元数据信息
+- 读取最新的元数据文件并合并
+- 下载指定的发布包，并计算sha256值
+- 自动提交PR到registry仓库，发布的新版本元数据
+
+
+## 生成元数据
+
+将当前仓库的指定测试工具元数据，生成到指定位置。
+
+- 包含工具Spec
+- 包含最新工具Target
+
+```shell
+solar-registry merge pytest ./output/testsolar
+```
+
+## 推送合并后文件到registry仓库
+
+- 推送合并之后的变更到registry仓库的特定分支
+- 使用gh命令行创建PR
+
+```shell
+solar-registry pull-request pytest
+```

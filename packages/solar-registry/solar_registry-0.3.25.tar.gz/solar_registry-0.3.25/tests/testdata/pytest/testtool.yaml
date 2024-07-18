@@ -1,0 +1,110 @@
+schemaVersion: 1.0
+name: pytest
+nameZh: pytest自动化测试
+lang: python
+langType: "INTERPRETED"
+description: Pytest测试工具
+version: '0.1.6'
+defaultBaseImage: python:3.10 # 用户在 TestContainer 配置中未指定 baseImage 时的默认镜像
+supportedCertifiedImages:
+  - 'python:3.9'
+  - 'python:3.10'
+  - 'python:3.11'
+  - 'python:3.12'
+scaffoldRepo: https://github.com/OpenTestSolar/testtool-scaffold-python-pytest/archive/refs/tags/0.1.0.tar.gz
+indexFile: https://opentestsolar.github.io/testtool-registry/testtools/stable.index.json
+versionFile: https://opentestsolar.github.io/testtool-registry/testtools/python/pytest/metadata.json
+homePage: https://github.com/OpenTestSolar/testtool-python-pytest
+parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
+  - name: parseMode
+    qtaName: parse_mode
+    value: 加载用例的模式
+    desc: 加载用例的模式
+    default: auto
+    choices:
+      - value: auto
+        displayName: 自动解析模式
+        desc: 根据测试文件的内容自动识别加载模式。数据驱动用例使用 `qtaf` 模式，其余用例使用 `ast` 模式。
+      - value: ast
+        displayName: 语法解析模式
+        desc: |
+          使用Python内置的ast模块，运行静态语法分析模式来解析测试用例。
+
+          优点：
+            - 解析速度快，不需要加载测试依赖的pip包
+          
+          缺点:
+            - 无法解析数据驱动用例
+            - 用例的属性如果是动态变量，不一定能解析成功
+            - 用例如果有复杂继承关系，不一定能解析成功
+      - value: qtaf
+        displayName: 动态加载模式
+        desc: |
+          使用qtaf框架加载文件进行测试用例的识别。
+          
+          优点：
+            - 解析准确
+            - 支持数据驱动用例解析
+          
+          缺点：
+            - 用户测试用例有运行时依赖，在加载阶段可能无法成功
+            - 依赖测试运行的pip包，解析速度较慢
+    inputWidget: choices
+  - name: runMode
+    value: 运行用例的模式
+    desc: 加载用例的模式
+    default: singleprocess # choice: singleprocess/multiprocess
+    choices:
+      - value: singleprocess
+        displayName: 单进程模式
+        desc: |
+          使用单进程执行测试用例，一般用于串行模式。
+          
+          优点：
+            - 可保证执行顺序
+          
+          缺点：
+            - 整体执行效率可能较低
+
+      - value: multiprocess
+        displayName: 多进程模式
+        desc: |
+          使用多进程执行测试用例，一般用于并发执行。启动的进程数由用户设置的单机并发量决定。
+          
+          优点：
+            - 整体执行效率高
+          
+          缺点：
+            - 不保证用例执行顺序
+            - 单机并发量设置太高可能导致执行机异常
+    inputWidget: choices
+  - name: qtafSettings
+    value: QTAF测试项目配置
+    desc: QTAF测试项目配置
+    default: ""
+    lang: python
+    inputWidget: code
+  - name: extraFieldsConfig
+    value: 用例额外属性
+    desc: 用例额外属性
+    lang: json
+    default: ""
+    inputWidget: code
+entry:
+  load: "python3 /testtools/qta/src/load.py $1"
+  run: "python3 /testtools/qta/src/run.py $1"
+supportOS:
+  - windows
+  - linux
+  - darwin
+supportArch:
+  - amd64
+  - arm64
+repository: https://github.com/OpenTestSolar/testtool-python-pytest
+gitPkgUrl: github.com/OpenTestSolar/testtool-python@main:pytest
+httpPkgUrl: https://opentestsolar.github.io/testtool-registry/testtools/python/pytest/metadata.json@stable
+testCatalog: unit
+testDomains:
+  - windows
+  - macos
+  - server

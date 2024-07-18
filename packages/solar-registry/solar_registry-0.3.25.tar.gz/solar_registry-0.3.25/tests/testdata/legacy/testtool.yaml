@@ -1,0 +1,54 @@
+schemaVersion: 1.0
+name: qt4s_pot-line
+legacyName: qt4s
+nameZh: qt4s自动化测试
+lang: python
+langType: "INTERPRETED"
+description: qt4s自动化测试工具
+version: '0.1.6'
+defaultBaseImage: python:3.10 # 用户在 TestContainer 配置中未指定 baseImage 时的默认镜像
+indexFile: https://opentestsolar.github.io/testtool-registry/testtools/stable.index.json
+versionFile: https://opentestsolar.github.io/testtool-registry/testtools/python/qt4s/metadata.json
+homePage: https://github.com/OpenTestSolar/testtool-python-pytest
+parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
+  - name: setup_cmdline
+    value: 初始化命令
+    desc: 加载/执行用例前的初始化命令
+    default: "# place your extra init command here"
+    lang: "bash"
+    inputWidget: "code"
+entry:
+  load: "python3 /testtools/qta/src/load.py $1"
+  run: "python3 /testtools/qta/src/run.py $1"
+supportOS:
+  - windows
+  - linux
+  - darwin
+supportArch:
+  - amd64
+  - arm64
+legacySpec:
+  testcaseRunner:
+    cli: test
+  testcaseLoader:
+    cli: test
+  testcaseAnalyzer:
+    cli: test
+  scaffoldingTool:
+    cli: test
+  nodeSetup:
+    cli: test
+  nodeCleanup:
+    cli: test
+  globalSetup:
+    cli: test
+  globalCleanup:
+    cli: test
+  resPkgUrl: https://sample.com/pkg
+  docUrl: https://sample.com/doc
+  logoImgUrl: https://sample.com/logo
+  enableCodeCoverage: false
+  maintainers: [ aa,bb ]
+  reportType: junit
+testCatalog: unit
+testType: auto-test

@@ -1,0 +1,81 @@
+{
+  "metaVersion": "1",
+  "versions": [
+    {
+      "meta": {
+        "schemaVersion": 1.0,
+        "name": "pytest",
+        "description": "Pytest测试工具",
+        "version": "0.1.4",
+        "lang": "python",
+        "defaultBaseImage": "python:3.10",
+        "langType": "INTERPRETED",
+        "parameterDefs": [
+          {
+            "name": "parseMode",
+            "value": "加载用例的模式",
+            "default": "auto",
+            "choices": [
+              {
+                "value": "auto",
+                "desc": "根据测试文件的内容自动识别加载模式。数据驱动用例使用 `qtaf` 模式，其余用例使用 `ast` 模式。"
+              },
+              {
+                "value": "ast",
+                "desc": "使用python内置的ast模块，运行静态语法分析模式来解析测试用例。\n\n优点：\n  - 解析速度快，不需要加载测试依赖的pip包\n\n缺点:\n  - 无法解析数据驱动用例\n  - 用例的属性如果是动态变量，不一定能解析成功\n  - 用例如果有复杂继承关系，不一定能解析成功\n"
+              },
+              {
+                "value": "qtaf",
+                "desc": "使用qtaf框架加载文件进行测试用例的识别。\n\n优点：\n  - 解析准确\n  - 支持数据驱动用例解析\n\n缺点：\n  - 用户测试用例有运行时依赖，在加载阶段可能无法成功\n  - 依赖测试运行的pip包，解析速度较慢\n"
+              }
+            ]
+          },
+          {
+            "name": "runMode",
+            "value": "运行用例的模式",
+            "default": "singleprocess",
+            "choices": [
+              {
+                "value": "singleprocess",
+                "desc": "使用单进程执行测试用例，一般用于串行模式。\n\n优点：\n  - 可保证执行顺序\n\n缺点：\n  - 整体执行效率可能较低\n"
+              },
+              {
+                "value": "multiprocess",
+                "desc": "使用多进程执行测试用例，一般用于并发执行。启动的进程数由用户设置的单机并发量决定。\n\n优点：\n  - 整体执行效率高\n\n缺点：\n  - 不保证用例执行顺序\n  - 单机并发量设置太高可能导致执行机异常\n"
+              }
+            ]
+          },
+          {
+            "name": "qtafSettings",
+            "value": "QTAF测试项目配置",
+            "default": ""
+          },
+          {
+            "name": "extraFieldsConfig",
+            "value": "用例额外属性",
+            "default": ""
+          }
+        ],
+        "homePage": "https://github.com/OpenTestSolar/testtool-python-pytest",
+        "versionFile": "https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/python/pytest/metadata.json",
+        "indexFile": "https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/stable.index.json",
+        "scaffoldRepo": "https://github.com/OpenTestSolar/testtool-scaffold-python-pytest/archive/refs/tags/0.1.0.tar.gz"
+      },
+      "target": [
+        {
+          "os": "windows",
+          "arch": "amd64",
+          "downloadUrl": "https://github.com/xxx/python/qta/v0.4.7/win_amd64.tar.gz",
+          "sha256": "4895aa8779f3d7ad6888292aeaf52559cb2ee71ff55253c847c812b854b4fa3d"
+        },
+        {
+          "os": "windows",
+          "arch": "arm64",
+          "downloadUrl": "https://github.com/xxx/python/qta/v0.4.7/win_arm64.tar.gz",
+          "sha256": "4895aa8779f3d7ad6888292aeaf52559cb2ee71ff55253c847c812b854b4fa3d"
+        }
+      ]
+    }
+  ]
+}
+

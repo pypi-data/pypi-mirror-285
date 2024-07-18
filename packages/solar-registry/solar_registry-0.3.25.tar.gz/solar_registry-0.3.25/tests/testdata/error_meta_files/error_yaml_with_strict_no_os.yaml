@@ -1,0 +1,17 @@
+schemaVersion: 1.0
+name: PyTest
+lang: python
+langType: "INTERPRETED"
+description: Pytest测试工具
+version: '0.1.3'
+defaultBaseImage: python:3.10 # 用户在 TestContainer 配置中未指定 baseImage 时的默认镜像
+scaffoldRepo: https://github.com/OpenTestSolar/testtool-scaffold-python-pytest/archive/refs/tags/0.1.0.tar.gz
+indexFile: https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/stable.index.json
+versionFile: https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/python/pytest/metadata.json
+homePage: https://github.com/OpenTestSolar/testtool-python-pytest
+entry:
+  load: "python3 /testtools/qta/src/load.py $1"
+  run: "python3 /testtools/qta/src/run.py $1"
+supportArch:
+  - amd64
+  - arm64

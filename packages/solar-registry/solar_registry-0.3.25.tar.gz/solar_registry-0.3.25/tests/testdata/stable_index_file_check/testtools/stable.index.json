@@ -1,0 +1,66 @@
+{
+  "metaVersion": "1",
+  "tools": [
+    {
+      "schemaVersion": 1.0,
+      "name": "pytest",
+      "legacyName": "",
+      "description": "pytest是一个成熟的全功能Python测试工具，可以帮助您编写更好的程序。此测试工具允许您在TestSolar上运行pytest。",
+      "version": "0.2.0",
+      "lang": "python",
+      "defaultBaseImage": "python:3.10",
+      "langType": "INTERPRETED",
+      "parameterDefs": [
+        {
+          "name": "workerCount",
+          "value": "并发数",
+          "desc": "并发数",
+          "default": "0",
+          "inputWidget": "number"
+        },
+        {
+          "name": "extraArgs",
+          "value": "额外命令行参数",
+          "desc": "额外命令行参数",
+          "default": "",
+          "inputWidget": "text"
+        },
+        {
+          "name": "timeout",
+          "value": "用例超时时间",
+          "desc": "用例超时时间",
+          "default": "0",
+          "inputWidget": "number"
+        },
+        {
+          "name": "enableAllure",
+          "value": "是否用allure生成报告",
+          "desc": "是否用allure生成报告",
+          "default": "false",
+          "inputWidget": "text"
+        }
+      ],
+      "homePage": "https://git.woa.com/TestSolar/TestTool/python/tree/master/pytest",
+      "versionFile": "https://testsolar-testtool-meta-1251316161.cos-internal.ap-guangzhou.tencentcos.cn/testtools/python/pytest/metadata.json",
+      "indexFile": "https://testsolar-testtool-meta-1251316161.cos-internal.ap-guangzhou.tencentcos.cn/testtools/stable.index.json",
+      "scaffoldRepo": "https://testsolar-testtool-meta-1251316161.cos-internal.ap-guangzhou.tencentcos.cn/testtools/python/pytest/scaffold.tar.gz",
+      "supportOS": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "supportArch": [
+        "amd64",
+        "arm64"
+      ],
+      "entry": {
+        "load": "python3 /testtools/pytest/src/load.py $1",
+        "run": "python3 /testtools/pytest/src/run.py $1"
+      },
+      "gitPkgUrl": "git.woa.com/TestSolar/TestTool/python@master:pytest",
+      "nameZh": "pytest自动化测试工具",
+      "certified": true,
+      "testCatalog": "unit"
+    }
+  ]
+}
