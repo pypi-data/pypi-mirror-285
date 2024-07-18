@@ -1,0 +1,94 @@
+
+from pyorbit.subroutines.common import np, constants
+from pyorbit.models.abstract_model import AbstractModel
+from pyorbit.models.abstract_transit import AbstractTransit
+
+try:
+    from pytransit import QuadraticModel
+    from pytransit import RoadRunnerModel
+    from pytransit import QPower2Model
+except ImportError:
+    pass
+
+
+class PyTransit_Transit(AbstractModel, AbstractTransit):
+
+    def __init__(self, *args, **kwargs):
+
+        super().__init__(*args, **kwargs)
+        super(AbstractModel, self).__init__(*args, **kwargs)
+
+        try:
+            from pytransit import QuadraticModel
+        except ImportError:
+            print("ERROR: PyTransit not installed, this will not work")
+            quit()
+
+        # Must be moved here because it will updated depending on the selected limb darkening
+        self.list_pams_common = {
+            'P',  # Period, log-uniform prior
+            'e',  # eccentricity, uniform prior
+            'omega',  # argument of pericenter (in radians)
+            'R_Rs',  # planet radius (in units of stellar radii)
+        }
+
+        self.pytransit_models = {}
+        self.pytransit_plot = {}
+
+    def initialize_model(self, mc, **kwargs):
+        self._prepare_planetary_parameters(mc, **kwargs)
+        self._prepare_limb_darkening_coefficients(mc, **kwargs)
+
+    def initialize_model_dataset(self, mc, dataset, **kwargs):
+        self._prepare_dataset_options(mc, dataset, **kwargs)
+
+        if kwargs.get('use_roadrunner', False):
+            self.pytransit_models[dataset.name_ref] = RoadRunnerModel()
+            self.pytransit_plot[dataset.name_ref] = RoadRunnerModel()
+            print('Using RoadRunner Model from PyTransit')
+        elif self.limb_darkening_model == 'quadratic':
+            self.pytransit_models[dataset.name_ref] = QuadraticModel()
+            self.pytransit_plot[dataset.name_ref] = QuadraticModel()
+
+        self.pytransit_models[dataset.name_ref].set_data(dataset.x0,
+                                                            exptimes=self.code_options[dataset.name_ref]['exp_time'],
+                                                            nsamples=self.code_options[dataset.name_ref]['sample_factor'])
+
+    def compute(self, parameter_values, dataset, x0_input=None):
+        """
+        :param parameter_values:
+        :param dataset:
+        :param x0_input:
+        :return:
+        """
+
+        self.update_parameter_values(parameter_values, dataset.Tref)
+
+        for par, i_par in self.ldvars.items():
+            self.ld_vars[i_par] = parameter_values[par]
+
+        if x0_input is None:
+            return self.pytransit_models[dataset.name_ref].evaluate(
+                parameter_values['R_Rs'],
+                self.ld_vars,
+                parameter_values['Tc'] - dataset.Tref,
+                parameter_values['P'],
+                parameter_values['a_Rs'],
+                parameter_values['i'],
+                parameter_values['e'],
+                parameter_values['omega'] * constants.deg2rad) - 1.
+
+        else:
+            self.pytransit_plot[dataset.name_ref].set_data(x0_input,
+                                                            exptimes=self.code_options[dataset.name_ref]['exp_time'],
+                                                            nsamples=self.code_options[dataset.name_ref]['sample_factor'])
+
+            return self.pytransit_plot[dataset.name_ref].evaluate(
+                parameter_values['R_Rs'],
+                self.ld_vars,
+                parameter_values['Tc'] - dataset.Tref,
+                parameter_values['P'],
+                parameter_values['a_Rs'],
+                parameter_values['i'],
+                parameter_values['e'],
+                parameter_values['omega'] * constants.deg2rad) - 1.
