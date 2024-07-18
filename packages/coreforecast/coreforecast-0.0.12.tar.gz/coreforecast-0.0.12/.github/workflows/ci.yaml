@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_wheels:
+    name: Build wheels for ${{ matrix.platform-id }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-20.04
+            platform-id: manylinux_x86_64
+          - os: ubuntu-20.04
+            platform-id: manylinux_aarch64
+          - os: windows-2019
+            platform-id: win_amd64
+          - os: macos-13
+            platform-id: macosx_x86_64
+          - os: macos-14
+            platform-id: macosx_arm64
+
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+
+      - name: Set up QEMU
+        if: matrix.platform-id == 'manylinux_aarch64'
+        uses: docker/setup-qemu-action@5927c834f5b4fdf503fca6f4c7eccda82949e1ee # v3.1.0
+        with:
+          platforms: arm64
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@7e5a838a63ac8128d71ab2dfd99e4634dd1bca09 # v2.19.2
+        env:
+          CIBW_BUILD: cp310-${{ matrix.platform-id }}
+
+      - uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4.3.4
+        with:
+          name: artifact-${{ matrix.platform-id }}
+          path: ./wheelhouse/*.whl
+          retention-days: 1
+
+  run_tests:
+    needs: [build_wheels]
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-13, macos-14, ubuntu-latest, windows-latest]
+        python-version: ['3.8', '3.9', '3.10', '3.11']
+        exclude:
+          - os: macos-14
+            python-version: '3.8'
+          - os: macos-14
+            python-version: '3.9'
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # 4.1.7
+
+      - uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # 5.1.1
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements-test.txt
+
+      - name: Download wheels
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4.1.8
+        with:
+          path: dist
+          pattern: 'artifact-*'
+          merge-multiple: true
+
+      - name: Install the library
+        run: pip install --no-index --find-links dist coreforecast
+
+      - name: Run tests
+        run: pytest --benchmark-group-by=param:scaler_name --benchmark-sort=fullname
