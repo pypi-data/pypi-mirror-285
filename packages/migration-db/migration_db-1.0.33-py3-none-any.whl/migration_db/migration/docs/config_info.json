@@ -1,0 +1,1177 @@
+{
+    "ctms": {
+        "data": [
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 29,
+                "app_source_field": "eclinical_ctms_study_site.site_id,site_code",
+                "code": "site_id",
+                "comment": "site",
+                "data_type": 1,
+                "fields": "eclinical_ctms_auto_execution_site.site_id\neclinical_ctms_email_template_quote.site_id\neclinical_ctms_entity_participant_role_site.site_id\neclinical_ctms_monitor_action_items.site_id\neclinical_ctms_monitor_config_site.site_id\neclinical_ctms_monitor_follow_up.site_id\neclinical_ctms_monitor_plan_human_resource_site.site_id\neclinical_ctms_monitor_plan_site.site_id\neclinical_ctms_monitor_visit.site_id\neclinical_ctms_pd_form_instance.site_id\neclinical_ctms_study_site.site_id\neclinical_ctms_site.id\neclinical_ctms_ddm_csv_visit_completion.site_id\neclinical_ctms_ddm_csv_manual_query.site_id\neclinical_ctms_ddm_csv_form_completion.site_id\neclinical_ctms_ddm_csv_adverse_event_summary.site_id\neclinical_ctms_ddm_csv_adverse_event.site_id",
+                "id": 2,
+                "name": "CTMS",
+                "system_id": 2
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.id",
+                "app_field_id": 28,
+                "app_source_field": "",
+                "code": "study_id",
+                "comment": "study",
+                "data_type": 1,
+                "fields": "eclinical_ctms_study.id\neclinical_ctms_ddm_indicator_config.study_id\neclinical_ctms_documentation.study_id\neclinical_ctms_entity_participant.study_id\neclinical_ctms_entity_role.study_id\neclinical_ctms_entity_tag.study_id\neclinical_ctms_entity_vendor.study_id\neclinical_ctms_monitor_action_items.study_id\neclinical_ctms_monitor_alert_rule.study_id\neclinical_ctms_monitor_config.study_id\neclinical_ctms_monitor_follow_up.study_id\neclinical_ctms_monitor_plan.study_id\neclinical_ctms_monitor_plan_human_resource.study_id\neclinical_ctms_monitor_plan_human_resource_method.study_id\neclinical_ctms_monitor_plan_human_resource_site.study_id\neclinical_ctms_monitor_plan_human_resource_type.study_id\neclinical_ctms_monitor_visit.study_id\neclinical_ctms_pd_form_instance.study_id\neclinical_ctms_pd_instance_lock.study_id\neclinical_ctms_pd_setting.study_id\neclinical_ctms_pd_template_study_rel.study_id\neclinical_ctms_rbm_kri_indicator.study_id\neclinical_ctms_study_depot.study_id\neclinical_ctms_study_drug.study_id\neclinical_ctms_study_protocol.study_id\neclinical_ctms_study_region.study_id\neclinical_ctms_study_registration.study_id\neclinical_ctms_study_site.study_id\neclinical_ctms_ddm_csv_visit_completion.study_id\neclinical_ctms_ddm_csv_manual_query.study_id\neclinical_ctms_ddm_csv_form_completion.study_id\neclinical_ctms_ddm_csv_adverse_event_summary.study_id\neclinical_ctms_ddm_csv_adverse_event.study_id",
+                "id": 3,
+                "name": "CTMS",
+                "system_id": 2
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 30,
+                "app_source_field": "eclinical_ctms_study_site.site_id,site_code",
+                "code": "site_code",
+                "comment": "site",
+                "data_type": 2,
+                "fields": "eclinical_ctms_study_site.site_code",
+                "id": 1,
+                "name": "CTMS",
+                "system_id": 2
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.name",
+                "app_field_id": 31,
+                "app_source_field": "eclinical_ctms_study.name",
+                "code": "study_name",
+                "comment": "study",
+                "data_type": 2,
+                "fields": "eclinical_ctms_study.name",
+                "id": 5,
+                "name": "CTMS",
+                "system_id": 2
+            }
+        ],
+        "external_condition_fields_mapping": {
+            "1_eclinical_admin_role": [
+                {
+                    "comment": null,
+                    "field_name": "company_id",
+                    "val_type": 11
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study_depot_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                }
+            ],
+            "1_eclinical_admin_study_site_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                }
+            ],
+            "2_eclinical_ctms_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ],
+            "2_eclinical_ctms_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_essential_document": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_file_ext": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": null,
+                    "field_name": "site_id",
+                    "val_type": 8
+                }
+            ],
+            "3_eclinical_etmf_folder": [
+                {
+                    "comment": null,
+                    "field_name": "document_type",
+                    "val_type": 9
+                }
+            ],
+            "3_eclinical_etmf_folder_object_ref": [
+                {
+                    "comment": "study",
+                    "field_name": "object_type",
+                    "val_type": 9
+                },
+                {
+                    "comment": "study",
+                    "field_name": "object_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_type",
+                    "val_type": 14
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_id",
+                    "val_type": 15
+                }
+            ],
+            "5_eclinical_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "8_eclinical_entry_form_item_record": [
+                {
+                    "comment": null,
+                    "field_name": "uuid",
+                    "val_type": null
+                }
+            ],
+            "8_eclinical_intake_edc_import": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "8_eclinical_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ]
+        },
+        "sql_statement": [],
+        "table_actions": [
+            {
+                "action_id": 1,
+                "create_dt": "2023-02-28 23:38:54",
+                "create_uid": "system",
+                "details": "eclinical_ctms_email_send_history_user.email\r\neclinical_ctms_entity_member.email\r\neclinical_ctms_entity_staff.mails\r\neclinical_ctms_site.email\r\neclinical_ctms_monitor_email_cc.email\r\neclinical_ctms_monitor_user.email\r\neclinical_ctms_depot.email\r\neclinical_ctms_monitor_confirm_letter.email\r\neclinical_ctms_monitor_follow_up_letter.email\r\neclinical_ctms_entity_staff_address.address",
+                "id": 5,
+                "is_delete": 0,
+                "modify_dt": "2023-02-28 23:38:54",
+                "modify_uid": "system",
+                "system_id": 2
+            },
+            {
+                "action_id": 2,
+                "create_dt": "2023-12-26 04:10:00",
+                "create_uid": "system",
+                "details": "eclinical_ctms_email_send_history_user\r\neclinical_ctms_alert_reminder_history\r\n",
+                "id": 6,
+                "is_delete": 0,
+                "modify_dt": "2023-12-26 04:10:00",
+                "modify_uid": "system",
+                "system_id": 2
+            }
+        ]
+    },
+    "design": {
+        "data": [
+            {
+                "admin_source_field": "eclinical_admin_study.sponsor_id",
+                "app_field_id": 12,
+                "app_source_field": "eclinical_design_database_owner.sponsor_id",
+                "code": "sponsor_id",
+                "comment": null,
+                "data_type": 1,
+                "fields": "eclinical_design_database_owner.sponsor_id",
+                "id": 4,
+                "name": "DESIGN",
+                "system_id": 4
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.id",
+                "app_field_id": 11,
+                "app_source_field": "eclinical_study.id",
+                "code": "study_id",
+                "comment": "study",
+                "data_type": 1,
+                "fields": "eclinical_study.id\neclinical_design_database_owner.study_id",
+                "id": 3,
+                "name": "DESIGN",
+                "system_id": 4
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.name",
+                "app_field_id": 10,
+                "app_source_field": "eclinical_study.name",
+                "code": "study_name",
+                "comment": "study",
+                "data_type": 2,
+                "fields": "eclinical_crf_form_header.study_name\r\neclinical_study.name",
+                "id": 5,
+                "name": "DESIGN",
+                "system_id": 4
+            }
+        ],
+        "external_condition_fields_mapping": {
+            "1_eclinical_admin_role": [
+                {
+                    "comment": null,
+                    "field_name": "company_id",
+                    "val_type": 11
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study_depot_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                }
+            ],
+            "1_eclinical_admin_study_site_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                }
+            ],
+            "2_eclinical_ctms_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ],
+            "2_eclinical_ctms_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_essential_document": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_file_ext": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": null,
+                    "field_name": "site_id",
+                    "val_type": 8
+                }
+            ],
+            "3_eclinical_etmf_folder": [
+                {
+                    "comment": null,
+                    "field_name": "document_type",
+                    "val_type": 9
+                }
+            ],
+            "3_eclinical_etmf_folder_object_ref": [
+                {
+                    "comment": "study",
+                    "field_name": "object_type",
+                    "val_type": 9
+                },
+                {
+                    "comment": "study",
+                    "field_name": "object_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_type",
+                    "val_type": 14
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_id",
+                    "val_type": 15
+                }
+            ],
+            "5_eclinical_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "8_eclinical_entry_form_item_record": [
+                {
+                    "comment": null,
+                    "field_name": "uuid",
+                    "val_type": null
+                }
+            ],
+            "8_eclinical_intake_edc_import": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "8_eclinical_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ]
+        },
+        "sql_statement": [
+            {
+                "action_id": 100,
+                "create_dt": "2024-05-29 09:12:48",
+                "create_uid": "system",
+                "details": "UPDATE eclinical_crf_version SET `status`=(CASE WHEN `status` >= 500 THEN 560 WHEN `status` >= 100 THEN 100 END) WHERE latest=TRUE;",
+                "id": 7,
+                "is_delete": 0,
+                "modify_dt": "2024-05-29 09:12:48",
+                "modify_uid": "system",
+                "system_id": 4
+            }
+        ],
+        "table_actions": [
+            {
+                "action_id": 2,
+                "create_dt": "2022-07-25 23:38:54",
+                "create_uid": "system",
+                "details": "eclinical_crf_version_publish\r\neclinical_crf_version_archive\r\neclinical_crf_version_operation",
+                "id": 3,
+                "is_delete": 0,
+                "modify_dt": "2022-07-25 23:38:54",
+                "modify_uid": "system",
+                "system_id": 4
+            }
+        ]
+    },
+    "edc": {
+        "data": [
+            {
+                "admin_source_field": "eclinical_admin_role.id,code",
+                "app_field_id": 24,
+                "app_source_field": "eclinical_manual_query_reply.role_id,role_name||eclinical_system_query_reply.role_id,role_name",
+                "code": "role_id",
+                "comment": null,
+                "data_type": 1,
+                "fields": "eclinical_system_query_reply.role_id\neclinical_manual_query_reply.role_id\neclinical_manual_query.assigned\neclinical_manual_query.category\neclinical_manual_query.current_role\neclinical_validation_mq_setting.creation_role_id\neclinical_validation_mq_setting.assign_to_id",
+                "id": 6,
+                "name": "EDC",
+                "system_id": 5
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 2,
+                "app_source_field": "eclinical_study_site.id,code",
+                "code": "site_id",
+                "comment": "site",
+                "data_type": 1,
+                "fields": "eclinical_study_site.id\neclinical_study_site_status.study_site_id\neclinical_study_site_crfversion.study_site_id\neclinical_study_site_crfversion_history.study_site_id\neclinical_subject.study_site_id\neclinical_lab_version.site_id\neclinical_upgrade_log.site_id\neclinical_payment_site_budget.site_id\neclinical_payment_site_crf_form_amount.site_id\neclinical_payment_site_form_status.site_id\neclinical_payment_site_odm_form_amount.site_id\neclinical_payment_details.site_id\neclinical_payment_request.site_id\neclinical_pv_task.site_id\neclinical_form_alert_history.site_id\neclinical_subject_multi_select_change_log.site_id\neclinical_subject_visit_window_view.site_id\nREPLACE_STR(eclinical_pv_task.case_id, -, 2)\neclinical_backup_subject_data.study_site_id\neclinical_edc_tsdv_plan.site_id\neclinical_raw_data_ig_extract.site_id\neclinical_crf_data_ig_extract.site_id\n",
+                "id": 2,
+                "name": "EDC",
+                "system_id": 5
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.sponsor_id",
+                "app_field_id": 4,
+                "app_source_field": "eclinical_edc_database_owner.sponsor_id",
+                "code": "sponsor_id",
+                "comment": null,
+                "data_type": 1,
+                "fields": "eclinical_edc_database_owner.sponsor_id",
+                "id": 4,
+                "name": "EDC",
+                "system_id": 5
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.id",
+                "app_field_id": 3,
+                "app_source_field": "eclinical_study.id",
+                "code": "study_id",
+                "comment": "study",
+                "data_type": 1,
+                "fields": "eclinical_edc_database_owner.study_id\neclinical_study.id\neclinical_study_status.study_id\neclinical_pv_task.study_id\neclinical_subject_record_sync_batch.study_id\neclinical_global_ediary_setting.study_id\nREPLACE_STR(eclinical_pv_task.case_id, -, 4)",
+                "id": 3,
+                "name": "EDC",
+                "system_id": 5
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 1,
+                "app_source_field": "eclinical_study_site.id,code",
+                "code": "site_code",
+                "comment": "site",
+                "data_type": 2,
+                "fields": "eclinical_study_site.code\neclinical_payment_details.site_name\neclinical_pv_task.site_name\neclinical_raw_data_ig_extract.site_code\neclinical_crf_data_ig_extract.site_code",
+                "id": 1,
+                "name": "EDC",
+                "system_id": 5
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.name",
+                "app_field_id": 5,
+                "app_source_field": "eclinical_study.name",
+                "code": "study_name",
+                "comment": "study",
+                "data_type": 2,
+                "fields": "eclinical_study.name\r\neclinical_crf_form_header.study_name\r\neclinical_pv_task.study_name",
+                "id": 5,
+                "name": "EDC",
+                "system_id": 5
+            }
+        ],
+        "external_condition_fields_mapping": {
+            "1_eclinical_admin_role": [
+                {
+                    "comment": null,
+                    "field_name": "company_id",
+                    "val_type": 11
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study_depot_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                }
+            ],
+            "1_eclinical_admin_study_site_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                }
+            ],
+            "2_eclinical_ctms_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ],
+            "2_eclinical_ctms_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_essential_document": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_file_ext": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": null,
+                    "field_name": "site_id",
+                    "val_type": 8
+                }
+            ],
+            "3_eclinical_etmf_folder": [
+                {
+                    "comment": null,
+                    "field_name": "document_type",
+                    "val_type": 9
+                }
+            ],
+            "3_eclinical_etmf_folder_object_ref": [
+                {
+                    "comment": "study",
+                    "field_name": "object_type",
+                    "val_type": 9
+                },
+                {
+                    "comment": "study",
+                    "field_name": "object_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_type",
+                    "val_type": 14
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_id",
+                    "val_type": 15
+                }
+            ],
+            "5_eclinical_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "8_eclinical_entry_form_item_record": [
+                {
+                    "comment": null,
+                    "field_name": "uuid",
+                    "val_type": null
+                }
+            ],
+            "8_eclinical_intake_edc_import": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "8_eclinical_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ]
+        },
+        "sql_statement": [],
+        "table_actions": [
+            {
+                "action_id": 1,
+                "create_dt": "2022-07-25 23:38:54",
+                "create_uid": "system",
+                "details": "eclinical_study.irt_file_id",
+                "id": 1,
+                "is_delete": 0,
+                "modify_dt": "2022-07-25 23:38:54",
+                "modify_uid": "system",
+                "system_id": 5
+            },
+            {
+                "action_id": 2,
+                "create_dt": "2022-07-25 23:38:54",
+                "create_uid": "system",
+                "details": "eclinical_reports\neclinical_code_data_generation\neclinical_task_extraction_record\neclinical_task_extraction_record_file\neclinical_task_file\neclinical_task_report\neclinical_file_server\neclinical_system_integration",
+                "id": 2,
+                "is_delete": 0,
+                "modify_dt": "2024-05-10 09:06:11",
+                "modify_uid": "system",
+                "system_id": 5
+            }
+        ]
+    },
+    "etmf": {
+        "data": [
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 17,
+                "app_source_field": "eclinical_etmf_file_ext.site_id,site",
+                "code": "site_id",
+                "comment": "site",
+                "data_type": 1,
+                "fields": "eclinical_etmf_download_task.site_id\neclinical_etmf_file_ext.site_id\neclinical_etmf_folder_object_ref.object_id",
+                "id": 2,
+                "name": "eTMF",
+                "system_id": 3
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.sponsor_id",
+                "app_field_id": 18,
+                "app_source_field": "eclinical_etmf_database_owner.sponsor_id",
+                "code": "sponsor_id",
+                "comment": null,
+                "data_type": 1,
+                "fields": "eclinical_etmf_database_owner.sponsor_id",
+                "id": 4,
+                "name": "eTMF",
+                "system_id": 3
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.id",
+                "app_field_id": 16,
+                "app_source_field": "",
+                "code": "study_id",
+                "comment": "study",
+                "data_type": 1,
+                "fields": "eclinical_etmf_artifact.study_id\neclinical_etmf_artifact_metadata_config.study_id\neclinical_etmf_download_task.study_id\neclinical_etmf_essential_document.study_id\neclinical_etmf_file_ext.study_id\neclinical_etmf_file_import_record.study_id\neclinical_etmf_milestone.study_id\neclinical_etmf_milestone_metadata.study_id\neclinical_etmf_placeholder.study_id\neclinical_etmf_placeholder_metadata.study_id\neclinical_etmf_trash.biz_study_id\neclinical_etmf_folder_object_ref.object_id",
+                "id": 3,
+                "name": "eTMF",
+                "system_id": 3
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 20,
+                "app_source_field": "eclinical_etmf_file_ext.site_id,site",
+                "code": "site_code",
+                "comment": "site",
+                "data_type": 2,
+                "fields": "eclinical_etmf_file_ext.site\neclinical_etmf_file_import_detail.site\neclinical_etmf_folder_object_ref.from_object",
+                "id": 1,
+                "name": "eTMF",
+                "system_id": 3
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.name",
+                "app_field_id": 19,
+                "app_source_field": "eclinical_etmf_folder_object_ref.from_object",
+                "code": "study_name",
+                "comment": "study",
+                "data_type": 2,
+                "fields": "eclinical_etmf_essential_document.study_name\r\neclinical_etmf_file_import_detail.study_name\r\neclinical_etmf_folder_object_ref.from_object\r\neclinical_etmf_folder.name",
+                "id": 5,
+                "name": "eTMF",
+                "system_id": 3
+            }
+        ],
+        "external_condition_fields_mapping": {
+            "1_eclinical_admin_role": [
+                {
+                    "comment": null,
+                    "field_name": "company_id",
+                    "val_type": 11
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study_depot_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                }
+            ],
+            "1_eclinical_admin_study_site_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                }
+            ],
+            "2_eclinical_ctms_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ],
+            "2_eclinical_ctms_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_essential_document": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_file_ext": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": null,
+                    "field_name": "site_id",
+                    "val_type": 8
+                }
+            ],
+            "3_eclinical_etmf_folder": [
+                {
+                    "comment": null,
+                    "field_name": "document_type",
+                    "val_type": 9
+                }
+            ],
+            "3_eclinical_etmf_folder_object_ref": [
+                {
+                    "comment": "study",
+                    "field_name": "object_type",
+                    "val_type": 9
+                },
+                {
+                    "comment": "study",
+                    "field_name": "object_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_type",
+                    "val_type": 14
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_id",
+                    "val_type": 15
+                }
+            ],
+            "5_eclinical_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "8_eclinical_entry_form_item_record": [
+                {
+                    "comment": null,
+                    "field_name": "uuid",
+                    "val_type": null
+                }
+            ],
+            "8_eclinical_intake_edc_import": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "8_eclinical_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ]
+        },
+        "sql_statement": [],
+        "table_actions": []
+    },
+    "iwrs": {
+        "data": [
+            {
+                "admin_source_field": "eclinical_admin_study_depot_rel.depot_id,number",
+                "app_field_id": 32,
+                "app_source_field": "eclinical_iwrs_depot.id,number",
+                "code": "depot_id",
+                "comment": null,
+                "data_type": 1,
+                "fields": "eclinical_iwrs_depot.id\neclinical_iwrs_site_depot.depot_id\neclinical_iwrs_depot_inventory_threshold.depot_id\neclinical_iwrs_inventory.depot_id\neclinical_iwrs_site_inventory.depot_id\neclinical_iwrs_shipment.depot_id\neclinical_iwrs_shipment.apply_id\neclinical_iwrs_shipment.return_depot_id\neclinical_iwrs_shipment.create_id\neclinical_iwrs_lot.depot_id\neclinical_iwrs_site_inventory.depot_id\neclinical_iwrs_quarantine.depot_id\neclinical_iwrs_recipient.depot_id\neclinical_iwrs_site_list.return_depot_id",
+                "id": 7,
+                "name": "IWRS",
+                "system_id": 6
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 8,
+                "app_source_field": "eclinical_iwrs_site.id,name",
+                "code": "site_id",
+                "comment": "site",
+                "data_type": 1,
+                "fields": "eclinical_iwrs_study_site_rel.site_id\neclinical_iwrs_rand_result.site_id\neclinical_iwrs_rand_result_pro.site_id\neclinical_iwrs_multi_central.site_id\neclinical_iwrs_multi_central_pro.site_id\neclinical_iwrs_site.id\neclinical_iwrs_dispense.site_id\neclinical_iwrs_site_depot.site_id\neclinical_iwrs_site_inventory.site_id\neclinical_iwrs_site_list.site_id\neclinical_iwrs_site_recipient.site_id\neclinical_iwrs_site_supply_plan.site_id\neclinical_iwrs_subject.site_id\neclinical_iwrs_subject_scheduled_plan.site_id\neclinical_iwrs_mapping_site.sys_site_id\neclinical_iwrs_lot.site_id\neclinical_iwrs_block_pro.site_id\neclinical_iwrs_site_depot.site_id",
+                "id": 2,
+                "name": "IWRS",
+                "system_id": 6
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.sponsor_id",
+                "app_field_id": 7,
+                "app_source_field": "eclinical_iwrs_database_owner.sponsor_id",
+                "code": "sponsor_id",
+                "comment": null,
+                "data_type": 1,
+                "fields": "eclinical_iwrs_database_owner.sponsor_id",
+                "id": 4,
+                "name": "IWRS",
+                "system_id": 6
+            },
+            {
+                "admin_source_field": "eclinical_admin_study.id",
+                "app_field_id": 6,
+                "app_source_field": "eclinical_iwrs_study.id",
+                "code": "study_id",
+                "comment": "study",
+                "data_type": 1,
+                "fields": "eclinical_iwrs_arm.study_id\r\neclinical_iwrs_block.study_id\r\neclinical_iwrs_block_arm.study_id\r\neclinical_iwrs_block_arm_pro.study_id\r\neclinical_iwrs_block_pro.study_id\r\neclinical_iwrs_database_owner.study_id\r\neclinical_iwrs_factor_setting.study_id\r\neclinical_iwrs_factor_setting_pro.study_id\r\neclinical_iwrs_factor_setting_tree.study_id\r\neclinical_iwrs_factor_setting_tree_pro.study_id\r\neclinical_iwrs_multi_central.study_id\r\neclinical_iwrs_multi_central_pro.study_id\r\neclinical_iwrs_rand_result.study_id\r\neclinical_iwrs_rand_result_pro.study_id\r\neclinical_iwrs_scheme.study_id\r\neclinical_iwrs_stratified.study_id\r\neclinical_iwrs_stratified_factor.study_id\r\neclinical_iwrs_stratified_factor_pro.study_id\r\neclinical_iwrs_stratified_pro.study_id\r\neclinical_iwrs_study.id\r\neclinical_iwrs_study_site_rel.study_id\r\neclinical_iwrs_unblind_record.study_id",
+                "id": 3,
+                "name": "IWRS",
+                "system_id": 6
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_depot_rel.depot_id,number",
+                "app_field_id": 33,
+                "app_source_field": "eclinical_iwrs_depot.id,number",
+                "code": "depot_number",
+                "comment": null,
+                "data_type": 2,
+                "fields": "eclinical_iwrs_depot.number",
+                "id": 8,
+                "name": "IWRS",
+                "system_id": 6
+            },
+            {
+                "admin_source_field": "eclinical_admin_study_site_rel.site_id,code",
+                "app_field_id": 9,
+                "app_source_field": "eclinical_iwrs_site.id,name",
+                "code": "site_code",
+                "comment": "site",
+                "data_type": 2,
+                "fields": "eclinical_iwrs_multi_central.site_code\neclinical_iwrs_multi_central_pro.site_code\neclinical_iwrs_site.name\neclinical_iwrs_block.strata\neclinical_iwrs_rand_result.strata\neclinical_iwrs_rand_result_pro.strata\neclinical_iwrs_mapping_site.sys_site\neclinical_iwrs_study_site_rel.code",
+                "id": 1,
+                "name": "IWRS",
+                "system_id": 6
+            }
+        ],
+        "external_condition_fields_mapping": {
+            "1_eclinical_admin_role": [
+                {
+                    "comment": null,
+                    "field_name": "company_id",
+                    "val_type": 11
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                },
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "1_eclinical_admin_study_depot_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                }
+            ],
+            "1_eclinical_admin_study_site_rel": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 3
+                },
+                {
+                    "comment": null,
+                    "field_name": "env_id",
+                    "val_type": 6
+                },
+                {
+                    "comment": null,
+                    "field_name": "active",
+                    "val_type": 100
+                }
+            ],
+            "2_eclinical_ctms_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ],
+            "2_eclinical_ctms_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_essential_document": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "3_eclinical_etmf_file_ext": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": null,
+                    "field_name": "site_id",
+                    "val_type": 8
+                }
+            ],
+            "3_eclinical_etmf_folder": [
+                {
+                    "comment": null,
+                    "field_name": "document_type",
+                    "val_type": 9
+                }
+            ],
+            "3_eclinical_etmf_folder_object_ref": [
+                {
+                    "comment": "study",
+                    "field_name": "object_type",
+                    "val_type": 9
+                },
+                {
+                    "comment": "study",
+                    "field_name": "object_id",
+                    "val_type": 7
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_type",
+                    "val_type": 14
+                },
+                {
+                    "comment": "site",
+                    "field_name": "object_id",
+                    "val_type": 15
+                }
+            ],
+            "5_eclinical_study_site": [
+                {
+                    "comment": null,
+                    "field_name": "is_delete",
+                    "val_type": 99
+                }
+            ],
+            "8_eclinical_entry_form_item_record": [
+                {
+                    "comment": null,
+                    "field_name": "uuid",
+                    "val_type": null
+                }
+            ],
+            "8_eclinical_intake_edc_import": [
+                {
+                    "comment": null,
+                    "field_name": "study_id",
+                    "val_type": 7
+                }
+            ],
+            "8_eclinical_study": [
+                {
+                    "comment": null,
+                    "field_name": "id",
+                    "val_type": 7
+                }
+            ]
+        },
+        "sql_statement": [],
+        "table_actions": [
+            {
+                "action_id": 2,
+                "create_dt": "2023-02-28 23:38:54",
+                "create_uid": "system",
+                "details": "eclinical_iwrs_site_recipient\r\neclinical_iwrs_recipient",
+                "id": 4,
+                "is_delete": 0,
+                "modify_dt": "2023-02-28 23:38:54",
+                "modify_uid": "system",
+                "system_id": 6
+            }
+        ]
+    }
+}
