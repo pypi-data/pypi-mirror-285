@@ -1,0 +1,127 @@
+Metadata-Version: 2.1
+Name: presenterm-export
+Version: 0.2.2
+Summary: Presenterm's presentation exporter
+Author-email: Matias Fontanini <matias.fontanini@gmail.com>
+Maintainer-email: Matias Fontanini <matias.fontanini@gmail.com>
+License: BSD 2-Clause License
+        
+        Copyright (c) 2023, Matias Fontanini
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        1. Redistributions of source code must retain the above copyright notice, this
+           list of conditions and the following disclaimer.
+        
+        2. Redistributions in binary form must reproduce the above copyright notice,
+           this list of conditions and the following disclaimer in the documentation
+           and/or other materials provided with the distribution.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        
+        
+Project-URL: Homepage, https://github.com/mfontanini/presenterm-export
+Project-URL: Bug Reports, https://github.com/mfontanini/presenterm-export
+Project-URL: Source, https://github.com/mfontanini/presenterm-export
+Keywords: presenterm,terminal,slideshow
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: ansi2html==1.8.0
+Requires-Dist: libtmux==0.23.2
+Requires-Dist: weasyprint==62.3.0
+Requires-Dist: dataclass-wizard==0.22.2
+
+# presenterm-export
+
+A PDF exporter for [presenterm](https://github.com/mfontanini/presenterm).
+
+---
+
+**This is not meant to be used as a standalone tool but instead by running _presenterm_ using the `--export-pdf` 
+switch.**
+
+# Installation
+
+This tool requires [tmux](https://github.com/tmux/tmux/) to be installed. Then simply run:
+
+```shell
+pip install presenterm-export
+```
+
+ **Note**: make sure that `presenterm-export` works by running `presenterm-export --version` before attempting to 
+> generate a PDF file. If you get errors related to _weasyprint_, follow their [installation 
+> instructions](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html) to ensure you meet all of their 
+> dependencies. This has otherwise caused issues in macOS.
+
+# How it works
+
+This tool's goal is to capture the output of _presenterm_ and turn it into a PDF file. This section outlines roughly how 
+it works.
+
+## Presentation metadata
+
+Before _presenterm_ runs this tool, it will gnerate a JSON blob that contains metadata about the presentation, 
+including:
+* Its path.
+* Where each image is in the original markdown file.
+* The keys that _presenterm_ wants this tool to simulate to capture its contents. This allows this tool to be pretty 
+  dumb in terms of capturing: it doesn't even understand slides, it just presses whatever _presenterm_ tells it to.
+
+This metadata is then passed into this tool via stdin.
+
+## Capturing
+
+Capturing the output of _presenterm_ is done via `tmux` by running it, sending keys to it, and performing pane captures.
+
+The output of this stage is a list of panes that contain ANSI escape codes. This means you can print them on a terminal 
+and they'll look good but you can't really turn them into PDF as-is.
+
+## Conversion to HTML
+
+The next step is to take the ANSI text and turn it into HTML via [ansi2html](https://github.com/pycontribs/ansi2html). 
+This library creates HTML that looks mostly how we want it to but we perform a few transformations so it looks as close 
+to _presenterm_ itself as we can.
+
+## Conversion to PDF
+
+Finally, the HTML is converted into PDF by using [weasyprint](https://github.com/Kozea/WeasyPrint). The result is a PDF 
+that looks exactly as if you had ran _presenterm_ including background colors and images.
+
+# Images
+
+Images are tricky and are the reason why this uses HTML as an intermediate step, given they can't be represented with 
+just text so `tmux` pane captures will ignore them.
+
+Luckily, [viuer](https://github.com/atanunq/viuer), the crate _presenterm_ uses to display images, falls back to using 
+text blocks to display images when your terminal emulator doesn't support any of the image protocols (e.g. kitty's). 
+This means if you ran this under `tmux` you would get an ASCII-based version of your images.
+
+This could be enough but we _really_ want PDF exports to look as close to the real thing as possible. So instead of 
+keeping those ASCII based images, we do the following:
+
+1. Replace every image with a new image of the same size but made up of a single unique color. This means an image of 
+   300x200px will be replaced with another one of 300x200px but made up of some specific color. The reason for doing 
+   this is we can then easily spot these blocks of text in the HTML output, which means we can know exactly where the 
+   original image should be in the HTML version of the presentation.
+2. After the transformation to HTML, we do a pass and find every image based on the color we chose for it and replace it 
+   with an `img` tag pointing to its original and using a properly scaled width attribute.
+3. When the PDF generation occurs, the image tags are correctly interpreted and the final PDF output contains every 
+   image where it should be.
+
+# Presentation size
+
+The size of the page in the generated PDF is the same as the size of the terminal you run `presenterm --export-pdf` on. 
+That means you should adjust your terminal size before running it so that it fits text however you want it to.
+
