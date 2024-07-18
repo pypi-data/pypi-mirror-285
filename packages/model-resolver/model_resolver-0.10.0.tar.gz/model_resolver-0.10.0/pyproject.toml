@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "model-resolver"
+version = "0.10.0"
+description = ""
+authors = ["edayot <pro.e.dayot@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+beet = ">=0.104.1"
+tqdm = "^4.66.2"
+rich = "^13.7.1"
+pillow = "^10.3.0"
+black = "^24.4.2"
+typer = "^0.12.3"
+pyopenglalwaysworking = "3.1.99"
+
+[tool.poetry.scripts]
+model_resolver = "model_resolver.cli:app"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.beet]
+output="build"
+pipeline=[
+    "model_resolver"
+]
+
+
+[tool.beet.resource_pack]
+load = "."
+
+[tool.beet.meta.model_resolver]
+load_vanilla = false
+use_cache = false
+render_size = 256
+minecraft_version = "latest"
+filter = ["**"]
+save_namespace = "simpledrawer"
+
