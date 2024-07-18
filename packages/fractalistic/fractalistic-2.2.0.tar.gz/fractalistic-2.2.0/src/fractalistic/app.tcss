@@ -1,0 +1,28 @@
+Canvas, RichLog, Input {
+    border: round grey;
+    overflow-x: hidden;
+    background: transparent;
+}
+
+Canvas, #right_container {
+    margin: 1 2;
+}
+
+.hidden {
+    display: none;
+}
+
+Screen, #container {
+    layout: horizontal;
+    align: center middle;
+}
+
+#right_container {
+    width: 30%;
+    max-width: 50;
+    height: 100%;
+}
+
+*:focus {
+    border: round $accent-darken-1;
+}
