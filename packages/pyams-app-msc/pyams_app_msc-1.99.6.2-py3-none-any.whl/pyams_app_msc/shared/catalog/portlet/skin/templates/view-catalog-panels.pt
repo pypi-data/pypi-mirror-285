@@ -1,0 +1,136 @@
+<div i18n:domain="pyams_app_msc"
+	 tal:define="settings view.settings;
+				 renderer_settings view.renderer_settings;
+				 start int(request.params.get('start', 0));
+				 limit (start + renderer_settings.page_size) if renderer_settings.paginate else settings.limit;
+				 items settings.get_items(request, start, renderer_settings.page_size, limit);
+				 count next(items);
+				 aggregations next(items);
+				 (has_items, results) tales:boolean_iter(items);
+				 identity request.identity or {};
+				 authenticated 'system.Authenticated' in identity.get('principals', ());">
+	<h3 tal:define="title i18n:settings.title"
+		tal:condition="title"
+		class="position-relative border-bottom pb-2 mt-4">
+		${title}
+		<span class="position-absolute underline"></span>
+	</h3>
+	<div class="row"
+		 tal:define="global count 0;
+					 selections renderer_settings.thumb_selection;">
+		<div class="${renderer_settings.filters_css_class}">
+			<i tal:omit-tag="">
+				${structure:provider:filters_default(renderer_settings=renderer_settings, aggregations=aggregations)}
+			</i>
+			<tal:if condition="authenticated">
+				<a tal:define="url view.get_session_request_url(context)"
+				   tal:condition="url"
+				   class="btn btn-primary w-100 my-3"
+				   href="${url}"
+				   i18n:translate="">
+					Ask for new session
+				</a>
+			</tal:if>
+		</div>
+		<div class="${renderer_settings.results_css_class}">
+			<div tal:repeat="item results"
+				 class="${renderer_settings.first_panel_css_class if repeat.item.start() else renderer_settings.panels_css_class}">
+				<tal:var define="global count count + 1;
+								 target view.get_url(item);">
+					<div class="position-relative"
+						 tal:define="illustration tales:pyams_navigation_illustration(item)"
+						 tal:condition="illustration">
+						<a href="${target}">
+							${structure:tales:pyams_card_datatype(item)}
+							<tal:if define="image i18n:illustration.data;
+											alt_title i18n:illustration.alt_title;"
+									condition="image">
+								${structure:tales:picture(image,
+														  selections=selections,
+														  alt=alt_title,
+														  css_class='w-100')}
+							</tal:if>
+						</a>
+					</div>
+					<div>
+						<a href="${target}">
+							<h4 class="mt-2">${i18n:item.title}</h4>
+						</a>
+						<a href="${target}"
+						   tal:define="header view.get_header(item)"
+						   tal:condition="header">
+							<div class="header text-body">
+								${structure:header}
+							</div>
+						</a>
+					</div>
+					<tal:if condition="renderer_settings.display_sessions">
+						<div class="d-flex flex-column"
+							 tal:define="iter_sessions view.get_sessions(item);
+										 (has_sessions, sessions) tales:boolean_iter(iter_sessions)"
+							 tal:condition="has_sessions">
+							<a class="btn btn-sm w-100 text-left" role="button"
+							   href="#"
+							   data-toggle="popover"
+							   data-target="sessions_${tales:cache_key(item)}"
+							   data-trigger="focus">
+								<i class="fa fas fa-caret-right"></i>
+								<i i18n:translate="">Next sessions</i>
+							</a>
+							<div id="sessions_${tales:cache_key(item)}"
+								 class="d-none">
+								<tal:loop repeat="session sessions">
+									<a class="btn btn-primary w-100 mb-1"
+									   tal:define="session_id tales:cache_key(session);
+												   params {'session_id': session_id};
+												   url tales:canonical_url(item, 'booking-new.html', params);"
+									   href="${url if authenticated else '#'}">
+										<i tal:omit-tag=""
+										   tal:define="version view.get_version(session)"
+										   tal:condition="version">
+											${version}<br />
+										</i>
+										<i tal:omit-tag="">${tales:format_datetime(session.start_date, put_prefix=False, format_string='%a %d %B - %Hh%M')}</i>
+										<tal:if condition="renderer_settings.display_free_seats">
+											<i tal:omit-tag=""
+											   tal:define="(free, capacity) view.get_free_seats(session)">
+												<br /><tal:var i18n:translate=""><tal:var i18n:name="seats">${free}</tal:var> seats</tal:var>
+											</i>
+										</tal:if>
+									</a>
+								</tal:loop>
+								<div class="alert alert-warning my-1 p-2"
+								     tal:condition="not:authenticated"
+								     i18n:translate="">
+									You must be <a href="/login.html" i18n:translate="" i18n:name="role">authenticated</a> to create a booking request!
+								</div>
+							</div>
+						</div>
+					</tal:if>
+				</tal:var>
+			</div>
+			<nav class="col-12"
+			     aria-label="Pagination" i18n:attributes="aria-label"
+				 tal:condition="renderer_settings.paginate">
+				<ul class="pagination w-100 justify-content-between">
+					<li class="page-item">
+						<a class="page-link"
+						   href="${request.path_url}?start=${start - renderer_settings.page_size}"
+						   tal:condition="start > 0">
+							<span aria-hidden="true">&larr;</span>
+							<i18n:var translate="">Previous page</i18n:var>
+						</a>
+					</li>
+					<li class="page-item">
+						<a class="page-link"
+						   href="${request.path_url}?start=${start + count}"
+						   tal:condition="count == renderer_settings.page_size">
+							<i18n:var translate="">Next page</i18n:var>
+							<span aria-hidden="true">&rarr;</span>
+						</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
