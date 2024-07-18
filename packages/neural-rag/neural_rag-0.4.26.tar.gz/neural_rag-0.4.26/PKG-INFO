@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: neural_rag
+Version: 0.4.26
+Home-page: http://github.com/gigas64/hadron-nn
+Author: Gigas64
+Author-email: gigas64@aistac.net
+License: MIT
+Classifier: Development Status :: 3 - Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Adaptive Technologies
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+License-File: LICENSE.txt
+Requires-Dist: pyarrow
+Requires-Dist: pandas
+Requires-Dist: numpy
+Requires-Dist: torch
+Requires-Dist: tensorflow
+Requires-Dist: matplotlib
+Requires-Dist: seaborn
+Requires-Dist: scipy
+Requires-Dist: scikit-learn
+Requires-Dist: requests
+Requires-Dist: pymupdf
+Requires-Dist: pymupdf4llm
+Requires-Dist: sentence_transformers
+Requires-Dist: spacy
+Requires-Dist: transformers
+Requires-Dist: accelerate
+Requires-Dist: bitsandbytes
+Requires-Dist: wheel
+
+# Neural RAG
+
+Neural Rag is a LLM framework to build Vector RAG and Graph RAG knowledge base. It 
+provides the foundation to quickly build agents.
+
+## What is RAG?
+
+RAG stands for Retrieval Augmented Generation.
+
+It was introduced in the paper [*Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks*](https://arxiv.org/abs/2005.11401).
+
+
+
+Each step can be roughly broken down to:
+
+* **Retrieval** - Seeking relevant information from a source given a query. For example, getting relevant passages of Wikipedia text from a database given a question.
+* **Augmented** - Using the relevant retrieved information to modify an input to a generative model (e.g. an LLM).
+* **Generation** - Generating an output given an input. For example, in the case of an LLM, generating a passage of text given an input prompt.
+
