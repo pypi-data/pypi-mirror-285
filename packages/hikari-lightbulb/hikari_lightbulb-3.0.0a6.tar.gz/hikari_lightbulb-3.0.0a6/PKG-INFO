@@ -1,0 +1,135 @@
+Metadata-Version: 2.1
+Name: hikari-lightbulb
+Version: 3.0.0a6
+Summary: A simple-to-use command handler for Hikari.
+Keywords: hikari
+Author-email: tandemdude <tandemdude1@gmail.com>
+Requires-Python: >=3.10.0,<3.13
+Description-Content-Type: text/markdown
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Framework :: AsyncIO
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Requires-Dist: hikari>=2.0.0.dev126, <3
+Requires-Dist: svcs>=23.21.0, <24
+Requires-Dist: croniter>=2.0.7, <3 ; extra == "crontrigger"
+Requires-Dist: types-croniter>=2.0.5.20240717, <3 ; extra == "crontrigger"
+Requires-Dist: nox==2024.4.15 ; extra == "dev"
+Requires-Dist: towncrier==23.11.0 ; extra == "dev.changelog"
+Requires-Dist: sphinx>=7.3.7, <8 ; extra == "dev.docs"
+Requires-Dist: furo==2024.5.6 ; extra == "dev.docs"
+Requires-Dist: myst-parser>=3.0.1, <4 ; extra == "dev.docs"
+Requires-Dist: sphinx-copybutton>=0.5.2, <1 ; extra == "dev.docs"
+Requires-Dist: sphinx-inline-tabs==2023.4.21 ; extra == "dev.docs"
+Requires-Dist: sphinx_design>=0.6.0, <1 ; extra == "dev.docs"
+Requires-Dist: sphinx-prompt>=1.8.0, <2 ; extra == "dev.docs"
+Requires-Dist: sphinx-notfound-page>=1.0.2, <2 ; extra == "dev.docs"
+Requires-Dist: sphinxext-opengraph>=0.9.1, <1 ; extra == "dev.docs"
+Requires-Dist: ruff>=0.4.8, <1 ; extra == "dev.format"
+Requires-Dist: flit==3.9.0 ; extra == "dev.release"
+Requires-Dist: slotscheck>=0.19.0, <1 ; extra == "dev.slotscheck"
+Requires-Dist: pyright>=1.1.367, <2 ; extra == "dev.typecheck"
+Requires-Dist: polib>=1.2.0, <2 ; extra == "localization"
+Requires-Dist: types-polib>=1.2.0.20240327, <2 ; extra == "localization"
+Project-URL: Changelog, https://hikari-lightbulb.readthedocs.io/en/latest/changelog.html
+Project-URL: Documentation, https://hikari-lightbulb.readthedocs.io/en/latest/
+Project-URL: Homepage, https://github.com/tandemdude/hikari-lightbulb
+Project-URL: Repository, https://github.com/tandemdude/hikari-lightbulb
+Provides-Extra: crontrigger
+Provides-Extra: dev
+Provides-Extra: dev.changelog
+Provides-Extra: dev.docs
+Provides-Extra: dev.format
+Provides-Extra: dev.release
+Provides-Extra: dev.slotscheck
+Provides-Extra: dev.typecheck
+Provides-Extra: localization
+
+[![PyPI](https://img.shields.io/pypi/v/hikari-lightbulb)](https://pypi.org/project/hikari-lightbulb)
+
+# Lightbulb
+Lightbulb is designed to be an easy-to-use command handler library that integrates with the
+Discord API wrapper library for Python, Hikari.
+
+This library aims to make it simple for you to make your own Discord bots and provide
+all the utilities and functions you need to help make this job easier.
+
+## Installation
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Lightbulb.
+
+```bash
+pip install hikari-lightbulb
+```
+
+## Usage
+```python
+# Import the libraries
+import hikari
+import lightbulb
+
+# Create a GatewayBot instance
+bot = hikari.GatewayBot("your_token_here")
+client = lightbulb.client_from_app(bot)
+# Ensure the client starts once the bot is run
+bot.subscribe(hikari.StartingEvent, client.start)
+
+# Register the command with the client
+@client.register()
+class Ping(
+    # Command type - builtins include SlashCommand, UserCommand, and MessageCommand
+    lightbulb.SlashCommand,
+    # Command declaration parameters
+    name="ping",
+    description="checks the bot is alive",
+):
+    # Define the command's invocation method. This method must take the context as the first
+    # argument (excluding self) which contains information about the command invocation.
+    @lightbulb.invoke
+    async def invoke(self, ctx: lightbulb.Context) -> None:
+        # Send a message to the channel the command was used in
+        await ctx.respond("Pong!")
+
+# Run the bot
+# Note that this is blocking meaning no code after this line will run
+# until the bot is shut off
+bot.run()
+```
+
+## Issues
+If you find any bugs, issues, or unexpected behaviour while using the library,
+you should open an issue with details of the problem and how to reproduce if possible.
+Please also open an issue for any new features you would like to see added.
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue/discussion first to discuss what you would like to change.
+
+Please try to ensure that documentation is updated if you add any features accessible through the public API.
+
+If you use this library and like it, feel free to sign up to GitHub and star the project,
+it is greatly appreciated and lets me know that I'm going in the right direction!
+
+## Links
+- **License:** [MIT](https://choosealicense.com/licenses/mit/)
+- **Repository:** [GitHub](https://github.com/tandemdude/hikari-lightbulb)
+- **Documentation:** [ReadTheDocs](https://hikari-lightbulb.readthedocs.io/en/latest/)
+
+## IDE Plugin
+
+Lightbulb now has a plugin for IntelliJ-based IDEs (IntelliJ, Pycharm, etc) to help improve the developer experience 
+by providing autocompletion and type checking not yet supported by other tools. More features such as command 
+boilerplate generation and further code inspections are planned.
+
+You can install the plugin from the Jetbrains Marketplace within your IDE. View the plugin 
+[here](https://plugins.jetbrains.com/plugin/24669-hikari-lightbulb-support).
+
