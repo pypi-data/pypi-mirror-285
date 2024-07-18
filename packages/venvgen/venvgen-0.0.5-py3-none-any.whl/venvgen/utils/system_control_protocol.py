@@ -1,0 +1,4 @@
+GO_BACK_TO_MENU_PAGE = 'asgjqpo3irht=0239r1p93q8yrtiogwehjknldfmbnq24[e0dp9touiq3fj1kqrmwefglobwdk.jsnfbvc efgdboqkelt;nrfg,bwopeust;dhjflgknwmepstdofgjblvkwelargjksfhdnw.vearspg]'
+NO_REQUIREMENTS_FILE = 'asgdkq3jrhrgqpviuaebfjndgqo8ehiar[ksdgf;v30 [qeiors;tdfghvq3aisdjkthq3p9rtegoui350-r9t8729385yreotufghilsjdnvcm,x q;eoritulgdfhkjnc,mvw4eoirtdgh;flkjsda ]]'
+NO_LIBRARIES         = 'asgriojnqenkqe;lkneqrkeqg;lnkefgql;nkds;jew[jebo[keqda;fgibjlvkwesdtgo;fjknblvmseoidtgjf;klbmvwtei[gijafdmvspqregij;fkamdsveowigfknbdlmsrhwbgnsdjlvm /eq]]]'
+GO_BACK_TO_VIEW_VENV = 'sjkfd;qygihosajknvcxm,pyruehtqg;jkfadn8030qru[egijof3tuwqhigdsafjkvn9rqheugafdjnbrqtehgafdjln0u etwjiqoadfs;e[ghijofdbslkeuqghfadbjknverhuqgafdskjnv.cxhe]]'
