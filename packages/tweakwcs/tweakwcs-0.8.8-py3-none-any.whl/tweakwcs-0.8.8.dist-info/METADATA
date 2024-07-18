@@ -1,0 +1,86 @@
+Metadata-Version: 2.1
+Name: tweakwcs
+Version: 0.8.8
+Summary: A package for correcting alignment errors in WCS objects
+Author-email: Mihai Cara <help@stsci.edu>
+License: Copyright (C) 2023, Association of Universities for Research in Astronomy
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+            1. Redistributions of source code must retain the above copyright
+               notice, this list of conditions and the following disclaimer.
+        
+            2. Redistributions in binary form must reproduce the above
+               copyright notice, this list of conditions and the following
+               disclaimer in the documentation and/or other materials provided
+               with the distribution.
+        
+            3. Neither the name of the copyright holder nor the names of its
+               contributors may be used to endorse or promote products derived from
+               this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+        ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+        WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE
+        USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        
+Project-URL: Homepage, https://github.com/spacetelescope/tweakwcs
+Project-URL: Bug Tracker, https://github.com/spacetelescope/tweakwcs/issues
+Project-URL: Documentation, http://spacetelescope.github.io/tweakwcs/
+Project-URL: Source Code, https://github.com/spacetelescope/tweakwcs
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering :: Astronomy
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+Requires-Dist: numpy
+Requires-Dist: astropy >=5.0.4
+Requires-Dist: gwcs >=0.14.0
+Requires-Dist: stsci.stimage
+Requires-Dist: stsci.imagestats
+Requires-Dist: spherical-geometry >=1.2.20
+Requires-Dist: packaging >=19.0
+Provides-Extra: docs
+Requires-Dist: numpydoc ; extra == 'docs'
+Requires-Dist: sphinx ; extra == 'docs'
+Requires-Dist: sphinx-automodapi ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ; extra == 'docs'
+Requires-Dist: stsci-rtd-theme ; extra == 'docs'
+Requires-Dist: graphviz ; extra == 'docs'
+Requires-Dist: tomli ; (python_version < "3.11") and extra == 'docs'
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: scipy ; extra == 'test'
+
+.. image:: https://dev.azure.com/spacetelescope/tweakwcs/_apis/build/status/spacetelescope.tweakwcs?branchName=main
+    :target: https://dev.azure.com/spacetelescope/tweakwcs/_build/latest?definitionId=5&branchName=main
+    :alt: Azure Pipelines build status
+
+.. image:: https://codecov.io/gh/spacetelescope/tweakwcs/branch/main/graph/badge.svg
+  :target: https://codecov.io/gh/spacetelescope/tweakwcs
+  :alt: Test coverage status
+
+.. image:: https://readthedocs.org/projects/tweakwcs/badge/?version=latest
+    :target: https://tweakwcs.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
+.. image:: https://zenodo.org/badge/127811534.svg
+    :target: https://zenodo.org/doi/10.5281/zenodo.4018234
+    :alt: Zenodo DOI 10.5281/zenodo.4018234
+
+``tweakwcs`` is a package that provides core algorithms for computing and
+applying corrections to ``WCS`` objects such as to minimize mismatch between
+image and reference catalogs. Currently only aligning images with ``FITS WCS``
+and ``JWST gWCS`` are supported.
