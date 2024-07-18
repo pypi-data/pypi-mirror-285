@@ -1,0 +1,1 @@
+from brynq_sdk.visma_lon_hr.get_data import GetData
