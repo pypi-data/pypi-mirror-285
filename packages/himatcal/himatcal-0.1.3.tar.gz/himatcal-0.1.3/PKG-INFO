@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: himatcal
+Version: 0.1.3
+Summary: High throughput material calculation
+Author-email: Congcong Sun <suncongcong000@foxmail.com>
+License: BSD-3
+Project-URL: repository, https://github.com/CCSun21/himatcal
+Project-URL: documentation, https://CCSun21.github.io/himatcal/
+Project-URL: changelog, https://github.com/CCSun21/himatcal/blob/main/CHANGELOG.md
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: Unix
+Classifier: Operating System :: MacOS
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: quacc>=0.9.1
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4.0; extra == "dev"
+Requires-Dist: pytest-cov>=3.0.0; extra == "dev"
+Requires-Dist: ruff>=0.0.285; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs-material>=9.4.0; extra == "docs"
+Requires-Dist: mkdocstrings[python]>=0.22.0; extra == "docs"
+Requires-Dist: mkdocs-gen-files>=0.5.0; extra == "docs"
+Requires-Dist: mkdocs-literate-nav>=0.6.0; extra == "docs"
+Requires-Dist: pillow>=10.0.0; extra == "docs"
+Requires-Dist: cairosvg>=2.7.1; extra == "docs"
+Provides-Extra: aim2net
+Requires-Dist: torch>=2.1.2; extra == "aim2net"
+Requires-Dist: ase>=3.22.1; extra == "aim2net"
+Provides-Extra: mlp
+Requires-Dist: m3gnet>=0.2.4; extra == "mlp"
+Requires-Dist: tensorflow>=2.14.0; extra == "mlp"
+Requires-Dist: pathos>=0.3.2; extra == "mlp"
+Requires-Dist: keras<=3.4.1; extra == "mlp"
+Provides-Extra: molecule
+Requires-Dist: rdkit>=2024.3.1; extra == "molecule"
+
+# himatcal
+
+A simple-to-use resource for creating open-source Python packages.
