@@ -1,0 +1,180 @@
+Metadata-Version: 2.1
+Name: cwmaya
+Version: 0.0.1b23
+Summary: Maya plugin for Conductor Cloud Rendering Platform.
+Home-page: https://github.com/ConductorTechnologies/cwmaya
+Author: coreweave
+Author-email: info@conductortech.com
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Multimedia :: Graphics :: 3D Rendering
+Description-Content-Type: text/markdown
+Requires-Dist: pymel <2.0.0,>=1.4.0
+Requires-Dist: cwstorm <1.0.0,>=0.6.1
+Requires-Dist: requests <3.0.0,>=2.28.1
+Requires-Dist: ciocore ==8.1.0-beta.3
+Requires-Dist: ciopath <2.0.0,>=1.1.2
+Requires-Dist: cioseq <1.0.0,>=0.5.1
+Requires-Dist: psutil <6.0.0,>=5.8.0
+Requires-Dist: pyperclip <2.0.0,>=1.9.0
+
+# Maya submitter plugin
+
+Maya plugin node to set up task dependency submissions.
+
+## Install from PyPi
+*NOTE: If you'd like to contribute or develop templates, skip to [Install from GitHub](#install-from-github) section*
+
+**Install the latest version.**
+```bash
+pip3 install --upgrade cwmaya --target=$HOME/CoreWeave/maya
+```
+
+**Then setup the Maya module.** 
+
+```bash
+python3 $HOME/CoreWeave/maya/cwmaya/post_install.py
+```
+
+
+## Install from GitHub
+
+```bash
+git clone git@github.com:ConductorTechnologies/cwmaya.git
+cd cwmaya
+pip3 install --upgrade -r requirements.txt --target=$HOME/Sandbox/maya
+python3 $HOME/Sandbox/maya/cwmaya/post_install.py
+```
+
+Open the Plugin Manager and load **CoreWeave.py**.
+
+To set up a job, choose **CoreWeave->Storm Window** from the main Maya menu bar.
+
+## Install the Desktop app
+
+The desktop app is a standalone application that allows you to visualize graphs created by the Maya plugin. It is not required to submit jobs, but it is extremely useful.
+
+To install the desktop app in development mode, go to the repo and follow the [instructions in the README](https://github.com/ConductorTechnologies/cioapp). 
+
+Alternatively, go to the [releases](https://github.com/ConductorTechnologies/cioapp/releases) page and download a build for your platform. 
+
+*NOTE: Some M series Macs may have trouble running prebuilt versions of the app. If it doesn't work, you can run your own build, or work in development mode. [See the README](https://github.com/ConductorTechnologies/cioapp) for details.* 
+
+## Usage
+
+* To learn the system with a fake job, see the [busywork tutorial](./doc/busywork_tutorial.md).
+* To learn about writing templates, see the [template docs](./doc/templates.md).
+* For a comprehensive reference, see the [reference](./doc/reference.md) documentation.
+
+## Have fun!
+
+## Changelog
+
+## Version 0.0.1-beta.23
+
+* Copied over presets and updates scenefile
+* Use b64 encoded python script generator
+* Don't reload unless env var present CWMAYA_RELOAD_FOR_DEVELOPMENT
+* Fix missing token bug
+* More concise warning for exuisting presets on plugin load
+
+
+## Version 0.0.1-beta.22
+
+* Adds better diagnostic display in workflow job index.
+* Adds health check buttons.
+
+## Version 0.0.1-beta.20
+
+* Make the example project have a better name and add github actions to make it available for download in the releases folder.
+* Adds the Maya bin path to the PATH in the clipboard script so that the result is ready to run in a terminal.
+* No longer rely on storm fileRule because when it has not been set the stormdir token is misleading.
+
+## Version 0.0.1-beta.18
+
+* Adds workspace.mel to uploads
+* Adds basic upload pack to renders, even though mostly not needed
+* Adds a clipboard button for the commands widget
+* Adds storm comp filerule and change the token name to stormdir
+* Only print the automatic presets install warnings when not batch
+* Refactor send coredata to desktop app
+
+## Version 0.0.1-beta.17
+
+* Now uses nodePreset mechanism to implement default configuration. developers can save presets, copy to repo, and then when customer loads plugin, the default presets, and any others we include, will be copied over to their local presets folder.
+
+## Version 0.0.1-beta.15
+
+* Implement script control to facilitate creation of maya batch commands
+* Adds storm_remote module - makes resources available on the farm
+
+## Version 0.0.1-beta.14
+
+* Adds menu item to send real coredata to the desktop app
+
+## Version 0.0.1-beta.13
+
+* Adds semantic coordinates
+* Only attempt to open desktop app if health check fails
+* Change BC notification port - 8000 clashes with workflow api
+* Bump storm requirement
+
+## Version 0.0.1-beta.12 
+
+* Adds a utility to show json in vscode
+* Adds ability to export self contained submission to python file 
+* Adds menu item to how account info
+* make context less error prone, and display useful info if it fails due to bad token use
+* adds an upload optimization algorithm to ensure each file is only specified once while minimizing the number of Upload nodes
+
+## Version 0.0.1-beta.11
+
+* Set up busywork tutorial and documentation
+
+## Version 0.0.1-beta.10
+
+* Bring the README up to date and add template authoring instructions
+
+## Version 0.0.1-beta.9
+
+* Reset dag node unique naming stack before each compute so that successive graphs start from 0
+* On Send-to-Composer, we now automatically open the desktop app if it is not already open.
+* Adds a presets section to the tools menu with load and save options.
+
+## Version 0.0.1-beta.8
+* Adds template for a test job to run several tasks one after the other, chained up.
+* Massive refactor of the template system in order to make it easier to add 3rd party templates.
+* The window now remembers the last loaded template
+* Refactored to minimize inheritance and adopt a more composition-based approach
+* Adds an oiption to save the spec to disk
+* Flattened all menu items so its easier to find items quickly.
+* Show json in vscode rather than in a window in Maya
+* Adds a Namefield for easy name editing
+* Adds an example project
+
+## Version 0.0.1-beta.7
+* Adds a mechanism to specify default template values
+* Adds a context manager to do stuff in the context of a saved scene
+* Adds a menu item to save the JSON payload to a file
+* Adds a context manager to send stuff to desktop app in the context of a healthy authenticated session
+
+## Version 0.0.1-beta.6
+* Adds a template for a SimRenderMovie graph
+* Removed the AssExportKick graph template for now.
+
+## Version 0.0.1-beta.4
+* Retrieves actual Core Data entities from Conductor
+* Reduces the amount of information broadcasted to Slack channels
+* Includes the versions of ciocore and storm DSL  on PyPi
+* Resolves software and environment in the compute function
+* Refactors inheritance hierarchy as BaseTab to TaskTab to ConcreteTask implementations
+* Adds UI components for managing u=inst types and software/plugin relationships 
+* Relaxes the dependencies on the 'requests' library
+* Adds an output path configuration option
+* Adds window to visualize submission results
+* Adds automatic hydration upon application start
+* Integrates a smoke test preset node into the workflow
+* Adds a user interface for managing extra assets
+
+* 0.0.1-beta.2
+* Initial import

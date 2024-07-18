@@ -1,0 +1,76 @@
+
+proc string formatArg(string $arg, string $dataType) {
+
+    if ($dataType == "string") {
+        return ("'" + $arg + "'");
+    } else if ($dataType == "int") {
+        return $arg;
+    } else if ($dataType == "float") {
+        return $arg;
+    } else if ($dataType == "bool") {
+        $arg = tolower($arg); 
+        if ($arg == "true" || $arg == "1" || $arg == "yes") {
+            return "True";
+        } 
+        return "False";
+    }
+    return $arg;
+}
+
+
+global proc int pyPayloadExecutor(string $b64Payload) {
+    // Function takes a base64 encoded payload, decodes it, and executes the python script with the given arguments
+    // The structure of the decoded paylkoad is as follows:
+    // {
+    //     "script": "scriptName", A string representing the name of the script to be executed
+    //     "args": ["arg1", "argType1", "arg2", "argType2", ...], A list of arguments, as strings, and their types
+    //     "kwargs": ["kwargKey1", "kwargValue1", "kwargType1", "kwargKey2", "kwargValue2", "kwargType2", ...] A list of keyword arguments, their values, and their types
+    // }
+    // The function will import the script, and execute the function doit() with the given arguments and keyword arguments
+    // make sure the script in question accepts the arguments and keyword arguments.
+
+    python("import base64");
+    python("import json");
+    string $jsonPayload = python("base64.b64decode('" + $b64Payload + "').decode('utf-8')");
+    print ("pyPayloadExecutor - JSON payload: " +$jsonPayload+"\n");
+
+    string $scriptName = python("json.loads('" + $jsonPayload + "')['script']");
+    string $args[] = python("json.loads('" + $jsonPayload + "')['args']");
+    string $kwargs[] = python("json.loads('" + $jsonPayload + "')['kwargs']");
+
+    string $importCommand = ("import "+$scriptName);
+    string $pythonCommand = ($scriptName+".doit(");
+
+    string $allArgs[];
+    int $numArgs = size($args) / 2;
+    for ( $i = 0; $i < $numArgs; $i+=2) {
+        string $arg = formatArg($args[$i],  $args[$i+1]);
+        $allArgs[`size $allArgs`] = $arg;
+    }
+    for ( $i = 0; $i < size($kwargs); $i+=3) {
+        string $key = $kwargs[$i];
+        string $arg = formatArg($kwargs[$i+1], $kwargs[$i+2]);
+        string $kwarg =  ($key + "=" + $arg);
+        $allArgs[`size $allArgs`] = $kwarg;
+    }
+
+    for ($i = 0; $i < size($allArgs); $i++) {
+        if ($i > 0) {
+            $pythonCommand += ", ";
+        }
+        $pythonCommand += $allArgs[$i];
+    }
+    $pythonCommand += ")";
+
+    print("pyPayloadExecutor - Importing... " +$importCommand+ "\n");
+    python($importCommand);
+
+    print("pyPayloadExecutor - Executing... " +$pythonCommand+ "\n");
+    int $result = python($pythonCommand);
+    if (! $result) {
+        print ("pyPayloadExecutor - Failure\n");
+        return 0;
+    }
+    print ("pyPayloadExecutor - Success\n");
+    return 1;
+}
