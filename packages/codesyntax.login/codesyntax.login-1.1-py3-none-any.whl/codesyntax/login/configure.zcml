@@ -1,0 +1,46 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="codesyntax.login"
+    >
+
+  <!--
+    Be careful if you use general includeDependencies, it can have side effects!
+    Better import explicit packages or configurations ;)
+  -->
+  <include package="pas.plugins.oidc" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="codesyntax.login"
+      description="Installs the codesyntax.login add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="codesyntax.login (uninstall)"
+      description="Uninstalls the codesyntax.login add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      post_handler=".setuphandlers.uninstall"
+      />
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="codesyntax.login-hiddenprofiles"
+      />
+
+  <!-- -*- extra stuff goes here -*- -->
+  <browser:page
+      name="plone-login"
+      class=".view.PloneLogin"
+      permission="zope2.View"
+      layer=".interfaces.ICodesyntaxLoginLayer"
+      />
+
+</configure>
