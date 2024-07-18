@@ -1,0 +1,77 @@
+Metadata-Version: 2.1
+Name: django-logikal
+Version: 3.6.0
+Summary: Django utilities used at Logikal
+Author-email: Logikal GmbH <contact@logikal.io>
+License: Copyright 2023 Logikal GmbH
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+        associated documentation files (the "Software"), to deal in the Software without restriction,
+        including without limitation the rights to use, copy, modify, merge, publish, distribute,
+        sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or
+        substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+        NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+        NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+        DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT
+        OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+        
+Project-URL: Documentation, https://docs.logikal.io/django-logikal/
+Project-URL: Release notes, https://github.com/logikal-io/django-logikal/releases
+Project-URL: Issue tracker, https://github.com/logikal-io/django-logikal/issues
+Project-URL: Source code, https://github.com/logikal-io/django-logikal
+Keywords: python,django
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Framework :: Django
+Classifier: Framework :: Django :: 4
+Classifier: Topic :: Software Development
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: ~=3.8
+Description-Content-Type: text/x-rst
+License-File: LICENSE.txt
+Requires-Dist: Django ~=4.2
+Requires-Dist: django-stubs-ext ~=4.2
+Requires-Dist: django-debug-toolbar ~=4.4
+Requires-Dist: django-debug-toolbar-template-profiler ~=2.1
+Requires-Dist: django-mail-panel ~=4.0
+Requires-Dist: django-csp ~=3.8
+Requires-Dist: django-robots ~=6.1
+Requires-Dist: psycopg ~=3.2
+Requires-Dist: factory-boy ~=3.3
+Requires-Dist: Babel ~=2.15
+Requires-Dist: black ~=24.4
+Requires-Dist: termcolor ~=2.4
+Requires-Dist: google-cloud-logging ~=3.10
+Requires-Dist: Jinja2 ~=3.1
+Requires-Dist: logikal-utils[docker] ~=1.2
+Requires-Dist: Pygments ~=2.18
+Requires-Dist: types-Pygments ~=2.18
+Provides-Extra: bibliography
+Requires-Dist: pybtex ==0.24.0 ; extra == 'bibliography'
+Provides-Extra: dynamic
+Requires-Dist: whitenoise[brotli] ~=6.7 ; extra == 'dynamic'
+Requires-Dist: stormware[amazon,google] ~=1.2 ; extra == 'dynamic'
+Requires-Dist: antimarkdown ~=1.0 ; extra == 'dynamic'
+Requires-Dist: django-anymail[amazon-ses] ~=11.0 ; extra == 'dynamic'
+Requires-Dist: premailer ~=3.10 ; extra == 'dynamic'
+Provides-Extra: static
+Requires-Dist: django-distill ~=3.2 ; extra == 'static'
+
+django-logikal
+==============
+Django utilities used at Logikal.
+
+Getting Started
+---------------
+You can find the project documentation under `docs.logikal.io/django-logikal/
+<https://docs.logikal.io/django-logikal/>`_.
