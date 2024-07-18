@@ -1,0 +1,26 @@
+[project]
+name = "MariaDB_Context_Manager"
+version = "0.1.4"
+authors = [
+  { name="Antony", email="antonygradillas@gmail.com" },
+]
+description = "An easy to use mariadb context manager"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = { file = "LICENCE.txt" }
+requires-python = ">=3.8"
+dependencies = [
+  "mariadb>=1.1.10",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/avgra3/MariaDB-Context-Manager"
+Issues = "https://github.com/avgra3/MariaDB-Context-Manager/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
