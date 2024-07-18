@@ -1,0 +1,47 @@
+
+[build]
+build>=0.10.0
+tomli-w>=1.0.0
+wheel>=0.38
+yamdog>=0.6.0
+
+[build:python_version < "3.11"]
+tomli>=2.0.1
+
+[dev]
+build>=0.10.0
+gprof2dot>=2022.7.29
+mypy>=1.2.0
+pre-commit>=3.2.2
+pylint>=2.17.3
+pytest>=7.2.0
+pytest-cov>=4.0.0
+tomli-w>=1.0.0
+tox>=4.5.1
+types-PyYAML>=6.0
+wheel>=0.38
+yamdog>=0.5.0
+
+[dev:python_version < "3.11"]
+tomli>=2.0.1
+
+[package]
+build>=0.10.0
+tomli-w>=1.0.0
+wheel>=0.38
+yamdog>=0.6.0
+
+[package:python_version < "3.11"]
+tomli>=2.0.1
+
+[readme]
+yamdog>=0.6.0
+
+[test]
+gprof2dot>=2022.7.29
+mypy>=1.2.0
+pylint>=3.0.2
+pytest>=7.2.0
+pytest-cov>=4.0.0
+pyyaml>=6.0
+types-PyYAML>=6.0
