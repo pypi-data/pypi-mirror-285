@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: rmcc
+Version: 0.1.0
+Summary: The rmcc is Regional Mesh Code Calculator.
+Author: otoani
+Author-email: otoani11541@gmail.com
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+
+# rmcc
+The rmcc is Regional Mesh Code Calculator.
+
+# Installation
+```
+pip install rmcc
+```
+
+# Usage
+```python
+from rmcc import MeshCode
+
+meshCode = MeshCode.parse("5339-00-00-1")
+neighbors = meshCode.calNeighbors(2)
+```
+The variable `neighbors` is an array. It represents the yellow and blue fields in the image below. An Argument "2" of `calNeighbors` method means distance from center mesh.
+
+![](./images/neighbors.drawio.svg)
+
