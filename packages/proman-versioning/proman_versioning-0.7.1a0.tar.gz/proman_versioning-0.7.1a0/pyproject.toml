@@ -1,0 +1,145 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "proman-versioning"
+version = "0.7.1a0"
+description = "Project Management Versioning Tool."
+readme = "README.md"
+license = {text = "LGPL-3.0"}
+keywords = ["versioning", "semver", "calver", "pep440", "configuration management"]
+requires-python = ">=3.6.2"
+authors = [{name = "Jesse P. Johnson", email = "jpj6652@gmail.com"}]
+maintainers = [{name = "Jesse P. Johnson", email = "jpj6652@gmail.com"}]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries"
+]
+
+dependencies = [
+    "lark-parser>=0.10.0",
+    "argufy>=0.1.1-alpha.12",
+    "transitions>=0.8.4",
+    "pygit2>=1.15",
+    "cffi>=1.15.0",
+    "packaging>=21.3",
+    "compendium>=0.1.3"
+]
+
+[project.optional-dependencies]
+changelog = [
+    "mdutils"
+]
+build = [
+    "build",
+    "proman-versioning>=0.5.0-alpha.2",
+    "twine"
+]
+dev = [
+    # test
+    "pyfakefs>=5.4.1",
+    "pytest>=6.2.5",
+    "pytest-cov>=2.10.0",
+    "tox>=3.25.0",
+    # sca
+    "mypy>=1",
+    "pylint>=3",
+    # style
+    "black==22.3.0",
+    "isort>=5.10.1",
+    "flake8>=3.8.3",
+    # sast
+    "bandit>=1.6.2",
+    "safety>=1.9.0"
+]
+docs = [
+    "docstr-coverage>=1.2.0",
+    "mkdocs>=1.2.2",
+    "mkdocs-material>=7.2.0",
+    "mkdocstrings[python]>=0.16.2",
+    "pydocstyle[toml]>=6.1.1"
+]
+
+[project.scripts]
+version = "versioning.__main__:main"
+
+[project.urls]
+homepage = "https://github.com/python-proman/proman-versioning"
+repository = "https://github.com/python-proman/proman-versioning"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.proman.versioning]
+enable_devreleases = false
+
+[[tool.proman.versioning.files]]
+filepath = "src/versioning/__init__.py"
+pattern = "__version__ = '${version}'"
+
+[[tool.proman.versioning.files]]
+filepath = "tests/test_version.py"
+pattern = "__version__ == '${version}'"
+
+[tool.pydocstyle]
+ignore = [
+    "D203",
+    "D213",
+    "D300"
+]
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
+[tool.black]
+line-length = 79
+skip-string-normalization = true
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+    | \.git
+    | \.mypy_cache
+    | \.pytest_cache
+    | build
+    | dist
+  )
+)
+'''
+
+[tool.pylint]
+fail-under = 9.0
+ignored-modules = ["pygit2"]
+
+[tool.pylint."FORMAT"]
+max-line-length = 79
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = [
+    "C0103",
+    "R0903",
+    "W0212",
+    "W0715"
+]
+
+[tool.pylint."MISCELLANEOUS"]
+notes = []
+
+[tool.mypy]
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
