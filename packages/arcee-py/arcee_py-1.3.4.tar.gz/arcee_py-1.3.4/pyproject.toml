@@ -1,0 +1,107 @@
+[build-system]
+requires = ["hatchling>=1.24.0, <1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "arcee-py"
+authors = [{name = "Jacob Solowetz", email = "jacob@arcee.ai"}, {name = "Ben Epstein", email = "ben@arcee.ai"}]
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+dynamic = ["version", "description"]
+dependencies = [
+    "requests>=2.32.2, <3.0",
+    "typer>=0.12.3, <1.0",
+    "rich>=13.7.1, <14.0",
+    "pyyaml>=6.0.1, <7.0",
+    "pydantic>=2.4.2, <3.0",
+    "StrEnum>=0.4.15, <1.0",
+    "datasets>=2.19.2, <3.0",
+]
+
+[project.scripts]
+arcee = "arcee.cli.app:cli"
+
+[tool.hatch.build.targets.wheel]
+packages = ["arcee"]
+
+[tool.hatch.version]
+path = "arcee/__init__.py"
+
+
+[project.optional-dependencies]
+dev = [
+    "arcee-py[cli]",
+    "black",
+    "invoke",
+    "mypy",
+    "pdoc3; python_version>='3.8'",
+    "pytest",
+    "pytest-cov",
+    "pytest-env",
+    "ruff",
+    "types-PyYAML",
+    "types-requests",
+    "pandas-stubs"
+]
+cli = [
+    "pandas"
+]
+
+[project.urls]
+Home = "https://arcee.ai"
+
+[tool.black]
+line-length = 120
+
+[tool.ruff]
+target-version = "py311"
+respect-gitignore = true
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.ruff.lint]
+# Pyflakes, bugbear, pycodestyle, pycodestyle warnings, isort
+select=["TID252", "B", "F", "E", "W", "I001"]
+# extend-select = ["C901"]
+
+[tool.ruff.lint.isort]
+case-sensitive = true
+order-by-type = true
+known-first-party = ["dalm"]
+
+
+[tool.pytest.ini_options]
+timeout = 180
+addopts = [
+    "-o",
+    "console_output_style=progress",
+    "--disable-warnings",
+    "--cov=arcee",
+    "--cov-report=term-missing",
+    "--cov-report=xml",
+    "--cov-report=html",
+    "--durations=10",
+]
+env = [
+    "ARCEE_API_KEY = FOOBAR",
+]
+
+
+[tool.ruff.lint.flake8-tidy-imports]
+# Disallow all relative imports.
+ban-relative-imports = "all"
+
+[tool.mypy]
+disallow_untyped_defs = true
+plugins = "pydantic.mypy"
+
+[[tool.mypy.overrides]]
+module = "retrying.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "datasets.*"
+ignore_missing_imports = true
