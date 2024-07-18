@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "refidx"
+version = "1.2.1"
+description = "Refractive index database"
+readme = "README.md"
+requires-python = ">=3.6"
+license = { file = "LICENSE.txt" }
+keywords = ["refractive index", "optics", "electromagnetics"]
+authors = [
+    { email = "benjamin.vial84@gmail.com" },
+    { name = "Benjamin Vial" }
+]
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Programming Language :: Python",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "importlib_metadata; python_version<'3.8'",
+    "numpy>=1.20.0",
+]
+
+# [tool.setuptools]
+# packages = ["src/refidx"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+mypkg = ["*.npz"]
+
+[project.urls]
+homepage = "https://benvial.gitlab.io/refidx"
+code = "https://gitlab.com/benvial/refidx"
+issues = "https://gitlab.com/benvial/refidx/issues"
