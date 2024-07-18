@@ -1,0 +1,35 @@
+[build-system]
+requires = ['setuptools', 'wheel']
+build-backend = "setuptools.build_meta"
+
+[project]
+name = 'metamenus'
+dynamic = ["version"]
+description = 'Declarative Menu Maker for wxPython'
+readme = "README.md"
+license = {text = 'GNU AFFERO GENERAL PUBLIC LICENSE'}
+authors = [{name = 'E.A. Tacao', email = 'mailto@tacao.com.br'}]
+maintainers = [{name = 'Humberto A. Sanchez II', email = 'Humberto.A.Sanchez.II@gmail.com'}]
+keywords = ['pyut', 'python',]
+
+dependencies = [
+  'click~=8.1.7',
+  'wxPython~=4.2.1',
+  'Unidecode>=1.3.8',
+  'codeallybasic>=1.3.2',
+]
+
+[project.urls]
+Repository = 'https://github.com/hasii2011/metamenus'
+
+[tool.setuptools.packages.find]
+where = ['src']
+
+[tool.setuptools.package-data]
+metamenus = ['py.typed']
+
+[tool.setuptools.dynamic]
+version = {attr = 'metamenus.__version__'}
+
+[project.scripts]
+mmprep = "metamenus.mmprep:commandHandler"
