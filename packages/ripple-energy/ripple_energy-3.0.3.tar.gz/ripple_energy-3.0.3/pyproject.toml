@@ -1,0 +1,107 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ripple-energy"
+description = 'Python Module For Ripple Energy'
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "Daniel Hitchcock", email = "daniel.edward.george.hitchcock@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "ariadne-codegen~=0.9.0"
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://github.com/danieledwardgeorgehitchcock/ripple-energy#readme"
+Issues = "https://github.com/danieledwardgeorgehitchcock/ripple-energy/issues"
+Source = "https://github.com/danieledwardgeorgehitchcock/ripple-energy"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "pytest-cov",
+]
+[tool.hatch.envs.default.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=ripple_energy --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
+
+[tool.hatch.envs.lint]
+detached = true
+dependencies = [
+  "black",
+  "mypy",
+  "isort",
+]
+
+[tool.hatch.envs.lint.scripts]
+lint = ["black --check --diff {args:.}", "isort --check --diff {args:.}", "mypy {args:.}"]
+format = ["black {args:.}", "isort {args:.}"]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["37", "38", "39", "310", "311"]
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = [
+  "src/ripple_energy/__about__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+
+[tool.ariadne-codegen]
+plugins = ["ariadne_codegen.contrib.shorter_results.ShorterResultsPlugin"]
+remote_schema_url = "https://rippleenergy.com/graphql"
+queries_path = "src/ripple_energy/graphql_queries"
+target_package_path = "src/ripple_energy"
+include_comments = false
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+mypy_path = "src"
+follow_imports = "normal"
+# be strict
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_subclassing_any = true
+disallow_untyped_calls = true
+disallow_untyped_decorators = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+no_implicit_reexport = true
+strict_optional = true
+warn_incomplete_stub = true
+warn_no_return = true
+warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+
+[tool.isort]
+profile = "black"
