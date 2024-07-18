@@ -1,0 +1,31 @@
+[project]
+name = "shelly_control"
+authors = [
+  { name="Ankush Kumar", email="ankush1611996@gmail.com" },
+]
+description = "A python package for Shelly Cloud API. Shelly is devoted to the development of innovative IoT solutions and products."
+keywords = ["Shelly", "Shelly plug","Shelly cloud api","shelly cloud", "Shelly access control", "Shelly python library"]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "requests"
+]
+
+version = "0.1"
+
+[tool.setuptools_scm]
+
+[project.urls]
+"Homepage" = "https://github.com/AnkushRozra/shelly"
+"Bug Tracker" = "https://github.com/AnkushRozra/shelly/issues"
+
+
+[build-system]
+requires = ["setuptools","setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
