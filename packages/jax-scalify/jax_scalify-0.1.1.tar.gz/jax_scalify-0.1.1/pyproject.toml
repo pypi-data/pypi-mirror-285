@@ -1,0 +1,92 @@
+# Configuration inspired by official pypa example:
+# https://github.com/pypa/sampleproject/blob/main/pyproject.toml
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jax_scalify"
+description="JAX Scalify: end-to-end scaled arithmetic."
+readme = "README.md"
+authors = [
+  { name = "Paul Balanca", email = "paulb@graphcore.ai" },
+]
+requires-python = ">=3.10"
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+  "chex >= 0.1.6",
+  "jax >= 0.3.16",
+  "jaxlib >= 0.3.15",
+  "ml_dtypes",
+  "numpy >= 1.22.4"
+]
+dynamic = ["version"]
+
+[project.urls]
+"Homepage" = "https://github.com/graphcore-research/jax-scalify/#readme"
+"Bug Reports" = "https://github.com/graphcore-research/jax-scalify/issues"
+"Source" = "https://github.com/graphcore-research/jax-scalify/"
+
+[project.optional-dependencies]
+dev = ["check-manifest"]
+test = ["pytest"]
+
+# Relying on the default setuptools.
+# In case of an issue, can use the following options
+# [tool.setuptools]
+# packages = ["jax_scalify", "jax_scalify.core", "jax_scalify.lax", "jax_scalify.ops", "jax_scalify.tree"]
+# [tool.setuptools.packages]
+# find = {namespaces = false}
+
+[tool.setuptools.dynamic]
+version = {attr = "jax_scalify.version.__version__"}
+
+[tool.setuptools_scm]
+version_file = "jax_scalify/version.py"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = ["-ra", "--showlocals", "--strict-config", "-p no:hypothesispytest"]
+xfail_strict = true
+filterwarnings = [
+  "error",
+  "ignore:(ast.Str|Attribute s|ast.NameConstant|ast.Num) is deprecated:DeprecationWarning:_pytest",  # Python 3.12
+]
+testpaths = ["tests"]
+
+[tool.black]
+line-length = 120
+target-version = ['py38', 'py39', 'py310']
+
+[tool.isort]
+line_length = 120
+known_first_party = "jax_scalify"
+
+[tool.mypy]
+python_version = "3.10"
+plugins = ["numpy.typing.mypy_plugin"]
+# Config heavily inspired by Pydantic!
+show_error_codes = true
+# strict_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_unused_configs = true
+check_untyped_defs = true
+disallow_any_generics = true
+no_implicit_optional = false
+disallow_incomplete_defs = true
+# disallow_untyped_decorators = true
+# disallow_untyped_calls = true
+# # disallow_subclassing_any = true
+# # for strict mypy: (this is the tricky one :-))
+# disallow_untyped_defs = true
+exclude = ['examples']
