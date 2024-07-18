@@ -1,0 +1,95 @@
+import json
+import textwrap
+import random
+import string
+from snowflake.snowpark.types import StringType, IntegerType, StructField, StructType, FloatType, MapType, ArrayType, BooleanType, BinaryType
+
+from snowflake.snowpark.exceptions import SnowparkSQLException
+
+class RAIException(Exception):
+    pass
+
+def run_sql(session, query, params=None, engine=""):
+    try:
+        return session.sql(query, params).collect()
+    except SnowparkSQLException as e:
+        if "engine not found" in e.message:
+            import sys
+            def exception_handler(exception_type, exception, traceback):
+                print(f"{exception_type.__name__}: {exception}")
+            sys.excepthook = exception_handler
+            raise RAIException(f"RelationalAI engine not found. Please create an engine called `{engine}` using `___RAI_APP___.api.create_engine`.") from None
+        else:
+            raise e
+
+def get_models(session, database, engine):
+    APP_NAME = {{ APP_NAME }}
+    query = textwrap.dedent(f"""
+        select {APP_NAME}.api.exec(
+            '{database}', '{engine}',
+            'def output(name, model): rel(:catalog, :model, name, model) and not starts_with(name, "rel/")',
+            true
+        );
+    """)
+    rows = run_sql(session, query, engine=engine)
+    result = json.loads(rows[0][0])["data"]
+    for row in result:
+        if not row or row[0] == "catalog":
+            continue
+        yield row[0], row[1]
+
+def get_engine(session, passed_engine):
+    if passed_engine:
+        return passed_engine
+    try:
+        APP_NAME = {{ APP_NAME }}
+        query = f"select * from {APP_NAME}.api.engines where created_by=current_user() order by created_on DESC;"
+        row = run_sql(session, query)[0]
+        return row["NAME"]
+    except:
+        return {{ engine }}
+
+def escape(code):
+    return (
+        code
+        .replace("\\", "\\\\\\\\")
+        .replace("'", "\\\'")
+        .replace('"', '\\\\"')
+        .replace("\n", "\\n")
+    )
+
+def get_installation_code(models):
+    lines = []
+    for (name, code) in models:
+        name = escape(name)
+        lines.append(textwrap.dedent(f"""
+            def delete[:rel, :catalog, :model, "{name}"]: rel[:catalog, :model, "{name}"]
+            def insert[:rel, :catalog, :model, "{name}"]: raw\"\"\"\"\"\"\"{code}\"\"\"\"\"\"\"
+        """))
+    rel_code = "\\n\\n".join(lines)
+    return rel_code
+
+def random_string():
+    chars = string.ascii_letters + string.digits
+    return ''.join(random.choice(chars) for _ in range(32))
+
+def handle(session{{py_inputs}}, passed_engine=""):
+    {{clean_inputs}}
+    engine = get_engine(session, passed_engine)
+    rel_code = {{ rel_code }}
+    persistent_database = {{ persistent_database }}
+    APP_NAME = {{ APP_NAME }}
+    database = {{ database }}
+    models = list(get_models(session, persistent_database, engine))
+    installation_code = get_installation_code(models)
+    cloned_database = f"{database[:30]}_{random_string()}"
+    temp_table = f"temp_{cloned_database}"
+    try:
+        session.call(f"{APP_NAME}.api.clone_database", cloned_database, database, True)
+        run_sql(session, f"select {APP_NAME}.api.exec('{cloned_database}', '{engine}', ?, false);", [installation_code], engine=engine)
+        run_sql(session, f"call {APP_NAME}.api.exec_into(?, ?, ?, ?, ?);", [cloned_database, engine, rel_code, cloned_database, True], engine=engine)
+        run_sql(session, f"CREATE TEMPORARY TABLE {APP_NAME}.results.{temp_table} AS SELECT * FROM {APP_NAME}.results.{cloned_database};", [], engine=engine)
+        run_sql(session, f"call {APP_NAME}.api.drop_result_table(?)", [cloned_database], engine=engine)
+        return session.table(f"{APP_NAME}.results.{temp_table}")
+    finally:
+        run_sql(session, f"call {APP_NAME}.api.delete_database('{cloned_database}');")
