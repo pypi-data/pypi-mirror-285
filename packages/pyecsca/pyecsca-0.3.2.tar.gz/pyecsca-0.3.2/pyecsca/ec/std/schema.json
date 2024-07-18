@@ -1,0 +1,200 @@
+{
+	"$schema": "http://json-schema.org/schema#",
+	"definitions": {
+		"Number": {
+			"type": "string",
+			"pattern": "^(0x[0-9a-fA-F]+|[0-9]+)?$"
+		},
+		"Polynomial": {
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"power": {"type":  "integer"},
+					"coeff": {"$ref":  "#/definitions/Number"}
+				},
+				"required": ["power", "coeff"]
+			}
+		},
+		"Element": {
+			"anyOf": [
+				{
+					"type": "object",
+					"properties": {
+						"raw": {"$ref": "#/definitions/Number"}
+					},
+					"required": ["raw"]
+				},
+				{
+					"type": "object",
+					"properties": {
+						"poly": {"$ref": "#/definitions/Polynomial"}
+					},
+					"required": ["poly"]
+				}
+			]
+		},
+		"Weierstrass": {
+			"type": "object",
+			"properties": {
+				"a": {"$ref": "#/definitions/Element"},
+				"b": {"$ref": "#/definitions/Element"}
+			},
+			"required": ["a", "b"]
+		},
+		"Edwards": {
+			"type": "object",
+			"properties": {
+				"c": {"$ref": "#/definitions/Element"},
+				"d": {"$ref": "#/definitions/Element"}
+			},
+			"required": ["c", "d"]
+		},
+		"TwistedEdwards": {
+			"type": "object",
+			"properties": {
+				"a": {"$ref": "#/definitions/Element"},
+				"d": {"$ref": "#/definitions/Element"}
+			},
+			"required": ["a", "d"]
+		},
+		"Montgomery": {
+			"type": "object",
+			"properties": {
+				"a": {"$ref": "#/definitions/Element"},
+				"b": {"$ref": "#/definitions/Element"}
+			},
+			"required": ["a", "b"]
+		},
+		"PrimeField": {
+			"type": "object",
+			"properties": {
+				"type": {"const": "Prime"},
+				"p": {"$ref": "#/definitions/Number"},
+				"bits": {"type": "integer"}
+			},
+			"required": ["p", "bits"]
+		},
+		"BinaryField": {
+			"type": "object",
+			"properties": {
+				"type": {"const": "Binary"},
+				"base": {"const": "0x02"},
+				"degree": {"type": "integer"},
+				"poly": {"$ref": "#/definitions/Polynomial"},
+				"bits": {"type": "integer"},
+				"basis": {
+					"anyOf": [
+						{"const": "poly"},
+						{"const": "normal"}
+					]
+				}
+			},
+			"required": ["degree", "poly", "bits", "basis"]
+		},
+		"ExtenstionField": {
+			"type": "object",
+			"properties": {
+				"type": {"const": "Extension"},
+				"base": {"$ref": "#/definitions/Number"},
+				"degree": {"type": "integer"},
+				"poly": {"$ref": "#/definitions/Polynomial"},
+				"bits": {"type": "integer"}
+			},
+			"required": ["base", "degree", "poly", "bits"]
+		},
+		"Point": {
+			"type": "object",
+			"properties": {
+				"x": {"$ref": "#/definitions/Element"},
+				"y": {"$ref": "#/definitions/Element"}
+			},
+			"required": ["x", "y"]
+		},
+		"Curve": {
+			"type": "object",
+			"properties": {
+				"name": {"type": "string"},
+				"category": {"type": "string"},
+				"desc": {"type": "string"},
+				"oid": {"type": "string"},
+				"field": {
+					"oneOf": [
+						{"$ref": "#/definitions/PrimeField"},
+						{"$ref": "#/definitions/BinaryField"},
+						{"$ref": "#/definitions/ExtenstionField"}
+					]
+				},
+				"form": {
+					"type": "string",
+					"enum": ["Weierstrass", "Edwards", "TwistedEdwards", "Montgomery"]
+				},
+				"generator": {"$ref": "#/definitions/Point"},
+				"order": {"$ref": "#/definitions/Number"},
+				"cofactor": {"$ref": "#/definitions/Number"},
+				"aliases": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					}
+				}
+			},
+			"allOf": [
+				{
+					"if": {
+						"properties": {"form": {"const": "Weierstrass"}}
+					},
+					"then": {
+						"properties": {
+							"params": {"$ref": "#/definitions/Weierstrass"}
+						}
+					}
+				},
+				{
+					"if": {
+						"properties": {"form": {"const": "Edwards"}}
+					},
+					"then": {
+						"properties": {
+							"params": {"$ref": "#/definitions/Edwards"}
+						}
+					}
+				},
+				{
+					"if": {
+						"properties": {"form": {"const": "TwistedEdwards"}}
+					},
+					"then": {
+						"properties": {
+							"params": {"$ref": "#/definitions/TwistedEdwards"}
+						}
+					}
+				},
+				{
+					"if": {
+						"properties": {"form": {"const": "Montgomery"}}
+					},
+					"then": {
+						"properties": {
+							"params": {"$ref": "#/definitions/Montgomery"}
+						}
+					}
+				}
+			],
+			"required": ["name", "category", "desc", "field", "form", "generator", "order", "cofactor"]
+		},
+		"Category": {
+			"type": "object",
+			"properties": {
+				"name": {"type": "string"},
+				"desc": {"type": "string"},
+				"curves": {"type": "array", "items": {"$ref": "#/definitions/Curve"}}
+			},
+			"required": ["name", "desc", "curves"]
+		}
+	},
+	"oneOf": [
+		{"$ref": "#/definitions/Category"},
+		{"$ref": "#/definitions/Curve"}
+	]
+}
