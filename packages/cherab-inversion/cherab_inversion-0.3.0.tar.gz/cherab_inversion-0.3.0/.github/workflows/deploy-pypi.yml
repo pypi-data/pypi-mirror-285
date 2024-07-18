@@ -1,0 +1,75 @@
+# This workflow will build sdist & wheel of Python Package and upload them to PyPI
+
+name: PyPI Publish
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build_wheels:
+    name: Build wheel distribution 📦 on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v4
+
+    - name: Set up Pixi 🟨
+      uses: prefix-dev/setup-pixi@v0.8.0
+      with:
+        environments: build
+
+    - name: Build 🐍 wheels
+      run: pixi run -e build build-wheel
+
+    - name: Upload distribution 📦 as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.whl
+
+  build_sdist:
+    name: Build source distribution 📦
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v4
+
+    - name: Set up Pixi 🟨
+      uses: prefix-dev/setup-pixi@v0.8.0
+      with:
+        environments: build
+
+    - name: Build 🐍 sdist
+      run: pixi run -e build build-sdist
+
+    - name: Upload distribution 📦 as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        path: dist/*.tar.gz
+
+  upload_pypi:
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+    permissions:
+      id-token: write
+    steps:
+    - name: Download distribution 📦 from artifact
+      uses: actions/download-artifact@v3
+      with:
+          # unpacks default artifact into dist/
+          # if `name: artifact` is omitted, the action will create extra parent dir
+        name: artifact
+        path: dist
+
+    - name: Publish 🐍 distribution 📦 to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1
