@@ -1,0 +1,72 @@
+Metadata-Version: 2.1
+Name: pogo-migrate
+Version: 0.0.19
+Summary: Database migration tool for asyncpg
+Home-page: https://github.com/NRWLDev/pogo-migrate
+License: Apache
+Keywords: migrations,migrate,database,asyncpg,yoyo
+Author: Daniel Edgecombe
+Author-email: daniel@nrwl.co
+Maintainer: Daniel Edgecombe
+Maintainer-email: daniel@nrwl.co
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Database
+Classifier: Topic :: Software Development
+Requires-Dist: python-dotenv (>=1.0.0,<2.0.0)
+Requires-Dist: rich (>=13.7.1,<14.0.0)
+Requires-Dist: rtoml (>=0.10.0,<0.11.0)
+Requires-Dist: sqlglot[rs] (>=25.5.1,<26.0.0)
+Requires-Dist: sqlparse (>=0,<1)
+Requires-Dist: tabulate (>=0.9.0,<0.10.0)
+Requires-Dist: typer (>=0,<1)
+Requires-Dist: typing_extensions (>=4.7.0,<5.0.0) ; python_version < "3.10"
+Description-Content-Type: text/markdown
+
+# Pogo migrate - asyncpg migration tooling
+[![image](https://img.shields.io/pypi/v/pogo_migrate.svg)](https://pypi.org/project/pogo_migrate/)
+[![image](https://img.shields.io/pypi/l/pogo_migrate.svg)](https://pypi.org/project/pogo_migrate/)
+[![image](https://img.shields.io/pypi/pyversions/pogo_migrate.svg)](https://pypi.org/project/pogo_migrate/)
+![style](https://github.com/NRWLDev/pogo-migrate/actions/workflows/style.yml/badge.svg)
+![tests](https://github.com/NRWLDev/pogo-migrate/actions/workflows/tests.yml/badge.svg)
+[![codecov](https://codecov.io/gh/NRWLDev/pogo-migrate/branch/main/graph/badge.svg)](https://codecov.io/gh/NRWLDev/pogo-migrate)
+
+`pogo-migrate` is a migration tool intended for use with `asyncpg` and assists
+with maintaining your database schema (and data if required) as it evolves.
+Pogo supports migrations written in raw sql, as well as python files (useful
+when data needs to be migrated).
+
+A migration can be as simple as:
+
+```sql
+-- a descriptive message
+-- depends: 20210101_01_abcdef-previous-migration
+
+-- migrate: apply
+CREATE TABLE foo (id INT, bar VARCHAR(20), PRIMARY KEY (id));
+
+-- migrate: rollback
+DROP TABLE foo;
+```
+
+Pogo manages these migration scripts and provides command line tools to apply,
+rollback and show migration history.
+
+See the [docs](https://nrwldev.github.io/pogo-migrate/) for more details.
+
+## Thanks and Credit
+
+Inspiration for this tool is drawn from
+[yoyo](https://ollycope.com/software/yoyo/latest/) and
+[dbmate](https://github.com/amacneil/dbmate).
+
