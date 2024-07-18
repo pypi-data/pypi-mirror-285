@@ -1,0 +1,21 @@
+# ============= Engine stepper =================
+
+[engine.stepper]
+verbose = false
+odeSolver = "runge_kutta_4"
+sensorsUpdatePeriod = 0.01
+controllerUpdatePeriod = 0.01
+logInternalStepperSteps = false
+randomSeedSeq = [0,]
+
+# ============== Contact dynamics ===============
+
+[engine.constraints]
+solver = "PGS"
+regularization = 1.0e-1
+
+[engine.contacts]
+model = "constraint"
+stabilizationFreq = 5.0
+transitionEps = 1.0e-2
+friction = 1.0

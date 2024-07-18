@@ -1,0 +1,24 @@
+# ============= Engine stepper =================
+
+[engine.stepper]
+verbose = false
+odeSolver = "euler_explicit"
+tolAbs = 1e-5
+tolRel = 1e-4
+sensorsUpdatePeriod = 0.005
+controllerUpdatePeriod = 0.005
+logInternalStepperSteps = false
+randomSeedSeq = [0,]
+
+# ============== Contact dynamics ===============
+
+[engine.constraints]
+solver = "PGS"
+regularization = 2.0e-3
+
+[engine.contacts]
+model = "constraint"
+stabilizationFreq = 25.0
+transitionEps = 5.0e-3
+friction = 0.8
+torsion = 0.0
