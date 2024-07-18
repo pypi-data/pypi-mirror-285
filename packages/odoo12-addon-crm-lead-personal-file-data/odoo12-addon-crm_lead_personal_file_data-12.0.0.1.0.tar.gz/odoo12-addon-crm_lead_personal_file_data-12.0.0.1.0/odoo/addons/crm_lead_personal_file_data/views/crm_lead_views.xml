@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+    <act_window id="action_crm_lead_add_dms_file"
+                name="Add document"
+                src_model="crm.lead"
+                res_model="add.dms.file.wizard"
+                view_type="form"
+                view_mode="form"
+                target="new"
+                multi="True"
+    />
+    <record id="view_crm_lead_form_add_document_button" model="ir.ui.view">
+        <field name="name">crm.lead.form.add.document.button</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <sheet position="before">
+                <header>
+                    <button string="Add document"
+                            name="%(action_crm_lead_add_dms_file)d"
+                            type="action"/>
+                </header>
+            </sheet>
+        </field>
+    </record>
+  </data>
+</odoo>
