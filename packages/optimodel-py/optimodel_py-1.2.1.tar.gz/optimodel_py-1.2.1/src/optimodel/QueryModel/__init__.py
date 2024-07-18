@@ -1,0 +1,1 @@
+from .QueryModel import queryModel
