@@ -1,0 +1,6 @@
+from openobd_protocol.Communication.Messages import Isotp_pb2 as _Isotp_pb2
+from openobd_protocol.Communication.Messages import Raw_pb2 as _Raw_pb2
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
