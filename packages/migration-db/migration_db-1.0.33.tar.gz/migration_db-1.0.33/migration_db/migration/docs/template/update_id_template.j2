@@ -1,0 +1,25 @@
+USE {{build_sql_dto.database}};
+SET foreign_key_checks=FALSE;
+{% for field_group in build_sql_dto.replace_fields%}
+SET @new_value={{field_group.new_value}};
+SET @replace_value={{field_group.replace_value}};
+{%- for replace_field in field_group.fields%}
+{%- if field_group.data_type==1 %}
+UPDATE {{replace_field.table}} SET {{replace_field.field}}=@new_value WHERE {{replace_field.field}}=@replace_value{{replace_field.external_condition}};
+{%- elif replace_field.field=='strata' %}
+UPDATE {{replace_field.table}} SET {{replace_field.field}}=CONCAT('Site:', @new_value) WHERE {{replace_field.field}}=CONCAT('Site:', CONVERT(@replace_value USING utf8mb4) COLLATE utf8mb4_general_ci);
+{%- else %}
+UPDATE {{replace_field.table}} SET {{replace_field.field}}=@new_value WHERE {{replace_field.field}}=CONVERT(@replace_value USING utf8mb4) COLLATE utf8mb4_general_ci{{replace_field.external_condition}};
+{%- endif %}
+{%- endfor %}
+{% endfor %}
+{%- for procedure in build_sql_dto.procedures%}
+{{procedure}}
+{%- endfor %}
+{%- for table_action in build_sql_dto.table_actions%}
+{{table_action}}
+{%- endfor %}
+{%- for sql_state in build_sql_dto.sql_statement%}
+{{sql_state}}
+{%- endfor %}
+SET foreign_key_checks=TRUE;

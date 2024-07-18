@@ -1,0 +1,12 @@
+global-exclude __pycache__
+recursive-include migration_db *.sql *.json *.py *.j2 *.txt
+exclude *.log
+exclude migration_db/common_utils/compare_two_dict.py
+exclude migration_db/common_utils/create_folder.py
+exclude migration_db/common_utils/database.py
+exclude migration_db/common_utils/handle_remove_read_only.py
+exclude migration_db/common_utils/lib.py
+exclude migration_db/common_utils/my_db.py
+exclude migration_db/common_utils/template_parse.py
+exclude migration_db/common_utils/conf/datasource.json
+recursive-exclude migration_db/common_utils/.aws *
