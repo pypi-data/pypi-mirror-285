@@ -1,0 +1,12 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        {{ x.include_docker_build(aux, opts) }}
+        {{ x.include_platform(aux) }}
+        image: {{ opts.image_name }}
+        volumes:
+            - {{ aux.payload.docker_settings.source_dir }}/tests:/home/container/workdir:rw
+        working_dir: /home/container/workdir
+        {{ x.include_pytest_command(aux, opts) }}
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}

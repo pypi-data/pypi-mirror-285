@@ -1,0 +1,4 @@
+environment:
+- CI_JOB_TOKEN=$CI_JOB_TOKEN
+- ANSIBLE_VAULT_PASS=$ANSIBLE_VAULT_PASS
+- ANSIBLE_TARGET={{ opts.get("ansible_target", "deploy.yml -i inventory/${CI_COMMIT_BRANCH}.cfg") }}

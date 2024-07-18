@@ -1,0 +1,11 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        image: {{ aux.project.slug }}-pytest
+        volumes:
+            - {{ aux.payload.docker_settings.source_dir }}:/home/container/workdir:rw
+        working_dir: /home/container/workdir
+        command: [pytest{% if "test_dir" in opts %}, {{opts.test_dir}}{% endif %}, --cov, '{{ aux.project.name }}', '--cov-fail-under={{ opts.coverage }}']
+        # required Testing Coverage Parsing Regex: Total coverage:.+?(\d+\.\d+\%)$
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}

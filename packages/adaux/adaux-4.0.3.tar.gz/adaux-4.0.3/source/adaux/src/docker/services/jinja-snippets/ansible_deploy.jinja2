@@ -1,0 +1,8 @@
+ENV ANSIBLE_HOST_KEY_CHECKING=False
+CMD ["/bin/sh", "-c", \
+    "eval $(ssh-agent -s -a ~/ssh_agent_socket) > /dev/null ; \
+     echo $ANSIBLE_VAULT_PASS > .ci_vault_pass ; \
+     ANSIBLE_CONFIG=ansible.cfg ansible-playbook --vault-password-file=.ci_vault_pass $ANSIBLE_TARGET; \
+     EXIT_CODE=$?; \
+     rm -f .ci_vault_pass; \
+     exit $EXIT_CODE;"]

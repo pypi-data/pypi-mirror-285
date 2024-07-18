@@ -1,0 +1,20 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        {{ x.include_docker_build(aux, opts) }}
+        {{ x.include_platform(aux) }}
+        image: {{ opts.image_name }}
+        {% if opts.get("mode") == "django" %}
+        ports:
+            - 80:8000
+        {% elif opts.get("mode") == "django+nginx" %}
+        ports:
+            - 8004:8004
+        {% elif opts.get("mode") == "ansible" %}
+        environment:
+        -   CI_JOB_TOKEN=$CI_JOB_TOKEN
+        -   ANSIBLE_VAULT_PASS=$ANSIBLE_VAULT_PASS
+        -   ANSIBLE_TARGET=deploy.yml -i inventory/${CI_COMMIT_BRANCH}.cfg
+        {% endif %}
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}

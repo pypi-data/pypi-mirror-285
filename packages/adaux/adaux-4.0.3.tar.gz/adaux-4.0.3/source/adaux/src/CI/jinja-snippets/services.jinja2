@@ -1,0 +1,4 @@
+    services:
+    {%- for x in aux.ci.jobs.get(key,{}).get("services",[]) %}
+    -   {{ x }}
+    {%- endfor %}

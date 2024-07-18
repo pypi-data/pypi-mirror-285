@@ -1,0 +1,1 @@
+command: [pytest{% if "test_dir" in opts %}, {{opts.test_dir}}{% endif %}{% if "marker" in opts %}, -m, "{{ opts.marker }}"{% endif %}{% if "coverage" in opts %}, --cov, '{{ aux.project.name }}', '--cov-fail-under={{ opts.coverage }}'{% endif %}]

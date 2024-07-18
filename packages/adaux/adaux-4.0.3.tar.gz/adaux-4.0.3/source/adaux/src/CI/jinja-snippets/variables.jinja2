@@ -1,0 +1,4 @@
+    variables:
+    {%- for key, val in aux.ci.jobs.get(key,{}).get("variables",{}).items() %}
+        {{ key }}: "{{val}}"
+    {%- endfor %}
