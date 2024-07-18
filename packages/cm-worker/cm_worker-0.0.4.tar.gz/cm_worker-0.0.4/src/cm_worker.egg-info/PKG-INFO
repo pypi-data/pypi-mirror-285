@@ -1,0 +1,71 @@
+Metadata-Version: 2.1
+Name: cm_worker
+Version: 0.0.4
+Summary: CourseMapper Worker
+Author-email: Jean Qussa <jean.qussa@stud.uni-due.de>
+License: MIT License
+        
+        Copyright (c) 2024 Jean Qussa
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/jeanqussa/cm-worker
+Project-URL: Issues, https://github.com/jeanqussa/cm-worker/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: redis
+
+# CourseMapper Worker
+
+This package is to be used with CourseMapper.
+
+Its purpose it to provide a simple method for interacting with the worker queue of CourseMapper.
+
+Its handles reading from the 'waiting' queue, pushing results to the 'done', sending periodic 'live' updates, and sending log messages.
+
+## Installation
+```
+pip install git+https://github.com/jeanqussa/cm-worker
+```
+
+## Usage
+This is a simple program that watches the 'addition' job queue, adds two numbers, and returns the result.
+
+```
+from cm_worker import Worker
+from config import Config
+
+worker = Worker(Config.REDIS_HOST, Config.REDIS_PORT, Config.REDIS_DB, Config.REDIS_PASSWORD)
+worker.log_to_console = True
+
+def execute_job(job):
+    value_a = job.get('a')
+    value_b = job.get('b')
+    return value_a + value+b
+
+worker.add_pipeline('addition', execute_job)
+
+worker.start()
+```
+
+Take a look at the public methods of the `Worker` class for more use cases.
