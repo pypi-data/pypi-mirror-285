@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "stimline-idex"
+version = "0.4.0"
+description = "API Wrapper for the Stimline IDEX collaboration platform software used for well intervention."
+authors = ["Marcus Risanger <69350948+MarcusRisanger@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^2.8.2"
+requests = "^2.32.3"
+ipykernel = "^6.29.5"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.1"
+types-requests = "^2.32.0.20240622"
+mypy = "^1.10.1"
+msgpack = "^1.0.8"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+line-length = 120
+exclude = ["tests"]
+fix = true
+show-fixes = true
+
+[tool.ruff.lint]
+select = [
+    "F", # Pyflakes
+    "UP", # pyupgrade (updates type hints, deprecations etc.)
+    "E", # Pycodestyle (Errors)
+    "W", # Pycodestyle (Warnings)
+    "D", # Pydocstyle
+    "D413", # Missing blank line after last section, explicitly enabled due to numpy convention
+]
+ignore = [
+    "D100", # Missing docstring in public module
+    "D101", # Missing docstring in public class
+    "D102", # Missing docstring in public method
+    "D104", # Missing docstring in public package
+    "D418", # Overloaded functions with docstrings
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["JoinFuelWithEDMActivity", "utils", "GetRigSensorData", "rig_sensor_data"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
