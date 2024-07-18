@@ -1,0 +1,100 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-scm", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bead_inspector"
+dynamic = ["version"]
+authors = [
+    {name = "Nick Ross", email = "tspread@uchicago.edu"},
+    {name = "Matt Triano", email = "matthewtriano@uchicago.edu"},
+]
+maintainers = [
+    {name = "Matt Triano, Nick Ross"},
+]
+description = "A tool to help SBOs validate BEAD Challenge Process data files before submission to NTIA."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "twine",
+    "tox>=4.0",
+    "black",
+    "isort",
+    "pytest>=6.0",
+    "pytest-cov",
+]
+
+[project.scripts]
+bead_inspector = "bead_inspector.main:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["bead_inspector"]
+
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "--import-mode=importlib --cov=bead_inspector --cov-report=html"
+
+[tool.black]
+line-length = 80
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+
+[tool.isort]
+profile = "black"
+
+[tool.tox]
+env_list = [ ".venv38", ".venv39", ".venv310", ".venv311", ".venv312"]
+isolated_build = true
+
+[tool.tox.envs]
+[tool.tox.envs.'.venv38']
+description = "run unit tests with Python 3.8"
+basepython = "{toxinidir}/.venv38/bin/python"
+package = { editable = true }
+deps = ["pytest", "pytest-cov"]
+setenv = { PYTHONPATH = "{toxinidir}/src" }
+commands = ["pytest -vv"]
+
+[tool.tox.envs.'.venv39']
+description = "run unit tests with Python 3.9"
+basepython = "{toxinidir}/.venv39/bin/python"
+package = { editable = true }
+deps = ["pytest", "pytest-cov"]
+setenv = { PYTHONPATH = "{toxinidir}/src" }
+commands = ["pytest -vv"]
+
+[tool.tox.envs.'.venv310']
+description = "run unit tests with Python 3.10"
+basepython = "{toxinidir}/.venv310/bin/python"
+package = { editable = true }
+deps = ["pytest", "pytest-cov"]
+setenv = { PYTHONPATH = "{toxinidir}/src" }
+commands = ["pytest -vv"]
+
+[tool.tox.envs.'.venv311']
+description = "run unit tests with Python 3.11"
+basepython = "{toxinidir}/.venv311/bin/python"
+package = { editable = true }
+deps = ["pytest", "pytest-cov"]
+setenv = { PYTHONPATH = "{toxinidir}/src" }
+commands = ["pytest -vv"]
+
+[tool.tox.envs.'.venv312']
+description = "run unit tests with Python 3.12"
+basepython = "{toxinidir}/.venv312/bin/python"
+package = { editable = true }
+deps = ["pytest", "pytest-cov"]
+setenv = { PYTHONPATH = "{toxinidir}/src" }
+commands = ["pytest -vv"]
