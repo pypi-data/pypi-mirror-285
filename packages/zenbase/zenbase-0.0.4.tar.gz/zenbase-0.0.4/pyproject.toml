@@ -1,0 +1,85 @@
+[project]
+name = "zenbase"
+version = "0.0.4"
+description = "LLMs made Zen"
+authors = [{ name = "Cyrus Nouroozi", email = "cyrus@zenbase.ai" }]
+dependencies = [
+    "pksuid>=1.1.2",
+    "faker>=25.4.0",
+    "anyio>=4.4.0",
+    "opentelemetry-sdk>=1.25.0",
+    "opentelemetry-api>=1.25.0",
+    "structlog>=24.2.0",
+    "pyee>=11.1.0",
+    "posthog>=3.5.0",
+    "cloudpickle>=3.0.0",
+]
+readme = "README.md"
+requires-python = ">= 3.10"
+lisence = "MIT"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.mypy]
+namespace_packages = true
+
+[tool.pytest.ini_options]
+markers = ["helpers"]
+addopts = "-m 'not helpers'"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "pytest>=8.2.1",
+    "ruff>=0.4.6",
+    "langsmith[vcr]>=0.1.72",
+    "pyright>=1.1.365",
+    "datasets>=2.19.1",
+    "ipython>=8.24.0",
+    "ipdb>=0.13.13",
+    "openai>=1.30.5",
+    "pytest-recording>=0.13.1",
+    "python-dotenv>=1.0.1",
+    "vcrpy>=6.0.1",
+    "arize-phoenix[evals]>=4.9.0",
+    "nest-asyncio>=1.6.0",
+    "langchain-openai>=0.1.8",
+    "langchain-core>=0.2.3",
+    "langchain>=0.2.1",
+    "parea-ai>=0.2.164",
+    "langfuse>=2.35.0",
+    "lunary>=1.0.30",
+    "autoevals>=0.0.68",
+    "braintrust>=0.0.131",
+    "pre-commit>=3.7.1",
+    "pytest-xdist>=3.6.1",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/zenbase"]
+
+[tool.ruff]
+exclude = [
+    "venv",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    "venv",
+]
+line-length = 120
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+ignore = []
+select = [
+    "E",
+    "F",
+    "W",
+    "I001",
+]
