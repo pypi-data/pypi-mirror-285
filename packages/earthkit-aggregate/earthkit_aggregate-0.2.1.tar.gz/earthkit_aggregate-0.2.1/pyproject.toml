@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+
+[project]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: Apache Software License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Scientific/Engineering"
+]
+dependencies = [
+  "xarray>=2022.3.0",
+  "numpy>=1.18",
+  "earthkit-data>=0.3.0",
+  "geopandas",
+  "rasterio"
+]
+description = "Aggregation tools for meteorological and climate data."
+dynamic = ["version"]
+license = {file = "LICENSE"}
+name = "earthkit-aggregate"
+readme = "README.md"
+
+[tool.coverage.run]
+branch = true
+
+[tool.ruff]
+ignore = [
+  # pydocstyle: Missing Docstrings
+  "D1",
+  # pydocstyle: numpy convention
+  "D107",
+  "D203",
+  "D205",
+  "D212",
+  "D213",
+  "D401",
+  "D402",
+  "D413",
+  "D415",
+  "D416",
+  "D417"
+]
+# Black line length is 88, but black does not format comments.
+line-length = 110
+select = [
+  # pyflakes
+  "F",
+  # pycodestyle
+  "E",
+  "W",
+  # isort
+  "I",
+  # pydocstyle
+  "D"
+]
+
+[tool.setuptools]
+packages = ["earthkit.aggregate"]
+
+[tool.setuptools_scm]
+write_to = "earthkit/aggregate/version.py"
+write_to_template = '''
+# Do not change! Do not track in version control!
+__version__ = "{version}"
+'''

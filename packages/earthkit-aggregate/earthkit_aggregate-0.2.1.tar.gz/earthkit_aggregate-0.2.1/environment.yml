@@ -1,0 +1,30 @@
+channels:
+- conda-forge
+- nodefaults
+dependencies:
+- make
+- mypy
+- myst-parser
+- pre-commit
+# - pydata-sphinx-theme
+- sphinx-rtd-theme
+- pytest
+- pytest-cov
+- sphinx
+- sphinx-autoapi
+- nbsphinx
+# EXAMPLE:
+# dependencies:
+# - package1
+# - package2
+# DO NOT EDIT ABOVE THIS LINE, ADD DEPENDENCIES BELOW AS SHOWN IN THE EXAMPLE
+- pandas-stubs
+- nbsphinx
+- numpy
+- xarray
+- pip
+- geopandas
+- rasterio
+- earthkit-data
+- pip:
+  - git+https://github.com/ecmwf/multiurl
