@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "network_as_code"
+version = "3.0.1"
+description = ""
+authors = ["Sami Lahtinen <sami.lahtinen@nokia.com>", "Pavel Garmuyev <pavel.garmuyev@nokia.com>"]
+packages = [
+    { include = "network_as_code" },
+]
+license = "Apache-2.0"
+
+[tool.pyright]
+include = ["network_as_code"]
+exclude = ["**/__pycache__", "**/.pytest_cache", "**/.*"]
+pythonVersion = "^3.9"
+pythonPlatform = "Linux"
+
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = {extras = ["email"], version = "^2.7.1"}
+httpx = "^0.24.1"
+pylint = "^3.2.2"
+
+[tool.poetry.group.dev.dependencies]
+pyright = "^1.1.271"
+pytest-asyncio = "^0.19.0"
+pdoc = "^14.0.0"
+pytest = "^7.2.2"
+pytest-cov = "^4.0.0"
+black = "^24.3.0"
+pyyaml = "^6.0"
+python-dotenv = "^0.19.2"
+pytest-env = "^0.8.2"
+pytest-httpx = "^0.23.1"
+pip-audit = "^2.6.1"
+pipdeptree = "^2.13.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+norecursedirs = "binding_generation"
+testpaths = [
+    "tests",
+    #"integration_tests"
+]
+xfail_strict = true
+
+[tool.poetry_bumpversion.file."network_as_code/__init__.py"]
+
+
+
