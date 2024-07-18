@@ -1,0 +1,28 @@
+[project]
+name = "grrif_tools"
+version = "0.8.2"
+authors = [
+  { name="Julien 'fetzu' Bono" },
+]
+description = "An unofficial set of tools for Cool Cats™."
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "Requests==2.32.3",
+    "beautifulsoup4==4.12.3",
+    "titlecase==2.4.1",
+    "miniaudio==1.60",
+]
+
+[project.entry-points.'console_scripts']
+grrif_tools = "grrif_tools.cli:main"
+
+[project.urls]
+"Homepage" = "https://github.com/fetzu/grrif-tools"
+"Bug Tracker" = "https://github.com/fetzu/grrif-tools/issues"
