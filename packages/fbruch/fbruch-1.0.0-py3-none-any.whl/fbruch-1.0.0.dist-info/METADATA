@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: fbruch
+Version: 1.0.0
+Summary: Simple python library using graph api and scraping.
+Home-page: https://github.com/jepluk/fbruch
+Author: Errucha (jepluk)
+Keywords: fb,facebook,fb-api,facebook-api,facebook-graph,bruteforce,facebook-scraping,fb-scraping,scraping
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+Requires-Dist: bs4
+Requires-Dist: fake-useragent
+
+# About
+A simple Facebook library focused on Facebook brut3f0rce.
+
+# API: First access
+Example code
+```python
+from fbruch import Api
+
+# Login using cookies string.
+# Download cookies using the cookiedough extension
+fb = Api(cookies='cookie string')
+# Login using email and password 
+fb = Api(mailpass={'email': 'fbmail@gmail.com', 'password': 'fbpassword'})
+
+print(fb.islogin) # if login success
+print(fb.token) # your facebook token
+```
+
+# API: Account info
+Get name and user id facebook
+
+Example code
+```python
+info = fb.account_info(id='meizug')
+print(info)
+```
+
+# API: Dump friendlist
+Get name and user id friendlist using graph api
+
+Example code
+```python
+dump = fb.dump_friendlist(id='meizug', cursor=None)
+print(dump)
+```
+
+# UTILS: Password generator
+Create a list of passwords from names.
+
+Example code
+```python
+from fbruch.utils import password_generator
+
+password = password_generator(name='dinda ayunda')
+print(password)
+```
+
+# LOGIN: Facebook login
+Example code
+```python
+from fbruch import Login
+
+fb = Login(subdomain='mbasic')
+response = fb.__regular__(email='mailfb@gmail.com', password='facebook password')
+print(response)
+```
+Example success output
+```python
+{'status': True, 'data': {'session': b'example session', 'useragent': 'Useragent example', 'email': 'output@gmail.com', 'password': 'example password', 'cookies_string': 'example cookies'}, 'error': None}
+```
+Subdomain list
+- mbasic
+- d
+- m
+- free
+- touch
+
