@@ -1,0 +1,41 @@
+[tool.poetry]
+name = "laorm"
+version = "3.0.0"
+description = "A python async orm tool"
+authors = ["larry <176286171@qq.com>"]
+license = "Apache-2.0"
+homepage = "https://github.com/mryzhou/laorm"
+
+repository = "https://github.com/mryzhou/laorm.git"  # 可选，指定项目仓库地址
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiomysql = "*"
+pydantic = "^2.8.2"
+cryptography = "^42.0.5" # aiomysql 密码认证依赖
+[tool.poetry.dev-dependencies]
+fastapi = "^0.110.0"  # 更改为最新稳定版的FastAPI
+uvicorn = {extras = ["standard"], version = "^0.27.1"}  # 或者使用最新稳定版Uvicorn
+
+[tool.poetry.extras]
+fastapi = ["fastapi"]
+flask = ["flask"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+# poetry 1.2 及更高版本支持 include 和 exclude.
+# 但是Poetry 会自动递归查找项目中的 Python 包
+# 不需要像 setuptools 那样手动指定每个包，除非有特殊需求
+# 没有特别指定include和exclude的情况下，poetry会默认包含所有子包及其__init__.py文件
+# [tool.poetry.package]
+# include = [
+#     "core/**", # 包含 core 目录及其子目录的所有文件
+# ]
+
+# exclude = [
+#     "test/*", # 排除 test 目录下直接的文件（不递归）
+#     # 若要递归排除 test 下所有文件和子目录：
+#     # "test/**",
+# ]
