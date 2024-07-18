@@ -1,0 +1,113 @@
+Metadata-Version: 2.1
+Name: nm-vllm
+Version: 0.5.1.1
+Summary: A high-throughput and memory-efficient inference and serving engine for LLMs
+Home-page: https://github.com/neuralmagic/nm-vllm
+Author: vLLM Team, Neural Magic
+Author-email: support@neuralmagic.com
+License: Neural Magic Community License
+Project-URL: Homepage, https://github.com/neuralmagic/nm-vllm
+Project-URL: Documentation, https://vllm.readthedocs.io/en/latest/
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: Other/Proprietary License
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: licenses/LICENSE.apache
+License-File: licenses/LICENSE.awq
+License-File: licenses/LICENSE.fastertransformer
+License-File: licenses/LICENSE.gptq
+License-File: licenses/LICENSE.marlin
+License-File: licenses/LICENSE.punica
+License-File: licenses/LICENSE.squeezellm
+License-File: licenses/LICENSE.tensorrtllm
+License-File: licenses/LICENSE.vllm
+License-File: NOTICE
+Requires-Dist: cmake >=3.21
+Requires-Dist: ninja
+Requires-Dist: psutil
+Requires-Dist: sentencepiece
+Requires-Dist: numpy <2.0.0
+Requires-Dist: requests
+Requires-Dist: tqdm
+Requires-Dist: py-cpuinfo
+Requires-Dist: transformers >=4.42.0
+Requires-Dist: tokenizers >=0.19.1
+Requires-Dist: fastapi
+Requires-Dist: aiohttp
+Requires-Dist: openai
+Requires-Dist: uvicorn[standard]
+Requires-Dist: pydantic >=2.0
+Requires-Dist: pillow
+Requires-Dist: prometheus-client >=0.18.0
+Requires-Dist: prometheus-fastapi-instrumentator >=7.0.0
+Requires-Dist: tiktoken >=0.6.0
+Requires-Dist: lm-format-enforcer ==0.10.1
+Requires-Dist: outlines >=0.0.43
+Requires-Dist: typing-extensions
+Requires-Dist: filelock >=3.10.4
+Requires-Dist: ray >=2.9
+Requires-Dist: nvidia-ml-py
+Requires-Dist: torch ==2.3.0
+Requires-Dist: torchvision ==0.18.0
+Requires-Dist: xformers ==0.0.26.post1
+Requires-Dist: vllm-flash-attn ==2.5.9
+Provides-Extra: sparse
+Requires-Dist: nm-magic-wand ~=0.2.2 ; extra == 'sparse'
+Provides-Extra: sparsity
+Requires-Dist: nm-magic-wand ~=0.2.2 ; extra == 'sparsity'
+Provides-Extra: tensorizer
+Requires-Dist: tensorizer >=2.9.0 ; extra == 'tensorizer'
+
+# nm-vllm
+
+## Overview
+
+This repo `nm-vllm-ent` contains all the source for the Neuralmagic Enterprise Edition of `vllm`. The `nm-vllm` packages built from this repo are supported enterprise distributions of [vLLM](https://github.com/vllm-project/vllm). Packages are versioned Python wheels and docker images. These are released as "production level" official releases and "beta level" Nightly's.
+
+Official releases are made at the discretion of Neuralmagic, but typically track with `vllm` releases. These wheels are available via "public pypi" as well as ["nm-pypi"](https://pypi.neuralmagic.com).
+
+Nightly's are released every night given green runs in automation. The wheels are available at ["nm-pypi"](https://pypi.neuralmagic.com).
+
+## Installation
+
+### PyPI
+The [nm-vllm PyPi package](https://pypi.neuralmagic.com/simple/nm-vllm/index.html) includes pre-compiled binaries for CUDA (version 12.1) kernels. For other PyTorch or CUDA versions, please compile the package from source.
+
+Install it using pip:
+```bash
+pip install nm-vllm --extra-index-url https://pypi.neuralmagic.com/simple
+```
+
+To utilize the weight sparsity features, include the optional `sparse` dependencies.
+```bash
+pip install nm-vllm[sparse] --extra-index-url https://pypi.neuralmagic.com/simple
+```
+
+You can also build and install `nm-vllm` from source (this will take ~10 minutes):
+```bash
+git clone https://github.com/neuralmagic/nm-vllm.git
+cd nm-vllm
+pip install -e .[sparse] --extra-index-url https://pypi.neuralmagic.com/simple
+```
+
+### Docker
+
+The [`nm-vllm` container registry](https://github.com/neuralmagic/nm-vllm/pkgs/container/nm-vllm-openai) includes premade docker images.
+
+Launch the OpenAI-compatible server with:
+
+```bash
+MODEL_ID=Qwen/Qwen2-0.5B-Instruct
+docker run --gpus all --shm-size 2g ghcr.io/neuralmagic/nm-vllm-openai:latest --model $MODEL_ID
+```
+
+## Models
+
+Neural Magic maintains a variety of optimized models on our Hugging Face organization profiles:
+- [neuralmagic](https://huggingface.co/neuralmagic)
+- [nm-testing](https://huggingface.co/nm-testing)
