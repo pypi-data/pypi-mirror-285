@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: echostream-function-context
+Version: 0.1.0
+Summary: Micro library for typing function contexts in EchoStream functions
+Author: EchoStream
+Author-email: pypi@echo.stream
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Provides-Extra: dev
+Requires-Dist: boto3-stubs[dynamodb] ; extra == 'dev'
+
+# echostream-function-context
+
+Micro library for typing function contexts in EchoStream functions
+
+> Note: Version >= 0.1.0 requires Python 3.12
+ 
+## Installation
+
+### For production
+```shell
+pip install echostream-function-context
+```
+
+Production install has no requirements.
+
+### For development
+```shell
+pip install echostream-function-context[dev]
+```
+
+Development install will also install `boto3-stubs[dynamodb]`.
+
+## Usage
+```python
+def processor(*, context, message, source, **kwargs):
+
+    from typing import TYPE_CHECKING, cast
+
+    if TYPE_CHECKING:
+        from echostream_function_context import Context
+    else:
+        Context = object
+
+    context = cast(Context, context)
+```
