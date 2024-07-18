@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "pyhoptico"
+version = "0.2.0"
+description = "Python client for the Hoptico website."
+authors = ["Hoptico <no-reply@hoptico.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "pyhoptico" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.31.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+ruff = "^0.3.3"
+twine = "^5.0.0"
+tox = "^4.14.1"
+setuptools = "^69.2.0"
+build = "^1.1.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
