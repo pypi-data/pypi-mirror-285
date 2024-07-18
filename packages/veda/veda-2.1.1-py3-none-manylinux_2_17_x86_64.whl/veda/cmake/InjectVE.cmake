@@ -1,0 +1,1 @@
+SET(CMAKE_MODULE_PATH /usr/local/ve/veda-2.1.1/cmake/nec/inject;/usr/local/ve/veda-2.1.1/cmake;/opt/nec/ve/share/veda/cmake CACHE STRING "Overwrites Languages C, CXX and Fortran with native VE code" FORCE)
