@@ -1,0 +1,54 @@
+[package]
+name = "py_chrontext"
+version = "0.9.0"
+edition = "2021"
+
+[dependencies]
+postgres = { path = "../lib/postgres" }
+virtualized_query = {path="../lib/virtualized_query"}
+chrontext = { path = "../lib/chrontext" }
+virtualization = {path="../lib/virtualization"}
+
+representation.workspace = true
+templates.workspace = true
+pydf_io.workspace = true
+
+pyo3 = { workspace=true, features = ["extension-module"] }
+thiserror.workspace = true
+oxrdf.workspace = true
+tokio.workspace = true
+log.workspace = true
+env_logger.workspace = true
+spargebra.workspace = true
+oxrdfio.workspace = true
+
+[lib]
+name = "chrontext"
+crate-type = ["cdylib"]
+
+# Conditional dependency specification of mimalloc and jemallocator copied from: https://github.com/pola-rs/polars/blob/main/py-polars/Cargo.toml
+# It has the following license
+# Copyright (c) 2020 Ritchie Vink
+#
+#Permission is hereby granted, free of charge, to any person obtaining a copy
+#of this software and associated documentation files (the "Software"), to deal
+#in the Software without restriction, including without limitation the rights
+#to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+#copies of the Software, and to permit persons to whom the Software is
+#furnished to do so, subject to the following conditions:
+#
+#The above copyright notice and this permission notice shall be included in all
+#copies or substantial portions of the Software.
+#
+#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+#AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+#OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+#SOFTWARE.
+[target.'cfg(not(target_os = "linux"))'.dependencies]
+mimalloc = { version = "0.1.37", default-features = false }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+jemallocator = { version = "0.5.4", features = ["disable_initial_exec_tls"] }
