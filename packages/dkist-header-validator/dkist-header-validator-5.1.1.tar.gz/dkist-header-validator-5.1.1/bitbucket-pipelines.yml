@@ -1,0 +1,63 @@
+# Build Configuration for python package deployment to pypi
+image: python:3.10
+
+definitions:
+  steps:
+    - step: &lint
+        caches:
+          - pip
+        name: Lint
+        script:
+          - pip install pre-commit
+          - pre-commit install
+          - pre-commit run --all-files
+    - step: &test
+        name: Test
+        script:
+          - pip install -U pip
+          - pip install .[test]
+          - pytest -v -n auto --cov dkist_header_validator
+    - step: &scan
+        caches:
+          - pip
+        name: Scan
+        script:
+          - pip install -e .
+          - pip freeze | grep -v @ > requirements.txt
+          - cat requirements.txt
+          - echo $SNYK_VERSION
+          - curl -L -o snyk https://github.com/snyk/snyk/releases/download/$SNYK_VERSION/snyk-linux
+          - chmod 755 snyk
+          - ./snyk -d auth $SNYK_TOKEN
+          - echo $SNYK_CLI_COMMAND
+          - $SNYK_CLI_COMMAND
+    - step: &docs
+        name: Build Docs
+        caches:
+          - pip
+        script:
+          - apt update && apt -y install graphviz
+          - pip install .[docs]
+          - sphinx-build --color -W --keep-going -b html docs docs/_build/html
+    - step: &publish
+        name: Publish
+        script:
+          - python setup.py sdist
+          - pip install twine
+          - twine upload dist/*
+
+pipelines:
+  default:
+    - step: *lint
+    - parallel:
+        - step: *test
+        - step: *docs
+        - step: *scan
+  tags:
+    'v*':
+      - step: *lint
+      - parallel:
+          - step: *test
+          - step: *docs
+          - step: *scan
+      - step: *publish

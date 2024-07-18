@@ -1,0 +1,111 @@
+DKIST Data Validator
+====================
+
+An interface containing a validator, and a spec translator for DKIST specs (specifically corresponding to SPEC122 RevE and SPEC214 RevA
+data):
+
+- SPEC-0122: Data received from the summit
+
+- SPEC-0214 l0: Data ingested and parsed by the Data Center
+
+- SPEC-0214: Data published by the Data Center (incomplete)
+
+The validator references a machine readable version of the DKIST Header Specifications which are defined `here <https://pypi.org/project/dkist-fits-specifications/>`__, in the dkist-fits-specifications. Unless otherwise specified, the latest version of dkist-fits-specifications package is installed along with the validator.  Data can be validated against past revisions of the DKIST Header Specifications if a previous version of the dkist-fits-specifications package is installed. If you are receiving validation errors, please reference the version of the DKIST Header Specifications identified in the dkist-fits-specifications package to make sure that your headers are expected to be compliant with that version.
+
+
+Features
+--------
+
+-  Uses `voluptuous <https://pypi.org/project/voluptuous/>`__ schemas to
+   validate a given input header against dkist specifications
+
+-  3 keyword validations: type validation, required-ness validation, and value validation
+
+-  Failure exceptions include a dictionary of validation failure causes
+
+-  SPEC-0122 to SPEC-0214 l0 translation
+
+
+Installation
+------------
+
+.. code:: bash
+
+   pip install dkist-header-validator
+
+
+Usage
+--------
+Currently, this package can be used to validate SPEC122 data or SPEC214 data. Please import the
+corresponding methods (spec122_validator and Spec122ValidationException, or spec214_validator and Spec214ValidationException, or spec214_l0_validator and Spec214ValidationException).
+
+This package can be used for validating data, or for validating and translating data (SPEC122 input only).
+
+Input data can be one of:
+    - string file path
+    - File like object
+    - HDUList object
+    - fits.header.Header object
+    - Dictionary of header keys and values
+
+To validate data:
+
+.. code:: python
+
+    >>> from dkist_header_validator import spec122_validator, Spec122ValidationException
+
+    >>> spec122_validator.validate('dkist_rosa0181200000_observation.fits')
+
+The cli can also be used to validate data:
+
+.. code:: bash
+
+    >>> dkist-header-validator validate122 "path/to/file.fits"
+
+    >>> dkist-header-validator validate214 "path/to/file.fits"
+
+To validate and translate data to spec214 l0:
+
+.. code:: python
+
+    >>> from dkist_header_validator import spec122_validator, Spec122ValidationException
+
+    >>> spec122_validator.validate_and_translate_to_214_l0('dkist_rosa0181200000_observation.fits')
+
+
+Within the validate and validate_and_translate methods, a series of flags can be set, otherwise they will take their default values:
+    - extra: Default value is true (allow extra keys). This flag determines if extra keywords are allowed in the schema to be validated. Ingest validation should allow extra keys.
+    - return_type: Default value is HDUList. This flag will determine the return type. Can be one of dict, Path, BytesIO, fits.header.Header, HDUList.
+
+
+Examples
+--------
+1. Validate a file:
+
+.. code:: python
+
+    >>> from dkist_header_validator import spec122_validator, Spec122ValidationException
+    >>> spec122_validator.validate('dkist_rosa0181200000_observation.fits', return_type=dict)
+
+    >>> from pathlib import Path
+    >>> spec122_validator.validate('dkist_rosa0181200000_observation.fits', return_type=Path)
+
+2. Validate and translate a file:
+
+.. code:: python
+
+    >>> from dkist_header_validator import spec122_validator, Spec122ValidationException
+    >>> spec122_validator.validate_and_translate_to_214_l0('dkist_rosa0181200000_observation.fits')
+
+
+3. Validate headers:
+
+.. code:: python
+
+    >>> from dkist_header_validator import spec122_validator, Spec122ValidationException
+    >>> from astropy.io import fits
+    >>> hdus = fits.open('dkist_rosa0181200000_observation.fits')
+    >>> spec122_validator.validate(hdus[0].header, return_type=dict)
+
+
+This project is Copyright (c) AURA/NSO.
