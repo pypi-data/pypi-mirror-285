@@ -1,0 +1,2 @@
+class NoKabinetFound(Exception):
+    pass
