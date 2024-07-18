@@ -1,0 +1,13 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        image: python:{{ aux.python_project.minimal_version }}-slim-bullseye
+        volumes:
+            - {{ aux.payload.docker_settings.project_dir }}:/home/container/workdir:rw
+        working_dir: /home/container/workdir
+        command: [
+            /bin/sh, -c,
+            "pip install twine && python setup.py sdist && TWINE_PASSWORD=$CI_JOB_TOKEN TWINE_USERNAME=gitlab-ci-token python -m twine upload --repository-url $CI_API_V4_URL/projects/$CI_PROJECT_ID/packages/pypi dist/*"
+        ]
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}

@@ -1,0 +1,21 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        {{ x.include_docker_build(aux, opts) }}
+        {{ x.include_platform(aux) }}
+        image: {{ opts.image_name }}
+        volumes:
+            - {{ aux.payload.docker_settings.project_dir }}:/home/container/{{ aux.project.name }}:rw
+        {% for src, dest in (opts.get("volumes")| default({},true)).items() %}
+            - {{ aux.payload.docker_settings.project_dir }}/{{src}}:/home/container/{{dest}}:rw
+        {% endfor %}
+        environment:
+            PYTHONPATH: '/home/container/{{ aux.project.name }}/{{ aux.project.get("source_dir", "source") }}
+                {%- for path in (opts.get("pythonpath")| default([],true)) -%}
+                    :/home/container/{{path}}
+                {%- endfor %}'
+
+        working_dir: /home/container/{{ aux.project.name }}
+        {% if "command" in opts %}command: {{ opts.command }}{% endif %}
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}

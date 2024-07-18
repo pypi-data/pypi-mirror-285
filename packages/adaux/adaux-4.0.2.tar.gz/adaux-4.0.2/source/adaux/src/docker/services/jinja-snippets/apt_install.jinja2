@@ -1,0 +1,12 @@
+{% if opts.apt_req -%}
+{% if opts.apt_req | length > 1 or opts.apt_req|list != ["all"] -%}
+ARG TARGETPLATFORM
+{% endif -%}
+{% for arch, packages in opts.apt_req.items() -%}
+RUN {% if arch != "all" -%}if [ "$TARGETPLATFORM" = "{{ arch }}" ]; then {% endif %}apt-get update && apt-get install -y \
+    {% for pkg in packages -%}
+        {{ pkg }} \
+    {% endfor -%}
+    --no-install-recommends && apt-get clean && rm -rf /var/lib/apt/lists/*{% if arch != "all" -%}; fi{% endif %}
+{% endfor %}
+{% endif -%}

@@ -1,0 +1,13 @@
+{% import "macros.jinja2" as x %}
+services:
+    {{ opts.service_name }}:
+        {{ x.include_docker_build(aux, opts) }}
+        {{ x.include_platform(aux) }}
+        image: {{ opts.image_name }}
+        volumes:
+            - {{ aux.payload.docker_settings.project_dir }}:/home/container/workdir:rw
+        working_dir: /home/container/workdir
+        init: true
+        command: ["pre-commit", "run", "--config=devops/pre-commit/config.yaml", {% if "cmd" in opts %}"{{ opts.cmd }}"{% else %}"--from-ref", "HEAD~1", "--to-ref", "HEAD"{% endif %}]
+        stop_grace_period: 3s
+{%- filter indent(width=8) %}{% block custom %}{% endblock %}{% endfilter %}
