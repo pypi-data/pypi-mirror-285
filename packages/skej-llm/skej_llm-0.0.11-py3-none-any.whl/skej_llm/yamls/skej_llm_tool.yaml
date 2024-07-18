@@ -1,0 +1,22 @@
+skej_llm.tools.skej_llm_tool.execute_llm:
+  name: Skej_LLM_Tool
+  type: custom_llm
+  inputs:
+    connection:
+      type:
+        - CustomConnection
+    use_notion:
+      type:
+        - bool
+    notion_page_id:
+      type:
+        - string
+    deployment_name:
+      type:
+        - string
+    temperature:
+      type:
+        - double
+  description: This is skej LLM tool
+  module: skej_llm.tools.skej_llm_tool
+  function: execute_llm
