@@ -1,0 +1,59 @@
+Metadata-Version: 2.1
+Name: remotecurl
+Version: 1.1.2
+Summary: RemoteCurl
+Author-email: Wes-KW <dotdotdashdash2024@hotmail.com>
+Project-URL: Homepage, https://github.com/Wes-KW/RemoteCurl
+Project-URL: Issues, https://github.com/Wes-KW/RemoteCurl/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Requires-Python: <4,>=3.5
+Description-Content-Type: text/markdown
+Requires-Dist: beautifulsoup4 >=4.12.3
+Requires-Dist: certifi >=2023.11.17
+Requires-Dist: jsmin >=3.0.1
+Requires-Dist: pycurl >=7.45.3
+Requires-Dist: Brotli >=1.1.0
+Requires-Dist: zstd >=1.5.5.1
+
+# RemoteCurl
+
+RemoteCurl is a python based server that proxies http/https request.
+
+## Dependencies
+- Curl
+- OpenSSL
+- Python 3.5+ and dependencies listed in [requirements.txt](https://github.com/Wes-KW/RemoteCurl/blob/main/requirements.txt)
+
+## Getting Started
+
+1. Make sure you have installed all [dependencies](#dependencies)
+
+2. Install RemoteCurl
+```shell
+python3 -m pip install remotecurl
+```
+
+3. Save the [configuration file](https://github.com/Wes-KW/RemoteCurl/blob/main/config.json) into `~/.config/remotecurl/remotecurl.json`
+
+4. Start remotecurl
+```shell
+python3 -m remotecurl
+```
+
+5. Navigate to `{base_url}{website_url}` in any browser where `{base_url}` equals to `{server.scheme}://{server.name}:{server.port}{server.path}` in the configuration file
+
+For example, if your server scheme is `http`, name is `localhost`, port is `8080`, and you want to navigate to `google.com`, type `http://localhost:8080/main/https://www.google.com` in the browser.
+
+## Documentation
+Will be created soon 😀
