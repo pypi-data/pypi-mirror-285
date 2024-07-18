@@ -1,0 +1,66 @@
+Metadata-Version: 2.1
+Name: earthkit-data-demo-source
+Version: 0.0.1
+Summary: Example earthkit-data external source plugin
+License: Apache License 2.0
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: SQLAlchemy
+Requires-Dist: pandas
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+
+# earthkit-data-demo-source
+
+
+**DISCLAIMER**
+
+> This project is just a demo and **not supported** for operational use at all. **DO NOT USE** it in operations.
+
+
+This is an example of a **data sources plugin** for [earthkit-data](https://earthkit-data.readthedocs.io/). It enables earthkit-data to access data from an SQL database. 
+
+Currently, this example only works with the "develop" branch of earthkit-data. 
+
+## Install
+
+```pip install earthkit-data-demo-source```
+
+## Usage
+
+See https://earthkit-data.readthedocs.io/en/feature-plugins/plugins/sources_plugin.html  
+
+
+## License
+
+```
+Copyright 2023, European Centre for Medium Range Weather Forecasts.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+In applying this licence, ECMWF does not waive the privileges and immunities
+granted to it by virtue of its status as an intergovernmental organisation
+nor does it submit to any jurisdiction.
+```
