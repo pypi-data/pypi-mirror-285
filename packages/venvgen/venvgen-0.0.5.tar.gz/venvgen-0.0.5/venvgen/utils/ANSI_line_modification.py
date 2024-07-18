@@ -1,0 +1,1 @@
+GO_UP_ONE_LINE = '\033[F'
