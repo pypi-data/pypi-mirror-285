@@ -1,0 +1,31 @@
+[project]
+name = "xaal.lib"
+version = "0.7.6"
+description = "Official Python stack for xAAL protocol"
+readme = "README.rst"
+authors = [
+    { name = "Jerome Kerdreux", email = "Jerome.Kerdreux@imt-atlantique.fr" },
+]
+license = { text = "GPL License" }
+classifiers = [
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Home Automation",
+]
+
+keywords = ['xaal', 'home-automation']
+dependencies = [
+    'cbor2==5.4.2',
+    'pysodium',
+    'configobj',
+    'coloredlogs',
+    'decorator',
+    'tabulate',
+    'aioconsole',
+]
+
+
+[project.urls]
+Homepage = "https://recherche.imt-atlantique.fr/xaal/"
+Documentation = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/entry/code/Python/branches/0.7/libs/lib/README.rst"
+Source = "https://redmine.imt-atlantique.fr/projects/xaal/repository/xaal/show/code/Python/branches/0.7/libs/lib"
