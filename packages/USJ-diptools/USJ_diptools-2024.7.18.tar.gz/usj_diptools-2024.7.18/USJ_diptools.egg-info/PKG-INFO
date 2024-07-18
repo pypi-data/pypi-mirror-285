@@ -1,0 +1,56 @@
+Metadata-Version: 2.1
+Name: USJ_diptools
+Version: 2024.7.18
+Summary: A Python package to provide easy to use tools to learn and teach digital (biomedical) image processing with Python.
+Home-page: https://github.com/aalcaineo/diptools
+Author: Alejandro Alcaine, PhD
+Author-email: lalcaine@usj.es
+License: GNU General Public License v2.0
+Keywords: Digital Signal Processing
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: matplotlib>=3.7.0
+Requires-Dist: numpy>=1.23.5
+Requires-Dist: opencv-python>=4.9.0
+Provides-Extra: dev
+Requires-Dist: twine>=4.0.2; extra == "dev"
+
+# DIPTools
+Digital Image Processing Tools is a Python package to provide easy to use tools to learn and teach digital (biomedical) image processing with Python.
+
+#### Version: 2024.07.18
+
+## Modules:
+* bitlevel: Provides functions for exploring bit-level representations of images. 
+* filters: Provides basic spatial filters. 
+* freqfilters: Provides basic frequency domain filters. 
+* graph: Provides functionality to easily visualise images. Functions `show_image()` and `show_histogram()` are already available in the namespace. 
+* pointprocessing: Provides point processing functionality, Function `plot_transformation()` is already available in the namespace.
+* region: Provides region based segmentation algorithms. Functions `region_filling()` and `region_growing()` are already available in the namespace. 
+
+## Installation and usage:
+
+Please install this package using PiP by typing:
+
+`pip install USJ_diptools`
+
+Import this module as:
+
+`import diptools as dip`
+
+## Author:
+Alejandro Alcaine, Ph.D\
+CoMBA research group\
+MESC Working Group on e-Cardiology\
+MESC European Association of Cardiovascular Imaging (EACVI)\
+lalcaine@usj.es
+
+Faculty of Health Sciences\
+University San Jorge\
+Villanueva de Gallego (Zaragoza)\
+Spain
