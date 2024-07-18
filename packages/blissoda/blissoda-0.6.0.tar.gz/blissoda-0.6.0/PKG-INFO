@@ -1,0 +1,190 @@
+Metadata-Version: 2.1
+Name: blissoda
+Version: 0.6.0
+Summary: Utilities for online data analysis and automation in Bliss
+Home-page: https://gitlab.esrf.fr/bliss/blissoda/
+Author: ESRF
+Author-email: wout.de_nolf@esrf.fr
+License: MIT
+Project-URL: Source, https://gitlab.esrf.fr/bliss/blissoda/
+Project-URL: Documentation, https://blissoda.readthedocs.io/
+Project-URL: Tracker, https://gitlab.esrf.fr/bliss/blissoda/issues/
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: importlib_resources; python_version < "3.9"
+Provides-Extra: client
+Requires-Dist: blissdata>=0.2.5; extra == "client"
+Requires-Dist: ewoksjob>=0.2; extra == "client"
+Provides-Extra: server
+Requires-Dist: blissdata>=0.2.5; extra == "server"
+Requires-Dist: ewoksjob>=0.2; extra == "server"
+Provides-Extra: id01
+Requires-Dist: blissdata>=0.2.5; extra == "id01"
+Requires-Dist: ewoksjob>=0.2; extra == "id01"
+Provides-Extra: bm02
+Requires-Dist: blissdata>=0.2.5; extra == "bm02"
+Requires-Dist: ewoksjob>=0.2; extra == "bm02"
+Provides-Extra: id09
+Requires-Dist: blissdata>=0.2.5; extra == "id09"
+Requires-Dist: ewoksjob>=0.2; extra == "id09"
+Provides-Extra: id11
+Requires-Dist: blissdata>=0.2.5; extra == "id11"
+Requires-Dist: ewoksjob>=0.2; extra == "id11"
+Provides-Extra: id12
+Requires-Dist: blissdata>=0.2.5; extra == "id12"
+Requires-Dist: ewoksjob>=0.2; extra == "id12"
+Provides-Extra: id13
+Requires-Dist: blissdata>=0.2.5; extra == "id13"
+Requires-Dist: ewoksjob>=0.2; extra == "id13"
+Provides-Extra: id14
+Requires-Dist: blissdata>=0.2.5; extra == "id14"
+Requires-Dist: ewoksjob>=0.2; extra == "id14"
+Provides-Extra: id22
+Requires-Dist: blissdata>=0.2.5; extra == "id22"
+Requires-Dist: ewoksjob>=0.2; extra == "id22"
+Provides-Extra: bm23
+Requires-Dist: blissdata>=0.2.5; extra == "bm23"
+Requires-Dist: ewoksjob>=0.2; extra == "bm23"
+Requires-Dist: silx>=1.1.0; extra == "bm23"
+Provides-Extra: id24
+Requires-Dist: blissdata>=0.2.5; extra == "id24"
+Requires-Dist: ewoksjob>=0.2; extra == "id24"
+Requires-Dist: silx>=1.1.0; extra == "id24"
+Provides-Extra: id31
+Requires-Dist: blissdata>=0.2.5; extra == "id31"
+Requires-Dist: ewoksjob>=0.2; extra == "id31"
+Provides-Extra: streamline
+Requires-Dist: blissdata>=0.2.5; extra == "streamline"
+Requires-Dist: ewoksjob>=0.2; extra == "streamline"
+Provides-Extra: democlient
+Requires-Dist: blissdata>=0.2.5; extra == "democlient"
+Requires-Dist: ewoksjob>=0.2; extra == "democlient"
+Provides-Extra: demoworker
+Requires-Dist: blissdata>=0.2.5; extra == "demoworker"
+Requires-Dist: ewoksjob>=0.2; extra == "demoworker"
+Requires-Dist: ewoksjob[blissworker]>=0.2.1; extra == "demoworker"
+Requires-Dist: ewoksxrpd>=0.3; extra == "demoworker"
+Requires-Dist: est[full]; extra == "demoworker"
+Requires-Dist: orange3; extra == "demoworker"
+Requires-Dist: ewoksid12; extra == "demoworker"
+Provides-Extra: test
+Requires-Dist: pytest>=7; extra == "test"
+Requires-Dist: mock; extra == "test"
+Requires-Dist: pytest-mock; extra == "test"
+Requires-Dist: pytest-redis; extra == "test"
+Requires-Dist: scipy; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: blissdata>=0.2.5; extra == "test"
+Requires-Dist: ewoksjob>=0.2; extra == "test"
+Requires-Dist: silx>=1.1.0; extra == "test"
+Provides-Extra: dev
+Requires-Dist: pytest>=7; extra == "dev"
+Requires-Dist: mock; extra == "dev"
+Requires-Dist: pytest-mock; extra == "dev"
+Requires-Dist: pytest-redis; extra == "dev"
+Requires-Dist: scipy; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: blissdata>=0.2.5; extra == "dev"
+Requires-Dist: ewoksjob>=0.2; extra == "dev"
+Requires-Dist: silx>=1.1.0; extra == "dev"
+Requires-Dist: black>=22; extra == "dev"
+Requires-Dist: flake8>=4; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: pytest>=7; extra == "doc"
+Requires-Dist: mock; extra == "doc"
+Requires-Dist: pytest-mock; extra == "doc"
+Requires-Dist: pytest-redis; extra == "doc"
+Requires-Dist: scipy; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: blissdata>=0.2.5; extra == "doc"
+Requires-Dist: ewoksjob>=0.2; extra == "doc"
+Requires-Dist: silx>=1.1.0; extra == "doc"
+Requires-Dist: sphinx>=4.5; extra == "doc"
+Requires-Dist: sphinx-autodoc-typehints>=1.16; extra == "doc"
+Requires-Dist: sphinx_design; extra == "doc"
+Requires-Dist: pydata_sphinx_theme<0.15; extra == "doc"
+
+# blissoda
+
+*blissoda* provides utilities for online data analysis in [BLISS](https://gitlab.esrf.fr/bliss/bliss/).
+
+*blissoda* is mostly used by the BLISS beamline macro's. In this case it needs to be installed
+in the BLISS environment.
+
+The actual data processing is done remotely using [ewoksjob](https://gitlab.esrf.fr/workflow/ewoks/ewoksjob).
+*blissoda* does not contain any data processing code nor has any scientific libraries as dependencies.
+
+## Install
+
+In the Bliss environment you install with the `client` option
+
+```bash
+pip install blissoda[client]
+```
+
+Beamline specific clients are installed with the beamline name as option
+
+```bash
+pip install blissoda[id11]
+```
+
+Project specific clients are installed with the project name as option
+
+```bash
+pip install blissoda[streamline]
+```
+
+When workflows are not triggered from Bliss but from Redis scan information
+in a separate process, you install with the `server` option in the process
+environment
+
+```bash
+pip install blissoda[server]
+```
+
+## Test
+
+```bash
+pytest --pyargs blissoda.tests
+```
+
+## Documentation
+
+https://blissoda.readthedocs.io/
