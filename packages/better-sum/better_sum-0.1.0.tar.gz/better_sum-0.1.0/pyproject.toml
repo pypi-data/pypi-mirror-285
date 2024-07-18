@@ -1,0 +1,53 @@
+[project]
+name = "better-sum"
+version = "0.1.0"
+readme = "README.md"
+description = "Python's sum, minus ugly annotations and extra arguments."
+authors = [
+    {name="pushfoo"}
+]
+license = {file = "LICENSE"}
+requires-python = ">=3.9"
+dependencies = [
+        'typing-extensions==4.11.0; python_version < "3.11"',
+]
+
+classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
+        "Operating System :: OS Independent",
+        "Intended Audience :: Developers",
+        "Topic :: Software Development",
+        "Topic :: Software Development :: Libraries",
+]
+
+[project.urls]
+Homepage = "https://github.com/pushfoo/python-better-sum"
+Documentation = "https://better-sum.readthedocs.io/en/latest"
+Issues = "https://github.com/pushfoo/python-better-sum/issues"
+Source = "https://github.com/pushfoo/python-better-sum"
+
+[project.optional-dependencies]
+dev = [
+       'mkdocs',
+       'mkdocstrings[python]'
+]
+
+[tool.setuptools.packages.find]
+include = ["better_sum", "better_sum.*"]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+norecursedirs = ["docs", ".venv", "env", "dist"]
+
+[tool.portray]
+modules = ["better_sum"]
+docs_dir = "docs"
