@@ -1,0 +1,15 @@
+eth_rpc_py
+
+[build]
+build[virtualenv]==1.0.3
+
+[dev]
+tox
+eth-typeshed-py[lint]
+eth-typeshed-py[test]
+eth-typeshed-py[build]
+
+[test]
+pytest==7.4.1
+pytest-cov==4.1.0
+coverage[toml]==7.3.1
