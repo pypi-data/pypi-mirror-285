@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: babymmlu
+Version: 0.0.3
+Summary: Sample implementation of babymmlu benchmark
+Home-page: https://github.com/averkij/babymmlu
+Author: Ivan Bychkov
+Author-email: Sergei Averkiev <averoo@gmail.com>
+Project-URL: Bug Tracker, https://github.com/averkij/babymmlu/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+
+# babymmlu-pypi
+
+Repository of redistributable package babymmlu.
+
+To publish repository run the following commands:
+
+```
+python -m pip install build twine
+python -m build
+twine upload dist/*
+```
+
+See usage example in `examples` folder.
+
+To rebuild egg run `python setup.py sdist`
