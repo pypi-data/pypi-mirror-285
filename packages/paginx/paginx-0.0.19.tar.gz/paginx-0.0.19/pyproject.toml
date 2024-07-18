@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "paginx"
+version = "0.0.19"
+description = "An assistant helping you to index webpages into structured datasets."
+authors = ["Ben Selleslagh <ben@dataframe.be>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "paginx", from = "src"},
+]
+
+[tool.poetry.dependencies]
+python = ">=3.12,<3.13"
+protobuf = "^4.21.6"
+bs4 = "^0.0.2"
+validators = "^0.28.1"
+trafilatura = "^1.9.0"
+replicate = "^0.25.2"
+langchain-cohere = "*"
+fake-useragent = "^1.5.1"
+langchain-chroma = "^0.1.1"
+chroma = "^0.2.0"
+langchain = "^0.2.7"
+langchain-postgres = "^0.0.9"
+tiktoken = "^0.7.0"
+langchain-openai = "^0.1.14"
+langchain-community = "^0.2.7"
+langgraph = "^0.1.6"
+langchain-anthropic = "^0.1.19"
+langgraph-cli = "^0.1.48"
+fastapi = "^0.111.0"
+uvicorn = "^0.30.1"
+psycopg-binary = "^3.2.1"
+langchain-weaviate = "^0.0.2"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.4"
+ipywidgets = "^8.1.2"
+python-dotenv = "^1.0.1"
+mlx = "^0.12.2"
+mlx-lm = "^0.12.1"
+transformers = "^4.40.1"
+torch = "^2.3.0"
+pandas = "^2.2.2"
+bump2version = "^1.0.1"
+langchainhub = "^0.1.20"
+streamlit = "^1.36.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
