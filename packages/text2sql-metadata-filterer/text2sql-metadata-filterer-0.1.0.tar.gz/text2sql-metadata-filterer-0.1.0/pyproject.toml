@@ -1,0 +1,53 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "text2sql-metadata-filterer"
+version = "0.1.0"
+authors = [
+  { name="yohamza", email="hamza.io@hotmail.com" },
+]
+
+description = "Generate SQL queries from natural language"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "requests", "tabulate", "plotly", "pandas", "sqlparse", "kaleido", "flask", "flask-sock", "sqlalchemy"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/yohamza/vanna-metadata-filter"
+"Bug Tracker" = "https://github.com/yohamza/vanna-metadata-filter/issues"
+
+[project.optional-dependencies]
+postgres = ["psycopg2-binary", "db-dtypes"]
+mysql = ["PyMySQL"]
+clickhouse = ["clickhouse_connect"]
+bigquery = ["google-cloud-bigquery"]
+snowflake = ["snowflake-connector-python"]
+duckdb = ["duckdb"]
+google = ["google-generativeai", "google-cloud-aiplatform"]
+all = ["psycopg2-binary", "db-dtypes", "PyMySQL", "google-cloud-bigquery", "snowflake-connector-python", "duckdb", "openai", "mistralai", "chromadb", "anthropic", "zhipuai", "marqo", "google-generativeai", "google-cloud-aiplatform", "qdrant-client", "fastembed", "ollama", "httpx", "opensearch-py", "opensearch-dsl", "transformers", "pinecone-client", "pymilvus[model]","weaviate-client"]
+test = ["tox"]
+chromadb = ["chromadb"]
+openai = ["openai"]
+mistralai = ["mistralai"]
+anthropic = ["anthropic"]
+gemini = ["google-generativeai"]
+marqo = ["marqo"]
+zhipuai = ["zhipuai"]
+ollama = ["ollama", "httpx"]
+qdrant = ["qdrant-client", "fastembed"]
+vllm = ["vllm"]
+pinecone = ["pinecone-client", "fastembed"]
+opensearch = ["opensearch-py", "opensearch-dsl"]
+hf = ["transformers"]
+milvus = ["pymilvus[model]"]
+bedrock = ["boto3", "botocore"]
+weaviate = ["weaviate-client"]
