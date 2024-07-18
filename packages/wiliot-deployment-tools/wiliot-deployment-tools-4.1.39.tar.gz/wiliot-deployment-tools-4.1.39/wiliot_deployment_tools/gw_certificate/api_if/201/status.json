@@ -1,0 +1,53 @@
+{
+    "type": "object",
+    "properties": {
+        "gatewayId": {
+            "type": "string",
+            "maxLength": 36
+        },
+        "gatewayType": {
+            "type": "string"
+        },
+        "gatewayConf": {
+            "type": "object",
+            "properties": {
+                "apiVersion": {
+                    "type": "string",
+                    "enum": ["201"]
+                },
+                "gatewayVersion": {
+                    "type": "string"
+                },
+                "additional": {
+                    "type": "object",
+                    "additionalProperties": true
+                }
+            },
+            "oneOf":[
+                {"required": ["apiVersion", "gatewayVersion"]},
+                {"required": ["apiVersion", "interfaceChipSwVersion", "bleChipSwVersion"]}
+            ]
+        },
+        "tagMetadataCouplingSupported": {
+            "type": "boolean"
+        },
+        "downlinkSupported": {
+            "type": "boolean"
+        },
+        "bridgeOtaUpgradeSupported": {
+            "type": "boolean"
+        },
+        "fwUpgradeSupported": {
+            "type": "boolean"
+        },
+        "geoLocationSupport": {
+            "type": "boolean"
+        }
+    },
+    "oneOf": [
+        {"required": ["gatewayId", "gatewayType", "gatewayConf", "tagMetadataCouplingSupported", "downlinkSupported", "bridgeOtaUpgradeSupported", "fwUpgradeSupported", "geoLocationSupport"]},
+        {"required": ["gatewayID", "gatewayType", "gatewayConf", "tagMetadataCouplingSupported", "downlinkSupported", "bridgeOtaUpgradeSupported", "fwUpgradeSupported"]}
+    ]
+}
+
+
