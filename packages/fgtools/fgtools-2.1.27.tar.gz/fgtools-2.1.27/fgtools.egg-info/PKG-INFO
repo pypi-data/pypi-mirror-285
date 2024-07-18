@@ -1,0 +1,85 @@
+Metadata-Version: 2.1
+Name: fgtools
+Version: 2.1.27
+Summary: Tools for FlightGear scenery generation and aircraft development
+Home-page: https://github.com/TheFGFSEagle/fgtools
+Author: TheFGFSEagle
+Author-email: thefgfseagle@gmail.com
+License: GPLv3
+Project-URL: Homepage, https://github.com/TheFGFSEagle/fgtools
+Project-URL: Bug Tracker, https://github.com/TheFGFSEagle/fgtools/issues
+Keywords: flightgear
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: scipy
+Requires-Dist: shapely
+Requires-Dist: pyproj
+Requires-Dist: plum-dispatch<=1.7.4
+Requires-Dist: tqdm
+Requires-Dist: requests
+Requires-Dist: appdirs
+Requires-Dist: bs4
+Requires-Dist: OSMPythonTools
+Requires-Dist: Pillow
+Requires-Dist: plum-dispatch
+Requires-Dist: appdirs
+Requires-Dist: python-dateutil
+Requires-Dist: natsort
+Requires-Dist: requests
+Requires-Dist: importlib-resources; python_version < "3.9"
+
+# FGTools
+Tools for creating, managing and editing FlightGear scenery, aircraft, …
+
+## Installation
+_Note_: To run these scripts you need Python 3, Python 2 won't work. Recommended version is 3.10 as I only have that installed so couldn't test with any other versions - earlier 3.x versions should work, but no guarantee !
+
+### Normal user / Official releases
+The latest release of FGTools can be installed with `pip`:
+```sh
+pip install fgtools
+```
+
+### Developers
+If you want to always have the latest bleeding edge code, or want to contribute, you should install from Git:
+
+`git clone` this repo and put it in a place of your choice, say `/home/user/fgtools`:
+```sh
+/home/user$ git clone https://github.com/TheFGFSEagle/fgtools
+```
+Then, `cd` into the cloned repo folder and install the code:
+```sh
+cd fgtools
+pip install -e .
+```
+To update the code, you'd run (from the same folder):
+```sh
+git pull
+```
+
+## Scripts
+
+* Aircraft
+    * javaprop2jsbcpct
+    * vsphist2jsbtable
+    * vspstab2jsbtable
+* Miscellaneous
+    * coord_converter
+    * scrape_emanualonline
+    * scrape_scribd
+    * tabletool
+* Scenery
+    * aptdat2airportsxml
+    * create_day_night_xml
+    * dsftxt2stg
+    * edit_stg
+    * fix_aptdat_icaos
+    * genws20
+    * osm2aptdat
+    * pull_xplane_aptdat
+    * stg2ufo
+    * ungap_btg
+
+## Credits
+* dsftxt2stg-lookup.py taken and modified from https://github.com/mherweg/d-laser-fgtools/library.txt
