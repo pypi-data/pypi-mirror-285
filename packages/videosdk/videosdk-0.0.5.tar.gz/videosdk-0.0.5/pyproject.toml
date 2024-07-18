@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "videosdk"
+version = "0.0.5"
+description = "VideoSDK Python SDK"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["ml", "webrtc", "audio", "video", "ai", "videosdk"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Communications :: Conferencing",
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+dependencies = [
+    "pydantic >= 1.10.15, < 1.11.0",
+    "vsaiortc >= 0.0.5",
+    "h264-profile-level-id >= 1.0.0, < 1.1.0",
+    "sdp-transform >=1.1.0, < 1.2.0",
+    "pyee >= 11.1.0, < 11.2.0",
+    "av >= 11.0.0, < 11.1.0",
+    "websockets >= 12.0.0, < 12.1.0",
+    "requests >= 2.3.1, < 2.32.0",
+    "pycryptodome==3.20.0",
+    "pillow==10.4.0"
+]
+
+[project.urls]
+Home = "https://docs.videosdk.live"
+Documentation = "https://docs.videosdk.live"
+Source = "https://docs.videosdk.live"
+Website = "https://videosdk.live"
+
+[tool.coverage.run]
+source = ["videosdk"]
