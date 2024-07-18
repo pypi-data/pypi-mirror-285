@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: puentessantiago
+Version: 0.1.0
+Summary: Paquete de ejemplo
+Author: Santiago Quiñones
+Author-email: lsquinones@gmail.com
+Requires-Python: >=3.10.0,<3.12
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Description-Content-Type: text/markdown
+
+# puentesantiago
+
+Una biblioteca que permite realizar operaciones de ingeniería con puentes.
+
+## Tabla de Contenidos
+
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Características](#características)
+- [Licencia](#licencia)
+- [Contacto](#contacto)
+
+## Instalación
+
+Instala la librería usando `pip`:
+
+```bash
+pip install puentessantiago
+```
+
+## Uso
+
+Ejemplo de uso
+
+```Python
+from resistencias.tuberias import leer_datos_desde_diccionario, optimizar_red, mostrar_red
+
+if __name__ == "__main__":
+		# Opción 2: Leer datos desde un diccionario
+		datos = [
+				{"point_id": 1, "x": 0, "y": 0, "demand": 10},
+				{"point_id": 2, "x": 10, "y": 0, "demand": 15},
+				{"point_id": 3, "x": 20, "y": 10, "demand": 20},
+				{"point_id": 4, "x": 30, "y": 5, "demand": 25},
+		]
+		puntos_desde_diccionario = leer_datos_desde_diccionario(datos)
+
+		conexiones = optimizar_red(puntos_desde_diccionario)
+		mostrar_red(puntos_desde_diccionario, conexiones)
+```
+## Características
+
+- Operaciones matemáticas básicas
+- Optimización de redes de distribución de agua
+- Lectura de puntos de red
+
+## Licencia
+Este proyecto está licenciado bajo la MIT License.
+
+## Contacto
+Información de contacto:
+
+Nombre: Santiago Quiñones
+Email: lsquinones@gmail.com
+GitHub: lsquinones
