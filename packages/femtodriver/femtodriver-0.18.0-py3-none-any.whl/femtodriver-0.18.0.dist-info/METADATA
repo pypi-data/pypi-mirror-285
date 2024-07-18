@@ -1,0 +1,232 @@
+Metadata-Version: 2.1
+Name: femtodriver
+Version: 0.18.0
+Summary: Femtorun defines the runtime interface for Femtosense software
+Home-page: https://github.com/femtosense/femtodriver
+Author: Femtosense
+Author-email: info@femtosense.ai
+Project-URL: Source, https://github.com/femtosense/femtodriver
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy <2.0.0,>=1.18.0
+Requires-Dist: femtorun ==1.*,>=1.1.0
+Requires-Dist: femtocrux >=0.4.0
+Requires-Dist: redis >=4.0.0
+Requires-Dist: pyyaml
+Requires-Dist: scipy
+
+# Femtosense Femtodriver
+
+Using the memory images emitted by femtocrux, creates an SD card programming file that the EVK firmware uses.
+
+Femtodriver is mainly used for:
+* Generating program files from your models to run on the SPU
+* Running simulations to get metrics like the estimated power consumption of your model
+* Passing inputs through your compiled model to test specific behaviour
+* Comparing the simulation and hardware metrics/outputs for a specific input
+
+There are other capabilities which are documented in the --help flag of femtodriver.
+
+## License
+
+By using this software package, you agree to abide by the terms and conditions in the license agreement found [here.](https://femtosense.ai/legal/eula/)
+
+## Installation:
+
+From PyPI:
+
+```
+pip install femtodriver
+```
+
+This will install the `femtodrive` executable.
+
+Python 3.10 is required. Femtocrux requires docker to be installed (see other instructions for femtocrux).
+
+## CLI Usage:
+
+To show all options:
+
+```bash
+femtodrive --help
+```
+
+This document will cover the most common use cases for femtodriver but the full list of capabilities is listed in the help.
+
+
+### Generate program files from a memory image zip
+
+You can generate SD programming files from a previously generated Femtocrux memory image zip:
+
+```bash
+femtodrive <path-to-zipfile_from_femtocrux> # general example
+femtodrive bitfile.zip # specific example
+```
+
+This will create `model_datas/<stem of zipfile path>/`.
+Inside, along with other information, there will be a `io_records/apb_records`. This holds the `0PROG_A` and `0PROG_D` files which can be downloaded to the SD card. Note that future firmware might allow multiple models to coexist on the SD card. The leading '0' indicates that this is the first model. In some cases, with multiple models loaded, you may need to edit the number in the filename.
+
+Historical note: this replaces `sd_from_femtocrux.py` in `femtodriverpub`.
+
+### Generate program files from an FQIR pickle
+
+You can generate SD programming files from a previously saved FQIR pickle. You can pickle femtocrux's input, the FQIR graph, with `torch.save()` (In the pytorch femtocrux walkthroughs, this variable is called `fqir_graph`).
+
+This way, `femtodrive` can use femtocrux to compile the model and emit program binaries, as is done directly in the notebooks.
+
+Example:
+
+```bash
+femtodrive ../models/my_model.pt
+```
+
+As a "hello world" you can invoke:
+
+```bash
+femtodrive LOOPBACK
+```
+
+This will call femtodrive on an "identity" network that is installed with the package. As before, output will be put in `model_datas/<stem of pickle filename>/`. Notice the `images.zip` that appears and was unpacked to `docker_data/`. 
+
+(Pickles are notoriously unportable. Ideally, any pickling/unpickling is done on one machine, but failing that, try to ensure the pickle is unpacked using the same package versions it was generated with)
+
+### Simulation With Femtodriver via Femtocrux
+
+When the FQIR pickle is supplied, it is also possible to simulate the model using femtodriver. In this case, pass "fasmir" to the `--runners` argument.
+
+```bash
+femtodrive ../models/my_model.pt --runners="fasmir"
+```
+
+See `femtodrive --help` for the options related to passing inputs and retreiving outputs.
+
+### Run Audio Through Model
+
+You can also run audio through a model using the `--input_file` flag.
+
+```bash
+femtodrive my_model.pt --runners="fasmir" --input_file example_audio.wav
+```
+
+This will reshape the audio into the correct dimensions of (frames, features/samples) to run through the model for simulation.
+
+## Python API
+
+There is a python API to femtodriver that allows you to programmatically perform the same tasks as on the CLI.
+
+### Generate Program Files
+
+For most people the python API will be used to generate program files in a python session. There is a simple way to do that using `generate_program_files` in the Femtodriver object.
+
+```python
+from femtodriver import Femtodriver
+
+model_fqir_name = "identity.pt"
+fd = Femtodriver()
+fd.generate_program_files(model_fqir_name, output_dir='model_datas')
+```
+
+`generate_program_files` first positional argument can be a string or a pathlib Path pointing to either a model FQIR or a bitfile.zip. The named argument `output_dir` sets which directory the top level of the generated files goes into.
+
+The generated files have the following structure where the top level dir 'model_datas' is the directory supplied to `output_dir`:
+
+```
+model_datas
+└── identity
+    ├── io_records
+    │   ├── apb_records
+    │   │   ├── 0PROG_A
+    │   │   └── 0PROG_D
+    │   ├── setup_hex.txt
+    │   ├── setup_hex.yaml
+    │   └── setup.yaml
+    └── meta_from_femtocrux
+        ├── metadata.yaml
+        ├── ...
+
+```
+Notice that the second level name is the stem `identity` from the filename `identity.pt`
+
+The important files here are 0PROG_A and 0PROG_D which are the generated program files. These files can be loaded onto the SPU.
+
+### More Complex Invocations
+
+We expose a more general Femtodriver run method that allows you to do anything that the CLI client can do. To do this we must invoke the `run` method on an femtodriver object.
+
+```python
+from femtodriver import Femtodriver
+
+model_fqir_name = "fqir.pt"
+fd = Femtodriver()
+fd.run(model_fqir_name, output_dir='model_datas', debug=True, hardware='zynq')
+```
+
+### The Full list of arguments to run()
+
+The full list of arguments to run is shown below.
+
+```
+Required params:
+model:                          Model to run.
+
+Optional:
+model_options_file:             .yaml with run options for different models (e.g., compiler options). 
+                                Default is femtodriver/femtodriver/models/options.yaml
+output_dir:                     Directory where to write fasmir, fqir, programming images, 
+                                programming streams, etc.
+n_inputs:                       Number of random sim inputs to drive in.
+input_file:                     File with inputs to drive in. Expects .npy from numpy.save.
+                                Expecting single 2D array of values, indices are (timestep, vector_dim)
+input_file_sample_indices:      lo, hi indices to run from input_file.
+force_femtocrux_compile:        Force femtocrux as the compiler, even if FS internal packages present.
+force_femtocrux_sim:            Force femtocrux as the simulator, even if FS internal packages present.
+hardware:                       Primary runner to use: (options: zynq, fakezynq, redis).
+runners:                        Which runners to execute. If there are multiple, compare each of them 
+                                to the first, comma-separated. Options: hw, fasmir, fqir, fmir, fakehw.
+debug_vars:                     Debug variables to collect and compare values for, comma-separated 
+                                (no spaces), or 'all'.
+debug_vars_fname:               File with a debug variable name on each line.
+debug:                          Set debug log level.
+noencrypt:                      Don't encrypt programming files.
+sim_est_input_period:           Simulator input period for energy estimation. No impact on runtime. 
+                                Floating point seconds.
+dummy_output_file:              For fakezynq, the values that the runner should reply with.
+                                Specify a .npy for a single variable.
+
+```
+
+### Prepare Real Audio as Model Input
+
+A .wav file is a continuous list of inputs, but the models work on fixed-size audio frames. Since so many of our models take audio data as an input, Femtodriver provides a simple tool to inspect a model's input frame size, and reshape the data in the .wav file accordingly. 
+
+For example, if a .wav file contains 16K samples (e.g. 1 second of audio at 16KHz), and the model takes 128D input frames (8ms per hop), this tool would simply reshape the 16K element .wav file into a (125, 128) vector (125 8ms frames, 128 samples each).
+
+You can prepare the audio data with the following command. 
+
+``` python
+from femtodriver import Femtodriver
+from pathlib import Path
+
+bitfile_name = Path("my_bitfile.zip")
+
+input_audio_file = Path('test_yes.wav')
+fd = Femtodriver()
+model_input = fd.generate_input_from_wav(bitfile_name, input_audio_file)
+
+# You can use this model_input with in python code with fmot.nn.SuperStructure models
+```
+
+See the Femtocrux end-to-end walkthrough for more information.
+
+
+### Misc
+
+Note that many `femtodrive` options pertain to running an attached SPU directly. As of 6/24, an EVK has not been made available that allows external use of these features.
