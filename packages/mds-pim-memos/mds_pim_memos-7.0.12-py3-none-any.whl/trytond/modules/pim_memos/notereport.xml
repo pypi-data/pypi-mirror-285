@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!-- This file is part the pim-memos-module for Tryton from m-ds.de.
+ The COPYRIGHT file at the top level of
+ this repository contains the full copyright notices and license terms.-->
+<tryton>
+    <data>
+
+        <!-- report: note as pdf from html -->
+        <record model="ir.action.report" id="report_note_pdf">
+            <field name="name">Note (PDF)</field>
+            <field name="model">pim_memos.note</field>
+            <field name="report_name">pim_memos.reportodt</field>
+            <field name="report">pim_memos/report/note.html</field>
+            <field name="template_extension">html</field>
+            <field name="extension">pdf</field>
+            <field name="single" eval="True"/>
+        </record>
+        <record model="ir.action.keyword" id="report_note_pdf_keyword">
+            <field name="keyword">form_print</field>
+            <field name="model">pim_memos.note,-1</field>
+            <field name="action" ref="report_note_pdf"/>
+        </record>
+
+        <!-- report: note as html from html -->
+        <record model="ir.action.report" id="report_note_html">
+            <field name="name">Note (HTML)</field>
+            <field name="model">pim_memos.note</field>
+            <field name="report_name">pim_memos.reportodt</field>
+            <field name="report">pim_memos/report/note.html</field>
+            <field name="template_extension">html</field>
+            <field name="extension">html</field>
+            <field name="single" eval="True"/>
+        </record>
+        <record model="ir.action.keyword" id="report_note_html_keyword">
+            <field name="keyword">form_print</field>
+            <field name="model">pim_memos.note,-1</field>
+            <field name="action" ref="report_note_html"/>
+        </record>
+
+    </data>
+</tryton>

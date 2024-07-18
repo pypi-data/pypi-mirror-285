@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!-- This file is part the pim-memos-module for Tryton from m-ds.de.
+ The COPYRIGHT file at the top level of
+ this repository contains the full copyright notices and license terms.-->
+<tryton>
+    <data>
+
+        <!-- views -->
+        <record model="ir.ui.view" id="pimmemos_note_view_list">
+            <field name="model">pim_memos.note</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="10"/>
+            <field name="name">memos_list</field>
+        </record>
+        <record model="ir.ui.view" id="pimmemos_note_view_tree2">
+            <field name="model">pim_memos.note</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="20"/>
+            <field name="field_childs">childs</field>
+            <field name="name">memos_tree2</field>
+        </record>
+        <record model="ir.ui.view" id="pimmemos_note_view_form">
+            <field name="model">pim_memos.note</field>
+            <field name="type">form</field>
+            <field name="name">memos_form</field>
+        </record>
+
+        <!-- action-window (tree) -->
+        <record model="ir.action.act_window" id="act_pimmemos_note_tree">
+            <field name="name">Notes</field>
+            <field name="res_model">pim_memos.note</field>
+            <field name="domain" eval="[('parent', '=', None)]" pyson="1"/>
+        </record>
+        <!-- action-view -->
+        <record model="ir.action.act_window.view" id="act_pimmemos_note_tree-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="pimmemos_note_view_tree2"/>
+            <field name="act_window" ref="act_pimmemos_note_tree"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_pimmemos_note_tree-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="pimmemos_note_view_form"/>
+            <field name="act_window" ref="act_pimmemos_note_tree"/>
+        </record>
+
+        <!-- action window (list) -->
+        <record model="ir.action.act_window" id="act_pimmemos_note_list">
+            <field name="name">Notes (list)</field>
+            <field name="res_model">pim_memos.note</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_pimmemos_note_list-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="pimmemos_note_view_list"/>
+            <field name="act_window" ref="act_pimmemos_note_list"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_pimmemos_note_list-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="pimmemos_note_view_form"/>
+            <field name="act_window" ref="act_pimmemos_note_list"/>
+        </record>
+
+        <!-- permission - deny all -->
+        <record model="ir.model.access" id="access_note-anon">
+            <field name="model" search="[('model', '=', 'pim_memos.note')]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+
+    </data>
+</tryton>

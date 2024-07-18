@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- This file is part the pim-memos-module for Tryton from m-ds.de.
+ The COPYRIGHT file at the top level of
+ this repository contains the full copyright notices and license terms.-->
+<form col="6">
+    <label name="name"/>
+    <field name="name" colspan="3"/>
+    <label name="sequence"/>
+    <field name="sequence"/>
+    <label name="category"/>
+    <field name="category"/>
+    <label name="datecreated"/>
+    <field name="datecreated" widget="date"/>
+    <label name="datechanged"/>
+    <field name="datechanged" widget="date"/>
+    <notebook colspan="6">
+        <page string="Note" col="1" name="memo2">
+            <field name="memo2" widget="richtext"/>
+        </page>
+        <page string="Children" col="1" id="childs">
+            <field name="childs"/>
+        </page>
+    </notebook>
+</form>
