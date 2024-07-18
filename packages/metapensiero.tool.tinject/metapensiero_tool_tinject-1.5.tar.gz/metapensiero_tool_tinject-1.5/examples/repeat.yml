@@ -1,0 +1,82 @@
+# -*- coding: utf-8 -*-
+# :Project:   metapensiero.tool.tinject -- Repeat example
+# :Created:   sab 21 mag 2016 12:48:16 CEST
+# :Author:    Lele Gaifax <lele@metapensiero.it>
+# :License:   GNU General Public License version 3 or later
+# :Copyright: © 2016 Lele Gaifax
+#
+
+---
+
+test:
+  description: Just a test
+
+  steps:
+    - repeat:
+        description: List of fields
+        answers: fields
+        again_message: Another field?
+        steps:
+          - prompt:
+              - name:
+                  message: Name
+              - domain:
+                  message: Domain
+                  kind: list
+                  choices:
+                    - abt_t
+                    - cde_t
+                    - int_t
+              - primary_key:
+                  message: Primary key?
+                  kind: confirm
+              - not_null:
+                  message: Not NULL?
+                  kind: confirm
+
+    - createfile:
+        directory: /tmp
+        filename: test.txt
+        content: |
+          create table test (
+          <<-for field in fields>>
+          «"   " if loop.first else " , "»«field.name» «field.domain»<<if field.nullable>> not null<<endif>>
+          <<-endfor>>
+          )
+
+    - prompt:
+        - nick_name:
+            message: Unique nickname of the table
+        - fks:
+            message: Enter FKs?
+            kind: confirm
+
+    - createfile:
+        when: fks
+        directory: /tmp
+        filename: fk.txt
+        content: There will be foreign keys
+
+    - changefile:
+        when: nick_name
+        directory: /tmp
+        filename: test.txt
+        changes:
+          - insert: "    ('«nick_name»',),\n"
+            between: "\n## ⌄⌄⌄ tinject marker ⌄⌄⌄, please don't remove!\n"
+            and: "\n## ⌃⌃⌃ tinject marker ⌃⌃⌃, please don't remove!\n"
+
+    - repeat:
+        description: List of FKs
+        answers: foreign_keys
+        when: fks
+        until: foreign_keys[-1].another
+        steps:
+          - prompt:
+              - name:
+                  message: Name
+              - foreign_table:
+                  message: Foreign table
+              - another:
+                  message: Another?
+                  kind: confirm
