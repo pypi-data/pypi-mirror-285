@@ -1,0 +1,131 @@
+# Begin your modification here if necessary
+# check https://github.com/upshot-tech/helm-charts/blob/main/charts/universal-helm/templates/statefulsets.yaml for the charttemplate that uses this helm value
+
+statefulsets:
+  - name: {{ worker_name }}-workers
+    replicas: 1
+
+    persistence:
+      size: 1Gi
+      storageClassName: gp2
+      volumeMountPath: /data
+
+    initContainers:
+      - name: {{ worker_name }}-p2p-key-generator
+        image: 696230526504.dkr.ecr.us-east-1.amazonaws.com/upshot-b7s-index-provider:dev-latest
+        env:
+          - name: KEYS_PATH
+            value: "/data/keys"
+        workingDir: /data
+        command:
+          - /bin/sh
+          - -c
+          - |
+            if [ -d "$KEYS_PATH" ]; then
+              echo "node identity exist for {{ worker_name }} worker"
+            else
+              echo "generating new node identity for {{ worker_name }} worker"
+              mkdir -p ${KEYS_PATH}
+              cd $KEYS_PATH
+              allora-keys
+            fi
+        securityContext:
+          runAsUser: 1001
+        volumeMounts:
+          - name: {{ worker_name }}-workers-data
+            mountPath: /data
+
+      - name: {{ worker_name }}-allora-key-generator
+        image: 696230526504.dkr.ecr.us-east-1.amazonaws.com/allora-chain:dev-latest
+        env:
+          - name: ACCOUNT_NAME
+            value: "{{ worker_name }}"
+          - name: KEYRING_BACKEND
+            value: "test" # persist in memory and serve from any secure external-secret
+        workingDir: /data
+        command:
+          - /bin/sh
+          - -c
+          - |
+            set -ex
+
+            if allorad keys --keyring-backend $KEYRING_BACKEND show $ACCOUNT_NAME >/dev/null 2>&1 ; then
+              echo "$ACCOUNT_NAME already imported to allora chain directory"
+            else
+              echo "importing $ACCOUNT_NAME to allora chain directory"
+              allorad keys import-hex --home=/data/.allorad --keyring-backend $KEYRING_BACKEND $ACCOUNT_NAME {{ hex_coded_pk }}
+            fi
+        securityContext:
+          runAsUser: 1001
+        volumeMounts:
+          - name: {{ worker_name }}-workers-data
+            mountPath: /data
+
+    containers:
+      - name: {{ worker_name }}-worker
+        image:
+          repository: {{ worker_image_uri }}
+          tag: {{ worker_image_tag }}
+        env:
+          - name: APP_HOME
+            value: "/data"
+          - name: SAMPLE_ENV_VAR
+            valueFrom:
+              secretKeyRef:
+                name: sample-variable
+                key: SAMPLE_ENV_VAR
+        workingDir: /data
+        command:
+          - allora-node
+          - --role=worker
+          - --peer-db=$(APP_HOME)/peer-database
+          - --function-db=$(APP_HOME)/function-database
+          - --runtime-path=/app/runtime
+          - --runtime-cli=bls-runtime
+          - --workspace=/tmp/node
+          - --private-key=$(APP_HOME)/keys/priv.bin
+          - --log-level=debug
+          - --port=9011
+          - --boot-nodes={{ boot_nodes }}
+          - --allora-node-rpc-address={{ chain_rpc_address }}
+          - --allora-chain-home-dir=/data/.allorad
+          - --allora-chain-key-name={{ worker_name }}
+          - --allora-chain-topic-id={{ chain_topic_id }}
+          - --topic={{ chain_topic_id }}
+        ports:
+          - name: {{ worker_name }}-p2p
+            port: 9011
+        resources:
+          limits:
+            cpu: 1
+            memory: 1Gi
+          requests:
+            cpu: 256m
+            memory: 512Mi
+        startupProbe:
+          tcpSocket:
+            port: 9011
+          periodSeconds: 10
+          failureThreshold: 60
+        livenessProbe:
+          tcpSocket:
+            port: 9011
+global:
+  fullnameOverride: {{ worker_name }}
+  serviceAccount:
+    create: true
+    name: node
+  securityContext:
+    fsGroup: 1001
+    runAsUser: 1001
+    runAsGroup: 1001
+    fsGroupChangePolicy: "Always"
+
+additionalYamlManifests: |
+    kind: Secret
+    apiVersion: v1
+    metadata:
+      name: sample-variable
+    type: Opaque
+    data:
+      SAMPLE_ENV_VAR: "c2FtcGxlIGVudmlyb25tZW50IHZhcmlhYmxl" # base64
