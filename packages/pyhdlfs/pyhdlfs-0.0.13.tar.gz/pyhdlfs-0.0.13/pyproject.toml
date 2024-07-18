@@ -1,0 +1,174 @@
+[build-system]
+requires = ["hatchling", "requests_pkcs12", "requests"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyhdlfs"
+version = "0.0.13"
+authors = [
+  { name="Thorsten Hapke", email="thorsten.hapke@sap.com" },
+]
+description = "Python wrapper to SAP HDLFS API"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+license = "MIT"
+
+
+dependencies = [
+  "requests",
+  "rich",
+  "pyarrow"
+]
+
+[project.urls]
+"Homepage" = "https://github.tools.sap/hda-xpm-frontrunner/pyhdlfs"
+
+
+[tool.hatch.version]
+path = "src/hdsclient/__about__.py"
+
+[project.scripts]
+hdlcli = "hdlfs.hdlfs:main"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest"
+]
+
+[[tool.hatch.envs.test.matrix]]
+python = ["3.12"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/.github",
+  "/data",
+  "/images"
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/hdlfs"]
+
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+cov-report = [
+  "- coverage combine",
+  "coverage report",
+]
+cov = [
+  "test-cov",
+  "cov-report",
+]
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.11"]
+
+[tool.hatch.envs.lint]
+detached = true
+dependencies = [
+  "black>=23.1.0",
+  "mypy>=1.0.0",
+  "ruff>=0.0.243",
+]
+[tool.hatch.envs.lint.scripts]
+typing = "mypy --install-types --non-interactive {args:src/dspyclient tests}"
+style = [
+  "ruff {args:.}",
+  "black --check --diff {args:.}",
+]
+fmt = [
+  "black {args:.}",
+  "ruff --fix {args:.}",
+  "style",
+]
+all = [
+  "style",
+  "typing",
+]
+
+[tool.black]
+target-version = ["py37"]
+line-length = 120
+skip-string-normalization = true
+
+[tool.ruff]
+target-version = "py37"
+line-length = 120
+select = [
+  "A",
+  "ARG",
+  "B",
+  "C",
+  "DTZ",
+  "E",
+  "EM",
+  "F",
+  "FBT",
+  "I",
+  "ICN",
+  "ISC",
+  "N",
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "Q",
+  "RUF",
+  "S",
+  "T",
+  "TID",
+  "UP",
+  "W",
+  "YTT",
+]
+ignore = [
+  # Allow non-abstract empty methods in abstract base classes
+  "B027",
+  # Allow boolean positional values in function calls, like `dict.get(... True)`
+  "FBT003",
+  # Ignore checks for possible passwords
+  "S105", "S106", "S107",
+  # Ignore complexity
+  "C901", "PLR0911", "PLR0912", "PLR0913", "PLR0915",
+]
+unfixable = [
+  # Don't touch unused imports
+  "F401",
+]
+
+[tool.ruff.isort]
+known-first-party = ["pyhdlfs"]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.per-file-ignores]
+# Tests can use magic values, assertions, and relative imports
+"tests/**/*" = ["PLR2004", "S101", "TID252"]
+
+[tool.coverage.run]
+source_pkgs = ["dspyclient", "tests"]
+branch = true
+parallel = true
+omit = [
+  "src/dspyclient/__about__.py",
+]
+
+[tool.coverage.paths]
+dspyclient = ["src/hdlfs", "*/pyhdlfs/src/hdlfs"]
+tests = ["tests", "*/pyhdlfs/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+]
+

@@ -1,0 +1,237 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "unittest - TO BE COMPLETED",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "unittest",
+            "args": [
+                "tests/test_hdlfs.py"
+            ],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "hdlfs list",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "list",
+                "thorsten_test",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs listr demo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "listr",
+                "demo",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs upload",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "upload",
+                "data/test_file1.txt",
+                "thorsten_test/test_file1.txt",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs append",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "append",
+                "thorsten_test/test_file1.txt",
+                "and appending something!",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs download",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "download",
+                "thorsten_test/test_file1.txt",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs download -n 5",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "download",
+                "thorsten_test/test_file1.txt",
+                "-n",
+                "5",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs download with target file name",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "download",
+                "thorsten_test/test_file1.txt",
+                "data/test_file2.txt",
+            ]
+        },
+        {
+            "name": "hdlfs delete",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "delete",
+                "thorsten_test/test_file1.txt",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs delete dir",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "delete",
+                "thorsten_test",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs rename",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "rename",
+                "thorsten_test/test_file1.txt",
+                "thorsten_test/test_file2.txt",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs copy",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "copy",
+                "thorsten_test/test_file1.txt",
+                "thorsten_test/test_file3.txt",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs exists",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "exists",
+                "thh/silver/I_CostCenterCategory",
+                "-c",
+                "initial"
+            ]
+        },
+        {
+            "name": "hdlfs filestatus",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "filestatus",
+                "thorsten_test",
+                "-c",
+                "dlm"
+            ]
+        },
+        {
+            "name": "hdlfs_copy",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs_copy.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "dlm",
+                "demo/AB_TEST/C_ServiceContractItemDEX",
+                "initial",
+                "bronze/C_ServiceContractItemDEX"
+            ]
+        },
+        {
+            "name": "hdlfs whomai",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "src/hdlfs/hdlfs.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "args": [
+                "whoami",
+                "-c",
+                "dlm"
+            ]
+        }
+    ]
+}
