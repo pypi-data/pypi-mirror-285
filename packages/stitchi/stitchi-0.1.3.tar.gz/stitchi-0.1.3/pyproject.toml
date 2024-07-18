@@ -1,0 +1,34 @@
+[tool.poetry]
+name = "stitchi"
+version = "0.1.3"
+description = "cli video clipping tool"
+authors = ["mendozasho"]
+readme = "README.md"
+
+packages = [{include = "stitchi"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+click="8.1.7"
+Dirlin="0.1.15"
+et-xmlfile="1.1.0"
+ffmpeg-python="0.2.0"
+future="1.0.0"
+markdown-it-py="3.0.0"
+mdurl="0.1.2"
+Pygments="2.18.0"
+python-dateutil="2.9.0"
+pytz="2024.1"
+rich="13.7.1"
+shellingham="1.5.4"
+six="1.16.0"
+typer="0.12.3"
+typing_extensions="4.12.2"
+tzdata="2024.1"
+
+[tool.poetry.scripts]
+stitchi = "stitchi.main:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
