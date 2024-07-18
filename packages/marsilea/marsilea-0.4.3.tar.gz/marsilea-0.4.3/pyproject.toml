@@ -1,0 +1,76 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "marsilea"
+authors = [
+    {name = "Mr-Milk", email = "yzheng@cemm.at"},
+    {name = "Zhihang Zheng"}
+]
+license = {file = "LICENSE"}
+readme = "README.md"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Framework :: Matplotlib",
+]
+dynamic = ["version", "description"]
+requires-python = ">=3.8"
+urls = {Home="https://github.com/Marsilea-viz/marsilea"}
+dependencies = [
+    "numpy",
+    "pandas",
+    "matplotlib>=3.6",
+    "seaborn",
+    "scipy",
+    "legendkit",
+    "platformdirs"
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "icecream",
+    "python-hmr",
+    "pytest",
+    "scikit-learn",
+    "sphinx",
+    "numpydoc",
+    "sphinx_design",
+    "pydata-sphinx-theme",
+    "sphinx-copybutton",
+    "sphinx_gallery",
+    "mpl_fontkit"
+]
+
+[tool.hatch.version]
+path = "src/marsilea/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/marsilea", "src/oncoprinter"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "docs",
+    "app",
+    "data",
+    "img",
+    "tests",
+    "scripts",
+    "readthedocs.yaml",
+]
+include = [
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+    "setup.py",
+    "src/marsilea",
+    "src/oncoprinter",
+]
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]

@@ -1,0 +1,168 @@
+Metadata-Version: 2.3
+Name: marsilea
+Version: 0.4.3
+Dynamic: Summary
+Project-URL: Home, https://github.com/Marsilea-viz/marsilea
+Author: Zhihang Zheng
+Author-email: Mr-Milk <yzheng@cemm.at>
+License: The MIT License (MIT)
+        
+        Copyright (c) 2024 Mr-Milk
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in
+        all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+        THE SOFTWARE.
+License-File: LICENSE
+Classifier: Framework :: Matplotlib
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Requires-Dist: legendkit
+Requires-Dist: matplotlib>=3.6
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: platformdirs
+Requires-Dist: scipy
+Requires-Dist: seaborn
+Provides-Extra: dev
+Requires-Dist: icecream; extra == 'dev'
+Requires-Dist: mpl-fontkit; extra == 'dev'
+Requires-Dist: numpydoc; extra == 'dev'
+Requires-Dist: pydata-sphinx-theme; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: python-hmr; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Requires-Dist: scikit-learn; extra == 'dev'
+Requires-Dist: sphinx; extra == 'dev'
+Requires-Dist: sphinx-copybutton; extra == 'dev'
+Requires-Dist: sphinx-design; extra == 'dev'
+Requires-Dist: sphinx-gallery; extra == 'dev'
+Description-Content-Type: text/markdown
+
+<p align="center">
+  <picture align="center">
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Marsilea-viz/marsilea/raw/main/img/banner-dark.jpg">
+    <source media="(prefers-color-scheme: light)" srcset="https://github.com/Marsilea-viz/marsilea/raw/main/img/banner-blue.jpg">
+    <img alt="Shows a bar chart with benchmark results." src="https://github.com/Marsilea-viz/marsilea/raw/main/img/banner-dark.jpg" width="400">
+  </picture>
+</p>
+
+[![Documentation Status](https://img.shields.io/readthedocs/marsilea?color=57B77E&logo=readthedocs&logoColor=white&style=flat-square)](https://marsilea.readthedocs.io/en/stable)
+![pypi version](https://img.shields.io/pypi/v/marsilea?color=0098FF&logo=python&logoColor=white&style=flat-square)
+![PyPI - License](https://img.shields.io/pypi/l/marsilea?color=FFD43B&style=flat-square)
+
+# Marsilea: Declarative creation of composable visualization!
+
+---
+
+## Documentation
+
+You can read the documentation on Read the Docs.
+
+[Read Documentation](https://marsilea.readthedocs.io/)
+
+## Installation
+
+```shell
+pip install marsilea
+```
+
+## What is Composable Visualization?
+
+<p align="center">
+  <picture align="center">
+    <img alt="Shows a bar chart with benchmark results." src="https://github.com/Marsilea-viz/marsilea/raw/main/img/showcase.gif" width="300">
+  </picture>
+</p>
+
+When we do visualization, we often need to combine multiple plots to show different aspects of the data.
+For example, we may need to create a heatmap to show the expression of genes in different cells,
+and then create a bar chart to show the expression of genes in different cell types.
+A visualization contains multiple plots is called a composable visualization.
+In Marsilea, we employ a declarative approach for user to create composable visualization incrementally.
+
+## Examples
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="https://marsilea.readthedocs.io/en/latest/examples/Gallery/plot_tiobe_index.html">
+                    Bar Chart With Image
+                </a>
+            </th>
+            <th>
+                <a href="https://marsilea.readthedocs.io/en/latest/examples/Gallery/plot_oil_well.html">
+                    Stacked Bar
+                </a>
+            </th>
+            <th>
+                <a href="https://marsilea.readthedocs.io/en/latest/examples/Gallery/plot_arc_diagram.html">
+                    Arc Diagram
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img src="https://marsilea.readthedocs.io/en/latest/_images/sphx_glr_plot_tiobe_index_001_2_00x.png" height="300px">
+            </td>
+            <td>
+                <img src="https://marsilea.readthedocs.io/en/latest/_images/sphx_glr_plot_oil_well_001_2_00x.png" height="300px">
+            </td>
+            <td>
+                <img src="https://marsilea.readthedocs.io/en/latest/_images/sphx_glr_plot_arc_diagram_001_2_00x.png" width="300px">
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="https://marsilea.readthedocs.io/en/latest/examples/Gallery/plot_pbmc3k.html">
+                    Heatmap
+                </a>
+            </th>
+            <th>
+                <a href="https://marsilea.readthedocs.io/en/latest/examples/Gallery/plot_oncoprint.html">
+                    Oncoprint
+                </a>
+            </th>
+            <th>
+                <a href="https://marsilea.readthedocs.io/en/latest/examples/Gallery/plot_upset.html">
+                    Upsetplot
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <img src="https://marsilea.readthedocs.io/en/latest/_images/sphx_glr_plot_pbmc3k_001_2_00x.png" width="300px">
+            </td>
+            <td>
+                <img src="https://marsilea.readthedocs.io/en/latest/_images/sphx_glr_plot_oncoprint_005_2_00x.png" width="300px">
+            </td>
+            <td>
+                <img src="https://marsilea.readthedocs.io/en/latest/_images/sphx_glr_plot_upset_001_2_00x.png" width="300px">
+            </td>
+        </tr>
+    </tbody>
+</table>
