@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "django-npi-field"
+version = "0.2.1"
+description = "Creates a Django field for U.S. National Provider Identifier numbers"
+authors = ["Kyle Jensen <kyle@nullandvoid.digital>"]
+repository = "https://github.com/nullandvoid-digital/django-npi-field"
+readme = "README.rst"
+license = "MIT"
+keywords = ["django"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Intended Audience :: Developers",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content"
+]
+packages = [
+    { include = "npi_field" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+django = ">=4.0"
+groundwork-sphinx-theme = "^1.1.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pygments = "^2.18.0"
+tox = "^4.16.0"
+sphinx = "7.1.2"
+blacken-docs = "^1.18.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
