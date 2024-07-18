@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: mds_irrulecontext
+Version: 7.0.1
+Summary: Tryton module to add values to context of ir.rule.
+Home-page: https://www.m-ds.de/
+Author: martin-data services
+Author-email: service@m-ds.de
+License: GPL-3
+Keywords: tryton context rule
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Plugins
+Classifier: Framework :: Tryton
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Customer Service
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Office/Business :: Financial :: Accounting
+Classifier: Natural Language :: German
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License (GPL)
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+
+mds-irrulecontext
+=================
+Tryton module to add values to context of ir.rule.
+
+Install
+=======
+
+pip install mds-irrulecontext
+
+How To
+======
+
+Add your ``model_names`` using *_context_modelnames()*, the module will then add the
+value ``user_id`` to the context of ir.rule. If *company* is installed, the ``ID`` of
+``company`` and ``employee`` will be in the context. Use *_get_context_values()* to
+add additional values to context of ir.rule::
+
+    class IrRule(metaclass=PoolMeta):
+        __name__ = 'ir.rule'
+
+        @classmethod
+        def _context_modelnames(cls):
+            """ add model_name to context
+            """
+            result = super(IrRule, cls)._context_modelnames()
+            result |= {'modelname1', 'modelname2'}
+            return result
+
+        @classmethod
+        def _get_context_values(cls, model_name):
+            """ add values to context
+            """
+            result = super(IrRule, cls)._get_context_values(model_name)
+
+            if model_name == 'modelname1':
+                result['key1'] = 'value1'
+            elif model_name == 'modelname2':
+                result['key2'] = 'value2'
+            return result
+
+
+Requires
+========
+- Tryton 7.0
+
+
+Changes
+=======
+
+*7.0.1 - 05.07.2024*
+
+- works
+
+
