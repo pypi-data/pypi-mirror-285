@@ -1,0 +1,19 @@
+name W12 coordinates with a6=0
+assume b = 0
+variable X
+variable Y
+variable Z
+neutral X = 1
+neutral Y = 0
+neutral Z = 0
+satisfying ZZ = Z^2
+satisfying x = X/Z
+satisfying y = Y/ZZ
+toaffine x = X/Z
+toaffine y = Y/Z
+tosystem X = x
+tosystem Y = y
+tosystem Z = 1
+homogweight X = 1
+homogweight Y = 2
+homogweight Z = 1
