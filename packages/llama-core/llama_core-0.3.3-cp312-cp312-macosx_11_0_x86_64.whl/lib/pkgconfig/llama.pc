@@ -1,0 +1,10 @@
+prefix=/var/folders/2g/czylzfgj2md8r4jc7qz3jt6m0000gn/T/tmphc6wfxfd/wheel/platlib
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: llama
+Description: Port of Facebook's LLaMA model in C/C++
+Version: 
+Libs: -L${libdir} -lllama
+Cflags: -I${includedir}
