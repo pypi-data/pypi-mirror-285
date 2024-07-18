@@ -1,0 +1,87 @@
+LANG=en_US.utf-8
+
+export LANG
+
+Pipfile.lock: Pipfile
+	docker compose run --rm --name helix_pipenv_personmatching dev sh -c "rm -f Pipfile.lock && pipenv lock --dev --clear"
+
+.PHONY:devdocker
+devdocker: ## Builds the docker for dev
+	docker compose build --parallel
+
+.PHONY:build_arm64
+build_arm64:
+	docker buildx build --platform=linux/arm64 -t imranq2/helix.personmatching:local .
+
+.PHONY:init
+init: devdocker up setup-pre-commit  ## Initializes the local developer environment
+
+.PHONY: up
+up: Pipfile.lock
+	docker compose up --build -d --remove-orphans
+
+.PHONY: down
+down:
+	docker compose down --remove-orphans && \
+	docker system prune -f
+
+.PHONY:clean-pre-commit
+clean-pre-commit: ## removes pre-commit hook
+	rm -f .git/hooks/pre-commit
+
+.PHONY:setup-pre-commit
+setup-pre-commit: Pipfile.lock
+	cp ./pre-commit-hook ./.git/hooks/pre-commit
+
+.PHONY:run-pre-commit
+run-pre-commit: setup-pre-commit
+	./.git/hooks/pre-commit
+
+.PHONY:update
+update: Pipfile.lock setup-pre-commit  ## Updates all the packages using Pipfile
+	docker compose run --rm --name helix_pipenv_personmatching dev pipenv sync && \
+	make devdocker && \
+	make pipenv-setup && \
+	echo "In PyCharm, do File -> Invalidate Caches/Restart to refresh" && \
+	echo "If you encounter issues with remote sources being out of sync, click on the 'Remote Python' feature on" && \
+	echo "the lower status bar and reselect the same interpreter and it will rebuild the remote source cache." && \
+	echo "See this link for more details:" && \
+	echo "https://intellij-support.jetbrains.com/hc/en-us/community/posts/205813579-Any-way-to-force-a-refresh-of-external-libraries-on-a-remote-interpreter-?page=2#community_comment_360002118020"
+
+.PHONY:tests
+tests: up
+	docker compose run --rm --name helix.personmatching dev pytest -m "not integration" tests helix_personmatching
+
+.PHONY:shell
+shell:devdocker ## Brings up the bash shell in dev docker
+	docker compose run --rm --name helix.personmatching dev /bin/bash
+
+.PHONY:build
+build:
+	docker compose run --rm --name helix.personmatching dev rm -rf dist/
+	docker compose run --rm --name helix.personmatching dev python3 setup.py sdist bdist_wheel
+
+.PHONY:testpackage
+testpackage:build
+	docker compose run --rm --name helix.personmatching dev python3 -m twine upload -u __token__ --repository testpypi dist/*
+# password can be set in TWINE_PASSWORD. https://twine.readthedocs.io/en/latest/
+
+.PHONY:package
+package:build
+	docker compose run --rm --name helix.personmatching dev python3 -m twine upload -u __token__ --repository pypi dist/*
+# password can be set in TWINE_PASSWORD. https://twine.readthedocs.io/en/latest/ (note this is the token not your password)
+
+.DEFAULT_GOAL := help
+.PHONY: help
+help: ## Show this help.
+	# from https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.PHONY:pipenv-setup
+pipenv-setup:devdocker ## Brings up the bash shell in dev docker
+	docker compose run --rm --name mockserver_client dev pipenv-setup sync --pipfile
+
+.PHONY:show_dependency_graph
+show_dependency_graph:
+	docker compose run --rm --name helix.personmatching dev sh -c "pipenv install --skip-lock && pipenv graph --reverse"
+	docker compose run --rm --name helix.personmatching dev sh -c "pipenv install -d && pipenv graph"
