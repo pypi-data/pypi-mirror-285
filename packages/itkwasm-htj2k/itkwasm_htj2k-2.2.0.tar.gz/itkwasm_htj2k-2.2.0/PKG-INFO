@@ -1,0 +1,42 @@
+Metadata-Version: 2.3
+Name: itkwasm-htj2k
+Version: 2.2.0
+Dynamic: Summary
+Project-URL: Home, https://github.com/InsightSoftwareConsortium/ITKIOOpenJPH
+Project-URL: Source, https://github.com/InsightSoftwareConsortium/ITKIOOpenJPH
+License-Expression: Apache-2.0
+Keywords: emscripten,itkwasm,wasi,webassembly
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: WebAssembly
+Classifier: Environment :: WebAssembly :: Emscripten
+Classifier: Environment :: WebAssembly :: WASI
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: C++
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.7
+Requires-Dist: itkwasm-htj2k-emscripten; sys_platform == 'emscripten'
+Requires-Dist: itkwasm-htj2k-wasi; sys_platform != 'emscripten'
+Requires-Dist: itkwasm>=1.0.b131
+Description-Content-Type: text/markdown
+
+# itkwasm-htj2k
+
+[![PyPI version](https://badge.fury.io/py/itkwasm-htj2k.svg)](https://badge.fury.io/py/itkwasm-htj2k)
+
+Wasm-SIMD accelerated decoding and encoding High-throughput JPEG2000 (HTJ2K) images.
+
+[🕮 **Documentation** 📚](https://py.docs.htj2k.wasm.itk.eth.limo/)
+
+## Installation
+
+```sh
+pip install itkwasm-htj2k
+```
