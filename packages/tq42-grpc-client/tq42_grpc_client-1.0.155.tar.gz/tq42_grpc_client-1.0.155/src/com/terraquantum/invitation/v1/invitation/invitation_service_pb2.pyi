@@ -1,0 +1,15 @@
+from google.protobuf import empty_pb2 as _empty_pb2
+from com.terraquantum.invitation.v1.invitation import create_invitation_request_pb2 as _create_invitation_request_pb2
+from com.terraquantum.invitation.v1.invitation import generate_new_invitation_token_request_pb2 as _generate_new_invitation_token_request_pb2
+from com.terraquantum.invitation.v1.invitation import get_invitation_request_pb2 as _get_invitation_request_pb2
+from com.terraquantum.invitation.v1.invitation import get_valid_invitation_request_pb2 as _get_valid_invitation_request_pb2
+from com.terraquantum.invitation.v1.invitation import invitation_pb2 as _invitation_pb2
+from com.terraquantum.invitation.v1.invitation import invitation_token_pb2 as _invitation_token_pb2
+from com.terraquantum.invitation.v1.invitation import list_invitations_request_pb2 as _list_invitations_request_pb2
+from com.terraquantum.invitation.v1.invitation import list_invitations_response_pb2 as _list_invitations_response_pb2
+from com.terraquantum.invitation.v1.invitation import resend_invitation_request_pb2 as _resend_invitation_request_pb2
+from com.terraquantum.invitation.v1.invitation import cancel_invitation_request_pb2 as _cancel_invitation_request_pb2
+from google.protobuf import descriptor as _descriptor
+from typing import ClassVar as _ClassVar
+
+DESCRIPTOR: _descriptor.FileDescriptor
