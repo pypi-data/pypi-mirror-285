@@ -1,0 +1,109 @@
+Metadata-Version: 2.1
+Name: PyThreadkiller
+Version: 0.1.1
+Summary: A utility to manage and kill threads in Python applications
+Home-page: https://github.com/kumarmuthu/PythonSkills/PyThreadkiller
+Author: Muthukumar Subramanian
+Author-email: kumarmuthuece5@gmail.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: requests >=2.31.0
+
+# PyThreadkiller
+A utility to manage and kill threads in Python applications.
+* ***[README.md](..%2F..%2F..%2F..%2FDownloads%2FPrivateLogic-main%2FPythonLogic%2FPyThreadKiller%2FREADME.md)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/kumarmuthu)
+![GitHub License](https://img.shields.io/github/license/kumarmuthu/kumarmuthu?style=for-the-badge)
+![GitHub Forks](https://img.shields.io/github/forks/kumarmuthu/kumarmuthu?style=for-the-badge)
+![GitHub Stars](https://img.shields.io/github/stars/kumarmuthu/kumarmuthu?style=for-the-badge)
+![GitHub Contributors](https://img.shields.io/github/contributors/kumarmuthu/kumarmuthu?style=for-the-badge)
+
+
+[![Build Status](https://travis-ci.org/kumarmuthu/PyThreadkiller.svg?branch=master)](https://travis-ci.org/kumarmuthu/PyThreadkiller)
+[![Coverage Status](https://coveralls.io/repos/github/kumarmuthu/PrivateLogic/tree/main/PythonLogic/PyThreadKiller/badge.svg?branch=master)](https://coveralls.io/github/kumarmuthu/PrivateLogic/tree/main/PythonLogic/PyThreadKiller?branch=master)
+[![PyPI version](https://badge.fury.io/py/PyThreadkiller.svg)](https://badge.fury.io/py/PyThreadkiller)
+
+
+![GitHub Image](https://avatars.githubusercontent.com/u/53684606?v=4&s=40)
+
+* **
+
+## Overview
+
+`PyThreadkiller` is a utility designed to manage and kill threads in Python applications. This package provides a simple and effective way to terminate threads safely and retrieve return values from target functions.
+
+## Directory Structure
+```
+PyThreadKiller/
+    ├── PyThreadKiller/
+    │   ├── __init__.py
+    │   ├── main.py
+    ├── tests/
+    │   ├── TestPyThreadKiller.py
+    ├── CHANGELOG.md
+    ├── README.md
+    ├── requirements.txt
+    └── setup.py
+```
+
+## Installation
+
+You can install the package using pip:
+
+```sh
+pip install PyThreadkiller
+```
+
+# Usage
+* Here is an example of how to use PyThreadkiller:
+```
+import time
+from PyThreadKiller import PyThreadKiller
+
+def example_target():
+    for i in range(5):
+        print(f"Thread is running... {i}")
+        time.sleep(1)
+    return 5
+
+# Create an instance of PyThreadKiller
+thread = PyThreadKiller(target=example_target)
+thread.start()
+
+# Allow the thread to run for 3 seconds
+time.sleep(3)
+
+# Kill the thread
+result = thread.kill()
+print(f"Return value after killing the thread: {result}")
+
+# Output:
+# Thread is running... 0
+# Thread is running... 1
+# Thread is running... 2
+# Thread killed successfully
+# Return value after killing the thread: None
+```
+
+### License:
+* This project is licensed under the MIT License - see the LICENSE file for details.
+
+* This updated `README.md` includes the new project name, badges, a brief overview, the directory structure, installation instructions, usage example, changelog, and the main code for the `PyThreadKiller` class. Make sure to adjust any URLs and links to point to the correct resources for your project.
+
+
+
+# Changelog
+
+## [0.1] - 2024-05-19
+
+### Added
+- Initial draft of `PyThreadkiller` with basic thread management and killing functionality.
