@@ -1,0 +1,19 @@
+---
+name: tox
+
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    branches:
+      - "main"
+  workflow_call:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  tox:
+    uses: ansible/team-devtools/.github/workflows/tox.yml@main
