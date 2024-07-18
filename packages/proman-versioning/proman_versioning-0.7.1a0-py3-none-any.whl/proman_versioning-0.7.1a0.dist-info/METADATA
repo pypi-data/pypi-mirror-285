@@ -1,0 +1,178 @@
+Metadata-Version: 2.1
+Name: proman-versioning
+Version: 0.7.1a0
+Summary: Project Management Versioning Tool.
+Author-email: "Jesse P. Johnson" <jpj6652@gmail.com>
+Maintainer-email: "Jesse P. Johnson" <jpj6652@gmail.com>
+License: LGPL-3.0
+Project-URL: homepage, https://github.com/python-proman/proman-versioning
+Project-URL: repository, https://github.com/python-proman/proman-versioning
+Keywords: versioning,semver,calver,pep440,configuration management
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries
+Requires-Python: >=3.6.2
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: lark-parser >=0.10.0
+Requires-Dist: argufy >=0.1.1-alpha.12
+Requires-Dist: transitions >=0.8.4
+Requires-Dist: pygit2 >=1.15
+Requires-Dist: cffi >=1.15.0
+Requires-Dist: packaging >=21.3
+Requires-Dist: compendium >=0.1.3
+Provides-Extra: build
+Requires-Dist: build ; extra == 'build'
+Requires-Dist: proman-versioning >=0.5.0-alpha.2 ; extra == 'build'
+Requires-Dist: twine ; extra == 'build'
+Provides-Extra: changelog
+Requires-Dist: mdutils ; extra == 'changelog'
+Provides-Extra: dev
+Requires-Dist: pyfakefs >=5.4.1 ; extra == 'dev'
+Requires-Dist: pytest >=6.2.5 ; extra == 'dev'
+Requires-Dist: pytest-cov >=2.10.0 ; extra == 'dev'
+Requires-Dist: tox >=3.25.0 ; extra == 'dev'
+Requires-Dist: mypy >=1 ; extra == 'dev'
+Requires-Dist: pylint >=3 ; extra == 'dev'
+Requires-Dist: black ==22.3.0 ; extra == 'dev'
+Requires-Dist: isort >=5.10.1 ; extra == 'dev'
+Requires-Dist: flake8 >=3.8.3 ; extra == 'dev'
+Requires-Dist: bandit >=1.6.2 ; extra == 'dev'
+Requires-Dist: safety >=1.9.0 ; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: docstr-coverage >=1.2.0 ; extra == 'docs'
+Requires-Dist: mkdocs >=1.2.2 ; extra == 'docs'
+Requires-Dist: mkdocs-material >=7.2.0 ; extra == 'docs'
+Requires-Dist: mkdocstrings[python] >=0.16.2 ; extra == 'docs'
+Requires-Dist: pydocstyle[toml] >=6.1.1 ; extra == 'docs'
+
+# Proman Versioning
+
+[![License](https://img.shields.io/badge/License-LGPL%203.0-blue.svg)](https://spdx.org/licenses/LGPL-3.0)
+![Build Status](https://github.com/python-proman/proman-versioning/actions/workflows/ci.yml/badge.svg)
+[![codecov](https://codecov.io/gh/kuwv/proman-versioning/branch/master/graph/badge.svg)](https://codecov.io/gh/kuwv/proman-versioning)
+
+## Overview
+
+Project Manager Versioning is a PEP-440 compliant tool for automating project
+versions using conventional commits.
+
+## Install
+
+`pip install proman-versioning`
+
+## Setup
+
+This tool is designed to work with any textfile using a templating pattern and
+path to the file.
+
+### Configuring versions
+
+Configuration can be performed with either the `.versioning` or `pyproject.toml`
+files.
+
+#### Global configuration settings:
+
+Specific types of releases can be disabled by setting the respective release to
+false.
+
+Disable development releases:
+```
+enable_devreleases = false
+```
+
+Disable pre-releases:
+```
+enable_prereleases = false
+```
+
+Disable post-releases:
+```
+enable_postreleases = false
+```
+
+#### File specific settings:
+
+Use different version compatibiliy type:
+```
+compat = "semver"
+```
+
+#### Example `.version` configuration
+
+The `.versioning` config is a non-specfile based project file using TOML. This
+is the preferred configuration for non-python projects that may use this tool.
+
+<!--
+Default versioning compatibility for `.version` files is semantic versioning
+(`semver`).
+-->
+```
+version = "1.2.3"
+
+[[versioning.files]]
+filepath = "example/__init__.py"
+pattern = "__version__ = '${version}'"
+
+[[versioning.files]]
+filepath = "chart/Chart.yaml"
+patterns = [
+  "version = \"${version}\"",
+  "appVersion = \"${version}\""
+]
+```
+
+#### Example `pyproject.toml`
+
+<!--
+Default versioning compatibility for `pyproject.toml` is PEP440 (`pep440`).
+-->
+```
+[project]
+name = "example"
+version = "1.2.3"
+
+[tool.proman.versioning]
+compat = "semver"
+
+[[tool.proman.versioning.files]]
+filepath = "example/__init__.py"
+pattern = "__version__ = '${version}'"
+
+[[tool.proman.versioning.files]]
+filepath = "chart/Chart.yaml"
+patterns = [
+  "version = \"${version}\"",
+  "appVersion = \"${version}\""
+]
+```
+
+#### Example `setup.cfg`
+
+Setuptools allows `setup.cfg` to pull the version from the application. This
+should be used in tandem with either of the above configurations to control
+versions for a project.
+
+```
+[metadata]
+name = example
+version = attr: src.VERSION
+...
+```
+
+## References
+
+- https://www.conventionalcommits.org/en/v1.0.0/
+- https://www.python.org/dev/peps/pep-0440/
+- https://semver.org
+- https://calver.org
