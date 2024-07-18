@@ -1,0 +1,36 @@
+
+html[data-theme="light"] {
+    --pst-color-primary: #2c445c;
+    --pst-color-secondary: #FE5F55;
+    --pst-color-info: #2c445c,
+    --pst-color-warning: #F9D264,
+}
+
+html[data-theme="dark"] {
+    --pst-color-primary: #F9D264;
+    --pst-color-secondary: #FE5F55;
+    --pst-color-info: #2c445c,
+    --pst-color-warning: #F9D264,
+}
+
+
+::-moz-selection { /* Code for Firefox */
+    color: #000000;
+    background: #f9d264;
+}    
+::selection {
+    color: #000000;
+    background: #f9d264;
+}
+
+
+/* INFO admonition */
+div.admonition.info {
+    border-color: #f9d264;
+}
+div.admonition.info > .admonition-title:before {
+    background-color: #f9d264;
+}
+div.admonition.info > .admonition-title:after {
+    color: #f9d264;
+}
