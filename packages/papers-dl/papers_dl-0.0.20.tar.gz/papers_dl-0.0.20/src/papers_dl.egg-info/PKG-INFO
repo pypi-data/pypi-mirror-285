@@ -1,0 +1,53 @@
+Metadata-Version: 2.1
+Name: papers-dl
+Version: 0.0.20
+Summary: A command line application for downloading scientific papers
+Author-email: Ben Muthalaly <benmuthalaly@gmail.com>
+Project-URL: Homepage, https://github.com/benmuth/papers-dl
+Project-URL: Issues, https://github.com/benmuth/papers-dl/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp==3.9.5
+Requires-Dist: beautifulsoup4==4.12.3
+Requires-Dist: bs4==0.0.2
+Requires-Dist: certifi==2024.2.2
+Requires-Dist: cffi==1.16.0
+Requires-Dist: charset-normalizer==3.3.2
+Requires-Dist: cryptography==42.0.5
+Requires-Dist: easygui==0.98.3
+Requires-Dist: feedparser==6.0.11
+Requires-Dist: google==3.0.0
+Requires-Dist: idna==3.6
+Requires-Dist: pdf2doi==1.5.1
+Requires-Dist: pdfminer.six==20221105
+Requires-Dist: pdftitle==0.11
+Requires-Dist: pycparser==2.21
+Requires-Dist: PyMuPDF==1.23.26
+Requires-Dist: PyMuPDFb==1.23.22
+Requires-Dist: PyPDF2==2.0.0
+Requires-Dist: pyperclip==1.8.2
+Requires-Dist: requests==2.31.0
+Requires-Dist: retrying==1.3.4
+Requires-Dist: sgmllib3k==1.0.0
+Requires-Dist: six==1.16.0
+Requires-Dist: soupsieve==2.5
+Requires-Dist: urllib3==2.2.1
+Requires-Dist: w3lib==2.1.2
+
+# Overview
+`papers-dl` is a command line application for downloading scientific papers.
+
+## Usage
+```shell
+# parse DOI identifiers from a file:
+papers-dl parse --match doi --path pages/my-paper.html
+
+# fetch given identifier from Sci-Hub:
+papers-dl fetch "10.1016/j.cub.2019.11.030"
+```
+
+This project started as a fork of [scihub.py](https://github.com/zaytoun/scihub.py).
