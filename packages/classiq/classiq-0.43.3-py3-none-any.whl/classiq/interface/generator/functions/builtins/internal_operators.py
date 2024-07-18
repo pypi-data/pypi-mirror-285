@@ -1,0 +1,8 @@
+CTRL_VAR_PREFIX = "ctrl__"
+CONTROL_OPERATOR_NAME = "control"
+INVERT_OPERATOR_NAME = "invert"
+REPEAT_OPERATOR_NAME = "iteration"
+POWER_OPERATOR_NAME = "power"
+COMPUTE_OPERATOR_NAME = "compute"
+UNCOMPUTE_OPERATOR_NAME = "uncompute"
+WITHIN_APPLY_NAME = "within_apply"
