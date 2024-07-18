@@ -1,0 +1,2 @@
+# ExoViz
+Exoplanet visualisation code 
