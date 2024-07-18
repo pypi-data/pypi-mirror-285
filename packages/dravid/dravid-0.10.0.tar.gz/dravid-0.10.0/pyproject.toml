@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "dravid"
+version = "0.10.0"
+description = "A CLI coding super-framework using AI"
+authors = ["Vysakh Sreenivasan <srvysakh@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "drd", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+click = "^8.0.0"
+requests = "^2.25.0"
+python-dotenv = "^0.19.0"
+colorama = "^0.4.4"
+lxml = "^5.2.2"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^7.2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest-cov = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+drd = "drd.cli.main:dravid_cli"
+
+[tool.pytest.ini_options]
+addopts = "-v"
+testpaths = ["tests"]
+python_files = "test_*.py"
