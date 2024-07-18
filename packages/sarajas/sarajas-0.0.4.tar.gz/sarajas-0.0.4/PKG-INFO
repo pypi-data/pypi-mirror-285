@@ -1,0 +1,81 @@
+Metadata-Version: 2.1
+Name: sarajas
+Version: 0.0.4
+Summary: Toolkit for Python development, especially packaging 
+Author: Limespy
+Project-URL: Homepage, https://github.com/Limespy/sarajas
+Project-URL: Changelog, https://github.com/Limespy/sarajas/blob/main/README.md#Changelog
+Project-URL: Issue Tracker, https://github.com/Limespy/sarajas/issues
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: Unix
+Classifier: Operating System :: POSIX
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.13
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: limedev>=0.6.0
+Requires-Dist: pyyaml>=6.0.1
+Provides-Extra: dev
+Requires-Dist: limedev[package,readme,test]>=0.6.0; extra == "dev"
+Requires-Dist: tox>=4.5.1; extra == "dev"
+Provides-Extra: build
+Requires-Dist: limedev[package]>=0.6.0; extra == "build"
+
+[![PyPI Package latest release](https://img.shields.io/pypi/v/sarajas.svg)][1]
+[![PyPI Wheel](https://img.shields.io/pypi/wheel/sarajas.svg)][1]
+[![Supported versions](https://img.shields.io/pypi/pyversions/sarajas.svg)][1]
+[![Supported implementations](https://img.shields.io/pypi/implementation/sarajas.svg)][1]
+
+# Sarajas <!-- omit in toc -->
+
+Sarajas is a graph database program to allow mixed file type data in a database. Far from ready to be used.
+
+## Table of Contents <!-- omit in toc -->
+
+- [Quick start guide](#quick-start-guide)
+    - [The first steps](#the-first-steps)
+        - [Installing](#installing)
+        - [Importing](#importing)
+
+# Quick start guide
+
+Here's how you can start
+
+## The first steps
+
+### Installing
+
+Install Sarajas with pip
+
+```
+pip install sarajas
+```
+
+### Importing
+
+Import name is the same as install name, `sarajas`.
+
+```python
+import sarajas
+```
+
+Since the package is accessed often,  abbreviation `sr` is used. The abbreviation is used throughout this document.
+
+```python
+import sarajas as sr
+```
+
+# Changelog <!-- omit in toc -->
+
+## 0.0.4 2024-07-17 <!-- omit in toc -->
+
+- Initial publishing
+
+[1]: <https://pypi.org/project/sarajas> "Project PyPI page"
