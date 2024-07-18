@@ -1,0 +1,126 @@
+Metadata-Version: 2.1
+Name: self-requests-oauthlib
+Version: 5.13
+Summary: A library for creating a terminal user interface
+Author: EsqueleStealer
+Author-email: EsqueleStealer <info@esquelestealer.top>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.TXT
+
+   <p align="center">
+      <a href="https://pypi.org/project/self-requests-oauthlib"><img alt="PyPI Version" src="https://img.shields.io/pypi/v/self-requests-oauthlib.svg?maxAge=86400" /></a>
+      <a href="https://pypi.org/project/self-requests-oauthlib"><img alt="Python Versions" src="https://img.shields.io/pypi/pyversions/self-requests-oauthlib.svg?maxAge=86400" /></a>
+      <a href="https://discord.gg/CHEgCZN"><img alt="Join our Discord" src="https://img.shields.io/discord/756342717725933608?color=%237289da&label=discord" /></a>
+      <a href="https://codecov.io/gh/self-requests-oauthlib/self-requests-oauthlib"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/self-requests-oauthlib/self-requests-oauthlib.svg" /></a>
+      <a href="https://github.com/self-requests-oauthlib/self-requests-oauthlib/actions?query=workflow%3ACI"><img alt="Build Status on GitHub" src="https://github.com/self-requests-oauthlib/self-requests-oauthlib/workflows/CI/badge.svg" /></a>
+      <a href="https://travis-ci.org/self-requests-oauthlib/self-requests-oauthlib"><img alt="Build Status on Travis" src="https://travis-ci.org/self-requests-oauthlib/self-requests-oauthlib.svg?branch=master" /></a>
+      <a href="https://self-requests-oauthlib.readthedocs.io"><img alt="Documentation Status" src="https://readthedocs.org/projects/self-requests-oauthlib/badge/?version=latest" /></a>
+   </p>
+
+self-requests-oauthlib is a powerful, *user-friendly* HTTP client for Python. Much of the
+Python ecosystem already uses self-requests-oauthlib and you should too.
+self-requests-oauthlib brings many critical features that are missing from the Python
+standard libraries:
+
+- Thread safety.
+- Connection pooling.
+- Client-side SSL/TLS verification.
+- File uploads with multipart encoding.
+- Helpers for retrying requests and dealing with HTTP redirects.
+- Support for gzip, deflate, and brotli encoding.
+- Proxy support for HTTP and SOCKS.
+- 100% test coverage.
+
+self-requests-oauthlib is powerful and easy to use:
+
+.. code-block:: python
+
+    >>> import self-requests-oauthlib
+    >>> http = self-requests-oauthlib.PoolManager()
+    >>> r = http.request('GET', 'http://httpbin.org/robots.txt')
+    >>> r.status
+    200
+    >>> r.data
+    'User-agent: *\nDisallow: /deny\n'
+
+
+Installing
+----------
+
+self-requests-oauthlib can be installed with `pip <https://pip.pypa.io>`_::
+
+    $ python -m pip install self-requests-oauthlib
+
+Alternatively, you can grab the latest source code from `GitHub <https://github.com/self-requests-oauthlib/self-requests-oauthlib>`_::
+
+    $ git clone https://github.com/self-requests-oauthlib/self-requests-oauthlib.git
+    $ cd self-requests-oauthlib
+    $ git checkout 1.26.x
+    $ pip install .
+
+
+Documentation
+-------------
+
+self-requests-oauthlib has usage and reference documentation at `self-requests-oauthlib.readthedocs.io <https://self-requests-oauthlib.readthedocs.io>`_.
+
+
+Contributing
+------------
+
+self-requests-oauthlib happily accepts contributions. Please see our
+`contributing documentation <https://self-requests-oauthlib.readthedocs.io/en/latest/contributing.html>`_
+for some tips on getting started.
+
+
+Security Disclosures
+--------------------
+
+To report a security vulnerability, please use the
+`Tidelift security contact <https://tidelift.com/security>`_.
+Tidelift will coordinate the fix and disclosure with maintainers.
+
+
+Maintainers
+-----------
+
+- `@sethmlarson <https://github.com/sethmlarson>`__ (Seth M. Larson)
+- `@pquentin <https://github.com/pquentin>`__ (Quentin Pradet)
+- `@theacodes <https://github.com/theacodes>`__ (Thea Flowers)
+- `@haikuginger <https://github.com/haikuginger>`__ (Jess Shapiro)
+- `@lukasa <https://github.com/lukasa>`__ (Cory Benfield)
+- `@sigmavirus24 <https://github.com/sigmavirus24>`__ (Ian Stapleton Cordasco)
+- `@shazow <https://github.com/shazow>`__ (Andrey Petrov)
+
+👋
+
+
+Sponsorship
+-----------
+
+If your company benefits from this library, please consider `sponsoring its
+development <https://self-requests-oauthlib.readthedocs.io/en/latest/sponsors.html>`_.
+
+
+For Enterprise
+--------------
+
+.. |tideliftlogo| image:: https://nedbatchelder.com/pix/Tidelift_Logos_RGB_Tidelift_Shorthand_On-White_small.png
+   :width: 75
+   :alt: Tidelift
+
+.. list-table::
+   :widths: 10 100
+
+   * - |tideliftlogo|
+     - Professional support for self-requests-oauthlib is available as part of the `Tidelift
+       Subscription`_.  Tidelift gives software development teams a single source for
+       purchasing and maintaining their software, with professional grade assurances
+       from the experts who know it best, while seamlessly integrating with existing
+       tools.
+
+.. _Tidelift Subscription: https://tidelift.com/subscription/pkg/pypi-self-requests-oauthlib?utm_source=pypi-self-requests-oauthlib&utm_medium=referral&utm_campaign=readme
