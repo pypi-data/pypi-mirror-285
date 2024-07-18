@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "py-bw-vault-management-api-client"
+version = "0.10"
+description = "Unofficial client library for accessing the BitWarden Vault Management API"
+authors = []
+readme = "README.md"
+packages = [
+    {include = "vault_management_api_client"},
+]
+include = ["CHANGELOG.md", "vault_management_api_client/py.typed"]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+httpx = ">=0.20.0,<0.28.0"
+attrs = ">=21.3.0"
+python-dateutil = "^2.8.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["F", "I", "UP"]
