@@ -1,0 +1,93 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools_scm]
+
+[project]
+name = "sgchemist"
+authors = [
+    {name="Paul-Emile Buteau", email="paulemilebuteau@gmail.com"},
+]
+description = "An ORM for Autodesk Shotgrid"
+dependencies = [
+    'shotgun-api3',
+    'typing-extensions',
+]
+readme = "README.md"
+requires-python = ">=3.7"
+keywords = [
+    "Shotgrid",
+    "Shotgun",
+    "Slow Production Tracker",
+    "ORM"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+]
+dynamic = ["version"]
+
+[project.urls]
+Homepage = "https://github.com/PoloB/sgchemist"
+Issues = "https://github.com/PoloB/sgchemist/issues"
+
+[project.scripts]
+sg2python = "sgchemist.schema.generate_entities:cli"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"sgchemist" = ["py.typed"]
+
+[tool.setuptools.dynamic]
+version = {attr = "sgchemist.VERSION"}
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = "tests/"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+
+[[tool.mypy.overrides]]
+module = [
+    "shotgun_api3.*",
+]
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 88
+lint.select = [
+    "D",
+    "E",  # pycodestyle
+    "W",
+    "F",  # PyFlakes
+    "B",  # flake8-bugbear
+    "T20",  # "print" in code
+    "N",  # pep8 naming convention
+    "I",  # isort
+    "RUF",  # Bad unicode characters in code
+]
+lint.isort.force-single-line = true
+lint.pydocstyle.convention = "google"
+src = ["src", "tests"]
+
+
+[tool.coverage]
+run.omit = ["test/*"]
+report.exclude_lines = [
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+    "@abc.abstractmethod",
+]
