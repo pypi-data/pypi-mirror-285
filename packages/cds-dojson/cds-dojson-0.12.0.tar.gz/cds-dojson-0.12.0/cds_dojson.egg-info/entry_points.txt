@@ -1,0 +1,46 @@
+[cds_dojson.marc21.base]
+base = cds_dojson.marc21.fields.base
+
+[cds_dojson.marc21.book]
+book = cds_dojson.marc21.fields.books.book
+standard = cds_dojson.marc21.fields.books.standard
+
+[cds_dojson.marc21.books]
+base = cds_dojson.marc21.fields.books.base
+
+[cds_dojson.marc21.models]
+books_book = cds_dojson.marc21.models.books.book:model
+books_standard = cds_dojson.marc21.models.books.standard:model
+videos_project = cds_dojson.marc21.models.videos.project:model
+videos_video = cds_dojson.marc21.models.videos.video:model
+
+[cds_dojson.marc21.parent_models]
+books_multipart = cds_dojson.marc21.models.books.multipart:model
+books_serial = cds_dojson.marc21.models.books.serial:model
+journal = cds_dojson.marc21.models.books.journal:model
+
+[cds_dojson.marc21.series]
+journal = cds_dojson.marc21.fields.books.journal
+multipart = cds_dojson.marc21.fields.books.multipart
+serial = cds_dojson.marc21.fields.books.serial
+
+[cds_dojson.marc21.video]
+project = cds_dojson.marc21.fields.videos.project
+video = cds_dojson.marc21.fields.videos.video
+
+[cds_dojson.marc21.videos]
+base = cds_dojson.marc21.fields.videos.base
+
+[console_scripts]
+cds-dojson = cds_dojson.cli:cli
+
+[dojson.cli.load]
+cds_marcxml = cds_dojson.marc21.utils:load
+
+[dojson.cli.rule]
+cds_marc21 = cds_dojson.marc21:marc21
+cds_to_marc21 = cds_dojson.to_marc21:to_marc21
+
+[invenio_jsonschemas.testschemas]
+cds = cds_dojson.schemas
+
