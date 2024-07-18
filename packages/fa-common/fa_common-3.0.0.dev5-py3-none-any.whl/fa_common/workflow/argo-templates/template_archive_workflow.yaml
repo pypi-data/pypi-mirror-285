@@ -1,0 +1,101 @@
+name: <<ARCHIVE_TEMP_NAME>>
+inputs:
+  parameters:
+  - name: upload-base-path
+    value: <<UPLOAD_BASE_PATH>>
+container:
+  envFrom:
+    # SECRET_NAME is specifically used for uploading
+    # logs and workflow.json to Storage.
+    # It is set via env var: STORAGE_SECRET_NAME
+    <% if HAS_SECRET %>
+    - secretRef:
+        name: <<SECRET_NAME>>
+    <% endif %>
+    # BELOW BLOCK is specifically designed to handle
+    # env vars / secrets required for callback.
+    <% for WORKFLOW_CALLBACK in WORKFLOW_CALLBACKS %>
+    <% for ENV_SECRET in WORKFLOW_CALLBACK.env_secrets %>
+    - secretRef:
+        name: << ENV_SECRET >>
+    <% endfor %>
+    <% endfor %>
+  env:
+    <% for WORKFLOW_CALLBACK in WORKFLOW_CALLBACKS %>
+    <% for key, value in WORKFLOW_CALLBACK.env_vars.items() %>
+      - name: << key >>
+        value: << value >>
+    <% endfor %>
+    <% endfor %>
+  image: << CLOUD_BASE_IMAGE >>
+  command: ["/bin/sh", "-c"]
+  args:
+  - |-
+    mkdir -p /tmp/output/;
+    <% if HAS_ARGO_TOKEN %>TOKEN=$(cat /etc/argo-token/token);<% endif %>
+    BASE_PATH={{inputs.parameters.upload-base-path}}/{{workflow.name}};
+
+    options="-sS -L";
+    <% if IS_LOCAL %>
+    options="$options -k";
+    <% endif %>
+    <% if HAS_ARGO_TOKEN %>
+    workflow=$(curl $options -H "Authorization: Bearer $TOKEN" -X GET '<<ARGO_BASE_URL>>/api/v1/workflows/<<NAMESPACE>>/{{workflow.name}}');
+    <% else %>
+    workflow=$(curl $options -X GET '<<ARGO_BASE_URL>>/api/v1/workflows/<<NAMESPACE>>/{{workflow.name}}');
+    <% endif %>
+
+    echo "$workflow" > /tmp/output/workflow.json;
+
+    <% if STORAGE_TYPE == STORAGE_ENUM.FIREBASE_STORAGE %>
+    copy_logs() {
+      <% if HAS_SECRET %>gcloud auth activate-service-account --key-file=/etc/storage-auth/<<SECRET_KEY>>;<% endif %>
+      gsutil -m cp -r /var/run/argo/ctr/main/combined $BASE_PATH/{{pod.name}}/main.log;
+    };
+    <% if HAS_SECRET %>gcloud auth activate-service-account --key-file=/etc/storage-auth/<<SECRET_KEY>>;<% endif %>
+    gsutil cp /tmp/output/workflow.json $BASE_PATH/workflow.json;
+    <% endif %>
+
+    <% if STORAGE_TYPE == STORAGE_ENUM.MINIO %>
+    copy_logs() {
+      aws s3 cp /var/run/argo/ctr/main/combined $BASE_PATH/{{pod.name}}/main.log;
+    };
+    aws s3 cp /tmp/output/workflow.json $BASE_PATH/workflow.json;
+    <% endif %>
+
+    <% for WORKFLOW_CALLBACK in WORKFLOW_CALLBACKS %>
+    callback_url=<<WORKFLOW_CALLBACK.url>>;
+    metadata=<<WORKFLOW_CALLBACK.metadata>>;
+
+    json_payload=$(jq -n \
+                  --argjson workflow "$workflow" \
+                  --argjson metadata "$metadata" \
+                  '{workflow: $workflow, metadata: $metadata}');
+
+    if [ -n "$CALLBACK_API_KEY" ]; then
+    response=$(curl $options -H "x-api-key: $CALLBACK_API_KEY" -H "Content-Type: application/json" -X POST "$callback_url" -d "$json_payload");
+    else
+    response=$(curl $options -H "Content-Type: application/json" -X POST "$callback_url" -d "$json_payload");
+    fi
+
+    # echo Response: $response;
+    # echo json_payload: $json_payload;
+
+    <% endfor %>
+
+
+    copy_logs;
+<% if HAS_ARGO_TOKEN %>
+  volumeMounts:
+    - name: argo-token-volume
+      mountPath: /etc/argo-token
+      readOnly: true
+    <% if HAS_SECRET %>
+    - name: <<SECRET_NAME>>
+      mountPath: /etc/storage-auth
+    <% endif %>
+volumes:
+  - name: argo-token-volume
+    secret:
+      secretName: argo-workflow.service-account-token
+<% endif %>
