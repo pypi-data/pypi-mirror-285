@@ -1,0 +1,30 @@
+[tool.black]
+    line-length = 120
+
+[tool.pyright]
+    exclude                = ["**/node_modules", "**/__pycache__"]
+    include                = ["src"]
+    reportMissingImports   = false
+    reportMissingModuleSource = false
+    reportMissingTypeStubs = false
+    reportOptionalMemberAccess = false
+    reportGeneralTypeIssues = false
+    reportPrivateImportUsage = "information"
+
+    pythonPlatform = "Linux"
+    pythonVersion  = "3.10"
+
+[tool.isort]
+    known_local_folder = ["webmaster_verification", "ex_api", "ai*"]
+    known_typing_extensions = "typing_extensions"
+    line_length = 120
+    no_lines_before = "TYPING_EXTENSIONS"
+    profile = "black"
+    sections = [
+        "FUTURE",
+        "STDLIB",
+        "TYPING_EXTENSIONS",
+        "THIRDPARTY",
+        "LOCALFOLDER",
+        "FIRSTPARTY",
+    ]
