@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: httpcord
+Version: 0.0.2
+Summary: A Python Discord Interaction bot API wrapper.
+License: MIT
+Author: Isabelle Phoebe
+Author-email: izzy@uwu.gal
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+
+# httpcord
+A Python Discord Interaction bot API wrapper.
+
+From `examples/hello-world.py`
+```py
+from httpcord import HTTPBot, CommandResponse, Interaction
+from httpcord.enums import InteractionResponseType
+
+CLIENT_ID = 0000000000000000000000
+CLIENT_PUBLIC_KEY = "..."
+CLIENT_TOKEN = "..."
+
+bot = HTTPBot(
+    client_id=CLIENT_ID,
+    client_public_key=CLIENT_PUBLIC_KEY,
+    register_commands_on_startup=True,
+)
+
+@bot.command("hello-world")
+async def hello_world(interaction: Interaction) -> CommandResponse:
+    return CommandResponse(
+        type=InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        content=f"hello, {interaction.user.mention}! You joined this server at <t:{int(interaction.user.joined_at.timestamp())}:F>.",
+    )
+
+bot.start(CLIENT_TOKEN)
+```
