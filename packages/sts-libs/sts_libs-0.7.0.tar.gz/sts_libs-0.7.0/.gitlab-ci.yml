@@ -1,0 +1,34 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "push"
+lint:
+  image: python:3
+  script:
+    - pip install pre-commit
+    - pre-commit run --all-files --show-diff-on-failure
+test-libs:
+  image: fedora:latest
+  script:
+    - dnf install -y python3-pip python3.9 python3.12 nox git
+    - nox
+# https://docs.pypi.org/trusted-publishers/
+publish-libs:
+  image: fedora:latest
+  id_tokens:
+    PYPI_ID_TOKEN:
+      aud: pypi
+  needs:
+    - test-libs
+    - lint
+  script:
+    # Retrieve the OIDC token from GitLab CI/CD, and exchange it for a PyPI API token
+    - dnf install -y hatch jq python3-pip
+    - python3 -m pip install id
+    - oidc_token=$(python3 -m id PYPI)
+    - resp=$(curl -X POST https://pypi.org/_/oidc/mint-token -d "{\"token\":\"${oidc_token}\"}")
+    - api_token=$(jq --raw-output '.token' <<< "${resp}")
+    - hatch build
+    - hatch publish -u __token__ -a "${api_token}"
+  rules:
+    - if: $CI_COMMIT_TAG && $CI_PROJECT_PATH == "rh-kernel-stqe/sts"

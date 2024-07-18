@@ -1,0 +1,17 @@
+discover:
+  how: fmf
+  filter:
+    - tag:libiscsi
+context:
+  component: targetcli
+adjust+:
+  - when: distro != rhel-10
+    prepare+:
+      - how: install
+        copr: mhoyer/libiscsi
+        package: libiscsi-utils
+  - when: distro == rhel-10
+    prepare+:
+      - how: install
+        copr: "mhoyer/libiscsi centos-stream-10"
+        package: libiscsi-utils

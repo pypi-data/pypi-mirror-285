@@ -1,0 +1,12 @@
+summary: Checks if iSCSI session works with many LUNs
+component:
+  - iscsi-initiator-utils
+  - targetcli
+  - kernel
+test: pytest many-luns-local.py
+tag:
+  - iscsi
+  - lio
+  - local
+tier: 0
+duration: 30m

@@ -1,0 +1,44 @@
+Metadata-Version: 2.3
+Name: sts-libs
+Version: 0.7.0
+Summary: Library for pytest-based Linux storage tests
+Project-URL: Repository, https://gitlab.com/rh-kernel-stqe/sts/
+Author-email: Martin Hoyer <mhoyer@redhat.com>, Filip Suba <fsuba@redhat.com>, Zhaojuan Guo <zguo@redhat.com>, Bruno Goncalves <bgoncalv@redhat.com>, Jakub Krysl <jkrysl@redhat.com>
+Maintainer-email: Martin Hoyer <mhoyer@redhat.com>, Filip Suba <fsuba@redhat.com>, Zhaojuan Guo <zguo@redhat.com>
+License-Expression: GPL-3.0-or-later
+License-File: LICENSE
+Classifier: Framework :: Hatch
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Software Development :: Quality Assurance
+Classifier: Topic :: Software Development :: Testing
+Requires-Python: >=3.9
+Requires-Dist: pytest-testinfra<11,>=10.1
+Description-Content-Type: text/markdown
+
+# sts-libs
+Python library to be used by storage tests on Fedora-based Linux distributions.
+
+## About
+sts-libs is designed to be used with [pytest](https://pytest.org) and [testinfra](https://testinfra.readthedocs.io) pytest plugin.
+Used by [sts](https://gitlab.com/rh-kernel-stqe/sts) tests managed by [tmt](https://github.com/teemtee/tmt).
+
+## Status
+Actively being developed, not ready for production.
+
+## Installation
+#### Fedora and EPEL9
+rpm packages can be found on [Fedora Copr](https://copr.fedorainfracloud.org/coprs/packit/gitlab.com-rh-kernel-stqe-sts-releases/)
+
+#### Pytest virtual environment with pipx
+`pipx install pytest`
+`pipx inject pytest sts-libs`
+#### Libs only with pip
+`pip install sts-libs`
+
+## Get involved
+Feel free to open issues or merge requests at [sts gitlab page]([sts](https://gitlab.com/rh-kernel-stqe/sts)).
+There you can also find the [contributing](https://gitlab.com/rh-kernel-stqe/sts/docs/contributing.md) doc.

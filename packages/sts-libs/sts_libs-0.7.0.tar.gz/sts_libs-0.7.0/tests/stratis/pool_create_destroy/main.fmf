@@ -1,0 +1,10 @@
+summary: Test stratis pool create/destroy.
+description: >
+  Test stratis pool create/destroy.
+test: pytest test_pool.py
+environment:
+  STRATIS_POOL_NAME: pool1
+duration: 75m
+tag:
+  - regression
+  - stratis_create_destroy
