@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  build:
+    on-failure: ABORT
+    commands:
+      - |
+        tar -xvf $SOURCE_TAR_NAME
+        eval $LAUNCHFLOW_COMMAND
+artifacts:
+  files:
+    - "**/*"
+  discard-paths: yes
