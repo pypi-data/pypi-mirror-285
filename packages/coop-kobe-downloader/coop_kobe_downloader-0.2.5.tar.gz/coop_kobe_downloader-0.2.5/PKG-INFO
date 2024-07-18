@@ -1,0 +1,82 @@
+Metadata-Version: 2.3
+Name: coop-kobe-downloader
+Version: 0.2.5
+Summary: Add your description here
+Project-URL: Homepage, https://github.com/ryohidaka/coop-kobe-downloader
+Project-URL: Repository, https://github.com/ryohidaka/coop-kobe-downloader
+Project-URL: Issues, https://github.com/ryohidaka/coop-kobe-downloader/issues
+Project-URL: Changelog, https://github.com/ryohidaka/blob/main/coop-kobe-downloader/CHANGELOG.md
+Author-email: ryohidaka <39184410+ryohidaka@users.noreply.github.com>
+License: MIT License
+        
+        Copyright (c) 2024 日高 凌
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: coop,csv,japan,japanese,parser
+Requires-Python: >=3.8
+Requires-Dist: selenium>=4.22.0
+Requires-Dist: webdriver-manager>=4.0.1
+Description-Content-Type: text/markdown
+
+# coop-kobe-downloader
+
+[![PyPI version](https://badge.fury.io/py/coop-kobe-downloader.svg)](https://badge.fury.io/py/coop-kobe-downloader)
+![build](https://github.com/ryohidaka/coop-kobe-downloader/workflows/Build/badge.svg)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+コープこうべの宅配の注文書(CSV)をダウンロードする Python パッケージ
+
+## Installation
+
+You can install this library using PyPI:
+
+```shell
+pip install coop-kobe-downloader
+```
+
+## 使用方法
+
+```py
+from coop_kobe_downloader import CoopKobeDownloader, Weekday
+
+# ログインID
+login_id = "hoge@example.com"
+
+# パスワード
+password = "hogehoge"
+
+# CSV出力先のディレクトリ
+download_dir = ".output"
+
+# ダウンローダーのインスタンスを作成
+downloader = CoopKobeDownloader(login_id, password, download_dir)
+
+# 企画回を取得
+phase = downloader.get_phase(Weekday.WED)
+print(phase)
+# output: 2024062
+
+# ダウンロード処理
+downloader.download(phase)
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
