@@ -1,0 +1,143 @@
+Metadata-Version: 2.1
+Name: pflows
+Version: 0.1.6
+Summary: Several tools for dealing with image annotations to train YOLO or similar models
+Author-email: Daniel Pérez Rada <dperezrada@gmail.com>
+Maintainer-email: Daniel Pérez Rada <dperezrada@gmail.com>
+License: MIT license
+Project-URL: bugs, https://github.com/dperezrada/pflows/issues
+Project-URL: changelog, https://github.com/dperezrada/pflows/blob/master/changelog.md
+Project-URL: homepage, https://github.com/dperezrada/pflows
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pillow==10.3.0
+Requires-Dist: roboflow==1.1.28
+Requires-Dist: ultralytics==8.2.21
+Requires-Dist: scikit-image==0.23.2
+Requires-Dist: PyYAML==6.0.1
+Requires-Dist: opencv-python==4.8.0.74
+Requires-Dist: opencv-python-headless==4.8.0.74
+Requires-Dist: shapely==2.0.4
+Requires-Dist: albumentations==1.3.1
+Requires-Dist: python-dotenv==1.0.1
+Requires-Dist: fastapi==0.111.0
+Requires-Dist: fastapi-cli==0.0.4
+Requires-Dist: modal==0.62.181
+Requires-Dist: requests==2.31.0
+Requires-Dist: requests-toolbelt==1.0.0
+Provides-Extra: dev
+Requires-Dist: pytest==6.2.4; extra == "dev"
+Requires-Dist: pylint==3.1.1; extra == "dev"
+Requires-Dist: mypy==1.10.0; extra == "dev"
+Requires-Dist: types-PyYAML==6.0.12.20240311; extra == "dev"
+Requires-Dist: black==24.4.2; extra == "dev"
+Requires-Dist: pytest-cov==5.0.0; extra == "dev"
+
+# Pflow
+
+## Install
+
+```
+pip install -e '.[dev]'
+```
+
+## Setup
+```
+cp .env.default .env
+```
+
+## Run
+```
+pflows doc/examples/birds-grouped-categories.json
+```
+
+In this example, we defined a workflow to download the dataset from Roboflow
+as we can see in the image below:
+
+![Birds Dataset](./doc/images/roboflow.png)
+
+The workflow is defined in a JSON file, where we define the steps to be executed:
+
+```
+[
+  {
+    "task": "roboflow_tools.download_dataset",
+    "target_dir": "{{BASE_FOLDER}}/datasets/downloaded/cub200_parts-50",
+    "url": "https://universe.roboflow.com/explainableai-lavbv/cub200_parts/dataset/50"
+  },
+  {
+    "task": "yolo_v8.load_dataset",
+    "folder_path": "{{BASE_FOLDER}}/datasets/downloaded/cub200_parts-50"
+  },
+  {
+    "task": "base.count_images"
+  },
+  {
+    "task": "base.count_categories"
+  },
+  {
+    "task": "categories.group_categories",
+    "groups": {
+      "upper": [["eye", "bill", "head", "nape", "throat"]],
+      "lower": [["belly", "feet", "tail"]],
+      "middle": [["Wing", "breast", "back"]],
+      "Wing": [["Wing"]],
+      "back": [["back"]],
+      "belly": [["belly"]],
+      "bill": [["bill"]],
+      "eye": [["eye"]],
+      "feet": [["feet"]],
+      "head": [["head"]],
+      "nape": [["nape"]],
+      "tail": [["tail"]],
+      "throat": [["throat"]]
+    },
+    "condition": "any"
+  },
+  {
+    "task": "categories.keep",
+    "categories": ["upper", "lower", "middle"]
+  },
+  {
+    "task": "base.count_images"
+  },
+  {
+    "task": "base.count_categories"
+  },
+  {
+    "task": "base.show_categories"
+  },
+  {
+    "task": "yolo_v8.write",
+    "target_dir": "{{BASE_FOLDER}}/datasets/processed/birds-grouped-categories-cub200_parts-50"
+  }
+]
+```
+
+The workflow is composed of the following steps:
+
+1. Download the dataset from Roboflow
+2. Load the dataset
+3. Count the number of images
+4. Count the number of categories
+5. Group the categories, to create new categories based on the existing ones (upper, lower, middle)
+6. Keep only the categories that are in the groups "upper", "lower" and "middle"
+7. Count the number of images
+8. Count the number of categories
+9. Show the categories
+10. Write the dataset to disk
+
+As we can see, we can use the `{{BASE_FOLDER}}` variable to refer to the base folder of the project.
+These variables are defined in the `.env` file, which is used to configure the project.
+
+We can see the input images and output images below:
+
+#### Example Bird 1:
+
+![Bird 1 before](./doc/images/bird1_before.png)
+![Bird 1 before](./doc/images/bird1_after.png)
+
+#### Example Bird 2:
+
+![Bird 2 before](./doc/images/bird2_before.png)
+![Bird 2 before](./doc/images/bird2_after.png)

@@ -1,0 +1,74 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pflows"
+version = "0.1.6"
+description = "Several tools for dealing with image annotations to train YOLO or similar models"
+readme = "README.md"
+authors = [
+  {name = "Daniel Pérez Rada", email = "dperezrada@gmail.com"}
+]
+maintainers = [
+  {name = "Daniel Pérez Rada", email = "dperezrada@gmail.com"}
+]
+classifiers = [
+
+]
+license = {text = "MIT license"}
+dynamic = ["dependencies", "optional-dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies = {dev = { file = ["requirements_dev.txt"] }}
+
+[project.urls]
+
+bugs = "https://github.com/dperezrada/pflows/issues"
+changelog = "https://github.com/dperezrada/pflows/blob/master/changelog.md"
+homepage = "https://github.com/dperezrada/pflows"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
+
+
+[project.scripts]
+pflows = "pflows.cli:main"
+
+
+# Mypy
+# ----
+
+[tool.mypy]
+files = "."
+exclude = "tmp"
+
+# Use strict defaults
+strict = true
+warn_unreachable = true
+warn_no_return = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Don't require test functions to include types
+module = "tests.*"
+allow_untyped_defs = true
+disable_error_code = "attr-defined"
+
+
+[tool.black]
+line-length = 100
+
+[tool.pylint]
+max-line-length = 100
+disable = ["C0114", "C0115", "C0116"]
+
+[tool.pylint.typecheck]
+ignored-modules = ["cv2", "skimage"]
+
+[tool.pylint.messages_control]
+disable = "W0511"
