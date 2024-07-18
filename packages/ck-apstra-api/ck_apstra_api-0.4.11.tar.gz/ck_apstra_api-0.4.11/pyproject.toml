@@ -1,0 +1,88 @@
+[project]
+name = "ck-apstra-api"
+version = "0.4.11"
+description = "An implementation to use Apstra API"
+license = {text = "MIT License"}
+authors = [ { name = "Charlie Kim", email = "kimcharli@gmail.com" } ]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    'requests == 2.31.0',
+    'click == 8.1.7',
+    'result == 0.16.1',
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+#requires = ["poetry-core"]
+#build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+name = "ck-apstra-api"
+version = "0.4.11"
+description = "An implementation to use Apstra API"
+authors = [ "Charlie Kim <ckim@juniper.net>" ]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "<3.13,>=3.11"
+requests = "^2.31.0"
+click = "^8.1.7"
+result = "0.16.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4"  
+pytest-sugar = "*"  
+pytest-cov = "*"  
+black = "*"  
+mypy = "*"  
+ruff = "*"  
+
+
+[[tool.poetry.source]]
+name = "pypi"
+priority = "primary"
+
+[tool.poetry.scripts]
+ck-cli = "ck_apstra_api.cli:cli"
+
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+pythonpath = "src"
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    envlist = py311, pep8
+    skipsdist = True
+    isolated_build = True
+
+    [pytest]
+    log_cli = True
+    log_cli_level = DEBUG
+    console_output_style = progress
+
+    [testenv]
+    usedevelop=True
+    description = run the tests with pytest
+    package = wheel
+    wheel_build_env = .pkg
+    deps =
+        flake8
+        -rrequirements.txt
+        pytest>=6
+    commands =
+        pytest --capture=tee-sys {tty:--color=yes} {posargs:tests}
+
+
+"""
