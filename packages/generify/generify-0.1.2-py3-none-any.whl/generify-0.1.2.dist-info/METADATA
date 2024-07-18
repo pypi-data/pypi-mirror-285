@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: generify
+Version: 0.1.2
+Summary: Easily create and run tasks (=function calls) with almost seamless transition between Local development and Distributed deployment.
+Project-URL: Homepage, https://github.com/innoviz-swt/generify
+Project-URL: Issues, https://github.com/innoviz-swt/generify/issues
+Keywords: python,task,queue,distributed systems,distributed computing
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy <2.0.0
+Requires-Dist: pandas
+Provides-Extra: dev
+Requires-Dist: pre-commit ; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+
+# generify
+generifies python classes to generic dict containing only python internals, numpy arrays and panda lists.
+
+## Usage Example
+below is a basic example
+
+```python
+from generify import generify
+
+class Scalar:
+    def __init__(self) -> None:
+        self.val_int = 3
+        self.val_float = 10.0
+        self.val_str = "jhon"
+        self.val_bool = True
+
+generic_obj = generify(Scalar())
+print(generic_obj)
+```
