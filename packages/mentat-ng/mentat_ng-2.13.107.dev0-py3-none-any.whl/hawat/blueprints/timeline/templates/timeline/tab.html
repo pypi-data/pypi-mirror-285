@@ -1,0 +1,8 @@
+{%- import '_macros_chart.html' as macros_chart with context -%}
+{{
+    macros_chart.render_dashboard_panel_content(
+        chart_section,
+        'stats-{}'.format(chart_section.key),
+        dynamic=True
+    )
+}}
