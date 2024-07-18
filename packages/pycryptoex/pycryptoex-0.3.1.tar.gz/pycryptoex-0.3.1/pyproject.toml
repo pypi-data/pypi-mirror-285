@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pycryptoex"
+dynamic = ["version"]
+description = "A library providing a clients for interacting with various APIs of cryptocurrency exchanges for trading and accessing market data"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.8"
+authors = [
+  { name = "ren3104", email = "2ren3104@gmail.com" },
+]
+keywords = [
+  "crypto",
+  "cryptocurrency",
+  "exchange",
+  "trade",
+  "trading",
+  "bitcoin",
+  "altcoin",
+  "api",
+  "api-client",
+  "websocket",
+  "async",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Financial and Insurance Industry",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+dependencies = [
+  "aiohttp>=3.3.0",
+  "typing-extensions>=4.0.0 ; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+speedup = ["orjson"]
+
+[tool.hatch.version]
+path = "pycryptoex/__version__.py"
+
+[project.urls]
+Homepage = "https://github.com/ren3104/pycryptoex"
+Repository = "https://github.com/ren3104/pycryptoex"
+"Bug Tracker" = "https://github.com/ren3104/pycryptoex/issues"
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+  "/clients",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["pycryptoex"]
+
+[project.scripts]
+pycryptoex = "pycryptoex._cli:cli"
