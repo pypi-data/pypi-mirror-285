@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "moveread-ocr"
+version = "0.1.23"
+authors = [
+  {name="Marcel Claramunt", email="marcel@moveread.com"}
+]
+description = "Moveread OCR model, in tensorflow"
+dependencies = [
+  "tensorflow", "keras", "jaxtyping", "haskellian", "tf-ctc",
+  "demetric", "checkptr", "tensorflow-records", "tf-tools",
+]
+requires-python = ">=3.10"
+readme = {file="README.md", content-type="text/markdown"}
+
+[project.urls]
+repo = "https://github.com/moveread/moveread-ocr.git"
+
+[project.scripts]
+ocr = "moveread.ocr.cli:app"
+
+[project.optional-dependencies]
+cli = ["typer", "orjson", "ocr-dataset", "files-dataset"]
