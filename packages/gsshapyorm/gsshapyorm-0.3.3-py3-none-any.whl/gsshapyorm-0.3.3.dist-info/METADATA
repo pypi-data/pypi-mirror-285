@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: gsshapyorm
+Version: 0.3.3
+Summary: An SQLAlchemy ORM for GSSHA model files.
+Home-page: https://github.com/Aquaveo/gsshapyorm
+Author: Nathan Swain, Alan D. Snow, and Scott D. Christensen
+Author-email: nswain@aquaveo.com
+License: BSD 3-Clause License
+Keywords: GSSHA,database,object relational model
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+License-File: LICENSE.txt
+Requires-Dist: appdirs
+Requires-Dist: geopandas
+Requires-Dist: mapkit (>=1.2.6)
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: psycopg2
+Requires-Dist: sqlalchemy (<2)
+Requires-Dist: timezonefinder
+Requires-Dist: pyyaml
+Provides-Extra: docs
+Requires-Dist: mock ; extra == 'docs'
+Requires-Dist: sphinx ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ; extra == 'docs'
+Requires-Dist: sphinxcontrib-napoleon ; extra == 'docs'
+Provides-Extra: grid
+Requires-Dist: gazar ; extra == 'grid'
+Provides-Extra: tests
+Requires-Dist: coveralls ; extra == 'tests'
+Requires-Dist: pytest ; extra == 'tests'
+Requires-Dist: pytest-cov ; extra == 'tests'
+
