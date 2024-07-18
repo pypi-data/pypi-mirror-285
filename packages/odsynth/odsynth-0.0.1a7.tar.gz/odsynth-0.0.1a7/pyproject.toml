@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "odsynth"
+version = "0.0.1-alpha.7"
+dependencies = [
+  "faker",
+  "typer",
+  "pandas",
+  "pyyaml"
+]
+requires-python = ">=3.10"
+authors = [
+  {name = "Kofi Baafi", email = "kbaafi@gmail.com"},
+]
+maintainers = [
+  {name = "Kofi Baafi", email = "kbaafi@gmail.com"}
+]
+description = ""
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["data", "data synthesis", "faker", "ETL", "test data"]
+classifiers = [
+  "Development Status :: 2 - Pre-Alpha",
+  "Programming Language :: Python"
+]
+
+[project.urls]
+Homepage = "https://github.com/duapa/odsynth"
+Documentation = "https://github.com/duapa/odsynth/README.md"
+Repository = "https://github.com/duapa/odsynth.git"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["odsynth*", "odsynth.*"]
+namespaces = false
+
+[tool.black]
+line-length = 88
+
+[project.scripts]
+synth = "odsynth.entry_points.synth:main"
+publish = "odsynth.entry_points.publish:main"
