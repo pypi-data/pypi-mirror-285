@@ -1,0 +1,58 @@
+name: Docs
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: "00 12 * * 0" # Every Sunday noon (preserve the cache folders)
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: "3.10"
+
+jobs:
+  documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        cache: "pip"
+        cache-dependency-path: "pyproject.toml"
+
+    - name: Full Python version
+      run: |
+        echo "PYTHON_VERSION=$(python -c "import platform; print(platform.python_version())")"
+
+    - name: Cache folder for TorchUncertainty
+      uses: actions/cache@v3
+      id: cache-folder
+      with:
+        path: |
+          ~/.cache/torch-uncertainty/
+        key: torch-uncertainty-${{ runner.os }}
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cpu
+        python3 -m pip install .[image,dev,docs]
+
+    - name: Sphinx build
+      if: github.event.pull_request.draft == false
+      run: |
+        cd docs && make clean && make html
+
+    - name: Deploy on GitHub pages
+      uses: peaceiris/actions-gh-pages@v3
+      if: ${{ github.event_name != 'pull_request' }}
+      with:
+        deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+        external_repository: torch-uncertainty/torch-uncertainty.github.io
+        publish_branch: main
+        publish_dir: docs/build/html
