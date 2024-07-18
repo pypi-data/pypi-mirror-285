@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "ffile-man"
+version = "0.1.0"
+description = "FITS file manager"
+authors = ["Bernardes, D. and Balaji T R"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+setuptools = "^70.3.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipython = "^8.26.0"
+astropy = "^6.1.1"
+
+
+[tool.poetry.group.build.dependencies]
+twine = "^5.1.1"
+build = "^1.2.1"
+
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.4.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
