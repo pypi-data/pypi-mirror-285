@@ -1,0 +1,68 @@
+Metadata-Version: 2.1
+Name: artd_price_list
+Version: 1.0.12
+Summary: ArtD Price List.
+Home-page: https://www.artd.com.co/
+Author: Jonathan Urzola
+Author-email: jonathan@artd.com.co
+License: BSD-3-Clause
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: Django>=4.2.10
+Requires-Dist: django-admin>=2.0.2
+Requires-Dist: django-json-widget>=1.1.1
+Requires-Dist: pillow>=10.2.0
+Requires-Dist: artd-modules>=1.0.4
+Requires-Dist: artd-location>=1.0.5
+Requires-Dist: artd-partner>=1.0.2
+Requires-Dist: artd-product>=1.0.13
+Requires-Dist: artd-urls>=1.0.5
+
+ArtD Price List
+===============
+Art Product is a package that makes it possible to manage price list and price list changes.
+--------------------------------------------------------------------------------------------
+1. Add to your INSTALLED_APPS setting like this:
+
+.. code-block:: python
+
+    INSTALLED_APPS = [
+        'django-json-widget'
+        'artd_location',
+        'artd_partner',
+        'artd_product',
+        'artd_price_list',
+    ]
+
+2. Run the migration commands:
+   
+.. code-block::
+    
+        python manage.py makemigrations
+        python manage.py migrate
+
+3. Run the seeder data:
+   
+.. code-block::
+
+        python manage.py create_countries
+        python manage.py create_colombian_regions
+        python manage.py create_colombian_cities
+        python manage.py create_taxes
