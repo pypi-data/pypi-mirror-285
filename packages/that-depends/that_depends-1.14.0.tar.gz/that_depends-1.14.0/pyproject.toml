@@ -1,0 +1,67 @@
+[tool.poetry]
+name = "that-depends"
+version = "1.14.0"
+description = "Simple Dependency Injection framework"
+authors = ["Artur Shiriev <me@shiriev.ru>"]
+readme = "README.md"
+homepage = "https://github.com/modern-python/that-depends"
+packages = [
+    { include = "that_depends" },
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4"
+
+[tool.poetry.dev-dependencies]
+fastapi = "*"
+litestar = "*"
+httpx = "*"
+pytest = "*"
+pytest-asyncio = "*"
+pytest-cov = "*"
+ruff = "*"
+mypy = "*"
+typing-extensions = "*"
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[tool.ruff]
+fix = true
+unsafe-fixes = true
+line-length = 120
+target-version = "py310"
+extend-exclude = [
+    "docs",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D1", # allow missing docstrings
+    "S101", # allow asserts
+    "TCH", # ignore flake8-type-checking
+    "FBT", # allow boolean args
+    "ANN101", # missing-type-self
+    "ANN102", # missing-type-cls
+    "D203", # "one-blank-line-before-class" conflicting with D211
+    "D213", # "multi-line-summary-second-line" conflicting with D212
+    "COM812", # flake8-commas "Trailing comma missing"
+    "ISC001", # flake8-implicit-str-concat
+]
+
+[tool.ruff.lint.isort]
+lines-after-imports = 2
+no-lines-before = ["standard-library", "local-folder"]
+
+[tool.pytest.ini_options]
+addopts = "--cov=. --cov-report term-missing"
+asyncio_mode = "auto"
+
+[tool.coverage.report]
+exclude_also = ["if typing.TYPE_CHECKING:"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
