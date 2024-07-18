@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: soak
+Version: 30
+Summary: Process aridity templates en masse, like Helm but much more DRY
+Home-page: https://pypi.org/project/soak/
+Author: foyono
+Author-email: shrovis@foyono.com
+Description-Content-Type: text/markdown
+Requires-Dist: aridity >=68
+Requires-Dist: diapyr >=22
+Requires-Dist: lagoon >=24
+Requires-Dist: PyYAML >=5.2
+Requires-Dist: tblib >=1.7.0
+
+# soak
+Process aridity templates en masse, like Helm but much more DRY
+
+## Advantages
+* Single sourcing of config i.e. DRY
+* No need for all of your team to know Helm's many conventions
+* Terraform native customisation is limited and verbose, and the override mechanism is another convention
+* Multiple instances of your microservice without hacks
+* Extensible via Python code
+
+## Commands
+
+### soak
+Process aridity templates as per all soak.arid configs in directory tree.
+
+## API
+
+<a id="soak.context"></a>
+
+### soak.context
+
+<a id="soak.util"></a>
+
+### soak.util
+
