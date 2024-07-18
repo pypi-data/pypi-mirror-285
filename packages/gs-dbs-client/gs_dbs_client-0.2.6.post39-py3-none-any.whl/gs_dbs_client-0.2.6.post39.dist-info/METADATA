@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: gs-dbs-client
+Version: 0.2.6.post39
+Summary: python wrapper for the Glass Sphere DBS
+Home-page: https://glass-sphere-ai.de
+Author: Glass Sphere Software
+Author-email: 
+License: MIT
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Description-Content-Type: text/markdown
+Requires-Dist: gql
+Requires-Dist: pandas
+Requires-Dist: Twisted
+Requires-Dist: ujson
+Requires-Dist: PyYAML
+Requires-Dist: requests
+Requires-Dist: aiohttp
+Requires-Dist: stomper
+Requires-Dist: graphql-core
+Requires-Dist: Pillow
+Requires-Dist: websocket-client
+Requires-Dist: protobuf (>=3.3.0)
+Requires-Dist: requests-toolbelt
+Requires-Dist: ffmpeg-python
+
+# GS DBS Client
+
+The GS-DBS-Client is a Python library interacting with the Glass Sphere DBS.
+
+
+## CAUTION
+Version 0.2.0 introduces breaking changes due to introduction of the mission control client. Be aware of the changed 
+imports.  
+
+## Installation
+
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install the gs-dbs-client. Further information can be
+found [here](https://glass-sphere-ai.de/learn).
+
+```bash
+pip install gs-dbs-gsdbs
+```
+
+## Usage
+
+```python
+import os
+
+#v0.1.x
+from client.gsdbs import GSDBS
+
+#v0.2.x
+from gsdbs.dbclient import GSDBS
+from gsdbs.missioncontrol import MissionControl
+...
+gsdbs = GSDBS(os.path.dirname(os.path.realpath(__file__)))
+
+
+
+```
+
+## License
+
+(C) 2022 ENS - Freies Institut fuer Technische Informatik UG haftungsbeschraenkt
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
