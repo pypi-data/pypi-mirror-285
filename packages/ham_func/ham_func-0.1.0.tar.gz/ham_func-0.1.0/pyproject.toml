@@ -1,0 +1,19 @@
+[project]
+name = "ham_func"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "sunwoo", email = "summerham22@gmail.com"},
+]
+dependencies = []
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+[project.scripts]
+ham_add = 'ham_func.ham_func:add'
+ham_div = 'ham_func.ham_func:div'
+ham_mul = 'ham_func.ham_func:mul'
+
+[tool.pdm]
+distribution = true
