@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "bigdata-client"
+packages = [
+    { include = "bigdata" },
+]
+version = "1.3.0"
+description = ""
+authors = [
+    "Bigdata Team <support@bigdata.com>"
+]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+requests = "^2.31.0"
+pydantic = "^2.5.3"
+pydantic-settings = "^2.1.0"
+aiohttp = "^3.9.3"
+nest-asyncio = "^1.6.0"
+pyjwt = "^2.8.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+isort = "^5.13.2"
+pytest-cov = "^4.1.0"
+taskipy = "^1.12.2"
+black = "^24.1.1"
+pre-commit = "^3.6.0"
+requests-mock = "^1.11.0"
+mypy = "^1.8.0"
+pytest-mock = "^3.12.0"
+freezegun = "^1.4.0"
+coverage = "^7.4.1"
+
+[tool.poetry.group.docs]
+optional = true
+
+[tool.poetry.group.docs.dependencies]
+Sphinx = "7.2.6"
+autodoc-pydantic = "^2.0.1"
+myst-parser = "^2.0.0"
+furo = "^2024.1.29"
+sphinxcontrib-spelling = "^8.0.0"
+
+[tool.taskipy.tasks]
+docs = "make html"
+# Just to check that the documentation doesn't have errors:
+check-docs = "make spelling SPHINXOPTS='-W' && make html SPHINXOPTS='-W'"
+pre-commit = "black . && isort . --profile black && pytest tests/ && mypy -p bigdata"
+# This is just for development. Delete this some time
+watch-docs = "find . -name '*.py' -o -name '*.rst' -o -name '*.md' | entr poetry run task docs"
+coverage = "coverage run -m pytest tests && coverage report --omit=tests/*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
