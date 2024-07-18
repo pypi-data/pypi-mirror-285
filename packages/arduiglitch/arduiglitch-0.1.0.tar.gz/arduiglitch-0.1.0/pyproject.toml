@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arduiglitch"
+version = "0.1.0"
+authors = [{ name = "Hugo Perrin", email = "h.perrin@emse.fr" }]
+description = "Python module for the eponym voltage glitch training. Contains everything required to run the Jupyterlab notebooks."
+readme = "README.rst"
+requires-python = ">=3.10.12"
+license = { text = "GPL-3.0-or-later" }
+dependencies = [
+    "pyyaml",
+    "pyserial",
+    "numpy",
+    "pandas",
+    "wrapt",
+    "blessed",
+    "flask",
+    "sphinx",
+    "sphinx-autodoc-typehints",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+
+[project.scripts]
+arduiglitch = "arduiglitch:main"
