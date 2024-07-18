@@ -1,0 +1,144 @@
+#========================================================================================================================================
+# CyborgAI CC BY-NC-ND 4.0 Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 Internation    https://github.com/cyborg-ai-git # 
+#========================================================================================================================================
+
+# TYPE:
+#   STRING ["DEFAULT_VALUE"]
+#   INT [DEFAULT_VALUE]
+#   LONG [DEFAULT_VALUE]
+#   FLOAT [DEFAULT_VALUE]
+#   DOUBLE [DEFAULT_VALUE]
+#   BYTE
+#   BYTES
+#   BOOL [DEFAULT_VALUE]
+#   EOBJECT EOBJECT_CLASS
+#   MAP EOBJECT_CLASS
+#   ENUM ENUM_CLASS .ENUM_DEFAULT
+#   EAPIADMIN
+#   EAPIFILE [file, image, video, audio, pdf]
+#   EAPITEXT
+#   EAPIQUERY
+
+package: evo_framework.core.evo_core_api
+
+enum:
+  EnumApiType:
+    STRING
+    INT
+    LONG
+    FLOAT
+    DOUBLE
+    BYTE
+    BYTES
+    BOOL
+    EOBJECT
+    MAP
+    ENUM
+    EAPIADMIN
+    EAPIFILE
+    EAPITEXT
+    EAPIQUERY
+
+  EnumApiAction:
+    NONE
+    ERROR
+    PROGRESS
+    PROGRESS_UPLOAD
+    PROGRESS_DOWNLOAD
+    PARTIAL
+    COMPLETE
+
+  EnumApiVisibility:
+    PUBLIC
+    PRIVATE
+    LOCAL
+
+  EnumApiCrypto:
+    ECC
+    PQ
+  
+  EnumApiCompress:
+    NONE
+    GZIP
+    LZ4
+    ZIP
+  
+  EnumEApiFileType:
+    IMAGE
+    VIDEO
+    AUDIO
+    PDF
+    FILE
+
+  EnumEApiBridgeType:
+    FASTAPI
+    FASTAPI_WEBRTC
+    WEBRTC
+    WEBSOCKET
+    EVORPC
+
+entity:
+  EApi: 
+    _DOC_: "EApi outlines the API configuration details such as description, input, output, and required fields."
+    description: STRING
+    input: STRING
+    output: STRING
+    required: STRING
+
+  EAction:
+    _DOC_: "EAction describes an action within the EVO framework, including action type, input/output data, and error handling."
+    enumApiCrypto: ENUM EnumApiCrypto .ECC
+    enumApiCompress: ENUM EnumApiCompress .LZ4
+    pk: BYTES
+    cipher: BYTES
+    sign: BYTES
+    enumApiAction: ENUM EnumApiAction .NONE
+    action: STRING     
+    input: BYTES 
+    output: BYTES
+    isError: BOOL
+    error: STRING
+
+  EApiConfig:
+    _DOC_: "EApiConfig provides configuration settings for APIs, including bridge type, visibility, public key, and related metadata."
+    enumEApiBridgeType: ENUM EnumEApiBridgeType .FASTAPI
+    enumApiVisibility: ENUM EnumApiVisibility .PRIVATE
+    publicKey: BYTES
+    label: STRING
+    description: STRING
+    urlLogo: STRING
+    remoteUrl: STRING 
+    remotePort: INT 443
+    os: STRING
+    mapEApi: MAP EApi
+
+  EApiFile:
+    _DOC_: "EApiFile represents file-related data within the EVO framework, including file type, URL, name, extension, hash, and data content."
+    enumEApiFileType: ENUM EnumEApiFileType .FILE
+    isUrl: BOOL
+    url: STRING
+    name : STRING
+    ext: STRING
+    hash: BYTES
+    data: BYTES
+
+  EApiText:
+    _DOC_: "EApiText handles textual data within the EVO framework, including header, language, text content, and completeness or error status."
+    header: STRING
+    language: STRING
+    text : STRING
+    isComplete: BOOL
+    isError: BOOL
+    tokenTot: INT 0
+
+  EApiAdmin:
+    _DOC_: "EApiAdmin manages administrative data within the EVO framework, such as TOTP and tokens."
+    totp: BYTES
+    token : BYTES
+    password: BYTES
+
+  EApiQuery:
+    _DOC_: "EApiQuery defines the structure for querying within the EVO framework, including collection, object ID, and query string."
+    collection : STRING
+    eObjectID: STRING
+    query : STRING
