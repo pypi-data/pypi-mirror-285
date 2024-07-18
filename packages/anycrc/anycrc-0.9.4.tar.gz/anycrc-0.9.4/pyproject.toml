@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools", "cython"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "anycrc"
+version = "0.9.4"
+description = "The fastest Python CRC Library"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = ["bitarray"]
+
+[project.urls]
+"Homepage" = "https://github.com/marzooqy/anycrc"
+
+[tool.cibuildwheel]
+build-frontend = "pip"
+skip = "pp*"
