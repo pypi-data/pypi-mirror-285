@@ -1,0 +1,24 @@
+Metadata-Version: 2.1
+Name: sync_mailchimp_entra
+Version: 1.2.0
+Summary: A package to synchronize an Entra ID group with several Mailchimp contact lists.
+Author: Armand Bouveron
+Author-email: bouveron.armand@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: mailchimp-marketing (>=3.0.80,<3.1.0)
+Requires-Dist: msgraph-sdk (>=1.4.0,<1.5.0)
+Description-Content-Type: text/markdown
+
+# Sync Mailchimp Entra
+
+Use the `main` branch if you want to run the project locally. Then run `poetry install` and `poetry run python src/sync_mailchimp_entra/`.
+Else use `azversion` one for AzAutomation.
+
+## Documentation
+
+To get access to documentation, run `poetry install --with dev` then `pdoc src/sync_mailchimp_entra/**/*.py`. In case you need it, standalone html files are located in `docs/` directory.
+

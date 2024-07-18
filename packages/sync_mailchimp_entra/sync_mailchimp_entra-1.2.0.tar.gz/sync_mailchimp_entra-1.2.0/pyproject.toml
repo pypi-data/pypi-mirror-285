@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "sync_mailchimp_entra"
+version = "1.2.0"
+description = "A package to synchronize an Entra ID group with several Mailchimp contact lists."
+authors = [ "Armand Bouveron <bouveron.armand@gmail.com>" ]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+mailchimp-marketing = "~3.0.80"
+msgraph-sdk = "~1.4.0"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "~8.2.2"
+pdoc = "~14.5.0"
+pre-commit = "~3.5.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
