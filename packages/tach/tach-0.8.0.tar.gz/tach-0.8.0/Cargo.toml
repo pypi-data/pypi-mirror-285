@@ -1,0 +1,29 @@
+[package]
+name = "tach"
+version = "0.8.0"
+edition = "2021"
+
+[lib]
+name = "tach"
+crate-type = ["cdylib", "lib"]
+bench = false
+
+[dependencies]
+pyo3 = "0.22.1"
+regex = "1.10.4"
+once_cell = "1.19.0"
+walkdir = "2.5.0"
+ruff_python_ast = { git = "https://github.com/astral-sh/ruff.git", tag = "v0.4.5" }
+ruff_python_parser = { git = "https://github.com/astral-sh/ruff.git", tag = "v0.4.5" }
+ruff_source_file = { git = "https://github.com/astral-sh/ruff.git", tag = "v0.4.5" }
+cached = { version = "0.52.0", features = ["disk_store"] }
+globset = "0.4.14"
+toml = "0.8.14"
+
+[features]
+extension-module = ["pyo3/extension-module"]
+default = ["extension-module"]
+
+[dev-dependencies]
+criterion = { version = "0.5.1", features = ["html_reports"] }
+pprof = { version = "0.13", features = ["flamegraph", "criterion"] }
