@@ -1,0 +1,88 @@
+import setuptools
+import sys
+packages = setuptools.find_packages()
+
+with open("README.md", "r", encoding="utf-8") as fh:
+    long_description = fh.read()
+
+setuptools.setup(name='wiliot-deployment-tools',
+                 use_scm_version={
+                     'git_describe_command': "git describe --long --tags --match [0-9]*.[0-9]*.[0-9]*",
+                     'write_to': "wiliot_deployment_tools/version.py",
+                     'write_to_template': '__version__ = "{version}"',
+                     'root': ".",
+                 },
+                 setup_requires=['setuptools_scm'],
+                 author='Wiliot',
+                 author_email='support@wiliot.com',
+                 description="A library for interacting with Wiliot's Deployment Tools",
+                 long_description=long_description,
+                 long_description_content_type="text/markdown",
+                 url='',
+                 project_urls={
+                     "Bug Tracker": "https://WILIOT-ZENDESK-URL",
+                 },
+                 license='MIT',
+                 classifiers=[
+                     "Programming Language :: Python :: 3",
+                     "License :: OSI Approved :: MIT License",
+                     "Operating System :: OS Independent",
+                 ],
+                 packages=packages,
+                #  add all support files to the internal installation
+                 package_data={"": ["*.*"]},
+                 include_package_data=True,
+                 install_requires=[
+                     'wiliot-core>=4.0.9',
+                     'wiliot-api>=4.4.0',
+                     'setuptools_scm>=7.1.0',
+                     'bitstruct==8.17.0',
+                     'bokeh==2.4.1',
+                     'boto3==1.26.77',
+                     'colorama==0.4.6',
+                     'jsonpickle==3.0.1',
+                     'numpy>=1.21.5',
+                     'pandas==1.4.2',
+                     'plotly==5.13.0',
+                     'pytz==2022.7.1',
+                     'requests>=2.28.1',
+                     'setuptools>=65.6.3',
+                     'shapely>=2.0.4',
+                     'tabulate==0.8.10',
+                     'backports.zoneinfo==0.2.1; python_version < "3.9.0"',
+                     'tinytuya>=1.10.2',
+                     'pyserial>=3.5',
+                     'GitPython>=3.1.31',
+                     'tzdata>=2023.3',
+                     'confluent-kafka>=2.1.1',
+                     'paho-mqtt==2.0.0',
+                     'packaging>=23.1',
+                     'scipy>=1.11.1',
+                     'mplcursors>=0.5.2',
+                     'matplotlib==3.8.4',
+                     'pydantic',
+                     'jinja2>=3.1.2',
+                     'jsonschema>=4.19.0',
+                     'statsmodels>=0.14.1',
+                     'pycryptodome==3.14.1'
+                 ],
+                 zip_safe=False,
+                 python_requires='>=3.8',
+                #  include_package_data=False,
+                #  exclude_package_data={
+                #      "": ['*.internal.*', '*.internal', 'internal', 'internal.*']},
+                 entry_points={'console_scripts': [
+                     'wlt-firmware=wiliot_deployment_tools.firmware_update.firmware_update_cli:main_cli',
+                     'wlt-power-mgmt=wiliot_deployment_tools.power_mgmt.power_mgmt_cli:main_cli',
+                     'wlt-calibration-mgmt=wiliot_deployment_tools.calibration_mgmt.calibration_mgmt_cli:main_cli',
+                     'wlt-connectivity-analyzer=wiliot_deployment_tools.connectivity_analyzer.connectivity_analyzer_cli:main_cli',
+                     'wlt-config=wiliot_deployment_tools.automatic_configuration_tool.configuration_tool_cli:main_cli',
+                     'wlt-log=wiliot_deployment_tools.log_viewer.log_viewer_cli:main_cli',
+                     'wlt-gw-certificate=wiliot_deployment_tools.gw_certificate.gw_certificate_cli:main_cli',
+                     'wlt-kafka=wiliot_deployment_tools.internal.kafka_consumer.kafka_consumer_cli:main_cli',
+                     'wlt-network-simulation=wiliot_deployment_tools.internal.network_simulations.network_simulation_cli:main_cli',
+                     'wlt-power-optimization=wiliot_deployment_tools.power_optimization_tool.current_gain_analysis_cli:main_cli',
+                     'wlt-broker-change=wiliot_deployment_tools.interface.broker_change_cli:main_cli',
+                     'wlt-ble-sniffer=wiliot_deployment_tools.interface.ble_sniffer_cli:main_cli',
+                     'wlt-ble-simulator=wiliot_deployment_tools.interface.ble_simulator_cli:main_cli',]},
+                 )

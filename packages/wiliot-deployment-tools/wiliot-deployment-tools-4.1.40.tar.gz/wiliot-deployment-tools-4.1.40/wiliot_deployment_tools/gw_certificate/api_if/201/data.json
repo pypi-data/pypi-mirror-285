@@ -1,0 +1,98 @@
+{
+    "type": "object",
+    "properties": {
+        "gatewayId": {
+            "type": "string",
+            "maxLength": 36
+        },
+        "gatewayType": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "number"
+        },
+        "packets": {
+            "type": "array",
+            "items": "object",
+            "oneOf": [
+                        {
+                            "description": "Uncoupled Packet",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "timestamp": {
+                                        "type": "number"
+                                    },
+                                    "sequenceId": {
+                                        "type": "number"
+                                    },
+                                    "rssi": {
+                                        "type": "number"
+                                    },
+                                    "payload": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["timestamp", "sequenceId", "rssi", "payload"]
+                            }
+                        },
+                        {
+                            "description": "Coupled Packet",
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "bridgeId": {
+                                        "type": "string"
+                                    },
+                                    "timestamp": {
+                                        "type": "number"
+                                    },
+                                    "sequenceId": {
+                                        "type": "number"
+                                    },
+                                    "nfpkt": {
+                                        "type": "number"
+                                    },
+                                    "rssi": {
+                                        "type": "number"
+                                    },
+                                    "payload": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["nfpkt", "bridgeId", "timestamp", "sequenceId", "rssi", "payload"]
+                            }
+                        }
+            ]
+        }
+    },
+    "required": [
+        "gatewayId",
+        "gatewayType",
+        "timestamp",
+        "packets"
+    ],
+    "dependentSchemas": {
+        "location": {
+            "properties": {
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "lat": {
+                            "type": "number"
+                        },
+                        "lng": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "lat",
+                        "lng"
+                    ]
+                }
+            }
+        }
+    }
+}
