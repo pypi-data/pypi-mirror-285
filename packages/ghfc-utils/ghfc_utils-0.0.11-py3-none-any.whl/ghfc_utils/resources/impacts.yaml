@@ -1,0 +1,87 @@
+# see those links:
+# https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html
+# https://github.com/brentp/slivar/blob/master/src/slivarpkg/default-order.txt
+#
+# the code will add automatically the possibility of a "_variant" suffix
+lof_high:
+  - transcript_ablation
+  - splice_acceptor
+  - splice_donor
+  - stop_gained
+  - exon_loss
+  - frameshift
+
+lof_med:
+  - stop_lost
+  - start_lost
+  - transcript_amplification
+
+genic_high:
+  - gene_fusion
+  - disruptive_inframe_insertion
+  - disruptive_inframe_deletion
+  - inframe_insertion
+  - inframe_deletion
+  - missense
+  - protein_protein_contact
+  - conservative_inframe_insertion
+  - conservative_inframe_deletion
+  - protein_altering
+  - inframe_altering
+
+genic_med:
+  - splice_region
+  - splice_donor_5th_base
+  - splice_polypyrimidine_tract
+  - splice_donor_region
+  - structural_interaction
+  - bidirectional_gene_fusion
+  - incomplete_terminal_codon
+  - start_retained
+  - stop_retained
+  - rare_amino_acid
+  - 5_prime_utr_truncation
+  - 3_prime_utr_truncation
+
+genic_low:
+  - synonymous
+  - gene
+  - coding_sequence
+  - mature_miRNA
+  - 5_prime_UTR_premature_start_codon_gain
+  - 5_prime_UTR
+  - 3_prime_UTR
+  - initiator_codon
+  - miRNA
+  - non_coding_transcript_exon
+  - non_coding_exon
+  - non_canonical_start_codon
+  - nc_transcript
+  - exon_region
+  - conserved_intron
+
+other_high:
+  - feature_fusion
+  - intron
+  - NMD_transcript
+  - non_coding_transcript
+  - non_coding
+  - coding_transcript
+  - upstream_gene
+  - sequence_feature
+  - downstream_gene
+  - intragenic
+  - TFBS_ablation
+  - TFBS_amplification
+  - TF_binding_site
+  - regulatory_region_ablation
+  - regulatory_region_amplification
+  - feature_elongation
+  - regulatory_region
+  - conserved_intergenic
+  - feature_truncation
+
+other_low:
+  - intergenic
+  - intergenic_region
+  - sequence
