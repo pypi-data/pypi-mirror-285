@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "workflow.core"
+version = "1.9.4"
+description = "Workflow Core"
+authors = ["Shiny Brar <charanjotbrar@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/chimefrb/workflow"
+documentation = "https://chimefrb.github.io/workflow-docs/"
+packages = [
+    { include = "workflow", from = "." }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+tenacity = "^8.2"
+pydantic = "^2.0"
+requests = "^2.31"
+pyyaml = "^6.0"
+click = "^8.1"
+toml = "^0.10"
+rich = "^13.4"
+minio = "^7.2"
+pydantic-settings = "^2.0"
+python-logging-loki = "^0.3"
+click-params = "^0.5"
+docker = ">=6.1"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "*"
+pytest = "*"
+pytest-cov = "*"
+tomli = "*"
+pre-commit = "*"
+types-requests = "*"
+types-toml = "*"
+types-setuptools = "*"
+types-pyyaml = "*"
+pytest-env = "*"
+ruff = "*"
+commitizen = "*"
+
+[tool.poetry.scripts]
+workflow = "workflow.cli.main:cli"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Pytest Environment Variables
+[tool.pytest.ini_options]
+env = [
+    "WORKFLOW_S3_ENDPOINT=play.min.io",
+    "WORKFLOW_S3_ACCESS_KEY=Q3AM3UQ867SPQQA43P2F",
+    "WORKFLOW_S3_SECRET_KEY=zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
+]
