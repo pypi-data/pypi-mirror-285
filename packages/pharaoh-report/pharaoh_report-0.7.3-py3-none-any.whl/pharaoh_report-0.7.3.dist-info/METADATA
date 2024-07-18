@@ -1,0 +1,131 @@
+Metadata-Version: 2.3
+Name: pharaoh-report
+Version: 0.7.3
+Summary: Pharaoh is a Sphinx-based Python framework for generating reports in various formats by combining the power of configurable Jinja templates and Python scripts for asset generation.
+Project-URL: Documentation, https://infineon.github.io/pharaoh-dev/
+Project-URL: Homepage, https://infineon.github.io/pharaoh-dev/
+Project-URL: Release Notes, https://infineon.github.io/pharaoh-dev/changelog.html
+Project-URL: Source, https://github.com/Infineon/pharaoh-dev
+Project-URL: Tracker, https://github.com/Infineon/pharaoh-dev/issues
+Author: Johannes Loibl
+License: MIT
+License-File: LICENSE.txt
+Keywords: jinja,reporting,sphinx,templating
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Utilities
+Requires-Python: >=3.9.2
+Requires-Dist: attrs
+Requires-Dist: click
+Requires-Dist: jinja2
+Requires-Dist: jinja2-ansible-filters
+Requires-Dist: jinja2-git
+Requires-Dist: mistletoe
+Requires-Dist: natsort
+Requires-Dist: nbconvert
+Requires-Dist: omegaconf
+Requires-Dist: pluggy
+Requires-Dist: pyyaml!=5.3.0
+Requires-Dist: sphinx-design
+Requires-Dist: sphinx-rtd-theme
+Requires-Dist: sphinx<8.0,>=7.2.5
+Requires-Dist: sphinxcontrib-jquery
+Requires-Dist: wrapt
+Provides-Extra: all-plotting
+Requires-Dist: bokeh<3.3.0,>=3.0.0; (python_version >= '3.9') and extra == 'all-plotting'
+Requires-Dist: bokeh<3.3.0,>=3.1.0; (python_version >= '3.11') and extra == 'all-plotting'
+Requires-Dist: holoviews; extra == 'all-plotting'
+Requires-Dist: holoviews>=1.16; (python_version >= '3.11') and extra == 'all-plotting'
+Requires-Dist: jupyter; extra == 'all-plotting'
+Requires-Dist: jupyter-contrib-nbextensions; extra == 'all-plotting'
+Requires-Dist: kaleido; (platform_system == 'Linux') and extra == 'all-plotting'
+Requires-Dist: kaleido==0.1.0.post1; (platform_system == 'Windows') and extra == 'all-plotting'
+Requires-Dist: matplotlib; extra == 'all-plotting'
+Requires-Dist: pandas>=1.5; extra == 'all-plotting'
+Requires-Dist: plotly; extra == 'all-plotting'
+Requires-Dist: selenium>=4.11; extra == 'all-plotting'
+Provides-Extra: bokeh
+Requires-Dist: bokeh<3.3.0,>=3.0.0; (python_version >= '3.9') and extra == 'bokeh'
+Requires-Dist: bokeh<3.3.0,>=3.1.0; (python_version >= '3.11') and extra == 'bokeh'
+Requires-Dist: selenium>=4.11; extra == 'bokeh'
+Provides-Extra: dev
+Requires-Dist: bokeh<3.3.0,>=3.0.0; (python_version >= '3.9') and extra == 'dev'
+Requires-Dist: bokeh<3.3.0,>=3.1.0; (python_version >= '3.11') and extra == 'dev'
+Requires-Dist: holoviews; extra == 'dev'
+Requires-Dist: holoviews>=1.16; (python_version >= '3.11') and extra == 'dev'
+Requires-Dist: jupyter; extra == 'dev'
+Requires-Dist: jupyter-contrib-nbextensions; extra == 'dev'
+Requires-Dist: kaleido; (platform_system == 'Linux') and extra == 'dev'
+Requires-Dist: kaleido==0.1.0.post1; (platform_system == 'Windows') and extra == 'dev'
+Requires-Dist: matplotlib; extra == 'dev'
+Requires-Dist: mypy; extra == 'dev'
+Requires-Dist: pandas>=1.5; extra == 'dev'
+Requires-Dist: plotly; extra == 'dev'
+Requires-Dist: pytest; extra == 'dev'
+Requires-Dist: pytest-cov; extra == 'dev'
+Requires-Dist: pytest-mock; extra == 'dev'
+Requires-Dist: pytest-randomly; extra == 'dev'
+Requires-Dist: pytest-sugar; extra == 'dev'
+Requires-Dist: pytest-timeout; extra == 'dev'
+Requires-Dist: pytest-xdist; extra == 'dev'
+Requires-Dist: selenium>=4.11; extra == 'dev'
+Requires-Dist: sphinx-copybutton; extra == 'dev'
+Requires-Dist: sphinx-design; extra == 'dev'
+Requires-Dist: sphinx-jinja; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme; extra == 'dev'
+Requires-Dist: sphinx<8; extra == 'dev'
+Requires-Dist: sphinxcontrib-jquery; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: sphinx-copybutton; extra == 'docs'
+Requires-Dist: sphinx-design; extra == 'docs'
+Requires-Dist: sphinx-jinja; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme; extra == 'docs'
+Requires-Dist: sphinx<8; extra == 'docs'
+Requires-Dist: sphinxcontrib-jquery; extra == 'docs'
+Provides-Extra: holoviews
+Requires-Dist: holoviews; extra == 'holoviews'
+Requires-Dist: holoviews>=1.16; (python_version >= '3.11') and extra == 'holoviews'
+Provides-Extra: jupyter
+Requires-Dist: jupyter; extra == 'jupyter'
+Requires-Dist: jupyter-contrib-nbextensions; extra == 'jupyter'
+Provides-Extra: matplotlib
+Requires-Dist: matplotlib; extra == 'matplotlib'
+Provides-Extra: pandas
+Requires-Dist: pandas>=1.5; extra == 'pandas'
+Provides-Extra: pdf
+Requires-Dist: sphinxcontrib-svg2pdfconverter; extra == 'pdf'
+Provides-Extra: plotly
+Requires-Dist: kaleido; (platform_system == 'Linux') and extra == 'plotly'
+Requires-Dist: kaleido==0.1.0.post1; (platform_system == 'Windows') and extra == 'plotly'
+Requires-Dist: plotly; extra == 'plotly'
+Description-Content-Type: text/markdown
+
+# Pharaoh
+
+[![PyPI](https://img.shields.io/pypi/v/pharaoh-report)](https://pypi.org/project/pharaoh-report/)
+[![Supported Python versions](https://img.shields.io/pypi/pyversions/pharaoh-report.svg)](https://pypi.org/project/pharaoh-report/)
+[![image](https://img.shields.io/pypi/l/pharaoh-report.svg)](https://pypi.python.org/pypi/pharaoh-report)
+[![image](https://github.com/Infineon/pharaoh-dev/actions/workflows/documentation.yml/badge.svg)](https://github.com/Infineon/pharaoh-dev/actions/workflows/documentation.yml)
+[![image](https://github.com/Infineon/pharaoh-dev/actions/workflows/matrix_tests.yml/badge.svg)](https://github.com/Infineon/pharaoh-dev/actions/workflows/matrix_tests.yml)
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/Infineon/pharaoh-dev/main.svg)](https://results.pre-commit.ci/latest/github/Infineon/pharaoh-dev/main)
+
+
+<img src="https://github.com/Infineon/pharaoh-dev/blob/main/docs/_static/icon.png" height="200">
+
+Pharaoh is a [Sphinx](https://www.sphinx-doc.org/en/master/)-based Python framework
+for generating reports in various formats by combining the
+power of configurable [Jinja](https://jinja.palletsprojects.com/en/3.1.x/)
+templates and Python scripts for asset generation.
+
+Please refer to the [official documentation](https://infineon.github.io/pharaoh-dev/).
+
+<img src="https://github.com/Infineon/pharaoh-dev/blob/main/docs/_static/overview.png">
