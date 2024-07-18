@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "django-custom-navbar"
+version = "0.0.4"
+description = "Provides a navigation bar for django applications."
+authors = ["Segelzwerg <25705862+Segelzwerg@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/Segelzwerg/django-navbar"
+packages = [{ include = "django_navbar" },]
+
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Django = "^5.0.6"
+django-dynamic-theme = "^0.0.10"
+django-modeltranslation = "^0.19.4"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^3.2.3"
+coverage = "^7.5.4"
+flake8 = "^7.1.0"
+pylint-django = "^2.5.5"
+bandit = "^1.7.9"
+pre-commit = "^3.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.bandit]
+exclude_dirs = ["*/tests.py"]

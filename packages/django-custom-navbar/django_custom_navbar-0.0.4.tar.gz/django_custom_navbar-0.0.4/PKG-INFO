@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: django-custom-navbar
+Version: 0.0.4
+Summary: Provides a navigation bar for django applications.
+Home-page: https://github.com/Segelzwerg/django-navbar
+License: MIT
+Author: Segelzwerg
+Author-email: 25705862+Segelzwerg@users.noreply.github.com
+Requires-Python: >=3.12,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: Django (>=5.0.6,<6.0.0)
+Requires-Dist: django-dynamic-theme (>=0.0.10,<0.0.11)
+Requires-Dist: django-modeltranslation (>=0.19.4,<0.20.0)
+Project-URL: Repository, https://github.com/Segelzwerg/django-navbar
+Description-Content-Type: text/markdown
+
+# django-navbar
+Provides a navigation bar for django applications.
+
+## Installation
+```python
+pip install django_custom_navbar
+```
+Run after installations or update `manage.py migrate`.
+
+## Settings
+```python
+INSTALLED_APPS = [
+  ...
+  "django_navbar",
+  ...
+]
+TEMPLATES = [
+    {
+        ...
+        "OPTIONS": {
+            "context_processors": [
+                ...
+                "django_navbar.context_processors.nav_bar",
+                ...
+            ],
+        },
+    },
+]
+```
+
