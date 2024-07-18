@@ -1,0 +1,27 @@
+Metadata-Version: 2.1
+Name: mikro-next
+Version: 0.1.23
+Summary: next images for arkitekt
+License: CC BY-NC 3.0
+Author: jhnnsrs
+Author-email: jhnnsrs@gmail.com
+Requires-Python: >=3.8,<4.0
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: complete
+Provides-Extra: table
+Provides-Extra: turms
+Requires-Dist: dask (>=2023.3.0)
+Requires-Dist: dokker (>=0.1.19)
+Requires-Dist: numpy (>=1.26) ; python_version >= "3.12" and python_version < "4.0"
+Requires-Dist: pandas (>=1.5.3)
+Requires-Dist: pyarrow (>=12.0.1) ; extra == "table" or extra == "complete"
+Requires-Dist: rath (>=0.5.0)
+Requires-Dist: s3fs (>=2023.1.0)
+Requires-Dist: xarray (>=2022.12.0)
+Requires-Dist: zarr (>=2.14.2)
