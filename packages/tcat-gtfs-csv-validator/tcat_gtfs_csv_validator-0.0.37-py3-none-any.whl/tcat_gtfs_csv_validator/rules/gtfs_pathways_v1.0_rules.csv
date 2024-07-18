@@ -1,0 +1,12 @@
+# if sql query returns >0 results, fail_msg will be printed ,
+rule_name, fail_msg, rule_sql
+no self paths, found a path where from_stop_id is same as to_stop_id, SELECT * from pathways where from_stop_id = to_stop_id
+lat cond req, stop_lat is required for loctions which are stops (location_type = 0) stations (location_type = 1) or entrances/exits (location_type = 2), "SELECT * from stops where location_type IN (0,1,2) AND stop_lat is NULL"
+lon cond req, stop_lon is required for loctions which are stops (location_type = 0) stations (location_type = 1) or entrances/exits (location_type = 2), "SELECT * from stops where location_type IN (0,1,2) AND stop_lon is NULL"
+from_stop_id fk, from_stop_id found that is not in the stops file, SELECT * FROM pathways where pathways.from_stop_id NOT IN (select stop_id from stops)
+to_stop_id fk, to_stop_id found that is not in the stops file, SELECT * FROM pathways where pathways.to_stop_id NOT IN (select stop_id from stops) 
+no bid fare or exit gates,fare gates (pathway_mode=6) and exit gates (pathway_mode=7) cannot be bidirectional,"SELECT * FROM pathways where pathway_mode IN (6,7) and is_bidirectional = 1"
+invalid max_slope,max_slope found for pathway type other than walkways or moving sidewalks,"SELECT * FROM pathways where pathway_mode NOT IN (1,3) AND (max_slope !=0 AND max_slope IS NOT NULL)"
+stop_name cond req, stop_name required for locations which are stops(location_type=0) stations (location_type=1) or entrances/exits (location_type=2), "SELECT * from stops where location_type IN (0,1,2) and stop_name is NULL"
+parent_station cond req, parent_station required for locations which are entrances (location_type=2) generic nodes (location_type=3) or boarding areas (location_type=4), "SELECT * from stops where location_type IN (2,3,4) and parent_station is NULL"
+parent_station cond forb, parent_station forbidden for stations (location_type=1), "SELECT * from stops where location_type = 1 and parent_station is NOT NULL"
