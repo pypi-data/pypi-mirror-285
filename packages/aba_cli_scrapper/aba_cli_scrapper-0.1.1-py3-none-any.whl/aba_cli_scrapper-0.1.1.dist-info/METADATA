@@ -1,0 +1,210 @@
+Metadata-Version: 2.1
+Name: aba_cli_scrapper
+Version: 0.1.1
+Summary: Scrappe all products and theirs related suppliers existing on Alibaba based on keywords provided by user and save results into a database (Mysql/Sqlite).
+Home-page: https://github.com/poneoneo/Alibaba-CLI-Scrapper
+License: GNU GENERAL PUBLIC LICENSEVersion 3, 29 June 2007
+Keywords: cli,scrapping,alibaba,scraper,alibaba-cli-scrapper
+Author: poneoneo
+Author-email: onealzero@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 1 - Planning
+Classifier: Environment :: Console
+Classifier: Framework :: AsyncIO
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: License :: Other/Proprietary License
+Classifier: Natural Language :: English
+Classifier: Operating System :: Microsoft :: Windows :: Windows 10
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Terminals
+Classifier: Typing :: Typed
+Requires-Dist: aiohttp (>=3.9.5,<4.0.0)
+Requires-Dist: aiosignal (==1.3.1) ; python_version >= "3.7"
+Requires-Dist: annotated-types (==0.7.0) ; python_version >= "3.8"
+Requires-Dist: attrs (==23.2.0) ; python_version >= "3.7"
+Requires-Dist: black (==24.4.2) ; python_version >= "3.8"
+Requires-Dist: certifi (==2024.7.4) ; python_version >= "3.6"
+Requires-Dist: cffi (==1.16.0) ; platform_python_implementation != "PyPy"
+Requires-Dist: charset-normalizer (==3.3.2) ; python_full_version >= "3.7.0"
+Requires-Dist: click (==8.1.7) ; python_version >= "3.7"
+Requires-Dist: colorama (==0.4.6) ; sys_platform == "win32"
+Requires-Dist: cryptography (==42.0.8) ; python_version >= "3.7"
+Requires-Dist: frozenlist (==1.4.1) ; python_version >= "3.8"
+Requires-Dist: greenlet (==3.0.3) ; python_version >= "3.7"
+Requires-Dist: idna (==3.7) ; python_version >= "3.5"
+Requires-Dist: loguru (==0.7.2) ; python_version >= "3.5"
+Requires-Dist: markdown-it-py (==3.0.0) ; python_version >= "3.8"
+Requires-Dist: mdurl (==0.1.2) ; python_version >= "3.7"
+Requires-Dist: multidict (==6.0.5) ; python_version >= "3.7"
+Requires-Dist: mypy-extensions (==1.0.0) ; python_version >= "3.5"
+Requires-Dist: mysqlclient (==2.2.4) ; python_version >= "3.8"
+Requires-Dist: nodeenv (==1.9.1) ; python_version >= "2.7" and python_version not in "3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6"
+Requires-Dist: packaging (==24.1) ; python_version >= "3.8"
+Requires-Dist: pathspec (==0.12.1) ; python_version >= "3.8"
+Requires-Dist: platformdirs (==4.2.2) ; python_version >= "3.8"
+Requires-Dist: playwright (==1.45.0) ; python_version >= "3.8"
+Requires-Dist: pycparser (==2.22) ; python_version >= "3.8"
+Requires-Dist: pydantic (==2.8.2) ; python_version >= "3.8"
+Requires-Dist: pydantic-core (==2.20.1) ; python_version >= "3.8"
+Requires-Dist: pyee (==11.1.0) ; python_version >= "3.8"
+Requires-Dist: pygments (==2.18.0) ; python_version >= "3.8"
+Requires-Dist: pyright (==1.1.370) ; python_version >= "3.7"
+Requires-Dist: python-decouple (==3.8)
+Requires-Dist: python-dotenv (==1.0.1) ; python_version >= "3.8"
+Requires-Dist: requests (==2.32.3) ; python_version >= "3.8"
+Requires-Dist: rich (==13.7.1) ; python_full_version >= "3.7.0"
+Requires-Dist: selectolax (==0.3.21)
+Requires-Dist: shellingham (==1.5.4) ; python_version >= "3.7"
+Requires-Dist: sqlalchemy (==2.0.31) ; python_version >= "3.7"
+Requires-Dist: sqlmodel (==0.0.19) ; python_version >= "3.7"
+Requires-Dist: tenacity (>=8.5.0,<9.0.0)
+Requires-Dist: typer (==0.12.3) ; python_version >= "3.7"
+Requires-Dist: typing-extensions (==4.12.2) ; python_version >= "3.8"
+Requires-Dist: urllib3 (==2.2.2) ; python_version >= "3.8"
+Requires-Dist: win32-setctime (==1.1.0) ; sys_platform == "win32"
+Requires-Dist: yarl (==1.9.4) ; python_version >= "3.7"
+Project-URL: Repository, https://github.com/poneoneo/Alibaba-CLI-Scrapper
+Description-Content-Type: text/markdown
+
+<div align="center">
+  <p>
+    <a href="#"><img src="images\d.jpeg" width="600" height="300" alt="overview image" /></a>
+  </p>
+</div>
+
+# Alibaba-CLI-Scraper
+
+Is a python package that provides a dedicated CLI interface for scraping data from Alibaba.com.
+The purpose of this project is to extract products and theirs related suppliers informations from Alibaba.com and store it in a local database (SQLite or MySQL). The project utilizes asynchronous requests for efficient handling of numerous requests and allows users to easily run the scraper and manage the database using a user-friendly command-line interface (CLI).
+
+**Features:**
+
+* **Asynchronous Scraping:** Utilizes asynchronous API of Playwright for efficient handling of numerous pages results.
+* **Database Integration:**  Stores scraped data in a database (SQLite or MySQL) for structured persistence.
+* **User-Friendly CLI:** Provides easy-to-use commands for running the scraper and managing the database.
+
+## Future Enhancements
+
+This project has a lot of potential for growth! Here are some exciting features I'm considering for the future:
+
+*   **Data Export:** Add functionality to export scraped data to various formats like CSV and Excel spreadsheets for easier analysis and sharing.
+*   **PostgreSQL Support:**  Expand database compatibility to include PostgreSQL, giving users more database choices.
+*   **Retrieval Augmented Generation (RAG):** Integrate a RAG system that allows users to ask natural language questions about the scraped data, making it even more powerful for insights.
+
+### Installation
+Like any other python packages, to avoid any issues, with other packages  or depencies installed already installed on your machine, this tool should be installed with pipx to create isolated environments before to run it. But i didn't found a way to allow that. Then you will need to create a virtual environment before to  install it with the following commands:
+
+1. **Create virtual environment:**
+   ```bash
+      python -m venv scrapper
+   ```
+
+2. **Activate virtual environment:**
+   ```bash
+      scrapper\Scripts\activate.bat
+   ```
+
+3. **Install scraper package:**
+   ```bash
+      python -m pip install aba-cli-scrapper 
+   ```
+  
+## Using the CLI Interface
+
+This project provides a user-friendly command-line interface (CLI) built with `typer` for interacting with the scraper and database. 
+
+### Available Commands:
+**Need Help?**  run  any commands followed by `--help` for detailed informations about its usage and options. For example: `aba-run --help` will show you all subcommands available and how to use them.
+
+<div align="center">
+  <p>
+    <a href="#"><img src="images\aba-run--help.png" width="600" height="300" alt="command result 1" /></a>
+  </p>
+  <p align="center">
+  </p>
+</div>
+
+**Warnings:** *1)* `aba-run` is the base command means all other commands that will be introduce bellow are sub-commands and should always be preceded by  `aba-run`.
+        *2)* As i'm still working on this packages i'm facing many bugs with async part of this tool i'm using bright data to enhance perfomance when its come to retrieve html pages results asynchronously. So it's could be unvailable due to  api key bright data limit reached. Then if for any reason you encounter an issue with async api which is set by default, you can use instead sync api by specifying `--sync-api` flag cause is works perfecly fine. So let's jump to the tutorial.
+
+Practice make perfect isn't ? So let's get started with a use case example. 
+Let's assume  that you want to scrape data about electric bikes from Alibaba.com.
+
+
+*   **`scraper`:**  Initiates scraping of Alibaba.com based on the provided keywords.
+this command takes two required arguments and one optional argument:
+    *   **`key_words` (required):** The search term(s) for finding products on Alibaba. Enclose multiple keywords in quotes.
+    *   **`--page-results` (required):** Usually keys words will results to many pages macthing them. Then you must to indicate how many of them you want to pull out.
+    *   **`--html-folder` (optional):** Specifies the directory to store the raw HTML files. If omitted, a folder with sanitized keywords as name will be automatically created.
+
+    **Example**:
+    ```bash
+    aba-run scraper "electric bikes" --html-folder bike_results --page-results 15
+    ```
+
+if `--html-folder` option is not provided, a folder with sanitized keywords as name will be automatically created and should result to `electric_bikes` as a results folder name.
+after that  `bike_results` (since you already provided name you wish to have) directory has been created and should contains all html files from alibaba.com matching your keywords.
+
+Then you must initialize a database. Mysql and sqlite are supported.
+*   **`db-init`:** Creates a new database mysql/sqlite.
+this command takes one required arguments and six optional arguments(depends on engine you choose):
+    *   **`engine` (required):** Choose either `sqlite` or `mysql`.
+    *   **`--sqlite-file` (optional, SQLite only):**  The name for your SQLite database file (without the extension).
+    *   **`--host`, `--port`, `--user`, `--password`, `--db-name` (required for MySQL):**  Your MySQL database connection details.
+    *   **`--only-with` (optional Mysql):**  If you just want to update some details of your credentials in `db_credentials.json` file but not all before to initialize  an brand new database.
+  
+**MySQL Example:**
+  ```bash
+  aba-run db-init mysql --user "mysql_username" --password "mysql_password" --db-name "alibaba_products" 
+  ```
+Assuming that you have already initialized your database,and you want to created a new one without updating all your credentials, simply run :
+
+  ```bash
+  aba-run db-init mysql --db-name "alibaba_products" --only-with 
+  ```
+
+**NB: This commands will save your credentials in `db_credentials.json` file, so when you will need to update your database, simply run `aba-run db-update  mysql --kw-results bike_results\` to automatically update your database and using your saved credentials**
+   
+
+ 
+**SQLite Use case :**
+  ```bash
+  aba db-init sqlite --sqlite-file alibaba_data
+  ```
+
+As soons as your database has been initialized, you can update it with the scraped data.
+*   **`db-update`:** add scraped data from html files to your database (you can't use this command twice with same database credentals to avoid UNIQUE CONSTRAINT ERROR).
+
+this command takes two required arguments and two optional arguments:
+    *   **`--db-engine` (required):** Select your database engine: `sqlite` or `mysql`.
+    *   **`--kw-results` (required):**  The path to the folder containing the HTML files generated by the `scraper` sub command.
+    *   **`--filename` (required for SQLite):** If you're using SQLite, provide the desired filename for your database. whitout any extension.
+    *   **`--db-name` (optional for MySQL):** If you're using MySQL,and want to push the data to a different database, provide the desired database name.
+
+  **MySQL Example:**
+  ```bash
+  aba-run db-update  mysql --kw-results bike_results\ 
+  ```
+**NB:What if you want to change something while you updating the database? Assuming that you have run another scraping command and you want to save this data in another database name whitout update credential file or rewriting all theses parameter just to change your database name then, simply run `aba-run db-update  mysql --kw-results another_keyword_folder_result\ --db-name "another_database_name"`.**
+
+  **SQLite Example:**
+  ```bash
+  aba-run db-update  sqlite --kw-results bike_results\ --filename alibaba_data
+  ```
+
+## Contributions Welcome!
+
+I believe in the power of open source! If you'd like to contribute to this project, feel free to fork the repository, make your changes, and submit a pull request. I'm always open to new ideas and improvements.
+
+## License
+
+This project is licensed under the [Gnu General Public License Version **3**](COPYING).
+
+
+  
