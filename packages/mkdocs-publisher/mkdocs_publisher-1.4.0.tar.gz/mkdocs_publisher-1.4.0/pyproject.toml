@@ -1,0 +1,136 @@
+[tool.poetry]
+name = "mkdocs-publisher"
+version = "1.4.0"
+description = "Publisher for MkDocs - set of plugins for content creators"
+authors = ["Maciej 'maQ' Kusz <maciej.kusz@gmail.com>"]
+license = "MIT License"
+readme = "README.md"
+keywords = [
+    "mkdocs",
+    "mkdocs-plugin",
+    "blog",
+    "categories",
+    "debugger",
+    "docs",
+    "documentation",
+    "frontmatter",
+    "markdown",
+    "minifier",
+    "navigation",
+    "obsidian",
+    "publisher",
+    "tags",
+]
+packages = [
+    {include = "mkdocs_publisher"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Environment :: Web Environment",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Other Audience",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Documentation",
+    "Topic :: Text Editors :: Documentation",
+    "Topic :: Text Processing",
+    "Topic :: Text Processing :: Markup",
+    "Topic :: Text Processing :: Markup :: Markdown",
+    "Topic :: Utilities",
+]
+homepage = "https://mkusz.github.io/mkdocs-publisher"
+repository = "https://github.com/mkusz/mkdocs-publisher"
+documentation = "https://mkusz.github.io/mkdocs-publisher"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/mkusz/mkdocs-publisher/issues"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+mkdocs = "~1.5.3"
+pymdown-extensions = "^10.7"
+beautifulsoup4 = "^4.12.3"
+mkdocs-material = "~9.5.18"
+
+[tool.poetry.group.dev.dependencies]
+yamllint = "^1.35.1"
+ruff = "^0.3.7"
+pyright = "^1.1.371"
+
+[tool.poetry.group.test.dependencies]
+coverage = "^7.6.0"
+pytest = "^7.4.4"
+pytest-cov = "^4.1.0"
+pytest-check = "^2.3.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pyright]
+extraPaths = [
+    "mkdocs_publisher",
+]
+include = [
+    "mkdocs_publisher",
+    "tests",
+]
+exclude = [
+    "docs",
+    "mkdocs_publisher_docs",
+]
+reportMissingImports = false
+reportMissingTypeStubs = false
+reportOptionalMemberAccess = false
+typeCheckingMode = "basic"
+
+[tool.pytest.ini_options]
+addopts = "--tb=short --log-level=DEBUG --cov-report=html --cov-report=json --cov=mkdocs_publisher"
+markers = [
+    "deprecated: Tests no longer used",
+    ]
+testpaths = [
+    "tests",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP", "SIM"]
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+include_namespace_packages = true
+skip_empty = true
+skip_covered = true
+
+[tool.coverage.json]
+pretty_print = true
+
+[tool.poetry.plugins."mkdocs.plugins"]
+pub-blog = "mkdocs_publisher.blog.plugin:BlogPlugin"
+pub-debugger = "mkdocs_publisher.debugger.plugin:DebuggerPlugin"
+pub-meta = "mkdocs_publisher.meta.plugin:MetaPlugin"
+pub-minifier = "mkdocs_publisher.minifier.plugin:MinifierPlugin"
+pub-obsidian = "mkdocs_publisher.obsidian.plugin:ObsidianPlugin"
+pub-social = "mkdocs_publisher.social.plugin:SocialPlugin"
+
+[tool.poetry.scripts]
+mkdocs-pub = "mkdocs_publisher._cli.publisher:app"
