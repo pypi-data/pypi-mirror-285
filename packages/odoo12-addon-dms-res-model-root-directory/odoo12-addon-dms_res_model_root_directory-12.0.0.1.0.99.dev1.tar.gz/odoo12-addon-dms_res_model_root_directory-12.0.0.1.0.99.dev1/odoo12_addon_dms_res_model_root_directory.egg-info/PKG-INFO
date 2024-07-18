@@ -1,0 +1,122 @@
+Metadata-Version: 1.2
+Name: odoo12-addon-dms-res-model-root-directory
+Version: 12.0.0.1.0.99.dev1
+Summary: Implement a new dms directory structure based on unique root directory by model and category. Each file can be created in a model instance particular directory under a root directory.
+Home-page: https://gitlab.com/somitcoop/erp-research/odoo-helpdesk
+Author: Som It Cooperatiu SCCL, Som Connexió SCCL,
+License: AGPL-3
+Description: ============================
+        DMS RES MODEL ROOT DIRECTORY
+        ============================
+        
+        .. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+            :target: https://odoo-community.org/page/development-status
+            :alt: Beta
+        .. |badge2| image:: https://img.shields.io/badge/licence-AGPL--3-blue.png
+            :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
+            :alt: License: AGPL-3
+        
+        |badge1| |badge2|
+        
+        This module implements a new dms directory structure under a root directories (unique by model and category).
+        Each file can be created in a particular directory related to model instances and under a root directory, also model related.
+        
+        **Table of contents**
+        
+        .. contents::
+           :local:
+        
+        Configuration
+        =============
+        
+        No specific configuration is required.
+        
+        Usage
+        =====
+        
+        ### Create root directories
+        
+        To create root directories, follow this instructions:
+        
+        - Documents > Directories
+        - Click create
+        - Set "Is Root Directory"
+        - Fill Model and category (which is optional but recommended under this module logic)
+        - Save
+        
+        Root directories with same model and category as existing ones cannot be created. 
+        
+        After, these directories can be used as parent directories. 
+        
+        
+        ### Create files
+        
+        With this module we add a wizard to add documents (dms files) to model instances. By default, it is added to `res.partner`,
+        but it can be added in other model form views as well.
+        Once in this form views with our assitant to add modules:
+        
+        - Click on "Add documentation"
+        - Upload file, and fill file name and file root directory.
+        - Click on "Add".
+        
+        The file will be saved in a model related directory (same record name, linked to record) under the selected rood directory
+        
+        
+        Known issues / Roadmap
+        ======================
+        
+        There are no issues for the moment.
+        
+        Bug Tracker
+        ===========
+        
+        Bugs are tracked on `GitLab Issues <https://gitlab.com/somitcoop/erp-research/odoo-helpdesk/-/issues>`_.
+        In case of trouble, please check there if your issue has already been reported.
+        If you spotted it first, help us smashing it by providing a detailed and welcomed feedback.
+        
+        Do not contact contributors directly about support or help with technical issues.
+        
+        Credits
+        =======
+        
+        Authors
+        ~~~~~~~
+        
+        * SomIT SCCL
+        * Som Connexio SCCL
+        
+        
+        Contributors
+        ~~~~~~~~~~~~
+        
+        * `SomIT SCCL <https://somit.coop>`_:
+        
+            * José Robles <jose.robles@somit.coop>
+            * Álvaro García <alvaro.garcia@somit.coop>
+        
+        
+        * `Som Connexio SCCL <https://somconnexio.coop>`_:
+        
+            * Gerard Funosas <gerard.funosas@somconnexio.coop>
+        
+        
+        Maintainers
+        ~~~~~~~~~~~
+        
+        This module is maintained by the OCA.
+        
+        .. image:: https://odoo-community.org/logo.png
+           :alt: Odoo Community Association
+           :target: https://odoo-community.org
+        
+        OCA, or the Odoo Community Association, is a nonprofit organization whose
+        mission is to support the collaborative development of Odoo features and
+        promote its widespread use.
+        
+        You are welcome to contribute. To learn how please visit https://odoo-community.org/page/Contribute.
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Framework :: Odoo
+Classifier: Framework :: Odoo :: 12.0
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Requires-Python: >=3.5

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+  <data>
+      <record id="view_partner_form_add_document_button" model="ir.ui.view">
+        <field name="name">res.partner.form.add.document.button</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <sheet position="before">
+                <header>
+                    <button string="Add document"
+                            name="%(action_res_partner_add_dms_file)d"
+                            type="action"/>
+                </header>
+            </sheet>
+        </field>
+    </record>
+  </data>
+</odoo>
