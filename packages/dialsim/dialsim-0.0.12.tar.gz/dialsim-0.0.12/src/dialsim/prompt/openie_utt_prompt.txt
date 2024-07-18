@@ -1,0 +1,141 @@
+Let me give you a short conversation between Tom and John. Extract information from the last speaker's last utterance which is indicated as (last utterance) as if you are doing open information extraction task. 
+Note that the utterances except for the last utterance are for reference only. 
+The results should be in the form of triples. 
+For example,
+
+#####
+[Given conversation]
+Tom: Country music is great. I like to listen to country music while i'm driving. 
+John: It's the best and they are so good. It is country music!
+Tom: Have you ever gone to a country music concert? I've seen kellie pickler.
+(last utterance) John: I have never been, but I would like to see Lady Antebellum.
+=====
+[Answer]
+John; has never been to; a country music concert.
+John; would like to see; Lady Antebellum.
+
+#####
+[Given conversation]
+Tom: __SILENCE__
+John: hi there , i finally managed to land my dream job
+Tom: oh nice what is it ? i currently work a traditional office job
+(last utterance) John: i am now a ferrari sales man , use to work at a ford dealership before
+=====
+[Answer]
+John; is; a ferrari sales man.
+John; used to work; at a ford dealershop.
+
+#####
+[Given conversation]
+Tom: Who created IRC anyhow?
+John: I actually know his name.  It was created byJarkko Oikarinen in 1988.   
+Tom: Really? How did he develop it?
+(last utterance) John: It started as part of a school project If I remember correctly, I may be wrong, though.
+=====
+[Answer]
+IRC; started; as part of a school project.
+
+#####
+[Given conversation]
+Tom: interesting ? what is your favorite food ?
+John: i like pasta , pizza . infact anything that has meat on it
+Tom: same i love pasta and anything italian . i actually just visited italy
+(last utterance) John: i'm an armature painter myself , what better place to paint then in italy ?
+=====
+[Answer]
+John; is; an amateur painter.
+
+#####
+[Given conversation]
+Tom: hi , listening to some tunes on my red iphone , how about you ?
+John: the are five children in my family . i'm oldest . how many in your family ?
+Tom: just me and my parents
+(last utterance) John: my pops teaches school . i'm his oldest child . what tunes you listening to ?
+=====
+[Answer]
+John's dad; teaches; school.
+John; is; the oldest child in his family.
+
+#####
+[Given conversation]
+Tom: It was going after my dog Allie . Shes a cool dog . Probably one of my best friends .
+John: That 's cute . I love the cute names people give their pets .
+Tom: LOL . Do you have any pets ? Or any hobbies you like doing ?
+(last utterance) John: Not right now . I have been thinking about it but with me working and studying at the same time , I am worried I could not take good care of it .
+=====
+[Answer]
+John; dosen't have; pets right now.
+John; is; working.
+John; is; studying.
+
+#####
+[Given conversation]
+Tom: I can't make decisions when buying things if there is too many choices
+John: Do you run into this issue a lot? I could imagine grocery shopping to be a nightmare
+Tom: Yes! I get very anxious and tense about it. Shopping is my least favorite thing to do
+(last utterance) John: Does online shopping make it easier? I would think maybe it would relieve some stress if you could do it from your house
+=====
+[Answer]
+nan
+
+#####
+[Given conversation]
+Tom: Isnt it called aubergine in europe?
+John: You are very correct, the English use the word "Aubergine" for it
+Tom: I love deep fried eggplants
+(last utterance) John: Me too they are delicious 
+=====
+[Answer]
+John; loves; deep fried eggplants.
+
+#####
+[Given conversation]
+John: The colours are what make the whole concept. It's like the rainbow coming to life. so joyful . I hope I am not being too weird. 
+Tom: No you are totally fine. You are very lucky to experience it in person
+John: I collect the figures too. I have about 160 my little ponies. Do you collect anything?
+(last utterance) Tom: Rare coins, baseball cards, comic books, you name it.
+=====
+[Answer]
+Tom; collects; rare coins.
+Tom; collects; baseball cards.
+Tom; collects; comic books.
+
+#####
+[Given conversation]
+Tom: i work at best buy .
+John: that is nice , i drive my ford mustang to work everyday it is my favorite car .
+Tom: i drive a bronco to best buy .
+(last utterance) John: that's a good car my grandma had one . i loved it .
+=====
+[Answer]
+John; loves; bronco.
+John's grandma; had; bronco.
+
+#####
+[Given conversation]
+John: my pops teaches school . i'm his oldest child . what tunes you listening to ?
+Tom: some r b classics . what are you up to ?
+John: my sister is in grade one . are you a student ?
+(last utterance) Tom: nope . . . i travel around the world
+=====
+[Answer]
+Tom; is not; a student.
+Tom; travels; around the world.
+
+#####
+[Given conversation]
+John: I have never been, but I would like to see Lady Antebellum.
+Tom: They are amazing. I love their music. 
+John: Do you like Brooks and Dunn? I think they are great, I can listen them all day.
+(last utterance) Tom: Yes I do! My favorite song has to be Neon Moon. What is your favorite country song? 
+=====
+[Answer]
+Tom; likes; Brooks and Dunn.
+Tom; 's favorite song is; Neon Moon.
+
+#####
+[Given conversation]
+<<<PREV_UTTS>>>
+(last utterance) <<<LAST_UTT>>>
+====
+[Answer]
