@@ -1,0 +1,75 @@
+[build-system]
+requires = ["hatchling>=1.21.0", "hatch-vcs>=0.3.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "blackmarblepy"
+description = "Georeferenced Rasters of Nighttime Lights from NASA Black Marble data"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+keywords = ["nighttime lights", "nasa black marble", "world bank"]
+authors = [{ name = "World Bank", email = "github@worldbank.org" }]
+maintainers = [
+	{ name = "Gabriel Stefanini Vicente", email = "gvicente@worldbank.org" },
+	{ name = "Robert Marty", email = "rmarty@worldbank.org" },
+]
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: 3 :: Only",
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Science/Research",
+	"Topic :: Scientific/Engineering",
+]
+requires-python = ">=3.10"
+dependencies = [
+	"backoff>=2,<3",
+	"geopandas<1",
+	"h5py",
+	"httpx",
+	"ipywidgets<9",
+	"nest_asyncio<2",
+	"numpy",
+	"pandas>=2,<3",
+	"pqdm",
+	"pydantic>2,<3",
+	"rasterio",
+	"rasterstats",
+	"rioxarray",
+	"tqdm",
+	"xarray",
+	"aiohttp",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+docs = [
+	"docutils==0.17.1",               # https://jupyterbook.org/en/stable/content/citations.html?highlight=docutils#citations-and-bibliographies
+	"jupyter-book>=0.15.1",
+	"sphinxcontrib-apidoc>=0.4.0,<1",
+]
+tests = ["pytest"]
+
+[project.urls]
+"Homepage" = "https://worldbank.github.io/blackmarblepy"
+"Bug Reports" = "https://github.com/worldbank/blackmarblepy/issues"
+"Source" = "https://github.com/worldbank/blackmarblepy"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/blackmarble/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/blackmarble"]
+
+[tool.codespell]
+skip = 'docs/_build,docs/references.bib,__pycache__,*.png,*.gz,*.whl'
+ignore-regex = '^\s*"image\/png":\s.*'
+ignore-words-list = "gost,"
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
