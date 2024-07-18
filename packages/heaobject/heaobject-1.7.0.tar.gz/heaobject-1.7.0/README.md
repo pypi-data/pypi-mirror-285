@@ -1,0 +1,111 @@
+# HEA Object Library
+[Research Informatics Shared Resource](https://risr.hci.utah.edu), [Huntsman Cancer Institute](https://healthcare.utah.edu/huntsmancancerinstitute/), Salt Lake City, UT
+
+The HEA Object Library contains data and other classes that are passed into and out of HEA REST APIs.
+
+## Version 1.7.0
+* Raise a ValueError when trying to set the DesktopObject id attribute to the empty string, which causes problems
+downstream (when constructing URLs etc).
+* New async methods for querying a user's permissions for a desktop object and its attributes. New heaobject.root.PermissionContext and heaobject.root.ViewerPermissionContext classes for working with the new methods.
+* New instance_id attribute which is for storing an id that is unique across all object types in an instance of HEA.
+* Improved docstrings.
+* Standardized representation of tags across HEA with heaobject.root.TagsMixin.
+* requirements_dev.txt now sets a minimum version of setuptools to address a security vulnerability. Also updated to a newer version of build.
+* Fixed unit test for credential expiration timestamp that was broken by a previous release.
+
+## Version 1.6.4
+* Credential's expiration type changed from str to datetime
+* Added to AWS Credential the managed flag
+* Removed in Registry the check for NONE_USER to bypass having to be in is_creator_user list
+
+## Version 1.6.3
+* Add to Person AccessToken object.
+
+## Version 1.6.2
+* Fixed heaobject.account.AWSAccount.new_credentials() not setting the credentials' role.
+
+## Version 1.6.1
+* For heaobject.organization.Organization, managers can now modify the manager and member lists.
+
+## Version 1.6.0
+* Replaced heaobject.keychain.AWSCredentials role_arn attribute with a role attribute on heaobject.keychain.Credentials objects.
+* Added group_ids attribute to heaobject.person.Person.
+* New attributes in heaobject.account.Account: file_system_type, file_system_name.
+* New methods in heaobject.account.Account: get_role_to_assume(), and new_credentials().
+* Added full_name attribute to Person that is mirrors display_name.
+* Removed file_system_name parameter from queries of a registry Component's
+resources.
+* New heaobject.volume.Volume credential_type_name attribute.
+* Added role_ids attribute to heaobject.person.Group.
+* heaobject.user.is_system_user() now returns True for the system|credentialsmanager user.
+* Changed heaobject.organization.Organization.accounts to account_ids, which is
+a string, and removed the heaobject.account.AccountAssociation class.
+* Removed AWS-specific attributes and methods from heaobject.organization.Organization.
+* Docstring improvements.
+* Better default type_display_name for heaobject.account.AccountView objects.
+* Added group_type attribute to heaobject.person.Group.
+
+## Version 1.5.1
+* Ensure AWSS3FileObject's display_name attribute always has a non-None value.
+
+## Version 1.5.0
+* Added attribute-level permissions.
+* Fixed bug in checking equality of AbstractAssociation objects.
+
+## Version 1.4.0
+* Added "deleted" attribute to the trash module's TrashItem class.
+* Added Group class to the person module.
+
+## Version 1.3.0
+* Added type_display_name attribute to all HEA objects.
+
+## Version 1.2.0
+* Created AbstractAssociation base class for complex associations between desktop objects.
+* Used it for the association between organizations and accounts, and volumes and accounts.
+
+## Version 1.1.1
+* Documented DesktopObject.get_permissions, and fixed an issue where it returned the CHECK_DYNAMIC permission (it)
+should replace CHECK_DYNAMIC with any dynamically computed permissions).
+
+## Version 1.1.0
+* Added APIs for generating Person objects representing system users.
+* Added system|aws user.
+* Added source module with system source names (previously was only in heaserver).
+
+## Version 1.0.2
+* More performance improvements converting to/from a HEAObject and a dictionary.
+
+## Version 1.0.1
+* Performance improvements converting from a HEAObject to a dictionary.
+
+## Version 1
+Initial release.
+
+## Runtime requirements
+* Python 3.10 or 3.11.
+
+## Development environment
+
+### Build requirements
+* Any development environment is fine.
+* On Windows, you also will need:
+    * Build Tools for Visual Studio 2019, found at https://visualstudio.microsoft.com/downloads/. Select the C++ tools.
+    * git, found at https://git-scm.com/download/win.
+* On Mac, Xcode or the command line developer tools is required, found in the Apple Store app.
+* Python 3.10 or 3.11: Download and install Python 3.10 from https://www.python.org, and select the options to install
+for all users and add Python to your environment variables. The install for all users option will help keep you from
+accidentally installing packages into your Python installation's site-packages directory instead of to your virtualenv
+environment, described below.
+* Create a virtualenv environment using the `python -m venv <venv_directory>` command, substituting `<venv_directory>`
+with the directory name of your virtual environment. Run `source <venv_directory>/bin/activate` (or `<venv_directory>/Scripts/activate` on Windows) to activate the virtual
+environment. You will need to activate the virtualenv every time before starting work, or your IDE may be able to do
+this for you automatically. **Note that PyCharm will do this for you, but you have to create a new Terminal panel
+after you newly configure a project with your virtualenv.**
+* From the project's root directory, and using the activated virtualenv, run `pip install wheel` followed by
+  `pip install -r requirements_dev.txt`. **Do NOT run `python setup.py develop`. It will break your environment.**
+
+### Running unit tests
+Run tests with the `pytest` command from the project root directory.
+
+### Packaging and releasing this project
+See the [RELEASING.md](RELEASING.md) file for details.
