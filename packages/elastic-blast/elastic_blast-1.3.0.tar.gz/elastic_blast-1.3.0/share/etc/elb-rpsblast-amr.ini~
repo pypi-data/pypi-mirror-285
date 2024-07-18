@@ -1,0 +1,18 @@
+#RPSBLAST Pre-release test for TC
+
+[cloud-provider]
+gcp-project = ncbi-sandbox-blast
+gcp-region = us-east4
+gcp-zone = us-east4-b
+
+[cluster]
+num-nodes = 2
+num-cpus = 30
+pd-size = 3000G
+use-preemptible = 1
+
+[blast]
+program = rpsblast
+options = 
+db = split-cdd
+queries = gs://elastic-blast-samples/queries/protein/COALA70.fa.gz

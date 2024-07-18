@@ -1,0 +1,15 @@
+[cloud-provider]
+gcp-project = ncbi-sandbox-blast
+gcp-region = us-east4
+gcp-zone = us-east4-b
+
+[cluster]
+#name = madden-elastic-blast
+num-nodes = 2
+#pd-size = 1000G
+#use-preemptible = 1
+
+[blast] 
+program = rpsblast
+db = split-cdd
+queries = /net/blastdev11/export/home/madden/ElasticBLAST/QUERIES/RFQT01P.1.fsa_aa

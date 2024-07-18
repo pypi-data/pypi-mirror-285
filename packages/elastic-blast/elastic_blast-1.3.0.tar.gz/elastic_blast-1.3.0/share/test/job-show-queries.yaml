@@ -1,0 +1,29 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: show-queries
+  labels:
+    app: test
+spec:
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      volumes: 
+      - name: queries
+        persistentVolumeClaim:
+            claimName: blast-dbs-pvc
+            readOnly: true
+      containers:
+        - name: busybox
+          image: busybox:latest
+          volumeMounts:
+          - name: queries
+            mountPath: /blast/queries
+            readOnly: true
+          command: [ "/bin/sh", "-cx" ]
+          args:
+          - grep -c '^>' /blast/queries/batch_*.fa;
+      restartPolicy: Never
+  backoffLimit: 1
