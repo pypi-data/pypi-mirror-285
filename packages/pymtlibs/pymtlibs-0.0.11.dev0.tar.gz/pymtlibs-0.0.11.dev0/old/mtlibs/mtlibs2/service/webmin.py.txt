@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+import argparse
+import os
+import sys
+from distutils.spawn import find_executable
+from pathlib import Path
+
+from stem.util import term
+
+################################################################################################
+## webmin 之前有不少严重漏洞，不知道现在什么情况，
+##
+
+app_name = 'webmin'
+
+def install(args):
+    print("安装 %s" % app_name, flush=True)
+    os.system(""" apt update \
+&&apt install -y libnet-ssleay-perl libauthen-pam-perl libio-pty-perl shared-mime-info \
+&& wget -q -O /tmp/webmin-current.deb https://www.webmin.com/download/deb/webmin-current.deb \
+&& dpkg -i /tmp/webmin-current.deb \
+&& rm /tmp/webmin-current.deb \
+&& apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+""")
+
+
+def start(args):
+    print(term.format("启动 %s" % app_name, term.Color.RED), flush=True)
+    # 先执行安装必要的包
+    if not find_executable('webmin'):
+        install()
+
+    # 写入配置文件
+    config = """port=10000
+root=/usr/share/webmin
+mimetypes=/usr/share/webmin/mime.types
+addtype_cgi=internal/cgi
+realm=Webmin Server
+logfile=/var/webmin/miniserv.log
+errorlog=/var/webmin/miniserv.error
+pidfile=/var/webmin/miniserv.pid
+logtime=168
+ppath=
+ssl=0
+env_WEBMIN_CONFIG=/etc/webmin
+env_WEBMIN_VAR=/var/webmin
+atboot=1
+logout=/etc/webmin/logout-flag
+listen=10000
+denyfile=\.pl$
+log=1
+blockhost_failures=5
+blockhost_time=60
+syslog=1
+session=1
+premodules=WebminCore
+server=MiniServ/1.710
+userfile=/etc/webmin/miniserv.users
+keyfile=/etc/webmin/miniserv.pem
+passwd_file=/etc/shadow
+passwd_uindex=0
+passwd_pindex=1
+passwd_cindex=2
+passwd_mindex=4
+passwd_mode=0
+preroot=gray-theme
+passdelay=1
+sudo=1
+nofork=1
+""" 
+
+    
+    config_file = '/etc/webmin/miniserv.conf'
+    Path(config_file).parent.mkdir(exist_ok=True)
+    with open(config_file,'w') as f:
+        f.write(config)
+    # 启动    
+    os.system('service webmin start')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="%s service" % app_name)
+    subparsers = parser.add_subparsers(help="%s service" % app_name)
+    # sub install
+    parser_help = subparsers.add_parser('install', help='install')
+    parser_help.set_defaults(func=install)
+    # sub start
+    parser_cmd = subparsers.add_parser('start', help='start the service')
+    parser_cmd.set_defaults(func=start)
+
+    if (len(sys.argv) < 2):
+        args = parser.parse_args(['start'])
+    else:
+        args = parser.parse_args(sys.argv[1:])
+    args.func(args)

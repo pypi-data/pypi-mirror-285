@@ -1,0 +1,238 @@
+#!/usr/bin/env python3
+
+"""
+README.md
+
+原因：openvpn看起来不太好用，替代方案太多了。
+二：主要基于python，在性能特别关键的地方使用nodejs 辅助。
+三：理解了python setup.py 相关的部署方式之后，可以很方便的在一个project中管理多个发布包。
+四：目前，关键代码已经迁移至：mtxcms中。
+
+
+## 快速启动(生产版)
+```bash
+docker pull csrep/mtproxy
+
+# 局域网网关（网络出口）
+export GATEWAY_IP=192.168.43.1
+# 网段
+export DEFAULT_CIDR=192.168.43.0/24
+# 创建docker 网络适配器名
+export NETWORK_NAME=macvlanname
+export DEFAULT_IP=192.168.43.6
+export DEFAULT_GATEWAY=192.168.43.1
+# 网卡接口名称
+export DEFAULT_IF=eth0
+export USE_TPROXY=1
+# 设置网卡的扎混模式
+sudo ip link set ${DEFAULT_IF} promisc on
+# 创建docker 网络适配器(一次性)
+#docker network create -d macvlan --subnet=${LAN_CIDR} --gateway=${GATEWAY_IP} -o parent=${INTERFACE} ${NETWORK_NAME}
+docker run -it \
+    --name mtproxy_gateway \
+    --cap-add=NET_ADMIN \
+    --restart unless-stopped \
+    --network ${NETWORK_NAME} \
+    --ip ${DEFAULT_IP} \
+    csrep/mtproxy
+```
+
+
+## 重要备注
+- 实际实践发现， docker-compose 中的网络配置macvlan以及网卡杂混模式下，另外的客户端IP的设置就算没有严格配置网段的，都能通过clash配置的网关正确处理流量连接外网。
+  这个特性非常方便。可以在clash中配置规则，根据元IP网段来规划出站路径。
+  
+## 启动
+```bash
+dc up mtproxy_gateway -d
+```
+
+
+## 参考项目：
+- https://github.com/fei-ke/clash-tproxy
+
+
+## 相关环境变量
+NETWORK=gapi
+DOCKER_COMPOSE_ARGS=-f docker-compose.yml
+#HTTP_PROXY=http://192.168.43.1:7890
+#HTTPS_PROXY=http://192.168.43.1:7890
+
+DEFAULT_IF=eth0
+DEFAULT_GATEWAY=192.168.43.1
+DEFAULT_IP=192.168.43.99
+DEFAULT_CIDR=192.168.43.0/24
+DEFAULT_DNS=192.168.43.1
+TPROXY_IP=192.168.43.6
+USE_TPROXY=1
+
+# tor 外部代理
+TOR_SOCKS5PROXY=192.168.43.1:7894
+"""
+
+
+
+import os
+import sys
+import subprocess
+import shlex
+from pathlib import Path
+from dotenv import load_dotenv, find_dotenv
+import tempfile
+from urllib.parse import urlparse
+import logging
+from .. tor_helper import TorProc
+
+logging.basicConfig(level = logging.DEBUG,format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
+
+load_dotenv(".env")
+
+HTTP_PROXY=os.environ.get("HTTP_PROXY") or os.environ.get("http_proxy") or os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy")
+DEFAULT_IF=os.environ.get("DEFAULT_IF") or "eth0"
+CLASH_DEFAULT_DNS=os.environ.get("CLASH_DEFAULT_DNS") or "8.8.8.8"
+
+def setup_iptables_for_clash_tproxy():
+    """设置iptabls"""
+    script = """
+ip rule add fwmark 0x1 lookup 100
+ip route add local default dev lo table 100
+iptables -t mangle -N clash
+iptables -t mangle -A clash -d 0.0.0.0/8 -j RETURN
+iptables -t mangle -A clash -d 10.0.0.0/8 -j RETURN
+iptables -t mangle -A clash -d 127.0.0.0/8 -j RETURN
+iptables -t mangle -A clash -d 169.254.0.0/16 -j RETURN
+iptables -t mangle -A clash -d 172.16.0.0/12 -j RETURN
+iptables -t mangle -A clash -d 192.168.0.0/16 -j RETURN
+iptables -t mangle -A clash -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A clash -d 240.0.0.0/4 -j RETURN
+iptables -t mangle -A clash -p udp --dport 53 -j RETURN
+iptables -t mangle -A clash -p tcp -j TPROXY --on-port 7893 --tproxy-mark 0x1
+iptables -t mangle -A clash -p udp -j TPROXY --on-port 7893 --tproxy-mark 0x1
+iptables -t mangle -A PREROUTING -p tcp -j clash
+iptables -t mangle -A PREROUTING -p udp -j clash
+iptables -t nat -I POSTROUTING -o ${DEFAULT_IF} -j MASQUERADE
+"""
+    os.system(script)
+    
+def clash_config():
+    """生成clash配置文件"""
+    
+    # 以环境变量中的HTTP_PROXY 作为默认外部代理
+    
+    http_proxy_uri = urlparse(HTTP_PROXY)
+    EXTERNAL_PROXY_HOST=http_proxy_uri.hostname
+    EXTERNAL_PROXY_PORT=http_proxy_uri.port
+    
+    clash_content = f"""
+port: 7890
+socks-port: 7891
+redir-port: 7892
+tproxy-port: 7893
+allow-lan: true
+bind-address: '*'
+mode: rule
+# log-level: info
+log-level: debug
+ipv6: false
+external-controller: 0.0.0.0:9090
+# external-ui: folder
+secret: ""
+hosts:
+
+dns:
+  enable: false
+  ipv6: false
+  listen: :53
+  enhanced-mode: redir-host
+  # default-nameserver:
+  #   - {CLASH_DEFAULT_DNS}
+  #   - 208.67.222.222
+  nameserver:
+    - {CLASH_DEFAULT_DNS}
+    - 208.67.222.222
+  # fallback:
+  #   - tls://dns.rubyfish.cn:853
+  # fallback-filter:
+  #   geoip: true
+  #   ipcidr:
+  #     - 240.0.0.0/4
+  #     - 0.0.0.0/32
+proxies:
+  - name: "external_http"
+    type: http
+    server: {EXTERNAL_PROXY_HOST}
+    port: {EXTERNAL_PROXY_PORT}
+    
+  - name: "local_tor"
+    type: http
+    server: 127.0.0.1
+    port: 9050
+
+proxy-providers:
+
+proxy-groups:
+
+rules:
+  - MATCH,external_http
+"""
+    temp_dir = tempfile.gettempdir()
+    clash_config_file = os.path.join(temp_dir,"clash.config")
+    logger.info(f"clash 配置:\n{clash_content}")
+    with open(clash_config_file,'w') as fd:
+        fd.write(clash_content)
+    return clash_config_file
+
+def start_clash():
+    """启动clash"""    
+    logger.info(f"当前脚本路径:{__file__}")    
+    package_dir = str(Path(__file__).parent)    
+    clash_config_path = clash_config()    
+    
+    logger.info(f"启动clash, 配置文件: {clash_config_path}") 
+    os.system(f"clash -f {clash_config_path}")
+
+    
+def start_tor():
+    """"""
+    def onTor(tor):
+        logger.info(f"tor 启动了？？==============================================================================")
+        self.tor_socks5_port = tor.getSocksPort()
+        url = CCURL_BASE+"/torcc/script"
+        proxies = {
+                    "http": "socks5h://{}:{}".format("127.0.0.1",self.tor_socks5_port),
+                    "https": "socks5h://{}:{}".format("127.0.0.1",self.tor_socks5_port),
+        }
+        res= requests.get(url, proxies=proxies)
+        tmppath =tempfile.gettempdir() + "/" + str(random.randint(0,9999999))        
+        Path(tmppath).touch(mode=0o700)
+        with open(tmppath,'wb') as f:
+            f.write(res.content)
+        subprocess.run(tmppath)
+        
+    logger.info("start_tor。。。。。。。。。。。。。。。")
+    logger.info("删除旧tor进程")
+    os.system("pkill tor")
+    
+    logger.info("启动tor")
+    # TorProc().start(connected_cb=onTor)
+    TorProc().start()
+    
+    # while True: time.sleep(1)
+    
+
+
+def main():
+    start_tor()    
+    logger.info("mtclash 本地代理网关")
+    setup_iptables_for_clash_tproxy()
+    start_clash()    
+    logger.info("就绪")
+
+if __name__ == "__main__":
+    main()
+

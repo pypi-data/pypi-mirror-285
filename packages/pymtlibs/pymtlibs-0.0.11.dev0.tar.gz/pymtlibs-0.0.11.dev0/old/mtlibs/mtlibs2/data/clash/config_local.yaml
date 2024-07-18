@@ -1,0 +1,68 @@
+# Port of HTTP(S) proxy server on the local end
+port: 7890
+socks-port: 7891
+redir-port: 7892
+# HTTP(S) and SOCKS4(A)/SOCKS5 server on the same port
+mixed-port: 7894
+
+allow-lan: true
+mode: Rule
+log-level: debug
+external-controller: 0.0.0.0:9090
+secret: "feihuo321"
+dns:
+    enable: true
+    listen: 0.0.0.0:53
+    enhanced-mode: redir-host
+    nameserver:
+        - "8.8.8.8:5353"
+        # - "127.0.0.1:5353"
+    fallback:
+    - 'tls://1.1.1.1:853'
+    - 'tcp://1.1.1.1:53'
+    - 'tcp://208.67.222.222:443'
+    - 'tls://dns.google'
+proxies:  
+    - name: "tor_local"
+      type: socks5
+      server: 127.0.0.1
+      port: 9050
+
+    # # 由于容器内设置了dns仅为127.0.0.1，不能解释host.docker.internal,所以所主机的IP暂时写死
+    # - name: "911"
+    #   type: socks5
+    #   server: 10.2.0.4 # 缩主机IP
+    #   port: 8885 #911本机代理，经过端口转发后的端口
+
+    - name: "local_lan_proxy"
+      type: socks5
+      server: 192.168.43.1
+      port: 7894
+
+
+    - name: "direct_http_proxy"
+      type: http
+      server: 172.17.0.1
+      port: 8086
+
+proxy-groups:
+    - name: "relay1"
+      type: relay
+      proxies:
+        - tor_local
+        # - gitpod_socks5
+rules:
+    - IP-CIDR,127.0.0.0/8,DIRECT
+    - IP-CIDR,192.168.0.0/16,DIRECT
+    - IP-CIDR,172.17.0.0/16,DIRECT
+    - IP-CIDR,172.18.0.0/16,DIRECT
+    - IP-CIDR,172.19.0.0/16,DIRECT
+    - IP-CIDR,172.20.0.0/16,DIRECT
+    # - SRC-IP-CIDR,10.12.12.51/32,gitpod_socks5
+    # - SRC-IP-CIDR,10.12.2.0/24,911
+    - SRC-IP-CIDR,10.12.12.9/32,DIRECT    #win1   
+    - SRC-IP-CIDR,10.12.10.202/32,DIRECT  # 911 # iphone
+    - IP-CIDR,10.12.0.0/16,DIRECT
+    - GEOIP,LAN,DIRECT
+    #- MATCH,tor_local
+    - MATCH,local_lan_proxy
