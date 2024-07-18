@@ -1,0 +1,8 @@
+{% if aux.get("pip", {}).get("entry_points_filecontent", "") -%}
+# enable entry points for dynamically mounted source
+RUN DIST_INFO_DIR="$(python -c 'import site; print(site.getusersitepackages())')/{{aux.project.name}}-{{aux.python_project.version}}.dist-info" \
+    /bin/sh -c 'mkdir -p $DIST_INFO_DIR\
+    && printf "{{ aux.pip.metadata_filecontent }}" > $DIST_INFO_DIR/METADATA\
+    && printf "{{ aux.pip.entry_points_filecontent }}" > $DIST_INFO_DIR/entry_points.txt\
+    '
+{% endif -%}
