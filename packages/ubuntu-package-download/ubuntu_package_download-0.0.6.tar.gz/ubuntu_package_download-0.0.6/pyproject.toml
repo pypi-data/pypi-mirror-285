@@ -1,0 +1,70 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ubuntu_package_download"
+version = "0.0.6"
+description = "Helpful utility to download Ubuntu debian packages"
+readme = "README.rst"
+authors = [
+  {name = "Philip Roche", email = "phil.roche@canonical.com"}
+]
+maintainers = [
+  {name = "Philip Roche", email = "phil.roche@canonical.com"}
+]
+classifiers = [
+
+]
+license = {text = "GNU General Public License v3"}
+dependencies = [
+    "typer",
+    "launchpadlib",
+    "python-debian",
+    "rich",
+    "typing-extensions",
+]
+
+[project.optional-dependencies]
+dev = [
+    "coverage",  # testing
+    "mypy",  # linting
+    "pytest",  # testing
+    "ruff"  # linting
+]
+
+[project.urls]
+
+bugs = "https://github.com/philroche/ubuntu_package_download/issues"
+changelog = "https://github.com/philroche/ubuntu_package_download/blob/master/changelog.md"
+homepage = "https://github.com/philroche/ubuntu_package_download"
+
+[project.scripts]
+ubuntu-package-download = "ubuntu_package_download.cli:app"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
+
+
+
+
+# Mypy
+# ----
+
+[tool.mypy]
+files = "."
+
+# Use strict defaults
+strict = true
+warn_unreachable = true
+warn_no_return = true
+
+[[tool.mypy.overrides]]
+# Don't require test functions to include types
+module = "tests.*"
+allow_untyped_defs = true
+disable_error_code = "attr-defined"
+
