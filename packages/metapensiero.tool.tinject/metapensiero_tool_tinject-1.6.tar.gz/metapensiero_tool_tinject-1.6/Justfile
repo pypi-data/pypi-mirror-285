@@ -1,0 +1,100 @@
+# -*- coding: utf-8 -*-
+# :Project:   metapensiero.tool.tinject — Development tasks
+# :Created:   mer 29 giu 2022, 10:38:44
+# :Author:    Lele Gaifax <lele@metapensiero.it>
+# :License:   GNU General Public License version 3 or later
+# :Copyright: © 2022, 2023, 2024 Lele Gaifax
+#
+
+set dotenv-load := false
+
+# These need yq-go
+package-name := `yq -oy .project.name pyproject.toml`
+package-version := `yq -oy .project.version pyproject.toml`
+dist-file-name := replace(package-name, ".", "_") + "-" + package-version
+
+# List available targets
+@_help:
+  just --list
+
+#################
+# RELEASE TASKS #
+#################
+
+release-hint := '''
+  >>>
+  >>> Do your duties (update CHANGES.rst for example), then
+  >>> execute “just tag-release”.
+  >>>
+'''
+
+# Release new major/minor/dev version
+release *kind='minor':
+    bump2version {{kind}}
+    @echo '{{release-hint}}'
+
+# Assert presence of release timestamp in CHANGES.rst
+_check-release-date:
+    @fgrep -q "{{package-version}} ({{`date --iso-8601`}})" CHANGES.rst \
+      || (echo "ERROR: release date of version {{package-version}} not set in CHANGES.rst"; exit 1)
+
+# Assert that everything has been committed
+_assert-clean-tree:
+    @test -z "`git status -s --untracked=no`" || (echo "UNCOMMITTED STUFF" && false)
+
+# Check dist metadata
+_check-dist:
+    pyproject-build --sdist
+    twine check dist/{{dist-file-name}}.tar.gz
+
+# Tag new version
+tag-release: _check-release-date _check-dist
+    git commit -a -m "Release {{package-version}}"
+    git tag -a -m "Version {{package-version}}" v{{package-version}}
+
+# Build sdist and wheel
+build: _assert-clean-tree
+    pyproject-build
+
+# Build and upload to [Test]PyPI
+upload *repo='pypi': build
+    twine upload --repository={{repo}} dist/{{dist-file-name}}.tar.gz dist/{{dist-file-name}}*.whl
+
+# Upload to PyPI and push commits and tag to Gitlab
+publish: upload
+    git push
+    git push --tags
+
+#########
+# TESTS #
+#########
+
+# Run a simplicistic test to verify the examples work
+@test-examples:
+  #!/usr/bin/env bash
+  set -euo pipefail
+
+  cd examples
+
+  tinject list patchdb.yml | fgrep -q "Available actions:"
+
+  rm -rf docs src
+  tinject apply patchdb.yml -a new_schema.answers new_schema
+  test -f docs/database/public/tables/index.rst
+  fgrep -q ":Project:   package.qualified.name -- Tables in schema public" \
+        docs/database/public/tables/index.rst
+  test -f src/package/qualified/name/tables/public/__init__.py
+  fgrep -q ":Project:   package.qualified.name -- Entities in schema public" \
+        src/package/qualified/name/entities/public/__init__.py
+
+  tinject apply patchdb.yml -a new_table.answers new_table
+  fgrep -q "from .things import things" \
+        src/package/qualified/name/tables/public/__init__.py
+  fgrep -q "mapper(Thing, t.things, properties=" \
+        src/package/qualified/name/entities/public/__init__.py
+  test -f docs/database/public/tables/things.sql
+  fgrep -q "CREATE TABLE public.things" \
+        docs/database/public/tables/things.sql
+  test -f docs/database/public/tables/things.rst
+  fgrep -q ":Project:   package.qualified.name -- Definition of table public.things" \
+        docs/database/public/tables/things.rst

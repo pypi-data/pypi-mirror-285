@@ -1,0 +1,345 @@
+# -*- coding: utf-8 -*-
+# :Project:   metapensiero.tool.tinject -- PatchDB configuration example
+# :Created:   mer 13 apr 2016 11:56:34 CEST
+# :Author:    Lele Gaifax <lele@metapensiero.it>
+# :License:   GNU General Public License version 3 or later
+# :Copyright: © 2016, 2017, 2018, 2023, 2024 Lele Gaifax
+#
+
+--- ######################### Global definitions #########################
+
+## Options for the Jinja2 environment: these are already the defaults, so
+## they could be omitted. The block and variable delimiters must not
+## contain {} to avoid clashes with the standard Python format() minilang
+## used by questionary to render the questions.
+
+jinja:
+  block_start_string: "<<"
+  block_end_string: ">>"
+  variable_start_string: «
+  variable_end_string: »
+  extensions:
+    - jinja2_time.TimeExtension
+  keep_trailing_newline: true
+
+## Standard header for various kind of files, injected as «header»
+
+headers:
+  rst: |
+    .. -*- coding: utf-8 -*-
+    .. :Project:   «package_name» -- «description»
+    .. :Created:   «timestamp»
+    .. :Author:    «author_fullname» <«author_email»>
+    .. :License:   «license»
+    .. :Copyright: «copyright»
+    ..
+
+  py: |
+    # -*- coding: utf-8 -*-
+    # :Project:   «package_name» -- «description»
+    # :Created:   «timestamp»
+    # :Author:    «author_fullname» <«author_email»>
+    # :License:   «license»
+    # :Copyright: «copyright»
+    #
+
+  sql: |
+    -- -*- coding: utf-8; sql-product: postgres -*-
+    -- :Project:   «package_name» -- «description»
+    -- :Created:   «timestamp»
+    -- :Author:    «author_fullname» <«author_email»>
+    -- :License:   «license»
+    -- :Copyright: «copyright»
+    --
+
+# Preliminary steps
+
+steps:
+
+  ## Here can go an arbitrary Python script, that can modify the program
+  ## `state` at will, as well as register new kinds of `step` (or even
+  ## replace builtin ones). It can be read from an external file with
+  ## ``!include 'somescript.py'``.
+
+  - python:
+      script: |
+        import os, pwd
+
+        myself = pwd.getpwuid(os.getuid())
+        state.answers['author_username'] = myself.pw_name
+        state.answers['author_fullname'] = myself.pw_gecos.split(',')[0]
+
+  ## These inputs will be available to all steps of any action; each item
+  ## of the map is a questionary widget, by default "text" but you can specify
+  ## a different one with the "kind" slot
+
+  - prompt:
+      - author_fullname:
+          message: Author fullname
+          default: Lele Gaifax
+      - author_username:
+          message: Author username
+          default: lele
+      - author_email:
+          message: Author email
+          default: "«author_username»@example.com"
+
+      ## Example of a different kind of widget
+
+      # - gender:
+      #     message: Gender
+      #     kind: list
+      #     choices:
+      #       - Female
+      #       - Male
+
+      - package_name:
+          message: Fully qualified package name
+          default: "package.qualified.name"
+
+      - timestamp:
+          default: "<< now 'local', '%a %d %b %Y %H:%M:%S %Z' >>"
+      - year:
+          default: "<< now 'local', '%Y' >>"
+
+      - license:
+          message: Distribution license
+          default: "GNU General Public License version 3 or later"
+      - copyright:
+          message: Copyright holder
+          default: "© «year» «author_fullname»"
+
+      - docs_dir:
+          kind: path
+          message: Root directory of Sphinx documentation
+          default: docs/database
+      - model_dir:
+          message: Root directory of SQLAlchemy model sources
+          default: src/«package_name|replace(".","/")»
+
+--- ########################## Available actions ##########################
+
+new_schema:
+  description: Create a new schema
+
+  ## There can be an "action-wide" set of inputs as well as one specific to
+  ## each step
+
+  prompt:
+    - schema_name:
+        message: Name of the new schema
+        default: public
+        regexp: '\w+'
+
+  steps:
+    - createdir:
+        directory: "«docs_dir»/«schema_name»"
+
+    - createfile:
+        directory: "«docs_dir»/«schema_name»"
+        filename: index.rst
+        description: Schema «schema_name»
+        content: |
+          «header»
+          ==========«schema_name|count * "="»===
+           Schema ``«schema_name»``
+          ==========«schema_name|count * "="»===
+
+          .. patchdb:script:: Schema «schema_name»
+             :description: Create schema ``«schema_name»``
+             :conditions: postgres
+             :mimetype: text/x-postgresql
+
+             CREATE SCHEMA «schema_name»
+
+          .. patchdb:script:: Schema «schema_name» grants
+             :description: Permissions on the schema ``«schema_name»``
+             :conditions: postgres
+             :mimetype: text/x-postgresql
+             :depends: Schema «schema_name»
+
+             GRANT USAGE ON SCHEMA «schema_name» TO public
+
+          .. toctree::
+             :maxdepth: 1
+
+             tables/index
+             functions/index
+
+    - createdir:
+        directory: "«docs_dir»/«schema_name»/tables"
+
+    - createfile:
+        directory: "«docs_dir»/«schema_name»/tables"
+        filename: index.rst
+        description: Tables in schema «schema_name»
+        content: |
+          «header»
+          ========================«schema_name|count * "="»===
+           Tables in the schema ``«schema_name»``
+          ========================«schema_name|count * "="»===
+
+          .. toctree::
+             :maxdepth: 1
+             :glob:
+
+             *
+
+    - createdir:
+        directory: "«model_dir»/entities/«schema_name»"
+
+    - createfile:
+        directory: "«model_dir»/entities/«schema_name»"
+        filename: __init__.py
+        description: Entities in schema «schema_name»
+        content: |
+          «header»
+          from sqlalchemy.orm import mapper
+
+          from ...tables import «schema_name» as t
+
+          ## ⌄⌄⌄ tinject import marker ⌄⌄⌄, please don't remove!
+
+          ## ⌃⌃⌃ tinject import marker ⌃⌃⌃, please don't remove!
+
+    - createdir:
+        directory: "«model_dir»/tables/«schema_name»"
+
+    - createfile:
+        directory: "«model_dir»/tables/«schema_name»"
+        filename: __init__.py
+        description: Tables in schema «schema_name»
+        content: |
+          «header»
+          ## ⌄⌄⌄ tinject import marker ⌄⌄⌄, please don't remove!
+
+          ## ⌃⌃⌃ tinject import marker ⌃⌃⌃, please don't remove!
+
+new_table:
+  description: Create a new table
+
+  prompt:
+    - schema_name:
+        message: Schema name of the new table
+        default: public
+    - table_name:
+        message: Name of the new table
+        default: things
+    - table_description:
+        message: Description of the new table
+        default: "The table ``«schema_name».«table_name»`` contains..."
+    - entity_name:
+        message: Name of the corresponding entity
+        default: Thing
+
+  steps:
+    - createfile:
+        directory: "«docs_dir»/«schema_name»/tables"
+        filename: "«table_name».rst"
+        description: Definition of table «schema_name».«table_name»
+        content: |
+          «header»
+          .. _«schema_name».«table_name»:
+
+          =========«schema_name|count * "="»=«table_name|count * "="»===
+           Table ``«schema_name».«table_name»``
+          =========«schema_name|count * "="»=«table_name|count * "="»===
+
+          «table_description»
+
+          .. index::
+             triple: Tables; «schema_name»; «table_name»
+
+          .. patchdb:script:: Table «schema_name».«table_name»
+             :description: Create table ``«schema_name».«table_name»``
+             :revision: 1
+             :language: sql
+             :mimetype: text/x-postgresql
+             :conditions: postgres
+             :depends: Schema «schema_name», Table public.TimeStamped
+             :file: «table_name».sql
+
+          .. patchdb:script:: Init «schema_name».«table_name» record
+             :description: Initialize a new record inserted in the table
+                           «schema_name».«table_name»
+             :language: sql
+             :mimetype: text/x-postgresql
+             :conditions: postgres
+             :depends: Table «schema_name».«table_name»,
+                       Function public.init_timestamp()
+
+             create trigger trg_ins_ts_«schema_name»_«table_name»
+               before insert
+               on «schema_name».«table_name»
+               for each row execute procedure init_timestamp();
+
+          .. patchdb:script:: Update «schema_name».«table_name» record
+             :description: Update the `changed` field at each modification
+                           of a record in the table «schema_name».«table_name»
+             :language: sql
+             :mimetype: text/x-postgresql
+             :conditions: postgres
+             :depends: Table «schema_name».«table_name»,
+                       Function public.update_timestamp()
+
+             create trigger trg_upd_ts_«schema_name»_«table_name»,
+               before update
+               on «schema_name».«table_name»,
+               for each row execute procedure public.update_timestamp();
+
+    - createfile:
+        directory: "«docs_dir»/«schema_name»/tables"
+        filename: "«table_name».sql"
+        description: Structure of table «schema_name».«table_name»
+        ## Alternatively, the template may be read from an external file
+        content: !include 'table.sql'
+
+    - createfile:
+        directory: "«model_dir»/entities/«schema_name»"
+        filename: «entity_name|lower».py
+        description: «entity_name» entity
+        content: |
+          «header»
+          from .. import AbstractBase
+
+
+          class «entity_name»(AbstractBase):
+              pass
+
+    - changefile:
+        directory: "«model_dir»/entities/«schema_name»"
+        filename: __init__.py
+        changes:
+          - insert: "from .«entity_name|lower» import «entity_name»\n"
+            between: "\n## ⌄⌄⌄ tinject import marker ⌄⌄⌄, please don't remove!\n"
+            and: "\n## ⌃⌃⌃ tinject import marker ⌃⌃⌃, please don't remove!\n"
+          - add: |
+
+              mapper(«entity_name», t.«table_name», properties={
+              })
+            after: "\n## ⌃⌃⌃ tinject import marker ⌃⌃⌃, please don't remove!\n"
+
+    - createfile:
+        directory: "«model_dir»/tables/«schema_name»"
+        filename: «table_name».py
+        description: SA definition of table «schema_name».«table_name»
+        content: |
+          «header»
+          import sqlalchemy as sa
+          from .. import meta, translatable_string as _
+
+
+          «table_name» = meta.TimeStampedTable('«table_name»', meta.metadata,
+              #sa.Column('title', meta.text_t,
+              #          nullable=False,
+              #          info=dict(label=_('Title'),
+              #                    hint=_('The title of the entry'))),
+              schema='«schema_name»')
+
+    - changefile:
+        directory: "«model_dir»/tables/«schema_name»"
+        filename: __init__.py
+        changes:
+          - insert: "from .«table_name» import «table_name»\n"
+            between: "\n## ⌄⌄⌄ tinject import marker ⌄⌄⌄, please don't remove!\n"
+            and: "\n## ⌃⌃⌃ tinject import marker ⌃⌃⌃, please don't remove!\n"
