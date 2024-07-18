@@ -1,0 +1,214 @@
+<Window x:Class="PlatynUI.Technology.UiAutomation.Spy.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:cal="http://www.caliburnproject.org"
+        Title="{Binding Title}"
+        mc:Ignorable="d"
+        AutomationProperties.AutomationId="Shell"
+        Width="633"
+        Height="437"
+        ResizeMode="CanResizeWithGrip"
+        Topmost="{Binding Topmost}"
+        Cursor="{Binding Cursor}">
+
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top"
+              x:Name="MainMenu">
+            <MenuItem Header="_File"
+                      x:Name="File">
+                <MenuItem Header="_New"
+                          x:Name="New"/>
+                <Separator/>
+                <MenuItem Header="Exit"
+                          x:Name="Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Edit"
+                      x:Name="Edit">
+                <MenuItem Header="_Copy"
+                          x:Name="Copy"/>
+            </MenuItem>
+        </Menu>
+        <ToolBarPanel DockPanel.Dock="Top">
+            <ToolBar>
+                <Button x:Name="RefreshElements">Refresh</Button>
+                <ToggleButton x:Name="TopMostButton"
+                              IsChecked="{Binding Topmost}">Always on top</ToggleButton>
+            </ToolBar>
+        </ToolBarPanel>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="ResultsCount"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock x:Name="LastErrorMessage"/>
+            </StatusBarItem>
+            <StatusBarItem HorizontalAlignment="Right"
+                           Visibility="{Binding ProgressBarVisible}">
+                <ProgressBar Width="100"
+                             Height="20"
+                             x:Name='progressBar'>
+                    <ProgressBar.Triggers>
+                        <EventTrigger RoutedEvent='ProgressBar.Loaded'>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation
+                                        Storyboard.TargetName='progressBar'
+                                        Storyboard.TargetProperty='Value'
+                                        From='0'
+                                        To='100'
+                                        Duration='0:0:1'
+                                        AutoReverse="True"
+                                        RepeatBehavior="Forever"/>
+
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </ProgressBar.Triggers>
+                </ProgressBar>
+            </StatusBarItem>
+        </StatusBar>
+        <Grid Margin="6"
+              DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"
+                                  MinWidth="50"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Grid.Column="0"
+                     x:Name="XPath"
+                     cal:Message.Attach="[Event KeyDown] = [Action ExecuteXPath($executionContext)]"/>
+            <Button x:Name="SearchXPath"
+                    Grid.Column="1"
+                    Width="50"
+                    Content="{Binding SearchMode}"/>
+        </Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="150"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <TreeView x:Name="RootElement"
+                              ItemsSource="{Binding RootElement}"
+                              cal:Message.Attach="[Event SelectedItemChanged] = [Action SetSelectedItem($this.SelectedItem)]">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                <HierarchicalDataTemplate.ItemContainerStyle>
+                                    <Style TargetType="TreeViewItem">
+
+                                        <Setter Property="IsExpanded"
+                                                Value="{Binding IsExpanded}"/>
+                                        <Setter Property="IsSelected"
+                                                Value="{Binding IsSelected}"/>
+                                        <EventSetter Event="Selected"
+                                                     Handler="TreeViewSelectedItemChanged"/>
+
+                                    </Style>
+                                </HierarchicalDataTemplate.ItemContainerStyle>
+
+                                <DockPanel LastChildFill="True">
+                                    <!-- <Image DockPanel.Dock="Left"
+                                       Source="{Binding IconSource}"/> -->
+                                    <TextBlock DockPanel.Dock="Right"
+                                               Text="{Binding DisplayName}"
+                                               Margin="3"/>
+                                </DockPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded"
+                                        Value="{Binding IsExpanded}"/>
+                                <Setter Property="IsSelected"
+                                        Value="{Binding IsSelected}"/>
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+                    </TreeView>
+                </Grid>
+                <GridSplitter Grid.Column="1"
+                              HorizontalAlignment="Stretch"/>
+
+                <Grid Grid.Column="2">
+                    <!-- <ListView x:Name="Properties"
+                            ItemsSource="{Binding Path=SelectedElement.Properties}">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="False">
+                                <GridView.ColumnHeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Left"/>
+                                    </Style>
+                                </GridView.ColumnHeaderContainerStyle>
+                                <GridViewColumn Header="Name"
+                                        Width="150"
+                                                DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Value"
+                                        Width="250"
+                                                DisplayMemberBinding="{Binding Value}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView> -->
+                    <DataGrid x:Name="Properties"
+                              ItemsSource="{Binding Path=SelectedElement.Properties}"
+                              AutoGenerateColumns="False"
+                              CanUserSortColumns="True"
+                              GridLinesVisibility="Vertical"
+                              VerticalGridLinesBrush="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}"
+                              AlternatingRowBackground="{DynamicResource {x:Static SystemColors.ControlLightBrushKey}}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn  Header="Name"
+                                                 Width="Auto"
+                                                 Binding="{Binding Name}"
+                                                 SortDirection="Ascending"
+                                                 IsReadOnly="True"
+                                                 CanUserReorder="False"/>
+                            <DataGridTextColumn  Header="Value"
+                                                 Width="Auto"
+                                                 Binding="{Binding Value}"
+                                                 IsReadOnly="True"
+                                                 CanUserSort="False"
+                                                 CanUserReorder="False"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Row="1"
+                          HorizontalAlignment="Stretch"
+                          ResizeDirection="Rows"/>
+            <Grid Grid.Row="2">
+                <GroupBox Header="Results">
+                    <ListBox x:Name="ResultsList"
+                             ItemsSource="{Binding Results}"
+                             SelectedItem="{Binding SelectedFindResult, Mode=TwoWay}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="IsSelected"
+                                        Value="{Binding IsSelected}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding DisplayName}" ToolTip="{Binding FullDisplayName}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </GroupBox>
+            </Grid>
+
+        </Grid>
+
+    </DockPanel>
+
+</Window>
