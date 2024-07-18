@@ -1,0 +1,69 @@
+Metadata-Version: 2.1
+Name: arduiglitch
+Version: 0.1.0
+Summary: Python module for the eponym voltage glitch training. Contains everything required to run the Jupyterlab notebooks.
+Author-email: Hugo Perrin <h.perrin@emse.fr>
+License: GPL-3.0-or-later
+Requires-Python: >=3.10.12
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: pyyaml
+Requires-Dist: pyserial
+Requires-Dist: numpy
+Requires-Dist: pandas
+Requires-Dist: wrapt
+Requires-Dist: blessed
+Requires-Dist: flask
+Requires-Dist: sphinx
+Requires-Dist: sphinx-autodoc-typehints
+
+===========
+Arduiglitch
+===========
+
+This package contains all the companion scripts required to run the Jupyterlab
+notebooks of the Arduiglitch voltage glitch training developed by the
+hardware security department (SAS) of l'École des Mines de Saint-Étienne.
+
+-------------------------
+Repackage a local version
+-------------------------
+
+The packages ``setuptools`` and ``build`` are required to repackage the module.
+They should be installed when updating with ``pipenv update``.
+
+The ``pyproject.toml`` contains all the configuration for the packaging process.
+To build the package execute the following
+commands from the root of the repository :
+
+.. code-block:: bash
+
+    pipenv shell
+    python -m build
+
+If the packaging process went well, the module wheel should be located in
+``dist/```.
+
+To install this local version in a project, use *Pipenv* and specify the path to
+the ``.whl`` file as follows:
+
+.. code-block:: bash
+
+    pipenv uninstall arduiglitch
+    pipenv install relative/path/to/arduiglitch/dist/arduiglitch-*.*.*-*-*-*.whl
+
+For later local updates, the ``uninstall`` *Pipenv* command prevents the use of
+a cached version in case the version number
+of the new version is the same as the current one.
+
+It is advised to change the version number in the ``pyproject.toml`` file after
+each build. In such case, the path to the new module wheel needs to be adjusted
+in the ``Pipfile`` and only ``pipenv update`` is required to update.
+
+-------
+License
+-------
+
+GNU General Public License version 3
+
+For more information, see the `LICENSE` file at the root of the project.
