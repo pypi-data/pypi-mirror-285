@@ -1,0 +1,67 @@
+[build-system]
+requires = ["importlib-metadata; python_version>='3.8'", 
+            "aimmocore-db",
+            "hypercorn", 
+            "uvicorn",
+            "starlette", 
+            "setuptools", 
+            "loguru",
+            "pydantic",
+            "pyhumps", 
+            "azure-storage-blob",
+            "motor",
+            "nest_asyncio",
+            "pillow",
+            "IPython",
+            "aiohttp",
+            "aiofiles",
+            "psutil",
+            "wheel"]
+
+[project]
+name = "aimmocore"
+version = "0.1.8"
+description = "The sdk for aimmocore curation service"
+authors = [{ name = "Aimmo", email = "aimmoml@aimmo.co.kr" }]
+license = { file = "LICENSE" }
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "uvicorn",
+    "hypercorn",
+    "starlette",
+    "loguru",
+    "pydantic",
+    "pyhumps",
+    "azure-storage-blob",
+    "motor",
+    "aimmocore-db",
+    "nest_asyncio",
+    "pillow",
+    "IPython",
+    "aiohttp",
+    "aiofiles",
+    "psutil",
+]
+
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python :: 3.8",
+]
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aimmocore*"]
+
+[tool.setuptools.package-data]
+aimmocore = ["static/**", "core/**", "server/**"]
+
+[tool.black]
+line-length = 120 
+include = '\.pyi?$'
+exclude = '''
+/(
+  | \.git
+)/
+'''
