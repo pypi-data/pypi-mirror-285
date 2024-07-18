@@ -1,0 +1,57 @@
+[project]
+name = "kedro-graphql"
+authors = [
+    {name = "opensean"}
+]
+description = "A kedro plugin for serving any kedro project as a GraphQL api"
+requires-python = ">=3.10, <3.12"
+keywords = [
+    "pipelines",
+    "machine learning",
+    "data pipelines",
+    "data science",
+    "data engineering",
+]
+license = {text = "Apache Software License (Apache 2.0)"}
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+]
+dynamic = ["version", "readme", "dependencies"]
+
+[project.scripts]
+kedro-graphql = "kedro_graphql.__main__:main"
+
+[project.entry-points."kedro.project_commands"]
+kedro-graphql = "kedro_graphql.commands:commands"
+
+[project.urls]
+Homepage = "https://github.com/opensean/kedro-graphql"
+Source = "https://github.com/opensean/kedro-graphql"
+
+[project.optional-dependencies]
+TEST = ["minio~=7.1.15", "s3fs~=2023.5.0", "pandas~=2.2.0"] 
+
+[tool.setuptools.dynamic]
+readme = {file = "README.md", content-type = "text/markdown"}
+version = {attr = "kedro_graphql.__version__"}
+dependencies = {file = "src/requirements.txt"}
+
+
+
+[tool.kedro]
+package_name = "kedro_graphql"
+project_name = "kedro-graphql"
+kedro_init_version = "0.19.6"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+addopts = """
+--cov-report term-missing \
+--cov src/kedro_graphql -ra"""
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
