@@ -1,0 +1,9 @@
+- name: "reply_prompt"
+  raw_string: |
+    {{ settings.start_token }}{{ reply_prompt }}
+
+{% if "heather_voice" in model_id %}
+- name: "special audio token"
+  raw_string: |
+    {{ settings.audio_mode_token }}
+{% endif %}
