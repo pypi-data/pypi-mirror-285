@@ -1,0 +1,84 @@
+Metadata-Version: 2.1
+Name: blackhc.project
+Version: 5.0.0
+Summary: Notebook setup code
+Home-page: https://github.com/blackhc/notebook_setup
+Author: Andreas @blackhc Kirsch
+Author-email: blackhc+notebook_setup@gmail.com
+License: MIT
+Keywords: jupyter
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gitpython
+Requires-Dist: fs.sshfs
+Requires-Dist: laaos
+Requires-Dist: jsonpickle
+Requires-Dist: toolz
+Requires-Dist: jupyter_client<8.0.0
+Requires-Dist: pyzmq<25
+Provides-Extra: dev
+Requires-Dist: check-manifest; extra == "dev"
+Provides-Extra: test
+Requires-Dist: coverage; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-forked; extra == "test"
+Requires-Dist: pyfakefs==3.3; extra == "test"
+Requires-Dist: torch; extra == "test"
+Requires-Dist: psutil; extra == "test"
+Requires-Dist: pytorch-ignite; extra == "test"
+Requires-Dist: blackhc.progress_bar; extra == "test"
+Requires-Dist: wandb; extra == "test"
+Requires-Dist: prettyprinter; extra == "test"
+Requires-Dist: rich; extra == "test"
+Requires-Dist: markdownify; extra == "test"
+Requires-Dist: ipython; extra == "test"
+
+# Notebook setup package
+
+[![Build Status](https://travis-ci.org/BlackHC/notebook_setup.svg?branch=master)](https://travis-ci.org/BlackHC/notebook_setup)
+
+Idea is to
+```
+import blackhc.notebook
+```
+and get someuseful stuff in your jupyter notebooks.
+
+Right now 'useful stuff' is:
+
+* finds the project root and changes directory to that;
+* adds `$project_root/src` to the Python paths;
+* load the autoreload extension and set its mode to 2.
+ 
+## Installation
+
+To install using pip, use:
+
+```
+pip install blackhc.notebook
+```
+
+To run the tests, use:
+
+```
+python setup.py test
+```
+
+## Build and publish a new version
+
+```
+pip install build twine
+```
+
+```
+python -m build  
+```
+
+```
+twine upload dist/*
+```
