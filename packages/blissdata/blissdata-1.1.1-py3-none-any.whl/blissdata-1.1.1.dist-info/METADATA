@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: blissdata
+Version: 1.1.1
+Summary: Bliss data streaming client
+Home-page: https://gitlab.esrf.fr/bliss/bliss/-/tree/master/blissdata
+Author: BCU (ESRF)
+License: LGPLv3
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: beartype
+Requires-Dist: h5py >=2.9
+Requires-Dist: fabio >=0.12
+Requires-Dist: msgpack
+Requires-Dist: numpy >=1.13
+Requires-Dist: redis >=4.6.0
+Requires-Dist: redis-om !=0.3.0
+Requires-Dist: silx >=1.1.0
+Provides-Extra: beacon
+Requires-Dist: ruamel.yaml ; extra == 'beacon'
+Provides-Extra: dev
+Requires-Dist: gevent >=20.9.0 ; extra == 'dev'
+Requires-Dist: pytest >=7 ; extra == 'dev'
+Requires-Dist: pytest-mock ; extra == 'dev'
+Requires-Dist: pytest-redis >=3.1 ; extra == 'dev'
+Requires-Dist: pytest-timeout ; extra == 'dev'
+Requires-Dist: black ==22.3 ; extra == 'dev'
+Requires-Dist: flake8 >=4 ; extra == 'dev'
+Provides-Extra: tango
+Requires-Dist: pytango >=9.3.1 ; extra == 'tango'
+Provides-Extra: test
+Requires-Dist: gevent >=20.9.0 ; extra == 'test'
+Requires-Dist: pytest >=7 ; extra == 'test'
+Requires-Dist: pytest-mock ; extra == 'test'
+Requires-Dist: pytest-redis >=3.1 ; extra == 'test'
+Requires-Dist: pytest-timeout ; extra == 'test'
+
+# Blissdata
+
+Documentation [here](https://bliss.gitlab-pages.esrf.fr/bliss/master/blissdata/getting_started.html).
