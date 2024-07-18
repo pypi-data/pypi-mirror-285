@@ -1,0 +1,57 @@
+Metadata-Version: 2.1
+Name: pyautolabnova
+Version: 0.0.1a1
+Summary: A python package for interfacing with Metrohm Autolab instruments
+Home-page: https://github.com/yawsnr/pyautolabnova
+Author: Dr. Yaw Ansong Snr
+Author-email: yaw.srr@gmail.com
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pythonnet (>=3.0.0)
+
+# PyAutolabNova
+
+This is the pre-Alpha release of PyAutolabNova. If you're seeing this package, you came here too early. This pre-Alpha release is to reserve the package name. Please check back in about a months time when this package will be able to perform basic functionalities like running basic electrochmeistry experiment. 
+
+This is a Python package for interfacing with Metrohm Autolab instruments. It provides a high-level API for controlling and data acquisition from Autolab potentiostats.
+
+## Installation
+
+You can install PyAutolabNova using pip: 
+
+```
+pip install pyautolabnova
+```
+
+
+## Requirements
+
+- Windows operating system
+- Python 3.7 or higher
+- Metrohm Autolab SDK 2.1 installed
+
+## Usage
+
+Here's a basic example of how to use PyAutolabNova:
+
+```
+from pyautolabnova import Base
+
+base = Base()
+base.connect()
+# Perform operations here
+base.disconnect()
+
+```
+
+## Disclaimer
+This package is not officially associated with or endorsed by Metrohm Autolab. Use at your own risk.
