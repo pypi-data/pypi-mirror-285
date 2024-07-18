@@ -1,0 +1,393 @@
+import logging
+import re
+import json
+import time
+from typing import Dict, List
+from urllib.error import HTTPError
+from railib import api, config, rest
+
+from workflow import query as q
+from workflow.common import RaiConfig, EnvConfig
+from workflow.utils import call_with_overhead
+from workflow.exception import ConcurrentWriteAttemptException, RetryException
+
+
+def get_config(engine: str, database: str, env_config: EnvConfig) -> RaiConfig:
+    """
+    Create RAI config for given parameters
+    :param engine:          RAI engine
+    :param database:        RAI database
+    :param env_config:      EvnConfig
+    :return: RAI config
+    """
+    ctx = api.Context(**config.read(fname=env_config.rai_profile_path, profile=env_config.rai_profile),
+                      retries=env_config.rai_sdk_http_retries)
+    return RaiConfig(ctx=ctx, engine=engine, database=database)
+
+
+def get_access_token(logger: logging.Logger, rai_config: RaiConfig) -> str:
+    """
+    Get access token for RAI Cloud
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :return: RAI Cloud access token
+    """
+    logger.debug("Requesting access token")
+    return rest._get_access_token(rai_config.ctx, api._mkurl(rai_config.ctx, "/"))
+
+
+def load_json(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, relation: str,
+              json_data: str) -> None:
+    """
+    Load json into RAI DB
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :param env_config:  Env config
+    :param relation:    relation for insert
+    :param json_data:   json data string
+    :return:
+    """
+    logger.info(f"Loading json as '{relation}'")
+    logger.debug(f"Json content: '{json_data}'")
+    query_model = q.load_json(relation, json_data)
+    execute_query(logger, rai_config, env_config, query_model.query, query_model.inputs, readonly=False)
+
+
+def create_engine(logger: logging.Logger, rai_config: RaiConfig, size: str = "XS") -> None:
+    """
+    Create RAI engine specified in RAI config.
+    Waits until provision has finished.
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :param size:        RAI engine size
+    :return:
+    """
+    logger.info(f"Creating engine `{rai_config.engine}`")
+    api.create_engine_wait(rai_config.ctx, rai_config.engine, size)
+
+
+def delete_engine(logger: logging.Logger, rai_config: RaiConfig) -> None:
+    """
+    Delete RAI engine specified in RAI config.
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :return:
+    """
+    logger.info(f"Deleting engine `{rai_config.engine}`")
+    api.delete_engine(rai_config.ctx, rai_config.engine)
+    # make sure that engine was deleted
+    api.poll_with_specified_overhead(
+        lambda: not engine_exist(logger, rai_config),
+        overhead_rate=0.2,
+        timeout=10 * 60,
+    )
+
+
+def engine_exist(logger: logging.Logger, rai_config: RaiConfig) -> bool:
+    """
+    Check if RAI engine specified in RAI config does exist on RAI Cloud.
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :return: `True` if the engine does exist otherwise `False`
+    """
+    logger.info(f"Check if engine `{rai_config.engine}` exists")
+    return bool(api.get_engine(rai_config.ctx, rai_config.engine))
+
+
+def create_database(logger: logging.Logger, rai_config: RaiConfig, source_db=None) -> None:
+    """
+    Create RAI DB specified in RAI config. The HTTP error 409(Conflict) swallowed since DB already exists.
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :param source_db:   source DB to clone from
+    :return:
+    """
+    logger.info(f"Creating database `{rai_config.database}`")
+    if source_db:
+        logger.info(f"Use `{source_db}` database for clone")
+    try:
+        api.create_database(rai_config.ctx, rai_config.database, source_db)
+    except HTTPError as e:
+        if e.status == 409:
+            logger.info(f"Database '{rai_config.database}' already exists")
+        else:
+            raise e
+
+
+def delete_database(logger: logging.Logger, rai_config: RaiConfig) -> None:
+    """
+    Delete RAI DB specified in RAI config.
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :return:
+    """
+    logger.info(f"Deleting database `{rai_config.database}`")
+    try:
+        api.delete_database(rai_config.ctx, rai_config.database)
+    except HTTPError as e:
+        raise e
+
+
+def database_exist(logger: logging.Logger, rai_config: RaiConfig) -> bool:
+    """
+    Check if RAI DB specified in RAI config does exist
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :return: `True` if DB exists otherwise `False`
+    """
+    logger.info(f"Check if db `{rai_config.database}` exists")
+    return bool(api.get_database(rai_config.ctx, rai_config.database))
+
+
+def install_models(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, models: dict) -> None:
+    """
+    Install Rel model into RAI DB specified in RAI config.
+    :param logger:      logger
+    :param rai_config:  RAI config
+    :param env_config:  Env config
+    :param models:      RAI models to install
+    :return:
+    """
+    logger.info("Installing models")
+
+    query_model = q.install_model(models)
+    execute_query(logger, rai_config, env_config, query_model.query, query_model.inputs, False, False)
+
+
+def execute_query(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, query: str, inputs: dict = None,
+                  readonly: bool = True, ignore_problems: bool = False) -> api.TransactionAsyncResponse:
+    """
+    Execute Rel query using DB and engine from RAI config.
+    :param logger:          logger
+    :param rai_config:      RAI config
+    :param env_config:      Env config
+    :param query:           Rel query
+    :param inputs:          Rel query inputs
+    :param readonly:        Parameter to specify transaction type: Read/Write.
+    :param ignore_problems: Ignore SDK problems if any
+    :return: SDK response
+    """
+    try:
+        if env_config.fail_on_multiple_write_txn_in_flight and not readonly:
+            _check_running_write_txn(logger, rai_config)
+        logger.info(f"Execute query: database={rai_config.database} engine={rai_config.engine} readonly={readonly}")
+        start_time = int(time.time())
+        txn = api.exec_async(rai_config.ctx, rai_config.database, rai_config.engine, query, readonly, inputs)
+        logger.info(f"Execute query: transaction id - {txn.transaction['id']}")
+
+        # in case of if short-path, return results directly, no need to poll for state
+        if not (txn.results is None):
+            return txn
+
+        logger.info(f"Execute query: polling for transaction with id - {txn.transaction['id']}")
+        rsp = api.TransactionAsyncResponse()
+        txn = api.get_transaction(rai_config.ctx, txn.transaction["id"])
+
+        api.poll_with_specified_overhead(
+            lambda: api.is_txn_term_state(api.get_transaction(rai_config.ctx, txn["id"])["state"]),
+            overhead_rate=0.2,
+            start_time=start_time
+        )
+
+        rsp.transaction = api.get_transaction(rai_config.ctx, txn["id"])
+        rsp.metadata = api.get_transaction_metadata(rai_config.ctx, txn["id"])
+        rsp.problems = api.get_transaction_problems(rai_config.ctx, txn["id"])
+        rsp.results = api.get_transaction_results(rai_config.ctx, txn["id"])
+
+        _assert_problems(logger, rsp, ignore_problems)
+        return rsp
+    except HTTPError as e:
+        raise e
+
+
+def execute_relation_json(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, relation: str,
+                          ignore_problems: bool = False) -> Dict:
+    """
+    Execute Rel query with output relation as a json string and parse the output.
+    :param logger:          logger
+    :param rai_config:      RAI config
+    :param env_config:      Env config
+    :param relation:        Rel relations
+    :param ignore_problems: Ignore SDK problems if any
+    :return: parsed json string
+    """
+    rsp = execute_query(logger, rai_config, env_config, q.output_json(relation), ignore_problems=ignore_problems)
+    return _parse_json_string(rsp)
+
+
+def execute_query_csv(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, query: str,
+                      ignore_problems: bool = False) -> Dict:
+    """
+    Execute query and parse the output as CSV.
+    :param logger:          logger
+    :param rai_config:      RAI config
+    :param env_config:      Env config
+    :param query:           Rel query
+    :param ignore_problems: Ignore SDK problems if any
+    :return: parsed CSV output
+    """
+    rsp = execute_query(logger, rai_config, env_config, query, ignore_problems=ignore_problems)
+    return _parse_csv_string(rsp)
+
+
+def execute_relation_string(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, relation: str,
+                            ignore_problems: bool = False) -> str:
+    """
+    Execute Rel query with output relation as a json string and parse the output.
+    :param logger:          logger
+    :param rai_config:      RAI config
+    :param env_config:      Env config
+    :param relation:        Rel relations
+    :param ignore_problems: Ignore SDK problems if any
+    :return: parsed json string
+    """
+
+    rsp = execute_query(logger, rai_config, env_config, q.output_relation(relation), ignore_problems=ignore_problems)
+    return _parse_string(rsp)
+
+
+def execute_query_take_single(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, query: str,
+                              readonly: bool = True, ignore_problems: bool = False) -> any:
+    """
+    Execute query and take the first result.
+    :param logger:          logger
+    :param rai_config:      RAI config
+    :param env_config:      Env config
+    :param query:           Rel query
+    :param readonly:        Parameter to specify transaction type: Read/Write
+    :param ignore_problems: Ignore SDK problems if any
+    """
+    rsp = execute_query(logger, rai_config, env_config, query, readonly=readonly, ignore_problems=ignore_problems)
+    if not rsp.results:
+        logger.debug(f"Query returned no results: {query}")
+        return None
+    return rsp.results[0]['table'].to_pydict()["v1"][0]
+
+
+def execute_query_take_tuples(logger: logging.Logger, rai_config: RaiConfig, env_config: EnvConfig, query: str,
+                              readonly: bool = True, ignore_problems: bool = False) -> any:
+    """
+    Execute query and take the results as an array of tuples.
+    :param logger:          logger
+    :param rai_config:      RAI config
+    :param env_config:      Env config
+    :param query:           Rel query
+    :param readonly:        Parameter to specify transaction type: Read/Write
+    :param ignore_problems: Ignore SDK problems if any
+    """
+    rsp = execute_query(logger, rai_config, env_config, query, readonly=readonly, ignore_problems=ignore_problems)
+    if not rsp.results:
+        logger.debug(f"Query returned no results: {query}")
+        return {}
+    return _parse_as_dict(rsp)
+
+
+def list_transactions(logger: logging.Logger, rai_config: RaiConfig) -> List:
+    """
+    List all transactions for the engine
+    """
+    logger.debug(f"List transactions for {rai_config.engine}")
+    return api.list_transactions(rai_config.ctx, engine_name=rai_config.engine)
+
+
+def _assert_problems(logger: logging.Logger, rsp: api.TransactionAsyncResponse, ignore_problems: bool):
+    problems_has_error = _handle_problems(logger, rsp.problems)
+    txn_state = rsp.transaction.get('state')
+    if txn_state != 'COMPLETED' or (problems_has_error and not ignore_problems):
+        # todo: create a hierarchy of exceptions
+        raise AssertionError(
+            f"Transaction did not complete successfully or has problems: {txn_state}, id: {rsp.transaction['id']}")
+
+
+def _handle_problems(logger: logging.Logger, problems: list) -> bool:
+    problems_has_error = False
+    for problem in problems:
+        if 'is_error' in problem and problem['is_error'] is True or \
+                'is_exception' in problem and problem['is_exception'] is True:
+            problems_has_error = True
+            logger.error(problem)
+        else:
+            logger.warning(problem)
+    return problems_has_error
+
+
+def _parse_json_string(rsp: api.TransactionAsyncResponse) -> Dict:
+    """
+    Parse the output for a json_string query ie
+        def output = json_string[...]
+    """
+    if not rsp.results:
+        return {}
+    output_result = {}
+    for result in rsp.results:
+        if result['relationId'] == "/:output/String":
+            pa_table = result['table']
+            output_result = pa_table.to_pydict()
+            break
+    if not output_result:
+        return {}
+    return json.loads(output_result["v1"][0])
+
+
+def _parse_string(rsp: api.TransactionAsyncResponse) -> str:
+    """
+    Parse the output for a string output query ie
+        def output = {relation_name}
+    """
+    if not rsp.results:
+        return ""
+    pa_table = rsp.results[0]['table']
+    data = pa_table.to_pydict()
+    return str(data["v1"][0])
+
+
+def _parse_csv_string(rsp: api.TransactionAsyncResponse) -> Dict:
+    """
+    Parse the output for a csv_string query ie
+        def output:{rel_name} = csv_string[...]
+    """
+    rel_pattern = r'^/:output/:(.*)/String$'
+    return _parse_matching_pattern(rsp, rel_pattern)
+
+
+def _parse_as_dict(rsp: api.TransactionAsyncResponse) -> Dict:
+    """
+    Parse the output as dictionary, everything starting with :output
+    """
+    rel_pattern = r'^/:output/(.*)$'
+    return _parse_matching_pattern(rsp, rel_pattern)
+
+
+def _parse_matching_pattern(rsp: api.TransactionAsyncResponse, pattern: str) -> Dict:
+    resp = {}
+    for result in rsp.results:
+        match = re.search(pattern, result['relationId'])
+        if match:
+            relation_id = match.group(1)
+            result_dict = result['table'].to_pydict()
+            if "v1" in result_dict:
+                data = result_dict["v1"][0]
+            else:
+                data = True  # if only relation label present, the value is True
+            resp[relation_id] = data
+    return resp
+
+
+def _check_running_write_txn(logger: logging.Logger, rai_config: RaiConfig) -> None:
+    try:
+        call_with_overhead(
+            f=lambda: not _is_running_write_txn(logger, rai_config),
+            logger=logger,
+            overhead_rate=0.5,
+            timeout=30  # 30 sec
+        )
+    except RetryException:
+        raise ConcurrentWriteAttemptException(rai_config.engine)
+
+
+def _is_running_write_txn(logger: logging.Logger, rai_config: RaiConfig) -> bool:
+    txns = list_transactions(logger, rai_config)
+    for txn in txns:
+        if txn["state"] == "RUNNING" and txn["read_only"] is False:
+            return True
+    return False
