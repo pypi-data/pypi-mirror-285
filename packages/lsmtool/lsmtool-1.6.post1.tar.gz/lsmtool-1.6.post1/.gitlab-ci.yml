@@ -1,0 +1,85 @@
+workflow:
+  rules:
+    # Don't create a pipeline if it's a commit pipeline on a branch and that branch has open merge requests
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - when: always
+
+#
+# PREPARE
+#
+
+.prepare:
+  image: python:$PYTHON_VERSION
+  tags:
+    - das6
+  before_script:
+    - python --version
+    # Upgrade pip separately, so that the latest pip will be used to install/upgrade other packages
+    - pip install --upgrade pip
+    - pip install --upgrade wheel setuptools virtualenv
+    - virtualenv venv
+    - source venv/bin/activate
+
+#
+# BUILD
+#
+
+.build:
+  stage: build
+  extends: .prepare
+  script:
+    - pip install .
+
+build-python-3.8:
+  extends: .build
+  variables:
+    PYTHON_VERSION: "3.8"
+
+build-python-3.9:
+  extends: .build
+  variables:
+    PYTHON_VERSION: "3.9"
+
+build-python-3.10:
+  extends: .build
+  variables:
+    PYTHON_VERSION: "3.10"
+
+build-python-3.11:
+  extends: .build
+  variables:
+    PYTHON_VERSION: "3.11"
+
+#
+# TEST
+#
+
+.test:
+  stage: test
+  extends: .prepare
+  before_script:
+    - pip install pytest
+    - pip install .
+  script:
+    - pytest
+
+test-python-3.8:
+  extends: .test
+  variables:
+    PYTHON_VERSION: "3.8"
+
+test-python-3.9:
+  extends: .test
+  variables:
+    PYTHON_VERSION: "3.9"
+
+test-python-3.10:
+  extends: .test
+  variables:
+    PYTHON_VERSION: "3.10"
+
+test-python-3.11:
+  extends: .test
+  variables:
+    PYTHON_VERSION: "3.11"
