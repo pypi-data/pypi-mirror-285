@@ -1,0 +1,80 @@
+Metadata-Version: 2.1
+Name: cardo-python-utils
+Version: 0.3.4
+Summary: Python library enhanced with a wide range of functions for different scenarios.
+Home-page: https://github.com/CardoAI/cardo-python-utils
+Author: Kristi Kotini
+Author-email: hello@cardoai.com
+License: MIT (X11)
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Dynamic Content
+Requires-Python: >=3.8
+License-File: LICENSE
+Provides-Extra: all
+Requires-Dist: Django ; extra == 'all'
+Requires-Dist: pandas >=1.4.0 ; extra == 'all'
+Requires-Dist: django-model-utils >=4.2.0 ; extra == 'all'
+Requires-Dist: djangorestframework ; extra == 'all'
+Requires-Dist: requests ; extra == 'all'
+Provides-Extra: django
+Requires-Dist: Django ; extra == 'django'
+Requires-Dist: django-model-utils ==4.2.0 ; extra == 'django'
+Provides-Extra: pandas
+Requires-Dist: pandas >=1.4.0 ; extra == 'pandas'
+Provides-Extra: rest
+Requires-Dist: djangorestframework ; extra == 'rest'
+Requires-Dist: requests ; extra == 'rest'
+
+============================
+CardoAI Python Helper Module
+============================
+
+This library allows the utilization of different utility functions for different scenarios.
+
+Main utils:
+
+* time
+* string
+* data_structures
+* db
+* django
+* django_rest
+* math
+* pandas
+* exception
+* choices
+
+
+Quick start
+-----------
+1. Import wanted function like this::
+
+    from python_utils.time import date_range
+    date_range(start_date, end_date)
+
+Although the library provides some utility functions related to other libraries like django and pandas, it does not install any dependencies automatically.
+This means, you can install the library even if you do not use these libraries, but keep in mind that in this case you cannot use the
+functions that depend on them.
+
+You can also chose to install the dependencies alongside the library, including the library in the requirements in the form::
+
+    cardo-python-utils[django]
+
+Tests
+-----
+The library has a 100% coverage by tests. If you want to see tests in action:
+
+1. Inside venv, run  ``pip install -r tests/requirements.txt``
+
+2. Run tests via ``pytest`` command
