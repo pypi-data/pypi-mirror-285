@@ -1,0 +1,58 @@
+{% load django_listing %}
+
+<form{{ filters.form_attrs }}>
+    {% gethiddens_filters_form listing %}
+
+    {{ filters.form.non_field_errors }}
+
+    {% for row in filters.form_layout %}
+        <div class="form-row d-lg-flex">
+            {% for field_name,_,ending,_ in row %}
+                {% filters_form_field listing field_name as field %}
+                {% if field %}
+                    <div {% filters_form_field_container_attrs listing field_name %}>
+                        {% if field.errors %}<span class="listing-icon-attention"></span> {{ field.errors }}{% endif %}
+                        <div class="label_input">
+                            {{ field.label_tag }} {{ field }}
+                        </div>
+                        {% if ending %}<span class="ending">{{ ending }}</span>{% endif %}
+                        {% if field.help_text %}
+                            <p class="help">{{ field.help_text|safe }}</p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    *** no filter named '{{ field_name }}' ***
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+    <div class="form-buttons">
+        {% for button in filters.form_buttons %}
+            {% if button == 'reset' %}
+                {% if filters.form_reset_label %}
+                    <a class="{{ filters.theme_form_reset_class }}"
+                       href="{{ filters.get_form_reset_url }}">
+                        <span class="button-icon-label">
+                            <span class="button-icon {{ filters.theme_form_reset_icon }}"></span>
+                            <span class="button-label">{{ filters.form_reset_label }}</span>
+                        </span>
+                    </a>
+                {% endif %}
+            {% elif button == 'submit' %}
+                {% if filters.form_submit_label %}
+                    <button type="submit"
+                           name="f_do_filter"
+                           class="{{ filters.theme_form_submit_class }}"
+                           value="{{ filters.form_submit_label }}"
+                    >
+                        <span class="button-icon-label">
+                            <span class="button-icon {{ filters.theme_form_submit_icon }}"></span>
+                            <span class="button-label">{{ filters.form_submit_label }}</span>
+                        </span>
+                    </button>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</form>
