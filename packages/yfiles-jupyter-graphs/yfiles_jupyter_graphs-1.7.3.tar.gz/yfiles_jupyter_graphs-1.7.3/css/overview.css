@@ -1,0 +1,82 @@
+.graph-widget .overview {
+  --header-height: 36px;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: var(--overview-width);
+  height: 200px;
+  z-index: 10;
+  background: var(--background);
+  overflow: hidden;
+  border-radius: 4px 4px 0 0;
+  transition: height 1s var(--cubic-timing-function) 0s, width 1s var(--cubic-timing-function) 0s;
+}
+
+.graph-widget.map-view .overview {
+  display: none;
+}
+
+.graph-widget .overview.collapsed {
+  height: var(--header-height);
+  width: var(--header-height);
+}
+
+.graph-widget .overview .header span {
+  opacity: 1;
+  transition: opacity 0.5s var(--cubic-timing-function) 0s;
+}
+
+.graph-widget .overview.collapsed .header span {
+  opacity: 0;
+}
+
+.graph-widget .overview .header {
+  height: var(--header-height);
+  width: 100%;
+  font-family: var(--default-font-family);
+  color: var(--yfiles-primary-color);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  background-color: var(--elevation-color-1);
+  /*border-bottom: 1px solid var(--elevation-color-2);*/
+  cursor: pointer;
+}
+
+.graph-widget .overview .header:hover {
+  background-color: var(--elevation-color-2);
+}
+
+.graph-widget .overview .header:after {
+  content: '';
+  background: var(--overview-icon-search) no-repeat 80%;
+  background-size: 20px 20px;
+  width: 30px;
+  height: 36px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: rotate(90deg);
+  transition: transform 0.3s var(--cubic-timing-function) 0s;
+}
+
+.graph-widget .overview.collapsed .header:after {
+  background: var(--overview-icon-collapsed) no-repeat 80%;
+}
+
+.graph-widget .overview.collapsed .header:after {
+  transform: rotate(0deg);
+}
+
+.graph-widget .overview .graph-overview-container {
+  width: 200px;
+  height: calc(200px - var(--header-height));
+}
+
+.graph-widget.dark-mode .overview .graph-overview-container {
+  border-left: 1px solid var(--elevation-color-1);
+  border-right: 1px solid var(--elevation-color-1);
+  border-bottom: 1px solid var(--elevation-color-1);
+}
