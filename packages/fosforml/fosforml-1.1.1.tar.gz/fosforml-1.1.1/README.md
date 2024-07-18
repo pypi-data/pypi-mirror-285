@@ -1,0 +1,128 @@
+
+
+# Fosforml
+
+## Overview
+The `fosforml` package is designed to facilitate the registration, management, and deployment of machine learning models with a focus on integration with Snowflake. It provides tools for managing datasets, model metadata, and the lifecycle of models within a Snowflake environment.
+
+## Features
+- Model Registration: Register models to the Snowflake Model registry with detailed metadata, including descriptions, types, and dependencies.
+- Dataset Management: Handle datasets within Snowflake, including creation, versioning, and deletion of dataset objects.
+- Metadata Management: Update model registry with descriptions and tags for better organization and retrieval.
+- Snowflake Session Management: Manage Snowflake sessions for executing operations within the Snowflake environment.
+
+## Installation
+To install the `fosforml` package, ensure you have Python installed on your system and run the following command:
+
+```
+pip install fosforml
+```
+
+## Usage
+Register a model with the Snowflake Model Registry using the `register_model` function. The function supports both Snowflake and Pandas dataframes, catering to different data handling preferences.
+
+### Requirements
+- **Snowflake DataFrame**: If you are using Snowflake as your data warehouse, you must provide a Snowflake DataFrame (`snowflake.snowpark.dataframe.DataFrame`) that includes model feature names, labels, and output column names.
+- **Pandas DataFrame**: For users preferring local or in-memory data processing, you must upload the following as Pandas DataFrames (`pandas.DataFrame`):
+  - `x_train`: Training data with feature columns.
+  - `y_train`: Training data labels.
+  - `x_test`: Test data with feature columns.
+  - `y_test`: Test data labels.
+  - `y_pred`: Predicted labels for the test data.
+  - `y_prob`: Predicted probabilities for the test data classes for classification problems.
+
+- Numpy data arrays are not allowed as input datasets to register the model
+- `dataset_name`: Name fo dataset on which model trained.
+- `dataset_source`: Name fo source from where dataset is pulled/created.
+- `source`: Model environment name where model getting developed Ex: Notebook/Experiment.
+
+
+### Supported Model Flavours
+
+Currently, the framework supports the following model flavours:
+
+- **Snowflake Models (snowflake)**: Models that are directly integrated with Snowflake, leveraging Snowflake's data processing capabilities.
+- **Scikit-Learn Models (sklearn)**: Models built using the Scikit-Learn library, a widely used library for machine learning in Python.
+
+### Registering a Model
+To register a model with the `fosforml` package, you need to provide the model object, session, and other relevant details such as the model name, description, and type.
+
+
+#### For Snowflake Models :
+
+```python
+from fosforml import register_model
+
+register_model(
+  model_obj=pipeline,
+  session=my_session,
+  name="MyModel",
+  snowflake_df=pred_df,
+  dataset_name="HR_CHURN",
+  dataset_source="Dataset",
+  source="Notebook",
+  description="This is a Snowflake model",
+  flavour="snowflake",
+  model_type="classification",
+  conda_dependencies=["scikit-learn==1.3.2"]
+)
+```
+
+#### For Scikit-Learn Models :
+
+```python
+from fosforml import register_model
+
+register_model(
+  model_obj=model,
+  session=session,
+  x_train=x_train,
+  y_train=y_train,
+  x_test=x_test,
+  y_test=y_test,
+  y_pred=y_pred,
+  y_prob=y_prob,
+  source="Notebook",
+  dataset_name="HR_CHURN",
+  dataset_source="InMemory",
+  name="MyModel",
+  description="This is a sklearn model",
+  flavour="sklearn",
+  model_type="classification",
+  conda_dependencies=["scikit-learn==1.3.2"]
+)
+```
+
+### Snowflake Session Management
+The `SnowflakeSession` class is used to manage connections to Snowflake, facilitating the execution of operations within the Snowflake environment.
+
+```python
+from fosforml.model_manager.snowflakesession import get_session
+
+my_session = get_session()
+```
+
+### Managing Datasets
+The `DatasetManager` class allows for the creation, uploading, and removal of datasets associated with models.
+
+```python
+from fosforml.model_manager import DatasetManager
+
+dataset_manager = DatasetManager(model_name="MyModel", version_name="v1", session=my_session)
+dataset_manager.upload_datasets(session=my_session, datasets={"x_train": x_train_df, "y_train": y_train_df})
+```
+
+## Dependencies
+- pandas
+- snowflake-ml-python
+- requests
+
+Ensure these dependencies are installed in your environment to use the `fosforml` package effectively.
+
+For issues and contributions, please refer to the project's [GitHub repository](https://gitlab.fosfor.com/fosfor-decision-cloud/intelligence/refract-sdk/-/tree/main/fosforml?ref_type=heads).
+
+
+## Additional Resources
+For further assistance and examples on how to register models using [`fosforml`](https://gitlab.fosfor.com/fosfor-decision-cloud/intelligence/refract-sdk/-/tree/main/fosforml/examples?ref_type=heads), please refer to the `example` folder in the project repository. This folder contains Jupyter notebooks that provide step-by-step guidance on model registration and other operations.
+
+Visit [www.fosfor.com](https://www.fosfor.com) for more information.
