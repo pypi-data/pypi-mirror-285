@@ -1,0 +1,163 @@
+Metadata-Version: 2.1
+Name: cuopt_thin_client
+Version: 24.7.0
+Summary: A Python client and command-line
+Author: NVIDIA Corporation
+License: MIT
+Project-URL: Homepage, https://docs.nvidia.com/cuopt/overview.html
+Project-URL: Source, https://github.com/rapidsai/cuopt
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: License.txt
+Requires-Dist: msgpack ==1.0.8
+Requires-Dist: python-dateutil
+Requires-Dist: requests >=2.32.2
+Provides-Extra: test
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: pytest <8 ; extra == 'test'
+
+# cuOpt Service Python Thin Client
+cuOpt Service Python Thin Client is a Python interface to enable access to NVIDIA managed cuOpt service.
+
+Install `cuopt-thin-client` via pip
+```bash
+pip install cuopt-thin-client --extra-index-url=https://pypi.nvidia.com
+```
+
+## Run thin client - CLI
+After installation, the command-line utility can be accessed using
+```bash
+cuopt_cli -c credentials.json cuopt_problem_data.json
+```
+
+## Checking the status of a request which timed out
+
+If a request times out because the problem is taking a long time to solve,
+you will see a result like this:
+```bash
+Request timed out.
+Re-check the status with the following command:
+cuopt_cli '{"reqId": "cde52321-693e-444c-aa77-f55a3f6b0105", "assetId": "3958447c-389d-40ea-bd69-bbf242a9ec80"}'
+```
+
+The JSON object displayed can be passed back to *cuopt_cli* to check the status. This may be done multiple
+times until a solution is returned. The JSON object may or may not include an *assetId*
+
+```bash
+cuopt_cli '{"reqId": "cde52321-693e-444c-aa77-f55a3f6b0105", "assetId": "3958447c-389d-40ea-bd69-bbf242a9ec80"}'
+2023-08-17 15:13:16.120 cuopt_thin_client.cuopt_service_client INFO Using Cached Token
+...
+```
+
+### List of Arguments (abbreviated, check program help for more details):
+        file: Filename or JSON string, required if -g is not specified.
+              Data may be a cuopt problem or contain reqId and assetId (if any)
+              as displayed in the output from a previous request which timed out.
+        -s    File containing sak value in JSON. If this file is not supplied, the environment variable CUOPT_CLIENT_SAK will be used.
+              Only one of the two authetication methods (SAK or CLIENT ID & SECRET) can be used.
+        -c    File containing client_id and secret values in JSON. If this file is not supplied, the environment variables CUOPT_CLIENT_SAK
+              or pair of CUOPT_CLIENT_ID and CUOPT_CLIENT_SECRET will be used. SAK takes precedence.
+        -cn   Config file for setting client defaults in JSON. The format is {"defaults": {"function_name": "", "function_id": "", "function_version_id": ""}}
+              None are required, and function_id takes precedence over function_name. If set, function_version_id must be a valid version of the function identified by name or id.
+        -f    Name or id of the cuOpt cloud function to call. If no name or id is specified and all available functions have the same name
+              then that name will be used. The latest version of the specified function will be called if the -i option is not set.
+              A default function name or id may be set in a config file with the -cn option.
+        -i    The id of a specific version of the specified function to call. By default, the latest version will be called.
+              A default function version id may be set in a config file with the -cn option.
+        -g    Print a list of available cuOpt functions and exit. Refreshes the version cache.
+        -l    Log level
+        -p    Number of seconds to poll for a result before timing out and returning a request id to re-query (defaults to 120)
+        -ov   If set, only validates input and doesn't add to billing.
+
+
+## Run thin client - python script
+### Initialize the CuOptServiceClient with Client SAK provided
+```bash
+	from cuopt_thin_client import CuOptServiceClient
+        cuopt_service_client = CuOptServiceClient(
+            sak=sak
+        )
+```
+
+### Or Initialize the CuOptServiceClient with Client Id and Secret provided (Deprecated)
+```bash
+	from cuopt_thin_client import CuOptServiceClient
+        cuopt_service_client = CuOptServiceClient(
+            client_id=cuopt_client_id,
+            client_secret=cuopt_client_secret,
+        )
+```
+
+### Load the problem data
+```bash
+        with open(cuopt_problem_data_file_path, "r") as f:
+            cuopt_problem_data = json.load(f)
+```
+
+##### The problem data file should contain a json with the following details:
+        cost_waypoint_graph_data: Waypoint graph of Cost matrix 
+        travel_time_waypoint_graph_data: Waypoint graph of Travel time matrix
+        cost_matrix_data: Cost matrix
+        travel_time_matrix_data: Travel time matrix
+        fleet_data: Fleet information
+        task_data: Task Waypoint graph of
+        solver_config: Solver settings
+    
+    For more details see https://docs.nvidia.com/cuopt/user-guide/serv_api.html
+    
+### Get optimized routes
+```bash
+        optimized_routes = cuopt_service_client.get_optimized_routes(
+            cuopt_problem_data
+        )
+```
+
+### Check the status of a previous request that timed out
+```bash
+
+        if "reqId" in cuopt_problem_data:
+            optimized_routes = cuopt_service_client.repoll(
+                cuopt_problem_data["reqId"],
+                cuopt_problem_data.get("assetId", None),
+            )
+```
+
+### Credentials file formats
+For client id and secret
+```bash
+{
+    "CUOPT_CLIENT_ID" : "PASTE_YOUR_CLIENT_ID_HERE",
+    "CUOPT_CLIENT_SECRET" : "PASTE_YOUR_CLIENT_SECRET_HERE"
+}
+```
+
+For SAK
+```bash
+{
+    "CUOPT_CLIENT_SAK" : "PASTE_YOUR_CLIENT_SAK_HERE",
+}
+```
+
+### Config file format
+This file can be used to set default values for function name, id, and/or version when multiple functions are available and the client requires clarification of which function to call. This is an alternative to passing these values explicitly to the client.
+
+Function id takes precedence over function name if both are set. If neither are set and functions all have the same name, that name will be used.
+If function is chosen by name, the client will select the newest function of that name.
+If function version is set, that version must exist in the function identified by id or name. If not set, the newest version of that function will be chosen.
+
+
+```bash
+{
+    "defaults": {
+        "function_name": "PASTE_FUNCTION_NAME_HERE",
+        "function_id": "PASTE_FUNCTION_ID_HERE",
+        "function_version_id": "PASTE_VERSION_ID_HERE"
+    }
+}
+```
