@@ -1,0 +1,33 @@
+[project]
+name = "pokemon_pinyin"
+authors = [{ name = "fcfangcc", email = "fcfangcc@163.com" }]
+description = "Learn pinyin with pokemon"
+readme = "README.md"
+dependencies = [
+    "lxml~=5.2.2",
+    "requests~=2.32.3",
+    "pypinyin~=0.51.0",
+    "pillow~=10.4.0",
+    "click",
+    "platformdirs",
+]
+requires-python = ">=3.10"
+dynamic = ["version"]
+
+[project.scripts]
+ppinyin = "pokemon_pinyin.commands:main"
+
+[build-system]
+requires = ["setuptools>=70.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = { attr = "pokemon_pinyin.VERSION" }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pokemon_pinyin*"]
+namespaces = false
