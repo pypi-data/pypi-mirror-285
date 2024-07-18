@@ -1,0 +1,45 @@
+Metadata-Version: 2.1
+Name: gdbot
+Version: 1.0.2
+Summary: Python Library for creating Geometry Dash Comment Bots.
+Home-page: https://github.com/SevenworksDev/GDBotPy
+Author: SevenworksDev
+Author-email: mail@sevenworks.eu.org
+License: MIT
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+Requires-Dist: requests
+
+# GDBot.py
+Python Library for creating Geometry Dash Comment Bots. More info about this later (probably)
+(Pretty much inspired by Discord.py along with CallocGD's GD-Comment-Bot-Wrapper project)
+
+## Example
+```python
+from gdbot import GDBot
+
+bot = GDBot("USERNAME", "PASSWORD", "LEVEL ID")
+
+@bot.on_ready
+def ready(bot: GDBot):
+    print(f"Bot is ready and logged in as {bot.username}")
+
+@bot.on_error
+def error(bot: GDBot, err: Exception):
+    print(f"Err: {err}")
+
+@bot.on_banned
+def banned(bot: GDBot):
+    print(f"Bot has been banned.")
+
+@bot.command("/hello")
+def hello(bot: GDBot, comment: str):
+    bot.comment(f"Hello")
+
+bot.run()
+```
+
+
