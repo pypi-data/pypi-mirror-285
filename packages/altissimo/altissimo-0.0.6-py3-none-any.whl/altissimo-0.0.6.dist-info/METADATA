@@ -1,0 +1,56 @@
+Metadata-Version: 2.1
+Name: altissimo
+Version: 0.0.6
+Summary: Altissimo Python package
+Author-email: Lukas Karlsson <karlsson@altissimo.io>
+Project-URL: Homepage, https://github.com/altissimo/altissimo
+Project-URL: Issues, https://github.com/altissimo/altissimo/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Altissimo Python package
+
+## Classes
+
+### Firestore
+#### Usage
+```
+from altissimo.firestore import Firestore
+
+f = Firestore(project=project, credentials=credentials, database=database)
+
+# get a list of dicts from a Firestore Collection
+items = f.get_collection("collection")
+```
+
+### SecretManager
+#### Usage
+```
+from altissimo.secretmanager import SecretManager
+
+s = SecretManager(project=project, credentials=credentials)
+
+# get the value of a SecretManager Secret Version
+secret = s.get_secret(secret, version="latest", project=project)
+```
+
+## Modules
+
+### Tools
+#### Usage
+```
+from altissimo.tools import chunks
+
+# get successive chunks of 5 items from list
+for chunk in chunks(my_list, 5):
+    # process the chunk
+    pass
+```
+
+* `chunks(list, n)`: Return successive n-sized chunks from list.
+* `list_to_dict(list, key="id")`: Return a dict of items by key from list.
