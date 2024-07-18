@@ -1,0 +1,86 @@
+Metadata-Version: 2.1
+Name: eimantas_data_transformations
+Version: 0.1.1
+Summary: A Python library for data transformations
+License: MIT
+Author: Eimantas Venslovas
+Requires-Python: >=3.12,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: numpy (>=2.0.0,<3.0.0)
+Description-Content-Type: text/markdown
+
+# Data Transformations Library
+
+This is a Python library for performing common data transformations used in machine learning and data science workflows. The library includes functions for transposing matrices, creating time series windows, and performing 2D cross-correlation.
+
+## Features
+
+- **Transpose Function:** Transposes a 2D matrix (list of lists).
+- **Time Series Windowing Function:** Creates windows from a 1D array with specified size, shift, and stride.
+- **Cross-Correlation Function:** Performs 2D cross-correlation on an input matrix using a given kernel.
+
+## Installation
+
+To install the library, use `pip3`:
+
+```sh
+pip3 install eimantas_data_transformations
+```
+Or, if you are using Poetry, add it to your project with:
+```sh
+poetry add eimantas_data_transformations
+```
+
+## Usage
+
+### Transpose Function
+Transposes a 2D matrix (list of lists). This function takes a 2D matrix represented as a list of lists and returns a new matrix that is the transpose of the input matrix. Transposing a matrix means switching the rows and columns.
+
+Example:
+```python
+from eimantas_data_transformations.transformations import transpose2d
+matrix = [[1, 2, 3], [4, 5, 6]]
+transposed = transpose2d(matrix)
+print(transposed)
+# Output: [[1, 4], [2, 5], [3, 6]]
+```
+### Time Series Windowing Function
+Creates windows from a 1D array with specified size, shift, and stride.
+
+Example:
+
+```python
+from eimantas_data_transformations.transformations import window1d
+input_array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+windows = window1d(input_array, size=3, shift=2, stride=2)
+print(windows)
+# Output: [[1, 3, 5], [3, 5, 7], [5, 7, 9]]
+```
+### Cross-Correlation Function
+Performs 2D cross-correlation on an input matrix using a given kernel.
+
+Example:
+```python
+import numpy as np
+from eimantas_data_transformations.transformations import convolution2d
+
+input_matrix = np.array([
+    [1, 2, 3, 4],
+    [5, 6, 7, 8],
+    [9, 10, 11, 12],
+    [13, 14, 15, 16]
+])
+kernel = np.array([
+    [1, 0],
+    [0, 1]
+])
+result = convolution2d(input_matrix, kernel, stride=2)
+print(result)
+# Output: [[ 7. 11.]
+#          [23. 27.]]
+```
+
+## Author
+Eimantas Venslovas
