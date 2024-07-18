@@ -1,0 +1,221 @@
+Metadata-Version: 2.1
+Name: ansible-dev-tools
+Version: 24.7.2
+Summary: Ansible Developtment Tools kit bundles all tools needed for content creation and testing.
+Author-email: "Bradley A. Thornton" <bthornto@redhat.com>
+Maintainer-email: Ansible by Red Hat <info@ansible.com>
+License: GPL-3.0-only
+Project-URL: changelog, https://github.com/ansible/ansible-dev-tools/releases
+Project-URL: documentation, https://ansible.readthedocs.io/projects/dev-tools/
+Project-URL: homepage, https://github.com/ansible/ansible-dev-tools
+Project-URL: repository, https://github.com/ansible/ansible-dev-tools
+Keywords: ansible
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development
+Classifier: Topic :: Utilities
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ansible-builder
+Requires-Dist: ansible-creator >=24.4.1
+Requires-Dist: ansible-dev-environment
+Requires-Dist: ansible-lint
+Requires-Dist: ansible-navigator
+Requires-Dist: ansible-sign
+Requires-Dist: molecule
+Requires-Dist: pytest-ansible
+Requires-Dist: setuptools
+Requires-Dist: tox-ansible
+Provides-Extra: docs
+Requires-Dist: mkdocs-ansible >=0.2.0 ; extra == 'docs'
+Provides-Extra: lock
+Requires-Dist: ansible-builder ==3.1.0 ; extra == 'lock'
+Requires-Dist: ansible-compat ==24.7.0 ; extra == 'lock'
+Requires-Dist: ansible-core ==2.17.1 ; extra == 'lock'
+Requires-Dist: ansible-creator ==24.7.1 ; extra == 'lock'
+Requires-Dist: ansible-dev-environment ==24.7.0 ; extra == 'lock'
+Requires-Dist: ansible-lint ==24.7.0 ; extra == 'lock'
+Requires-Dist: ansible-navigator ==24.7.0 ; extra == 'lock'
+Requires-Dist: ansible-runner ==2.4.0 ; extra == 'lock'
+Requires-Dist: ansible-sign ==0.1.1 ; extra == 'lock'
+Requires-Dist: asgiref ==3.8.1 ; extra == 'lock'
+Requires-Dist: attrs ==23.2.0 ; extra == 'lock'
+Requires-Dist: bindep ==2.11.0 ; extra == 'lock'
+Requires-Dist: black ==24.4.2 ; extra == 'lock'
+Requires-Dist: bracex ==2.4 ; extra == 'lock'
+Requires-Dist: cachetools ==5.3.3 ; extra == 'lock'
+Requires-Dist: certifi ==2024.7.4 ; extra == 'lock'
+Requires-Dist: cffi ==1.16.0 ; extra == 'lock'
+Requires-Dist: chardet ==5.2.0 ; extra == 'lock'
+Requires-Dist: charset-normalizer ==3.3.2 ; extra == 'lock'
+Requires-Dist: click ==8.1.7 ; extra == 'lock'
+Requires-Dist: click-help-colors ==0.9.4 ; extra == 'lock'
+Requires-Dist: colorama ==0.4.6 ; extra == 'lock'
+Requires-Dist: cryptography ==42.0.8 ; extra == 'lock'
+Requires-Dist: distlib ==0.3.8 ; extra == 'lock'
+Requires-Dist: distro ==1.9.0 ; extra == 'lock'
+Requires-Dist: django ==5.0.7 ; extra == 'lock'
+Requires-Dist: docutils ==0.21.2 ; extra == 'lock'
+Requires-Dist: enrich ==1.2.7 ; extra == 'lock'
+Requires-Dist: exceptiongroup ==1.2.2 ; extra == 'lock'
+Requires-Dist: execnet ==2.1.1 ; extra == 'lock'
+Requires-Dist: filelock ==3.15.4 ; extra == 'lock'
+Requires-Dist: gunicorn ==22.0.0 ; extra == 'lock'
+Requires-Dist: idna ==3.7 ; extra == 'lock'
+Requires-Dist: importlib-metadata ==8.0.0 ; extra == 'lock'
+Requires-Dist: iniconfig ==2.0.0 ; extra == 'lock'
+Requires-Dist: isodate ==0.6.1 ; extra == 'lock'
+Requires-Dist: jinja2 ==3.1.4 ; extra == 'lock'
+Requires-Dist: jsonschema ==4.23.0 ; extra == 'lock'
+Requires-Dist: jsonschema-path ==0.3.3 ; extra == 'lock'
+Requires-Dist: jsonschema-specifications ==2023.12.1 ; extra == 'lock'
+Requires-Dist: lazy-object-proxy ==1.10.0 ; extra == 'lock'
+Requires-Dist: lockfile ==0.12.2 ; extra == 'lock'
+Requires-Dist: markdown-it-py ==3.0.0 ; extra == 'lock'
+Requires-Dist: markupsafe ==2.1.5 ; extra == 'lock'
+Requires-Dist: mdurl ==0.1.2 ; extra == 'lock'
+Requires-Dist: molecule ==24.7.0 ; extra == 'lock'
+Requires-Dist: more-itertools ==10.3.0 ; extra == 'lock'
+Requires-Dist: mypy-extensions ==1.0.0 ; extra == 'lock'
+Requires-Dist: onigurumacffi ==1.3.0 ; extra == 'lock'
+Requires-Dist: openapi-core ==0.19.2 ; extra == 'lock'
+Requires-Dist: openapi-schema-validator ==0.6.2 ; extra == 'lock'
+Requires-Dist: openapi-spec-validator ==0.7.1 ; extra == 'lock'
+Requires-Dist: packaging ==24.1 ; extra == 'lock'
+Requires-Dist: parse ==1.20.2 ; extra == 'lock'
+Requires-Dist: parsley ==1.3 ; extra == 'lock'
+Requires-Dist: pathable ==0.4.3 ; extra == 'lock'
+Requires-Dist: pathspec ==0.12.1 ; extra == 'lock'
+Requires-Dist: pbr ==6.0.0 ; extra == 'lock'
+Requires-Dist: pexpect ==4.9.0 ; extra == 'lock'
+Requires-Dist: platformdirs ==4.2.2 ; extra == 'lock'
+Requires-Dist: pluggy ==1.5.0 ; extra == 'lock'
+Requires-Dist: ptyprocess ==0.7.0 ; extra == 'lock'
+Requires-Dist: pycparser ==2.22 ; extra == 'lock'
+Requires-Dist: pygments ==2.18.0 ; extra == 'lock'
+Requires-Dist: pyproject-api ==1.7.1 ; extra == 'lock'
+Requires-Dist: pytest ==8.2.2 ; extra == 'lock'
+Requires-Dist: pytest-ansible ==24.7.0 ; extra == 'lock'
+Requires-Dist: pytest-xdist ==3.6.1 ; extra == 'lock'
+Requires-Dist: python-daemon ==3.0.1 ; extra == 'lock'
+Requires-Dist: python-gnupg ==0.5.2 ; extra == 'lock'
+Requires-Dist: pyyaml ==6.0.1 ; extra == 'lock'
+Requires-Dist: referencing ==0.31.1 ; extra == 'lock'
+Requires-Dist: requests ==2.32.3 ; extra == 'lock'
+Requires-Dist: resolvelib ==1.0.1 ; extra == 'lock'
+Requires-Dist: rfc3339-validator ==0.1.4 ; extra == 'lock'
+Requires-Dist: rich ==13.7.1 ; extra == 'lock'
+Requires-Dist: rpds-py ==0.19.0 ; extra == 'lock'
+Requires-Dist: ruamel-yaml ==0.18.6 ; extra == 'lock'
+Requires-Dist: ruamel-yaml-clib ==0.2.8 ; extra == 'lock'
+Requires-Dist: six ==1.16.0 ; extra == 'lock'
+Requires-Dist: sqlparse ==0.5.0 ; extra == 'lock'
+Requires-Dist: subprocess-tee ==0.4.2 ; extra == 'lock'
+Requires-Dist: tomli ==2.0.1 ; extra == 'lock'
+Requires-Dist: tox ==4.16.0 ; extra == 'lock'
+Requires-Dist: tox-ansible ==24.7.0 ; extra == 'lock'
+Requires-Dist: typing-extensions ==4.12.2 ; extra == 'lock'
+Requires-Dist: tzdata ==2024.1 ; extra == 'lock'
+Requires-Dist: urllib3 ==2.2.2 ; extra == 'lock'
+Requires-Dist: virtualenv ==20.26.3 ; extra == 'lock'
+Requires-Dist: wcmatch ==8.5.2 ; extra == 'lock'
+Requires-Dist: werkzeug ==3.0.3 ; extra == 'lock'
+Requires-Dist: yamllint ==1.35.1 ; extra == 'lock'
+Requires-Dist: zipp ==3.19.2 ; extra == 'lock'
+Provides-Extra: server
+Requires-Dist: django <5.1,>4.1 ; extra == 'server'
+Requires-Dist: gunicorn ; extra == 'server'
+Requires-Dist: openapi-core >=0.19.1 ; extra == 'server'
+Provides-Extra: test
+Requires-Dist: ansible-dev-tools[server] ; extra == 'test'
+Requires-Dist: black ; extra == 'test'
+Requires-Dist: coverage[toml] ; extra == 'test'
+Requires-Dist: mypy ; extra == 'test'
+Requires-Dist: pip-tools ; extra == 'test'
+Requires-Dist: pre-commit ; extra == 'test'
+Requires-Dist: pydoclint ; extra == 'test'
+Requires-Dist: pylint ; extra == 'test'
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: pytest-xdist ; extra == 'test'
+Requires-Dist: requests ; extra == 'test'
+Requires-Dist: ruff ; extra == 'test'
+Requires-Dist: toml-sort ; extra == 'test'
+Requires-Dist: tox ; extra == 'test'
+Requires-Dist: types-pyyaml ; extra == 'test'
+Requires-Dist: types-requests ; extra == 'test'
+Requires-Dist: django-stubs[compatible-mypy] ; extra == 'test'
+
+<!-- cspell:disable-next-line -->
+
+# Ansible Development Tools (ADT)
+
+The `ansible-dev-tools` python package provides an easy way to install and discover the best tools available to create and test ansible content.
+
+The curated list of tools installed as part of the Ansible automation developer tools package includes:
+
+[ansible-core](https://github.com/ansible/ansible): Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy and maintain. Automate everything from code deployment to network configuration to cloud management, in a language that approaches plain English, using SSH, with no agents to install on remote systems.
+
+[ansible-builder](https://github.com/ansible/ansible-builder): Ansible Builder is a tool that automates the process of building execution environments using the schemas and tooling defined in various Ansible Collections and by the user.
+
+[ansible-creator](https://github.com/ansible/ansible-creator): The fastest way to generate all your ansible content!
+
+[ansible-lint](https://github.com/ansible/ansible-lint): Checks playbooks for practices and behavior that could potentially be improved.
+
+[ansible-navigator](https://github.com/ansible/ansible-navigator) A text-based user interface (TUI) for Ansible.
+
+[ansible-sign](https://github.com/ansible/ansible-sign): Utility for signing and verifying Ansible project directory contents.
+
+[molecule](https://github.com/ansible/molecule): Molecule aids in the development and testing of Ansible content: collections, playbooks and roles
+
+[pytest-ansible](https://github.com/ansible/pytest-ansible): A pytest plugin that enables the use of ansible in tests, enables the use of pytest as a collection unit test runner, and exposes molecule scenarios using a pytest fixture.
+
+[tox-ansible](https://github.com/ansible/tox-ansible): The tox-ansible plugin dynamically creates a full matrix of python interpreter and ansible-core version environments for running integration, sanity, and unit for an ansible collection both locally and in a Github action. tox virtual environments are leveraged for collection building, collection installation, dependency installation, and testing.
+
+[ansible-dev-environment](https://github.com/ansible/ansible-dev-environment): A pip-like install for Ansible collections.
+
+## Installation
+
+`python3 -m pip install ansible-dev-tools`
+
+A VsCode compatible devcontainer is also available which is a great way to develop ansible content. The image name is [community-ansible-dev-tools](https://ansible.readthedocs.io/projects/dev-tools/container/).
+
+## Usage
+
+In addition to installing each of the above tools, `ansible-dev-tools` provides an easy way to show the versions of the content creation tools that make up the current development environment.
+
+```
+$ adt --version
+ansible-builder                          <version>
+ansible-core                             <version>
+ansible-creator                          <version>
+ansible-dev-environment                  <version>
+ansible-dev-tools                        <version>
+ansible-lint                             <version>
+ansible-navigator                        <version>
+ansible-sign                             <version>
+molecule                                 <version>
+pytest-ansible                           <version>
+tox-ansible                              <version>
+```
+
+## Developer Notes
+
+The `ansible-dev-tools` package also offers an Ansible Devtools server which can be launched with `adt server`. Currently, this server only supports REST APIs for `ansible-creator`.
+
+Refer to the [server](https://github.com/ansible/ansible-dev-tools/blob/main/src/ansible_dev_tools/subcommands/server.py) code for available endpoints.
+
+**Note:** This is primarily for backend integrations and is not intended to be an user-facing functionality.
+
+## Documentation
+
+For more information, please visit our [documentation](https://ansible.readthedocs.io/projects/dev-tools/) page.
