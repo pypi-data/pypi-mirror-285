@@ -1,0 +1,37 @@
+[project]
+name = "generify"
+version = "0.1.2"
+description = "Easily create and run tasks (=function calls) with almost seamless transition between Local development and Distributed deployment."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords=["python", "task", "queue", "distributed systems", "distributed computing"]
+dependencies = [
+    "numpy<2.0.0",
+    "pandas",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
+dev = [
+    "pre-commit"
+]
+
+[project.urls]
+Homepage = "https://github.com/innoviz-swt/generify"
+Issues = "https://github.com/innoviz-swt/generify/issues"
+
+[tool.setuptools.packages.find]
+include = ["generify*"]
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "WARNING"
+log_cli_format = "%(asctime)s.%(msecs)03d [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
