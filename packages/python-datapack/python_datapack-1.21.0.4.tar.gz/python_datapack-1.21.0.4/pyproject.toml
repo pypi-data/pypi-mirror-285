@@ -1,0 +1,30 @@
+
+[build-system]
+requires = ["hatchling", "pillow", "smithed", "model_resolver", "mutagen"]
+build-backend = "hatchling.build"
+
+[project]
+name = "python_datapack"
+version = "1.21.0.4"
+authors = [
+	{ name="Stoupy51", email="stoupy51@gmail.com" },
+]
+description = "Python package to help generating advanced Minecraft datapack contents"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+	"Programming Language :: Python :: 3",
+	"License :: OSI Approved :: MIT License",
+	"Operating System :: OS Independent",
+]
+dependencies = [
+	"pillow>=10.4.0",
+	"smithed>=0.18.4",
+	"model_resolver>=0.9.0",
+	"mutagen>=1.47.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Stoupy51/python_datapack"
+Issues = "https://github.com/Stoupy51/python_datapack/issues"
+
