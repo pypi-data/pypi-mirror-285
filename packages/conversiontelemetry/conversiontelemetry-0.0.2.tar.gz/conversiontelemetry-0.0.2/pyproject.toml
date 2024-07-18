@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "conversiontelemetry"
+version = "0.0.2"
+description = "A very simple application to post and get jsons to a mongodb database"
+authors = ["Anthony Galassi <28850131+bendhouseart@users.noreply.github.com>"]
+readme = "README.md"
+
+include = [
+    { path = "scripts/stop_app"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+fastapi = "^0.110.0"
+uvicorn = "^0.27.1"
+pymongo = "^4.6.2"
+slowapi = "^0.1.9"
+python-dotenv = "^1.0.1"
+rich = "^13.7.1"
+gunicorn = "^22.0.0"
+
+[tool.poetry.scripts]
+start-telemetry = "conversiontelemetry.run_app:main"
+start-telemetry-cloud = "conversiontelemetry.run_app_cloud:main"
+setup-telemetry = "conversiontelemetry.setup_app:main"
+stop-telemetry-cloud = "conversiontelemetry.stop_app_cloud:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
