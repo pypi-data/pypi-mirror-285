@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "llaminate"
+version = "0.4.0"
+description = "Optimized version of llama3 / gemma."
+authors = ["apehex <apehex@protonmail.com>"]
+readme = ".github/README.md"
+packages = [{include = "llaminate"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.12"
+tensorflow = ">=2.15"
+tensorflow-datasets = ">=4.9"
+mlable = ">=0.7"
+tokun = ">=0.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

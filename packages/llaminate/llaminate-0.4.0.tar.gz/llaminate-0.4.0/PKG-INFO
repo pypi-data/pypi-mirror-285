@@ -1,0 +1,60 @@
+Metadata-Version: 2.1
+Name: llaminate
+Version: 0.4.0
+Summary: Optimized version of llama3 / gemma.
+Author: apehex
+Author-email: apehex@protonmail.com
+Requires-Python: >=3.10,<3.12
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: mlable (>=0.7)
+Requires-Dist: tensorflow (>=2.15)
+Requires-Dist: tensorflow-datasets (>=4.9)
+Requires-Dist: tokun (>=0.10)
+Description-Content-Type: text/markdown
+
+# llaminate
+
+> Optimized version of [llama3][github-llama3], using [tokun][github-tokun].
+
+<img src="../.github/header.png" alt="Neural tokenization" title="Source: Image by Author and generated with MidJourney" width="100%" style="margin: auto;"/>
+
+This project is a showcase for a neural tokenization technique.
+Since the inputs are compressed and have a smaller shape, the LLM is downsized accordingly.
+
+For example, llama3-8b is brought down to 34 million parameters instead of 8 billion.
+
+## Installation
+
+## Usage
+
+## Resources
+
+### Models
+
+### Notebooks
+
+Final model:
+
+- pretraining: [file][notebook-github-pretrain] / [Google Colab][notebook-colab-pretrain]
+- fine-tuning: file / Google Colab
+
+## TODO
+
+See [TODO](TODO.md).
+
+## Credits
+
+This project winks at [llama3 from Meta][github-llama3], but doesn't actually its weights nor code.
+
+## License
+
+Licensed under the [aGPLv3](LICENSE.md).
+
+[github-llama3]: https://github.com/meta-llama/llama3
+[github-tokun]: https://github.com/apehex/tokun
+
+[notebook-colab-pretrain]: https://colab.research.google.com/github/apehex/llaminate/blob/main/notebooks/llaminate.student.pretrain.ipynb
+[notebook-github-pretrain]: ../notebooks/llaminate.student.pretrain.ipynb
+
