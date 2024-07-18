@@ -1,0 +1,84 @@
+Metadata-Version: 2.1
+Name: shirabe
+Version: 0.1.0
+Summary: Virtual Python Environment builder
+Author-email: nikkie <takuyafjp+develop@gmail.com>
+License: MIT License
+Project-URL: Repository, https://github.com/ftnext/shirabe
+Keywords: environments,isolated,virtual
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Utilities
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pip
+Requires-Dist: pip-tools
+Provides-Extra: dev
+Requires-Dist: taskipy ; extra == 'dev'
+Requires-Dist: autoflake ; extra == 'dev'
+Requires-Dist: pyupgrade ; extra == 'dev'
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: isort ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: pytest-randomly ; extra == 'dev'
+Requires-Dist: flake8 ; extra == 'dev'
+Requires-Dist: mypy ; extra == 'dev'
+
+# shirabe
+調 - Experimental Python dependency manager with virtual environment
+
+* Creates a virtual environment installed all dependencies
+* By default, the virtual environment doesn't have `pip`
+  * Developers can read requirements.txt to know dependencies
+
+## Usage
+
+### Case: there is requirements.txt
+
+(Mainly support `pip-compile`d requirements.txt)
+
+```
+% cat requirements.txt
+kojo-fan-art==0.1.1
+% shirabe alpha .venv
+```
+
+```
+.
+├── .venv/  # Dependencies are installed
+└── requirements.txt
+```
+
+Example: https://github.com/ftnext/shirabe/tree/main/example/dependencies
+
+### Case: there is requirements.in
+
+(or pyproject.toml)
+
+Shirabe generates requirements.txt, then creates virtual environment and installs requirements.
+
+```
+% cat requirements.in
+kojo-fan-art
+% shirabe alpha .venv
+```
+
+```
+.
+├── .venv/  # Dependencies are installed
+├── requirements.in
+└── requirements.txt  # Generated
+```
+
+Example: https://github.com/ftnext/shirabe/tree/main/example/library-names-only
+
+pyproject.toml version: https://github.com/ftnext/shirabe/tree/main/example/pyproject
