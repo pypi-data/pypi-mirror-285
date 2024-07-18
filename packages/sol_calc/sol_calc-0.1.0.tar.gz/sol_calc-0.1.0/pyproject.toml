@@ -1,0 +1,23 @@
+[project]
+name = "sol_calc"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "j25ng", email = "jsan2861@gmail.com"},
+]
+dependencies = ["sol_add>=0.1.0", "sol_mul>=0.1.0", "sol_div>=0.1.0"]
+
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.pdm]
+distribution = true 
+
+[project.scripts]
+sol-add = "sol_calc.calc:a"
+sol-mul = "sol_calc.calc:m"
+sol-div = "sol_calc.calc:d"
+
+[project.urls]
+Homepage = "https://github.com/j25ng/sol_calc"
