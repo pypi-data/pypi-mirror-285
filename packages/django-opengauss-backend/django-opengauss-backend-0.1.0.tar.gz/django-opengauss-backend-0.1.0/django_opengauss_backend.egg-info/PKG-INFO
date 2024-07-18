@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: django-opengauss-backend
+Version: 0.1.0
+Summary: openGauss database dialect for django
+Home-page: https://github.com/vimiix/django-opengauss-backend
+Author: Vimiix
+Author-email: i@vimiix.com
+License: MIT
+Description: # django-opengauss-backend
+        
+        openGauss database dialect for django
+        
+        ## Requirements
+        
+        - openGauss pysocpg2
+        - django >= 1.8
+        
+        ## Django settings
+        
+        You can set the name in your settings.py as:
+        
+        ```python
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django_opengauss_backend',
+                'NAME': '<database name>',
+                'USER': '<database username>',
+                'PASSWORD': '<database password>',
+                'HOST': '<database host>',
+                'PORT': '5432',
+            }
+        }
+        ```
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Framework :: Django
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/markdown
