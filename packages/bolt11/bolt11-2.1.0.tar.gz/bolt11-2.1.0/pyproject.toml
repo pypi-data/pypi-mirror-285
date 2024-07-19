@@ -1,0 +1,120 @@
+[tool.poetry]
+name = "bolt11"
+version = "2.1.0"
+description = "A library for encoding and decoding BOLT11 payment requests."
+repository = "https://github.com/lnbits/bolt11"
+authors = [
+    "eillarra <eneko@illarra.com>",
+    "dni <dni@lnbits.com>",
+    "Alan Bits <alan@lnbits.com>"
+]
+license = "MIT"
+readme = "README.md"
+packages = [
+  {include = "bolt11"},
+  {include = "bolt11/py.typed"},
+]
+
+
+[tool.poetry.scripts]
+bolt11 = "bolt11.cli:main"
+
+
+[tool.poetry.dependencies]
+python = ">=3.8.1"
+click = "*"
+base58 = "*"
+coincurve = "*"
+bech32 = "*"
+bitstring = "*"
+
+
+[tool.poetry.group.dev.dependencies]
+black = ">=23.7,<25.0"
+mypy = "^1.5.1"
+pytest = "^7.2.1"
+pytest-cov = "^4.1.0"
+pyright = "^1.1.323"
+pre-commit = "^3.3.3"
+ruff = "^0.0.283"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.mypy]
+ignore_missing_imports = "True"
+files = "bolt11"
+
+
+[tool.pytest.ini_options]
+addopts = "-s --cov=bolt11 --cov-report=xml"
+testpaths = [
+  "tests"
+]
+
+
+[tool.pyright]
+reportMissingImports = false
+include = [
+    "bolt11",
+]
+
+
+[tool.black]
+line-length = 88
+
+# previously experimental-string-processing = true
+# this should autoformat string properly but does not work
+preview = true
+
+
+[tool.ruff]
+# Same as Black. but black has a 10% overflow rule
+line-length = 88
+
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+# (`I`) means isorting
+select = ["E", "F", "I"]
+ignore = []
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.8
+# target-version = "py38"
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
