@@ -1,0 +1,61 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[project]
+name = "sfapi_client"
+dynamic = ['version']
+authors = [
+  { name="Chris Harris", email="cjh@lbl.gov" },
+  { name="Nicholas Tyler", email="tylern@lbl.gov" }
+]
+description = "Python client for NERSC SF API"
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+  "authlib",
+  "httpx",
+  "pydantic~=2.0",
+  "pydantic-settings",
+  "tenacity"
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+]
+
+[tool.black]
+exclude = '''
+(
+  src/sfapi_client/_sync |
+  src/sfapi_client/_async/_models.py |
+  sfapi_client/examples/
+)
+'''
+
+[tool.ruff]
+exclude = [
+  "src/sfapi_client/_sync",
+  "src/sfapi_client/_async/_models.py"
+]
+
+[project.optional-dependencies]
+docs = [
+  "mkdocs-material",
+  "mkdocstrings[python]",
+  "mkdocs-gen-files",
+  "mkdocs-literate-nav",
+  "mkdocs-section-index",
+  "mkdocs-jupyter"
+]
+
+test = [
+  "pytest",
+  "pydantic[dotenv]",
+  "pytest-mock",
+  "pytest-asyncio"
+]
