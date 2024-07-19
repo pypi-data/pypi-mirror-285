@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: paraffin
+Version: 0.1.1
+Summary: Parallel execution of DVC stages
+License: Apache-2.0
+Author: Fabian Zills
+Author-email: fzills@icp.uni-stuttgart.de
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: dvc (>=3.51.2,<4.0.0)
+Requires-Dist: typer[all] (>=0,<1)
+Project-URL: repository, https://github.com/zincware/paraffin
+Description-Content-Type: text/markdown
+
+# paraffin
+
+Paraffin from latin `parum affinis: little related` is a Python package to run
+[DVC](https://dvc.org) stages in parallel. DVC does not (yet) support this
+directly https://dvc.org/doc/command-reference/repro#parallel-stage-execution.
+
+```bash
+pip install paraffin
+```
+
+Use via
+
+```bash
+paraffin <stage name>
+```
+
+and see `paraffin --help` for more information.
+
