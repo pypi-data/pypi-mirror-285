@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_datalayer_core=self.webpackChunk_datalayer_core||[]).push([[4205],{94205:(a,e,r)=>{r.r(e),r.d(e,{default:()=>l});var t=r(92279);const l=[t.activatorPlugin,t.datalayerCorePlugin]}}]);
