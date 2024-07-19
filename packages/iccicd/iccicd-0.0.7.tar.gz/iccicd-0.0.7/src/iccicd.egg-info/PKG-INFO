@@ -1,0 +1,76 @@
+Metadata-Version: 2.1
+Name: iccicd
+Version: 0.0.7
+Summary: A collection of utilities to manage ICHEC project CI/CD pipelines.
+Author-email: "James Grogan, Irish Centre for High End Computing" <james.grogan@ichec.ie>
+Project-URL: Repository, https://git.ichec.ie/performance/toolshed/iccicd
+Project-URL: Homepage, https://git.ichec.ie/performance/toolshed/iccicd
+Keywords: CICD,HPC,Gitlab
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: System :: Distributed Computing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: build
+Requires-Dist: twine
+Requires-Dist: iccore==0.0.6
+Requires-Dist: tomlkit
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pytest-sugar; extra == "test"
+Requires-Dist: black; extra == "test"
+Requires-Dist: mypy; extra == "test"
+
+# iccicd
+
+This project is a collection of utilities for managing CI/CD pipelines at ICHEC.
+
+It provides opinionated interfaces to encourage standarization of our project structures and workflows.
+
+# Install
+
+The package is available from PyPI:
+
+```sh
+pip install iccicd
+```
+
+# Features #
+
+## Deploy a Package to a Repository
+
+From the package's top-level directory:
+
+```sh
+iccicd deploy --token $REPO_TOKEN
+```
+
+As an example, for a Python project this might be the PyPI repository's token.
+
+## Set a Package's Version Number
+
+From the package's top-level directory:
+
+```sh
+iccicd set_version $VERSION
+```
+
+## Increment a Repository's Tag ##
+
+From the repository's top-level directory, and on the branch the tag will be dervied from:
+
+``` sh
+iccicd increment_tag --field patch
+```
+
+Here `semver` tag versioning is assumed with a `major.minor.patch` scheme. Note: in a CI/CD pipeline some more input options are needed to initialize the git repo for pushing the tag to. You can use the `--help` flag for more details.
+
+
+# Licensing #
+
+This project is licensed under the GPLv3+. See the accompanying `LICENSE.txt` file for details.
+
