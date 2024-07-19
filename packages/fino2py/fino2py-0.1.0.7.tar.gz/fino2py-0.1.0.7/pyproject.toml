@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "fino2py"
+version = "0.1.0.7"
+description = "A package to help researchers and clinicians work with data produced by the Finapress Finometer and Nova devices"
+authors = ["Kev O'Malley"]
+readme = "README.md"
+packages = [
+    { include = "fino2py" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^2.0.1"
+
+
+
+
+[tool.poetry.group.dev.dependencies]
+sphinx = "6.2.1"
+sphinx-rtd-theme = "^1.2.1"
+certifi = "^2024.07"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
