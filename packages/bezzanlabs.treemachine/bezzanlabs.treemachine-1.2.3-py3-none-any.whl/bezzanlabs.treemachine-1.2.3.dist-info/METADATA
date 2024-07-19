@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: bezzanlabs.treemachine
+Version: 1.2.3
+Summary: An AutoML companion to fit tree models easily
+Author-email: Vitor Bezzan <vitor@bezzan.com>
+Project-URL: Homepage, https://github.com/vitorbezzan/tree_machine
+Project-URL: Bug Tracker, https://github.com/vitorbezzan/tree_machine
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy <2.0.0,>1.0.0
+Requires-Dist: pandas >=2.2.1
+Requires-Dist: scikit-learn ~=1.4
+Requires-Dist: xgboost ~=2.0
+Requires-Dist: imbalanced-learn ~=0.12
+Requires-Dist: shap ==0.45
+Requires-Dist: optuna ~=3.6.1
+Requires-Dist: optuna-integration ==3.6.0
+Requires-Dist: pydantic ~=2.7.4
+Provides-Extra: dev
+Requires-Dist: pre-commit ==3.5.0 ; extra == 'dev'
+Requires-Dist: mypy ==1.6.0 ; extra == 'dev'
+Requires-Dist: pylint ==3.0.1 ; extra == 'dev'
+Requires-Dist: pytest ==7.3.1 ; extra == 'dev'
+Requires-Dist: pytest-mock ; extra == 'dev'
+Requires-Dist: pytest-cov ; extra == 'dev'
+Requires-Dist: safety ==2.3.5 ; extra == 'dev'
+Requires-Dist: sphinx-autodoc-typehints ==1.24.1 ; extra == 'dev'
+Requires-Dist: nbsphinx ==0.9.3 ; extra == 'dev'
+Requires-Dist: sphinx ==7.2.6 ; extra == 'dev'
+Requires-Dist: sphinx-copybutton ==0.5.2 ; extra == 'dev'
+Requires-Dist: sphinx-rtd-theme ==1.3.0 ; extra == 'dev'
+Requires-Dist: recommonmark ==0.7.1 ; extra == 'dev'
+Requires-Dist: isort ==5.12.0 ; extra == 'dev'
+Requires-Dist: pandas-stubs ==2.1.1.230928 ; extra == 'dev'
+
+# Tree Machine: An AutoML companion to fit tree models easily
+
+[![python](https://img.shields.io/badge/python-3.11-blue?style=for-the-badge)](http://python.org)
+[![python](https://img.shields.io/badge/python-3.12-red?style=for-the-badge)](http://python.org)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+This package aims to give users a simple interface to fit tree models. Tree models are
+the workhorse for tabular data and are used in many applications. Our aim is to simplify
+the use, tuning and deployment of these models.
+
+### AutoTrees
+Specific auto-tune trees that use Bayesian optimization to select the best model overall
+and the best hyperparameters for that model. The models are trained using a `lightgbm`
+backend, and the user can change the parameters to use during `fit`.
+
+Can be used as a last step inside a `sklearn.pipeline` object.
+
+## Installing the package
+
+Just issue the command:
+
+```bash
+python -m pip install bezzanlabs.treemachine
+```
+
+This package should work in all systems, and it was tested in Linux and MacOS.
+
+## Setup for development
+
+To install this package, run the following command in your terminal:
+```bash
+make install
+```
+This should proceed with the installation of all dependencies for development.
