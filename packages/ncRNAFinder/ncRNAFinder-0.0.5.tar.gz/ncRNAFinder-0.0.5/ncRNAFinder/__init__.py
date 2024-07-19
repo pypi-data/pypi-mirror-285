@@ -1,0 +1,3 @@
+from ncRNAFinder.ncRNAFinder import ncRNAFinder, execu, blastn, infernal, arrumaFasta, Pipeline, rnacentral, rfam, overlaps_blast, overlaps, overlaps_blast_infernal, overlaps_BestHit, salvar_original, salvar_gff, salvar_fasta, qtdTotal_ncRNA, graficoTotal_barra, graficoTotal_stacked, diagrama_venn, resultados_tRNA, resultados_miRNA, pipeBlast, pipeInf, ncRNAFinder
+
+#from ncRNAfinder.Pipeline import overlaps_blast, overlaps, overlaps_blast_infernal, overlaps_BestHit, salvar_original, salvar_gff, salvar_fasta, qtdTotal_ncRNA, graficoTotal_barra, graficoTotal_stacked, diagrama_venn, resultados_tRNA, resultados_miRNA, pipeBlast, pipeInf, ncRNAFinder
