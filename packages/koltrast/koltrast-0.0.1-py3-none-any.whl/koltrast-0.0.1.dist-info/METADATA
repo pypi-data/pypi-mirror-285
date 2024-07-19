@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: koltrast
+Version: 0.0.1
+Summary: Create runs for data pipelines
+Author-email: Erik Bremstedt <erik.bremstedt@gmail.com>
+Project-URL: Homepage, https://github.com/pypa/sampleproject
+Project-URL: Issues, https://github.com/pypa/sampleproject/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pendulum ==3.0.0
+
+# Koltrast
+
+Koltrast is a small module that splits a time interval into multiple, shorter intervals.
+
+It was made to help simplify the process of backfilling pipelines.
+
+## How to install
+
+```sh
+pip install koltrast
+```
+
+## Example usage
+
+```python
+import koltrast
+
+intervals = koltrast.generate_intervals(
+    since="2014-06-01", until="2014-06-09", chunk="day"
+)
+
+for interval in intervals:
+    print(interval)
+```
+
+results in:
+```
+```
