@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: unitlog
+Version: 0.0.3
+Home-page: https://github.com/yujun2647/unitlog
+Download-URL: 
+Author: walkerjun
+Author-email: yujun2647@163.com
+License: Apache-2.0
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# unitlog
+
+## About
+
+manage log sending through one process
+
+## Usage
+
+```python
+import logging
+
+from unitlog.unit import register_logger
+
+logger1 = logging.getLogger("test1")
+
+register_logger(name=logger1.name, file_log=True,
+                log_filepath="./temp/test1.log")
+
+logger1.info("hello")
+
+```
