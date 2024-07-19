@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: bsb-test
+Version: 4.1.0
+Summary: Helpers for better and more complete tests for component developers of the BSB framework.
+Author-email: Robin De Schepper <robingilbert.deschepper@unipv.it>
+Description-Content-Type: text/markdown
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Requires-Dist: bsb-core~=4.0
+Requires-Dist: bsb-core[parallel] ; extra == "test"
+Requires-Dist: bsb-hdf5~=4.0 ; extra == "test"
+Requires-Dist: coverage~=7.0 ; extra == "test"
+Provides-Extra: test
+
+# bsb-test
+
+> [!IMPORTANT]
+> To use with `pytest`, add the `-p no:threadexception` flag.
+
