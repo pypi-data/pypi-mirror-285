@@ -1,0 +1,89 @@
+Metadata-Version: 2.3
+Name: aliyun-instrumentation-llama-index
+Version: 1.0.1
+Summary: Aliyun LlamaIndex Instrumentation
+Project-URL: Homepage, https://help.aliyun.com/zh/opentelemetry/user-guide/report-llm-trace-data-through-alibaba-cloud-python-sdk
+Author-email: Aliyun Python SDK Authors <lurious.lyh@alibaba-inc.com>
+License-Expression: Apache-2.0
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: <3.13,>=3.8
+Requires-Dist: aliyun-semantic-conventions>=1.0.0
+Requires-Dist: opentelemetry-api
+Requires-Dist: opentelemetry-instrumentation
+Requires-Dist: opentelemetry-semantic-conventions
+Requires-Dist: typing-extensions
+Requires-Dist: wrapt
+Provides-Extra: instruments
+Requires-Dist: llama-index>=0.10.5; extra == 'instruments'
+Provides-Extra: test
+Requires-Dist: llama-index-llms-openai; extra == 'test'
+Requires-Dist: llama-index==0.10.5; extra == 'test'
+Requires-Dist: opentelemetry-sdk; extra == 'test'
+Requires-Dist: respx; extra == 'test'
+Description-Content-Type: text/markdown
+
+# 阿里云LlamaIndex自动检测库
+
+这是Python自动检测库，专为LlamaIndex框架设计。通过此库产生的追踪信息完全兼容OpenTelemetry，可以发送到OpenTelemetry收集器进行查看，例如xtrace。
+
+## 安装
+
+通过下列命令安装`aliyun-instrumentation-llama-index`：
+
+```bash
+pip3 install  aliyun-instrumentation-llama-index
+```
+
+## 兼容性
+
+`llama-index`与`aliyun-instrumentation-llama-index`两者间的版本兼容性以下所述：
+
+| llama-index版本       | aliyun-instrumentation-llama-index版本 |
+|---------------------|----------------------------------|
+| >=0.10.0, < 0.10.43 | >=1.0.0                          |
+## 快速开始
+
+### 安装必须的包
+
+首先，安装本示范所需的包：
+
+```bash
+pip install aliyun-instrumentation-llama-index llama-index opentelemetry-sdk opentelemetry-exporter-otlp
+```
+
+### 设置追踪
+
+以下Python代码用于设置`AliyunLlamaIndexInstrumentor`来追踪`llama-index`，并将追踪信息输出至控制台。
+
+```python
+
+from aliyun.instrumentation.llama_index import AliyunLlamaIndexInstrumentor
+
+from opentelemetry import trace
+from opentelemetry.sdk.resources import Resource, SERVICE_NAME, SERVICE_VERSION
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import SimpleSpanProcessor, ConsoleSpanExporter
+
+resource = Resource(
+    attributes={
+        SERVICE_NAME: 'aliyun_llama_index_test',
+        SERVICE_VERSION: '0.0.1',
+        # "telemetry.sdk.language": "Python",
+    }
+)
+provider = TracerProvider(resource=resource)
+provider.add_span_processor(SimpleSpanProcessor(ConsoleSpanExporter()))  # 在控制台输出Trace
+trace.set_tracer_provider(provider)
+# aliyun llama-index instrumentor
+AliyunLlamaIndexInstrumentor().instrument()
+```
+
