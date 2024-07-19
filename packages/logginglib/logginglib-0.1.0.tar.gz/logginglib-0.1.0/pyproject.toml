@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "logginglib"
+version = "0.1.0"
+description = "Evvve Platform Logging Lib"
+authors = ["Levon Yeghiazaryan <levon@evvve.net>"]
+readme = "README.md"
+packages = [{include = "logginglib"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-json-logger = "^2.0.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
