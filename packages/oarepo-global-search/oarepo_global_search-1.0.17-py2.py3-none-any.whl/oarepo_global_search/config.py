@@ -1,0 +1,6 @@
+from oarepo_global_search.services.records.service import GlobalSearchService
+
+GLOBAL_SEARCH_RECORD_SERVICE_CONFIG = GlobalSearchService.config
+
+
+GLOBAL_SEARCH_RECORD_SERVICE_CLASS = GlobalSearchService

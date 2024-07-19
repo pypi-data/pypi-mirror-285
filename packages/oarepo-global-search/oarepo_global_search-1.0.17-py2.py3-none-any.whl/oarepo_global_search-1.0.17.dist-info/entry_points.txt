@@ -1,0 +1,13 @@
+[invenio_base.api_apps]
+oarepo_global_search_api = oarepo_global_search.ext:OARepoGlobalSearch
+
+[invenio_base.api_blueprints]
+oarepo_global_search_api = oarepo_global_search.views.api:create_global_search
+oarepo_global_user_search_api = oarepo_global_search.views.api:create_global_user_search
+
+[invenio_base.apps]
+oarepo_global_search = oarepo_global_search.ext:OARepoGlobalSearch
+
+[invenio_base.blueprints]
+oarepo_global_search = oarepo_global_search.views.app:create_app_blueprint
+ui_oarepo_global_search = oarepo_global_search.ui.config:create_blueprint
