@@ -1,0 +1,20 @@
+mutation UpdateUseCaseMutation(
+  $competition_id: ID!
+  $pyprojectToml: String!
+  $readme: String
+) {
+  createUseCaseVersion(
+    competitionId: $competition_id
+    input: { pyprojectToml: $pyprojectToml, readme: $readme }
+  ) {
+    node {
+      id
+      files {
+        id
+        kind
+        uploadUrl
+      }
+    }
+  }
+}
+

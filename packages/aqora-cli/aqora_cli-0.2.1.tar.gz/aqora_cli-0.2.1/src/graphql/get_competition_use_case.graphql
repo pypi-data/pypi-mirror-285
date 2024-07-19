@@ -1,0 +1,16 @@
+query GetCompetitionUseCase($slug: String!) {
+  competitionBySlug(slug: $slug) {
+    id
+    useCase {
+      name
+      latest {
+        version
+        pyprojectToml
+        files {
+          kind
+          downloadUrl
+        }
+      }
+    }
+  }
+}
