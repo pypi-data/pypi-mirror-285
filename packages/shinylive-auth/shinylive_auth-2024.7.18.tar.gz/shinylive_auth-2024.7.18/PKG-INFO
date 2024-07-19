@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: shinylive_auth
+Version: 2024.7.18
+Summary: View and server modules to facility shinylive authentication using a class protocal and local storage.
+Author-email: darrida <darrida.py@gmail.com>
+Project-URL: Homepage, https://github.com/darrida/py-shinylive-authentication
+Project-URL: Issues, https://github.com/darrida/py-shinylive-authentication/issues
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: shiny
+Requires-Dist: pydantic<2.0
+Provides-Extra: tests
+Requires-Dist: fastapi; extra == "tests"
+Requires-Dist: loguru; extra == "tests"
+Requires-Dist: pyfetch_mimic==2024.04.20; extra == "tests"
+Requires-Dist: httpx; extra == "tests"
+Requires-Dist: shinylive; extra == "tests"
+Requires-Dist: shinyswatch; extra == "tests"
+
+# py-shinylive-authentication
+
+## Preliminary Release
+- Documentation is scarse at this point. 
+- For usage, see docstrings on the `src.shiny_auth.AuthProtocol` class methods.
+- For examples, see code in:
+  - `src_dev/app.py`
+  - `src_dev/simple_security/`
+  - `src_dev/restapi_security/`
+
+## Install Test Dependencies
+- `uv pip install -e '.[tests]'`

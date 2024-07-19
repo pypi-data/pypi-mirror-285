@@ -1,0 +1,31 @@
+[project]
+name = "shinylive_auth"
+version = "2024.7.18"
+authors = [
+  {name="darrida", email="darrida.py@gmail.com"}
+]
+description = "View and server modules to facility shinylive authentication using a class protocal and local storage."
+readme = "README.md"
+
+dependencies = [
+  'shiny',
+  'pydantic < 2.0',
+]
+
+[project.optional-dependencies]
+tests = [
+  'fastapi',
+  'loguru',
+  'pyfetch_mimic == 2024.04.20',
+  'httpx',
+  'shinylive',
+  'shinyswatch',
+]
+
+[project.urls]
+Homepage = "https://github.com/darrida/py-shinylive-authentication"
+Issues = "https://github.com/darrida/py-shinylive-authentication/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
