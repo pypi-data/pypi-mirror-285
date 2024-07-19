@@ -1,0 +1,1 @@
+from .rickrollprinter import rickrollTime
