@@ -1,0 +1,40 @@
+Metadata-Version: 2.1
+Name: tc-analyzer-lib
+Version: 1.2.2
+Summary: A platform agnostic analyzer, computing the TogetherCrew dashboard metrics.
+Author: Mohammad Amin Dadgar, TogetherCrew
+Maintainer: Mohammad Amin Dadgar
+Maintainer-email: dadgaramin96@gmail.com
+Requires-Dist: attrs ==22.2.0
+Requires-Dist: dnspython ==2.6.1
+Requires-Dist: exceptiongroup ==1.1.0
+Requires-Dist: iniconfig ==2.0.0
+Requires-Dist: packaging <25.0,>=24.0
+Requires-Dist: pluggy ==1.0.0
+Requires-Dist: pymongo ==4.6.3
+Requires-Dist: python-dateutil ==2.8.2
+Requires-Dist: pytz ==2022.7.1
+Requires-Dist: python-dotenv >=1.0.0
+Requires-Dist: six ==1.16.0
+Requires-Dist: tomli ==2.0.1
+Requires-Dist: networkx ==3.1
+Requires-Dist: requests ==2.32.0
+Requires-Dist: tqdm
+Requires-Dist: tc-messageBroker ==1.6.7
+Requires-Dist: sentry-sdk
+Requires-Dist: rq
+Requires-Dist: redis
+Requires-Dist: tc-neo4j-lib ==2.0.1
+Requires-Dist: pybars3
+Requires-Dist: backoff ==2.2.1
+Requires-Dist: motor ==3.5.1
+
+# TC-Analyzer-lib
+
+This repository contains the codes to analyze different platform's data. It includes the scripts to compute heatmaps, memberactivities and graph analytics such as degree centrality, Louvain modularity, local clustering coefficient.
+
+To install the library you could follow the
+
+```bash
+pip install tc-analyzer-lib
+```
