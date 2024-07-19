@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Py-Html-Graph</title>
+    <script>
+        (function(d) {
+          var config = {
+            kitId: 'ccp7pog',
+            scriptTimeout: 3000,
+            async: true
+          },
+          h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+        })(document);
+      </script>
+    <style>
+        /* To disable the behavior of most elements */
+        * {
+            line-height: 1;
+            font-size: 2vw;
+            padding: 0;
+            border: 0;
+            margin: 0;
+            text-decoration: none;
+            overflow: hidden;
+            box-sizing: border-box;
+            color: #000;
+            background-color: rgba(0, 0, 0, 0);
+            font-family: sans-serif;
+            display: block;
+            list-style: none;
+            flex-direction: row;
+            gap: 0;
+            border-radius: 0;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font-weight: 400;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-flow: nowrap;
+            vertical-align: top;
+            caret-color: #000;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* To disable the behavior in specific status */
+        *:visited,
+        *:active,
+        *:hover,
+        *:focus,
+        *:focus-within,
+        *:focus-visible,
+        *:checked {
+            color: #000;
+            outline: 0;
+            text-decoration: none;
+        }
+
+        /* I haven't encountered this, but I see this in other reset css */
+        *::before {
+            content: '';
+            display: none;
+        }
+
+        *::after {
+            content: '';
+            display: none;
+        }
+
+        /* Head will show because it is set to block previously */
+        head {
+            display: none;
+        }
+
+        /* Set to overflow hidden previously, but overflow-y should be scrollable */
+        html {
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        /* Same to head */
+        script {
+            display: none;
+        }
+
+        style {
+            display: none;
+        }
+
+        /* To disable the influence of scroll bar in width, that will affect the consistency of using vw */
+        main {
+            width: 100vw;
+        }
+
+        /* To hide the scroll bar of whole page */
+        html {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <style>
+        html {
+            background-color: #eee;
+        }
+
+        * {
+            color: #282828;
+            font-family: "fot-seurat-pron", sans-serif;
+            font-weight: 500;
+        }
+
+        h1,
+        h2,
+        a {
+            margin-left: 5vw;
+        }
+
+        h1 {
+            padding-top: 2vw;
+            font-size: 3vw;
+            padding-bottom: 1.25vw;
+        }
+
+        #desc {
+            padding-left: 3vw;
+            padding-bottom: 3vw;
+            font-size: 1.5vw;
+            color: #6f6f6f;
+        }
+
+        a {
+            margin-top: 9vw;
+            font-size: 1.5vw;
+            text-decoration: underline !important;
+            color: rgb(208, 0, 255) !important;
+            width: fit-content;
+            font-size: 2vw;
+        }
+
+        a:active {
+            color: rgb(57, 190, 5) !important;
+        }
+
+        footer {
+            margin-top: 2.5vw;
+            width: 100%;
+        }
+
+        footer>p {
+            font-size: 1.125vw;
+            text-align: center;
+            line-height: 1.35;
+            color: #8f8f8f !important;
+        }
+
+        footer a {
+            display: inline;
+            font-size: 1.125vw;
+            margin: 0;
+            line-height: 1.2;
+            color: #8f8f8f !important;
+        }
+
+        footer a:hover {
+            color: #8f8f8f !important;
+        }
+
+        footer div {
+            margin-bottom: 1vw;
+            width: 85vw;
+            height: 0.1vw;
+            border-radius: 0.05vw;
+            background-color: #c2c2c2;
+            margin-left: 7.5vw;
+        }
+
+        #dash {
+            font-family: "ar-yuangbstd", sans-serif;
+            font-size: 2.5vw;
+        }
+
+        #list {
+            min-height: 25vw;
+            width: 100%;
+            padding-left: 5vw;
+            padding-top: 1.5vw;
+        }
+
+        #list * {
+            font-family: "ar-yuangbstd", sans-serif;
+            font-size: 1.5vw;
+            line-height: 1.75;
+        }
+
+        #list a {
+            margin: 0;
+            display: inline-block;
+        }
+
+        #list p {
+            padding-left: 3vw;
+            padding-right: 8vw;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Py-Html-Graph</h1>
+    <h2 id="desc">A high-performance interactive numpy line chart viewer, good supplement for the awful matplotlib.
+    </h2>
+    <main id="main">
+        <h2 id="dash">Dashboard</h2>
+        <div id="list">
+            <p>0. <a href="/example" class="$jtc.py-html-graph.dashboard-items-replacer$">example</a>: this is an example</p>
+        </div>
+    </main>
+    <footer>
+        <div></div>
+        <p>
+            py-html-graph: a high-performance interactive numpy line chart viewer, good supplement for the awful
+            matplotlib
+        </p>
+        <p>
+            Github:
+            <a href="https://github.com/jtc1246/py-html-graph" target="_blank">github.com/jtc1246/py-html-graph</a>
+        </p>
+    </footer>
+</body>
+<script>
+    console.log('py-html-graph: a high-performance interactive numpy line chart viewer, good supplement for the awful matplotlib\n\nGithub: https://github.com/jtc1246/py-html-graph');
+    var browser_info = navigator.userAgent.toLowerCase();
+    if ((browser_info.indexOf('safari/') !== -1 && browser_info.indexOf('chrome/') === -1) || browser_info.indexOf('firefox/') !== -1) {
+        var main = document.getElementById('main');
+        main.innerHTML = "This website can't be opened in Safari or Firefox! Please use Chrome, Edge or Opera (Recommend chrome and opera)."
+        main.style.color = 'red';
+        main.style.overflow = 'visible';
+        main.style.fontSize = '2.5vw';
+        main.style.textAlign = 'center';
+        main.style.paddingTop = '5vw';
+        main.style.lineHeight = '1.35';
+        main.style.width = '80%';
+        main.style.marginLeft = '10%';
+        document.querySelector('footer').style.marginTop = '10vw';
+        throw new Error();
+    }
+
+    if (window.location.protocol === 'http:' && !window.location.host.startsWith('127.0.0.1') && !window.location.host.startsWith('localhost')) {
+        var main = document.getElementById('main');
+        main.innerHTML = "If using http, this website can only be opened on the same device (127.0.0.1 or localhost) as the server. Please use https or open it on the same device (through 127.0.0.1 or localhost)."
+        main.innerHTML += '<p id="p1">Why?</p><p id="p2">In this website, I need to use sharedArrayBuffer, which requires Cross-Origin-Opener-Policy header (or the browser will not recognize sharedArrayBuffer). But if you open through http and not from 127.0.0.1 or localhost, the browser will disallow the header of Cross-Origin-Opener-Policy, so this website can\'t be opened.</p>';
+        main.style.color = 'red';
+        main.style.overflow = 'visible';
+        main.style.fontSize = '2.5vw';
+        main.style.textAlign = 'center';
+        main.style.paddingTop = '1vw';
+        main.style.lineHeight = '1.35';
+        main.style.width = '80%';
+        main.style.marginLeft = '10%';
+        main.style.textAlign = 'left';
+        var p1 = document.getElementById('p1');
+        p1.style.fontSize = '1.5vw';
+        p1.style.paddingTop = '4vw';
+        p1.style.lineHeight = '1.2';
+        var p2 = document.getElementById('p2');
+        p2.style.fontSize = '1.5vw';
+        p2.style.lineHeight = '1.35';
+        p2.style.paddingTop = '1vw';
+        document.querySelector('footer').style.marginTop = '7.5vw';
+        throw new Error();
+    }
+</script>
+
+</html>
