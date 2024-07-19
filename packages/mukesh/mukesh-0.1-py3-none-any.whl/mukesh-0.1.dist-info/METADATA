@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: mukesh
+Version: 0.1
+Summary: A simple package to process aerial images and generate orthophotos.
+Home-page: UNKNOWN
+Author: Mukesh Anand G
+Author-email: ai.mukeshanandg@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: pyodm
+
+# mukesh
+
+A simple package to process aerial images and generate orthophotos.
+
+## Installation
+
+pip install mukesh
+
+
+## Prerequisites
+
+Ensure you have Docker installed and running on your system. You can install Docker from [here](https://www.docker.com/get-started).
+
+## Usage
+
+
+from mukesh import process_images
+
+image_folder = '/path/to/images'
+output_dir = '/path/to/output'
+process_images(image_folder, output_dir)
+
+
