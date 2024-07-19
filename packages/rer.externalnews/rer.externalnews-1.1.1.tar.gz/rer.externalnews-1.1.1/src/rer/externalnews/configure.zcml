@@ -1,0 +1,41 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="rer.externalnews"
+    >
+
+  <i18n:registerTranslations directory="locales" />
+
+  <include package=".browser" />
+  <include package=".upgrades" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="RER: External News"
+      description="Install the rer.externalnews add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/default"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="RER: External News (unistall)"
+      description="Uninstall the rer.externalnews add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      directory="profiles/uninstall"
+      post_handler=".setuphandlers.uninstall"
+      />
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="rer.externalnews-hiddenprofiles"
+      />
+
+  <adapter
+      factory=".indexers.getRemoteUrl"
+      name="getRemoteUrl"
+      />
+
+</configure>

@@ -1,0 +1,5 @@
+====================
+rer.externalnews
+====================
+
+User documentation
