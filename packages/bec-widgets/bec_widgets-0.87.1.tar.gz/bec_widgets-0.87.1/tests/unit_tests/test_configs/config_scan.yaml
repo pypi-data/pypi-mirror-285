@@ -1,0 +1,82 @@
+plot_settings:
+  background_color: "white"
+  num_columns: 3
+  colormap: "plasma"
+  scan_types: true
+plot_data:
+  grid_scan:
+  - plot_name: "Grid plot 1"
+    x_label: "Motor X"
+    y_label: "BPM"
+    sources:
+      - type: "scan_segment"
+        signals:
+          x:
+            - name: "samx"
+              entry: "samx"
+          y:
+            - name: "gauss_bpm"
+              entry: "gauss_bpm"
+  - plot_name: "Grid plot 2"
+    x_label: "Motor X"
+    y_label: "BPM"
+    sources:
+      - type: "scan_segment"
+        signals:
+          x:
+            - name: "samx"
+              entry: "samx"
+          y:
+            - name: "gauss_adc1"
+              entry: "gauss_adc1"
+  - plot_name: "Grid plot 3"
+    x_label: "Motor X"
+    y_label: "BPM"
+    sources:
+      - type: "scan_segment"
+        signals:
+          x:
+            - name: "samx"
+              entry: "samx"
+          y:
+            - name: "gauss_adc2"
+              entry: "gauss_adc2"
+  - plot_name: "Grid plot 4"
+    x_label: "Motor X"
+    y_label: "BPM"
+    sources:
+      - type: "scan_segment"
+        signals:
+          x:
+            - name: "samx"
+              entry: "samx"
+          y:
+            - name: "bpm4i"
+              entry: "bpm4i"
+  line_scan:
+    - plot_name: "Multiple Gauss Plot"
+      x_label: "Motor X"
+      y_label: "BPM"
+      sources:
+        - type: "scan_segment"
+          signals:
+            x:
+              - name: "samx"
+            y:
+              - name: "gauss_bpm"
+                entry: "gauss_bpm"
+              - name: "gauss_adc1"
+                entry: "gauss_adc1"
+              - name: "gauss_adc2"
+                entry: "gauss_adc2"
+    - plot_name: "BPM Plot"
+      x_label: "Motor X"
+      y_label: "BPM"
+      sources:
+        - type: "scan_segment"
+          signals:
+            x:
+              - name: "samx"
+            y:
+              - name: "bpm4i"
+                entry: "bpm4i"
