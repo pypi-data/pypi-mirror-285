@@ -1,0 +1,86 @@
+Metadata-Version: 2.1
+Name: synavate
+Version: 0.0.2
+Summary: Synavate Utility Library
+Home-page: https://github.com/snyata/synavate_utils
+License: MIT
+Author: Synavate Labs
+Requires-Python: >=3.9.0,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: black (>=24.4.2,<25.0.0)
+Requires-Dist: chromadb (>=0.5.3,<0.6.0)
+Requires-Dist: datetime (>=5.5,<6.0)
+Requires-Dist: fastapi (>=0.111.1,<0.112.0)
+Requires-Dist: flake8 (>=7.1.0,<8.0.0)
+Requires-Dist: isort (>=5.13.2,<6.0.0)
+Requires-Dist: jinja2 (>=3.1.4,<4.0.0)
+Requires-Dist: openai (>=1.35.13,<2.0.0)
+Requires-Dist: pyarrow (>=17.0.0,<18.0.0)
+Requires-Dist: recommonmark (>=0.7.1,<0.8.0)
+Requires-Dist: uvicorn (>=0.30.1,<0.31.0)
+Project-URL: Repository, https://github.com/snyata/synavate_utils
+Description-Content-Type: text/markdown
+
+# Synavate Utilities 🌟
+
+Synavate Utilities is a comprehensive package designed to streamline and enhance your data processing and analysis workflows. Packed with powerful tools and utilities, this package is essential for data scientists, engineers, and developers who work with complex data sets and need efficient solutions for their tasks. 📊🔧
+
+## Key Features
+
+### Data Generation & Testing 🧪
+
+- **generate-tests**: Automatically generate test cases and manage test outputs with ease. This includes utilities for creating test data, managing configurations, and tracking utilities.
+
+### Documentation & CI/CD 📄
+
+- **autodoc_generator**: Generate documentation automatically for your projects.
+- **cicd**: Configuration files and scripts for setting up continuous integration and continuous deployment pipelines using tools like CircleCI and Google Cloud Platform.
+
+### Data Handling & Storage 📦
+
+- **db**: Utilities for interacting with various databases including MongoDB, Redis, and Chroma. Provides scripts and modules for data loading, querying, and storage.
+- **py**: Python modules for formatting, decorators, and GCP interaction.
+
+### Docker & DevOps 🐳
+
+- **docker**: Dockerfiles and scripts for containerizing applications, including a specific Dockerfile for Streamlit applications.
+- **scripts**: Zsh scripts for managing folders and other utilities.
+
+### Logging & Monitoring 📈
+
+- **logs**: Tools for setting up and managing logging configurations, including integration with filebeat for log collection and monitoring.
+
+## Getting Started
+
+### Installation
+
+You can install Synavate Utilities via pip:
+
+```bash
+pip install synutils
+```
+
+### Usage
+
+Import the necessary modules from Synavate Utilities in your Python project:
+
+```python
+from synutils import main
+```
+
+### Example
+
+Here's a quick example of how to use one of the utilities:
+
+```python
+from synutils.main import some_utility_function
+
+# Use the utility function for your task
+some_utility_function()
+```
+
