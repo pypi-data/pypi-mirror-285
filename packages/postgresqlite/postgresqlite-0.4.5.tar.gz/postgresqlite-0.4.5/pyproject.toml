@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "postgresqlite"
+version = "0.4.5"
+description = "Python package that gives you the power of a PostgreSQL server, with the convenience of the sqlite3 package."
+authors = ["Frank van Viegen <pp@vanviegen.net>"]
+readme = "README.md"
+repository = "https://github.com/vanviegen/postgresqlite"
+documentation = "https://github.com/vanviegen/postgresqlite/blob/master/README.md#Documentation"
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Topic :: Database',
+    'License :: OSI Approved :: BSD License',
+    'Operating System :: POSIX :: Linux',
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pg8000 = "^1.24.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+postgresqlite = 'postgresqlite:main'
