@@ -1,0 +1,24 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="rer.externalnews"
+    >
+
+  <genericsetup:upgradeStep
+      title="Upgrade rer.externalnews to 1100"
+      description="Migrates rer.externalnews to 1100"
+      profile="rer.externalnews:default"
+      source="1000"
+      destination="1100"
+      handler=".upgrades.to_1100"
+      sortkey="1"
+      />
+  <genericsetup:upgradeStep
+      title="Upgrade rer.externalnews to 1200"
+      description="Migrates rer.externalnews to 1200"
+      profile="rer.externalnews:default"
+      source="1100"
+      destination="1200"
+      handler=".upgrades.to_1200"
+      />
+</configure>

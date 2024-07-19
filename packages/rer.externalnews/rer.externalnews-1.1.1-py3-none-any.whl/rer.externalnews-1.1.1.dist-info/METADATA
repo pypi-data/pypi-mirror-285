@@ -1,0 +1,175 @@
+Metadata-Version: 2.1
+Name: rer.externalnews
+Version: 1.1.1
+Summary: A Plone add-on for Regione Emilia Romagna
+Home-page: https://pypi.python.org/pypi/rer.externalnews
+Author: RedTurtle Technology
+Author-email: sviluppoplone@redturtle.it
+License: GPL version 2
+Keywords: Python Plone
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Plone
+Classifier: Framework :: Plone :: 6.0
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Operating System :: OS Independent
+Classifier: License :: OSI Approved :: GNU General Public License v2 (GPLv2)
+Requires-Python: >=3.8
+License-File: LICENSE.GPL
+License-File: LICENSE.rst
+Requires-Dist: plone.api
+Requires-Dist: Products.GenericSetup >=1.8.2
+Requires-Dist: setuptools
+Requires-Dist: plone.app.dexterity
+Provides-Extra: test
+Requires-Dist: plone.app.testing ; extra == 'test'
+Requires-Dist: plone.testing >=5.0.0 ; extra == 'test'
+Requires-Dist: plone.app.contenttypes ; extra == 'test'
+Requires-Dist: plone.app.robotframework[debug] ; extra == 'test'
+
+.. This README is meant for consumption by humans and pypi. Pypi can render rst files so please do not use Sphinx features.
+   If you want to learn more about writing documentation, please check out: http://docs.plone.org/about/documentation_styleguide.html
+   This text does not appear on pypi or github. It is a comment.
+
+================
+rer.externalnews
+================
+
+This product adds a new dexterity content type to your plone  website:
+**External News**.
+
+This type is similar and act as a Link type.
+
+Features
+--------
+
+- You can add an image to the object.
+- You can specify where the link is from.
+
+
+Translations
+------------
+
+This product has been translated into
+
+- Italiano
+
+
+Installation
+------------
+
+Install rer.externalnews by adding it to your buildout::
+
+    [buildout]
+
+    ...
+
+    eggs =
+        rer.externalnews
+
+
+and then running ``bin/buildout``
+
+
+Compatibility
+-------------
+This package is fully compatible for Plone 5.
+
+
+=======
+Credits
+=======
+
+Developed with the support of `Regione Emilia Romagna <http://www.regione.emilia-romagna.it/>`_;
+
+Regione Emilia Romagna supports the `PloneGov initiative <http://www.plonegov.it/>`_.
+
+
+=======
+Authors
+=======
+
+This product was developed by **RedTurtle Technology** team.
+
+.. image:: https://avatars1.githubusercontent.com/u/1087171?s=100&v=4
+   :alt: RedTurtle Technology Site
+   :target: http://www.redturtle.it/
+
+
+Contribute
+----------
+
+- Issue Tracker: https://github.com/PloneGov-IT/rer.externalnews/issues
+- Source Code: https://github.com/PloneGov-IT/rer.externalnews
+
+
+License
+-------
+
+The project is licensed under the GPLv2.
+
+
+Contributors
+============
+
+- RedTurtle Technology, sviluppoplone@redturtle.it
+
+
+Changelog
+=========
+
+1.1.1 (2024-07-18)
+------------------
+
+- Populate getRemoteUrl metadata.
+  [cekk]
+
+
+1.1.0 (2024-04-18)
+------------------
+
+- Volto compatibility.
+  [cekk]
+
+
+1.0.2 (2021-09-02)
+------------------
+
+- Added serializer and remoteUrl field. Updated translations.
+  [daniele]
+
+1.0.1 (2021-09-01)
+------------------
+
+- Updated translations.
+  [daniele]
+
+1.0.0 (2021-08-30)
+------------------
+
+- Include upgrades package
+  [cekk]
+- Add python3 compatibility
+  [cekk]
+
+0.1.2 (2018-01-05)
+------------------
+
+- Enable versioning
+  [cekk]
+
+
+0.1.1 (2017-12-21)
+------------------
+
+- Added some behaviors to the External News type.
+  [arsenico13]
+
+
+0.1.0 (2017-12-21)
+------------------
+
+- Initial release.
+  [arsenico13]
