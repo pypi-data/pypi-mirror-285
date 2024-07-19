@@ -1,0 +1,263 @@
+# File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
+
+from __future__ import annotations
+
+import os
+from typing import Any, cast
+
+import pytest
+
+from scale_gp import SGPClient, AsyncSGPClient
+from tests.utils import assert_matches_type
+from scale_gp.types.applications import (
+    InteractionExportResponse,
+    ApplicationInteractionEntry,
+)
+
+base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+
+
+class TestInteractions:
+    parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    def test_method_list(self, client: SGPClient) -> None:
+        interaction = client.applications.interactions.list(
+            application_spec_id="application_spec_id",
+        )
+        assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+    @parametrize
+    def test_method_list_with_all_params(self, client: SGPClient) -> None:
+        interaction = client.applications.interactions.list(
+            application_spec_id="application_spec_id",
+            account_id="account_id",
+            faithfulness_max_score=0,
+            faithfulness_min_score=0,
+            from_ts=1,
+            has_feedback_response=True,
+            has_negative_feedback=True,
+            has_positive_feedback=True,
+            limit=1,
+            page=1,
+            relevance_max_score=0,
+            relevance_min_score=0,
+            search_text="search_text",
+            sort_key="sort_key",
+            sort_order="asc",
+            to_ts=1,
+            variants=["string", "string", "string"],
+        )
+        assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+    @parametrize
+    def test_raw_response_list(self, client: SGPClient) -> None:
+        response = client.applications.interactions.with_raw_response.list(
+            application_spec_id="application_spec_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        interaction = response.parse()
+        assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+    @parametrize
+    def test_streaming_response_list(self, client: SGPClient) -> None:
+        with client.applications.interactions.with_streaming_response.list(
+            application_spec_id="application_spec_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            interaction = response.parse()
+            assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_list(self, client: SGPClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `application_spec_id` but received ''"):
+            client.applications.interactions.with_raw_response.list(
+                application_spec_id="",
+            )
+
+    @parametrize
+    def test_method_export(self, client: SGPClient) -> None:
+        interaction = client.applications.interactions.export(
+            application_spec_id="application_spec_id",
+        )
+        assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+    @parametrize
+    def test_method_export_with_all_params(self, client: SGPClient) -> None:
+        interaction = client.applications.interactions.export(
+            application_spec_id="application_spec_id",
+            faithfulness_max_score=0,
+            faithfulness_min_score=0,
+            from_ts=1,
+            has_feedback_response=True,
+            has_negative_feedback=True,
+            has_positive_feedback=True,
+            limit=1,
+            page=1,
+            relevance_max_score=0,
+            relevance_min_score=0,
+            search_text="search_text",
+            to_ts=1,
+            variants=["string", "string", "string"],
+        )
+        assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+    @parametrize
+    def test_raw_response_export(self, client: SGPClient) -> None:
+        response = client.applications.interactions.with_raw_response.export(
+            application_spec_id="application_spec_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        interaction = response.parse()
+        assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+    @parametrize
+    def test_streaming_response_export(self, client: SGPClient) -> None:
+        with client.applications.interactions.with_streaming_response.export(
+            application_spec_id="application_spec_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            interaction = response.parse()
+            assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    def test_path_params_export(self, client: SGPClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `application_spec_id` but received ''"):
+            client.applications.interactions.with_raw_response.export(
+                application_spec_id="",
+            )
+
+
+class TestAsyncInteractions:
+    parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
+
+    @parametrize
+    async def test_method_list(self, async_client: AsyncSGPClient) -> None:
+        interaction = await async_client.applications.interactions.list(
+            application_spec_id="application_spec_id",
+        )
+        assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+    @parametrize
+    async def test_method_list_with_all_params(self, async_client: AsyncSGPClient) -> None:
+        interaction = await async_client.applications.interactions.list(
+            application_spec_id="application_spec_id",
+            account_id="account_id",
+            faithfulness_max_score=0,
+            faithfulness_min_score=0,
+            from_ts=1,
+            has_feedback_response=True,
+            has_negative_feedback=True,
+            has_positive_feedback=True,
+            limit=1,
+            page=1,
+            relevance_max_score=0,
+            relevance_min_score=0,
+            search_text="search_text",
+            sort_key="sort_key",
+            sort_order="asc",
+            to_ts=1,
+            variants=["string", "string", "string"],
+        )
+        assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+    @parametrize
+    async def test_raw_response_list(self, async_client: AsyncSGPClient) -> None:
+        response = await async_client.applications.interactions.with_raw_response.list(
+            application_spec_id="application_spec_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        interaction = await response.parse()
+        assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_list(self, async_client: AsyncSGPClient) -> None:
+        async with async_client.applications.interactions.with_streaming_response.list(
+            application_spec_id="application_spec_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            interaction = await response.parse()
+            assert_matches_type(ApplicationInteractionEntry, interaction, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_list(self, async_client: AsyncSGPClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `application_spec_id` but received ''"):
+            await async_client.applications.interactions.with_raw_response.list(
+                application_spec_id="",
+            )
+
+    @parametrize
+    async def test_method_export(self, async_client: AsyncSGPClient) -> None:
+        interaction = await async_client.applications.interactions.export(
+            application_spec_id="application_spec_id",
+        )
+        assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+    @parametrize
+    async def test_method_export_with_all_params(self, async_client: AsyncSGPClient) -> None:
+        interaction = await async_client.applications.interactions.export(
+            application_spec_id="application_spec_id",
+            faithfulness_max_score=0,
+            faithfulness_min_score=0,
+            from_ts=1,
+            has_feedback_response=True,
+            has_negative_feedback=True,
+            has_positive_feedback=True,
+            limit=1,
+            page=1,
+            relevance_max_score=0,
+            relevance_min_score=0,
+            search_text="search_text",
+            to_ts=1,
+            variants=["string", "string", "string"],
+        )
+        assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+    @parametrize
+    async def test_raw_response_export(self, async_client: AsyncSGPClient) -> None:
+        response = await async_client.applications.interactions.with_raw_response.export(
+            application_spec_id="application_spec_id",
+        )
+
+        assert response.is_closed is True
+        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+        interaction = await response.parse()
+        assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+    @parametrize
+    async def test_streaming_response_export(self, async_client: AsyncSGPClient) -> None:
+        async with async_client.applications.interactions.with_streaming_response.export(
+            application_spec_id="application_spec_id",
+        ) as response:
+            assert not response.is_closed
+            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
+
+            interaction = await response.parse()
+            assert_matches_type(InteractionExportResponse, interaction, path=["response"])
+
+        assert cast(Any, response.is_closed) is True
+
+    @parametrize
+    async def test_path_params_export(self, async_client: AsyncSGPClient) -> None:
+        with pytest.raises(ValueError, match=r"Expected a non-empty value for `application_spec_id` but received ''"):
+            await async_client.applications.interactions.with_raw_response.export(
+                application_spec_id="",
+            )
