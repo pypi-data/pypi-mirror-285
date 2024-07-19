@@ -1,0 +1,29 @@
+import os
+
+
+
+# # 安装vscode server。
+# # 参考install.sh 也许能用更优化的方式安装。
+# # * 启动方式：`code-server --link ali`
+# # 免费的官方服务，能毫无障碍的穿透内网
+# RUN curl -fsSL https://code-server.dev/install.sh | sh
+# RUN code-server --install-extension ms-azuretools.vscode-docker \
+#         ms-python.python \
+#         donjayamanne.githistory \
+#         eamodio.gitlens \
+#         yzhang.markdown-all-in-one
+
+
+def install():
+    """执行docker环境的安装"""
+    print("安装 code-server ", flush=True)
+    os.system(""" apt update &&curl -fsSL https://code-server.dev/install.sh | sh""")
+    os.system("""
+wget -q -O /tmp/webmin-current.deb https://www.webmin.com/download/deb/webmin-current.deb \
+&& dpkg -i /tmp/webmin-current.deb \
+&& rm /tmp/webmin-current.deb \
+&& apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+""")
+
+if __name__ == "__main__":
+    install()

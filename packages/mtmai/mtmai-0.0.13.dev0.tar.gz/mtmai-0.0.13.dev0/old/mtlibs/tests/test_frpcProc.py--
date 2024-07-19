@@ -1,0 +1,18 @@
+import unittest
+# from mtlibs import process_helper
+from mtlibs.frpcProc import FrpcProc
+# import asyncio
+# from unittest import mock
+from unittest.mock import patch
+
+
+class Test_frpcProc(unittest.TestCase):
+
+    @patch("mtlibs.process_helper.is_tool", return_value=False)
+    @patch("mtlibs.process_helper.bash")
+    def test_setupIfNeed(self, mock_bash, mock_istool):
+        """应该能执行bash脚本并能获取脚本输出"""
+        FrpcProc.installIfNeed()
+        self.assertTrue(mock_bash.called)
+        # stdout_bytes, stderrbytes = process_helper.bash(bash_code)
+        # self.assertEqual(stdout_bytes.decode().strip(), "some value aa")

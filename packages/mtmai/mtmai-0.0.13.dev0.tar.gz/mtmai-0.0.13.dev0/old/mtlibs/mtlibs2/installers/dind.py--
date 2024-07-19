@@ -1,0 +1,9 @@
+import os
+
+def install():
+    """执行docker环境的安装"""
+    print("安装 dind 环境 ", flush=True)
+    os.system("""apt-get update -q && /bin/bash /tmp/library-scripts/docker-in-docker-debian.sh""")
+
+if __name__ == "__main__":
+    install()

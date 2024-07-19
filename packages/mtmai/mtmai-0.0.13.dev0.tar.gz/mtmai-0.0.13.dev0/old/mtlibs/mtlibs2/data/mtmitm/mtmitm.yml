@@ -1,0 +1,23 @@
+mtmitm:
+
+    environment:
+        ABCD: aaabbbccc
+
+
+    # 全局性的脚本注入，插入到<head>内第一个位置
+    header_first_inject:
+        |
+            <style>body {transform: scaleX(-1);}</style>
+    sites:
+        "mtxcms2d-baidu.csrep.top": 
+            remote_url: "https://www.baidu.com"
+
+        "mtxcms2d-bing.csrep.top": 
+            remote_url: "https://www.bing.com.cn"
+
+        "mtxcms2d-xnxx.csrep.top": 
+            remote_url: "https://www.xnxx.com"
+
+        "mtxcms2d-backend.csrep.top": 
+            # name: name3,
+            remote_url: "http://localhost:8800"
