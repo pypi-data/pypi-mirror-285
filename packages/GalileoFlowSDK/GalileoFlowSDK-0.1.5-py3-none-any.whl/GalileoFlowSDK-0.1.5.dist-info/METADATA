@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: GalileoFlowSDK
+Version: 0.1.5
+Summary: Reading a flow rate from Galileo Flow Sensor
+Home-page: UNKNOWN
+Author: Galileo (MIC)
+Author-email: <galileo@microfluidic.fr>
+License: UNKNOWN
+Keywords: python,galileo
+Platform: UNKNOWN
+Description-Content-Type: text/markdown
+Requires-Dist: pyserial
+
+A class-based interface to the Galileo Flow Sensor
+
+A Galileo-Flow SDK is a class based interface to easily communicate with the Galileo Flow Sensor. It contains essential modules to read the flow rate and do other necessary operations. 
+
+**Setting up the GALILEO Sensor**
+
+Setting up the Galileo Sensor is straightforward. First, insert the cartridge to the Base and power on the sensor using type-C USB connector. Make sure that all three flags on the screen are green.
+![Galileo Cartridge](https://raw.githubusercontent.com/galileo-microfluidics/Galileo-images/main/Galileo_cartridge_insert.png)
+
+Next, check the COMPORT number of the sensor. In Windows, you can open the Device Manager and find the COMPORT under Ports list:
+![Comport number](https://raw.githubusercontent.com/galileo-microfluidics/Galileo-images/main/Comport_number.png)
+
+**Example 1. Reading the flow rate**)
+One can use the code snippet below to read the flow rate every second. But, instead of 'COM18',
+do not forget to write the actual comport value.
+
+```python
+from GalileoFlowSDK import GalileoFlowSDK
+import time
+
+galileo_sensor = GalileoFlowSDK("COM18")
+while(1):
+    time.sleep(1)
+    print('flow is ' , galileo_sensor.read_flow())
+```
+
+**Example 2. Reading the liquid type and changing it**
+
+The code snippet below allows to check the liquid type in the Galileo Sensor
+```python
+from GalileoFlowSDK import GalileoFlowSDK
+import time
+
+galileo_sensor = GalileoFlowSDK("COM18")
+print('liquid is ' , galileo_sensor.read_liquid())
+```
+
+To change the liquid, one can use update_liquid method. The argument ot this method is a number which cooresponds to
+a liquid type:
+-  0: water, 
+-  1:ip, 
+-  2:dmem, 
+-  3:ethanol
+
+For example, in the code below, we set ethanol as a liquid type:
+```python
+from GalileoFlowSDK import GalileoFlowSDK
+import time
+
+galileo_sensor = GalileoFlowSDK("COM18")
+galileo_sensor.update_liquid(3)
+time.sleep(1)
+print('liquid is ' , galileo_sensor.read_liquid())
+galileo_sensor.disconnect()
+```
+
+**Example 3. Reading the serial number of the Cartridge**
+Every cartridge has its own unique serial number. This number is useful when utilizing several Galileo
+Sensors to easily distinguish sensors from each other. In the interface, there is a function to read the serial number:
+
+```python
+from GalileoFlowSDK import GalileoFlowSDK
+import time
+galileo_sensor = GalileoFlowSDK("COM18")
+time.sleep(1)
+print('liquid is ' , galileo_sensor.read_serial_number())
+galileo_sensor.disconnect()
+```
+
+
