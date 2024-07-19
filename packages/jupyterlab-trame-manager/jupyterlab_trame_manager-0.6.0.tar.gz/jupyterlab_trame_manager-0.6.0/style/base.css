@@ -1,0 +1,95 @@
+@import url('collapsible.css');
+@import url('components.css');
+
+#trame-manager-sidepanel {
+  background: var(--jp-layout-color3) !important;
+  min-width: 450px !important;
+}
+
+.trame-manager-sidepanel-segment {
+  background: var(--jp-layout-color0);
+  color: var(--jp-content-font-color0);
+  padding: 10px;
+}
+
+.instance-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 10px;
+}
+
+.instance-list li {
+  padding: 5px;
+  display: flex;
+  flex-direction: row;
+}
+
+.toolbar {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 10px;
+}
+
+.launch-button {
+  background: green;
+  color: white;
+  border: 0 solid green;
+  float: right;
+  padding: 4px 8px;
+  height: 32px;
+}
+
+.icon-button {
+  background: var(--jp-layout-color2);
+  color: var(--jp-content-font-color0);
+  border: 0 solid;
+  padding: 2px 4px;
+  margin: 2px;
+}
+
+.icon-button:hover {
+  background: var(--jp-layout-color3);
+}
+
+.form-input {
+  margin-bottom: 12px;
+}
+
+.open-button {
+  width: 30%;
+  border: 0;
+  padding: 0;
+  margin: 0 5px;
+  background: var(--jp-layout-color2);
+  flex-shrink: 0;
+  color: var(--jp-content-font-color2);
+}
+
+.open-button:hover {
+  background-color: var(--jp-layout-color3);
+}
+
+.open-button:active {
+  color: white;
+  background-color: var(--jp-layout-color4);
+}
+
+.connect-button {
+  width: calc(100% - 20px);
+  height: 20px;
+  border: 0;
+  padding: 0;
+  margin: 10px 10px 0;
+  background: green;
+  color: white;
+}
+
+.disconnect-button {
+  width: calc(100% - 20px);
+  height: 20px;
+  border: 0;
+  padding: 0;
+  margin: 10px 10px 0;
+  background: var(--jp-layout-color4);
+  color: white;
+}

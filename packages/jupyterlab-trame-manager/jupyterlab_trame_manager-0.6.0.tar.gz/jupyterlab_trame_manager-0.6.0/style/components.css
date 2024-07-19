@@ -1,0 +1,41 @@
+/* Info */
+.info-container {
+  display: flex;
+  align-items: baseline;
+}
+
+.info-label {
+  font-weight: bold;
+  white-space: nowrap;
+  margin: 4px 5px 0 0;
+}
+
+.info-value {
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 0;
+}
+
+/* Path */
+.path-container {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  align-content: center;
+}
+
+.path-container > div {
+  flex-grow: 1;
+  align-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 0;
+}
+
+/* Make Parent Flex */
+div:has(> .path-container) {
+  display: flex;
+}
