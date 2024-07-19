@@ -1,0 +1,135 @@
+[project]
+name = "omotes-sdk-python"
+requires-python = ">=3.8.1"
+dynamic = ["version"]
+authors = [
+    { name = "Sebastiaan la Fleur", email = "sebastiaan.lafleur@tno.nl" },
+    { name = "Mark Vrijlandt", email = "mark.vrijlandt@tno.nl" },
+]
+description = "Python implementation of the OMOTES SDK through jobs which may be submitted, receive status updates for submitted jobs or cancel submitted jobs."
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Information Technology",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+
+dependencies = [
+    "aio-pika ~= 9.4.2",
+    "omotes-sdk-protocol ~= 0.1.1",
+    "celery ~= 5.3.6",
+    "typing-extensions ~= 4.11.0"
+    #"streamcapture ~= 1.2.3", TODO: See #4, this is reenabled once streamcapture removes AGPL dependency
+]
+
+[project.optional-dependencies]
+dev = [
+    "pip-tools~=7.3.0",
+    "setuptools ~= 69.0.3",
+    "black ~= 22.1.0",
+    "flake8 ~= 6.1.0",
+    "Flake8-pyproject ~= 1.2.3",
+    "flake8-docstrings ~= 1.7.0",
+    "flake8-quotes ~= 3.3.2",
+    "pytest ~=7.3.1",
+    "pytest-cov ~=4.0.0",
+    "mypy ~= 1.8.0",
+    "isort ~= 5.13.2",
+    "build ~= 1.0.3",
+    "mypy-protobuf ~= 3.5.0",
+    "setuptools-git-versioning < 2",
+]
+
+[project.urls]
+homepage = "https://www.nwn.nu"
+documentation = "https://readthedocs.org"
+repository = "https://github.com/Nieuwe-Warmte-Nu/omotes-sdk-python"
+changelog = "https://github.com/Nieuwe-Warmte-Nu/omotes-sdk-python/blob/main/CHANGELOG.md"
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+    "setuptools ~= 69.0.3",
+    "wheel ~= 0.40.0",
+    "setuptools-git-versioning<2",
+]
+
+[tool.setuptools.package-data]
+"omotes_sdk" = ["py.typed"]
+
+[tool.setuptools-git-versioning]
+enabled = true
+
+[tool.pytest.ini_options]
+addopts = "--cov=omotes_sdk --cov-report html --cov-report term-missing --cov-fail-under 60"
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.flake8]
+exclude = [
+    '.venv/*',
+    'venv/*',
+    'doc/*',
+    'src/omotes_sdk/internal/orchestrator_worker_events/messages/*'
+]
+ignore = [
+    'Q000', # Remove bad quotes
+    'D401', # Docstring First line should be imperative
+    'E203', # Space before colon (not PEP-8 compliant, and conflicts with black)
+    'C408', # Suggestion to use dict() over {}
+    'W503', # Starting lines with operators.
+    'D104', # Missing docstring in public package
+    'D100'  # Missing docstring in public module
+]
+per-file-ignores = [
+    '__init__.py:F401',
+    './unit_test/*:D100,D101,D102,D103'
+]
+max-line-length = 100
+count = true
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+exclude = ['.venv/*', 'venv/*', 'doc/*', 'ci/*']
+
+# mypy per-module options:
+[[tool.mypy.overrides]]
+module = "unit_test.*"
+check_untyped_defs = true
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "celery.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "kombu.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "billiard.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "streamcapture.*"
+ignore_missing_imports = true
