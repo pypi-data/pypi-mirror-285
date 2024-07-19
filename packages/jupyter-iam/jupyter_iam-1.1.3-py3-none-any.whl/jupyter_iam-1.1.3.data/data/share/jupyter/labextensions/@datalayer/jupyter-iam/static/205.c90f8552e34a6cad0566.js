@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_datalayer_jupyter_iam=self.webpackChunk_datalayer_jupyter_iam||[]).push([[205],{205:(a,e,t)=>{t.r(e),t.d(e,{default:()=>u});const u=t(567).jupyterIamPlugin}}]);
