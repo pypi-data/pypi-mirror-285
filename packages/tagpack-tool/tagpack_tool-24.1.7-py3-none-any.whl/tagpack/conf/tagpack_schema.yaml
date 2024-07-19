@@ -1,0 +1,62 @@
+header:
+  title:
+    type: text
+    mandatory: true
+  creator:
+    type: text
+    mandatory: true
+  description:
+    type: text
+    mandatory: false
+  owner:
+    type: text
+    mandatory: false
+    description: Field specifies the owner of the tagpack (not stored in db).
+  is_public:
+    type: boolean
+    mandatory: false
+  tags:
+    type: list
+    mandatory: true
+tag:
+  label:
+    type: text
+    mandatory: true
+  source:
+    type: text
+    mandatory: true
+  currency:
+    type: text
+    mandatory: true
+  context:
+    type: text
+    mandatory: false
+  confidence:
+    type: text
+    taxonomy: confidence
+    mandatory: true
+  is_cluster_definer:
+    type: boolean
+    mandatory: false
+  lastmod:
+    type: datetime
+    mandatory: false
+  category:
+    type: text
+    mandatory: false
+    taxonomy: concept
+  abuse:
+    type: text
+    mandatory: false
+    taxonomy: abuse
+  address:
+    type: text
+    mandatory: true
+  actor:
+    type: text
+    mandatory: false
+  concepts:
+    type: list
+    item_type: text
+    mandatory: false
+    taxonomy: concept
