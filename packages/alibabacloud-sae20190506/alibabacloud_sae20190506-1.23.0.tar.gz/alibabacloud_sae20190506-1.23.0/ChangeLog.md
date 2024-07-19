@@ -1,0 +1,51 @@
+2023-03-23 Version: 1.22.11
+- Support Create Namespace Without Micro Service Registration.
+
+2023-02-15 Version: 1.22.10
+- Add execjob api.
+
+2023-02-08 Version: 1.22.9
+- Add metric api.
+
+2023-01-04 Version: 1.22.8
+- Update deployApplication request parameters.
+
+2022-12-19 Version: 1.22.7
+- Fixed ApplicationScalingRule related api response struct.
+
+2022-12-19 Version: 1.22.6
+- Fixed ApplicationScalingRule related api response struct.
+
+2022-12-01 Version: 1.22.2
+- Add updateJob.
+
+2022-12-01 Version: 1.22.1
+- Add updateJob.
+
+2022-08-02 Version: 1.21.3
+- Delete kafka params.
+
+2022-07-07 Version: 1.21.2
+- Support execJob.
+
+2022-07-07 Version: 1.21.1
+- Support execJob.
+
+2022-07-07 Version: 1.21.0
+- Support execJob.
+
+2022-05-16 Version: 1.20.1
+- Support UpdateApplicationVswitches and DescribeComponents.
+
+2022-05-12 Version: 1.20.0
+- Support alb.
+
+2022-03-15 Version: 1.19.0
+- Support collect logs to kafka.
+
+2022-01-18 Version: 1.18.16
+- Support tag route rules crud.
+
+2021-11-26 Version: 1.0.0
+- Support tag route rules crud.
+
