@@ -1,0 +1,26 @@
+groups:
+
+- neurodata_type_def: CElegansSubject
+  neurodata_type_inc: Subject
+  doc: Subject object with support for C. Elegans specific attributes.
+  datasets:
+  - name: species
+    doc: Species of subject. This subtype is fixed to be Caenorhabditis elegans.
+    value: Caenorhabditis elegans
+  - name: sex
+    doc: The biological sex of the subject. This subtype is fixed to be O (other). Please use the `c_elegans_sex` to specify XX (hermaphrodite) or XO (male).
+    value: O
+  - name: c_elegans_sex
+    doc: The biological sex of the C. elegans subject. Can be either XX (hermaphrodite) or XO (male).
+    dtype: text
+  - name: growth_stage
+    doc: Growth stage of C. elegans. One of two-fold, three-fold, L1-L4, YA, OA, duaer, post-dauer L4, post-dauer YA, post-dauer OA.
+    dtype: text
+  - name: growth_stage_time
+    doc: amount of time in current growth stage in ISO 8601 duration format.
+    dtype: text
+    required: false
+  - name: cultivation_temp
+    doc: Worm cultivation temperature in Celsius.
+    dtype: float32
+    required: false
