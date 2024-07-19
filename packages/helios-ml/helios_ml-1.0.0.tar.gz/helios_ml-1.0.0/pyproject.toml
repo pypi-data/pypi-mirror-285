@@ -1,0 +1,133 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools-scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "helios-ml"
+authors = [{name = "Mauricio A. Rovira Galvez", email = "maroviragalvez@outlook.com"}]
+readme = "README.rst"
+license = {text = "BSD-3-Clause"}
+description = "A light-weight system for training AI networks using PyTorch"
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+requires-python = ">= 3.11"
+dependencies = [
+    "tqdm>=4.66.2",
+    "opencv-python>=4.9.0.80",
+    "protobuf>=3.19.6, !=4.24.0, <5.0.0",
+    "tensorboard>=2.16.2",
+    "torch>=2.2.1",
+    "torchvision>=0.17.1",
+    "onnx>=1.16.0",
+    "onnxruntime>=1.17.1",
+    "matplotlib>=3.8.4",
+]
+
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.8.0",
+    "ruff>=0.3.4",
+    "pytest>=8.1.1",
+    "pre-commit>=3.6.2",
+    "types-Pillow>=10.2.0.20240311",
+    "types-tqdm>=4.66.0.20240106",
+    "build>=1.2.1",
+    "twine>=5.0.0",
+    "sphinx>=7.3.7",
+    "furo>=2024.5.6",
+    "sphinx-autoapi>=3.1.1",
+]
+
+ci = [
+    "mypy>=1.8.0",
+    "ruff>=0.3.4",
+    "pytest>=8.1.1",
+    "types-Pillow>=10.2.0.20240311",
+    "types-tqdm>=4.66.0.20240106",
+    "build>=1.2.1",
+]
+
+[project.urls]
+homepage = "https://github.com/marovira/helios-ml"
+source = "https://github.com/marovira/helios-ml"
+issues = "https://github.com/marovira/helios-ml/issues"
+"release notes" = "https://github.com/marovira/helios-ml/releases"
+
+[tool.setuptools_scm]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pkgname = ["py.typed"]
+
+[tool.mypy]
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = "torchvision.*"
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 90
+indent-width = 4
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "UP",
+    "B",
+    "SIM",
+    "I",
+    "D",
+    "N",
+    "A",
+    "C4",
+    "T10",
+    "ICN",
+    "PIE",
+    "SLF",
+    "PTH",
+    "ERA",
+    "NPY",
+    "RUF100",
+]
+
+ignore = [
+    "D100", # Module docstring.
+    "N806", # Variable names should be lower-case.
+    "N802", # Function name should be lower-case.
+    "N812", # Imported lower-case as non-lower-case.
+]
+
+fixable = ["I", "D200", "D201", "D202", "D205", "RUF100"]
+extend-safe-fixes = ["D200", "D205"]
+unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"test/*" = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.format]
+line-ending = "lf"
+
+[tool.pytest.ini_options]
+testpaths = "test"
+addopts = [
+    "--import-mode=importlib"
+]

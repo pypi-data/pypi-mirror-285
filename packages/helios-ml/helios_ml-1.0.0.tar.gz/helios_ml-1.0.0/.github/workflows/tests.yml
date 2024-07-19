@@ -1,0 +1,86 @@
+name: "Tests"
+
+on:
+  push:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'README.rst'
+      - '.pre-commit-config.yaml'
+      - 'data/**'
+      - "LICENSE"
+  pull_request:
+    branches: [ master ]
+    paths-ignore:
+      - 'README.md'
+      - 'LICENSE'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "windows-latest"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        id: setup_python
+        with:
+          python-version: "3.11"
+
+      - name: Cache virtualenv
+        uses: actions/cache@v4
+        with:
+          key: venv-${{ matrix.os }}-${{ steps.setup_python.outputs.python-version}}-${{ hashFiles('requirements/ci.txt') }}
+          path: venv
+
+      - name: Install dependencies
+        shell: bash
+        env:
+          RUNNER: ${{ matrix.os }}
+        run: |
+          python -m venv venv
+          if [[ "$RUNNER" == "windows-latest" ]]; then
+           source venv/Scripts/activate
+          else
+            source venv/bin/activate
+          fi
+
+          python -m pip install numpy==1.26.4
+          python -m pip install -r requirements/ci.txt
+
+          if [[ "$RUNNER" == "windows-latest" ]]; then
+            echo "$VIRTUAL_ENV/Scripts" >> $GITHUB_PATH
+          else
+            echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+          fi
+          echo "VIRTUAL_ENV=$VIRTUAL_ENV" >> $GITHUB_ENV
+
+      - name: Install Helios
+        shell: bash
+        run: |
+          pip install .
+
+      - name: Ruff
+        shell: bash
+        run: |
+          ruff check src/helios
+          ruff check test
+          ruff check examples/cifar10
+
+      - name: Mypy
+        shell: bash
+        run: |
+          mypy src/helios
+          mypy test
+          mypy examples/cifar10
+
+      - name: Pytest
+        shell: bash
+        run: |
+          python -m pytest
