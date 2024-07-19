@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "fs.dropboxfs"
+version = "1.0.5"
+description = "Pyfilesystem2 implementation for Dropbox"
+authors = ["Rehan Khwaja <rehan@khwaja.name>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "fs"}]
+homepage = "https://github.com/rkhwaja/fs.dropboxfs"
+keywords = ["filesystem", "Pyfilesystem2", "dropbox"]
+classifiers = [
+	"License :: OSI Approved :: MIT License",
+	"Development Status :: 5 - Production/Stable",
+	"Intended Audience :: Developers",
+	"Programming Language :: Python :: 3.8",
+	"Programming Language :: Python :: 3.9",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+fs = ">=2.0.10"
+dropbox = ">=12.0.2"
+setuptools = ">=70"
+
+[tool.poetry.dev-dependencies]
+pytest = ">=7.2.0"
+pyperclip = ">=1.8.2"
+poethepoet = ">=0.16.4"
+pytest-xdist = ">=3.2.1"
+ruff = ">=0.4.4"
+
+[tool.poetry.plugins] # Optional super table
+
+[tool.poetry.plugins."fs.opener"]
+"dropbox" = "fs.dropboxfs.opener:DropboxOpener"
+
+[tool.poe.tasks]
+lint = "ruff check fs/dropboxfs/ tests/"
+
+[tool.poe.tasks.test]
+shell = """
+pytest -n 8 || exit 1
+"""
+
+[tool.ruff]
+line-length = 1000
+lint.ignore = ["ANN", "B011", "COM812", "D", "DTZ", "EM", "ERA001", "FBT002", "FIX", "G004", "I", "N802", "N806", "N815", "N816", "PLR0913", "PTH", "S101", "T201", "TD", "TRY003", "W191"]
+lint.select = ["ALL"]
+target-version = "py38"
+
+[tool.ruff.lint.per-file-ignores]
+"fs/**" = ["PT"]
+
+[tool.ruff.lint.flake8-quotes]
+inline-quotes = "single"
+multiline-quotes = "single"
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
