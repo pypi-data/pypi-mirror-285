@@ -1,0 +1,72 @@
+Metadata-Version: 2.1
+Name: Optimus
+Version: 2.1.0rc2
+Summary: Optimus is a static site builder using Jinja2, webassets and Babel.
+Home-page: https://github.com/sveetch/Optimus
+Author: David Thenon
+Author-email: sveetch@gmail.com
+License: MIT
+Project-URL: Source Code, https://github.com/sveetch/Optimus
+Project-URL: Issue Tracker, https://github.com/sveetch/Optimus/issues
+Project-URL: Changelog, https://optimus.readthedocs.io/en/latest/changelog.html
+Project-URL: Documentation, https://optimus.readthedocs.io/
+Keywords: Static site,Jinja,Babel,webassets
+Classifier: Programming Language :: Python
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Internet :: WWW/HTTP
+Classifier: Topic :: Internet :: WWW/HTTP :: Site Management
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Description-Content-Type: text/x-rst
+License-File: LICENCE.txt
+Requires-Dist: click
+Requires-Dist: watchdog
+Requires-Dist: Jinja2
+Requires-Dist: Babel
+Requires-Dist: webassets
+Requires-Dist: rcssmin
+Requires-Dist: jsmin
+Requires-Dist: colorama
+Requires-Dist: colorlog
+Requires-Dist: cookiecutter
+Provides-Extra: runserver
+Requires-Dist: cherrypy; extra == "runserver"
+Provides-Extra: dev
+Requires-Dist: flake8; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: tox; extra == "dev"
+Provides-Extra: doc
+Requires-Dist: sphinx; extra == "doc"
+Requires-Dist: sphinx-rtd-theme; extra == "doc"
+Provides-Extra: doc-live
+Requires-Dist: livereload; extra == "doc-live"
+Provides-Extra: release
+Requires-Dist: twine; extra == "release"
+
+.. _webassets: https://github.com/miracle2k/webassets
+.. _Jinja2: https://jinja.palletsprojects.com/
+.. _Babel: http://babel.pocoo.org/
+
+
+Optimus
+=======
+
+Optimus is a static site builder, it produces HTML from templates (through `Jinja2`_)
+with assets management (through `webassets`_) and i18n support for translations
+(through `Babel`_).
+
+
+Links
+*****
+
+* Read the documentation on `Read the docs <https://optimus.readthedocs.io/>`_;
+* Download its `PyPi package <https://pypi.python.org/pypi/Optimus>`_;
+* Clone it on its `Github repository <https://github.com/sveetch/Optimus>`_;
