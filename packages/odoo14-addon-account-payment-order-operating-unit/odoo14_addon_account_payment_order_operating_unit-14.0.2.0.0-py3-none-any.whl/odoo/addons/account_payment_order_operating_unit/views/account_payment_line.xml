@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+      <record id="account_payment_line_tree" model="ir.ui.view">
+        <field name="name">account.payment.line.tree.inherit</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_tree" />
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='partner_id']" position="after">
+            <field name="operating_unit_id"/>
+          </xpath>
+        </field>
+      </record>
+      <record id="account_payment_line_form" model="ir.ui.view">
+        <field name="name">account.payment.line.form.inherit</field>
+        <field name="model">account.payment.line</field>
+        <field name="inherit_id" ref="account_payment_order.account_payment_line_form" />
+        <field name="arch" type="xml">
+          <xpath expr="//field[@name='move_line_id']" position="after">
+            <field name="operating_unit_id"/>
+          </xpath>
+        </field>
+      </record>
+  </data>
+</odoo>
+
