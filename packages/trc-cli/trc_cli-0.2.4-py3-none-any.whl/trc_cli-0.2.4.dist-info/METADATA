@@ -1,0 +1,51 @@
+Metadata-Version: 2.1
+Name: trc-cli
+Version: 0.2.4
+Summary: Technology Risk and Governance CLI to provision demo workspaces.
+Home-page: https://github.com/vg-leanix/trc-cli
+Keywords: LeanIX,TRC
+Author: Vincent Groves
+Author-email: vincent.groves@leanix.net
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: pyjwt (>=2.8.0,<3.0.0)
+Requires-Dist: python-dotenv (>=1.0.1,<2.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: tenacity (>=8.5.0,<9.0.0)
+Requires-Dist: typer[all] (>=0.12.3,<0.13.0)
+Project-URL: Repository, https://github.com/vg-leanix/trc-cli
+Description-Content-Type: text/markdown
+
+# `trc`
+
+<table align="center">
+  <tr>
+    <td>
+      <img src="logo.png" alt="Logo"/>
+    </td>
+  </tr>
+</table>
+
+**Usage**:
+
+```console
+$ trc [OPTIONS]
+```
+
+**Options**:
+
+* `-p, --provision`: Provisions the workspace and adds sample data.
+* `--debug`: Set the logs to DEBUG
+* `--install-completion`: Install completion for the current shell.
+* `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
+* `--help`: Show this message and exit.
+
+
+#### Examples
+
+
+1. Provision a workspace with microservice and SBOM data
+```shell
+trc --provision
+```
