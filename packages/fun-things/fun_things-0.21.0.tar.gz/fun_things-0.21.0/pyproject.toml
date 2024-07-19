@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "fun-things"
+version = "0.21.0"
+description = ""
+authors = ["MisterNyan <michael.edmund.wong@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.scripts]
+fun = "fun_things.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+simple-chalk = "^0.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
