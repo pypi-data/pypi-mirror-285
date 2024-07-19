@@ -1,0 +1,1406 @@
+[
+  {
+    "type": "constructor",
+    "inputs": [
+      {
+        "name": "strategyAsset",
+        "type": "address",
+        "internalType": "contract IERC20"
+      },
+      {
+        "name": "wrappedNativeToken",
+        "type": "address",
+        "internalType": "contract IWrappedNativeToken"
+      },
+      {
+        "name": "collateralClaimDistributor",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "COLLATERAL_CLAIM_DISTRIBUTOR",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "SWAP_CALLBACK_RELAYER",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract ISwapCallbackRelayer"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "USDC",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IERC20"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "WRAPPED_NATIVE_TOKEN",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IWrappedNativeToken"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "acceptOwnership",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "disableMarketIncreases",
+    "inputs": [
+      {
+        "name": "marketAddress",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "getAssetLiquidationFeePercent",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "liquidationFeePercent",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAssetOracle",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "oracle",
+        "type": "address",
+        "internalType": "contract IChainlinkAggregatorV3"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAssetOracleConfiguration",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "oracle",
+        "type": "address",
+        "internalType": "contract IChainlinkAggregatorV3"
+      },
+      {
+        "name": "validPriceDuration",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAssetPrice",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "price",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "decimals",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAvailableMarkets",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "markets",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getCallbackGasLimit",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "callbackGasLimit",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getExecutionFeeBufferPercent",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "executionFeeBufferPercent",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getLiquidationOrderTimeoutDeadline",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "liquidationOrderTimeoutDeadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarketConfiguration",
+    "inputs": [
+      {
+        "name": "market",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "marketConfiguration",
+        "type": "tuple",
+        "internalType": "struct IMarketConfiguration.MarketConfiguration",
+        "components": [
+          {
+            "name": "orderPricingParameters",
+            "type": "tuple",
+            "internalType": "struct IMarketConfiguration.OrderPricingParameters",
+            "components": [
+              {
+                "name": "maxSwapSlippagePercent",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "maxPositionSlippagePercent",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "minOrderSizeUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "maxOrderSizeUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "increaseEnabled",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          },
+          {
+            "name": "sharedOrderParameters",
+            "type": "tuple",
+            "internalType": "struct IMarketConfiguration.SharedOrderParameters",
+            "components": [
+              {
+                "name": "callbackGasLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "executionFeeBufferPercent",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "referralCode",
+                "type": "bytes32",
+                "internalType": "bytes32"
+              },
+              {
+                "name": "uiFeeReceiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "withdrawalBufferPercentage",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "positionParameters",
+            "type": "tuple",
+            "internalType": "struct IMarketConfiguration.PositionParameters",
+            "components": [
+              {
+                "name": "minPositionSizeUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "maxPositionSizeUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "unwindParameters",
+            "type": "tuple",
+            "internalType": "struct IMarketConfiguration.UnwindParameters",
+            "components": [
+              {
+                "name": "maxDeltaProportion",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "minSwapRebalanceSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "maxPositionLeverage",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "unwindFee",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarketUnwindConfiguration",
+    "inputs": [
+      {
+        "name": "market",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "marketUnwindParameters",
+        "type": "tuple",
+        "internalType": "struct IMarketConfiguration.UnwindParameters",
+        "components": [
+          {
+            "name": "maxDeltaProportion",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "minSwapRebalanceSize",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionLeverage",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "unwindFee",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getProfitWithdrawalBufferPercent",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "percentage",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getReferralCode",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "referralCode",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getRegisteredAssets",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "assets",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getUiFeeReceiver",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "uiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "gmxV2DataStore",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "gmxV2ExchangeRouter",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IGmxV2ExchangeRouter"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "gmxV2OrderVault",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "gmxV2Reader",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IGmxV2Reader"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "gmxV2ReferralStorage",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IGmxV2ReferralStorage"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "gmxV2RoleStore",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "contract IGmxV2RoleStore"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "initialize",
+    "inputs": [
+      {
+        "name": "deployments",
+        "type": "tuple",
+        "internalType": "struct IDeploymentConfiguration.Deployments",
+        "components": [
+          {
+            "name": "exchangeRouter",
+            "type": "address",
+            "internalType": "contract IGmxV2ExchangeRouter"
+          },
+          {
+            "name": "orderVault",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "reader",
+            "type": "address",
+            "internalType": "contract IGmxV2Reader"
+          },
+          {
+            "name": "dataStore",
+            "type": "address",
+            "internalType": "contract IGmxV2DataStore"
+          },
+          {
+            "name": "roleStore",
+            "type": "address",
+            "internalType": "contract IGmxV2RoleStore"
+          },
+          {
+            "name": "referralStorage",
+            "type": "address",
+            "internalType": "contract IGmxV2ReferralStorage"
+          }
+        ]
+      },
+      {
+        "name": "sharedOrderParameters",
+        "type": "tuple",
+        "internalType": "struct IMarketConfiguration.SharedOrderParameters",
+        "components": [
+          {
+            "name": "callbackGasLimit",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "executionFeeBufferPercent",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "referralCode",
+            "type": "bytes32",
+            "internalType": "bytes32"
+          },
+          {
+            "name": "uiFeeReceiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "withdrawalBufferPercentage",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "strategyAssetOracleConfig",
+        "type": "tuple",
+        "internalType": "struct IChainlinkAdapter.OracleConfiguration",
+        "components": [
+          {
+            "name": "validPriceDuration",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "oracle",
+            "type": "address",
+            "internalType": "contract IChainlinkAggregatorV3"
+          }
+        ]
+      },
+      {
+        "name": "liquidationOrderTimeoutDeadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "isApprovedMarket",
+    "inputs": [
+      {
+        "name": "market",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "isApproved",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "owner",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "pendingOwner",
+    "inputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "renounceOwnership",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "setAssetLiquidationFee",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "newLiquidationFeePercent",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setCallbackGasLimit",
+    "inputs": [
+      {
+        "name": "newCallbackGasLimit",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setDataStore",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setExchangeRouter",
+    "inputs": [
+      {
+        "name": "exchangeRouter",
+        "type": "address",
+        "internalType": "contract IGmxV2ExchangeRouter"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setExecutionFeeBufferPercent",
+    "inputs": [
+      {
+        "name": "newExecutionFeeBufferPercent",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setLiquidationOrderTimeoutDeadline",
+    "inputs": [
+      {
+        "name": "newLiquidationOrderTimeoutDeadline",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setMarket",
+    "inputs": [
+      {
+        "name": "marketAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "oracleConfig",
+        "type": "tuple",
+        "internalType": "struct IChainlinkAdapter.OracleConfiguration",
+        "components": [
+          {
+            "name": "validPriceDuration",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "oracle",
+            "type": "address",
+            "internalType": "contract IChainlinkAggregatorV3"
+          }
+        ]
+      },
+      {
+        "name": "marketParameters",
+        "type": "tuple",
+        "internalType": "struct IMarketConfiguration.OrderPricingParameters",
+        "components": [
+          {
+            "name": "maxSwapSlippagePercent",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionSlippagePercent",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "minOrderSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxOrderSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "increaseEnabled",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      },
+      {
+        "name": "positionParameters",
+        "type": "tuple",
+        "internalType": "struct IMarketConfiguration.PositionParameters",
+        "components": [
+          {
+            "name": "minPositionSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "unwindParameters",
+        "type": "tuple",
+        "internalType": "struct IMarketConfiguration.UnwindParameters",
+        "components": [
+          {
+            "name": "maxDeltaProportion",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "minSwapRebalanceSize",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionLeverage",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "unwindFee",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "longTokenLiquidationFeePercent",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setOrderVault",
+    "inputs": [
+      {
+        "name": "orderVault",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setReader",
+    "inputs": [
+      {
+        "name": "reader",
+        "type": "address",
+        "internalType": "contract IGmxV2Reader"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setReferralCode",
+    "inputs": [
+      {
+        "name": "newReferralCode",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setReferralStorage",
+    "inputs": [
+      {
+        "name": "referralStorage",
+        "type": "address",
+        "internalType": "contract IGmxV2ReferralStorage"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setRoleStore",
+    "inputs": [
+      {
+        "name": "roleStore",
+        "type": "address",
+        "internalType": "contract IGmxV2RoleStore"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setUiFeeReceiver",
+    "inputs": [
+      {
+        "name": "newUiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "setWithdrawalBufferPercentage",
+    "inputs": [
+      {
+        "name": "newWithdrawalBufferPercentage",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "transferOwnership",
+    "inputs": [
+      {
+        "name": "newOwner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "updateUsdcOracle",
+    "inputs": [
+      {
+        "name": "strategyAssetOracleConfig",
+        "type": "tuple",
+        "internalType": "struct IChainlinkAdapter.OracleConfiguration",
+        "components": [
+          {
+            "name": "validPriceDuration",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "oracle",
+            "type": "address",
+            "internalType": "contract IChainlinkAggregatorV3"
+          }
+        ]
+      }
+    ],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "AssetLiquidationFeeSet",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newLiquidationFeePercent",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AssetOracleRegistered",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "oracle",
+        "type": "address",
+        "indexed": true,
+        "internalType": "contract IChainlinkAggregatorV3"
+      },
+      {
+        "name": "validPriceDuration",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "AssetOracleRemoved",
+    "inputs": [
+      {
+        "name": "asset",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "CallbackGasLimitSet",
+    "inputs": [
+      {
+        "name": "newCallbackGasLimit",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "DataStoreSet",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ExchangeRouterSet",
+    "inputs": [
+      {
+        "name": "exchangeRouter",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ExecutionFeeBufferPercentSet",
+    "inputs": [
+      {
+        "name": "newExecutionFeeBufferPercent",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "Initialized",
+    "inputs": [
+      {
+        "name": "version",
+        "type": "uint64",
+        "indexed": false,
+        "internalType": "uint64"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "LiquidationOrderTimeoutDeadlineSet",
+    "inputs": [
+      {
+        "name": "newLiquidationOrderTimeoutDeadline",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "MarketConfigurationSet",
+    "inputs": [
+      {
+        "name": "market",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "marketParameters",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct IMarketConfiguration.OrderPricingParameters",
+        "components": [
+          {
+            "name": "maxSwapSlippagePercent",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionSlippagePercent",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "minOrderSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxOrderSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "increaseEnabled",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      },
+      {
+        "name": "positionParameters",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct IMarketConfiguration.PositionParameters",
+        "components": [
+          {
+            "name": "minPositionSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionSizeUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "unwindParameters",
+        "type": "tuple",
+        "indexed": false,
+        "internalType": "struct IMarketConfiguration.UnwindParameters",
+        "components": [
+          {
+            "name": "maxDeltaProportion",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "minSwapRebalanceSize",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "maxPositionLeverage",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "unwindFee",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OrderVaultSet",
+    "inputs": [
+      {
+        "name": "orderVault",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OwnershipTransferStarted",
+    "inputs": [
+      {
+        "name": "previousOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "OwnershipTransferred",
+    "inputs": [
+      {
+        "name": "previousOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      },
+      {
+        "name": "newOwner",
+        "type": "address",
+        "indexed": true,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReaderSet",
+    "inputs": [
+      {
+        "name": "reader",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReferralCodeSet",
+    "inputs": [
+      {
+        "name": "newReferralCode",
+        "type": "bytes32",
+        "indexed": false,
+        "internalType": "bytes32"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "ReferralStorageSet",
+    "inputs": [
+      {
+        "name": "referralStorage",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "RoleStoreSet",
+    "inputs": [
+      {
+        "name": "roleStore",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "UiFeeReceiverSet",
+    "inputs": [
+      {
+        "name": "newUiFeeReceiver",
+        "type": "address",
+        "indexed": false,
+        "internalType": "address"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "event",
+    "name": "WithdrawalBufferPercentageSet",
+    "inputs": [
+      {
+        "name": "newWithdrawalBufferPercentage",
+        "type": "uint256",
+        "indexed": false,
+        "internalType": "uint256"
+      }
+    ],
+    "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "InvalidInitialization",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "NotInitializing",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "OwnableInvalidOwner",
+    "inputs": [
+      {
+        "name": "owner",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "OwnableUnauthorizedAccount",
+    "inputs": [
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "SafeCastOverflowedIntToUint",
+    "inputs": [
+      {
+        "name": "value",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ]
+  }
+]
