@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: blocksat-cli
+Version: 0.4.7
+Summary: Blockstream Satellite CLI
+Home-page: https://github.com/Blockstream/satellite
+Author: Blockstream Corp
+Author-email: satellite@blockstream.com
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: distro
+Requires-Dist: packaging
+Requires-Dist: pysnmplib
+Requires-Dist: python-gnupg >=0.4.7
+Requires-Dist: qrcode
+Requires-Dist: requests
+Requires-Dist: pyasyncore ==1.0.2
+Provides-Extra: fec
+Requires-Dist: zfec >=1.5.4 ; extra == 'fec'
+
+# Blockstream Satellite CLI
+
+A command-line interface for configuring, running and monitoring a Blockstream
+Satellite receiver setup.
+
