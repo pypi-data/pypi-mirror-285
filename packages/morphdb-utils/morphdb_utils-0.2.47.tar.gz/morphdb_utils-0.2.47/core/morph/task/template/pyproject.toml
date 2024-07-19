@@ -1,0 +1,41 @@
+[build-system]
+requires = [ "poetry-core>=1.0.0",]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "morph"
+version = "0.1.0"
+description = "Auto-generated Morph project."
+authors = []
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "2.1.3"
+requests = "2.31.0"
+xlrd = "2.0.1"
+matplotlib = "3.5.2"
+boto3 = "^1.26.80"
+pypika = "^0.48.9"
+pydantic = "^2.5.3"
+sqlparse = "^0.4.4"
+line-profiler = "^4.1.2"
+urllib3 = "1.26.18"
+plotly = "^5.18.0"
+kaleido = "0.2.1"
+openpyxl = "^3.1.2"
+seaborn = "^0.13.2"
+aws-lambda-powertools = "^2.34.2"
+simplejson = "^3.19.2"
+morphdb-utils = "^0.2.44"
+pyppeteer = "^2.0.0"
+
+[tool.poetry.group.dev.dependencies]
+python-dotenv = "^1.0.0"
+types-requests = "^2.28.11.13"
+pytest = "^7.4.4"
+black = "^24.1.0"
+flake8 = "^5.0.4"
+mypy = "^1.8.0"
+pre-commit = "^3.6.0"
+types-pytz = "^2023.3.1.1"
+pytest-asyncio = "^0.23.3"
