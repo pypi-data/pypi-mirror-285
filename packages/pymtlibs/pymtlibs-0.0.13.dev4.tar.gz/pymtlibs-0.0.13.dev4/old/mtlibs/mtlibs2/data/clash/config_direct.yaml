@@ -1,0 +1,56 @@
+# 单独的clash，普通直连代理。
+# Port of HTTP(S) proxy server on the local end
+port: 17890
+socks-port: 17891
+redir-port: 17892
+# HTTP(S) and SOCKS4(A)/SOCKS5 server on the same port
+mixed-port: 17894
+
+allow-lan: true
+mode: Rule
+log-level: debug
+external-controller: 0.0.0.0:9091
+secret: "feihuo321"
+# dns:
+#     enable: true
+#     listen: 0.0.0.0:53
+#     enhanced-mode: redir-host
+#     nameserver:
+#         - "127.0.0.1:5353"
+# proxies:  
+#     - name: "tor_local"
+#       type: socks5
+#       server: 127.0.0.1
+#       port: 9050
+
+#     # # 由于容器内设置了dns仅为127.0.0.1，不能解释host.docker.internal,所以所主机的IP暂时写死
+#     # - name: "911"
+#     #   type: socks5
+#     #   server: 10.2.0.4 # 缩主机IP
+#     #   port: 8885 #911本机代理，经过端口转发后的端口
+
+#     - name: "gitpod_socks5"
+#       type: socks5
+#       server: 127.0.0.1
+#       port: 11080
+
+
+#     - name: "direct_http_proxy"
+#       type: http
+#       server: 172.17.0.1
+#       port: 8086
+
+#     - name: "911"
+#       type: socks5
+#       server: 10.12.22.9 #azwin
+#       port: 1911
+
+
+# proxy-groups:
+#     - name: "relay1"
+#       type: relay
+#       proxies:
+#         - tor_local
+#         - gitpod_socks5
+rules:
+    - MATCH,DIRECT
