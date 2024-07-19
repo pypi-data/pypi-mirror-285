@@ -1,0 +1,2851 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>Chalk'it APIs - Chalk'it Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+      
+    
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#chalkit-apis" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Chalk&#39;it Documentation" class="md-header__button md-logo" aria-label="Chalk'it Documentation" data-md-component="logo">
+      
+  <img src="../media/chalk-it-icon.ico" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Chalk'it Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chalk'it APIs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Chalk&#39;it Documentation" class="md-nav__button md-logo" aria-label="Chalk'it Documentation" data-md-component="logo">
+      
+  <img src="../media/chalk-it-icon.ico" alt="logo">
+
+    </a>
+    Chalk'it Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/quickstart/" class="md-nav__link">
+        Quickstart
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          DataNodes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="DataNodes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          DataNodes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ds/ds/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ds/ds-basics/" class="md-nav__link">
+        Basics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ds/ds-execution-engine/" class="md-nav__link">
+        Execution engine
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ds/ds-reference/" class="md-nav__link">
+        Reference
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          Widgets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Widgets" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Widgets
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg-common-concept/" class="md-nav__link">
+        Common concepts
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg-basic-inputs/" class="md-nav__link">
+        Basic inputs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg-basic-displays/" class="md-nav__link">
+        Basic displays
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg-plots/" class="md-nav__link">
+        Plots
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg-geo-time/" class="md-nav__link">
+        Geo & Time
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/wdg-annotation-video/" class="md-nav__link">
+        Annotation & Video
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5_8" type="checkbox" id="__nav_5_8" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_5_8">
+          Additions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Additions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_5_8">
+          <span class="md-nav__icon md-icon"></span>
+          Additions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/selection/plot-selection/" class="md-nav__link">
+        Selection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wdg/plot-themes/" class="md-nav__link">
+        Themes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          Python support
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Python support" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          Python support
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py/py-index/" class="md-nav__link">
+        Introduction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py/py-default/" class="md-nav__link">
+        Local runner
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py/py-pyodide/" class="md-nav__link">
+        Pyodide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../py/py-proto-flask/" class="md-nav__link">
+        Local prototyping with Flask
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Chalk'it APIs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Chalk'it APIs
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#javascript" class="md-nav__link">
+    JavaScript
+  </a>
+  
+    <nav class="md-nav" aria-label="JavaScript">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduler-features" class="md-nav__link">
+    Scheduler features
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduler features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setvariable" class="md-nav__link">
+    setVariable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setvariableproperty" class="md-nav__link">
+    setVariableProperty
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setvariables" class="md-nav__link">
+    setVariables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executedatanode" class="md-nav__link">
+    executeDataNode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executedatanodes" class="md-nav__link">
+    executeDataNodes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-features" class="md-nav__link">
+    Dashboard features
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gotopage" class="md-nav__link">
+    goToPage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewpage" class="md-nav__link">
+    viewPage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewproject" class="md-nav__link">
+    viewProject
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidewidget" class="md-nav__link">
+    hideWidget
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#showwidget" class="md-nav__link">
+    showWidget
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disablewidget" class="md-nav__link">
+    disableWidget
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enablewidget" class="md-nav__link">
+    enableWidget
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    Python
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputouputs-helpers" class="md-nav__link">
+    Input/ouputs helpers
+  </a>
+  
+    <nav class="md-nav" aria-label="Input/ouputs helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_data" class="md-nav__link">
+    as_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_image" class="md-nav__link">
+    as_image()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_json" class="md-nav__link">
+    as_json()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_python" class="md-nav__link">
+    as_python()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.base64_to_bytes" class="md-nav__link">
+    base64_to_bytes()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.debug" class="md-nav__link">
+    debug()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output" class="md-nav__link">
+    output()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_data" class="md-nav__link">
+    output_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_image" class="md-nav__link">
+    output_image()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_json" class="md-nav__link">
+    output_json()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_python" class="md-nav__link">
+    output_python()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduler-interactions" class="md-nav__link">
+    Scheduler interactions
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduler interactions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.execute_datanode" class="md-nav__link">
+    execute_datanode()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.execute_datanodes" class="md-nav__link">
+    execute_datanodes()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.set_variable" class="md-nav__link">
+    set_variable()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.set_variable_property" class="md-nav__link">
+    set_variable_property()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.set_variables" class="md-nav__link">
+    set_variables()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-interactions" class="md-nav__link">
+    Dashboard interactions
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard interactions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.disable_widget" class="md-nav__link">
+    disable_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.enable_widget" class="md-nav__link">
+    enable_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.go_to_page" class="md-nav__link">
+    go_to_page()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.hide_widget" class="md-nav__link">
+    hide_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.show_widget" class="md-nav__link">
+    show_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.view_page" class="md-nav__link">
+    view_page()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.view_project" class="md-nav__link">
+    view_project()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../export/export/" class="md-nav__link">
+        Export
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Recipes & interfaces
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Recipes & interfaces" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Recipes & interfaces
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recipes/" class="md-nav__link">
+        Recipes
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#javascript" class="md-nav__link">
+    JavaScript
+  </a>
+  
+    <nav class="md-nav" aria-label="JavaScript">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scheduler-features" class="md-nav__link">
+    Scheduler features
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduler features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#setvariable" class="md-nav__link">
+    setVariable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setvariableproperty" class="md-nav__link">
+    setVariableProperty
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setvariables" class="md-nav__link">
+    setVariables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executedatanode" class="md-nav__link">
+    executeDataNode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executedatanodes" class="md-nav__link">
+    executeDataNodes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-features" class="md-nav__link">
+    Dashboard features
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gotopage" class="md-nav__link">
+    goToPage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewpage" class="md-nav__link">
+    viewPage
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#viewproject" class="md-nav__link">
+    viewProject
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hidewidget" class="md-nav__link">
+    hideWidget
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#showwidget" class="md-nav__link">
+    showWidget
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disablewidget" class="md-nav__link">
+    disableWidget
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enablewidget" class="md-nav__link">
+    enableWidget
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    Python
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#inputouputs-helpers" class="md-nav__link">
+    Input/ouputs helpers
+  </a>
+  
+    <nav class="md-nav" aria-label="Input/ouputs helpers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_data" class="md-nav__link">
+    as_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_image" class="md-nav__link">
+    as_image()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_json" class="md-nav__link">
+    as_json()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.as_python" class="md-nav__link">
+    as_python()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.base64_to_bytes" class="md-nav__link">
+    base64_to_bytes()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.debug" class="md-nav__link">
+    debug()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output" class="md-nav__link">
+    output()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_data" class="md-nav__link">
+    output_data()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_image" class="md-nav__link">
+    output_image()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_json" class="md-nav__link">
+    output_json()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.ChalkitApi.output_python" class="md-nav__link">
+    output_python()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scheduler-interactions" class="md-nav__link">
+    Scheduler interactions
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduler interactions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.execute_datanode" class="md-nav__link">
+    execute_datanode()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.execute_datanodes" class="md-nav__link">
+    execute_datanodes()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.set_variable" class="md-nav__link">
+    set_variable()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.set_variable_property" class="md-nav__link">
+    set_variable_property()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.SchedulerActions.set_variables" class="md-nav__link">
+    set_variables()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-interactions" class="md-nav__link">
+    Dashboard interactions
+  </a>
+  
+    <nav class="md-nav" aria-label="Dashboard interactions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.disable_widget" class="md-nav__link">
+    disable_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.enable_widget" class="md-nav__link">
+    enable_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.go_to_page" class="md-nav__link">
+    go_to_page()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.hide_widget" class="md-nav__link">
+    hide_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.show_widget" class="md-nav__link">
+    show_widget()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.view_page" class="md-nav__link">
+    view_page()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chalkit_python_api.public_api.DashboardActions.view_project" class="md-nav__link">
+    view_project()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+<h1 id="chalkit-apis">Chalk'it APIs<a class="headerlink" href="#chalkit-apis" title="Permanent link">&para;</a></h1>
+<p>Chalk'it offers a set of APIs through <strong><em>chalkit</em></strong> that serve several primary purposes:</p>
+<ul>
+<li>Scheduler APIs: Facilitate the scheduling process by enabling the modification of dataNode variables and launching the scheduler.</li>
+<li>Dashboard APIs: Support the developpement of multi-dashboard applications and the display of widgets.</li>
+<li>Datanode IOs</li>
+</ul>
+<h2 id="javascript">JavaScript<a class="headerlink" href="#javascript" title="Permanent link">&para;</a></h2>
+<h3 id="scheduler-features">Scheduler features<a class="headerlink" href="#scheduler-features" title="Permanent link">&para;</a></h3>
+<p>The main feature allows the setting of dataNode variables in a script, replicating the behavior of a user interacting with a basic input/control widget.</p>
+<p>The assessment of these functions is handled at the end of the current scheduling instance.</p>
+<h4 id="setvariable">setVariable<a class="headerlink" href="#setvariable" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">setVariable</span><span class="p">(</span><span class="nx">dataNodeName</span><span class="p">,</span><span class="w"> </span><span class="nx">dataNodeValue</span><span class="p">);</span>
+</code></pre></div>
+<p>This API sets the value <em>dataNodeValue</em> to the dataNode identified by dataNode["<em>dataNodeName</em>"].</p>
+<ul>
+<li>dataNodeName: The name of the dataNode, must be a string.</li>
+<li>dataNodeValue: The value to be assigned to the dataNode, which can be any JavaScript primitive type (number, string, boolean), array or JSON.</li>
+</ul>
+<p>For example, if you have a dataNode <em>info_person</em> that contains:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;John Doe&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;30&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>To modify it by another JSON value, you can use the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">setVariable</span><span class="p">(</span><span class="s2">&quot;info_person&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Jane Doe&quot;</span><span class="p">,</span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;25&quot;</span><span class="p">});</span>
+</code></pre></div>
+<h4 id="setvariableproperty">setVariableProperty<a class="headerlink" href="#setvariableproperty" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">setVariableProperty</span><span class="p">(</span><span class="nx">dataNodeName</span><span class="p">,</span><span class="w"> </span><span class="nx">propertyPath</span><span class="p">,</span><span class="w"> </span><span class="nx">dataNodeValue</span><span class="p">);</span>
+</code></pre></div>
+<p>This API allows to modify a specific property within a dataNode (not the entire dataNode). It assigns the value <em>dataNodeValue</em> to the specified property path: dataNode["<em>dataNodeName</em>"].<em>propertyPath</em>.</p>
+<ul>
+<li>dataNodeName: The name of the dataNode, must be a string.</li>
+<li>propertyPath: The path of the dataNode property to be modified, supporting JavaScript primitive types (number, string, boolean), array or JSON.</li>
+<li>dataNodeValue: The value to be set to the dataNode property, can be of any JavaScript primitive type (number, string, boolean), array or JSON.</li>
+</ul>
+<p>For example, if you have a dataNode <em>info_address</em> that contains:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;personal address&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;address&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s2">&quot;city&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;New York&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;details&quot;</span><span class="o">:</span><span class="p">{</span>
+<span class="w">      </span><span class="s2">&quot;street&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;123 Main St&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;zipCode&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;10001&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="s2">&quot;country&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;USA&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>To update the value of the street property in the nested structure within <em>info_address</em>, you can use the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">setVariableProperty</span><span class="p">(</span><span class="s2">&quot;info_person&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;address&quot;</span><span class="p">,</span><span class="s2">&quot;details&quot;</span><span class="p">,</span><span class="s2">&quot;street&quot;</span><span class="p">],</span><span class="w"> </span><span class="s2">&quot;West 23rd Street&quot;</span><span class="p">);</span>
+</code></pre></div>
+<h4 id="setvariables">setVariables<a class="headerlink" href="#setvariables" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">setVariables</span><span class="p">(</span><span class="nx">dataNodeNames</span><span class="p">,</span><span class="w"> </span><span class="nx">dataNodeValues</span><span class="p">);</span>
+</code></pre></div>
+<p>This API sets each value <em>dataNodeValues[i]</em> to dataNode["<em>dataNodeNames[i]</em>"], where i:0 .. length-1 of <em>dataNodeNames</em>.</p>
+<ul>
+<li>dataNodeNames: An array containing the names of dataNodes, each as a string.</li>
+<li>dataNodeValues: An array containing the corresponding values for the dataNodes, can be of any JavaScript primitive type (number, string, boolean), array or JSON. This array must match the size of dataNodeNames.</li>
+</ul>
+<p>For example, to modify at the same time the previous dataNode <em>info_person</em> and another dataNode <em>info_gender</em> that contains:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="s2">&quot;gender&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;male&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>you can use the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">setVariables</span><span class="p">([</span><span class="s2">&quot;info_person&quot;</span><span class="p">,</span><span class="s2">&quot;info_gender&quot;</span><span class="p">],</span><span class="w"> </span><span class="p">[{</span><span class="s2">&quot;name&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Jane Doe&quot;</span><span class="p">,</span><span class="s2">&quot;age&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;25&quot;</span><span class="p">},{</span><span class="s2">&quot;gender&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;female&quot;</span><span class="p">}]);</span>
+</code></pre></div>
+<h4 id="executedatanode">executeDataNode<a class="headerlink" href="#executedatanode" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">executeDataNode</span><span class="p">(</span><span class="nx">dataNodeName</span><span class="p">);</span>
+</code></pre></div>
+<p>This API allows to launch the schedule with the source node identified as <em>dataNodeName</em> (the name of the dataNode that must be a string).</p>
+<p>This functionality can be useful for a dataNode with <a href="../ds/ds-execution-engine/#Explicit-Trigger">explicit trigger</a> flag set to true. Its execution can be explicitly triggered by this API, in addition to being triggered by an associated <a href="../wdg/wdg-basic-inputs/#push-button">push button</a> widget or by clicking on the dataNode update icon <img alt="Update" src="../ds/img/refresh-icon.png" title="Update" /> present in the dataNodes list.</p>
+<h4 id="executedatanodes">executeDataNodes<a class="headerlink" href="#executedatanodes" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">executeDataNodes</span><span class="p">(</span><span class="nx">dataNodeNames</span><span class="p">);</span>
+</code></pre></div>
+<p>This API is similar to <em>executeDataNode</em>, except it launches the schedule with multiple source nodes defined in the <em>dataNodeNames</em> array, where each name is represented as a string.</p>
+<h3 id="dashboard-features">Dashboard features<a class="headerlink" href="#dashboard-features" title="Permanent link">&para;</a></h3>
+<p>The main feature allow navigation between Chalk'it pages with parameter transfer. When landing at the target page, specified dataNodes of type <em>Variable</em> can have their initial values modified, as described below.</p>
+<h4 id="gotopage">goToPage<a class="headerlink" href="#gotopage" title="Permanent link">&para;</a></h4>
+<p>In <a href="../export/export#scaling-methods-for-the-constrained-dashboard">constrained dashboard mode</a>, the method:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">goToPage</span><span class="p">(</span><span class="nx">pageNumber</span><span class="p">)</span>
+</code></pre></div>
+<p>allows to show only the targed page. It is the main method for building multi-page app with custom navigation control.</p>
+<h4 id="viewpage">viewPage<a class="headerlink" href="#viewpage" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">viewPage</span><span class="p">(</span><span class="nx">pageUrl</span><span class="p">,</span><span class="w"> </span><span class="nx">inputVals</span><span class="p">,</span><span class="w"> </span><span class="nx">bNewTab</span><span class="p">)</span>
+</code></pre></div>
+<p>Navigates to <em>pageUrl</em>, setting the values of the specified dataNodes in inputVals.</p>
+<ul>
+<li>pageUrl: target page URL</li>
+<li>inputVals: an array of structures of type</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">&quot;dsName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dataNodeName&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;dsVal&quot;</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dataNodeValue&quot;</span><span class="p">}</span>
+</code></pre></div>
+<p>dsName should be of type string. dsVal can be of any JavaScript primitive type (number, string, boolean), array or JSON.</p>
+<ul>
+<li>bNewTab: open in new tab when true.</li>
+</ul>
+<h4 id="viewproject">viewProject<a class="headerlink" href="#viewproject" title="Permanent link">&para;</a></h4>
+<p>Similar to view page, but applies for projects.</p>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">viewProject</span><span class="p">(</span><span class="nx">projectUrl</span><span class="p">,</span><span class="w"> </span><span class="nx">inputVals</span><span class="p">,</span><span class="w"> </span><span class="nx">bNewTab</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="hidewidget">hideWidget<a class="headerlink" href="#hidewidget" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">hideWidget</span><span class="p">(</span><span class="nx">widgetName</span><span class="p">)</span>
+</code></pre></div>
+<p>Hides the display of the widget.</p>
+<ul>
+<li>widgetName: the name of the widget, which can be obtained by hovering over the widget target, in the edit mode. The widget is visible by default.</li>
+</ul>
+<h4 id="showwidget">showWidget<a class="headerlink" href="#showwidget" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">showWidget</span><span class="p">(</span><span class="nx">widgetName</span><span class="p">)</span>
+</code></pre></div>
+<p>Makes the display of the widget visible.</p>
+<h4 id="disablewidget">disableWidget<a class="headerlink" href="#disablewidget" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">disableWidget</span><span class="p">(</span><span class="nx">widgetName</span><span class="p">)</span>
+</code></pre></div>
+<p>Disables the access of the widget. The widget is enabled by default.</p>
+<h4 id="enablewidget">enableWidget<a class="headerlink" href="#enablewidget" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nx">chalkit</span><span class="p">.</span><span class="nx">enableWidget</span><span class="p">(</span><span class="nx">widgetName</span><span class="p">)</span>
+</code></pre></div>
+<p>Enables the access of the widget (interactive).</p>
+<h2 id="python">Python<a class="headerlink" href="#python" title="Permanent link">&para;</a></h2>
+<p>The Python API deals with input and outputs for Python scripts and also offers a port of the JavaScript API to interact with the scheduler and the dashboard.</p>
+<h3 id="inputouputs-helpers">Input/ouputs helpers<a class="headerlink" href="#inputouputs-helpers" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>An instance of <code>ChalkitApi</code> is provided to user scripts as <code>chalkit</code>. It can be used by scripts to interact
+ with Chalk'it.</p>
+<p>Aside from utility fonctions, it provides a set of methods to build the script's output. The <code>output</code> method
+can be used as an alternative to a return statement. If called multiple times the results will be combined as a
+JSON array or object.</p>
+<p>As Chalk'it can only handle JSON data, any returned python object will be converted according to a set of
+heuristics. Lists, dicts, string and numbers will be directly mapped to their JSON equivalent; Plots from known
+libraries will be converted to images (preferably SVG); etc. As a last resort, the object will be pickled and sent
+as binary data. If this fails, an error is raised.</p>
+<p>The <code>as_*</code> methods can be used to force the results to use a specific conversion:</p>
+<div class="highlight"><pre><span></span><code>dataframe = compute_my_data()
+return [chalkit.as_json(dataframe), chalkit.as_python(dataframe)]
+</code></pre></div>
+<p>The <code>output_*</code> methods a juste conveniences to return a converted value. <code>chalkit.output_json(dataframe)</code> is the
+same as <code>chalkit.output(chalkit.as_json(dataframe))</code>.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.as_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_data</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">mime_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.as_data" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>This method instructs Chalk'it to output the result as binary data using its JSON convention.</p>
+<p>Object of known types, like numpy arrays, will be saved as binary data. This behavior is very discretionary.</p>
+<p>The most obvious use case is returning raw data from <code>bytes</code> or a <code>BytesIO</code> using Chalk'it conventions, with
+the possibility to attach a MIME type.</p>
+<p>The resulting JSON looks like:</p>
+<div class="highlight"><pre><span></span><code>{
+  &quot;content&quot;: &quot;ZHJncnNk&quot;,
+  &quot;isBinary&quot;: true,
+  &quot;type&quot;: &quot;application/octet-stream&quot;,
+  &quot;name&quot;: &quot;my_file.bin&quot;
+}
+</code></pre></div>
+<p>Only the first two fields are guarantied / necessary. The <code>type</code> is a MIME type and help datanodes and widgets
+handle the data. The <code>name</code> is often an original filename and may be used when downloading the content
+as a file.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>mime_type</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>A MIME type to be added to the resulting JSON object.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>name</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>a name (usually a file name) to be added to the resulting JSON object.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OutputAdapter</code></td>
+      <td><p><code>value</code> either wrapped or converted. The returned object is not intended to be used by the user's script
+ but returned as it is.</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.as_image" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_image</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.as_image" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>This method instructs Chalk'it to convert the result (like a plot figure) into an image.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OutputAdapter</code></td>
+      <td><p><code>value</code> either wrapped or converted. The returned object is not intended to be used by the user's script
+ but returned as it is.</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.as_json" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_json</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.as_json" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>This method instructs Chalk'it to convert a result to a JSON representation.</p>
+<p>!!! note
+    Technically, all data is ultimately converted to JSON. But using a plotly plot as an example, this method
+    will output the plot's JSON configuration, whereas <code>as_image</code> would return an image of the plot encoded
+    into JSON using base64.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OutputAdapter</code></td>
+      <td><p><code>value</code> either wrapped or converted. The returned object is not intended to be used by the user's script
+ but returned as it is.</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.as_python" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">as_python</span><span class="p">(</span><span class="n">value</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.as_python" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>This method instructs Chalk'it to pickle a result, the main use case being moving Python objects from a
+Python datanode to another.</p>
+<p>The JSON encoding used will be recognized if the value is used in another Python datanode and the object will
+be automatically un-pickled, meaning <code>dataNodes["previous-python-node"]</code> will directly evaluate to the
+un-pickled object.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>OutputAdapter</code></td>
+      <td><p><code>value</code> either wrapped or converted. The returned object is not intended to be used by the user's script
+ but returned as it is.</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.base64_to_bytes" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">base64_to_bytes</span><span class="p">(</span><span class="n">b64</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.base64_to_bytes" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Reverts data encoded as a string using base 64 to raw <code>bytes</code>.</p>
+<p>All binary data moved around as JSON in Chalk'it is encoded as base 64 strings. This method is provided
+as an easy way to get the data back into a binary form.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>b64</code></td>
+        <td><code>str</code></td>
+        <td><p>the base64 encoded string</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>bytes</code></td>
+      <td><p>the decoded raw binary data</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.debug" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.debug" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Output debug information.</p>
+<p>This method does nothing when not invoked while editing a script in the Python datanode editor. In the editor,
+the <code>value</code> with be displayed as conveniently as possible. This is intended to be similar to a <code>print</code>, or more
+accurately a <code>logger.debug(value)</code>, with some additional rendering, like images being displayed, etc.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>the value to display</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.output" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.output" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Provides an alternative way to return data, as opposed to the <code>return</code> statement.</p>
+<p>Multiple calls build an array; using keys yield an object:</p>
+<div class="highlight"><pre><span></span><code># Equivalent simple returns
+chalkit.output(42)
+# Or
+return 42
+
+# Equivalent array returns
+chalkit.output(1)
+chalkit.output(2)
+chalkit.output(3)
+# Or
+return [1, 2, 3]
+
+# Equivalent object returns
+chalkit.output(1, key=&quot;a&quot;)
+chalkit.output(2, key=&quot;b&quot;)
+# Or
+return {&quot;a&quot;: 1, &quot;b&quot;: 2}
+</code></pre></div>
+<p>Mixing <code>output</code> and <code>return</code> is an error, as is using <code>output</code> with and without keys.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td><code>Optional[str]</code></td>
+        <td><p>if provided, attach <code>value</code> as the <code>key</code> attribute of a JSON object.</p></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.output_data" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">output_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.output_data" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Same as <code>chalkit.output(chalkit.as_data(value), key)</code>.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td><code>Optional[str]</code></td>
+        <td></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.output_image" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">output_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.output_image" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Same as <code>chalkit.output(chalkit.as_image(value), key)</code>.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td><code>Optional[str]</code></td>
+        <td></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.output_json" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">output_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.output_json" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Same as <code>chalkit.output(chalkit.as_json(value), key)</code>.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td><code>Optional[str]</code></td>
+        <td></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.ChalkitApi.output_python" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">output_python</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.ChalkitApi.output_python" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <div class="highlight"><pre><span></span><code>Same as `chalkit.output(chalkit.as_python(value), key)`.
+</code></pre></div>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>value</code></td>
+        <td><code>Any</code></td>
+        <td><p>a return value for the script</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>key</code></td>
+        <td><code>Optional[str]</code></td>
+        <td></td>
+        <td><code>None</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h3 id="scheduler-interactions">Scheduler interactions<a class="headerlink" href="#scheduler-interactions" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>This class provides a port of the javascript API. An instance of it is provided to user scripts as
+<code>chalkit.scheduler</code>. It allows some interactions with the dashboard's scheduler. Use with caution as these
+introduce side effects to data nodes executions. Be especially mindful of not creating update cycles.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.SchedulerActions.execute_datanode" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">execute_datanode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datanode_name</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.SchedulerActions.execute_datanode" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Schedules the evaluation of a dataNode.</p>
+<p>This is mostly meant for dataNodes with the explicit trigger flag. This will cascade to downstream dataNodes.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>datanode_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of the dataNode</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.SchedulerActions.execute_datanodes" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">execute_datanodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datanode_names</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.SchedulerActions.execute_datanodes" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Schedules the evaluation of multiple dataNodes (see `execute_datanode).</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>datanode_names</code></td>
+        <td><code>list[str]</code></td>
+        <td><p>the names of a group of dataNodes</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.SchedulerActions.set_variable" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_variable</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datanode_name</span><span class="p">,</span> <span class="n">json_value</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.SchedulerActions.set_variable" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Update the value of a dataNode.</p>
+<p>The change happens at the end of the evaluation of the current dataNode. This may trigger the re-evaluation
+of downstream dataNodes. Most dataNodes that are not <code>Variable</code> can't be updated.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>datanode_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of the dataNode</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>json_value</code></td>
+        <td><code>Any</code></td>
+        <td><p>the new value, must convert to JSON</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.SchedulerActions.set_variable_property" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_variable_property</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datanode_name</span><span class="p">,</span> <span class="n">property_path</span><span class="p">,</span> <span class="n">json_value</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.SchedulerActions.set_variable_property" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Update part of the value of a dataNode (see <code>set_variable</code>).</p>
+<p>See the javascript version for more details.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>datanode_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of the dataNode</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>property_path</code></td>
+        <td><code>list[Union[int, str]]</code></td>
+        <td><p>Path in the old value where to set the new value. Sequence of strings (object keys) and
+           integers (array index).</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>json_value</code></td>
+        <td><code>Any</code></td>
+        <td><p>the new value to insert, must convert to JSON</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.SchedulerActions.set_variables" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">set_variables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">datanodes_values</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.SchedulerActions.set_variables" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Update the value of multiple dataNodes (see <code>set_variable</code>).</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>datanodes_values</code></td>
+        <td><code>dict[str, Any]</code></td>
+        <td><p>dictionary mapping dataNode names to their new values. Values must convert to JSON.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+<h3 id="dashboard-interactions">Dashboard interactions<a class="headerlink" href="#dashboard-interactions" title="Permanent link">&para;</a></h3>
+
+
+  <div class="doc doc-object doc-class">
+
+
+    <div class="doc doc-contents first">
+
+      <p>This class provides a port of the javascript API. An instance of it is provided to user scripts as
+<code>chalkit.dashboard</code>. It allows some interactions with the dashboard. Use with caution as these introduce side
+effects to data nodes executions.</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.disable_widget" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">disable_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget_name</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.disable_widget" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Disables a widget, making it non-interactive. All widgets are initially enabled.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>widget_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of a widget (can be obtained by hovering over a widget in the edit mode)</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.enable_widget" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">enable_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget_name</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.enable_widget" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>(re)enables a widget, making it interactive.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>widget_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of a widget (can be obtained by hovering over a widget in the edit mode)</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.go_to_page" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">go_to_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_page</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.go_to_page" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Changes the current page in constrained dashboard mode.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>num_page</code></td>
+        <td><code>int</code></td>
+        <td><p>the page to display</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.hide_widget" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">hide_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget_name</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.hide_widget" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Hides a widget. All widgets are initially visible.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>widget_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of a widget (can be obtained by hovering over a widget in the edit mode)</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.show_widget" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">show_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget_name</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.show_widget" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Makes a widget visible. All widgets are initially visible.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>widget_name</code></td>
+        <td><code>str</code></td>
+        <td><p>the name of a widget (can be obtained by hovering over a widget in the edit mode)</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.view_page" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">view_page</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page_url</span><span class="p">,</span> <span class="n">input_vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_tab</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.view_page" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Navigates to pageUrl, setting the values of the specified dataNodes in inputVals.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>page_url</code></td>
+        <td><code>str</code></td>
+        <td><p>target page URL</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>input_vals</code></td>
+        <td><code>Optional[list[chalkit_python_api.public_api.ParamValue]]</code></td>
+        <td><p>optional array of structures of type <code>{"dsName": "dataNodeName", "dsVal" : "dataNodeValue"}</code>.
+        <code>dsName</code> must be a string. <code>dsVal</code> must convert to JSON.</p></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>new_tab</code></td>
+        <td></td>
+        <td><p>open in new tab when true</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h4 id="chalkit_python_api.public_api.DashboardActions.view_project" class="doc doc-heading">
+<code class="highlight language-python"><span class="n">view_project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_url</span><span class="p">,</span> <span class="n">input_vals</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">new_tab</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+<a href="#chalkit_python_api.public_api.DashboardActions.view_project" class="headerlink" title="Permanent link">&para;</a></h4>
+
+    <div class="doc doc-contents ">
+
+      <p>Similar to <code>view_page</code>, but for projects.</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>project_url</code></td>
+        <td><code>str</code></td>
+        <td><p>URL of an xprjson file</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>input_vals</code></td>
+        <td><code>Optional[list[chalkit_python_api.public_api.ParamValue]]</code></td>
+        <td></td>
+        <td><code>None</code></td>
+      </tr>
+      <tr>
+        <td><code>new_tab</code></td>
+        <td></td>
+        <td><p>open in new tab when true</p></td>
+        <td><code>False</code></td>
+      </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../py/py-proto-flask/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Local prototyping with Flask" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Local prototyping with Flask
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../export/export/" class="md-footer__link md-footer__link--next" aria-label="Next: Export" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Export
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+        <script src="../mkdocs-open-xprjson.js"></script>
+      
+    
+  </body>
+</html>

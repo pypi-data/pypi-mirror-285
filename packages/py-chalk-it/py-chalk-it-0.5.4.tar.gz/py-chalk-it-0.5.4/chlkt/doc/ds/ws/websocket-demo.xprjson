@@ -1,0 +1,132 @@
+{
+  "meta": {
+    "version": "3.000.8889",
+    "fileFormatVersion": "0.3",
+    "date": "2024-05-03T13:30:08.004Z",
+    "name": "websocket-demo",
+    "description": "",
+    "tags": [],
+    "schedulerLogOff": true
+  },
+  "data": {
+    "datanodes": [
+      {
+        "name": "receive",
+        "type": "WS-receive-plugin",
+        "settings": {
+          "name": "receive",
+          "host": "localhost",
+          "port": 8080,
+          "autoStart": true,
+          "init_value": "none",
+          "decoding_options": "Text"
+        }
+      },
+      {
+        "name": "send",
+        "type": "WS-send-plugin",
+        "settings": {
+          "name": "send",
+          "host": "localhost",
+          "port": 8080,
+          "sampleTime": 0,
+          "autoStart": true,
+          "explicitTrig": false,
+          "init_value": "none",
+          "json_input": "return \"Chalk'it is sending something\";"
+        }
+      }
+    ]
+  },
+  "libraries": {
+    "pyodideStandard": [],
+    "pyodideMicropip": []
+  },
+  "scaling": {
+    "widthPx": 1294,
+    "heightPx": 590,
+    "scrollWidthPx": 1294,
+    "scrollHeightPx": 590,
+    "widthVw": 84.68586387434554,
+    "heightVh": 78.66666666666667,
+    "scrollWidthVw": 84.68586387434554,
+    "scrollHeightVh": 78.66666666666667,
+    "scalingMethod": "scaleTwh",
+    "media": "large",
+    "colDims": null
+  },
+  "device": {
+    "cols": {
+      "valueRow": "none",
+      "valueCol": "1",
+      "maxCells": 0,
+      "maxCols": 0,
+      "classType": ""
+    },
+    "droppers": {},
+    "backgroundColor": "var(--widget-color-0)",
+    "inheritThemeBackgroundColor": true,
+    "theme": "default"
+  },
+  "dashboard": {
+    "flatUiValueDisplay0": {
+      "layout": {
+        "top": "2.02508vh",
+        "left": "2.73495vw",
+        "height": "4.82905vh",
+        "width": "75.8949vw",
+        "minHeight": "24px",
+        "minWidth": "150px",
+        "z-index": "1"
+      },
+      "container": {
+        "instanceId": "flatUiValueDisplay0",
+        "modelJsonId": "flatUiValueDisplay"
+      },
+      "modelParameters": {
+        "label": "receive",
+        "inheritLabelFromData": true,
+        "displayLabel": true,
+        "labelFontSize": 0.5,
+        "labelColor": "var(--widget-label-color)",
+        "labelFontFamily": "var(--widget-font-family)",
+        "labelTextAlign": "left",
+        "valueWidthProportion": "80%",
+        "valueFontSize": 0.5,
+        "valueColor": "#34495e",
+        "valueFontFamily": "var(--widget-font-family)",
+        "valueTextAlign": "left",
+        "displayBorder": true,
+        "borderColor": "var(--widget-border-color)",
+        "backgroundColor": "var(--widget-input-color)",
+        "unit": "unitText",
+        "displayUnit": false,
+        "unitFontSize": 0.5,
+        "validationButton": false,
+        "validationOnFocusOut": true,
+        "isNumber": false,
+        "borderWidth": "2px"
+      },
+      "modelHiddenParams": {
+        "value": ""
+      }
+    }
+  },
+  "connections": {
+    "flatUiValueDisplay0": {
+      "value": {
+        "name": "value",
+        "dataFields": [],
+        "dataSourceIndex": 0,
+        "dataNode": "receive"
+      }
+    }
+  },
+  "exportOptions": "adjustToFullWidth",
+  "pages": {
+    "pageNames": [],
+    "defaultPage": {}
+  },
+  "checkExportOptions": true,
+  "navBarNotification": false
+}

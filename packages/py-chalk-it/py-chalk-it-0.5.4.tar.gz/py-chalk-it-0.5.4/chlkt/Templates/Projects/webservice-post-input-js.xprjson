@@ -1,0 +1,263 @@
+{
+  "meta": {
+    "version": "3.000.8889",
+    "fileFormatVersion": "0.3",
+    "date": "2024-05-03T13:18:38.004Z",
+    "name": "webservice-post-input-js",
+    "description": "HTTP POST using REST API dataNode-type, with body defined in a Variable dataNode-type",
+    "groupName": "JavaScript",
+    "tags": [
+      {
+        "text": "DataNodes"
+      },
+      {
+        "text": "REST-API"
+      }
+    ],
+    "schedulerLogOff": true
+  },
+  "data": {
+    "datanodes": [
+      {
+        "name": "Input",
+        "type": "JSON_var_plugin",
+        "settings": {
+          "name": "Input",
+          "json_var": "{\"length\":51,\"width\":74}"
+        }
+      },
+      {
+        "name": "InputBody",
+        "type": "JSON_formula_plugin",
+        "settings": {
+          "name": "InputBody",
+          "autoStart": true,
+          "explicitTrig": false,
+          "json_var_formula": "return { \n    \"X\": dataNodes[\"Input\"][\"length\"], \n    \"Y\": dataNodes[\"Input\"][\"width\"] \n};"
+        }
+      },
+      {
+        "name": "Surface",
+        "type": "REST_web-service_from_datasource",
+        "settings": {
+          "name": "Surface",
+          "url": "https://compute20190425045435.azurewebsites.net/ComputeService.asmx/Surface",
+          "use_xproxy": true,
+          "sampleTime": 0,
+          "autoStart": true,
+          "explicitTrig": false,
+          "req_data_type": "JSON",
+          "resp_data_type": "JSON",
+          "method": "POST",
+          "body": "return dataNodes[\"InputBody\"];\n",
+          "headers": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "proxyHash": "eyJBZGRyZXNzIjoiaHR0cHM6Ly9jb21wdXRlMjAxOTA0MjUwNDU0MzUuYXp1cmV3ZWJzaXRlcy5uZXQvQ29tcHV0ZVNlcnZpY2UuYXNteC9TdXJmYWNlIiwiSG9zdCI6InhkYXNoIn0=",
+          "proxySig": "5TM10MtZYvnW/sf2ZrpNxroEC5/u3IzDOTvHwTGaJC7Ve8mvIFTHNTSRJC01sF4++1mTDAzHz2vWI03ypu1tkethTosHJxRjcAnrj3nUMMB9B3vlYUwnXguGTw5Y8ov0116boibAlNU5qvWLv68hpw=="
+        }
+      }
+    ]
+  },
+  "libraries": {
+    "pyodideStandard": [],
+    "pyodideMicropip": []
+  },
+  "scaling": {
+    "widthPx": 1295,
+    "heightPx": 590,
+    "scrollWidthPx": 1295,
+    "scrollHeightPx": 590,
+    "widthVw": 84.75130890052355,
+    "heightVh": 78.66666666666667,
+    "scrollWidthVw": 84.75130890052355,
+    "scrollHeightVh": 78.66666666666667,
+    "scalingMethod": "scaleTwh",
+    "media": "large",
+    "colDims": null
+  },
+  "device": {
+    "cols": {
+      "valueRow": "none",
+      "valueCol": "1",
+      "maxCells": 0,
+      "maxCols": 0,
+      "classType": ""
+    },
+    "droppers": {},
+    "backgroundColor": "var(--widget-color-0)",
+    "inheritThemeBackgroundColor": true,
+    "theme": "default"
+  },
+  "dashboard": {
+    "flatUiHorizontalSliderA": {
+      "layout": {
+        "top": "4.26667vh",
+        "left": "3.79581vw",
+        "height": "5.06667vh",
+        "width": "24.0183vw",
+        "minHeight": "24px",
+        "minWidth": "200px",
+        "z-index": "1"
+      },
+      "container": {
+        "instanceId": "flatUiHorizontalSliderA",
+        "modelJsonId": "flatUiHorizontalSlider"
+      },
+      "modelParameters": {
+        "label": "length",
+        "inheritLabelFromData": true,
+        "displayLabel": true,
+        "labelFontSize": 0.5,
+        "labelColor": "var(--widget-label-color)",
+        "labelFontFamily": "var(--widget-font-family)",
+        "rangeActuator": false,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "displayValue": true,
+        "validationOnFocusOut": true,
+        "valueFontSize": 0.5,
+        "valueFontFamily": "var(--widget-font-family)",
+        "valueBorderColor": "var(--widget-border-color)",
+        "labelWidthProportion": "20%",
+        "sliderWidthProportion": "60%",
+        "valueWidthProportion": "20%",
+        "sliderRangeColor": "var(--widget-range-color)",
+        "sliderSegmentColor": "var(--widget-segment-color)",
+        "sliderHandleDefaultColor": "var(--widget-handle-default-color)",
+        "sliderHandleHoverColor": "var(--widget-handle-hover-color)",
+        "sliderHandleActiveColor": "var(--widget-handle-active-color)",
+        "valueColor": "var(--widget-color)",
+        "unit": "unitText",
+        "displayUnit": false,
+        "unitFontSize": 0.5
+      },
+      "modelHiddenParams": {
+        "value": 0
+      }
+    },
+    "flatUiHorizontalSliderB": {
+      "layout": {
+        "top": "13.2vh",
+        "left": "3.79581vw",
+        "height": "5.06667vh",
+        "width": "24.0183vw",
+        "minHeight": "24px",
+        "minWidth": "200px",
+        "z-index": "2"
+      },
+      "container": {
+        "instanceId": "flatUiHorizontalSliderB",
+        "modelJsonId": "flatUiHorizontalSlider"
+      },
+      "modelParameters": {
+        "label": "width",
+        "inheritLabelFromData": true,
+        "displayLabel": true,
+        "labelFontSize": 0.5,
+        "labelColor": "var(--widget-label-color)",
+        "labelFontFamily": "var(--widget-font-family)",
+        "rangeActuator": false,
+        "min": 0,
+        "max": 100,
+        "step": 1,
+        "displayValue": true,
+        "validationOnFocusOut": true,
+        "valueFontSize": 0.5,
+        "valueFontFamily": "var(--widget-font-family)",
+        "valueBorderColor": "var(--widget-border-color)",
+        "labelWidthProportion": "20%",
+        "sliderWidthProportion": "60%",
+        "valueWidthProportion": "20%",
+        "sliderRangeColor": "var(--widget-range-color)",
+        "sliderSegmentColor": "var(--widget-segment-color)",
+        "sliderHandleDefaultColor": "var(--widget-handle-default-color)",
+        "sliderHandleHoverColor": "var(--widget-handle-hover-color)",
+        "sliderHandleActiveColor": "var(--widget-handle-active-color)",
+        "valueColor": "var(--widget-color)",
+        "unit": "unitText",
+        "displayUnit": false,
+        "unitFontSize": 0.5
+      },
+      "modelHiddenParams": {
+        "value": 0
+      }
+    },
+    "kpiCardA": {
+      "layout": {
+        "top": "22.1333vh",
+        "left": "3.79874vw",
+        "height": "16vh",
+        "width": "18.0113vw",
+        "minHeight": "32px",
+        "minWidth": "64px",
+        "z-index": "3"
+      },
+      "container": {
+        "instanceId": "kpiCardA",
+        "modelJsonId": "kpiCard"
+      },
+      "modelParameters": {
+        "label": "surface",
+        "inheritLabelFromData": false,
+        "displayLabel": true,
+        "labelFontSize": 0.5,
+        "labelColor": "var(--widget-label-color)",
+        "labelFontFamily": "var(--widget-font-family)",
+        "valuePosition": "bottom",
+        "valueFontSize": 2,
+        "valueColor": "var(--widget-color)",
+        "valueFontFamily": "var(--widget-font-family)",
+        "decimalDigits": 3,
+        "unit": "unitText",
+        "displayUnit": false,
+        "unitFontSize": 0.5,
+        "unitColor": "var(--widget-label-color)",
+        "borderShadow": false
+      },
+      "modelHiddenParams": {
+        "value": "--"
+      }
+    }
+  },
+  "connections": {
+    "flatUiHorizontalSliderA": {
+      "value": {
+        "name": "value",
+        "dataNode": "Input",
+        "dataFields": [
+          "length"
+        ]
+      }
+    },
+    "flatUiHorizontalSliderB": {
+      "value": {
+        "name": "value",
+        "dataNode": "Input",
+        "dataFields": [
+          "width"
+        ]
+      }
+    },
+    "kpiCardA": {
+      "value": {
+        "name": "value",
+        "dataNode": "Surface",
+        "dataFields": [
+          "Msg"
+        ]
+      }
+    }
+  },
+  "exportOptions": "adjustToFullWidth",
+  "pages": {
+    "pageNames": [],
+    "defaultPage": {}
+  },
+  "checkExportOptions": true,
+  "navBarNotification": false
+}
