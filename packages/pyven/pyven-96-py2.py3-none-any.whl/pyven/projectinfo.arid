@@ -1,0 +1,31 @@
+fwrap = $pyref(.functions fwrap)
+neq := $fwrap$pyref(operator ne)
+requires := $list()
+pyversions := $list()
+proprietary = false
+resource types := $list(pxd pyx pyxbld arid aridt)
+build requires := $list()
+licenses := $list(GPL)
+MIT path = LICENSE
+licheck
+    enabled = $¬$(proprietary)
+    exclude globs := $list()
+flakes exclude globs := $list()
+pypi
+    account = $(None)
+    participant = $neq($(account) $(None))
+github
+    account = $(None)
+    participant = $neq($(account) $(None))
+linktree account = $(None)
+devel
+    packages := $list()
+    scripts := $list()
+warmups := $list()
+upstream devel packages := $list()
+test requires := $list()
+tagline = $(void)
+native = false
+pydoc_enabled = true
+readme_verbose = $(github participant)
+internal_module := $list()
