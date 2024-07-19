@@ -1,0 +1,49 @@
+Metadata-Version: 2.1
+Name: xmipp_metadata
+Version: 1.1.3
+Summary: Package to handle Xmipp Metadata and image binary data
+Home-page: https://github.com/DavidHerreros/xmipp_metadata
+Author: David Herreros
+Author-email: dherreros@cnb.csic.es
+Keywords: xmipp scipion cryoem imageprocessing scipion-3.0
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy<=1.26.4
+Requires-Dist: pillow==8.4.0; python_version == "3.6"
+Requires-Dist: pillow<=10.1.0; python_version >= "3.8"
+Requires-Dist: pandas<=2.1.4
+Requires-Dist: starfile!=0.5.0
+Requires-Dist: mrcfile
+Requires-Dist: emfile
+Requires-Dist: emtable
+Requires-Dist: scikit-image<=0.24.0
+Requires-Dist: morphsnakes
+Requires-Dist: joblib
+Requires-Dist: pytest
+
+<h1 align='center'>Xmipp Metadata Handler</h1>
+
+<p align="center">
+        
+<img alt="Supported Python versions" src="https://img.shields.io/badge/Supported_Python_Versions-3.8_%7C_3.9_%7C_3.10_%7C_3.11_%7C_3.12-blue">
+<img alt="GitHub Downloads (all assets, all releases)" src="https://img.shields.io/github/downloads/DavidHerreros/xmipp_metadata/total">
+<img alt="GitHub branch check runs" src="https://img.shields.io/github/check-runs/DavidHerreros/xmipp_metadata/master">
+<img alt="GitHub License" src="https://img.shields.io/github/license/DavidHerreros/xmipp_metadata">
+
+</p>
+
+<p align="center">
+        
+<img alt="Xmipp" width="300" src="https://github.com/I2PC/scipion-em-xmipp/raw/devel/xmipp3/xmipp_logo.png">
+
+</p>
+
+This package implements a Xmipp Metadata handling functionality with image binary accession in Python.
+
+# Included functionalities
+
+- **XmippMetadata** class: Reading and writing of Xmipp Metadata files (.xmd)
+- **ImageHandler** class: Reading and writing of image binaries stored in the metadata. It support the following formats:
+    - MRC files (reading and writing) for stacks and volumes (.mrcs and .mrc)
+    - Spider files (reading and writing) for stacks and volumes (.stk and .vol)
+    - EM files (reading and writing) for stack and images (.ems and .em)
