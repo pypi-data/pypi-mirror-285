@@ -1,0 +1,157 @@
+[tool.poetry]
+name = "python-kasa"
+version = "0.7.0.5"
+description = "Python API for TP-Link Kasa Smarthome devices"
+license = "GPL-3.0-or-later"
+authors = ["python-kasa developers"]
+repository = "https://github.com/python-kasa/python-kasa"
+readme = "README.md"
+packages = [
+  { include = "kasa" }
+]
+include = [
+  { path= "CHANGELOG.md", format = "sdist" }
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/python-kasa/python-kasa/issues"
+"Documentation" = "https://python-kasa.readthedocs.io"
+
+[tool.poetry.scripts]
+kasa = "kasa.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+asyncclick = ">=8.1.7"
+pydantic = ">=1.10.15"
+cryptography = ">=1.9"
+async-timeout = ">=3.0.0"
+aiohttp = ">=3"
+
+# speed ups
+orjson = { "version" = ">=3.9.1", optional = true }
+kasa-crypt = { "version" = ">=0.2.0", optional = true }
+
+# required only for docs
+sphinx = { version = "^5", optional = true }
+sphinx_rtd_theme = { version = "^2", optional = true }
+sphinxcontrib-programoutput = { version = "^0", optional = true }
+myst-parser = { version = "*", optional = true }
+docutils = { version = ">=0.17", optional = true }
+
+# enhanced cli support
+ptpython = { version = "*", optional = true }
+rich = { version = "*", optional = true }
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-asyncio = "*"
+pytest-sugar = "*"
+pre-commit = "*"
+voluptuous = "*"
+toml = "*"
+tox = "*"
+pytest-mock = "*"
+codecov = "*"
+xdoctest = "*"
+coverage = {version = "*", extras = ["toml"]}
+pytest-timeout = "^2"
+pytest-freezer = "^0.4"
+mypy = "^1"
+
+[tool.poetry.extras]
+docs = ["sphinx", "sphinx_rtd_theme", "sphinxcontrib-programoutput", "myst-parser", "docutils"]
+speedups = ["orjson", "kasa-crypt"]
+shell = ["ptpython", "rich"]
+
+[tool.coverage.run]
+source = ["kasa"]
+branch = true
+omit = ["kasa/tests/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+  # ignore debug logging
+  "if debug_enabled:",
+  # Don't complain if tests don't hit defensive assertion code:
+  "raise AssertionError",
+  "raise NotImplementedError",
+  # Don't complain about missing debug-only code:
+  "def __repr__",
+  # Have to re-enable the standard pragma
+  "pragma: no cover",
+  # TYPE_CHECKING and @overload blocks are never executed during pytest run
+  "if TYPE_CHECKING:",
+  "@overload"
+]
+
+[tool.pytest.ini_options]
+markers = [
+    "requires_dummy: test requires dummy data to pass, skipped on real devices",
+]
+asyncio_mode = "auto"
+timeout = 10
+
+[tool.doc8]
+paths = ["docs"]
+ignore = ["D001"]
+ignore-path-errors = ["docs/source/index.rst;D000"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+  "E",  # pycodestyle
+  "D",  # pydocstyle
+  "F",  # pyflakes
+  "UP",  # pyupgrade
+  "B",  # flake8-bugbear
+  "SIM",  # flake8-simplify
+  "FA", # flake8-future-annotations
+  "I",  # isort
+  "S",  # bandit
+]
+ignore = [
+  "D105",  # Missing docstring in magic method
+  "D107",  # Missing docstring in `__init__`
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.per-file-ignores]
+"kasa/tests/*.py" = [
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "S101", # allow asserts
+    "E501", # ignore line-too-longs
+]
+"docs/source/conf.py" = [
+    "D100",
+    "D103",
+]
+
+[tool.mypy]
+warn_unused_configs = true  # warns if overrides sections unused/mis-spelled
+
+[[tool.mypy.overrides]]
+module = [ "kasa.tests.*", "devtools.*" ]
+disable_error_code = "annotation-unchecked"
+
+[[tool.mypy.overrides]]
+module = [
+    "devtools.bench.benchmark",
+    "devtools.parse_pcap",
+    "devtools.perftest",
+    "devtools.create_module_fixtures"
+]
+disable_error_code = "import-not-found,import-untyped"
