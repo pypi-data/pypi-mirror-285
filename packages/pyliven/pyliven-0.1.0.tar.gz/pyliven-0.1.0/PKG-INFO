@@ -1,0 +1,64 @@
+Metadata-Version: 2.3
+Name: pyliven
+Version: 0.1.0
+Summary: Stateful variables in Python, a new way to calculate
+Project-URL: Documentation, https://keymii.github.io/pyliven/
+Project-URL: Repository, https://github.com/Keymii/pyliven/
+Project-URL: Issues, https://github.com/Keymii/pyliven/issues
+Author-email: Abhijat Bharadwaj <bharadwaj.abhijat@yahoo.com>
+Maintainer-email: Abhijat Bharadwaj <bharadwaj.abhijat@yahoo.com>
+License: MIT License
+        
+        Copyright (c) 2024 Abhijat Bharadwaj
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: live,numeric,python,stateful,variables
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+
+# Pyliven
+Pronounced /ˈpaɪlʌɪvɛn/
+
+Pyliven is an initiative to add stateful computation in the Python programming language. With this package, your python variables with automatically update if a dependency variable is updated. It's a new way to calculate in python.
+
+## Use
+Pyliven can be leveraged in multiple ways. One use-case can be to write formulae in python. Let's try with the classic Electrostatic force formula:
+```python
+from pyliven.liven import LiveNum
+
+k = 9e9
+q1 = LiveNum(2e-3)
+q2 = LiveNum(3e-3)
+
+r = LiveNum(1)
+
+Force = k*q1*q2/r**2
+```
+Now we can directly update any of `q1`, `q2`, and `r`, and the value of `Force` will update.
+```python
+r.update(5)
+print(Force)
+```
+
+You can find the complete documentation at [https://keymii.github.io/pyliven](https://keymii.github.io/pyliven)
