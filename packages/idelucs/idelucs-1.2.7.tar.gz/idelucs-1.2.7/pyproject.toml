@@ -1,0 +1,34 @@
+[project]
+name = "idelucs"
+dynamic = ["version", "readme"]
+dependencies = [
+    "numpy==1.24.2",
+    "torch>=2.0.1",
+    "cython",
+    "matplotlib==3.7",
+    "pandas==2.1.1",
+    "scikit-learn==1.2.1",
+    "scipy==1.11.1", 
+    "umap-learn==0.5.3",
+    "hdbscan==0.8.32"
+]
+requires-python = "<3.12,>=3.10.0"
+scripts = {idelucs = "idelucs.__main__:main"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+[metadata]
+authors = [
+    {name="Pablo Millan Arias", email="pmillanan@uwaterloo.ca"}
+]
+url = "https://github.com/Kari-Genomics-Lab/iDeLUCS"
+description = "An interactive deep-learning based tool for clustering of genomic sequences"
+license = "MIT"
+[tool.setuptools.dynamic]
+version = {attr = "idelucs.__version__"}
+
+[build-system]
+requires = ["setuptools>=61.0", "Cython"]
+build-backend = "setuptools.build_meta"
