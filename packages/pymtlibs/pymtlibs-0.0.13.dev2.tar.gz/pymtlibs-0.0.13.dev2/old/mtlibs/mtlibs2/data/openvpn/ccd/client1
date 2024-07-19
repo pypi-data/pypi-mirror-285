@@ -1,0 +1,5 @@
+ifconfig-push 10.12.12.11 10.0.0.0/8
+#push "dhcp-option DNS 8.8.8.8"
+push "dhcp-option DNS 10.12.12.1"
+push "block-outside-dns"
+push "redirect-gateway def1"
