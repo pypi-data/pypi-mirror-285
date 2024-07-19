@@ -1,0 +1,160 @@
+import os
+import re
+from typing import Dict, List, Optional, Union
+from pydantic import BaseModel, computed_field, field_validator
+from pathlib import Path
+
+from easyecs.helpers.common import template_with_env_var
+from easyecs.helpers.exceptions import FileNotFoundException
+
+
+class EcsFileMetadataModel(BaseModel):
+    appname: str
+    user: str = os.environ["USER"]
+
+
+class EcsFileStatementModel(BaseModel):
+    sid: str
+    resources: List[str]
+    actions: List[str]
+    effect: str
+
+
+class EcsFileRoleModel(BaseModel):
+    arn: Optional[str] = None
+    managed_policies: List[str] = []
+    statements: List[EcsFileStatementModel] = []
+
+    @field_validator("arn")
+    def set_arn(cls, arn):
+        arn_pattern: str = r"^arn:aws:iam::\d{0,12}:role\/[\w\d_\/.-]*$"
+        parsed_arn = template_with_env_var(arn)
+        assert re.match(
+            arn_pattern, parsed_arn
+        ), f"Role ARN does not respect arn pattern : {parsed_arn}"
+        return parsed_arn
+
+    @field_validator("statements")
+    def validate_unique_sid(cls, statements):
+        seen = set()
+        for statement in statements:
+            if statement.sid in seen:
+                raise ValueError(f"Duplicate sid {statement.sid} found in statements.")
+            seen.add(statement.sid)
+        return statements
+
+
+class EcsFileLimitsModel(BaseModel):
+    cpu: int
+    memory: int
+
+
+class EcsFileResourcesModel(BaseModel):
+    limits: EcsFileLimitsModel
+
+
+class EcsFileBuildModel(BaseModel):
+    dockerfile: str = "Dockerfile"
+    target: Optional[str] = None
+    args: Dict[str, str] = {}
+    context: str = "."
+
+
+class EcsFileEnvModel(BaseModel):
+    name: str
+    value: str
+    active: bool = True
+
+
+class EcsFileSecretModel(BaseModel):
+    name: str
+    arn: str
+    field: str
+    active: bool = True
+
+
+class EcsFileVolumeModel(BaseModel):
+    name: str
+    id: str
+    mount_point: str
+
+    @field_validator("id")
+    def set_id(cls, id):
+        parsed_id = template_with_env_var(id)
+        assert parsed_id.startswith(
+            "fs-"
+        ), f"EFS ID should start with fs- instead got {parsed_id}"
+        return parsed_id
+
+
+class EcsFileContainerHealthCheckModel(BaseModel):
+    command: Union[List[str], str]
+    interval: int
+    retries: int
+    start_period: int
+    timeout: int
+
+
+class EcsFileContainerModel(BaseModel):
+    name: str
+    image: str
+    user: str = "root"
+    tty: bool = False
+    essential: bool = True
+    entry_point: Union[Optional[str], Optional[List[str]]] = None
+    command: Union[Optional[str], Optional[List[str]]] = None
+    resources: EcsFileResourcesModel
+    build: Optional[EcsFileBuildModel] = None
+    port_forward: List[str] = []
+    env: List[EcsFileEnvModel] = []
+    secrets: List[EcsFileSecretModel] = []
+    efs_volumes: List[EcsFileVolumeModel] = []
+    volumes: List[str] = []
+    healthcheck: Optional[EcsFileContainerHealthCheckModel] = None
+    depends_on: Optional[Dict[str, Dict[str, str]]] = None
+
+    @field_validator("volumes")
+    def validate_volumes(cls, volumes):
+        resolved_volumes = []
+        for volume in volumes:
+            _from, _to = volume.split(":")
+            if not os.path.exists(_from):
+                raise FileNotFoundException(f"{_from} does not exists!")
+            resolved_from_dir = Path(_from).parent.resolve()
+            resolved_from_file = Path(_from).name
+            resolved_volumes.append(f"{resolved_from_dir}/{resolved_from_file}:{_to}")
+        return resolved_volumes
+
+    @field_validator("image")
+    def validate_image(cls, image):
+        return template_with_env_var(image)
+
+
+class EcsTaskDefinitionModel(BaseModel):
+    resources: EcsFileResourcesModel
+    containers: List[EcsFileContainerModel]
+
+    @field_validator("containers")
+    def validate_single_tty(cls, containers):
+        tty_containers = [container.name for container in containers if container.tty]
+        if len(tty_containers) > 1:
+            raise ValueError(
+                "More than one container has tty set to true:"
+                f" {', '.join(tty_containers)}."
+            )
+        return containers
+
+    @computed_field(return_type=List[EcsFileVolumeModel])
+    @property
+    def efs_volumes(self) -> List[EcsFileVolumeModel]:
+        efs_volumes = [
+            volume for container in self.containers for volume in container.efs_volumes
+        ]
+        return efs_volumes
+
+
+class EcsFileModel(BaseModel):
+    metadata: EcsFileMetadataModel
+    role: EcsFileRoleModel
+    execution_role: EcsFileRoleModel
+    task_definition: EcsTaskDefinitionModel
