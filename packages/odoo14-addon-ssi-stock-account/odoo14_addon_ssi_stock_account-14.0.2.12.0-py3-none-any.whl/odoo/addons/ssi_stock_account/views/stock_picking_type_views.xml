@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="stock_picking_type_view_form" model="ir.ui.view">
+    <field name="name">stock.picking.type.type - form</field>
+    <field name="model">stock.picking.type</field>
+    <field name="inherit_id" ref="ssi_stock.stock_picking_type_view_form" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//group[@name='product']" position="after">
+                <group name="journal" colspan="4" col="2">
+                    <field name="journal_id" />
+                </group>
+                <group name="account" colspan="4" col="2">
+                    <group name="account_1" colspan="1" col="2" string="Debit Account">
+                        <field name="debit_account_method" string="Method" />
+                        <field
+                                name="debit_usage_id"
+                                string="Usage"
+                                attrs="{'invisible':[('debit_account_method','!=','manual')]}"
+                            />
+                        <field
+                                name="debit_account_code"
+                                string="Code"
+                                widget="ace"
+                                attrs="{'invisible':[('debit_account_method','!=','code')]}"
+                            />
+                    </group>
+                    <group name="account_2" colspan="1" col="2" string="Credit Account">
+                        <field name="credit_account_method" string="Method" />
+                        <field
+                                name="credit_usage_id"
+                                string="Usage"
+                                attrs="{'invisible':[('credit_account_method','!=','manual')]}"
+                            />
+                        <field
+                                name="credit_account_code"
+                                string="Code"
+                                widget="ace"
+                                attrs="{'invisible':[('credit_account_method','!=','code')]}"
+                            />
+                    </group>
+                </group>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+
+</odoo>
