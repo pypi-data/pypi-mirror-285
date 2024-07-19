@@ -1,0 +1,78 @@
+{
+  "lang":"en",
+  "name":"prompt_nsfw_pipeline_bilstm",
+  "version":"0.2.0",
+  "description":"NSFW pipeline that classifies prompt, using a bi-lstm model",
+  "author":"Jiayu Liu",
+  "email":"jiayu@mewtant.io",
+  "url":"",
+  "license":"UNLICENSED",
+  "spacy_version":">=3.0.0,<4.0.0",
+  "spacy_git_version":"a6d0fc360",
+  "vectors":{
+    "width":300,
+    "vectors":20000,
+    "keys":514157,
+    "name":"en_vectors"
+  },
+  "labels":{
+    "tok2vec":[
+
+    ],
+    "textcat":[
+      "safe",
+      "underage_safe",
+      "adult",
+      "cp"
+    ]
+  },
+  "pipeline":[
+    "tok2vec",
+    "textcat"
+  ],
+  "components":[
+    "tok2vec",
+    "textcat"
+  ],
+  "disabled":[
+
+  ],
+  "performance":{
+    "cats_score":0.9120031232,
+    "cats_score_desc":"macro F",
+    "cats_micro_p":0.9149797571,
+    "cats_micro_r":0.9149797571,
+    "cats_micro_f":0.9149797571,
+    "cats_macro_p":0.9108954779,
+    "cats_macro_r":0.9137451737,
+    "cats_macro_f":0.9120031232,
+    "cats_macro_auc":0.9878643244,
+    "cats_f_per_type":{
+      "safe":{
+        "p":0.9103053435,
+        "r":0.9085714286,
+        "f":0.9094375596
+      },
+      "underage_safe":{
+        "p":0.9567404427,
+        "r":0.9057142857,
+        "f":0.9305283757
+      },
+      "adult":{
+        "p":0.9034926471,
+        "r":0.9361904762,
+        "f":0.9195509822
+      },
+      "cp":{
+        "p":0.8730434783,
+        "r":0.9045045045,
+        "f":0.8884955752
+      }
+    },
+    "tok2vec_loss":2355.8918359369,
+    "textcat_loss":7.0146772247
+  },
+  "requirements":[
+
+  ]
+}

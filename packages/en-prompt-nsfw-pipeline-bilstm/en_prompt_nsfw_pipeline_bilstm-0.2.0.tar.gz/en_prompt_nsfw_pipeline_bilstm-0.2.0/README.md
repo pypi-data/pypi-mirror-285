@@ -1,0 +1,40 @@
+NSFW pipeline that classifies prompt, using a bi-lstm model
+
+| Feature | Description |
+| --- | --- |
+| **Name** | `en_prompt_nsfw_pipeline_bilstm` |
+| **Version** | `0.2.0` |
+| **spaCy** | `>=3.0.0,<4.0.0` |
+| **Default Pipeline** | `tok2vec`, `textcat` |
+| **Components** | `tok2vec`, `textcat` |
+| **Vectors** | 514157 keys, 20000 unique vectors (300 dimensions) |
+| **Sources** | n/a |
+| **License** | `UNLICENSED` |
+| **Author** | [Jiayu Liu]() |
+
+### Label Scheme
+
+<details>
+
+<summary>View label scheme (4 labels for 1 components)</summary>
+
+| Component | Labels |
+| --- | --- |
+| **`textcat`** | `safe`, `underage_safe`, `adult`, `cp` |
+
+</details>
+
+### Accuracy
+
+| Type | Score |
+| --- | --- |
+| `CATS_SCORE` | 91.20 |
+| `CATS_MICRO_P` | 91.50 |
+| `CATS_MICRO_R` | 91.50 |
+| `CATS_MICRO_F` | 91.50 |
+| `CATS_MACRO_P` | 91.09 |
+| `CATS_MACRO_R` | 91.37 |
+| `CATS_MACRO_F` | 91.20 |
+| `CATS_MACRO_AUC` | 98.79 |
+| `TOK2VEC_LOSS` | 235589.18 |
+| `TEXTCAT_LOSS` | 701.47 |
