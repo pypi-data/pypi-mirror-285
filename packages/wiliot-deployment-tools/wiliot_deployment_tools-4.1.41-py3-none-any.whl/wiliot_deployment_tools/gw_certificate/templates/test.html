@@ -1,0 +1,36 @@
+<div class="container">
+    {% if test.result_indication == 'info' %}
+        <h3>{{ test.test_name }}: {% if test.test_pass >= test.pass_min %}<span class="badge bg-info text-dark">Info</span>{% else %}<span class="badge bg-warning text-dark">Warning</span>{% endif %}</h3>
+    {% else %}
+        <h3>{{ test.test_name }}: {% if test.test_pass >= test.pass_min %}<span class="badge bg-success">Pass</span>{% elif test.test_pass >= test.inconclusive_min %}<span class="badge bg-warning text-dark">Inconclusive</span>{% else %}<span class="badge bg-danger">Fail</span>{% endif %}</h3>
+    {% endif %}
+    <h4>Running Time: {{ running_time }}</h4>
+
+    {% if test.test_pass < test.pass_min %}
+        <h5>Error summary:</h5>
+        {% for stage in test.stages %}
+            {% if stage.result_indication == 'info' %}
+                {% if stage.stage_pass < stage.pass_min %}
+                    <div class="alert alert-warning" role="alert">
+                        <a href="#{{ stage.stage_name }}" class="alert-link">{{ stage.stage_name }}</a>: {{ stage.error_summary }}
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if stage.stage_pass < stage.inconclusive_min %}
+                    <div class="alert alert-danger" role="alert">
+                        <a href="#{{ stage.stage_name }}" class="alert-link">{{ stage.stage_name }}</a>: {{ stage.error_summary }}
+                    </div>
+                {% elif stage.stage_pass < stage.pass_min %}
+                    <div class="alert alert-warning" role="alert">
+                        <a href="#{{ stage.stage_name }}" class="alert-link">{{ stage.stage_name }}</a>: {{ stage.error_summary }}
+                    </div>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <hr>
+    {% for stage in test.stages %}
+        {{ stage.report_html }}
+    {% endfor %}
+</div>
+<br>
