@@ -1,0 +1,26 @@
+[project.scripts]
+yamtam = "yamtam.yamtam:main"
+
+[project]
+name = "yamtam"
+version = "0.1.0"
+license = { file="LICENSE" }
+authors = [
+  { name="Shawn Tolidano", email="shawn@yamtam.nyc" },
+]
+description = "CLI utility for parsing data from yamtam.nyc"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/tolidano/yamtam"
+Issues = "https://github.com/tolidano/yamtam"
+
+[build-system]
+requires = ["setuptools>=61.0", "requests>=2.32.2"]
+build-backend = "setuptools.build_meta"
