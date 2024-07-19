@@ -1,0 +1,29 @@
+Metadata-Version: 2.1
+Name: pushmate
+Version: 0.1.2
+Summary: 
+Author: Brennen Ho
+Author-email: pushmate@brennen.dev
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: inquirer (>=3.3.0,<4.0.0)
+Requires-Dist: openai (>=1.35.13,<2.0.0)
+Requires-Dist: pyyaml (>=6.0.1,<7.0.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: typer (>=0.12.3,<0.13.0)
+Description-Content-Type: text/markdown
+
+# PushMate
+
+Automate your git workflows with AI. PushMate is a command line tool that uses an LLM to generate commit and pull request messages for git workflows.
+
+## Installation
+
+- `pip install pushmate`
+- `pm --install-completion`
+
+View the commands available [here](COMMANDS.md).
+
+## Supported Providers
+- `openai`
