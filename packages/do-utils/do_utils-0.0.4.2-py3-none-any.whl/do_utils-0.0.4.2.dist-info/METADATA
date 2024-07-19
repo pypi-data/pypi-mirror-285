@@ -1,0 +1,107 @@
+Metadata-Version: 2.1
+Name: do-utils
+Version: 0.0.4.2
+Summary: Utils for tornado api cache, function timer.
+Home-page: https://github.com/hustjiangtao/do_utils
+Author: jiangtao
+Author-email: jiangtao.work@gmail.com
+License: http://www.apache.org/licenses/LICENSE-2.0
+Keywords: utils,do_utils,cache,time,do_cache,do_time
+Classifier: Programming Language :: Python :: 2.7
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Requires-Python: >=2.7.14
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: ujson ==1.35
+Requires-Dist: xlwt <=2.0.0,>=1.3.0
+Requires-Dist: openpyxl >=2.6.2
+
+# do_utils
+Utils write for common usage.
+
+## do_time
+
+Func timer - count func time with decorator
+
+- Usage:
+
+```python
+from do_utils import do_time
+from time import sleep
+
+@do_time()
+def do_print():
+    sleep(0.01)
+
+class A(object):
+    @do_time(func=False)
+    def do_print(self):
+        sleep(0.01)
+```
+
+## do_cache
+
+Do cache for GET request url handler in Tornado server
+
+```text
+do_cache:
+    do cahche for request with uri & user & params
+    cache_key include (protocol, host_name, path, md5(current_user, params))
+    cache_expire depend on kwargs expire, the default is 5*60s
+    cache from write_buffer that have not flushed wrote by self.write() and will be flush
+    if cache is none:
+        get data & return data & do cache
+    else:
+        return cache
+do_api_cache:
+    do cache for api handler
+    if status_code == 200:
+        do_cache
+do_temp_cache:
+    do cache for template handler
+```
+
+- Usage:
+
+```python
+from do_utils import do_api_cache, do_temp_cache
+
+class ApiHandler(object):
+    @do_api_cache(10)
+    def get(self):
+        print 'get api'
+
+    @do_temp_cache(10, with_user=False)
+    def get(self):
+        print 'get template'
+```
+
+## Change History
+
+- v0.0.1
+
+```text
+do utils
+do api/template cache for tornado server with redis
+```
+
+- v0.0.2
+
+```text
+bugfix for install_requires cannot using 'requirements.txt'
+add prefix for cache_key: 'cache:'
+```
+
+- v0.0.3
+
+```text
+bugfix for Python3 and dependence
+```
+
+- v0.0.4.2
+
+```text
+bugfix for Python3 and update dependence
+```
