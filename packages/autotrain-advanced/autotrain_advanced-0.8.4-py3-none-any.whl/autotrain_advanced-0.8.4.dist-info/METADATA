@@ -1,0 +1,303 @@
+Metadata-Version: 2.1
+Name: autotrain-advanced
+Version: 0.8.4
+Home-page: https://github.com/huggingface/autotrain-advanced
+Download-URL: https://github.com/huggingface/autotrain-advanced/tags
+Author: HuggingFace Inc.
+Author-email: autotrain@huggingface.co
+License: Apache 2.0
+Keywords: automl autonlp autotrain huggingface
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: albumentations ==1.4.7
+Requires-Dist: codecarbon ==2.3.5
+Requires-Dist: datasets[vision] ~=2.19.0
+Requires-Dist: evaluate ==0.4.1
+Requires-Dist: ipadic ==1.0.0
+Requires-Dist: jiwer ==3.0.3
+Requires-Dist: joblib ==1.4.0
+Requires-Dist: loguru ==0.7.2
+Requires-Dist: pandas ==2.2.2
+Requires-Dist: nltk ==3.8.1
+Requires-Dist: optuna ==3.6.1
+Requires-Dist: Pillow ==10.3.0
+Requires-Dist: protobuf ==4.23.4
+Requires-Dist: sacremoses ==0.1.1
+Requires-Dist: scikit-learn ==1.5.0
+Requires-Dist: sentencepiece ==0.2.0
+Requires-Dist: tqdm ==4.66.4
+Requires-Dist: werkzeug ==3.0.2
+Requires-Dist: xgboost ==2.0.3
+Requires-Dist: huggingface-hub ==0.23.4
+Requires-Dist: requests ==2.31.0
+Requires-Dist: einops ==0.7.0
+Requires-Dist: invisible-watermark ==0.2.0
+Requires-Dist: packaging ==24.0
+Requires-Dist: cryptography ==42.0.5
+Requires-Dist: nvitop ==1.3.2
+Requires-Dist: tensorboard ==2.16.2
+Requires-Dist: peft ==0.11.1
+Requires-Dist: trl ==0.9.4
+Requires-Dist: tiktoken ==0.6.0
+Requires-Dist: transformers ==4.42.2
+Requires-Dist: accelerate ==0.31.0
+Requires-Dist: diffusers ==0.27.2
+Requires-Dist: rouge-score ==0.1.2
+Requires-Dist: py7zr ==0.21.0
+Requires-Dist: fastapi ==0.111.0
+Requires-Dist: uvicorn ==0.29.0
+Requires-Dist: python-multipart ==0.0.9
+Requires-Dist: pydantic ==2.7.1
+Requires-Dist: hf-transfer
+Requires-Dist: pyngrok ==7.1.6
+Requires-Dist: authlib ==1.3.0
+Requires-Dist: itsdangerous ==2.2.0
+Requires-Dist: seqeval ==1.2.2
+Requires-Dist: httpx ==0.27.0
+Requires-Dist: pyyaml ==6.0.1
+Requires-Dist: timm ==1.0.7
+Requires-Dist: torchmetrics ==1.4.0
+Requires-Dist: pycocotools ==2.0.7
+Requires-Dist: sentence-transformers ==3.0.1
+Requires-Dist: bitsandbytes ==0.43.1 ; sys_platform == "linux"
+Provides-Extra: dev
+Requires-Dist: albumentations ==1.4.7 ; extra == 'dev'
+Requires-Dist: codecarbon ==2.3.5 ; extra == 'dev'
+Requires-Dist: datasets[vision] ~=2.19.0 ; extra == 'dev'
+Requires-Dist: evaluate ==0.4.1 ; extra == 'dev'
+Requires-Dist: ipadic ==1.0.0 ; extra == 'dev'
+Requires-Dist: jiwer ==3.0.3 ; extra == 'dev'
+Requires-Dist: joblib ==1.4.0 ; extra == 'dev'
+Requires-Dist: loguru ==0.7.2 ; extra == 'dev'
+Requires-Dist: pandas ==2.2.2 ; extra == 'dev'
+Requires-Dist: nltk ==3.8.1 ; extra == 'dev'
+Requires-Dist: optuna ==3.6.1 ; extra == 'dev'
+Requires-Dist: Pillow ==10.3.0 ; extra == 'dev'
+Requires-Dist: protobuf ==4.23.4 ; extra == 'dev'
+Requires-Dist: sacremoses ==0.1.1 ; extra == 'dev'
+Requires-Dist: scikit-learn ==1.5.0 ; extra == 'dev'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'dev'
+Requires-Dist: tqdm ==4.66.4 ; extra == 'dev'
+Requires-Dist: werkzeug ==3.0.2 ; extra == 'dev'
+Requires-Dist: xgboost ==2.0.3 ; extra == 'dev'
+Requires-Dist: huggingface-hub ==0.23.4 ; extra == 'dev'
+Requires-Dist: requests ==2.31.0 ; extra == 'dev'
+Requires-Dist: einops ==0.7.0 ; extra == 'dev'
+Requires-Dist: invisible-watermark ==0.2.0 ; extra == 'dev'
+Requires-Dist: packaging ==24.0 ; extra == 'dev'
+Requires-Dist: cryptography ==42.0.5 ; extra == 'dev'
+Requires-Dist: nvitop ==1.3.2 ; extra == 'dev'
+Requires-Dist: tensorboard ==2.16.2 ; extra == 'dev'
+Requires-Dist: peft ==0.11.1 ; extra == 'dev'
+Requires-Dist: trl ==0.9.4 ; extra == 'dev'
+Requires-Dist: tiktoken ==0.6.0 ; extra == 'dev'
+Requires-Dist: transformers ==4.42.2 ; extra == 'dev'
+Requires-Dist: accelerate ==0.31.0 ; extra == 'dev'
+Requires-Dist: diffusers ==0.27.2 ; extra == 'dev'
+Requires-Dist: rouge-score ==0.1.2 ; extra == 'dev'
+Requires-Dist: py7zr ==0.21.0 ; extra == 'dev'
+Requires-Dist: fastapi ==0.111.0 ; extra == 'dev'
+Requires-Dist: uvicorn ==0.29.0 ; extra == 'dev'
+Requires-Dist: python-multipart ==0.0.9 ; extra == 'dev'
+Requires-Dist: pydantic ==2.7.1 ; extra == 'dev'
+Requires-Dist: hf-transfer ; extra == 'dev'
+Requires-Dist: pyngrok ==7.1.6 ; extra == 'dev'
+Requires-Dist: authlib ==1.3.0 ; extra == 'dev'
+Requires-Dist: itsdangerous ==2.2.0 ; extra == 'dev'
+Requires-Dist: seqeval ==1.2.2 ; extra == 'dev'
+Requires-Dist: httpx ==0.27.0 ; extra == 'dev'
+Requires-Dist: pyyaml ==6.0.1 ; extra == 'dev'
+Requires-Dist: timm ==1.0.7 ; extra == 'dev'
+Requires-Dist: torchmetrics ==1.4.0 ; extra == 'dev'
+Requires-Dist: pycocotools ==2.0.7 ; extra == 'dev'
+Requires-Dist: sentence-transformers ==3.0.1 ; extra == 'dev'
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: isort ; extra == 'dev'
+Requires-Dist: flake8 ==3.7.9 ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: bitsandbytes ==0.43.1 ; (sys_platform == "linux") and extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: albumentations ==1.4.7 ; extra == 'docs'
+Requires-Dist: codecarbon ==2.3.5 ; extra == 'docs'
+Requires-Dist: datasets[vision] ~=2.19.0 ; extra == 'docs'
+Requires-Dist: evaluate ==0.4.1 ; extra == 'docs'
+Requires-Dist: ipadic ==1.0.0 ; extra == 'docs'
+Requires-Dist: jiwer ==3.0.3 ; extra == 'docs'
+Requires-Dist: joblib ==1.4.0 ; extra == 'docs'
+Requires-Dist: loguru ==0.7.2 ; extra == 'docs'
+Requires-Dist: pandas ==2.2.2 ; extra == 'docs'
+Requires-Dist: nltk ==3.8.1 ; extra == 'docs'
+Requires-Dist: optuna ==3.6.1 ; extra == 'docs'
+Requires-Dist: Pillow ==10.3.0 ; extra == 'docs'
+Requires-Dist: protobuf ==4.23.4 ; extra == 'docs'
+Requires-Dist: sacremoses ==0.1.1 ; extra == 'docs'
+Requires-Dist: scikit-learn ==1.5.0 ; extra == 'docs'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'docs'
+Requires-Dist: tqdm ==4.66.4 ; extra == 'docs'
+Requires-Dist: werkzeug ==3.0.2 ; extra == 'docs'
+Requires-Dist: xgboost ==2.0.3 ; extra == 'docs'
+Requires-Dist: huggingface-hub ==0.23.4 ; extra == 'docs'
+Requires-Dist: requests ==2.31.0 ; extra == 'docs'
+Requires-Dist: einops ==0.7.0 ; extra == 'docs'
+Requires-Dist: invisible-watermark ==0.2.0 ; extra == 'docs'
+Requires-Dist: packaging ==24.0 ; extra == 'docs'
+Requires-Dist: cryptography ==42.0.5 ; extra == 'docs'
+Requires-Dist: nvitop ==1.3.2 ; extra == 'docs'
+Requires-Dist: tensorboard ==2.16.2 ; extra == 'docs'
+Requires-Dist: peft ==0.11.1 ; extra == 'docs'
+Requires-Dist: trl ==0.9.4 ; extra == 'docs'
+Requires-Dist: tiktoken ==0.6.0 ; extra == 'docs'
+Requires-Dist: transformers ==4.42.2 ; extra == 'docs'
+Requires-Dist: accelerate ==0.31.0 ; extra == 'docs'
+Requires-Dist: diffusers ==0.27.2 ; extra == 'docs'
+Requires-Dist: rouge-score ==0.1.2 ; extra == 'docs'
+Requires-Dist: py7zr ==0.21.0 ; extra == 'docs'
+Requires-Dist: fastapi ==0.111.0 ; extra == 'docs'
+Requires-Dist: uvicorn ==0.29.0 ; extra == 'docs'
+Requires-Dist: python-multipart ==0.0.9 ; extra == 'docs'
+Requires-Dist: pydantic ==2.7.1 ; extra == 'docs'
+Requires-Dist: hf-transfer ; extra == 'docs'
+Requires-Dist: pyngrok ==7.1.6 ; extra == 'docs'
+Requires-Dist: authlib ==1.3.0 ; extra == 'docs'
+Requires-Dist: itsdangerous ==2.2.0 ; extra == 'docs'
+Requires-Dist: seqeval ==1.2.2 ; extra == 'docs'
+Requires-Dist: httpx ==0.27.0 ; extra == 'docs'
+Requires-Dist: pyyaml ==6.0.1 ; extra == 'docs'
+Requires-Dist: timm ==1.0.7 ; extra == 'docs'
+Requires-Dist: torchmetrics ==1.4.0 ; extra == 'docs'
+Requires-Dist: pycocotools ==2.0.7 ; extra == 'docs'
+Requires-Dist: sentence-transformers ==3.0.1 ; extra == 'docs'
+Requires-Dist: recommonmark ; extra == 'docs'
+Requires-Dist: sphinx ==3.1.2 ; extra == 'docs'
+Requires-Dist: sphinx-markdown-tables ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ==0.4.3 ; extra == 'docs'
+Requires-Dist: sphinx-copybutton ; extra == 'docs'
+Requires-Dist: bitsandbytes ==0.43.1 ; (sys_platform == "linux") and extra == 'docs'
+Provides-Extra: quality
+Requires-Dist: albumentations ==1.4.7 ; extra == 'quality'
+Requires-Dist: codecarbon ==2.3.5 ; extra == 'quality'
+Requires-Dist: datasets[vision] ~=2.19.0 ; extra == 'quality'
+Requires-Dist: evaluate ==0.4.1 ; extra == 'quality'
+Requires-Dist: ipadic ==1.0.0 ; extra == 'quality'
+Requires-Dist: jiwer ==3.0.3 ; extra == 'quality'
+Requires-Dist: joblib ==1.4.0 ; extra == 'quality'
+Requires-Dist: loguru ==0.7.2 ; extra == 'quality'
+Requires-Dist: pandas ==2.2.2 ; extra == 'quality'
+Requires-Dist: nltk ==3.8.1 ; extra == 'quality'
+Requires-Dist: optuna ==3.6.1 ; extra == 'quality'
+Requires-Dist: Pillow ==10.3.0 ; extra == 'quality'
+Requires-Dist: protobuf ==4.23.4 ; extra == 'quality'
+Requires-Dist: sacremoses ==0.1.1 ; extra == 'quality'
+Requires-Dist: scikit-learn ==1.5.0 ; extra == 'quality'
+Requires-Dist: sentencepiece ==0.2.0 ; extra == 'quality'
+Requires-Dist: tqdm ==4.66.4 ; extra == 'quality'
+Requires-Dist: werkzeug ==3.0.2 ; extra == 'quality'
+Requires-Dist: xgboost ==2.0.3 ; extra == 'quality'
+Requires-Dist: huggingface-hub ==0.23.4 ; extra == 'quality'
+Requires-Dist: requests ==2.31.0 ; extra == 'quality'
+Requires-Dist: einops ==0.7.0 ; extra == 'quality'
+Requires-Dist: invisible-watermark ==0.2.0 ; extra == 'quality'
+Requires-Dist: packaging ==24.0 ; extra == 'quality'
+Requires-Dist: cryptography ==42.0.5 ; extra == 'quality'
+Requires-Dist: nvitop ==1.3.2 ; extra == 'quality'
+Requires-Dist: tensorboard ==2.16.2 ; extra == 'quality'
+Requires-Dist: peft ==0.11.1 ; extra == 'quality'
+Requires-Dist: trl ==0.9.4 ; extra == 'quality'
+Requires-Dist: tiktoken ==0.6.0 ; extra == 'quality'
+Requires-Dist: transformers ==4.42.2 ; extra == 'quality'
+Requires-Dist: accelerate ==0.31.0 ; extra == 'quality'
+Requires-Dist: diffusers ==0.27.2 ; extra == 'quality'
+Requires-Dist: rouge-score ==0.1.2 ; extra == 'quality'
+Requires-Dist: py7zr ==0.21.0 ; extra == 'quality'
+Requires-Dist: fastapi ==0.111.0 ; extra == 'quality'
+Requires-Dist: uvicorn ==0.29.0 ; extra == 'quality'
+Requires-Dist: python-multipart ==0.0.9 ; extra == 'quality'
+Requires-Dist: pydantic ==2.7.1 ; extra == 'quality'
+Requires-Dist: hf-transfer ; extra == 'quality'
+Requires-Dist: pyngrok ==7.1.6 ; extra == 'quality'
+Requires-Dist: authlib ==1.3.0 ; extra == 'quality'
+Requires-Dist: itsdangerous ==2.2.0 ; extra == 'quality'
+Requires-Dist: seqeval ==1.2.2 ; extra == 'quality'
+Requires-Dist: httpx ==0.27.0 ; extra == 'quality'
+Requires-Dist: pyyaml ==6.0.1 ; extra == 'quality'
+Requires-Dist: timm ==1.0.7 ; extra == 'quality'
+Requires-Dist: torchmetrics ==1.4.0 ; extra == 'quality'
+Requires-Dist: pycocotools ==2.0.7 ; extra == 'quality'
+Requires-Dist: sentence-transformers ==3.0.1 ; extra == 'quality'
+Requires-Dist: black ; extra == 'quality'
+Requires-Dist: isort ; extra == 'quality'
+Requires-Dist: flake8 ==3.7.9 ; extra == 'quality'
+Requires-Dist: bitsandbytes ==0.43.1 ; (sys_platform == "linux") and extra == 'quality'
+
+# 🤗 AutoTrain Advanced
+
+AutoTrain Advanced: faster and easier training and deployments of state-of-the-art machine learning models. AutoTrain Advanced is a no-code solution that allows you to train machine learning models in just a few clicks. Please note that you must upload data in correct format for project to be created. For help regarding proper data format and pricing, check out the documentation. 
+
+NOTE: AutoTrain is free! You only pay for the resources you use in case you decide to run AutoTrain on Hugging Face Spaces. When running locally, you only pay for the resources you use on your own infrastructure.
+
+
+## Run on Colab or Hugging Face Spaces
+
+- Run AutoTrain on Colab: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/huggingface/autotrain-advanced/blob/main/colabs/AutoTrain.ipynb)
+
+
+- Deploy AutoTrain on Hugging Face Spaces: [![Deploy on Spaces](https://huggingface.co/datasets/huggingface/badges/resolve/main/deploy-on-spaces-md.svg)](https://huggingface.co/login?next=%2Fspaces%2Fautotrain-projects%2Fautotrain-advanced%3Fduplicate%3Dtrue)
+
+
+- Run AutoTrain UI on Colab via ngrok: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/huggingface/autotrain-advanced/blob/main/colabs/AutoTrain_ngrok.ipynb)
+
+
+## Local Installation
+
+You can Install AutoTrain-Advanced python package via PIP. Please note you will need python >= 3.10 for AutoTrain Advanced to work properly.
+
+    pip install autotrain-advanced
+    
+Please make sure that you have git lfs installed. Check out the instructions here: https://github.com/git-lfs/git-lfs/wiki/Installation
+
+You also need to install torch, torchaudio and torchvision.
+
+The best way to run autotrain is in a conda environment. You can create a new conda environment with the following command:
+
+    conda create -n autotrain python=3.10
+    conda activate autotrain
+    pip install autotrain-advanced
+    conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+    conda install -c "nvidia/label/cuda-12.1.0" cuda-nvcc
+
+Once done, you can start the application using:
+
+    autotrain app --port 8080 --host 127.0.0.1
+
+
+If you are not fond of UI, you can use AutoTrain Configs to train using command line or simply AutoTrain CLI.
+
+To use config file for training, you can use the following command:
+
+    autotrain --config <path_to_config_file>
+
+
+You can find sample config files in the `configs` directory of this repository.
+
+## Colabs
+
+| Task | Colab Link |
+| --- | --- |
+| LLM Fine Tuning | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/huggingface/autotrain-advanced/blob/main/colabs/AutoTrain_LLM.ipynb) |
+| DreamBooth Training | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/huggingface/autotrain-advanced/blob/main/colabs/AutoTrain_Dreambooth.ipynb) |
+
+
+## Documentation
+
+Documentation is available at https://hf.co/docs/autotrain/
