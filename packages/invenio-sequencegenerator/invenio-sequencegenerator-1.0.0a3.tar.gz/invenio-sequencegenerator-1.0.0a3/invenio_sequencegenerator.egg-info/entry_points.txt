@@ -1,0 +1,16 @@
+[flask.commands]
+sequences = invenio_sequencegenerator.cli:sequences
+
+[invenio_admin.views]
+invenio_sequencegenerator_counter = invenio_sequencegenerator.admin:counter_adminview
+invenio_sequencegenerator_templatedefinition = invenio_sequencegenerator.admin:templatedefinition_adminview
+
+[invenio_base.apps]
+invenio_sequencegenerator = invenio_sequencegenerator:InvenioSequenceGenerator
+
+[invenio_db.models]
+invenio_sequencegenerator = invenio_sequencegenerator.models
+
+[invenio_i18n.translations]
+messages = invenio_sequencegenerator
+
