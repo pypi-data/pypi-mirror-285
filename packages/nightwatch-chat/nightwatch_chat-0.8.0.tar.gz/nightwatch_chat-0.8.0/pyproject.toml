@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["nightwatch"]
+exclude = ["nightwatch/desktop"]
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+path = "nightwatch/__init__.py"
+
+[project]
+name = "nightwatch-chat"
+dynamic = ["version"]
+authors = [
+    { name = "iiPython", email = "ben@iipython.dev" },
+]
+description = "The chatting application to end all chatting applications."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "urwid",
+    "orjson",
+    "nanoid",
+    "websockets"
+]
+
+[project.optional-dependencies]
+serve = [
+    "fastapi",
+    "pymongo",
+    "pydantic",
+    "pydantic-extra-types",
+    "starlette",
+    "argon2-cffi",
+    "redis[hiredis]",
+    "uvicorn[standard]"
+]
+
+[project.urls]
+Homepage = "https://github.com/iiPythonx/nightwatch"
+Issues = "https://github.com/iiPythonx/nightwatch/issues"
+
+[project.scripts]
+nightwatch = "nightwatch.__main__:main"
