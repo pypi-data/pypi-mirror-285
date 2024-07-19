@@ -1,0 +1,267 @@
+import asyncio
+import os
+from pathlib import Path
+from typing import Awaitable, Optional
+
+from loguru import logger
+from returns.result import safe, Result
+
+from pinjected import instances, Injected, Design, providers, Designed, EmptyDesign
+from pinjected.compatibility.task_group import TaskGroup
+from pinjected.di.design_interface import DESIGN_OVERRIDES_STORE
+from pinjected.di.proxiable import DelegatedVar
+from pinjected.helper_structure import MetaContext
+from pinjected.helpers import get_design_path_from_var_path
+from pinjected.logging_helper import disable_internal_logging
+from pinjected.module_var_path import ModuleVarPath, load_variable_by_module_path
+from pinjected.notification import notify
+from pinjected.run_config_utils import load_variable_from_script
+from pinjected.v2.keys import StrBindKey
+from pinjected.v2.resolver import AsyncResolver
+from pinjected.visualize_di import DIGraph
+
+
+def run_injected(
+        cmd,
+        var_path,
+        design_path: str = None,
+        *args,
+        **kwargs
+):
+    logger.info(
+        f"run_injected called with cmd:{cmd}, var_path:{var_path}, design_path:{design_path}, args:{args}, kwargs:{kwargs}"
+    )
+    # TODO refactor to merge run_injected and run_anything
+    with disable_internal_logging():
+        if "return_result" in kwargs:
+            return_result = kwargs.pop("return_result")
+        else:
+            return_result = False
+        if "overrides" in kwargs:
+            overrides = kwargs.pop("overrides")
+        else:
+            overrides = instances()
+        if design_path is None:
+            design_path = get_design_path_from_var_path(var_path)
+        logger.info(
+            f"run_injected called with cmd:{cmd}, var_path:{var_path}, design_path:{design_path}, args:{args}, kwargs:{kwargs}"
+        )
+    return run_anything(
+        cmd,
+        var_path,
+        design_path=design_path,
+        return_result=return_result,
+        overrides=overrides,
+        call_args=args,
+        call_kwargs=kwargs,
+    )
+
+
+def run_anything(
+        cmd: str,
+        var_path,
+        design_path: Optional[str],
+        overrides=instances(),
+        return_result=False,
+        call_args=None,
+        call_kwargs=None,
+        notify=lambda msg, *args, **kwargs: notify(msg, *args, **kwargs)
+):
+    from loguru import logger
+    with disable_internal_logging():
+
+        loaded_var = load_variable_by_module_path(var_path)
+        meta = safe(getattr)(loaded_var, "__runnable_metadata__").value_or({})
+        if not isinstance(meta, dict):
+            meta = {}
+
+        meta_overrides = meta.get("overrides", instances())
+
+        meta_cxt: MetaContext = MetaContext.gather_from_path(ModuleVarPath(var_path).module_file_path)
+        design = resolve_design(design_path, meta_cxt)
+
+        # here, actually the loaded variable maybe an instance of Designed.
+        # but it can also be a DelegatedVar[Designed] or a DelegatedVar[Injected] hmm,
+        # what would be the operation between Designed + Designed? run them on separate process, or in the same session?
+        match (var := load_variable_by_module_path(var_path)):
+            case Injected() | DelegatedVar():
+                var = Injected.ensure_injected(var)
+            case Designed():
+                design += var.design
+                var = var.internal_injected
+        """
+        I need to get the design overrides from with context and add it to the overrides
+        """
+
+        meta_design = instances(overrides=instances()) + meta_cxt.accumulated
+        meta_resolver = AsyncResolver(meta_design).to_blocking()
+        meta_overrides = meta_resolver.provide("overrides") + meta_overrides
+
+        # add overrides from with block
+        meta_overrides += DESIGN_OVERRIDES_STORE.get_overrides(ModuleVarPath(var_path))
+
+        # obtain internal hooks from the meta_design
+        if StrBindKey('provision_callback') in meta_design:
+            provision_callback = meta_resolver.provide('provision_callback')
+        else:
+            provision_callback = None
+
+    design += (meta_overrides + overrides)
+    logger.info(f"running target:{var} with {design_path} + {overrides}")
+    # logger.info(f"running target:{var} with cmd {cmd}, args {args}, kwargs {kwargs}")
+    # logger.info(f"metadata obtained from pinjected: {meta}")
+
+    # here we load the defaults and overrides from the user's environment
+    design = load_user_default_design() + design + load_user_overrides_design()
+
+    res = None
+
+    def run_target(d, tgt):
+        # here, I want to specify what to use for the provision callback.
+        async def task():
+            async with TaskGroup() as tg:
+                dd = d + instances(
+                    __task_group__=tg
+                )
+                resolver = AsyncResolver(dd)
+                _res = await resolver.provide(tgt)
+
+                if isinstance(_res, Awaitable):
+                    # logger.info(f"awaiting awaitable")
+                    _res = await _res
+            await resolver.destruct()
+            return _res
+
+        return asyncio.run(task())
+
+    try:
+        if cmd == 'call':
+            args = call_args or []
+            kwargs = call_kwargs or {}
+            var = Injected.ensure_injected(var).proxy
+            logger.info(f"run_injected call with args:{args}, kwargs:{kwargs}")
+            res = run_target(design, var(*args, **kwargs))
+        elif cmd == 'get':
+            res = run_target(design, var)
+        elif cmd == 'fire':
+            raise RuntimeError('fire is deprecated. use get.')
+        elif cmd == 'visualize':
+            from loguru import logger
+            logger.info(f"visualizing {var_path} with design {design_path}")
+            logger.info(f"deps:{var.dependencies()}")
+            DIGraph(design).show_injected_html(var)
+        elif cmd =='export_visualization_html':
+            from loguru import logger
+            logger.info(f"exporting visualization {var_path} with design {design_path}")
+            logger.info(f"deps:{var.dependencies()}")
+            dst = Path(".pinjected_visualization/")
+            res_html:Path = DIGraph(design).save_as_html(var,dst)
+            logger.info(f"exported to {res_html}")
+
+        elif cmd == 'to_script':
+            from loguru import logger
+            d = design + providers(
+                __root__=var
+            )
+            print(DIGraph(d).to_python_script(var_path, design_path=design_path))
+    except Exception as e:
+        import traceback
+        notify(f"Run failed with error:\n{e}", sound='Frog')
+        # trace = traceback.format_exc()
+        # Path(f"run_failed_{var_path}.err.log").write_text(str(e) + "\n" + trace)
+        # from rich.console import Console
+        # console = Console()
+        # console.print_exception(show_locals=False)
+        raise e
+    logger.info(f"run_injected result:\n{res}")
+    notify(f"Run result:\n{str(res)[:100]}")
+    if return_result:
+        logger.info(f"delegating the result to fire..")
+        return res
+
+
+def resolve_design(design_path, meta_cxt):
+    if design_path is None:
+        if StrBindKey("default_design_paths") in meta_cxt.accumulated:
+            design_path = AsyncResolver(meta_cxt.accumulated).to_blocking().provide("default_design_paths")[0]
+            design: Design = load_variable_by_module_path(design_path)
+        else:
+            design: Design = EmptyDesign
+    else:
+        design: Design = load_variable_by_module_path(design_path)
+    return design
+
+
+def find_dot_pinjected():
+    # 1. load the .pinjected.py at home directory
+    # 2. load the .pinjected.py at current directory
+    # hmm, we are currently only looking at the home and current directory.
+    home_dot_pinjected = Path("~/.pinjected.py").expanduser().absolute()
+    current_dot_pinjected = Path(".pinjected.py").absolute()
+    return home_dot_pinjected, current_dot_pinjected
+
+
+@safe
+def load_design_from_paths(paths, design_name) -> Result:
+    res = instances()
+    for path in paths:
+        if path.exists():
+            logger.info(f"loading design from {path}:{design_name}.")
+            try:
+                res += load_variable_from_script(path, design_name)
+            except AttributeError as ae:
+                logger.warning(f"{design_name} is not defined in {path}.")
+            except Exception as e:
+                import traceback
+                logger.warning(f"failed to load design from {path}:{design_name}.")
+                logger.warning(e)
+                logger.warning(traceback.format_exc())
+        else:
+            logger.debug(f"design file {path} does not exist.")
+    return res
+
+
+def load_user_default_design() -> Design:
+    """
+    This function loads user specific environment data from a python file.
+    the syntax is :
+    /path/to/python/file.py:design_variable_name
+    example:
+    /home/user/design.py:my_design
+    :return:
+    """
+    design_path = os.environ.get('PINJECTED_DEFAULT_DESIGN_PATH', "")
+    return load_design_from_paths(find_dot_pinjected(), "default_design").value_or(instances()) + _load_design(
+        design_path).value_or(instances())
+
+
+@safe
+def _load_design(design_path):
+    if design_path == "":
+        return EmptyDesign
+    pairs = design_path.split("|")
+    res = instances()
+    for pair in pairs:
+        if pair == "":
+            continue
+        script_path, var_name = pair.split(':')
+        design = load_variable_from_script(script_path, var_name)
+        if design is not None:
+            assert isinstance(design,
+                              Design), f"design loaded from {script_path}:{var_name} is not a Design instance, but is {type(design)}."
+            res += design
+    return res
+
+
+def load_user_overrides_design():
+    """
+    This function loads user specific environment data from a python file.
+    the syntax is :
+    /path/to/python/file.py:design_variable_name
+    example:
+    /home/user/design.py:my_design
+    :return:
+    """
+    design_path = os.environ.get('PINJECTED_OVERRIDE_DESIGN_PATH', "")
+    return load_design_from_paths(find_dot_pinjected(), "overrides_design").value_or(instances()) + _load_design(
+        design_path).value_or(instances())
