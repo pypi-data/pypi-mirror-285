@@ -1,0 +1,307 @@
+import random
+import os
+import requests
+from azure.identity import AzureCliCredential
+from azure.identity import DefaultAzureCredential
+from azure.identity import UsernamePasswordCredential
+from azure.identity import InteractiveBrowserCredential
+from azure.identity import ClientSecretCredential
+from azure.mgmt.resource import ResourceManagementClient
+from azure.mgmt.web import WebSiteManagementClient
+from msrest.universal_http import requests
+
+
+def deploy1():        
+    # from azure.keyvault.secrets import SecretClient
+
+    ## az login 提交的登陆网址：https://login.microsoftonline.com/common/oauth2/authorize?response_type=code&client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46&redirect_uri=http://localhost:8400&state=33hkve1e3zyjpipc8645&resource=https://management.core.windows.net/&prompt=select_account
+    credential = AzureCliCredential()
+
+
+    
+
+    # credential =DefaultAzureCredential()
+    # credential = UsernamePasswordCredential(
+        #     client_id="6089f117-a64b-4e62-bd23-c5bf2c5dd32a", 
+        #     tenant_id = "2c08cf81-cac5-4330-b116-ab66666234b2",
+
+    RESOURCE_GROUP_NAME = 'rgdemo-112'
+    LOCATION = "southeastasia"
+    WEB_APP_NAME = "mywebapp112"
+    SERVICE_PLAN_NAME = 'PythonAzureExample-WebApp-plan'
+    subscription_id = os.environ["AZURE_SUBSCRIPTION_ID"]
+
+    # resource_client = ResourceManagementClient(credential, subscription_id)
+    # rg_result = resource_client.resource_groups.create_or_update(RESOURCE_GROUP_NAME,
+    #                                                              {"location": LOCATION})
+
+    # print(f"成功创建或者更新资源组： {rg_result.name}")
+
+    # For details on the previous code, see Example: Provision a resource group
+    # at https://docs.microsoft.com/azure/developer/python/azure-sdk-example-resource-group
+
+    # Step 2: Provision the App Service plan, which defines the underlying VM for the web app.
+
+    # Names for the App Service plan and App Service. We use a random number with the
+    # latter to create a reasonably unique name. If you've already provisioned a
+    # web app and need to re-run the script, set the WEB_APP_NAME environment
+    # variable to that name instead.
+
+    WEB_APP_NAME = os.environ.get(
+        "WEB_APP_NAME", f"PythonAzureExample-WebApp-{random.randint(1,100000):05}")
+    app_service_client = WebSiteManagementClient(credential, subscription_id)
+    # Provision the plan; Linux is the default
+    # app_service_client.app_service_plans.create_or_update
+    try:
+        poller = app_service_client.app_service_plans.begin_create_or_update(RESOURCE_GROUP_NAME,
+            SERVICE_PLAN_NAME,
+            {
+                "location": LOCATION,
+                "reserved": True,
+                "sku" : {"name" : "F1"}
+            }
+        )
+        plan_result = poller.result()
+        print(f"Provisioned App Service plan {plan_result.name}")
+        # Step 3: With the plan in place, provision the web app itself, which is the process that can host
+        # whatever code we want to deploy to it.
+    
+        poller = app_service_client.web_apps.begin_create_or_update(RESOURCE_GROUP_NAME,
+                                                                    WEB_APP_NAME,
+                                                                    {
+                                                                        "location": LOCATION,
+                                                                        "server_farm_id": plan_result.id,
+                                                                        "site_config": {
+                                                                            "linux_fx_version": "python|3.8"
+                                                                        }
+                                                                    }
+                                                                    )
+
+        web_app_result = poller.result()
+
+        print(
+            f"Provisioned web app {web_app_result.name} at {web_app_result.default_host_name}")
+    except Exception as err:
+        print(err)
+
+    # # Step 4: deploy code from a GitHub repository. For Python code, App Service on Linux runs
+    # # the code inside a container that makes certain assumptions about the structure of the code.
+    # # For more information, see How to configure Python apps,
+    # # https://docs.microsoft.com/azure/app-service/containers/how-to-configure-python.
+    # #
+    # # The create_or_update_source_control method doesn't provision a web app. It only sets the
+    # # source control configuration for the app. In this case we're simply pointing to
+    # # a GitHub repository.
+    # #
+    # # You can call this method again to change the repo.
+
+    # REPO_URL = os.environ["REPO_URL"]
+
+    # poller = app_service_client.web_apps.begin_create_or_update_source_control(RESOURCE_GROUP_NAME,
+    #                                                                            WEB_APP_NAME,
+    #                                                                            {
+    #                                                                                "location": "GitHub",
+    #                                                                                "repo_url": REPO_URL,
+    #                                                                                "branch": "master"
+    #                                                                            }
+    #                                                                            )
+    # sc_result = poller.result()
+    # print(
+    #     f"Set source control on web app to {sc_result.branch} branch of {sc_result.repo_url}")
+
+
+
+def deploy_python_helloword():
+    """
+        部署官网的范例。
+        注意，这里很多变量写死，因为开发过程中发现，代码中的一些环境变量设置干扰了登陆，具体哪里没搞清楚。
+        这个函数相当于测试，看看这些调用方式有没有效果。
+    """
+    os.environ["AZURE_SUBSCRIPTION_ID"]="f6038766-7885-4773-974b-be0383525457"
+    REPO_URL = "https://github.com/Azure-Samples/python-docs-hello-world"
+    
+    # AzureCliCredential似乎会受os.environ里面的变量干扰。要注意当前的os.environ的值的正确性。
+    # credential = AzureCliCredential()
+
+    # # 这里会打开浏览器点击登陆认证。成功创建了一个webapp应用。
+    # # client_id要借助命令：`az login ` 打开流量器，看地址栏中的client_id
+    # # 在azure AD 中找不到这个client_id在什么地方。这个问题没搞清楚。
+    # # 不过这么做，是由效果的，得到的很高的权限可以直接操作azure，就像az cli的效果一样。
+    # credential = InteractiveBrowserCredential(
+    #     # authority="login.microsoftonline.com",
+    #     client_id="04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+    #     tenant_id="2c08cf81-cac5-4330-b116-ab66666234b2")
+
+    # 使用 test3应用
+    credential = ClientSecretCredential(
+        tenant_id="2c08cf81-cac5-4330-b116-ab66666234b2", 
+        client_id="b9b66ce4-de0e-437c-aeca-f3bbfae88dbd", 
+        client_secret="qUm7Q~mYsFAafYakA2phueeGQ.vvS4_ifY~S_",
+        authority="login.microsoftonline.com")
+
+    # Retrieve subscription ID from environment variable
+    subscription_id = os.environ["AZURE_SUBSCRIPTION_ID"]
+    # Constants we need in multiple places: the resource group name and the region
+    # in which we provision resources. You can change these values however you want.
+    RESOURCE_GROUP_NAME = 'mypyapprg177'
+    LOCATION = "centralus"
+
+    # Step 1: Provision the resource group.
+    resource_client = ResourceManagementClient(credential, subscription_id)
+
+    rg_result = resource_client.resource_groups.create_or_update(RESOURCE_GROUP_NAME,
+        { "location": LOCATION })
+
+    print(f"Provisioned resource group {rg_result.name}")
+
+    # For details on the previous code, see Example: Provision a resource group
+    # at https://docs.microsoft.com/azure/developer/python/azure-sdk-example-resource-group
+
+
+    #Step 2: Provision the App Service plan, which defines the underlying VM for the web app.
+
+    # Names for the App Service plan and App Service. We use a random number with the
+    # latter to create a reasonably unique name. If you've already provisioned a
+    # web app and need to re-run the script, set the WEB_APP_NAME environment 
+    # variable to that name instead.
+    SERVICE_PLAN_NAME = 'PythonAzureExample-WebApp-plan'
+    WEB_APP_NAME = os.environ.get("WEB_APP_NAME", f"PythonAzureExample-WebApp-{random.randint(1,100000):05}")
+
+    # Obtain the client object
+    app_service_client = WebSiteManagementClient(credential, subscription_id)
+
+    # Provision the plan; Linux is the default
+    poller = app_service_client.app_service_plans.begin_create_or_update(RESOURCE_GROUP_NAME,
+        SERVICE_PLAN_NAME,
+        {
+            "location": LOCATION,
+            "reserved": True,
+            "sku" : {"name" : "F1"}
+        }
+    )
+
+    plan_result = poller.result()
+
+    print(f"Provisioned App Service plan {plan_result.name}")
+
+
+    # Step 3: With the plan in place, provision the web app itself, which is the process that can host
+    # whatever code we want to deploy to it.
+    poller = app_service_client.web_apps.begin_create_or_update(RESOURCE_GROUP_NAME,
+        WEB_APP_NAME,
+        {
+            "location": LOCATION,
+            "server_farm_id": plan_result.id,
+            "site_config": {
+                "linux_fx_version": "python|3.8"
+            }
+        }
+    )
+
+    web_app_result = poller.result()
+    print(f"Provisioned web app {web_app_result.name} at {web_app_result.default_host_name}")
+
+    poller = app_service_client.web_apps.begin_create_or_update_source_control(RESOURCE_GROUP_NAME,
+        WEB_APP_NAME, 
+        { 
+            "location": "GitHub",
+            "repo_url": REPO_URL,
+            "branch": "master"
+        }
+    )
+    sc_result = poller.result()
+    print(f"Set source control on web app to {sc_result.branch} branch of {sc_result.repo_url}")
+
+
+
+def deploy_python_hellowordv2(credential):
+    """
+        部署官网的范例。
+        注意，这里很多变量写死，因为开发过程中发现，代码中的一些环境变量设置干扰了登陆，具体哪里没搞清楚。
+        这个函数相当于测试，看看这些调用方式有没有效果。
+    """
+    os.environ["AZURE_SUBSCRIPTION_ID"]="f6038766-7885-4773-974b-be0383525457"
+    REPO_URL = "https://github.com/Azure-Samples/python-docs-hello-world"    
+    # AzureCliCredential似乎会受os.environ里面的变量干扰。要注意当前的os.environ的值的正确性。
+    # credential = AzureCliCredential()
+
+    # 这里会打开浏览器点击登陆认证。成功创建了一个webapp应用。
+    # client_id要借助命令：`az login ` 打开流量器，看地址栏中的client_id
+    # 在azure AD 中找不到这个client_id在什么地方。这个问题没搞清楚。
+    # 不过这么做，是由效果的，得到的很高的权限可以直接操作azure，就像az cli的效果一样。
+    # credential = InteractiveBrowserCredential(
+    #     # authority="login.microsoftonline.com",
+    #     client_id="04b07795-8ddb-461a-bbee-02f9e1bf7b46",
+    #     tenant_id="2c08cf81-cac5-4330-b116-ab66666234b2")
+    # Retrieve subscription ID from environment variable
+    subscription_id = os.environ["AZURE_SUBSCRIPTION_ID"]
+    # Constants we need in multiple places: the resource group name and the region
+    # in which we provision resources. You can change these values however you want.
+    RESOURCE_GROUP_NAME = 'mypyapprg177'
+    LOCATION = "centralus"
+
+    # Step 1: Provision the resource group.
+    resource_client = ResourceManagementClient(credential, subscription_id)
+
+    rg_result = resource_client.resource_groups.create_or_update(RESOURCE_GROUP_NAME,
+        { "location": LOCATION })
+
+    print(f"Provisioned resource group {rg_result.name}")
+
+    # For details on the previous code, see Example: Provision a resource group
+    # at https://docs.microsoft.com/azure/developer/python/azure-sdk-example-resource-group
+
+
+    #Step 2: Provision the App Service plan, which defines the underlying VM for the web app.
+
+    # Names for the App Service plan and App Service. We use a random number with the
+    # latter to create a reasonably unique name. If you've already provisioned a
+    # web app and need to re-run the script, set the WEB_APP_NAME environment 
+    # variable to that name instead.
+    SERVICE_PLAN_NAME = 'PythonAzureExample-WebApp-plan'
+    WEB_APP_NAME = os.environ.get("WEB_APP_NAME", f"PythonAzureExample-WebApp-{random.randint(1,100000):05}")
+
+    # Obtain the client object
+    app_service_client = WebSiteManagementClient(credential, subscription_id)
+
+    # Provision the plan; Linux is the default
+    poller = app_service_client.app_service_plans.begin_create_or_update(RESOURCE_GROUP_NAME,
+        SERVICE_PLAN_NAME,
+        {
+            "location": LOCATION,
+            "reserved": True,
+            "sku" : {"name" : "F1"}
+        }
+    )
+
+    plan_result = poller.result()
+
+    print(f"Provisioned App Service plan {plan_result.name}")
+
+
+    # Step 3: With the plan in place, provision the web app itself, which is the process that can host
+    # whatever code we want to deploy to it.
+    poller = app_service_client.web_apps.begin_create_or_update(RESOURCE_GROUP_NAME,
+        WEB_APP_NAME,
+        {
+            "location": LOCATION,
+            "server_farm_id": plan_result.id,
+            "site_config": {
+                "linux_fx_version": "python|3.8"
+            }
+        }
+    )
+
+    web_app_result = poller.result()
+    print(f"Provisioned web app {web_app_result.name} at {web_app_result.default_host_name}")
+
+    poller = app_service_client.web_apps.begin_create_or_update_source_control(RESOURCE_GROUP_NAME,
+        WEB_APP_NAME, 
+        { 
+            "location": "GitHub",
+            "repo_url": REPO_URL,
+            "branch": "master"
+        }
+    )
+    sc_result = poller.result()
+    print(f"Set source control on web app to {sc_result.branch} branch of {sc_result.repo_url}")
