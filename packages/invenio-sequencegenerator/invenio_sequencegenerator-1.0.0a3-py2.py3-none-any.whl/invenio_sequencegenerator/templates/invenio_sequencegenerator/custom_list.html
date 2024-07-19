@@ -1,0 +1,19 @@
+{# -*- coding: utf-8 -*-
+
+  This file is part of Invenio.
+  Copyright (C) 2016-2018 CERN.
+
+  Invenio is free software; you can redistribute it and/or modify it
+  under the terms of the MIT License; see LICENSE file for more details.
+#}
+{%- extends 'admin/model/list.html' %}
+{%- block list_row_actions %}
+  {{ super() }}
+  <form class="icon" method="POST" action="{{ url_for('.reset_view') }}">
+    <input name="start" value="0" type="number" size="1">
+    <input name="rowid" value="{{ get_pk_value(row) }}" type="hidden">
+    <button onclick="return confirm(_('Are you sure you want to reset selected counter?'));" title="{{ _('Reset') }}">
+      <span class="fa fa-step-backward glyphicon glyphicon-step-backward"></span>
+    </button>
+  </form>
+{%- endblock %}
