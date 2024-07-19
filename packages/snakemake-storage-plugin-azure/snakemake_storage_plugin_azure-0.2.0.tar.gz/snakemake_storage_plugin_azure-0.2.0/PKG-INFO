@@ -1,0 +1,64 @@
+Metadata-Version: 2.1
+Name: snakemake-storage-plugin-azure
+Version: 0.2.0
+Summary: A Snakemake storage plugin to read and write from Azure Blob Storage
+Home-page: https://github.com/snakemake/snakemake-storage-plugin-azure
+License: MIT
+Keywords: snakemake,plugin,storage,azure
+Author: Jake VanCampen
+Author-email: jake.vancampen7@gmail.com
+Requires-Python: >=3.11,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: azure-core (>=1.30.2,<2.0.0)
+Requires-Dist: azure-identity (>=1.17.1,<2.0.0)
+Requires-Dist: azure-storage-blob (>=12.20.0,<13.0.0)
+Requires-Dist: snakemake-interface-common (>=1.17.2,<2.0.0)
+Requires-Dist: snakemake-interface-storage-plugins (>=3.2.3,<4.0.0)
+Project-URL: Documentation, https://snakemake.github.io/snakemake-plugin-catalog/plugins/storage/azure.html
+Project-URL: Repository, https://github.com/snakemake/snakemake-storage-plugin-azure
+Description-Content-Type: text/markdown
+
+# Snakemake Storage Plugin Azure
+
+Azure Blob Storage plugin for snakemake. For documentation and usage instructions, see the [Snakemake Plugin Catalog](https://snakemake.github.io/snakemake-plugin-catalog/plugins/storage/azure.html).
+
+# Testing
+
+Testing this plugin locally require the azurite storage emulator to be running locally. 
+This can be setup using the following docker run command: 
+
+```
+docker run -p 10000:10000 mcr.microsoft.com/azure-storage/azurite azurite-blob --blobHost 0.0.0.0
+```
+
+Then execute the tests: 
+```
+poetry run coverage run -m pytest tests/tests.py
+```
+
+# Example
+
+The below example Snakefile and command will stream a file, test.txt, containing the text "Hello, World" to the azure blob: https://account.blob.core.windows.net/container/test.txt
+
+```Snakefile
+rule touch:
+    output: "test.txt"
+    shell:
+        "echo 'Hello, World!' > {output}"
+```
+
+**Command:**
+
+The storage account and container that the output file is streamed to is specified using the default-storage-prefix.
+
+```
+snakemake -j1 \
+    --default-storage-provider azure \
+    --default-storage-prefix "az://account/container"
+    --storage-azure-endpoint-url https://account.blob.core.windows.net \
+    --verbose
+```
+
