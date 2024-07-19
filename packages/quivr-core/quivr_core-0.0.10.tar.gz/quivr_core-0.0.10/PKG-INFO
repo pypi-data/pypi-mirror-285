@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: quivr-core
+Version: 0.0.10
+Summary: Quivr core RAG package
+Home-page: https://github.com/QuivrHQ/quivr
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: base
+Provides-Extra: pdf
+Requires-Dist: aiofiles (>=23.0.0,<25.0.0)
+Requires-Dist: faiss-cpu (>=1.8.0.post1,<2.0.0) ; extra == "base"
+Requires-Dist: httpx (>=0.27.0,<0.28.0)
+Requires-Dist: langchain-community (>=0.2.6,<0.3.0) ; extra == "base"
+Requires-Dist: langchain-core (>=0.2.10,<0.3.0)
+Requires-Dist: langchain-openai (>=0.1.14,<0.2.0) ; extra == "base"
+Requires-Dist: pydantic (>=2.7.4,<3.0.0)
+Requires-Dist: rich (>=13.7.1,<14.0.0)
+Project-URL: Repository, https://github.com/QuivrHQ/quivr
+Description-Content-Type: text/markdown
+
+# quivr-core package
+
+The RAG of Quivr.com
+
+```
+poetry install -E base
+```
+
+```
+python examples/simple_question.py
+```
