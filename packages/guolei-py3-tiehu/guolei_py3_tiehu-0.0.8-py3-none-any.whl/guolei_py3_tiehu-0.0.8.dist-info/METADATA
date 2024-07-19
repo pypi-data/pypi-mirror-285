@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: guolei-py3-tiehu
+Version: 0.0.8
+Summary: 铁虎 API
+Home-page: https://github.com/guolei19850528/guolei_py3_tiehu
+Author: guolei
+Author-email: 174000902@qq.com
+License: MIT
+Requires-Python: >=3.0
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: addict
+Requires-Dist: retrying
+Requires-Dist: pydantic
+Requires-Dist: guolei-py3-requests
+
+## 介绍
+
+**铁虎 API**
+
+[官方文档](https://www.showdoc.com.cn/1735808258920310/9467753400037587)
+
+## 软件架构
+
+~python 3.*
+
+## 安装教程
+
+```shell
+pip install guolei-py3-tiehu
+```
+
+## 目录说明
+
+### Parking Api 示例
+
+```python
+from guolei_py3_tiehu.parking import Api as GuoleiPy3TiehuParkingApi
+
+# 使用前联系铁虎运维给所在服务器ip添加白名单
+guolei_py3_tiehu_parking_api = GuoleiPy3TiehuParkingApi(
+    base_url="your base url",
+    parking_id="your parking id",
+    app_key="your app key"
+)
+# 调用 guolei_py3_tiehu_parking_api.方法
+```
