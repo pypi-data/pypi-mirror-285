@@ -1,0 +1,15 @@
+Metadata-Version: 2.1
+Name: fastapi-pydentity
+Version: 1.0.0
+License-File: LICENSE.txt
+Requires-Dist: fastapi
+Requires-Dist: pyotp
+Requires-Dist: email-validator
+Requires-Dist: bcrypt
+Requires-Dist: passlib
+Requires-Dist: python-jose[cryptography]
+Provides-Extra: sqlalchemy
+Requires-Dist: fastapi-pydentity-db-sqlalchemy ; extra == 'sqlalchemy'
+Provides-Extra: tortoise
+Requires-Dist: fastapi-pydentity-db-tortoise ; extra == 'tortoise'
+
