@@ -1,0 +1,348 @@
+Metadata-Version: 2.1
+Name: lama2923
+Version: 1.6.0
+Summary: Sikimsonik bir kütüphane
+Author: lama2923
+Author-email: lama2923.v2@gmail.com
+Project-URL: Author GitHub, https://github.com/lama2923
+Keywords: example project evelopment discord lama2923 api design custom custominput customprint
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+Requires-Dist: colorama
+Requires-Dist: requests
+
+### The user guide for the lama2923 library.
+
+Below you can find the guide in Turkish/English.
+
+---
+
+#### Turkish
+
+### Kullanım Kılavuzu
+
+Bu Python kütüphanesi, Discord, llinput gibi API ve Terminal tasarım olarak çeşitlilikler sunar.
+
+#### Kurulum
+kütüphaneyi indirin:
+```
+pip install lama2923
+```
+
+#### kullanımlar
+
+##### Ekranı Temizleme (clear_screen)
+```
+from lama2923 import clear_screen
+clear_screen()
+```
+Ekranı temizler. 
+
+##### Geçen Süreyi Hesaplama (calculate_elapsed_time)
+```
+from lama2923 import calculate_elapsed_time, get_time
+start_time = get_time()
+
+# Code
+
+end_time = get_time()
+elapsed_time = calculate_elapsed_time(start_time, end_time)
+print(elapsed_time)
+```
+İki zaman arasındaki geçen süreyi hesaplar ve milisaniye, saniye, dakika, saat, gün cinsinden döndürür.
+
+##### Gökkuşağı Metni (rainbow_text)
+```
+from lama2923 import rainbow_text
+rainbow_text("Merhaba Dünya", LOOP=3, Speed="Slow", section="Full")
+```
+Bu bölüm eğlence için yapılmıştır denebilir :D Arkadaşlarınızı şaşırtmak adına kullanabilirsiniz.
+
+##### Port Kontrolü (check_port)
+```
+from lama2923 import check_port
+port_open = check_port("127.0.0.1", 80)
+print(f"Port açık mı? {port_open}")
+```
+Belirtilen IP adresindeki portun açık olup olmadığını kontrol eder.
+
+##### İnternet Bağlantısı Kontrolü (check_internet)
+```
+from lama2923 import check_internet
+internet_connected = check_internet()
+print(f"İnternet bağlantısı var mı? {internet_connected}")
+```
+İnternet bağlantısını kontrol eder.
+
+##### animasyonlu print (lprint)
+```
+from lama2923 import lprint
+lprint("Merhaba Dünya")
+```
+print fonksiyonu ile aynıdır fakat soldan sağa doğru yazının boyutuna göre, hızlı/yavaş şekilde, animasyonlu bir çıktı verir.
+
+##### animasyonlu input (linput)
+```
+from lama2923 import linput
+user_input = linput("İsminiz: ", autocorrect=True)
+```
+linput input ile aynıdır fakat lprint gibi animasyonlu bir şekilde çıktı verir.
+autocorrect özelliği şuna yarar: input'dan önceki yazılan yazıların yazılmasını engeller. Yani Yanlışıkla daha input görünmeden 'Enter' basıldığında geçmemesini sağlayabilirsiniz.
+
+
+##### okunaklı sayı (formatted_number)
+```
+from lama2923 import formatted_number
+num = formatted_number(100000.1234) # çıktı : 100.000,1234
+print(f"Biçimlendirilmiş sayı: {num}")
+```
+Girilen sayıyı (str kabul edilir)  sayı kurallarına uygun biçimde çıktı verir
+
+##### Okunaklı Sayıyı Geri Çevirme (reverse_formatted_number)
+```
+from lama2923 import reverse_formatted_number
+num = reverse_formatted_number("12.345,678") # 12345.678
+print(f"Orijinal sayı: {num}")
+```
+Girilen sayıyı (str kabul edilir)  sayı kurallarına uygun biçimde olan sayıyı ters çevirir
+
+
+
+##### Discord Webhook (Discord.Webhook)
+```
+from lama2923 import Discord
+webhook_url = 'WEBHOOK-URL-HERE'
+webhook = Discord.Webhook(webhook_url=webhook_url)
+
+
+Embed2 = Discord.Embed(title="", description="")
+Embed2.set_image(r"https:\\xxxxxxx") # Image URL
+
+
+Embed = Discord.Embed(title="Merhaba", description="Dünya", color=0x00ff00)
+Embed.add_field(name="B-", value="Ben Yaşıyorum!", inline=False)
+Embed.set_footer(text="Program")
+Embed.set_image("image.png") # Image Path
+
+
+Status = webhook.send_webhook(Content="Sana yeni bir haberim var! eee"  , embeds=[Embed, Embed2])
+
+
+```
+
+Discord Webhook ile mesaj göndermeye yarar
+
+
+##### Discord Author (Discord.Author)
+
+```
+from lama2923 import Discord
+AUTHOR_TOKEN = "YOUR_TOKEN"
+Author = Discord.Author(AUTHOR_TOKEN)
+
+Channel_ID = "YOUR_CHANNEL"
+
+Author.send_message(Channel_ID, "Merhaba Dünya!", files=["src/image.png", ])
+
+status, Messages = Author.get_channel_messages(Channel_ID, limit=10)
+
+for I, Message in enumerate(Messages):
+    print(f"{I}: {Message['content']}")
+```
+
+Discord Author ile Bir kanala mesaj gönderip o kanalın 10 tane mesajını almaya yarar.
+
+##### linput ama daha gelişmişi (llinput)
+```
+from lama2923 import llinput
+user_input = llinput("Bir şey yazın: ")
+print(f"Girdiniz: {user_input}")
+```
+llinput çok işlevli özelleştirilebilir linput versiyonudur.
+
+- `sep` ve `end` normal şekilde çalışır.
+- `wend` özelliği {prompt} [kullanıcı girdisi] + {wend} formatındadır. `end`'den farklı olarak kullanıcı girdisini prompt ve wend arasına yerleştirir.
+- `max_length` kullanıcının girebileceği maksimum karakter sayısını sınırlar.
+- `min_length` kullanıcının girebileceği minimum karakter sayısını sınırlar.
+- `forceint` kullanıcının sadece sayı girmesini sağlar. | `forcestr` ile aynı anda kullanılamaz. `negativeint` ile kullanılabilir.
+- `negativeint` kullanıcının sadece negatif sayı girmesini sağlar. | `forcestr` ile aynı anda kullanılamaz. `forceint` ile kullanılabilir.
+- `forcestr` kullanıcının sadece harf girmesini sağlar. | `forceint` ve `negativeint` ile aynı anda kullanılamaz.
+- `forceinput` kullanıcının boş geçmesini engeller.
+- `startswith` ("", False) formatındadır. Kullanıcı girdisinin başlangıcını atanan yazıyla başlatır. Eğer True ise bu başlangıç değeri silinemez; False ise kullanıcı bu değeri silebilir.
+- `forcestartswith` kullanıcının girdiye başlaması gereken değerlerin listesidir, örn: ["https", "http"] kullanıcıdan bir link girmesini zorunlu kılar.
+- `forceendswith` kullanıcının girdiyi bitirmesi gereken değerlerin listesidir. Temel olarak forcestartswith'in başlangıç yerine bitişden olan versiyonudur.
+- `choices` ([], False) formatındadır. liste değeri Kullanıcının Seçebilceği Değerleri belirler. Boolean değeri büyük/küçük harf duyarlılığını belirler; False ise büyük/küçük harf duyarlıdır.
+- `blockedchars` kullanıcının giremeyeceği karakterlerin listesidir.
+- `availablechars` kullanıcının girebileceği karakterlerin listesidir. `blockedchars` ile çakışan karakterler yasaklı kabul edilir.
+- `forceinputlen` kullanıcıyı belirli bir girdi uzunluğuna zorlar.
+- `inputcolor`, `promptcolor`, `wendcolor`, `endcolor` str değerlerdir ve ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "black"] renklerinden biri olabilir.
+
+---
+
+#### English
+### User Guide
+
+This Python library offers a variety of APIs and Terminal designs such as Discord and llinput.
+
+#### Installation
+Install the necessary modules to use this library:
+```
+pip install lama2923
+```
+
+#### Functions and Their Uses
+
+##### Clear Screen (clear_screen)
+```
+from lama2923 import clear_screen
+clear_screen()
+```
+Clears the screen.
+
+##### Calculate Elapsed Time (calculate_elapsed_time)
+```
+from lama2923 import calculate_elapsed_time, get_time
+start_time = get_time()
+
+# Code
+
+end_time = get_time()
+elapsed_time = calculate_elapsed_time(start_time, end_time)
+print(elapsed_time)
+```
+Calculates the elapsed time between two points and returns it in milliseconds, seconds, minutes, hours, and days.
+
+##### Rainbow Text (rainbow_text)
+```
+from lama2923 import rainbow_text
+rainbow_text("Hello World", LOOP=3, Speed="Slow", section="Full")
+```
+This section is for fun! You can use it to surprise your friends.
+
+##### Port Check (check_port)
+```
+from lama2923 import check_port
+port_open = check_port("127.0.0.1", 80)
+print(f"Is the port open? {port_open}")
+```
+Checks if the specified port on the given IP address is open.
+
+##### Internet Connection Check (check_internet)
+```
+from lama2923 import check_internet
+internet_connected = check_internet()
+print(f"Is there an internet connection? {internet_connected}")
+```
+Checks for an internet connection.
+
+##### Animated Print (lprint)
+```
+from lama2923 import lprint
+lprint("Hello World")
+```
+It works the same as the print function but provides animated output from left to right based on the length of the text.
+
+##### Animated Input (linput)
+```
+from lama2923 import linput
+user_input = linput("Your name: ", autocorrect=True)
+```
+linput works the same as input but provides animated output like lprint.
+The autocorrect feature prevents writing errors before the input appears. It ensures that pressing 'Enter' mistakenly before the input is shown does not proceed.
+
+##### Formatted Number (formatted_number)
+```
+from lama2923 import formatted_number
+num = formatted_number(100000.1234) # output: 100.000,1234
+print(f"Formatted number: {num}")
+```
+Takes a number (accepted as a string) and outputs it in a properly formatted manner.
+
+##### Reverse Formatted Number (reverse_formatted_number)
+```
+from lama2923 import reverse_formatted_number
+num = reverse_formatted_number("12.345,678") # 12345.678
+print(f"Original number: {num}")
+```
+Takes a properly formatted number (accepted as a string) and reverses it.
+
+
+##### Discord Webhook (Discord.Webhook)
+```
+from lama2923 import Discord
+webhook_url = 'WEBHOOK-URL-HERE'
+webhook = Discord.Webhook(webhook_url=webhook_url)
+
+Embed2 = Discord.Embed(title="", description="")
+Embed2.set_image(r"https:\\xxxxxxx") # Image URL
+
+
+Embed = Discord.Embed(title="Hello", description="World", color=0x00ff00)
+Embed.add_field(name="I-", value="I am alive!", inline=False)
+Embed.set_footer(text="Program")
+Embed.set_image("image.png") # Image Path
+
+
+Status = webhook.send_webhook(Content="I have news for you! uhh"  , embeds=[Embed, Embed2])
+
+```
+
+Sends a message using Discord Webhook.
+
+
+##### Discord Author (Discord.Author)
+
+```
+from lama2923 import Discord
+AUTHOR_TOKEN = "YOUR_TOKEN"
+Author = Discord.Author(AUTHOR_TOKEN)
+
+Channel_ID = "YOUR_CHANNEL"
+
+Author.send_message(Channel_ID, "Hello World!", files=["src/image.png", ])
+
+status, Messages = Author.get_channel_messages(Channel_ID, limit=10)
+
+for I, Message in enumerate(Messages):
+    print(f"{I}: {Message['content']}")
+```
+
+Allows sending a message to a channel and retrieving the last 10 messages from that channel using Discord Author.
+
+
+
+##### Enhanced linput (llinput)
+```
+from lama2923 import llinput
+user_input = llinput("Write something: ")
+print(f"Your input: {user_input}")
+```
+llinput is a highly functional, customizable version of linput.
+
+- `sep` and `end` work as usual.
+- `wend` feature is in the format {prompt} [user input] + {wend}. Unlike `end`, it places the user input between prompt and wend.
+- `max_length` limits the maximum number of characters the user can enter.
+- `min_length` limits the minimum number of characters the user can enter.
+- `forceint` allows the user to enter only numbers. | Cannot be used with `forcestr`. Can be used with `negativeint`.
+- `negativeint` allows the user to enter only negative numbers. | Cannot be used with `forcestr`. Can be used with `forceint`.
+- `forcestr` allows the user to enter only letters. | Cannot be used with `forceint` and `negativeint`.
+- `forceinput` prevents the user from submitting empty input.
+- `startswith` is in the format ("", False). It sets the beginning of the user input to the given string. If True, this prefix cannot be deleted; if False, the user can delete it.
+- `forcestartswith` is a list of values that the user must start their input with, e.g., ["https", "http"] requires the user to enter a link.
+- `forceendswith` is a list of values that the user must end their input with.
+- `choices` is in the format ([], False). It provides a list of acceptable choices. The boolean determines case sensitivity; False means case-sensitive.
+- `blockedchars` is a string of characters that the user cannot enter.
+- `availablechars` is a string of characters that the user can enter. Conflicts with `blockedchars` will result in the character being blocked.
+- `forceinputlen` forces the user to enter input of a specific length.
+- `inputcolor`, `promptcolor`, `wendcolor`, `endcolor` are string values that can be set to ["red", "green", "yellow", "blue", "magenta", "cyan", "white", "black"].
+
+
