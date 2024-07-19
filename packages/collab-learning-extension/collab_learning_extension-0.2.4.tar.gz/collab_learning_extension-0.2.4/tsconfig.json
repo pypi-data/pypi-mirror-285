@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "jsx": "react",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "preserveWatchOutput": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "strictNullChecks": true,
+    "target": "ES2018",
+    "useDefineForClassFields": true, // Enables the use of 'define' for class fields.
+    "module": "ESNext", // Defines the module system to use for code generation.
+    "skipLibCheck": true // Skips type checking of declaration files.
+  },
+  "watchOptions": {
+    "fallbackPolling": "fixedInterval"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
+}
