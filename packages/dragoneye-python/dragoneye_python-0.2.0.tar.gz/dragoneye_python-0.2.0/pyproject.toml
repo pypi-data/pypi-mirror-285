@@ -1,0 +1,11 @@
+[project]
+name = "dragoneye-python"
+version = "0.2.0"
+requires-python = ">=3.8"
+dynamic = ["dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[tool.setuptools.package-dir]
+dragoneye = "src/dragoneye"
