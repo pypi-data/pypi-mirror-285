@@ -1,0 +1,28 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "lastplot"
+authors = [{ name = "Elide Brunelli", email = "elide.98@gmail.com" }]
+readme = "README.md"
+license = { file = "LICENSE" }
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+dependencies = [
+    "numpy~=2.0",
+    "pandas~=2.0",
+    "openpyxl~=3.1",
+    "scipy~=1.13",
+    "matplotlib~=3.9",
+    "seaborn~=0.13",
+    "starbars~=1.1"
+]
+
+[project.urls]
+Home = "https://github.com/elide-b/lastplot"
+
+[project.optional-dependencies]
+docs = [
+    "sphinx-book-theme"
+]
