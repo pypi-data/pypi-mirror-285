@@ -1,0 +1,79 @@
+Metadata-Version: 2.1
+Name: nurtelecom_gras_library
+Version: 1.3.7
+Summary: Official Nurtelecom gras library
+Home-page: https://github.com/beksultantuleev/nurtelecom_gras_library.git
+Author: Beksultan Tuleev
+Author-email: Beksultan Tuleev <kazamabeks@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2022 Beck Kazama
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/beksultantuleev/nurtelecom_gras_library.git
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Build Tools
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Description-Content-Type: text/markdown
+Requires-Dist: cx_Oracle
+Requires-Dist: pandas
+Requires-Dist: geopandas
+Requires-Dist: sqlalchemy
+Requires-Dist: openpyxl
+Requires-Dist: tabulate
+Requires-Dist: requests
+Requires-Dist: transliterate
+
+# nurtelecom_gras_library
+This is official NurTelecom GRAS library
+
+```ruby
+from nurtelecom_gras_library import PLSQL_data_importer, make_table_query_from_pandas
+
+#create connection
+database_connection = PLSQL_data_importer(user = 'user', password = 'pass', host= '192.168.1.1', port = '1521')
+
+#create query
+test_query = "select 1 from dual"
+
+#makes pandas df 
+test_data = database_connection.get_data(query = test_query)
+
+#make new_create query from pandas df
+new_table_name_for_sql = "test_table_name"
+query_from_tabel = make_table_query_from_pandas(df = test_data, table_name= new_table_name_for_sql)
+
+#execute query
+database_connection.execute(query_from_tabel)
+
+
+```
+
+
+
+
+
+
