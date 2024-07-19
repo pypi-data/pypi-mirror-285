@@ -1,0 +1,1 @@
+A simple package to split an image into its rgb components.
