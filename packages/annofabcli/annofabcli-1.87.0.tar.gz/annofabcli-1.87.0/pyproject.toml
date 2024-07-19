@@ -1,0 +1,206 @@
+[tool.poetry]
+name = "annofabcli"
+version = "1.87.0"  # `poetry-dynamic-versioning`を使ってGitHubのバージョンタグを取得している。変更不要
+description = "Utility Command Line Interface for AnnoFab"
+authors = ["yuji38kwmt"]
+license = "MIT"
+keywords=["annofab", "cli"]
+readme="README.md"
+repository="https://github.com/kurusugawa-computer/annofab-cli"
+classifiers = [
+        "Development Status :: 4 - Beta",
+        "Intended Audience :: Developers",
+        "Environment :: Console",
+        "Topic :: Utilities",
+        "Operating System :: OS Independent",
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "*"
+pyyaml = "*"
+dictdiffer = "*"
+more-itertools = "*"
+jmespath = "*"
+pyquery = "*"
+isodate = "*"
+annofabapi = ">=0.74.0"
+python-datauri = "*"
+
+pandas = "^2"
+
+# Python3.8以下で、bokehのバージョンを3.0に固定している理由
+# 3.2以上だとPython3.8をサポートしていない
+# しかし3.1だと、以下のバグがあって正しくグラフを描画できないため
+# https://github.com/bokeh/bokeh/issues/13133#event-9277282834
+bokeh = [
+    {version="~3.0.0", python="=3.8"},
+    {version="^3.3", python=">=3.9"}
+    ]
+
+Pillow = "*"
+typing-extensions="^4.5"
+
+[tool.poetry.group.dev-only.dependencies]
+# 開発時のみバージョンを指定したライブラリを記載する
+
+
+# pandsaのCopy-on-Writeの警告を出すために、pandas2.2以上を利用する
+# https://pandas.pydata.org/docs/user_guide/copy_on_write.html
+pandas = [
+    {version=">=2.2", python=">=3.11"}
+]
+
+# pandas 2.2以上を利用する場合、numpyのバージョンを指定しないとpoetryが依存解決できないので、panda2.2が要求するnumpyのバージョンを指定する
+# 補足: numpy1.26.0はPython3.8に対応していない。したがって、"python>=3.11"という条件を指定して、numpy1.26.0を指定する必要がある
+numpy = [
+    {version=">=1.26.0", python=">=3.11"}
+]
+
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7"
+pytest-xdist = "*"
+pytest-cov = "*"
+
+[tool.poetry.group.formatter.dependencies]
+
+[tool.poetry.group.linter.dependencies]
+# pythonバージョンを指定している理由：Python3.12（開発環境）でしかlintを実行していないため
+ruff = {version="^0.4", python=">=3.12"}
+mypy = {version="^1", python=">=3.12"}
+pylint = {version="^3", python=">=3.12"}
+
+types-pytz = "*"
+types-requests = "*"
+types-python-dateutil = "*"
+types-PyYAML = "*"
+
+[tool.poetry.group.documentation.dependencies]
+# ドキュメント生成用のライブラリ
+# `python=">=3.11"`を指定している理由：Pytyhon3.11を利用している開発環境かReadTheDocsでしかドキュメントを生成しないため
+sphinx = {version="^7", python=">=3.12"}
+pydata-sphinx-theme = {version=">=0.13", python=">=3.12"}
+sphinx-last-updated-by-git = {version="*", python=">=3.12"}
+sphinx-argparse = {version="*", python=">=3.12"}
+
+
+
+[tool.poetry.group.dev]
+# 開発するときのみ必要なライブラリ。インストールしなくても開発はできるので、オプショナルにする
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+ipython = "*"
+
+[tool.poetry.group.publish]
+# リリース時に必要なツール。インストールしなくても開発できるので、オプショナルにする
+optional = true
+
+[tool.poetry.group.publish.dependencies]
+# GitHubでリリース時に、 GitHub Actionでannofabcliのexeを公開している
+# pythonバージョンを指定している理由: pyinstaller5.9はPython3.12未満までしかサポートしていない。
+# pythonバージョンを指定しないと、annofabcli自体のpython requirementが3.12未満になってしまうため。
+pyinstaller = { version = "^5.9", python = "<3.12" }
+
+[tool.poetry.scripts]
+annofabcli = "annofabcli.__main__:main"
+
+
+[tool.mypy]
+ignore_missing_imports = true
+
+check_untyped_defs = true
+
+[tool.ruff]
+target-version = "py38"
+line-length = 150
+
+
+[tool.ruff.lint]
+
+ignore = [
+    "G004", # `logging-f-string` : loggingでf-stringを使いたいので無視する
+    "PD901", #すでに`df`という変数をいろんなところで使っているため
+    "PD002", #すでにpandasで`inplace=True`はいろんなところで使っているため
+    "RUF001", # 全角記号など`ambiguous unicode character`も使いたいため
+    "RUF002",# 全角記号など`ambiguous unicode character`も使いたいため
+    "RUF003",# 全角記号など`ambiguous unicode character`も使いたいため
+    "PLR2004", # magic-value-comparison: listのサイズで判定するときがよくあるため
+    "ISC001", # single-line-implicit-string-concatenation: formatterと競合するので無視する https://docs.astral.sh/ruff/formatter/#conflicting-lint-rules
+    "ERA", # : 役立つこともあるが、コメントアウトしていないコードも警告されるので無視する
+    "PERF203", # try-except-in-loop: ループ内でtry-exceptを使うこともあるため無視する。
+    "COM812", # missing-trailing-comma: 末尾のカンマを考慮しないため無視する
+    "TRY003", # raise-vanilla-args: `ValueError`にf-stringで長いメッセージを渡すことが多いので無視する
+    "FIX", # TODOやFIXMEを使うため無視する
+    "TD", # TODOコメントの書き方に気にしていないので無視する
+    
+
+    # 以下のルールはannofabcliのコードに合っていないので無効化した
+    "RSE", # flake8-raise
+    "D", # pydocstyle, Docstringを中途半端にしか書いていないので、除外する
+    "C90", # mccabe
+    "BLE", # flake8-blind-except
+    # "TRY", # tryceratops
+    "S", # flake8-bandit
+    "EM",#flake8-errmsg
+    "EXE", # flake8-executable
+    "ICN", # flake8-import-conventions
+    "RET",#flake8-return
+    "TCH", # flake8-type-checking
+    "PT", # flake8-pytest-style
+]
+
+
+# preview段階のルールを個別に指定できるようにするための設定
+preview = true
+explicit-preview-rules = true
+
+select = [
+    "ALL",
+    # 以降のルールはpreview版のルールのみを指定する
+    "FURB132", # check-and-remove-from-set 
+    "FURB142", # for-loop-set-mutations
+    "FURB113", # repeated-append
+    "B909", # loop-iterator-mutation 
+    "PLW1514"  # unspecified-encoding: Windows環境で実行する際にencoding="utf-8"を指定しないとエラーになるため、チェックする
+]
+
+
+
+[tool.ruff.lint.per-file-ignores]
+# テストコードはチェックを緩和する
+"tests/**.py" = [
+    "PGH",  # pygrep-hooks
+    "DTZ",  # flake8-datetimez
+    "ANN",  # flake8-annotations
+    "E501",  # line-too-long
+    "RUF100",  # unused-noqa
+    "SIM", # flake8-simplify
+    "N", # pep8-naming
+    "PTH", # flake8-use-pathlib
+    "SLF", # flake8-self
+]
+
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pyupgrade]
+# Python3.8をサポートしているため、`typing.List`などの型ヒントは警告しないようにする
+# https://beta.ruff.rs/docs/settings/#keep-runtime-typing
+keep-runtime-typing = true
+
+[tool.ruff.lint.pylint]
+max-args = 10
+
+[tool.poetry-dynamic-versioning]
+enable = false
+format = "{base}"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
+
+
