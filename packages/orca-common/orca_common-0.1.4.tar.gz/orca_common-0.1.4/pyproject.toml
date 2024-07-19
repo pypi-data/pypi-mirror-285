@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "orca_common"
+version = "0.1.4"
+description = "Shared objects for manifold and orcalib"
+authors = ["Orca DB Inc. <dev-rel@orcadb.ai>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.24"
+torch = ">=2.0.0, !=2.0.1, !=2.1.0"
+pydantic = ">=1.10, <3.0"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest-env = "^1.0.1"
+pytest = "^7.4.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
