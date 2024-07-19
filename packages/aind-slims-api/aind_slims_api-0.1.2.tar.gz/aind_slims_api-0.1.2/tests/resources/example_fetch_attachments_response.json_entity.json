@@ -1,0 +1,336 @@
+[{
+    "canDelete": true,
+    "canUpdate": true,
+    "columns": [
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_name",
+        "position": 0,
+        "title": "Name",
+        "value": "rig323_EPHYS1_OPTO_2024-02-12.json"
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_uniqueIdentifier",
+        "position": 1,
+        "title": "Unique identifier",
+        "value": "21387bbf-d1a5-4c26-86c1-2bce06f21c98"
+      },
+      {
+        "datatype": "FOREIGN_KEY",
+        "displayField": "attp_name",
+        "displayValue": null,
+        "editable": false,
+        "foreignDisplayColumn": "attp_name",
+        "foreignTable": "AttachmentType",
+        "hidden": true,
+        "name": "attm_fk_attachmentType",
+        "position": 2,
+        "title": "Type",
+        "value": null
+      },
+      {
+        "datatype": "FOREIGN_KEY",
+        "displayField": "user_userName",
+        "displayValue": null,
+        "editable": true,
+        "foreignDisplayColumn": "user_userName",
+        "foreignTable": "User",
+        "hidden": false,
+        "name": "attm_fk_user",
+        "position": 3,
+        "title": "User",
+        "value": null
+      },
+      {
+        "datatype": "FOREIGN_KEY",
+        "displayField": "grps_groupName",
+        "displayValue": null,
+        "editable": true,
+        "foreignDisplayColumn": "grps_groupName",
+        "foreignTable": "Groups",
+        "hidden": false,
+        "name": "attm_fk_group",
+        "position": 4,
+        "title": "Group",
+        "value": null
+      },
+      {
+        "datatype": "BOOLEAN",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_mainReport",
+        "position": 5,
+        "title": "Main report",
+        "value": false
+      },
+      {
+        "datatype": "INTEGER",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_file_filesize",
+        "position": 6,
+        "title": "Size",
+        "value": 21125
+      },
+      {
+        "datatype": "DATE",
+        "dateFormat": "MM/dd/yyyy HH:mm:ss",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_file_date_created",
+        "position": 7,
+        "subType": "datetime",
+        "timeZone": "America/Los_Angeles",
+        "title": "Date",
+        "value": 1711642546857
+      },
+      {
+        "datatype": "BOOLEAN",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_isDirectory",
+        "position": 8,
+        "title": "Directory",
+        "value": false
+      },
+      {
+        "datatype": "INTEGER",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_linkCount",
+        "position": 9,
+        "title": "# of links to this attachment",
+        "value": 1
+      },
+      {
+        "datatype": "BOOLEAN",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_currentlyLinked",
+        "position": 10,
+        "title": "Currently linked",
+        "value": null
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_createdBy",
+        "position": 11,
+        "title": "Created by",
+        "value": "LKim"
+      },
+      {
+        "datatype": "DATE",
+        "dateFormat": "MM/dd/yyyy HH:mm:ss",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_createdOn",
+        "position": 12,
+        "subType": "datetime",
+        "timeZone": "America/Los_Angeles",
+        "title": "Created on",
+        "value": 1711642546906
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_modifiedBy",
+        "position": 13,
+        "title": "Modified by",
+        "value": "LKim"
+      },
+      {
+        "datatype": "DATE",
+        "dateFormat": "MM/dd/yyyy HH:mm:ss",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_modifiedOn",
+        "position": 14,
+        "subType": "datetime",
+        "timeZone": "America/Los_Angeles",
+        "title": "Modified on",
+        "value": 1711642546906
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_ecm3Url",
+        "position": 15,
+        "title": "ECM Server URI",
+        "value": null
+      },
+      {
+        "datatype": "FOREIGN_KEY",
+        "displayField": "user_userName",
+        "displayValue": null,
+        "editable": true,
+        "foreignDisplayColumn": "user_userName",
+        "foreignTable": "User",
+        "hidden": false,
+        "name": "attm_fk_ecm3UploadUser",
+        "position": 16,
+        "title": "ECM Upload user",
+        "value": 7
+      },
+      {
+        "datatype": "ENUM",
+        "editable": true,
+        "hidden": false,
+        "name": "attm_ecm3UploadStatus",
+        "position": 17,
+        "title": "ECM Upload Status",
+        "value": null
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "grps_groupName",
+        "position": 18,
+        "title": "Name",
+        "value": null
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_externalId",
+        "position": 19,
+        "title": "attm_externalId",
+        "value": null
+      },
+      {
+        "datatype": "ENUM",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_analysisRole",
+        "position": 20,
+        "title": "attm_analysisRole",
+        "value": null
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_file_filename",
+        "position": 21,
+        "title": "File name",
+        "value": "rig323_EPHYS1_OPTO_2024-02-12.json"
+      },
+      {
+        "datatype": "INTEGER",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_pk",
+        "position": 22,
+        "title": "attm_pk",
+        "value": 21
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "attp_name",
+        "position": 23,
+        "title": "Name",
+        "value": null
+      },
+      {
+        "datatype": "BOOLEAN",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_isRemote",
+        "position": 24,
+        "title": "Remote",
+        "value": false
+      },
+      {
+        "datatype": "BOOLEAN",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_isMachineData",
+        "position": 25,
+        "title": "Machine data",
+        "value": false
+      },
+      {
+        "datatype": "ENUM",
+        "displayValue": "Not indexable",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_indexingStatus",
+        "position": 26,
+        "title": "Indexing status",
+        "value": "NOT_INDEXABLE"
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_ecm3Id",
+        "position": 27,
+        "title": "ECM ID",
+        "value": null
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_hash",
+        "position": 28,
+        "title": "Hash",
+        "value": "1e1eb28f644f2c51c209371eec79bd21"
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "attm_path",
+        "position": 29,
+        "title": "Path",
+        "value": "ff/f7c/b0b6f9b42788ac937769afea8be/rig323_EPHYS1_OPTO_2024-02-12.json"
+      },
+      {
+        "datatype": "STRING",
+        "editable": true,
+        "hidden": true,
+        "name": "user_userName",
+        "position": 30,
+        "title": "User name",
+        "value": null
+      }
+    ],
+    "links": [
+      {
+        "href": "https://aind-test.us.slims.agilent.com/slimsrest/rest/Attachment/21",
+        "rel": "self"
+      },
+      {
+        "href": "https://aind-test.us.slims.agilent.com/slimsrest/rest/User/7",
+        "rel": "attm_fk_ecm3UploadUser"
+      },
+      {
+        "href": "https://aind-test.us.slims.agilent.com/slimsrest/rest/AttachmentLink?atln_fk_attachment=21",
+        "rel": "-atln_fk_attachment"
+      },
+      {
+        "href": "https://aind-test.us.slims.agilent.com/slimsrest/rest/attachment/Attachment/21",
+        "rel": "attachments"
+      },
+      {
+        "href": "https://aind-test.us.slims.agilent.com/slimsrest/rest/repo/21",
+        "rel": "contents"
+      }
+    ],
+    "pk": 21,
+    "tableName": "Attachment"
+  }
+]
