@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "git-variables"
+version = "0.1.1"
+description = "Python packages that allows to manage GitLab env variables seamlessly between remote and local respository"
+authors = ["Gorka <riberagorka@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.scripts]
+git-variables = "git_variables.cli:main"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+aiohttp = "^3.9.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
