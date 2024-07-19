@@ -1,0 +1,112 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = [
+  "setuptools",
+  "setuptools-scm",
+]
+
+[project]
+name = "chanfig"
+description = "Easier Configuration"
+readme = "README.md"
+keywords = [
+  "config",
+  "deep-learning",
+  "dict",
+  "machine-learning",
+]
+license = {file = "LICENSE"}
+maintainers = [
+    {name = "Zhiyuan Chen", email = "this@zyc.ai"},
+]
+authors = [
+    {name = "Zhiyuan Chen", email = "this@zyc.ai"},
+    {name = "Evian C. Liu", email = "evian.liu@outlook.com"},
+]
+requires-python = ">=3.7"
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "pyyaml",
+  "typing-extensions",
+]
+[project.optional-dependencies]
+include = [
+  "pyyaml-include",
+]
+[project.urls]
+documentation = "https://chanfig.danling.org"
+homepage = "https://chanfig.danling.org"
+repository = "https://github.com/ZhiyuanChen/CHANfiG"
+
+[tool.setuptools]
+packages = ["chanfig"]
+
+[tool.setuptools_scm]
+write_to = "chanfig/_version.py"
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.flake8]
+max-line-length = 120
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.messages_control]
+disable = """
+  E0012,
+  E0401,
+  R0201,
+  R0801,
+"""
+
+[tool.pylint.reports]
+output-format = "colorized"
+
+[tool.pylint.main]
+fail-under = 9.8
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --cov"
+
+[tool.coverage.run]
+branch = true
+include = ["chanfig/**"]
+
+[tool.coverage.paths]
+source = ["chanfig"]
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.coverage.json]
+output = "coverage.json"
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 80
+
+[tool.mypy]
+ignore_missing_imports = true
