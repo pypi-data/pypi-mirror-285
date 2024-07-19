@@ -1,0 +1,18 @@
+{
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestArgs": [
+        "-v",
+        "-s",
+        "./src/amlaidatatests/",
+        "-p",
+        "*_test.py"
+    ],
+    "python.testing.pytestArgs": [
+        "./src/amlaidatatests/tests",
+        "./tests/",
+        // "--connection_string=bigquery://gtai-amlai-sandbox-uat/my_bq_input_dataset?location=us-central1",
+        "--connection_string=duckdb://duckdb.ddb",
+        "--id=1234"
+    ],
+}
