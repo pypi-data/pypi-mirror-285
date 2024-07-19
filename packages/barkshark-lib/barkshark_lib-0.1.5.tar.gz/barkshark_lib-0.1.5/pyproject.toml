@@ -1,0 +1,77 @@
+[build-system]
+requires = ["setuptools >= 69.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "barkshark-lib"
+authors = [{name = "Zoey Mae", email = "admin@barkshark.xyz"}]
+description = "Collection of classes and functions used in most Barkshark projects"
+license = {text = "CNPL 7+"}
+keywords = [
+	"python"
+]
+classifiers = [
+	"Development Status :: 3 - Alpha",
+	"Intended Audience :: Developers",
+	"License :: Other/Proprietary License",
+	"Programming Language :: Python",
+	"Programming Language :: Python :: 3.10",
+	"Programming Language :: Python :: 3.11",
+	"Programming Language :: Python :: 3.12",
+	"Programming Language :: Python :: 3.13",
+	"Typing :: Typed"
+]
+requires-python = ">= 3.10"
+dynamic = ["version"]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown; charset=UTF-8"
+
+[project.urls]
+"Bug Tracker" = "https://git.barkshark.xyz/barkshark/blib/issues"
+Documentation = "https://docs.barkshark.xyz/blib"
+"Source Code" = "https://git.barkshark.xyz/barkshark/blib"
+
+[tool.setuptools.dynamic]
+version = {attr = "blib.__version__"}
+
+[project.optional-dependencies]
+docs = [
+    "furo == 2024.1.29",
+    "sphinx == 7.2.6",
+    "sphinx-external-toc == 1.0.1",
+]
+dev = [
+    "mypy == 1.9.0",
+    "flake8 == 7.0.0",
+    "typing_extensions >= 4.10.0; python_version < '3.11.0'"
+]
+
+[tool.setuptools]
+include-package-data = true
+packages = [
+	"blib"
+]
+platforms = ["any"]
+license-files = ["LICENSE.md"]
+
+[tool.setuptools.package-data]
+basgi = ["blib"]
+
+[tool.distutils.bdist_wheel]
+universal = false
+
+[tool.distutils.sdist]
+formats = "zip, gztar"
+
+[tool.mypy]
+show_traceback = true
+install_types = true
+pretty = true
+disallow_untyped_decorators = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_ignores = true
+strict = true
+implicit_reexport = true
