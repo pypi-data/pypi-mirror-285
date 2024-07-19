@@ -1,0 +1,162 @@
+Metadata-Version: 2.3
+Name: jppype
+Version: 0.2.0a4
+Summary: JupyterLab extension adding data visualisation widgets.
+Project-URL: Homepage,  https://github.com/gabriel-lepetitaimon/jppype
+Project-URL: Source, https://github.com/gabriel-lepetitaimon/jppype
+Author-email: Gabriel Lepetit-Aimon <gabriel.lepetitaimon@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2023 Gabriel Lepetit-Aimon
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: IPython,Jupyter,JupyterLab,Widgets
+Classifier: Development Status :: 4 - Beta
+Classifier: Framework :: IPython
+Classifier: Framework :: Jupyter
+Classifier: Framework :: Jupyter :: JupyterLab
+Classifier: Framework :: Jupyter :: JupyterLab :: 3
+Classifier: Framework :: Jupyter :: JupyterLab :: 4
+Classifier: Framework :: Jupyter :: JupyterLab :: Extensions
+Classifier: Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Requires-Dist: ipykernel~=6.22.0
+Requires-Dist: ipywidgets<9,~=8.0.5
+Requires-Dist: numpy
+Requires-Dist: strenum
+Requires-Dist: webcolors
+Provides-Extra: build
+Requires-Dist: build; extra == 'build'
+Requires-Dist: jupyterlab~=4.2; extra == 'build'
+Requires-Dist: tbump; extra == 'build'
+Provides-Extra: dev
+Requires-Dist: black; extra == 'dev'
+Requires-Dist: ruff; extra == 'dev'
+Provides-Extra: examples
+Description-Content-Type: text/markdown
+
+# Jupyter ProtoPype: jppype
+[![PyPI version](https://badge.fury.io/py/jppype.svg)](https://badge.fury.io/py/jppype)
+
+Jupyter extensions adding ipywidgets specialized for data-view. It is designed as a frontend for ProtoPype (to be released) but can be used as a standalone.
+
+The widgets work both with Jupyter Notebook and Jupyter Lab.
+
+## Installation
+
+To install use pip:
+
+```bash
+pip install jppype==0.2.0a3
+```
+
+Cv2 is required by jppype but is not listed in the package dependencies (to prevent version conflicts). You can install it with:
+```bash
+pip install opencv-python-headless
+```
+
+## Usage
+Import jppype in your notebook and use the widgets:
+```python
+import jppype as jpp
+```
+
+### 2D image viewer
+```python
+viewer = jpp.View2D()
+
+# Supported image formats: numpy array, torch tensor
+image = np.random.rand(100, 100) 
+viewer.add_image(image)
+viewer
+```
+
+## Features coming...
+
+- __Widgets__
+  - [x] 2D image viewer
+    - [x] Color images layer
+    - [x] Label layer
+    - [x] Graph layer
+    - [ ] Vector Field layer
+  - [ ] Table viewer
+
+
+- __Python interactivity__
+  - [x] Add/Update/Remove layers
+  - [x] Callback on click
+  - [ ] Async request of user selection (point, area, node, edge...) 
+
+## Development Installation
+
+Pull the latest version of the repository
+```bash
+git clone https://github.com/gabriel-lepetitaimon/jppype.git
+cd jppype
+````
+
+For a development installation (requires [Node.js](https://nodejs.org) and [Yarn version 1](https://classic.yarnpkg.com/)):
+```bash
+conda create -n jppype python
+conda install -c conda-forge yarn nodejs
+```
+
+Download the npm dependencies:
+```bash
+cd ts-src
+npm install
+cd ..
+```
+
+Upgrade jupyter-lab to version 4.0.0 if necessary:
+```bash
+pip install -U jupyterlab
+```
+
+Install the python package and the extensions in development mode (this stage may take a while as it will build the jupyterlab extension):
+```bash
+pip install -e .[dev,build]
+jupyter nbextension install --py --symlink --overwrite --sys-prefix jppype
+jupyter nbextension enable --py --sys-prefix jppype
+```
+If you which to develop for JupyterLab, also run the command:
+```bash
+jupyter labextension develop --overwrite jppype
+```
+
+Then you need to rebuild the JS when you make a code change:
+```bash
+cd ts-src
+jlpm clean
+jlpm build
+```
+or automatically rebuild when a file changes:
+```bash
+cd ts-src
+npm watch
+```
+
+You then need to refresh the JupyterLab page when your javascript changes.
