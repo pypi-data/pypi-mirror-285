@@ -1,0 +1,146 @@
+interactions:
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      connection:
+      - keep-alive
+    method: GET
+    uri: http://localhost:8000/v1/functions/by_path/test/sdk/test_image
+  response:
+    body:
+      string: '{"id":19,"uuid":"b097a02f-372d-48e5-b2df-996baca87813","dataset_uuid":"094b5829-e59f-4756-b835-18dcec700007","description":null,"few_shot_count":2,"few_shot":false,"index_ids":[],"input_schema":null,"instructions":"describe
+        the image","language_model_id":null,"model":"openai/gpt4-turbo","out_schema":null,"path":"test/sdk/test_image","project":{"uuid":"2910e8e2-f040-49ba-aafe-85e4352b2baf","name":"aa"},"revision":1,"use_semantic_search":false}'
+    headers:
+      content-length:
+      - '446'
+      content-type:
+      - application/json
+      date:
+      - Thu, 18 Jul 2024 12:29:05 GMT
+      server:
+      - uvicorn
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"uuid": "b097a02f-372d-48e5-b2df-996baca87813", "path": "test/sdk/test_image",
+      "description": null, "input_schema": null, "out_schema": null, "instructions":
+      "describe the image", "model": "openai/gpt4-turbo", "index_ids": [], "use_semantic_search":
+      null, "few_shot": null, "few_shot_count": null, "cache_configuration": null,
+      "dataset_uuid": null}'
+    headers:
+      accept:
+      - '*/*'
+      connection:
+      - keep-alive
+      content-length:
+      - '349'
+      content-type:
+      - application/json
+    method: PATCH
+    uri: http://localhost:8000/v1/functions/b097a02f-372d-48e5-b2df-996baca87813
+  response:
+    body:
+      string: '{"id":19,"uuid":"b097a02f-372d-48e5-b2df-996baca87813","dataset_uuid":"094b5829-e59f-4756-b835-18dcec700007","description":null,"few_shot_count":2,"few_shot":false,"index_ids":[],"input_schema":null,"instructions":"describe
+        the image","language_model_id":null,"model":"openai/gpt4-turbo","out_schema":null,"path":"test/sdk/test_image","project":{"uuid":"2910e8e2-f040-49ba-aafe-85e4352b2baf","name":"aa"},"revision":1,"use_semantic_search":false}'
+    headers:
+      content-length:
+      - '446'
+      content-type:
+      - application/json
+      date:
+      - Thu, 18 Jul 2024 12:29:05 GMT
+      server:
+      - uvicorn
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      connection:
+      - keep-alive
+    method: GET
+    uri: http://localhost:8000/v1/functions/b097a02f-372d-48e5-b2df-996baca87813
+  response:
+    body:
+      string: '{"id":19,"uuid":"b097a02f-372d-48e5-b2df-996baca87813","dataset_uuid":"094b5829-e59f-4756-b835-18dcec700007","description":null,"few_shot_count":2,"few_shot":false,"index_ids":[],"input_schema":null,"instructions":"describe
+        the image","language_model_id":null,"model":"openai/gpt4-turbo","out_schema":null,"path":"test/sdk/test_image","project":{"uuid":"2910e8e2-f040-49ba-aafe-85e4352b2baf","name":"aa"},"revision":1,"use_semantic_search":false}'
+    headers:
+      content-length:
+      - '446'
+      content-type:
+      - application/json
+      date:
+      - Thu, 18 Jul 2024 12:29:05 GMT
+      server:
+      - uvicorn
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"parent_span_uuid": null, "messages": [{"role": "user", "content": [{"type":
+      "image_url", "image_url": {"url": "https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e1/d3/e1d3fee9-9aaa-4599-ba67-1c71a6d0ed03/1200px-seymouria_fossil.jpg"}}]}]}'
+    headers:
+      accept:
+      - '*/*'
+      connection:
+      - keep-alive
+      content-length:
+      - '251'
+      content-type:
+      - application/json
+    method: POST
+    uri: http://localhost:8000/v1/chat/test/sdk/test_image
+  response:
+    body:
+      string: '{"span_id":"d9a66068-1f6c-4957-9a10-98d8cb2fe143","message":"This image
+        features a fossil of a prehistoric reptile, preserved excellently in a rock
+        matrix. The fossil presents a nearly complete skeleton with a clear view of
+        the skull, vertebral column, ribs, and limb bones. The textures of the bones
+        and the surrounding rock suggest that it might have been carefully excavated
+        to showcase as much detail as possible of the structure of the creature. The
+        fossil is displayed presumably for educational or scientific purposes, as
+        indicated by its setting on what looks like a museum display backdrop with
+        focused lighting to highlight the details of the fossilized skeleton. This
+        type of fossil is vital for paleontologists to study the anatomy and evolutionary
+        history of ancient species.","json_payload":null,"context":null,"cached":false}'
+    headers:
+      content-length:
+      - '840'
+      content-type:
+      - application/json
+      date:
+      - Thu, 18 Jul 2024 12:29:05 GMT
+      server:
+      - uvicorn
+    status:
+      code: 200
+      message: OK
+- request:
+    body: ''
+    headers:
+      accept:
+      - '*/*'
+      connection:
+      - keep-alive
+    method: DELETE
+    uri: http://localhost:8000/v1/functions/b097a02f-372d-48e5-b2df-996baca87813
+  response:
+    body:
+      string: ''
+    headers:
+      content-type:
+      - application/json
+      date:
+      - Thu, 18 Jul 2024 12:29:14 GMT
+      server:
+      - uvicorn
+    status:
+      code: 204
+      message: No Content
+version: 1
