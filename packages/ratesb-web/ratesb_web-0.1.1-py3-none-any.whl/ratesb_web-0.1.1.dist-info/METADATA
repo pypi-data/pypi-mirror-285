@@ -1,0 +1,66 @@
+Metadata-Version: 2.1
+Name: ratesb_web
+Version: 0.1.1
+Summary: backend support for ratesb
+Home-page: https://github.com/sys-bio/ratesb_web
+Author: Longxuan Fan
+Author-email: Longxuan Fan <longxuan@usc.edu>
+License: MIT License
+        
+        Copyright (c) 2023 UW Sauro Lab
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: sympy
+
+# ratesb_web: Rate Law Analysis for SBML and Antimony Models
+
+`ratesb_web` is the python backend support for ratesb. Basically it removes all the packages using c++ so that `ratesb_web` can be embedded in ratesb website. To use ratesb in python, please install [ratesb_python](https://github.com/sys-bio/ratesb_python).
+
+## Installation
+
+`ratesb_web` is not designed for python useage, but if you would like a pure python package, to install `ratesb_web`, execute the following command in your terminal:
+
+```bash
+pip install ratesb_web
+```
+
+## Versions
+
+0.1.0: initial release, prepared for integration with RateSB
+0.1.1: fixed classifier file path problem
+
+## Development
+
+Once a new version of `ratesb_python` is released, copy and paste all codes except for reaction_data.py (preprocessing the model data is different). Adjust testing accordingly. 
+
+Ideally we would like the same testing files for the two packages, but to achieve that we need python-libsbml and antimony, which are c++ based packages that cannot be used here. Working on a solution...
+
+## License
+
+`ratesb_web` is licensed under the MIT license. Please see the LICENSE file for more information.
+
+## Contact
+
+For additional queries, please contact Longxuan Fan at longxuan@usc.edu.
