@@ -1,0 +1,42 @@
+site_name: PyQtWaitingSpinner
+
+nav:
+    - Home: 'index.md'
+    - 'Reference':
+        - SpinnerParameters: 'spinner-parameters.md'
+        - WaitingSpinner: 'waiting-spinner.md'
+    - "About":
+        - Story Time: 'about.md'
+        - Credits: 'credits.md'
+
+theme:
+    # name: dracula
+    # name: windmill
+    # name: readthedocs
+    
+    # bootswatch themes
+    # name: darkly
+    # name: superhero
+    # name: psinder
+
+    name: mkdocs
+    color_mode: auto
+    user_color_mode_toggle: true
+    # include_sidebar: true  # see docs
+    custom_dir: mkdocs_custom_theme/
+
+
+markdown_extensions:
+    - markdown.extensions.attr_list
+    # - pymdownx.emoji
+    # - markdown.extensions.tables:
+    #     use_align_attribute: true
+    - toc:
+        title: "PyQtWaitingSpinner"
+        permalink: true
+
+exclude_docs: |
+    hooks/
+        
+hooks:
+    - docs/hooks/cphook.py
