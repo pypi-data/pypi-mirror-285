@@ -1,0 +1,126 @@
+{
+
+
+  "sessionSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "EEG Session Metadata",
+    "type": "object",
+    "properties": {
+      "user_id": {
+        "type": "string"
+      },
+      "session_date": {
+        "type": "string",
+        "format": "date"
+      },
+      "session_type": {
+        "description": "Type of the session",
+        "type": "string"
+      },
+      "session_tags": {
+        "description": "Tags for the session, they can be many",
+        "type": "array"
+      },
+      "additional_notes": {
+        "type": "string"
+      }
+    },
+    "required": ["user_id", "session_date", "session_type"]
+  },
+
+
+  "userSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "User Profile",
+    "type": "object",
+    "properties": {
+      "first_name": {
+        "type": "string"
+      },
+      "last_name": {
+        "type": "string"
+      },
+      "role": {
+        "type": "string"
+      },
+      "group": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string",
+        "format": "email"
+      },
+      "age": {
+        "type": "integer"
+      },
+      "weight": {
+        "type": "integer"
+      },
+      "gender": {
+        "type": "string"
+      },
+      "devices": {
+        "description": "List of owned devices' serial_numbers",
+        "type": "array"
+      }
+    },
+    "required": ["role","email"]
+  },
+
+
+  "tagSchema": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Tagged Interval",
+    "type": "object",
+    "properties": {
+      "session_id": {
+        "type": "string",
+        "description": "Reference to the session"
+      },
+      "eeg_data_id": {
+        "type": "string",
+        "description": "Reference to the EEG data document"
+      },
+      "start_time": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Start timestamp of the interval in ISO 8601 format"
+      },
+      "end_time": {
+        "type": "string",
+        "format": "date-time",
+        "description": "End timestamp of the interval in ISO 8601 format"
+      },
+      "channel_ids": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "description": "Channel IDs the tag applies to"
+        },
+        "description": "List of channel IDs the tag applies to. If empty, the tag applies to all channels"
+      },
+      "tags": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "description": "Label of the tag"
+            },
+            "properties": {
+              "type": "object",
+              "description": "Additional properties for the tag",
+              "additionalProperties": true
+            }
+          },
+          "required": ["tag"]
+        },
+        "description": "List of tags, each containing a tag label and associated properties"
+      }
+    },
+    "required": ["session_id", "eeg_data_id", "start_time", "end_time", "tags"]
+  }
+
+
+}
