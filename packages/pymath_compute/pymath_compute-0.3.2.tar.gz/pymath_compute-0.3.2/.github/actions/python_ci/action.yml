@@ -1,0 +1,27 @@
+name: Python CI 🐍
+description: CI that evaluates the Python linter
+
+# ----------------------------------- #
+#          DEFINE THE STEPS           #
+# ----------------------------------- #
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code 🔍
+      uses: actions/checkout@v2
+
+    - name: Set up Python 🐍
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+
+    - name: Install dependencies 🏗️
+      shell: bash
+      run: |
+        pip install poetry
+        poetry install
+
+    - name: Evaluate the linter ☢️
+      shell: bash
+      run: poetry run pylint pymath_compute/ --rcfile pyproject.toml

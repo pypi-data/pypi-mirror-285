@@ -1,0 +1,27 @@
+name: Rust CI 🦀
+description: Action that check the Rust code using the built-in cargo check
+
+# ----------------------------------- #
+#          DEFINE THE STEPS           #
+# ----------------------------------- #
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout code 🔍
+      uses: actions/checkout@v2
+
+    - name: Set up Rust 🦀
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+
+    - name: Check Rust code 🩺
+      shell: bash
+      run: cargo check --release
+
+    - name: Build Rust code 🧱
+      shell: bash
+      run: cargo build --release

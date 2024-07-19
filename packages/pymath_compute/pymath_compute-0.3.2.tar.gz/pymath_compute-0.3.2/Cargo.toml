@@ -1,0 +1,26 @@
+[package]
+name = "pymath_compute"
+version = "0.3.2"
+edition = "2021"
+description = "Tool to handle mathematical operations using Variables and Mathematical Expressions."
+authors = ["ricardoleal20 <rick.leal420@gmail.com>"]
+homepage = "https://pymath.ricardoleal20.dev"
+documentation = "https://pymath.ricardoleal20.dev/docs/"
+repository = "https://github.com/ricardoleal20/pymath_compute"
+license = "MIT"
+readme = "README.md"
+keywords = ["scientific_computing", "applied_math", "optimization"]
+classifiers = [
+    "Topic :: Scientific Development :: Mathematical Optimization",
+    "Topic :: Scientific Development :: Applied Mathematics",
+]
+
+
+[dependencies]
+pyo3 = { version = "0.16", features = ["extension-module"] }
+
+[lib]
+crate-type = ["cdylib"]
+
+[package.metadata.maturin]
+name = "pymath_compute.engine"
