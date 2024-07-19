@@ -1,0 +1,24 @@
+<div class="card">
+    <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip" title= "{{ stage.stage_tooltip }}" >
+    <div class="card-header" id="{{ stage.stage_name }}">
+        {% if stage.result_indication == 'info' %}
+            {{ stage.stage_name }}: {% if stage.stage_pass >= stage.pass_min %}<span class="badge bg-info text-dark">Info</span>{% else %}<span class="badge bg-warning text-dark">Warning</span>{% endif %}
+        {% else %}
+            {{ stage.stage_name }}: {% if stage.stage_pass >= stage.pass_min %}<span class="badge bg-success">Pass</span>{% elif stage.stage_pass >= stage.inconclusive_min %}<span class="badge bg-warning text-dark">Inconclusive</span>{% else %}<span class="badge bg-danger">Fail</span>{% endif %}
+        {% endif %}
+
+    </div>
+    </span>
+    <div class="card-body" id="card-body">
+        <samp>
+            {% for line in stage_report %}
+            {{ line | safe}}<br />
+            {% endfor %}
+        </samp>
+    </div>
+    <!-- Insert table here if available-->
+    {{ table|safe }}
+    <!-- Insert graph here if available-->
+    {{ graph|safe }}
+</div>
+<br>
