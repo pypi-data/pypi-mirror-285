@@ -1,0 +1,30 @@
+scan:
+  file:
+    video_list:
+      - "xxxx"
+    input_file_ext: ".m4s"
+    mac:
+      entry_file: "videoInfo.json"
+      group_name_field: "groupTitle"
+      file_name_field: "title"
+      file_header: "000000000"
+      audio_file_mark: "Sound"
+      video_file_mark: "Video"
+    phone:
+      entry_file: "entry.json"
+      group_name_field: "title"
+      page_data_field: "page_data"
+      page_data_part_field: "part"
+
+output:
+  directory: "../output"
+  process_result_file: "processed.txt"
+  codec: "copy"
+  filename:
+    audio: "audio"
+    video: "video"
+    extension:
+      av: ".mp4"
+      audio: ".m4a"
+
+environment: production
