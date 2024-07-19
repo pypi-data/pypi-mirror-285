@@ -1,0 +1,191 @@
+
+
+
+
+
+with "gnatcoll";
+with "gnatcoll_gmp";
+with "gnatcoll_iconv";
+
+   with "langkit_support";
+
+
+
+
+
+
+
+library project Librflxlang is
+
+   type Build_Mode_Type is ("dev", "prod", "prof");
+   Build_Mode : Build_Mode_Type :=
+     external ("LIBRFLXLANG_BUILD_MODE", external ("BUILD_MODE", "dev"));
+
+   type Library_Kind_Type is ("static", "relocatable", "static-pic");
+   Library_Kind_Param : Library_Kind_Type := external
+     ("LIBRFLXLANG_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
+
+   type Library_Standalone_Type is ("standard", "no", "encapsulated");
+   Library_Standalone : Library_Standalone_Type := external
+     ("LIBRFLXLANG_STANDALONE", external ("STANDALONE", "standard"));
+
+   type Boolean is ("false", "true");
+
+   Externally_Built : Boolean :=
+     external ("LIBRFLXLANG_EXTERNALLY_BUILT", "false");
+   for Externally_Built use Externally_Built;
+
+      Enable_Warnings : Boolean :=
+        external ("LIBRFLXLANG_WARNINGS", "false");
+
+   Primary_Source_Dirs := ("src");
+
+      for Source_Dirs use Primary_Source_Dirs;
+
+   for Languages use 
+   ("Ada", "C")
+;
+
+   Interfaces := 
+   ("librflxlang-analysis.adb", "librflxlang-analysis.ads", "librflxlang-c.adb", "librflxlang-c.ads", "librflxlang-common.adb", "librflxlang-common.ads", "librflxlang-debug.adb", "librflxlang-debug.ads", "librflxlang-generic_api-introspection.ads", "librflxlang-generic_api.adb", "librflxlang-generic_api.ads", "librflxlang-implementation-c.adb", "librflxlang-implementation-c.ads", "librflxlang-implementation.adb", "librflxlang-implementation.ads", "librflxlang-iterators.adb", "librflxlang-iterators.ads", "librflxlang-lexer.adb", "librflxlang-lexer.ads", "librflxlang-lexer_implementation.adb", "librflxlang-lexer_implementation.ads", "librflxlang-lexer_state_machine.adb", "librflxlang-lexer_state_machine.ads", "librflxlang-parsers.adb", "librflxlang-parsers.ads", "librflxlang-private_converters.adb", "librflxlang-private_converters.ads", "librflxlang-public_converters.adb", "librflxlang-public_converters.ads", "librflxlang.ads", "librflxlang.h")
+;
+   case Library_Standalone is
+      when "no" =>
+         null;
+      when "standard" | "encapsulated" =>
+         for Library_Standalone use Library_Standalone;
+         for Interfaces use Interfaces;
+   end case;
+
+
+   for Library_Name use "rflxlang";
+   for Library_Kind use Library_Kind_Param;
+   for Library_Dir use "lib/" & Library_Kind_Param & "/" & Build_Mode;
+   for Object_Dir use "obj/" & Build_Mode;
+
+   Target := Librflxlang'Target;
+
+   package Compiler is
+
+      For_All_Cargs := ("-fPIC");
+
+      ----------------------
+      -- Common_Ada_Cargs --
+      ----------------------
+
+      --  Compilation switches to use for Ada that do not depend on the build
+      --  mode.
+      --
+      --  For generated sources, enable all warnings and treat them as errors,
+      --  except:
+      --    * conditional expressions used in tests that are known to be True
+      --      or False at compile time (C), as this is very common in generated
+      --      properties code;
+      --    * variables that could be turned into constants (K), as this is
+      --      very common in generated parsers code;
+      --    * variables that are assigned and never read (M), as this is also
+      --      common in generated parsers code;
+      --    * redundant constructs (R), as we do have redundant conversions for
+      --      AST nodes (A'Class and B'Class are not compatible even though B
+      --      derives from A).
+      --
+      --  As for style diagnostics:
+      --    * check the casing of attributes (a);
+      --    * check double spaces before comments (c);
+      --    * check the casing of keywords (k);
+      --    * check the casing of entities in Standard (n);
+      --    * check the casing of pragmas (p);
+      --    * check the casing of references is the same as the casing of the
+      --      corresponding defining identifiers (r);
+      --    * check the token spacing (t).
+
+      Manual_Ada_Cargs := ();
+      Generated_Ada_Cargs := ();
+      case Enable_Warnings is
+         when "true" =>
+            Manual_Ada_Cargs := ("-gnatwa", "-gnatyg");
+            Generated_Ada_Cargs := ("-gnatwaCKMR", "-gnatyacknprt");
+         when others =>
+            null;
+      end case;
+
+      ---------------
+      -- Mode_Args --
+      ---------------
+
+      --  Compilation switches for all languages that depend on the build mode
+
+      Mode_Args := ();
+      case Build_Mode is
+         when "dev" =>
+            Mode_Args := ("-g", "-O0");
+
+         when "prof" =>
+            --  Ensure that we have a relatively fast build but with all
+            --  possible stack info & debug info, for profiling.
+            Mode_Args := ("-Og", "-ggdb", "-g3", "-fno-omit-frame-pointer");
+
+         when "prod" =>
+            --  Debug information is useful even with optimization for
+            --  profiling, for instance.
+            Mode_Args := ("-g", "-Ofast");
+      end case;
+
+      -------------------
+      -- Ada_Mode_Args --
+      -------------------
+
+      --  Compilation switches for Ada that depend on the build mode
+
+      Ada_Mode_Args := ();
+      case Build_Mode is
+         when "dev" =>
+            Ada_Mode_Args := ("-gnatwe", "-gnata");
+
+         when "prof" =>
+            null;
+
+         when "prod" =>
+            --  Enable aggressive inlining
+            Ada_Mode_Args := ("-gnatn2");
+      end case;
+
+      -----------------
+      -- C_Mode_Args --
+      -----------------
+
+      --  Compilation switches for C that depend on the build mode
+
+      C_Mode_Args := ();
+      case Build_Mode is
+         when "dev" =>
+            C_Mode_Args := ("-DDEBUG=1");
+
+         when "prof" =>
+            null;
+
+         when "prod" =>
+            null;
+      end case;
+
+      Common_Ada_Cargs := For_All_Cargs & Mode_Args & Ada_Mode_Args;
+      Common_C_Cargs := For_All_Cargs & Mode_Args & C_Mode_Args;
+
+      for Default_Switches ("Ada") use Common_Ada_Cargs & Generated_Ada_Cargs;
+      for Default_Switches ("C") use Common_C_Cargs;
+
+
+      case Build_Mode is
+         when "dev" =>
+            null;
+
+         when "prof" =>
+            null;
+
+         when "prod" =>
+            
+
+      end case;
+   end Compiler;
+
+end Librflxlang;

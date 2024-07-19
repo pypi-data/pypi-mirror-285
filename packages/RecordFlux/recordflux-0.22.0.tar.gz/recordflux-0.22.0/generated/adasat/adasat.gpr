@@ -1,0 +1,35 @@
+library project AdaSAT is
+   type Build_Mode_Type is ("dev", "prod", "prof");
+   Build_Mode : Build_Mode_Type :=
+      external ("BUILD_MODE", external ("ADASAT_BUILD_MODE", "dev"));
+
+   type Library_Kind_Type is ("static", "relocatable", "static-pic");
+   Library_Kind_Param : Library_Kind_Type := external
+     ("LIBRARY_TYPE", external ("ADASAT_LIBRARY_TYPE", "static"));
+
+   for Source_Dirs use ("src");
+   for Exec_Dir use "bin";
+   for Library_Dir use "lib/" & Library_Kind_Param & "/" & Build_Mode;
+   for Object_Dir use "obj/" & Library_Kind_Param & "/" & Build_Mode;
+   for Library_Name use "adasat";
+   for Library_Kind use Library_Kind_Param;
+
+   Common_Ada_Cargs := ("-gnatwa", "-gnatyg", "-fPIC");
+
+   package Compiler is
+      case Build_Mode is
+         when "dev" =>
+            for Default_Switches ("Ada") use
+               Common_Ada_Cargs & ("-g", "-O0", "-gnatwe", "-gnata");
+
+         when "prof" =>
+            for Default_Switches ("Ada") use
+               Common_Ada_Cargs
+                 & ("-Og", "-ggdb", "-g3", "-fno-omit-frame-pointer");
+
+         when "prod" =>
+            for Default_Switches ("Ada") use
+               Common_Ada_Cargs & ("-g", "-Ofast", "-gnatp", "-gnatn2", "-flto");
+      end case;
+   end Compiler;
+end AdaSAT;

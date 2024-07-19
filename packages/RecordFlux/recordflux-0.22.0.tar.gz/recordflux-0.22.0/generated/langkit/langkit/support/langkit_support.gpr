@@ -1,0 +1,103 @@
+with "gnatcoll";
+with "gnatcoll_gmp";
+with "gnatcoll_iconv";
+with "adasat";
+
+library project Langkit_Support is
+
+   type Build_Mode_Type is ("dev", "prod", "prof");
+   Build_Mode : Build_Mode_Type :=
+     external ("LANGKIT_SUPPORT_BUILD_MODE", external ("BUILD_MODE", "dev"));
+
+   type Library_Kind_Type is ("static", "relocatable", "static-pic");
+   Library_Kind_Param : Library_Kind_Type := external
+     ("LANGKIT_SUPPORT_LIBRARY_TYPE", external ("LIBRARY_TYPE", "static"));
+
+   type Library_Standalone_Type is ("standard", "no", "encapsulated");
+   Library_Standalone : Library_Standalone_Type := external
+     ("LANGKIT_SUPPORT_STANDALONE", external ("STANDALONE", "standard"));
+
+   for Languages use ("Ada");
+   for Source_Dirs use (".");
+   for Object_Dir use "obj/" & Build_Mode;
+
+   Library_Interface :=
+     ("Langkit_Support",
+      "Langkit_Support.Adalog",
+      "Langkit_Support.Adalog.Debug",
+      "Langkit_Support.Adalog.Logic_Var",
+      "Langkit_Support.Adalog.Main_Support",
+      "Langkit_Support.Adalog.Generic_Main_Support",
+      "Langkit_Support.Adalog.Solver_Interface",
+      "Langkit_Support.Adalog.Solver",
+      "Langkit_Support.Array_Utils",
+      "Langkit_Support.Boxes",
+      "Langkit_Support.Generic_Bump_Ptr",
+      "Langkit_Support.Bump_Ptr",
+      "Langkit_Support.Bump_Ptr_Vectors",
+      "Langkit_Support.Cheap_Sets",
+      "Langkit_Support.Diagnostics",
+      "Langkit_Support.Diagnostics.Output",
+      "Langkit_Support.Errors",
+      "Langkit_Support.Generic_API",
+      "Langkit_Support.Generic_API.Analysis",
+      "Langkit_Support.Generic_API.Introspection",
+      "Langkit_Support.File_Readers",
+      "Langkit_Support.Hashes",
+      "Langkit_Support.Images",
+      "Langkit_Support.Internal",
+      "Langkit_Support.Internal.Analysis",
+      "Langkit_Support.Internal.Conversions",
+      "Langkit_Support.Internal.Descriptor",
+      "Langkit_Support.Internal.Introspection",
+      "Langkit_Support.Iterators",
+      "Langkit_Support.Lexical_Envs",
+      "Langkit_Support.Lexical_Envs_Impl",
+      "Langkit_Support.Names",
+      "Langkit_Support.Names.Maps",
+      "Langkit_Support.Packrat",
+      "Langkit_Support.Relative_Get",
+      "Langkit_Support.Slocs",
+      "Langkit_Support.Symbols",
+      "Langkit_Support.Symbols.Precomputed",
+      "Langkit_Support.Text",
+      "Langkit_Support.Token_Data_Handlers",
+      "Langkit_Support.Types",
+      "Langkit_Support.Tree_Traversal_Iterator",
+      "Langkit_Support.Vectors");
+
+   case Library_Standalone is
+      when "no" =>
+         null;
+      when "standard" | "encapsulated" =>
+         for Library_Standalone use Library_Standalone;
+         for Library_Interface use Library_Interface;
+   end case;
+
+   for Library_Name use "langkit_support";
+   for Library_Kind use Library_Kind_Param;
+   for Library_Dir use "lib/" & Library_Kind_Param & "/" & Build_Mode;
+
+   Common_Ada_Cargs := ("-gnatwa", "-gnatyg", "-fPIC");
+
+   package Compiler is
+      case Build_Mode is
+         when "dev" =>
+            for Default_Switches ("Ada") use
+               Common_Ada_Cargs & ("-g", "-O0", "-gnatwe", "-gnata");
+
+         when "prod" =>
+            --  Debug information is useful even with optimization for
+            --  profiling, for instance.
+            for Default_Switches ("Ada") use
+               Common_Ada_Cargs & ("-g", "-Ofast");
+
+         when "prof" =>
+            --  Ensure that we have a relatively fast build but with all
+            --  possible stack info & debug info, for profiling.
+            for Default_Switches ("Ada") use
+               ("-Og", "-ggdb", "-g3", "-fno-omit-frame-pointer");
+      end case;
+   end Compiler;
+
+end Langkit_Support;
