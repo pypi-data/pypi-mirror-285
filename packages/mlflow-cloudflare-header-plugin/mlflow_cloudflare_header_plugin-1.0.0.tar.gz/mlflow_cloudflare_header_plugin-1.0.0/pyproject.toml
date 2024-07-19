@@ -1,0 +1,20 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+packages = [{include = "src/mlflow_cloudflare_header_plugin"}]
+
+[tool.poetry]
+name = "mlflow-cloudflare-header-plugin"
+version = "1.0.0"
+description = "MLFlow plugin that adds extra headers required for Cloudflare access to all outgoing MLFlow requests"
+authors = ["Maciej Blasiak <maciej.blasiak@goflink.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.9"
+mlflow = ">=2.9.0"
+
+
+[tool.poetry.plugins."mlflow.request_header_provider"]
+unused = "mlflow_cloudflare_header_plugin.cloudflare_auth_header_provider:CloudflareRequestHeaderProvider"
