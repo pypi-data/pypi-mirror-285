@@ -1,0 +1,31 @@
+{#- -*- mode: sgml; tab-width: 1; indent-tabs-mode: nil -*-
+ #
+ # SPDX-License-Identifier: MIT
+-#}
+
+{%- macro printParentRef(par) -%}
+<PARENT-REF ID-REF="{{par.layer.odx_id.local_id}}"
+            DOCREF="{{get_parent_container_name(par.layer.short_name)}}"
+            DOCTYPE="CONTAINER"
+            xsi:type="{{par.layer.variant_type.value}}-REF">
+{%- if par.not_inherited_diag_comms %}
+ <NOT-INHERITED-DIAG-COMMS>
+{%-  for nidc in par.not_inherited_diag_comms %}
+  <NOT-INHERITED-DIAG-COMM>
+   <DIAG-COMM-SNREF SHORT-NAME="{{nidc}}"/>
+  </NOT-INHERITED-DIAG-COMM>
+{%-  endfor %}
+ </NOT-INHERITED-DIAG-COMMS>
+{%- endif %}
+{%- if par.not_inherited_dops %}
+ <NOT-INHERITED-DOPS>
+{%-  for nidop in par.not_inherited_dops %}
+  <NOT-INHERITED-DOP>
+   <DOP-BASE-SNREF SHORT-NAME="{{nidop}}"/>
+  </NOT-INHERITED-DOP>
+{%-  endfor %}
+ </NOT-INHERITED-DOPS>
+{%- endif %}
+</PARENT-REF>
+{%- endmacro -%}
+

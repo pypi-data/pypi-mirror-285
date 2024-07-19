@@ -1,0 +1,90 @@
+{#- -*- mode: sgml; tab-width: 1; indent-tabs-mode: nil -*-
+ #
+ # SPDX-License-Identifier: MIT
+-#}
+
+{%- import('macros/printElementId.xml.jinja2') as peid %}
+{%- import('macros/printDiagComm.xml.jinja2') as pdc %}
+
+{%- macro printSingleEcuJob(job) -%}
+<SINGLE-ECU-JOB {{pdc.printDiagCommAttribs(job)|indent(1) }}>
+  {{pdc.printDiagCommSubtags(job) | indent(2, first=True) }}
+  <PROG-CODES>
+    {%- for prog in job.prog_codes %}
+    {{ printProgCode(prog)|indent(4) }}
+    {%- endfor %}
+  </PROG-CODES>
+  {%- if job.input_params %}
+  <INPUT-PARAMS>
+    {%- for param in job.input_params %}
+    {{ printInputParam(param)|indent(4) }}
+    {%- endfor %}
+  </INPUT-PARAMS>
+  {%- endif %}
+  {%- if job.output_params %}
+  <OUTPUT-PARAMS>
+    {%- for param in job.output_params %}
+    {{ printOutputParam(param)|indent(4) }}
+    {%- endfor %}
+  </OUTPUT-PARAMS>
+  {%- endif %}
+  {%- if job.neg_output_params %}
+  <NEG-OUTPUT-PARAMS>
+    {%- for param in job.neg_output_params %}
+    {{ printNegOutputParam(param)|indent(4) }}
+    {%- endfor %}
+  </NEG-OUTPUT-PARAMS>
+  {%- endif %}
+</SINGLE-ECU-JOB>
+{%- endmacro -%}
+
+
+{%- macro printProgCode(prog) -%}
+<PROG-CODE>
+ <CODE-FILE>{{prog.code_file}}</CODE-FILE>
+{%- if prog.encryption %}
+ <ENCRYPTION>{{prog.encryption}}</ENCRYPTION>
+{%- endif %}
+ <SYNTAX>{{prog.syntax}}</SYNTAX>
+ <REVISION>{{prog.revision}}</REVISION>
+{%- if prog.entrypoint %}
+ <ENTRYPOINT>{{prog.entrypoint}}</ENTRYPOINT>
+{%- endif %}
+{%- if prog.library_refs %}
+ <LIBRARY-REFS>
+ {%- for ref in prog.library_refs %}
+   <LIBRARY-REF ID-REF="{{ref.ref_id}}" />
+ {%- endfor %}
+ </LIBRARY-REFS>
+{%- endif %}
+</PROG-CODE>
+{%- endmacro -%}
+
+
+{%- macro printInputParam(param) -%}
+<INPUT-PARAM {{-make_xml_attrib("OID", param.oid)}}
+             {{-make_xml_attrib("SEMANTIC", param.semantic)}}>
+ {{ peid.printElementIdSubtags(param)|indent(1) }}
+{%- if param.physical_default_value %}
+ <PHYSICAL-DEFAULT-VALUE>{{param.physical_default_value}}</PHYSICAL-DEFAULT-VALUE>
+{%- endif %}
+ <DOP-BASE-REF ID-REF="{{param.dop_base_ref.ref_id}}" />
+</INPUT-PARAM>
+{%- endmacro -%}
+
+{%- macro printOutputParam(param) -%}
+<OUTPUT-PARAM ID="{{param.odx_id.local_id}}"
+              {{-make_xml_attrib("OID", param.oid)}}
+              {{-make_xml_attrib("SEMANTIC", param.semantic)}}>
+ {{ peid.printElementIdSubtags(param)|indent(1) }}
+ <DOP-BASE-REF ID-REF="{{param.dop_base_ref.ref_id}}" />
+</OUTPUT-PARAM>
+{%- endmacro -%}
+
+
+{%- macro printNegOutputParam(param) -%}
+<NEG-OUTPUT-PARAM>
+ {{ peid.printElementIdSubtags(param)|indent(1) }}
+ <DOP-BASE-REF ID-REF="{{param.dop_base_ref.ref_id}}" />
+</NEG-OUTPUT-PARAM>
+{%- endmacro -%}

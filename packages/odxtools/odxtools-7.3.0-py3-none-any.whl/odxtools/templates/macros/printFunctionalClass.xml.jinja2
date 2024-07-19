@@ -1,0 +1,13 @@
+
+{#- -*- mode: sgml; tab-width: 1; indent-tabs-mode: nil -*-
+ #
+ # SPDX-License-Identifier: MIT
+-#}
+
+{%- import('macros/printElementId.xml.jinja2') as peid %}
+
+{%- macro printFunctionalClass(fc) -%}
+<FUNCT-CLASS ID="{{fc.odx_id.local_id}}">
+ {{ peid.printElementIdSubtags(fc)|indent(1) }}
+</FUNCT-CLASS>
+{%- endmacro -%}
