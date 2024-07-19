@@ -1,0 +1,219 @@
+[
+  {
+    "type": "function",
+    "name": "getAccountOrdersValueUSD",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "totalValue",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAccountPositionsValueUSD",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "totalValue",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAccountValueUsdc",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "strategyAssetValue",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getOrderValueUSD",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "orderId",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "orderValueUSD",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPositionValue",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "market",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "valueUSD",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getSettledFundingFees",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "IGmxV2DataStore",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "market",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "shortToken",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "longToken",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "shortTokenAmountSettled",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "longTokenAmountSettled",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getSettledFundingFeesValueUSD",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "valueUSD",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "isLiquidationFinished",
+    "inputs": [
+      {
+        "name": "manager",
+        "type": "IGmxFrfStrategyManager",
+        "internalType": "contract IGmxFrfStrategyManager"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "stateMutability": "view"
+  }
+]

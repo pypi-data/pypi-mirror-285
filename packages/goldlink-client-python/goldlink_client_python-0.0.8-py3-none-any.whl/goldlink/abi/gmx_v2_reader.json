@@ -1,0 +1,3488 @@
+[
+  {
+    "type": "function",
+    "name": "getAccountOrders",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "start",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "end",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2OrderTypes.Props[]",
+        "components": [
+          {
+            "name": "addresses",
+            "type": "tuple",
+            "internalType": "struct IGmxV2OrderTypes.Addresses",
+            "components": [
+              {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "receiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "callbackContract",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "uiFeeReceiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "market",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "initialCollateralToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "swapPath",
+                "type": "address[]",
+                "internalType": "address[]"
+              }
+            ]
+          },
+          {
+            "name": "numbers",
+            "type": "tuple",
+            "internalType": "struct IGmxV2OrderTypes.Numbers",
+            "components": [
+              {
+                "name": "orderType",
+                "type": "uint8",
+                "internalType": "enum IGmxV2OrderTypes.OrderType"
+              },
+              {
+                "name": "decreasePositionSwapType",
+                "type": "uint8",
+                "internalType": "enum IGmxV2OrderTypes.DecreasePositionSwapType"
+              },
+              {
+                "name": "sizeDeltaUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "initialCollateralDeltaAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "triggerPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "acceptablePrice",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "executionFee",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "callbackGasLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "minOutputAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "updatedAtBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "flags",
+            "type": "tuple",
+            "internalType": "struct IGmxV2OrderTypes.Flags",
+            "components": [
+              {
+                "name": "isLong",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "shouldUnwrapNativeToken",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "isFrozen",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAccountPositionInfoList",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "referralStorage",
+        "type": "address",
+        "internalType": "contract IGmxV2ReferralStorage"
+      },
+      {
+        "name": "positionKeys",
+        "type": "bytes32[]",
+        "internalType": "bytes32[]"
+      },
+      {
+        "name": "prices",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices[]",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "uiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2PositionTypes.PositionInfo[]",
+        "components": [
+          {
+            "name": "position",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Props",
+            "components": [
+              {
+                "name": "addresses",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.Addresses",
+                "components": [
+                  {
+                    "name": "account",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "market",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "collateralToken",
+                    "type": "address",
+                    "internalType": "address"
+                  }
+                ]
+              },
+              {
+                "name": "numbers",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.Numbers",
+                "components": [
+                  {
+                    "name": "sizeInUsd",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "sizeInTokens",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "collateralAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "fundingFeeAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "longTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "shortTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "increasedAtBlock",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "decreasedAtBlock",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "flags",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.Flags",
+                "components": [
+                  {
+                    "name": "isLong",
+                    "type": "bool",
+                    "internalType": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "fees",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.PositionFees",
+            "components": [
+              {
+                "name": "referral",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionReferralFees",
+                "components": [
+                  {
+                    "name": "referralCode",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                  },
+                  {
+                    "name": "affiliate",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "trader",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "totalRebateFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "traderDiscountFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "totalRebateAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "traderDiscountAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "affiliateRewardAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "funding",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionFundingFees",
+                "components": [
+                  {
+                    "name": "fundingFeeAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "claimableLongTokenAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "claimableShortTokenAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "latestFundingFeeAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "latestLongTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "latestShortTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "borrowing",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionBorrowingFees",
+                "components": [
+                  {
+                    "name": "borrowingFeeUsd",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFeeAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFeeReceiverFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFeeAmountForFeeReceiver",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "ui",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionUiFees",
+                "components": [
+                  {
+                    "name": "uiFeeReceiver",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "uiFeeReceiverFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "uiFeeAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "collateralTokenPrice",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PriceTypes.Props",
+                "components": [
+                  {
+                    "name": "min",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "max",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "positionFeeFactor",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "protocolFeeAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "positionFeeReceiverFactor",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "feeReceiverAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "feeAmountForPool",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "positionFeeAmountForPool",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "positionFeeAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "totalCostAmountExcludingFunding",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "totalCostAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "executionPriceResult",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.ExecutionPriceResult",
+            "components": [
+              {
+                "name": "priceImpactUsd",
+                "type": "int256",
+                "internalType": "int256"
+              },
+              {
+                "name": "priceImpactDiffUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "executionPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "basePnlUsd",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "uncappedBasePnlUsd",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "pnlAfterPriceImpactUsd",
+            "type": "int256",
+            "internalType": "int256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAccountPositions",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "account",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "start",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "end",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2PositionTypes.Props[]",
+        "components": [
+          {
+            "name": "addresses",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Addresses",
+            "components": [
+              {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "market",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "collateralToken",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          },
+          {
+            "name": "numbers",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Numbers",
+            "components": [
+              {
+                "name": "sizeInUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sizeInTokens",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "collateralAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "borrowingFactor",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "fundingFeeAmountPerSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "longTokenClaimableFundingAmountPerSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "shortTokenClaimableFundingAmountPerSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "increasedAtBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "decreasedAtBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "flags",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Flags",
+            "components": [
+              {
+                "name": "isLong",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getAdlState",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "isLong",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getDepositAmountOut",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "longTokenAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "shortTokenAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "uiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getExecutionPrice",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "marketKey",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "indexTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "positionSizeInUsd",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "positionSizeInTokens",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "sizeDeltaUsd",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "isLong",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.ExecutionPriceResult",
+        "components": [
+          {
+            "name": "priceImpactUsd",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "priceImpactDiffUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "executionPrice",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarket",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "key",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarketBySalt",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "salt",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarketInfo",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "marketKey",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketInfo",
+        "components": [
+          {
+            "name": "market",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.Props",
+            "components": [
+              {
+                "name": "marketToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "indexToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "longToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "shortToken",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          },
+          {
+            "name": "borrowingFactorPerSecondForLongs",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "borrowingFactorPerSecondForShorts",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "baseFunding",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.BaseFundingValues",
+            "components": [
+              {
+                "name": "fundingFeeAmountPerSize",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "claimableFundingAmountPerSize",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "nextFunding",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.GetNextFundingAmountPerSizeResult",
+            "components": [
+              {
+                "name": "longsPayShorts",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "fundingFactorPerSecond",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "nextSavedFundingFactorPerSecond",
+                "type": "int256",
+                "internalType": "int256"
+              },
+              {
+                "name": "fundingFeeAmountPerSizeDelta",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "claimableFundingAmountPerSizeDelta",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "virtualInventory",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.VirtualInventory",
+            "components": [
+              {
+                "name": "virtualPoolAmountForLongToken",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "virtualPoolAmountForShortToken",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "virtualInventoryForPositions",
+                "type": "int256",
+                "internalType": "int256"
+              }
+            ]
+          },
+          {
+            "name": "isDisabled",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarketInfoList",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "marketPricesList",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices[]",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "start",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "end",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2MarketTypes.MarketInfo[]",
+        "components": [
+          {
+            "name": "market",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.Props",
+            "components": [
+              {
+                "name": "marketToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "indexToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "longToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "shortToken",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          },
+          {
+            "name": "borrowingFactorPerSecondForLongs",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "borrowingFactorPerSecondForShorts",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "baseFunding",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.BaseFundingValues",
+            "components": [
+              {
+                "name": "fundingFeeAmountPerSize",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "claimableFundingAmountPerSize",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "nextFunding",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.GetNextFundingAmountPerSizeResult",
+            "components": [
+              {
+                "name": "longsPayShorts",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "fundingFactorPerSecond",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "nextSavedFundingFactorPerSecond",
+                "type": "int256",
+                "internalType": "int256"
+              },
+              {
+                "name": "fundingFeeAmountPerSizeDelta",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "claimableFundingAmountPerSizeDelta",
+                "type": "tuple",
+                "internalType": "struct IGmxV2MarketTypes.PositionType",
+                "components": [
+                  {
+                    "name": "long",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "short",
+                    "type": "tuple",
+                    "internalType": "struct IGmxV2MarketTypes.CollateralType",
+                    "components": [
+                      {
+                        "name": "longToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      },
+                      {
+                        "name": "shortToken",
+                        "type": "uint256",
+                        "internalType": "uint256"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "virtualInventory",
+            "type": "tuple",
+            "internalType": "struct IGmxV2MarketTypes.VirtualInventory",
+            "components": [
+              {
+                "name": "virtualPoolAmountForLongToken",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "virtualPoolAmountForShortToken",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "virtualInventoryForPositions",
+                "type": "int256",
+                "internalType": "int256"
+              }
+            ]
+          },
+          {
+            "name": "isDisabled",
+            "type": "bool",
+            "internalType": "bool"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarketTokenPrice",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "indexTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "longTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "shortTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "pnlFactorType",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "maximize",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.PoolValueInfo",
+        "components": [
+          {
+            "name": "poolValue",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "longPnl",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "shortPnl",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "netPnl",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "longTokenAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "shortTokenAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "longTokenUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "shortTokenUsd",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "totalBorrowingFees",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "borrowingFeePoolFactor",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "impactPoolAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getMarkets",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "start",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "end",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple[]",
+        "internalType": "struct IGmxV2MarketTypes.Props[]",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getNetPnl",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "indexTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "maximize",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getOpenInterestWithPnl",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "indexTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "isLong",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "maximize",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getOrder",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "key",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2OrderTypes.Props",
+        "components": [
+          {
+            "name": "addresses",
+            "type": "tuple",
+            "internalType": "struct IGmxV2OrderTypes.Addresses",
+            "components": [
+              {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "receiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "callbackContract",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "uiFeeReceiver",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "market",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "initialCollateralToken",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "swapPath",
+                "type": "address[]",
+                "internalType": "address[]"
+              }
+            ]
+          },
+          {
+            "name": "numbers",
+            "type": "tuple",
+            "internalType": "struct IGmxV2OrderTypes.Numbers",
+            "components": [
+              {
+                "name": "orderType",
+                "type": "uint8",
+                "internalType": "enum IGmxV2OrderTypes.OrderType"
+              },
+              {
+                "name": "decreasePositionSwapType",
+                "type": "uint8",
+                "internalType": "enum IGmxV2OrderTypes.DecreasePositionSwapType"
+              },
+              {
+                "name": "sizeDeltaUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "initialCollateralDeltaAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "triggerPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "acceptablePrice",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "executionFee",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "callbackGasLimit",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "minOutputAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "updatedAtBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "flags",
+            "type": "tuple",
+            "internalType": "struct IGmxV2OrderTypes.Flags",
+            "components": [
+              {
+                "name": "isLong",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "shouldUnwrapNativeToken",
+                "type": "bool",
+                "internalType": "bool"
+              },
+              {
+                "name": "isFrozen",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPnl",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "indexTokenPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "isLong",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "maximize",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPnlToPoolFactor",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "marketAddress",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "isLong",
+        "type": "bool",
+        "internalType": "bool"
+      },
+      {
+        "name": "maximize",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPosition",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "key",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PositionTypes.Props",
+        "components": [
+          {
+            "name": "addresses",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Addresses",
+            "components": [
+              {
+                "name": "account",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "market",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "collateralToken",
+                "type": "address",
+                "internalType": "address"
+              }
+            ]
+          },
+          {
+            "name": "numbers",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Numbers",
+            "components": [
+              {
+                "name": "sizeInUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "sizeInTokens",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "collateralAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "borrowingFactor",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "fundingFeeAmountPerSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "longTokenClaimableFundingAmountPerSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "shortTokenClaimableFundingAmountPerSize",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "increasedAtBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "decreasedAtBlock",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "flags",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Flags",
+            "components": [
+              {
+                "name": "isLong",
+                "type": "bool",
+                "internalType": "bool"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPositionInfo",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "referralStorage",
+        "type": "address",
+        "internalType": "contract IGmxV2ReferralStorage"
+      },
+      {
+        "name": "positionKey",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "sizeDeltaUsd",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "uiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "usePositionSizeAsSizeDeltaUsd",
+        "type": "bool",
+        "internalType": "bool"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PositionTypes.PositionInfo",
+        "components": [
+          {
+            "name": "position",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.Props",
+            "components": [
+              {
+                "name": "addresses",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.Addresses",
+                "components": [
+                  {
+                    "name": "account",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "market",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "collateralToken",
+                    "type": "address",
+                    "internalType": "address"
+                  }
+                ]
+              },
+              {
+                "name": "numbers",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.Numbers",
+                "components": [
+                  {
+                    "name": "sizeInUsd",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "sizeInTokens",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "collateralAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "fundingFeeAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "longTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "shortTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "increasedAtBlock",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "decreasedAtBlock",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "flags",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.Flags",
+                "components": [
+                  {
+                    "name": "isLong",
+                    "type": "bool",
+                    "internalType": "bool"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "fees",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PositionTypes.PositionFees",
+            "components": [
+              {
+                "name": "referral",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionReferralFees",
+                "components": [
+                  {
+                    "name": "referralCode",
+                    "type": "bytes32",
+                    "internalType": "bytes32"
+                  },
+                  {
+                    "name": "affiliate",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "trader",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "totalRebateFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "traderDiscountFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "totalRebateAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "traderDiscountAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "affiliateRewardAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "funding",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionFundingFees",
+                "components": [
+                  {
+                    "name": "fundingFeeAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "claimableLongTokenAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "claimableShortTokenAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "latestFundingFeeAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "latestLongTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "latestShortTokenClaimableFundingAmountPerSize",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "borrowing",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionBorrowingFees",
+                "components": [
+                  {
+                    "name": "borrowingFeeUsd",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFeeAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFeeReceiverFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "borrowingFeeAmountForFeeReceiver",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "ui",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PositionTypes.PositionUiFees",
+                "components": [
+                  {
+                    "name": "uiFeeReceiver",
+                    "type": "address",
+                    "internalType": "address"
+                  },
+                  {
+                    "name": "uiFeeReceiverFactor",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "uiFeeAmount",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "collateralTokenPrice",
+                "type": "tuple",
+                "internalType": "struct IGmxV2PriceTypes.Props",
+                "components": [
+                  {
+                    "name": "min",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  },
+                  {
+                    "name": "max",
+                    "type": "uint256",
+                    "internalType": "uint256"
+                  }
+                ]
+              },
+              {
+                "name": "positionFeeFactor",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "protocolFeeAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "positionFeeReceiverFactor",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "feeReceiverAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "feeAmountForPool",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "positionFeeAmountForPool",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "positionFeeAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "totalCostAmountExcludingFunding",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "totalCostAmount",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "executionPriceResult",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.ExecutionPriceResult",
+            "components": [
+              {
+                "name": "priceImpactUsd",
+                "type": "int256",
+                "internalType": "int256"
+              },
+              {
+                "name": "priceImpactDiffUsd",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "executionPrice",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "basePnlUsd",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "uncappedBasePnlUsd",
+            "type": "int256",
+            "internalType": "int256"
+          },
+          {
+            "name": "pnlAfterPriceImpactUsd",
+            "type": "int256",
+            "internalType": "int256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getPositionPnlUsd",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "positionKey",
+        "type": "bytes32",
+        "internalType": "bytes32"
+      },
+      {
+        "name": "sizeDeltaUsd",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getSwapAmountOut",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "tokenIn",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "uiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "fees",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.SwapFees",
+        "components": [
+          {
+            "name": "feeReceiverAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "feeAmountForPool",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "amountAfterFees",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "uiFeeReceiver",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "uiFeeReceiverFactor",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "uiFeeAmount",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getSwapPriceImpact",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "marketKey",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "tokenIn",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "tokenOut",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "amountIn",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "tokenInPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      },
+      {
+        "name": "tokenOutPrice",
+        "type": "tuple",
+        "internalType": "struct IGmxV2PriceTypes.Props",
+        "components": [
+          {
+            "name": "min",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "max",
+            "type": "uint256",
+            "internalType": "uint256"
+          }
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      },
+      {
+        "name": "",
+        "type": "int256",
+        "internalType": "int256"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
+    "name": "getWithdrawalAmountOut",
+    "inputs": [
+      {
+        "name": "dataStore",
+        "type": "address",
+        "internalType": "contract IGmxV2DataStore"
+      },
+      {
+        "name": "market",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.Props",
+        "components": [
+          {
+            "name": "marketToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "indexToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "longToken",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "shortToken",
+            "type": "address",
+            "internalType": "address"
+          }
+        ]
+      },
+      {
+        "name": "prices",
+        "type": "tuple",
+        "internalType": "struct IGmxV2MarketTypes.MarketPrices",
+        "components": [
+          {
+            "name": "indexTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "longTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          },
+          {
+            "name": "shortTokenPrice",
+            "type": "tuple",
+            "internalType": "struct IGmxV2PriceTypes.Props",
+            "components": [
+              {
+                "name": "min",
+                "type": "uint256",
+                "internalType": "uint256"
+              },
+              {
+                "name": "max",
+                "type": "uint256",
+                "internalType": "uint256"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "marketTokenAmount",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "uiFeeReceiver",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      },
+      {
+        "name": "",
+        "type": "uint256",
+        "internalType": "uint256"
+      }
+    ],
+    "stateMutability": "view"
+  }
+]
