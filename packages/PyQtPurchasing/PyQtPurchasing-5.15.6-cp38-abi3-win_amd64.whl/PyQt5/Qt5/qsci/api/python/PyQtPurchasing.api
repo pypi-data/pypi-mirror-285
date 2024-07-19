@@ -1,0 +1,39 @@
+QtPurchasing.PYQT_PURCHASING_VERSION?7
+QtPurchasing.PYQT_PURCHASING_VERSION_STR?7
+QtPurchasing.QTPURCHASING_VERSION?7
+QtPurchasing.QTPURCHASING_VERSION_STR?7
+QtPurchasing.QInAppProduct.ProductType?10
+QtPurchasing.QInAppProduct.ProductType.Consumable?10
+QtPurchasing.QInAppProduct.ProductType.Unlockable?10
+QtPurchasing.QInAppProduct.identifier?4() -> QString
+QtPurchasing.QInAppProduct.productType?4() -> QInAppProduct.ProductType
+QtPurchasing.QInAppProduct.price?4() -> QString
+QtPurchasing.QInAppProduct.title?4() -> QString
+QtPurchasing.QInAppProduct.description?4() -> QString
+QtPurchasing.QInAppProduct.purchase?4()
+QtPurchasing.QInAppStore?1(QObject parent=None)
+QtPurchasing.QInAppStore.__init__?1(self, QObject parent=None)
+QtPurchasing.QInAppStore.restorePurchases?4()
+QtPurchasing.QInAppStore.registerProduct?4(QInAppProduct.ProductType, QString)
+QtPurchasing.QInAppStore.registeredProduct?4(QString) -> QInAppProduct
+QtPurchasing.QInAppStore.setPlatformProperty?4(QString, QString)
+QtPurchasing.QInAppStore.productRegistered?4(QInAppProduct)
+QtPurchasing.QInAppStore.productUnknown?4(QInAppProduct.ProductType, QString)
+QtPurchasing.QInAppStore.transactionReady?4(QInAppTransaction)
+QtPurchasing.QInAppTransaction.FailureReason?10
+QtPurchasing.QInAppTransaction.FailureReason.NoFailure?10
+QtPurchasing.QInAppTransaction.FailureReason.CanceledByUser?10
+QtPurchasing.QInAppTransaction.FailureReason.ErrorOccurred?10
+QtPurchasing.QInAppTransaction.TransactionStatus?10
+QtPurchasing.QInAppTransaction.TransactionStatus.Unknown?10
+QtPurchasing.QInAppTransaction.TransactionStatus.PurchaseApproved?10
+QtPurchasing.QInAppTransaction.TransactionStatus.PurchaseFailed?10
+QtPurchasing.QInAppTransaction.TransactionStatus.PurchaseRestored?10
+QtPurchasing.QInAppTransaction.product?4() -> QInAppProduct
+QtPurchasing.QInAppTransaction.orderId?4() -> QString
+QtPurchasing.QInAppTransaction.failureReason?4() -> QInAppTransaction.FailureReason
+QtPurchasing.QInAppTransaction.errorString?4() -> QString
+QtPurchasing.QInAppTransaction.timestamp?4() -> QDateTime
+QtPurchasing.QInAppTransaction.finalize?4()
+QtPurchasing.QInAppTransaction.platformProperty?4(QString) -> QString
+QtPurchasing.QInAppTransaction.status?4() -> QInAppTransaction.TransactionStatus
