@@ -1,0 +1,78 @@
+Metadata-Version: 2.3
+Name: summawise
+Version: 0.4.0
+Summary: Summarize information from vectorized files using OpenAI's powerful models, and explore data further with an interactive prompt for deep dives into content.
+Project-URL: Homepage, https://github.com/ooojustin/summawise
+Project-URL: Documentation, https://github.com/ooojustin/summawise#readme
+Project-URL: Source, https://github.com/ooojustin/summawise
+Project-URL: Tracker, https://github.com/ooojustin/summawise/issues
+Project-URL: Changelog, https://github.com/ooojustin/summawise/blob/main/CHANGELOG.md
+Author-email: Justin Garofolo <justin@garofolo.net>
+License: GPLv3
+License-File: LICENSE
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Text Processing :: General
+Classifier: Typing :: Typed
+Requires-Python: >=3.8
+Requires-Dist: openai>=1.35.0
+Requires-Dist: requests>=2.32.0
+Requires-Dist: validators>=0.28.0
+Requires-Dist: youtube-transcript-api>=0.6.0
+Description-Content-Type: text/markdown
+
+# summawise
+
+[![PyPI - Version](https://img.shields.io/pypi/v/summawise?color=00B4FF)](https://pypi.org/project/summawise/)
+[![PyPI - License](https://img.shields.io/pypi/l/summawise)](https://github.com/ooojustin/summawise/blob/main/LICENSE)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/summawise)](https://pypi.org/project/summawise/)
+
+Summarize information from vectorized files using OpenAI's powerful models, and explore data further with an interactive prompt for deep dives into content.
+
+## Installation
+
+For the sake of convenience (and to be added to your `$PATH`), the program is available via PyPI:
+
+```bash
+pip install --upgrade summawise
+```
+
+## Notes
+
+This tool uses OpenAI API features which are currently in beta.
+
+**Resources:**
+
+- [Assistants API](https://platform.openai.com/docs/assistants/overview)
+- [Threads](https://platform.openai.com/docs/api-reference/threads)
+- [Vector Stores](https://platform.openai.com/docs/api-reference/vector-stores)
+- [File Search (assistant "tool")](https://platform.openai.com/docs/assistants/tools/file-search)
+
+## Information
+
+The following inputs are supported:
+
+- YouTube video URLs. (Transcript is extracted and used as text)
+- Local files. (Any type of content, file will be uploaded byte for byte)
+- Local directories. (Includes files in nested directories)
+- Other URLs, depending on the response content. (Text content, PDF files, and HTML are all supported)
+
+Support for a wider variety of input may be added in the future.
+
+### Potential improvements:
+
+- Archive support (Both URLs and local files - automatically extract/upload contents of `.zip`/`.tar.gz` files)
+- Multiple "assistants" with more intricate instructions, which would be selected based on the type of information being analyzed.
+  - A custom assistant can already be used by manually changing the "assistant_id" property in settings file.
+- User friendly command line interface.
