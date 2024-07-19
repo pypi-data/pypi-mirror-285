@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hwaddress"
+version = "1.0.0"
+authors = [
+  { name="Eric Geldmacher", email="egeldmacher@wustl.edu" },
+]
+description = "Lightweight EUI-48/64 based hardware (MAC) address library."
+readme = "README.rst"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://codeberg.org/nbcli/hwaddress"
+"Bug Tracker" = "https://codeberg.org/nbcli/hwaddress/issues"
+
+[tool.black]
+line-length = 100
+
+[tool.flake8]
+extend-ignore = ["E203"]
+max-line-length = 100
+per-file-ignores = ["__init__.py:F401"]
