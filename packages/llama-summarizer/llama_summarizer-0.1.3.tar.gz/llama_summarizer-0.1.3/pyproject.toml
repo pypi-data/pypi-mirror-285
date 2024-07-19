@@ -1,0 +1,28 @@
+[build-system]
+requires = ["scikit-build-core[pyproject]>=0.5.1"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "llama-summarizer"
+version = "0.1.3"
+requires-python = ">=3.11"
+dependencies = [
+  "Jinja2>=3.1.3",
+  "llama_cpp_python>=0.2.64",
+  "requests>=2.31.0",
+  "yt-dlp>=2024.4.9",
+  "huggingface_hub>=0.22.1",
+  "whisper-cpp-python-smr>=0.1"
+]
+readme = "README.md"
+
+[tool.setuptools]
+packages = ["summarizer"]
+
+[project.scripts]
+summarize = "summarizer:cli_main"
+summarize_ext = "summarizer:extension_main"
+
+[tool.scikit-build]
+wheel.packages = ["summarizer"]
+cmake.verbose = true
