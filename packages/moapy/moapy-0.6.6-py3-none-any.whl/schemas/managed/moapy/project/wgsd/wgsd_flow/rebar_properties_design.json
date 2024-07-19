@@ -1,0 +1,311 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_flow/rebar_properties_design": {
+      "post": {
+        "summary": "Rebar Properties Design",
+        "description": "Return the material properties based on the design code\n\nArgs:\n    general: general rebar properties\n    uls: rebar stress options for ULS\n    sls: rebar stress options for SLS\n\nreturn:\n    MaterialRebar: material properties of selected data",
+        "operationId": "rebar properties design",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/rebar_properties_design"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialRebar"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MaterialRebar": {
+        "properties": {
+          "grade": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RebarGrade"
+              }
+            ],
+            "description": "Grade of the rebar",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "Grade 420"
+            }
+          },
+          "curve_uls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Uls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.0025
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.05
+              }
+            ]
+          },
+          "curve_sls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Sls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.0025
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.05
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Material Rebar",
+        "description": "GSD rebar class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.MaterialRebar"
+      },
+      "RebarGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the rebar",
+            "default": "Grade 420"
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Grade",
+        "description": "GSD rebar grade class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.RebarGrade"
+      },
+      "Rebar_General_Properties": {
+        "properties": {
+          "strength": {
+            "type": "integer",
+            "title": "Strength",
+            "description": "Grade of the rebar",
+            "default": 420
+          },
+          "elastic_modulus": {
+            "type": "number",
+            "title": "Elastic Modulus",
+            "description": "Elastic modulus of the rebar",
+            "default": 200000
+          },
+          "density": {
+            "type": "number",
+            "title": "Density",
+            "description": "Density of the rebar",
+            "default": 7850
+          },
+          "thermal_expansion_coefficient": {
+            "type": "number",
+            "title": "Thermal Expansion Coefficient",
+            "description": "Thermal expansion coefficient of the rebar",
+            "default": 1e-05
+          },
+          "poisson_ratio": {
+            "type": "number",
+            "title": "Poisson Ratio",
+            "description": "Poisson ratio of the rebar",
+            "default": 0.3
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar General Properties",
+        "description": "GSD rebar general properties for calculation",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Rebar_General_Properties"
+      },
+      "Rebar_Stress_SLS_Options": {
+        "properties": {
+          "material_model": {
+            "type": "string",
+            "title": "Material Model",
+            "description": "Material model for SLS",
+            "default": "Elastic-Plastic"
+          },
+          "failure_strain": {
+            "type": "number",
+            "title": "Failure Strain",
+            "default": 0.7,
+            "metadata": {
+              "default": 0.7,
+              "description": "Failure strain limit for SLS"
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Stress Options for SLS",
+        "description": "GSD rebar stress options for SLS",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Rebar_Stress_SLS_Options"
+      },
+      "Rebar_Stress_ULS_Options_ACI": {
+        "properties": {
+          "material_model": {
+            "type": "string",
+            "title": "Material Model",
+            "description": "Material model for ULS",
+            "default": "Elastic-Plastic"
+          },
+          "failure_strain": {
+            "type": "number",
+            "title": "Failure Strain",
+            "description": "Failure strain limit for ULS",
+            "default": 0.7
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Stress Options for ULS",
+        "description": "GSD rebar stress options for ULS",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Rebar_Stress_ULS_Options_ACI"
+      },
+      "Stress_Strain_Component": {
+        "properties": {
+          "stress": {
+            "type": "number",
+            "title": "Stress",
+            "description": "Stress",
+            "default": 0.0
+          },
+          "strain": {
+            "type": "number",
+            "title": "Strain",
+            "description": "Strain",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "Stress Strain Component",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Stress_Strain_Component"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "rebar_properties_design": {
+        "properties": {
+          "general": {
+            "$ref": "#/components/schemas/Rebar_General_Properties"
+          },
+          "uls": {
+            "$ref": "#/components/schemas/Rebar_Stress_ULS_Options_ACI"
+          },
+          "sls": {
+            "$ref": "#/components/schemas/Rebar_Stress_SLS_Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "general",
+          "uls",
+          "sls"
+        ],
+        "title": "rebar properties design"
+      }
+    }
+  }
+}

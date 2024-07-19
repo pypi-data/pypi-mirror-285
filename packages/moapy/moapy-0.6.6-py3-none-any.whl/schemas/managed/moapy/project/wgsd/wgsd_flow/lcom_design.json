@@ -1,0 +1,251 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_flow/lcom_design": {
+      "post": {
+        "summary": "Lcom Design",
+        "operationId": "lcom design",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/lcom_design"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Lcb"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Force": {
+        "properties": {
+          "Nz": {
+            "type": "number",
+            "title": "Nz",
+            "description": "Axial force",
+            "default": 0.0
+          },
+          "Mx": {
+            "type": "number",
+            "title": "Mx",
+            "description": "Moment about x-axis",
+            "default": 0.0
+          },
+          "My": {
+            "type": "number",
+            "title": "My",
+            "description": "Moment about y-axis",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "Force",
+        "description": "Force class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Force"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Lcb": {
+        "properties": {
+          "uls": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Lcoms-Output"
+              }
+            ],
+            "description": "uls load combination",
+            "default": {
+              "lcoms": [
+                {
+                  "f": {
+                    "Mx": 10.0,
+                    "My": 50.0,
+                    "Nz": 100.0
+                  },
+                  "name": "uls1"
+                }
+              ]
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Load Combination",
+        "description": "GSD load combination class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Lcb"
+      },
+      "Lcom": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "load combination name",
+            "default": "lcom"
+          },
+          "f": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Force"
+              }
+            ],
+            "description": "load combination force",
+            "default": {
+              "Nz": 0.0,
+              "Mx": 0.0,
+              "My": 0.0
+            }
+          }
+        },
+        "type": "object",
+        "title": "Lcom Result",
+        "description": "Lcom result class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Lcom"
+      },
+      "Lcoms-Input": {
+        "properties": {
+          "lcoms": {
+            "items": {
+              "$ref": "#/components/schemas/Lcom"
+            },
+            "type": "array",
+            "title": "Lcoms",
+            "description": "load combination result",
+            "default": [
+              {
+                "name": "uls1",
+                "f": {
+                  "Mx": 10.0,
+                  "My": 50.0,
+                  "Nz": 100.0
+                }
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Strength Result",
+        "description": "Strength result class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Lcoms"
+      },
+      "Lcoms-Output": {
+        "properties": {
+          "lcoms": {
+            "items": {
+              "$ref": "#/components/schemas/Lcom"
+            },
+            "type": "array",
+            "title": "Lcoms",
+            "description": "load combination result",
+            "default": [
+              {
+                "name": "uls1",
+                "f": {
+                  "Mx": 10.0,
+                  "My": 50.0,
+                  "Nz": 100.0
+                }
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "Strength Result",
+        "description": "Strength result class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Lcoms"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "lcom_design": {
+        "properties": {
+          "uls": {
+            "$ref": "#/components/schemas/Lcoms-Input"
+          }
+        },
+        "type": "object",
+        "required": [
+          "uls"
+        ],
+        "title": "lcom design"
+      }
+    }
+  }
+}

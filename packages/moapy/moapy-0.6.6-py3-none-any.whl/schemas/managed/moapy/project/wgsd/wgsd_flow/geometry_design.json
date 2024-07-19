@@ -1,0 +1,649 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_flow/geometry_design": {
+      "post": {
+        "summary": "Geometry Design",
+        "operationId": "geometry design",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/geometry_design"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Geometry"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConcreteGeometry-Input": {
+        "properties": {
+          "outerPolygon": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Points"
+              }
+            ],
+            "description": "Outer polygon of the concrete",
+            "default": {
+              "points": [
+                {
+                  "x": 0.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 400.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 400.0,
+                  "y": 600.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 600.0
+                }
+              ]
+            }
+          },
+          "innerPolygon": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Points"
+              }
+            ],
+            "description": "Inner polygon of the concrete"
+          },
+          "material": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConcreteGrade"
+              }
+            ],
+            "description": "Material of the concrete",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "C12"
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Geometry",
+        "description": "GSD concrete geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.ConcreteGeometry"
+      },
+      "ConcreteGeometry-Output": {
+        "properties": {
+          "outerPolygon": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Points"
+              }
+            ],
+            "description": "Outer polygon of the concrete",
+            "default": {
+              "points": [
+                {
+                  "x": 0.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 400.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 400.0,
+                  "y": 600.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 600.0
+                }
+              ]
+            }
+          },
+          "innerPolygon": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Points"
+              }
+            ],
+            "description": "Inner polygon of the concrete"
+          },
+          "material": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConcreteGrade"
+              }
+            ],
+            "description": "Material of the concrete",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "C12"
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Geometry",
+        "description": "GSD concrete geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.ConcreteGeometry"
+      },
+      "ConcreteGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the concrete",
+            "default": "C12"
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Grade",
+        "description": "GSD concrete class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.ConcreteGrade"
+      },
+      "Geometry": {
+        "properties": {
+          "concrete": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConcreteGeometry-Output"
+              }
+            ],
+            "description": "Concrete geometry",
+            "default": {
+              "outerPolygon": {
+                "points": [
+                  {
+                    "x": 0.0,
+                    "y": 0.0
+                  },
+                  {
+                    "x": 400.0,
+                    "y": 0.0
+                  },
+                  {
+                    "x": 400.0,
+                    "y": 600.0
+                  },
+                  {
+                    "x": 0.0,
+                    "y": 600.0
+                  }
+                ]
+              },
+              "material": {
+                "design_code": "ACI318M-19",
+                "grade": "C12"
+              }
+            }
+          },
+          "rebar": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RebarGeometry-Output"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Rebar geometry",
+            "default": {
+              "points": [
+                {
+                  "x": 40.0,
+                  "y": 40.0
+                },
+                {
+                  "x": 360.0,
+                  "y": 40.0
+                },
+                {
+                  "x": 360.0,
+                  "y": 560.0
+                },
+                {
+                  "x": 40.0,
+                  "y": 560.0
+                }
+              ],
+              "prop": {
+                "area": 287.0,
+                "material": {
+                  "design_code": "ACI318M-19",
+                  "grade": "Grade 420"
+                }
+              }
+            }
+          },
+          "tendon": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TendonGeometry"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tender geometry",
+            "default": {
+              "points": [
+                {
+                  "x": 200.0,
+                  "y": 100.0
+                }
+              ],
+              "prop": {
+                "area": 287.0,
+                "material": {
+                  "design_code": "ACI318M-19",
+                  "grade": "Grade 420"
+                },
+                "prestress": 0.0
+              }
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Geometry",
+        "description": "GSD geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Geometry"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Point": {
+        "properties": {
+          "x": {
+            "type": "number",
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "title": "Y"
+          }
+        },
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "title": "Point",
+        "description": "Point class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Point"
+      },
+      "Points": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Points",
+            "default": [
+              {
+                "x": 0.0,
+                "y": 0.0
+              },
+              {
+                "x": 400.0,
+                "y": 0.0
+              },
+              {
+                "x": 400.0,
+                "y": 600.0
+              },
+              {
+                "x": 0.0,
+                "y": 600.0
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Points",
+        "description": "GSD Points class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Points"
+      },
+      "RebarGeometry-Input": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Rebar Points",
+            "default": [
+              {
+                "x": 40.0,
+                "y": 40.0
+              },
+              {
+                "x": 360.0,
+                "y": 40.0
+              },
+              {
+                "x": 360.0,
+                "y": 560.0
+              },
+              {
+                "x": 40.0,
+                "y": 560.0
+              }
+            ]
+          },
+          "prop": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RebarProp"
+              }
+            ],
+            "description": "properties of the rebar",
+            "default": {
+              "area": 287.0,
+              "material": {
+                "design_code": "ACI318M-19",
+                "grade": "Grade 420"
+              }
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Geometry",
+        "description": "GSD rebar geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.RebarGeometry"
+      },
+      "RebarGeometry-Output": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Rebar Points",
+            "default": [
+              {
+                "x": 40.0,
+                "y": 40.0
+              },
+              {
+                "x": 360.0,
+                "y": 40.0
+              },
+              {
+                "x": 360.0,
+                "y": 560.0
+              },
+              {
+                "x": 40.0,
+                "y": 560.0
+              }
+            ]
+          },
+          "prop": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RebarProp"
+              }
+            ],
+            "description": "properties of the rebar",
+            "default": {
+              "area": 287.0,
+              "material": {
+                "design_code": "ACI318M-19",
+                "grade": "Grade 420"
+              }
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Geometry",
+        "description": "GSD rebar geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.RebarGeometry"
+      },
+      "RebarGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the rebar",
+            "default": "Grade 420"
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Grade",
+        "description": "GSD rebar grade class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.RebarGrade"
+      },
+      "RebarProp": {
+        "properties": {
+          "area": {
+            "type": "number",
+            "title": "Area",
+            "description": "Area of the rebar",
+            "default": 287.0
+          },
+          "material": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RebarGrade"
+              }
+            ],
+            "description": "Material of the rebar",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "Grade 420"
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Properties",
+        "description": "GSD rebar prop",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.RebarProp"
+      },
+      "TendonGeometry": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Tendon Points",
+            "default": [
+              {
+                "x": 200.0,
+                "y": 100.0
+              }
+            ]
+          },
+          "prop": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TendonProp"
+              }
+            ],
+            "description": "properties of the tender",
+            "default": {
+              "area": 287.0,
+              "material": {
+                "design_code": "ACI318M-19",
+                "grade": "Grade 420"
+              },
+              "prestress": 0.0
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Tender Geometry",
+        "description": "GSD tender geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonGeometry"
+      },
+      "TendonGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the tendon",
+            "default": "Grade 420"
+          }
+        },
+        "type": "object",
+        "title": "GSD Tendon Grade",
+        "description": "GSD Tendon grade class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonGrade"
+      },
+      "TendonProp": {
+        "properties": {
+          "area": {
+            "type": "number",
+            "title": "Area",
+            "description": "Area of the tendon",
+            "default": 287.0
+          },
+          "material": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TendonGrade"
+              }
+            ],
+            "description": "Material of the tendon",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "Grade 420"
+            }
+          },
+          "prestress": {
+            "type": "number",
+            "title": "Prestress",
+            "description": "Prestress of the tendon",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "GSD Tendon Properties",
+        "description": "GSD Tendon prop",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonProp"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "geometry_design": {
+        "properties": {
+          "concrete": {
+            "$ref": "#/components/schemas/ConcreteGeometry-Input"
+          },
+          "rebar": {
+            "$ref": "#/components/schemas/RebarGeometry-Input"
+          }
+        },
+        "type": "object",
+        "required": [
+          "concrete",
+          "rebar"
+        ],
+        "title": "geometry design"
+      }
+    }
+  }
+}
