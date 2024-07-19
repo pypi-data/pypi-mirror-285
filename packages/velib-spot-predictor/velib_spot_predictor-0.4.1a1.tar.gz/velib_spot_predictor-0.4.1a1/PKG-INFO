@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: velib-spot-predictor
+Version: 0.4.1a1
+Summary: Predicting spots at Velib stations
+Author: Clément Côme
+Author-email: clement.come98@gmail.com
+Requires-Python: >=3.9, !=2.7.*, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, !=3.6.*, !=3.7.*, !=3.8.*
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: alembic (>=1.12.0,<2.0.0)
+Requires-Dist: boto3 (>=1.28.40,<2.0.0)
+Requires-Dist: boto3-stubs[essential] (>=1.34.144,<2.0.0)
+Requires-Dist: click (>=8.1.7,<9.0.0)
+Requires-Dist: fastapi (>=0.103.0,<0.104.0)
+Requires-Dist: geopandas (>=0.13.2,<0.14.0)
+Requires-Dist: loguru (>=0.7.2,<0.8.0)
+Requires-Dist: mysql-connector-python (>=8.1.0,<9.0.0)
+Requires-Dist: numpy (>=1.25.2,<2.0.0)
+Requires-Dist: pandas (>=2.1.0,<3.0.0)
+Requires-Dist: pydantic (>=2.3.0,<3.0.0)
+Requires-Dist: pydantic-settings (>=2.0.3,<3.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: scikit-learn (>=1.3.0,<2.0.0)
+Requires-Dist: scipy (>=1.11.2,<2.0.0)
+Requires-Dist: sqlalchemy (>=2.0.21,<3.0.0)
+Requires-Dist: tqdm (>=4.66.1,<5.0.0)
+Requires-Dist: uvicorn (>=0.23.2,<0.24.0)
+Description-Content-Type: text/markdown
+
+# Velib Spot Predictor
+
+This project aims at developing an end-to-end project using Paris Open Data on velib stations in order to predict the available Velib spots.
+
+## Getting started
+
+## Usage
+
+### Launching the API
+```bash
+uvicorn velib_spot_predictor.api:app --reload
+```
+
+## Deployment
+
+### Docker
+Image is published in clementcome/velib repository.
+
+### PyPI
+Package is published under velib-spot-predictor package.
+
+## Development
+
+### Installation
+
+To develop locally, clone the repo and in a virtual environment with python 3.9 and poetry installed, run the command `poetry install`.
+
