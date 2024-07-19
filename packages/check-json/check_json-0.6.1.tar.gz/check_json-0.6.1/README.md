@@ -1,0 +1,180 @@
+check_json
+===========
+
+Check_json is a [Nagios]/[Icinga2] plugin for monitoring JSON files and URIs with [Jq] filters.
+
+Requires Python 3.6+
+
+# Installation
+
+You can install with [pip]:
+
+```sh
+python3 -m pip install check-json
+```
+
+Or install from source:
+
+```sh
+git clone https://gitlab.com/cspeterson/check_json.git check_json.git
+pip install check_json.git
+```
+
+# Usage
+
+Pass the plugin any number of Jq filters (with thresholds) and a JSON source. The source can be either a file or an HTTP/S URI.
+
+Essentially, any valid Jq filter you can formulate that returns a numerical value for comparison against its thresholds will work.
+
+The plugin will test the result of each filter against its thresholds and report accordingly.
+
+```sh
+# usage: check_json [-h] [--filter LABEL FILTER THRESHOLDS] [--verbose] jsonsrc
+check_json  --filter 'LABEL1' 'FILTER1' 'wRANGE,cRANGE'  --filter 'LABEL2' 'FILTER2' 'wRANGE,cRANGE'  /path/to/jsonsrc
+```
+
+For example, this will warn if the value of `key` is more than 10, and will crit if it is more than 20:
+
+```sh
+check_json --filter 'my_label' '.key' 'w~:10,c~:20'
+```
+
+Or to report numerical `{1,0}` for perfdata if a string is present:
+
+```sh
+check_json --filter 'my_label' 'if .key == "some_string" then 1 else 0 end' 'w10,c20'
+```
+
+For more on Jq filters, refer to the [JQ Manual] for your version of `libjq`.
+
+For more on Nagios plugin ranges, thresholds, perfdata, and return codes, see [Nagios Plugin Development Guidelines].
+
+## Icinga2
+
+Here is an Icinga2 `CheckCommand` object for this plugin:
+
+```
+object CheckCommand "check_json" {
+  command = [ PluginDir + "/check_json", ]
+  arguments = {
+    # It appears the only way to get Icinga to repeat a particular key *and*
+    # pass it multiple separate arguments is to define it multiple times (as
+    # below), give them all the same key, and just increment the number for
+    # each subsequent usage of the key ¯\_(ツ)_/¯
+    "--filter" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter$"
+    }
+    "--filter0" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter0$"
+    }
+    "--filter1" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter1$"
+    }
+    "--filter2" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter2$"
+    }
+    "--filter3" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter3$"
+    }
+    "--filter4" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter4$"
+    }
+    "--filter5" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter5$"
+    }
+    "--filter6" = {
+      description = "Defines a filter, its name, and thresholds."
+      key = "--filter"
+      repeat_key = false
+      value = "$check_json_filter6$"
+    }
+    jsonsrc = {
+      description = "The path to the file to inspect"
+      required = true
+      skip_key = true
+      value = "$check_json_jsonsrc$"
+    }
+  }
+}
+```
+
+And a minimal example Icinga Service:
+
+```
+object Service "host.domain.tld_check" {
+  import "generic-service"
+  display_name = "Jq JSON filter"
+  host_name = "host.domain.tld"
+  check_command = "check_json"
+  command_endpoint = "host.domain.tld"
+  notes = "The `check_json` command is a custom plugin to run Jq filters against JSON files."
+  notes_url = "https://gitlab.com/cspeterson/check_json"
+
+  vars.check_json_filter = ["mylabel1". ".somefilter1", "w@0"]
+  vars.check_json_filter2 = ["mylabel2". ".somefilter2", "w@0"]
+  vars.check_json_jsonfile = "/path/to/file.json"
+}
+```
+
+Note: on the command path: the preceeding Icinga2 configuration object points to the `check_json` command in Icinga2's configured `PluginDir`, but this can be configured however you like. For instance:
+
+* point it to wherever it is installed by its full path
+* symlink from the specified path to the actual script.
+* or take the kludge route, leave it as-is, and copy `check_json/__main__.py` from this repo into `PluginDir + "/check_json"`
+
+Up to you!
+
+# Limitations
+
+What this plugin is *not* for:
+
+* Exceptionally huge JSON files - this plugin loads the entire JSON file into memory.
+* Keeping place in a log file over time. For that (though with admittedly simpler pattern matching), see [check_logfiles].
+
+# Contributing
+
+Pull requests are welcome. For major changes, open an issue first to discuss what you would like to change.
+
+To run the test suite:
+
+```bash
+# `all` includes venv creation and installation of dependencies
+make all
+```
+
+Please make sure to update tests as appropriate.
+
+# License
+
+[MIT]
+
+
+[Icinga2]: https://en.wikipedia.org/wiki/Icinga
+[Jq Manual]: https://stedolan.github.io/jq/manual/
+[Jq]: https://stedolan.github.io/jq/
+[MIT]: https://choosealicense.com/licenses/mit/
+[Nagios Plugin Development Guidelines]: https://nagios-plugins.org/doc/guidelines.html
+[Nagios]: https://en.wikipedia.org/wiki/Nagios
+[check_logfiles]: https://labs.consol.de/nagios/check_logfiles/index.html
+[pip]: https://pip.pypa.io/en/stable/
