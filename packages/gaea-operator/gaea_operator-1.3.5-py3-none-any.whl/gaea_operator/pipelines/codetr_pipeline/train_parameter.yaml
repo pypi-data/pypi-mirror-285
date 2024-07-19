@@ -1,0 +1,63 @@
+- label: "训练轮数"
+  min: 1
+  max: 100
+  defaultValue: 10
+  step: 1
+  name: "max_epochs"
+  help: "模型训练的最大轮数"
+  type: "inputNumber"
+
+- label: "模型训练图像高度"
+  min: 32
+  max: 2048
+  defaultValue: 1024
+  step: 32
+  name: "eval_height"
+  help: "模型训练图像的高度"
+  type: "Slider"
+
+- label: "模型训练图像宽度"
+  min: 32
+  max: 2048
+  defaultValue: 1024
+  step: 32
+  name: "eval_width"
+  help: "模型训练图像的宽度"
+  type: "Slider"
+
+- label: "模型训练batch大小"
+  min: 1
+  max: 16
+  defaultValue: 1
+  step: 1
+  name: "batch_size"
+  help: "模型训练的batch大小，设置过大可能会导致显存不够训练报错"
+  type: "inputNumber"
+
+- label: "模型结构类型"
+  options:
+    - "目标检测大模型"
+  defaultIndex: 0
+  name: "networkArchitecture"
+  help: "目前仅支持codetr"
+  type: "Select"
+
+- label: "IOU阈值"
+  min: 0.00001
+  max: 1.00
+  defaultValue: 0.5
+  step: 0.00001
+  name: "iou_thresh"
+  formatter: "%f"
+  help: "NMS的IOU阈值，一般最大值0.7"
+  type: "inputNumber"
+
+- label: "置信度阈值"
+  min: 0.00001
+  max: 1.00
+  defaultValue: 0.001
+  step: 0.00001
+  name: "score_thresh"
+  formatter: "%f"
+  help: "NMS的置信度阈值"
+  type: "inputNumber"
