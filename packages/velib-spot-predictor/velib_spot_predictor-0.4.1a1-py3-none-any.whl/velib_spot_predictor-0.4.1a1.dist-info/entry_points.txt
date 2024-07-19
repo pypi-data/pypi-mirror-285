@@ -1,0 +1,7 @@
+[console_scripts]
+build_model=velib_spot_predictor.model.save_model:save_model
+fetch_data=velib_spot_predictor.data.cli:fetch_data
+fill_station_information_table=velib_spot_predictor.data.cli:fill_station_information_table
+load_data_from_local_to_sql=velib_spot_predictor.data.cli:load_to_sql
+migrate-bucket=velib_spot_predictor.scripts.migrate_json:migrate_json
+
