@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.12.0/.schema/devbox.schema.json",
+  "packages": {
+    "python":   "3.12.3",
+    "rustup":   "latest",
+    "libiconv": "latest",
+    "openssl": {
+      "version": "latest",
+      "outputs": ["out", "dev"]
+    },
+    "darwin.apple_sdk.frameworks.SystemConfiguration": "",
+    "darwin.apple_sdk.frameworks.Foundation":          "",
+    "pkg-config":                                      "latest",
+    "zlib":                                            "latest",
+    "postgresql_13":                                   "latest"
+  },
+  "env": {
+    "VENV_DIR": ".venv"
+  },
+  "shell": {
+    "init_hook": [
+      ". $VENV_DIR/bin/activate",
+      "projectDir=$(dirname $(readlink -f \"$0\"))",
+      "rustupHomeDir=\"$projectDir\"/.rustup",
+      "mkdir -p $rustupHomeDir",
+      "export RUSTUP_HOME=$rustupHomeDir",
+      "rustup default stable"
+    ],
+    "scripts": {
+      "c": "echo $PKG_CONFIG_PATH"
+    }
+  }
+}
