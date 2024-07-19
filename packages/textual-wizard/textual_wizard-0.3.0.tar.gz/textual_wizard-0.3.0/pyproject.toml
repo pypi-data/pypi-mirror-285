@@ -1,0 +1,53 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "textual-wizard"
+description = "Easily ask for input with a beautiful user interface, within the terminal."
+authors = [{name = "Leopold Koprivnik", email = "skwal@etik.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
+requires-python = ">=3.9"
+dependencies = [
+    "textual>=0.66.0",
+    "rich>=13.7.1",
+]
+dynamic = ["version"]
+
+[tool.pdm.version]
+source = "file"
+path = "src/textual/__init__.py"
+
+[project.urls]
+Home = "https://github.com/SkwalExe/textual-wizard"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ruff>=0.4.7",
+    "pyright>=1.1.365",
+    "textual-dev>=1.5.1",
+    "mkdocs-material>=9.5.27",
+    "mkdocstrings-python>=1.10.5",
+    # Black is used only for signature formatting with mkdocstrings
+    "black>=24.4.2",
+]
+
+[tool.pdm.scripts]
+format = "ruff format"
+format-check = "ruff format --check"
+lint = "ruff check --fix --show-fixes"
+lint-check = "ruff check"
+check-types = "pyright"
+example = "textual run --dev -c textual-wizard"
+console = "textual console -x EVENT -x SYSTEM"
+docs-serve = "mkdocs serve"
+docs-build = "mkdocs build"
+
+[project.scripts]
+textual-wizard = "textual_wizard.__main__:main"
+
