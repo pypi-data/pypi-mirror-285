@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkjppype=self.webpackChunkjppype||[]).push([[285],{5285:(n,e,p)=>{function r(){return r=Object.assign?Object.assign.bind():function(n){for(var e=1;e<arguments.length;e++){var p=arguments[e];for(var r in p)({}).hasOwnProperty.call(p,r)&&(n[r]=p[r])}return n},r.apply(null,arguments)}p.d(e,{A:()=>r})}}]);

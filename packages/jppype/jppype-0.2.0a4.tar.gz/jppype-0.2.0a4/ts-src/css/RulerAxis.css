@@ -1,0 +1,74 @@
+.RulerAxis {
+}
+
+.RulerAxis svg {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: var(--jppype-dim-background-color);
+}
+
+.RulerAxis .labelTick line {
+  stroke: var(--jppype-dim-foreground-color);
+  stroke-width: 1px;
+}
+
+.RulerAxis .labelTick text {
+  text-anchor: middle;
+  font-weight: normal;
+  alignment-baseline: middle;
+  fill: var(--jppype-dim-foreground-color);
+}
+
+.RulerAxis .BoundariesLabelTick text {
+  font-weight: bold;
+}
+
+.RulerAxis .end text {
+  text-anchor: end;
+  font-weight: bold;
+}
+
+.RulerAxis .start text {
+  text-anchor: start;
+  font-weight: bold;
+}
+
+.RulerAxis .tick {
+  stroke: var(--jppype-dim-foreground-color);
+  stroke-width: 1px;
+}
+
+.RulerAxis .cursorTick text {
+  fill: var(--jppype-foreground-color);
+  font-weight: bold;
+}
+
+.RulerAxis .HighlightLabelTick.BoundariesLabelTick text {
+  fill: var(--jppype-foreground-color);
+  font-weight: bold;
+}
+
+.RulerAxis .cursorTick rect {
+  fill: var(--jppype-background-color);
+}
+
+.RulerAxis .cursorTick line {
+  stroke: var(--jppype-foreground-color);
+}
+
+.RulerAxis .out-of-domain {
+  fill: var(--jppype-highlight-background-color);
+}
+
+.RulerAxis .shadow {
+  fill: var(--jppype-shadow-color);
+  opacity: 0.5;
+  backdrop-filter: blur(4px);
+}
+.RulerAxis #lightBackgroundFilter feFlood {
+  flood-color: var(--jppype-dim-background-color);
+}
+
+.RulerAxis #darkBackgroundFilter feFlood {
+  flood-color: color-mix(in srgb, var(--jppype-shadow-color) 50%, var(--jppype-dim-background-color));
+}
