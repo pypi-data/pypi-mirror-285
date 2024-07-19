@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "orsm"
+version = "0.0.1"
+authors = [{ name="Dr Oliver Sheridan-Methven", email="oliver.sheridan-methven@hotmail.co.uk" }]
+description = "Useful utility scripts"
+readme = "README.md"
+requires-python = ">=3.12"
+dynamic = ["dependencies", "optional-dependencies"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+
+
+#[project.optional-dependencies]
+#cli = [
+#      "mkdocs",
+#      "mkdocs-material",
+#      "mkdocs-exclude",
+#      "mkdocs-same-dir",
+#      "mkdocs-awesome-pages-plugin",
+#      "mkdocs-git-revision-date-localized-plugin",
+#      "mkdocs-material[imaging]",
+#      "mike",
+#]
+
+[project.urls]
+Homepage = "https://github.com/oliversheridanmethven/orsm"
+Issues = "https://github.com/oliversheridanmethven/orsm/issues"
