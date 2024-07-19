@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "quclo"
+version = "0.0.3"
+description = "A CLI tool designed to simplify the execution and management of quantum circuits across multiple backend providers."
+authors = ["QuClo <info@quclo.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+pydantic = { version = "^2.8.2", extras = ["email"] }
+typer =  { version = "^0.12.3", extras = ["all"] }
+openqasm3 = { version = "^1.0.0", extras = ["all"] }
+pyqir = "^0.10.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+pytest-mock = "^3.14.0"
+pdoc = "^14.5.1"
+
+[tool.poetry.scripts]
+quclo = "quclo.main:app"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

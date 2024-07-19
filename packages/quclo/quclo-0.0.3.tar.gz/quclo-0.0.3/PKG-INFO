@@ -1,0 +1,96 @@
+Metadata-Version: 2.1
+Name: quclo
+Version: 0.0.3
+Summary: A CLI tool designed to simplify the execution and management of quantum circuits across multiple backend providers.
+Author: QuClo
+Author-email: info@quclo.com
+Requires-Python: >=3.12,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: openqasm3[all] (>=1.0.0,<2.0.0)
+Requires-Dist: pydantic[email] (>=2.8.2,<3.0.0)
+Requires-Dist: pyqir (>=0.10.3,<0.11.0)
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Requires-Dist: typer[all] (>=0.12.3,<0.13.0)
+Description-Content-Type: text/markdown
+
+# QuClo CLI
+
+QuClo CLI is a command-line interface tool designed to simplify the execution and management of quantum circuits across multiple backend providers. This tool leverages the QuClo platform to offer a seamless experience for researchers, educators, and hobbyists in quantum computing.
+
+## Features
+
+- **Execute Quantum Circuits:** Run your quantum circuits on various backend providers.
+- **Intelligent Backend Selection:** Choose the best backend based on criteria like cost, speed, fidelity, and queue time.
+- **Result Visualization:** Generate comprehensive and easy-to-understand visualizations of your quantum circuit results.
+- **Open-Source SDK Integration:** Easily integrate and submit circuits created with other SDKs.
+
+## Installation
+
+To install the QuClo CLI, ensure you have Python installed, then use pip:
+
+```bash
+pip install quclo
+```
+
+## Usage
+
+CLI:
+
+```bash
+quclo --help
+```
+
+UI:
+
+```bash
+pip install pdoc
+pdoc quclo --logo https://quclo.com/assets/quclo-Cg4oDc2h.svg
+```
+
+1. Create a new user account:
+
+   ```bash
+   quclo create user --email <email> --password <password>
+   ```
+
+2. Authenticate with your user account:
+
+   ```bash
+   quclo create apikey --email <email> --password <password>
+   ```
+
+3. List available backends:
+
+   ```bash
+   quclo list backends
+   ```
+
+4. Display details of a specific backend:
+
+   ```bash
+   quclo get backend ibm.condor
+   ```
+
+5. Execute a quantum circuit:
+
+   **Using priority:**
+
+   ```bash
+   quclo create circuit --file <file> --priority <priority>
+   ```
+
+6. Get the status or results of a quantum circuit:
+
+   ```bash
+   quclo get circuit <circuit_id>
+   ```
+
+## Contributing
+
+Contributions are welcome! Please submit a pull request or open an issue to discuss any changes.
+
+## Contact
+
+For any questions or feedback, please contact us at [support@quclo.com](mailto:support@quclo.com).
+
