@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=60"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kancolatex"
+version = "0.0.4"
+license = { file = "LICENSE" }
+description = "A command line tool generate LaTex template from Kancolle Deck Builder."
+readme = "README.md"
+
+requires-python = ">=3.10"
+dependencies = [
+    "httpx >= 0.27.0",
+    "pydantic >= 2.7.1",
+    "typing_extensions",
+    "python-dotenv",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+dev = [
+    "kancolatex[test]",
+    "isort >= 5.13.2",
+    "build >= 1.2.1",
+    "twine >= 5.1.1",
+]
+
+[project.scripts]
+kancolatex = "kancolatex.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"kancolatex.data" = ["**"]
+
+[tool.isort]
+py_version = 310
+profile = "black"
+force_single_line = "true"
