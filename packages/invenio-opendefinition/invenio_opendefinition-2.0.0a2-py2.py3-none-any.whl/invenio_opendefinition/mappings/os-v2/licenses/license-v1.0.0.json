@@ -1,0 +1,71 @@
+{
+  "mappings": {
+    "date_detection": false,
+    "numeric_detection": false,
+    "properties": {
+      "domain_content": {
+        "type": "boolean"
+      },
+      "domain_data": {
+        "type": "boolean"
+      },
+      "domain_software": {
+        "type": "boolean"
+      },
+      "family": {
+        "type": "keyword"
+      },
+      "id": {
+        "type": "keyword"
+      },
+      "is_generic": {
+        "type": "boolean"
+      },
+      "maintainer": {
+        "type": "keyword"
+      },
+      "legacy_ids": {
+        "type": "keyword"
+      },
+      "od_conformance": {
+        "type": "keyword"
+      },
+      "osd_conformance": {
+        "type": "keyword"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "title": {
+        "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword"
+            }
+          }
+      },
+      "url": {
+        "type": "keyword"
+      },
+      "suggest": {
+        "type": "completion",
+        "analyzer": "standard",
+        "search_analyzer": "standard"
+      },
+      "_created": {
+        "type": "date",
+        "copy_to": "created"
+      },
+      "_updated": {
+        "type": "date",
+        "copy_to": "updated"
+      },
+      "created": {
+        "type": "date"
+      },
+      "updated": {
+        "type": "date"
+      }
+    }
+  }
+}
