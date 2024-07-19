@@ -1,0 +1,88 @@
+Metadata-Version: 2.1
+Name: napari_sphinx_theme
+Version: 0.5.0
+Summary: Bootstrap-based Sphinx theme from the napari community
+Author: napari team
+License: BSD 3-Clause License
+        
+        Copyright (c) 2018, pandas
+        All rights reserved.
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions are met:
+        
+        * Redistributions of source code must retain the above copyright notice, this
+          list of conditions and the following disclaimer.
+        
+        * Redistributions in binary form must reproduce the above copyright notice,
+          this list of conditions and the following disclaimer in the documentation
+          and/or other materials provided with the distribution.
+        
+        * Neither the name of the copyright holder nor the names of its
+          contributors may be used to endorse or promote products derived from
+          this software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+        AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+        IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+        DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+        FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+        DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+        SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+        CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+        OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+        OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+        
+Project-URL: homepage, https://napari.org/napari-sphinx-theme/
+Project-URL: repository, https://github.com/napari/napari-sphinx-theme
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Framework :: Sphinx
+Classifier: Framework :: Sphinx :: Theme
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydata-sphinx-theme>=0.15.3
+Requires-Dist: packaging
+Provides-Extra: doc
+Requires-Dist: numpydoc; extra == "doc"
+Provides-Extra: dev
+Requires-Dist: pyyaml; extra == "dev"
+Requires-Dist: pre-commit; extra == "dev"
+Requires-Dist: nox; extra == "dev"
+Requires-Dist: napari-sphinx-theme[coverage]; extra == "dev"
+
+# napari-sphinx-theme
+
+A Sphinx theme based on the awesome
+[pydata-sphinx-theme](https://github.com/pydata/pydata-sphinx-theme) with the
+look and feel of napari.
+
+This is currently a work-in-progress, but since it extends the
+pydata-sphinx-theme, all the existing configurations and affordances are already
+available. Check out the
+[PyData Docs](https://pydata-sphinx-theme.readthedocs.io/en/latest/) for more
+info.
+
+## Installing for development
+
+After creating a virtual environment, install the theme in editable mode:
+
+```bash
+python -m pip install -e .
+```
+
+## Building a demo site
+
+To build the demo site, run:
+
+```bash
+cd docs/
+make html
+```
+
+## Using it to build the napari website
+
+To build the napari website, install the theme as a dependency.
