@@ -1,0 +1,70 @@
+# See the NOTICE file distributed with this work for additional information
+# regarding copyright ownership.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Workflow rules (https://docs.gitlab.com/ee/ci/yaml/#workflow):
+# Run CI/CD automatically only for pull requests originated within ensembl-genomio and targeting "main"
+# branch or for commits pushed directly to "main" branch
+workflow:
+  rules:
+    - if: $CI_EXTERNAL_PULL_REQUEST_IID &&
+          $CI_EXTERNAL_PULL_REQUEST_SOURCE_REPOSITORY == $CI_EXTERNAL_PULL_REQUEST_TARGET_REPOSITORY &&
+          ( $CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH ||
+            $CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME =~ /hackathon\/.+/ )
+      when: always
+    - if: $CI_PIPELINE_SOURCE == "push" &&
+          ( $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH || $CI_COMMIT_BRANCH !~ /hackathon\/.+/ )
+      when: never
+    - when: always
+
+variables:
+  PYTHON_IMAGE: python:3.10
+  RUN_DIR: ./cicd/runtime
+
+default:
+  tags:
+    - docker
+
+# Using default stages (https://docs.gitlab.com/ee/ci/yaml/#stages): .pre > build > test > deploy > .post
+
+
+# In-house pipelines
+
+include:
+  # CI/CD debugging
+  - local: cicd/gitlab/parts/debug.gitlab-ci.yml
+  # Perl checks
+  - local: cicd/gitlab/parts/perl.gitlab-ci.yml
+  # Python checks
+  - local: cicd/gitlab/parts/python.gitlab-ci.yml
+  # License checks
+  - local: cicd/gitlab/parts/license.gitlab-ci.yml
+  # Flat file checks
+  - local: cicd/gitlab/parts/flatfile.gitlab-ci.yml
+
+
+# External pipelines
+# (from https://gitlab.com/gitlab-org/gitlab/-/tree/master/lib/gitlab/ci/templates)
+
+external:code_quality:
+  # https://gitlab.ebi.ac.uk/help/user/project/merge_requests/code_quality.md
+  when: manual
+  stage: test
+  trigger:
+    strategy: depend
+    forward:
+      pipeline_variables: false
+      yaml_variables: false
+    include:
+      - template: Code-Quality.gitlab-ci.yml
+
