@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pgn-clis"
+version = "0.1.19"
+authors = [
+  {name="Marcel Claramunt", email="marcel@moveread.com"}
+]
+description = "package_description"
+dependencies = [
+  "chess-utils", "chess-notation", "fs-tools"
+]
+requires-python = ">=3.10"
+readme = {file="README.md", content-type="text/markdown"}
+
+[project.urls]
+repo = "https://github.com/moveread/chess.git"
+
+[project.scripts]
+clean-pgns = "pgn_clis.scripts.clean:main"
+lichess-download = "pgn_clis.scripts.download:main"
+sans2ucis = "pgn_clis.scripts.sans2ucis:main"
+sans2fens = "pgn_clis.scripts.sans2fens:main"
+style-sans = "pgn_clis.scripts.style_sans:main"
+random-samples = "pgn_clis.scripts.random_samples:main"
+
+# [project.optional-dependencies]
+# test = [
+#   "pytest < 5.0.0",
+#   "pytest-cov[all]"
+# ]
