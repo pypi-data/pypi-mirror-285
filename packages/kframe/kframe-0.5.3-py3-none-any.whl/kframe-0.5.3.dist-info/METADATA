@@ -1,0 +1,57 @@
+Metadata-Version: 2.3
+Name: kframe
+Version: 0.5.3
+Summary: Kaeus development framework
+Project-URL: Documentation, https://github.com/kaeus-sgarcia/kframe#readme
+Project-URL: Issues, https://github.com/kaeus-sgarcia/kframe/issues
+Project-URL: Source, https://github.com/kaeus-sgarcia/kframe
+Author-email: Sebastian Garcia <sgarcia@kaeusanalytics.com>
+License-Expression: MS-PL
+License-File: LICENSE.txt
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Requires-Python: >=3.10
+Provides-Extra: api
+Requires-Dist: fastapi-health==0.4.*; extra == 'api'
+Requires-Dist: fastapi-pagination==0.12.*; extra == 'api'
+Requires-Dist: fastapi==0.111.*; extra == 'api'
+Requires-Dist: prometheus-fastapi-instrumentator==6.1.*; extra == 'api'
+Requires-Dist: uvicorn[standard]==0.29.*; extra == 'api'
+Provides-Extra: db
+Requires-Dist: alembic==1.13.*; extra == 'db'
+Requires-Dist: sqlalchemy==2.0.*; extra == 'db'
+Provides-Extra: sentry
+Requires-Dist: sentry-sdk[fastapi]; extra == 'sentry'
+Description-Content-Type: text/markdown
+
+# Kaeus Development Framework
+
+[![PyPI - Version](https://img.shields.io/pypi/v/kframe.svg)](https://pypi.org/project/kframe)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/kframe.svg)](https://pypi.org/project/kframe)
+[![CI](https://github.com/kaeus-sgarcia/kframe/actions/workflows/main_ci.yml/badge.svg)](https://github.com/kaeus-sgarcia/kframe/actions/workflows/main_ci.yml)
+[![Test](https://github.com/kaeus-sgarcia/kframe/actions/workflows/main_pre_release.yml/badge.svg)](https://github.com/kaeus-sgarcia/kframe/actions/workflows/main_pre_release.yml)
+[![CD](https://github.com/kaeus-sgarcia/kframe/actions/workflows/main_release.yml/badge.svg)](https://github.com/kaeus-sgarcia/kframe/actions/workflows/main_release.yml)
+[![GitHub release](https://img.shields.io/github/v/release/kaeus-sgarcia/kframe)](https://github.com/kaeus-sgarcia/kframe)
+
+-----
+
+**Table of Contents**
+
+- [Installation](#installation)
+- [License](#license)
+
+## Installation
+
+```console
+pip install kframe
+```
+
+## License
+
+Kaeus Framework &copy; 2024 by Kaeus Inc is licensed under [MS-PL](https://opensource.org/license/ms-pl-html) 
