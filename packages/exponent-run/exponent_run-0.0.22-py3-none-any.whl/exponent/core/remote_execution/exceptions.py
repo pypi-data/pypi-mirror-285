@@ -1,0 +1,2 @@
+class ExponentError(Exception):
+    pass
