@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm[toml]>=6.4"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "modoboa"
+dynamic = [
+   "version",
+   "dependencies",
+   "optional-dependencies"
+]
+authors = [
+  { name="Antoine Nguyen", email="tonio@ngyn.org" },
+]
+description = "Mail hosting made simple"
+readme = "README.rst"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django :: 4.2",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: ISC License (ISCL)",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Communications :: Email",
+    "Topic :: Internet :: WWW/HTTP",
+]
+keywords = ["email"]
+license = {file = "LICENSE"}
+
+[project.scripts]
+modoboa-cli = "modoboa:modoboa_admin"
+
+[project.urls]
+Homepage = "http://modoboa.org/"
+Documentation = "https://modoboa.readthedocs.io/en/latest/"
+Repository = "https://github.com/modoboa/modoboa"
+Changelog = "https://github.com/modoboa/modoboa/blob/master/CHANGELOG.md"
+Issues = "https://github.com/modoboa/modoboa/issues"
+
+[tool.setuptools.dynamic]
+version = {attr = "modoboa.version.get_version"}
+dependencies = {file = ["requirements.txt"]}
+optional-dependencies.dev = { file = ["dev-requirements.txt"] }
+optional-dependencies.test = { file = ["test-requirements.txt"] }
+optional-dependencies.ldap = { file = ["ldap-requirements.txt"] }
+optional-dependencies.mysql = { file = ["mysql-requirements.txt"] }
+optional-dependencies.postgresql = { file = ["postgresql-requirements.txt"] }
