@@ -1,0 +1,26 @@
+[project]
+name="pinjected-openai"
+version="0.4.13"
+description="openai bindings for pinjected library"
+authors=[
+    {name="proboscis",email="nameissoap@gmail.com"}
+]
+
+dependencies = [
+    "pinjected>=0.2.94",
+    "openai",
+    "tiktoken",
+    "injected-utils",
+    "pydub",
+    "pillow",
+    "loguru",
+    "pandas>=2.2.2",
+    "filelock>=3.14.0",
+    "reactivex>=4.0.4",
+]
+readme="README.md"
+requires-python=">=3.10"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
