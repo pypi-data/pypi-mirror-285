@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "aq-database"
+version = "0.1.0"
+#package-mode = false
+description = "Project to hold all the database scripts"
+authors = ["ManishSingh <manish@klima-cap.com>"]
+readme = "README.md"
+packages = [{include = "*", from = "src"}]
+
+
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.32.3"
+beautifulsoup4 = "^4.12.3"
+SQLAlchemy = "^2.0.31"
+psycopg2 = "^2.9.9"
+pendulum = "^2.1"
+pyyaml = "^6.0.1"
+sh = "^2.0.7"
+google-cloud-storage = "^2.17.0"
+cython = "^3.0.10"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+#
+#[tool.poetry.build]
+## The allows us to build C extensions (using Cython). Unstable feature
+## https://github.com/python-poetry/poetry/issues/2740#issuecomment-666551481
+#script = "build.py"
+#generate-setup-file = false
