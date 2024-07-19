@@ -1,0 +1,100 @@
+[build-system]
+requires = [
+    "setuptools",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[lightworks]
+requires-python = ">=3.10"
+
+## pytest config
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra"
+testpaths = [
+    "tests",
+]
+
+## pytest coverage config
+[tool.coverage.run]
+omit = [
+    "tests/*",
+    "docs/*",
+    "lightworks/sdk/optimisation/*",
+    "lightworks/qubit/converter/__init__.py"
+]
+
+## mypy config
+[tool.mypy]
+disallow_untyped_defs = true
+exclude = ['venv/', 'docs/', 'tests/', 'setup.py']
+disable_error_code = 'import-untyped, import-not-found'
+
+[[tool.mypy.overrides]]
+module = "thewalrus.*, drawsvg.*, scipy.*, scipy.*.stats.*"
+ignore_missing_imports = true
+
+## ruff config
+[tool.ruff]
+exclude = [
+    "venv",
+    "docs",
+    "setup.py",
+    "*.ipynb"
+]
+line-length = 80
+indent-width = 4
+
+[tool.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "E", "F", "W", "N", "D", "B", "CPY", "TRY", "PLE", "PLW", "YTT", "ANN", "S",
+    "Q", "SIM", "ARG", "PERF", "I", "EM102", "EM103", "RET", "FURB148", 
+    "FURB168", "RUF", "BLE", "UP", "NPY", "T20", "PT", "C4", "A", "PYI", "PIE",
+    "SLOT", "PD"
+]
+fixable = ["ALL"]
+ignore = [
+    "ARG005",
+    "ANN401",
+    "D100",
+    "D104",
+    "D105",
+    "D107",
+    "D200",
+    "D203",
+    "D205",
+    "D212",
+    "D400",
+    "D401",
+    "D407",
+    "D412",
+    "D415",
+    "PT011",
+    "RUF022",
+    "S311",
+    "SIM102",
+    "SIM105",
+    "TRY003",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["PERF", "ANN", "S101"]
+"__init__.py" = ["F401", "F403"]
+
+[tool.ruff.lint.flake8-pytest-style]
+parametrize-names-type = "tuple"
+parametrize-values-row-type = "tuple"
+
+[tool.ruff.lint.flake8-builtins]
+builtins-ignorelist = ["input"]
