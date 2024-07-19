@@ -1,0 +1,32 @@
+Metadata-Version: 2.1
+Name: llama-summarizer
+Version: 0.1.3
+Requires-Python: >=3.11
+Requires-Dist: Jinja2>=3.1.3
+Requires-Dist: llama_cpp_python>=0.2.64
+Requires-Dist: requests>=2.31.0
+Requires-Dist: yt-dlp>=2024.4.9
+Requires-Dist: huggingface_hub>=0.22.1
+Requires-Dist: whisper-cpp-python-smr>=0.1
+Description-Content-Type: text/markdown
+
+## An LLM-powered youtube video summarization tool.
+
+Uses a locally running copy of Mistral 7b to generate per-section summaries of youtube videos. The summary is based either on the automatic google captions, or if those are not available - on the transcript generated using whisper on local machine.
+
+### Installation
+```
+pip install llama-summarizer
+```
+
+### Basic usage
+```
+summarize https://www.youtube.com/watch?v=dQw4w9WgXcQ
+```
+Once completed, the summary will be opened in the system default browser.
+
+### Sponsorblock integration
+```
+summarize -sb sponsor -sb selfpromo -sb intro https://www.youtube.com/watch?v=TuHOf_kZK6Q
+```
+Excludes the sections marked as Sponsor, Self Promotion and Intermission from the summary.
