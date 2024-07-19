@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: orbital-transfer
+Version: 2.2.1
+Summary: Orbital transfer API
+Home-page: 
+Author: OpenAPI Generator community
+Author-email: team@openapitools.org
+License: Exotrail
+Keywords: OpenAPI,OpenAPI-Generator,Orbital transfer API
+Description-Content-Type: text/markdown
+Requires-Dist: urllib3<2.1.0,>=1.25.3
+Requires-Dist: python-dateutil
+Requires-Dist: pydantic>=2
+Requires-Dist: typing-extensions>=4.7.1
+
+    An orbital transfer corresponds to a non-coplanar orbit transfer where semi-major axis, inclination and eccentricity can be simultaneously changed.  When considering a change in inclination, an efficiency factor is taken into account to consider the fact that this maneuver is  less efficient away from the orbital nodes. The length of the thrust arcs about the nodes is dictated by the duty cycle.   Different perturbations can be considered while performing this manoeuvre: Earth potential, third-body (Sun, Moon), atmospheric drag  and solar radiation pressure.   &lt;b&gt;CHANGELOG&lt;/b&gt; &lt;ul&gt;   &lt;li&gt;&lt;b&gt;2.2.0&lt;/b&gt; - 2024-07-11 - Add space weather data source choice to &lt;b&gt;NRLMSISE00AtmosphericModel&lt;/b&gt; schema&lt;/li&gt;   &lt;li&gt;&lt;b&gt;2.1.0&lt;/b&gt; - 2024-07-03 - Add &lt;b&gt;atmosphericModel&lt;/b&gt; in &lt;b&gt;DragPerturbation&lt;/b&gt; schema&lt;/li&gt;   &lt;li&gt;&lt;b&gt;2.0.0&lt;/b&gt; - 2024-06-06 - Complete refactoring of the API&lt;/li&gt; &lt;/ul&gt; 
+    
