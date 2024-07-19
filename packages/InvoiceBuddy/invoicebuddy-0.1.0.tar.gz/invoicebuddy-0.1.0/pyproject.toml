@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "InvoiceBuddy"
+version = "0.1.0"
+authors = [
+    { name = "Joe Zeitouny", email = "joezeitouny@gmail.com" },
+]
+description = "A tool to help with generating invoices and proposals for freelancers or small businesses."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "Events ~= 0.4",
+    "rich ~= 13.3.1",
+    "Flask ~= 3.0.3",
+    "SQLAlchemy ~= 2.0.31",
+    "Flask-SQLAlchemy ~= 3.1.1",
+    "qrcode[pil] ~= 7.4.2"
+]
+[project.urls]
+"Homepage" = "https://invoicebuddy.site"
+"Bug Tracker" = "https://github.com/joezeitouny/InvoiceBuddy/issues"
