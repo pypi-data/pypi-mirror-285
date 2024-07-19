@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2024 OpenSynergy Indonesia
+     Copyright 2024 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+
+<record id="view_production_lot_tree" model="ir.ui.view">
+    <field name="name">stock.production.lot - tree</field>
+    <field name="model">stock.production.lot</field>
+    <field name="inherit_id" ref="stock.view_production_lot_tree" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='create_date']" position="before">
+                <field
+                        name="serial_number_in_date"
+                        invisible="context.get('tracking') != 'serial'"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="view_production_lot_form" model="ir.ui.view">
+    <field name="name">stock.production.lot - form</field>
+    <field name="model">stock.production.lot</field>
+    <field name="inherit_id" ref="stock.view_production_lot_form" />
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='product_id']" position="after">
+                <field name="tracking" invisible="1" />
+                <field
+                        name="serial_number_in_date"
+                        attrs="{'invisible': [('tracking', '!=', 'serial')]}"
+                    />
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="serial_number_action" model="ir.actions.act_window">
+    <field name="name">Serial Numbers</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">stock.production.lot</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('tracking', '=', 'serial')]</field>
+    <field name="context">{'tracking': 'serial'}</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="serial_number_menu"
+        name="Serial Numbers"
+        parent="stock.menu_stock_inventory_control"
+        action="serial_number_action"
+        groups="serial_number_group"
+        sequence="101"
+    />
+
+<record id="lot_action" model="ir.actions.act_window">
+    <field name="name">Lots</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">stock.production.lot</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[('tracking', '=', 'lot')]</field>
+    <field name="context">{}</field>
+    <field name="view_mode">tree,form</field>
+</record>
+
+<menuitem
+        id="lot_menu"
+        name="Lots"
+        parent="stock.menu_stock_inventory_control"
+        action="lot_action"
+        sequence="101"
+        groups="lot_group"
+    />
+
+</odoo>
