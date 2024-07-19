@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: configomatic
+Version: 0.3.1
+Summary: Package providing a configurable object for use in Python applications.
+Home-page: https://github.com/stackhpc/configomatic
+Author: Matt Pryor
+Author-email: matt@stackhpc.com
+Requires-Dist: pydantic
+Provides-Extra: toml
+Requires-Dist: toml; extra == "toml"
+Provides-Extra: yaml
+Requires-Dist: pyyaml; extra == "yaml"
+Provides-Extra: all
+Requires-Dist: pyyaml; extra == "all"
+Requires-Dist: toml; extra == "all"
+
+# configomatic
+
+This package provides an object that extends the [Pydantic](https://pydantic-docs.helpmanual.io/)
+`BaseModel` to add support for loading variables from file with overrides from the environment.
