@@ -1,0 +1,208 @@
+Metadata-Version: 2.1
+Name: dualmcu
+Version: 0.0.9
+Summary: Library Version 0.0.9 for the DualMCU ONE board now supports the MAX1704X. This update enables control of the RGB LED, buzzer, SSD1306 OLED display via I2C, and SD card via SPI.
+Author: Mrju10
+Author-email: name@email.com
+License: License
+Classifier: Programming Language :: Python
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+
+
+# DualMCU v0.0.9
+
+The current version of the library is 0.0.9. The library is compatible with the DualMCU ONE board.
+
+Available features:
+
+- Control of the Multi-purpose Shield.
+- Control of the SSD1306 OLED display using I2C.
+- SDCard SPI support.
+
+## Installation
+
+1. Open [Thonny](https://thonny.org/).
+2. Go to **Tools** -> **Manage Packages**.
+3. Enter `dualmcu` in the search bar and click **Install**.
+
+
+## Example of use
+
+1. Connect Multi-purpose Shield to DualMCU ONE
+2. Open Thonny and connect to the DualMCU ONE board.
+3. Run the following code:
+
+```python
+
+from machine import Pin, PWM
+from dualmcu import D5
+import time
+
+# Configuración del pin D5 para PWM
+buzzer = PWM(Pin(D5))
+
+def play_tone(frequency, duration):
+    buzzer.freq(frequency)
+    buzzer.duty_u16(32768)  # Configura el duty cycle al 50%
+    time.sleep(duration)
+    buzzer.duty_u16(0)  # Apaga el buzzer
+
+try:
+    while True:
+        # Toca una secuencia de tonos
+        play_tone(262, 0.5)  # Do
+        time.sleep(0.1)
+        play_tone(294, 0.5)  # Re
+        time.sleep(0.1)
+        play_tone(330, 0.5)  # Mi
+        time.sleep(0.1)
+        play_tone(349, 0.5)  # Fa
+        time.sleep(0.1)
+        play_tone(392, 0.5)  # Sol
+        time.sleep(0.1)
+        play_tone(440, 0.5)  # La
+        time.sleep(0.1)
+        play_tone(494, 0.5)  # Si
+        time.sleep(0.1)
+        play_tone(523, 0.5)  # Do
+        time.sleep(0.1)
+except KeyboardInterrupt:
+    # Detener el buzzer cuando se interrumpe el programa
+    buzzer.deinit()
+
+
+
+```
+
+4. You should hear a sequence of tones.
+
+
+## Examples of use of the RGB LED and the buzzer
+
+The following example shows how to use the RGB LED and the buzzer of the Multi-purpose Shield.
+
+
+
+```python
+from machine import Pin
+import time
+from dht import DHT11
+from dualmcu import *
+
+# Create an instance of Shield
+my_shield = Shield(
+    pin_red=D9, pin_green=D10, pin_blue=D11,
+    pin_buzzer=D5, pin_led1=D13, pin_led2=D12,
+    pin_button1=D2, pin_button2=D3, pin_analog=A0
+)
+
+# Configure DHT11 sensor
+sensor_dht = DHT11(Pin(D4))
+
+try:
+    while True:
+        # Read DHT11 sensor
+        sensor_dht.measure()
+        temp_dht = sensor_dht.temperature()
+        hum = sensor_dht.humidity()
+        
+        # Read analog sensor
+        analog_value = my_shield.read_analog()
+        
+        # Print the values read
+        print(f'Temperature: {temp_dht}°C Humidity: {hum}% Analog: {analog_value}')
+        
+        # Read buttons and control LEDs
+        my_shield.set_led1(my_shield.read_button1() == 0)
+        my_shield.set_led2(my_shield.read_button2() == 0)
+        
+        # Play a sequence of tones and change the LED colors
+        for color, freq in zip(
+            ['red', 'green', 'blue', 'yellow', 'cyan', 'magenta', 'white', 'off'],
+            [262, 294, 330, 349, 392, 440, 494, 523]
+        ):
+            my_shield.set_led(color)
+            my_shield.play_tone(freq, 0.5)
+            time.sleep(0.1)
+
+except KeyboardInterrupt:
+    my_shield.deinit()
+
+
+```
+## Code example I2C
+
+```python
+
+'''
+    Unit Electronics 2024
+           (o_
+    (o_    //\
+    (/)_   V_/_ 
+    tested code mark
+
+'''
+
+import machine
+from dualmcu import SSD1306_I2C
+
+i2c = machine.SoftI2C(scl=machine.Pin(5), sda=machine.Pin(4))
+
+oled = SSD1306_I2C(128, 32, i2c)
+
+oled.fill(1)
+oled.show()
+
+oled.fill(0)
+oled.show()
+oled.text('UNIT', 50, 10)
+oled.text('ELECTRONICS', 25, 20)
+
+oled.show()
+```
+
+
+## SDCard SPI example
+
+The following example shows how to use the SDCard SPI support.
+
+> [!WARNING]  
+> The SDCard must be formatted in FAT16 or FAT32, and this example only works with esp32 of the DualMCU ONE board.
+
+```python
+import machine
+import os
+from dualmcu import *
+
+# Initialize SPI interface for the SD card
+spi = machine.SPI(2, baudrate=1000000, polarity=0, phase=0, sck=machine.Pin(14), mosi=machine.Pin(15), miso=machine.Pin(2))
+
+# Initialize the SD card
+sd = SDCard(spi, machine.Pin(13))
+
+# Mount the filesystem
+vfs = os.VfsFat(sd)
+os.mount(vfs, "/sd")
+
+# List files in the root of the SD card
+print("Files in the root of the SD card:")
+print(os.listdir("/sd"))
+
+
+os.umount("/sd")
+
+```
+# MAX1704x example
+
+
+```python
+
+from dualmcu import *
+
+sensor = max1704x(sda_pin=12, scl_pin=13)
+
+print("address I2C sensor:", sensor.address())
+
+sensor.quickStart()
+```
