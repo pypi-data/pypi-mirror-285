@@ -1,0 +1,104 @@
+name: llmstack
+services:
+  api:
+    image: ${REGISTRY:-}llmstack-api:${TAG:-v0.1.7}
+    command: apiserver
+    links:
+      - postgres:postgres
+    expose:
+      - 9000
+    environment:
+      LLMSTACK_PORT: ${LLMSTACK_PORT:-9000}
+      LLMSTACK_HOST: ${LLMSTACK_HOST:-localhost}
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      DEFAULT_OPENAI_API_KEY: ${DEFAULT_OPENAI_API_KEY:-}
+      VECTOR_DATABASE_ENGINE: ${VECTOR_DATABASE_ENGINE:-weaviate}
+      VECTOR_DATABASE_NAME: ${VECTOR_DATABASE_NAME:-llmstack}
+      USE_REMOTE_JOB_QUEUE: ${USE_REMOTE_JOB_QUEUE:-True}
+      DATABASE_NAME: ${DATABASE_NAME:-llmstack}
+      DATABASE_ENGINE: ${DATABASE_ENGINE:-postgresql}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-llmstack}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-llmstack}
+      DATABASE_HOST: ${DATABASE_HOST:-postgres}
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      CIPHER_KEY_SALT: ${CIPHER_KEY_SALT:-}
+      SECRET_KEY: ${SECRET_KEY:-}
+      SITE_URL: ${SITE_URL:-http://localhost:3000}
+      SITE_NAME: ${SITE_NAME:-LLMStack}
+      DEBUG: ${DEBUG:-True}
+    cap_add:
+      - SYS_PTRACE
+  rqworker:
+    image: ${REGISTRY:-}llmstack-api:${TAG:-v0.1.7}
+    command: rqworker
+    depends_on:
+      - redis
+      - postgres
+    links:
+      - redis:redis
+      - postgres:postgres
+    environment:
+      LLMSTACK_PORT: ${LLMSTACK_PORT:-9000}
+      LLMSTACK_HOST: ${LLMSTACK_HOST:-localhost}
+      REDIS_HOST: ${REDIS_HOST:-redis}
+      REDIS_PORT: ${REDIS_PORT:-6379}
+      DEFAULT_OPENAI_API_KEY: ${DEFAULT_OPENAI_API_KEY:-}
+      VECTOR_DATABASE_ENGINE: ${VECTOR_DATABASE_ENGINE:-weaviate}
+      VECTOR_DATABASE_NAME: ${VECTOR_DATABASE_NAME:-llmstack}
+      USE_REMOTE_JOB_QUEUE: ${USE_REMOTE_JOB_QUEUE:-True}
+      DATABASE_NAME: ${DATABASE_NAME:-llmstack}
+      DATABASE_ENGINE: ${DATABASE_ENGINE:-postgresql}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-llmstack}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-llmstack}
+      DATABASE_HOST: ${DATABASE_HOST:-postgres}
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-}
+      CIPHER_KEY_SALT: ${CIPHER_KEY_SALT:-}
+      SECRET_KEY: ${SECRET_KEY:-}
+      SITE_URL: ${SITE_URL:-http://localhost:3000}
+      SITE_NAME: ${SITE_NAME:-LLMStack}
+      DEBUG: ${DEBUG:-True}
+  app:
+    image: ${REGISTRY:-}llmstack-app:${TAG:-v0.1.7}
+    ports:
+      - ${LLMSTACK_PORT:-9000}:80
+    depends_on:
+      - api
+  redis:
+    image: redis:latest
+    command: redis-server
+    restart: unless-stopped
+    volumes:
+      - redisdata:/data
+  postgres:
+    image: postgres:16-alpine
+    command: "postgres -c fsync=off -c full_page_writes=off -c synchronous_commit=OFF"
+    restart: unless-stopped
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "password"
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: ${DATABASE_USERNAME:-llmstack}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-llmstack}
+  weaviate:
+    image: semitechnologies/weaviate:1.25.7
+    volumes:
+      - weaviatedata:/var/lib/weaviate
+    environment:
+      QUERY_DEFAULTS_LIMIT: 20
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+      DEFAULT_VECTORIZER_MODULE: text2vec-openai
+      ENABLE_MODULES: text2vec-openai
+      CLUSTER_HOSTNAME: "weaviate-node"
+volumes:
+  redisdata:
+  postgresdata:
+  weaviatedata:
