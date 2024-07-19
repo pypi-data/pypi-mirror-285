@@ -1,0 +1,48 @@
+name: Test Suite
+on: [push, pull_request]
+
+
+jobs:
+  tests:
+    name: Test Suite
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python: ["3.9", "3.10", "3.11"]
+    steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          python-version: ${{ matrix.python }}
+          mamba-version: "*"
+          channels: conda-forge,defaults
+          channel-priority: true
+          activate-environment: withfftw
+          environment-file: .github/fftw-env.yaml
+
+      - name: Install Test Deps
+        shell: bash -el {0}
+        run: |
+          which pip
+          python --version
+          pip install .[tests,fftw]
+
+      - name: Run Tests
+        shell: bash -el {0}
+        run: |
+          python -m pytest --cov=powerbox --cov-config=.coveragerc --cov-report xml:./coverage.xml --junitxml=test-reports/xunit.xml
+
+      - name: Upload Test Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
