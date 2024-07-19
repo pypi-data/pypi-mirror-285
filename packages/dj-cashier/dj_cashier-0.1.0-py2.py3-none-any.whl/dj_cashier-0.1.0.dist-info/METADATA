@@ -1,0 +1,109 @@
+Metadata-Version: 2.1
+Name: dj-cashier
+Version: 0.1.0
+Summary: Your project description goes here
+Home-page: https://github.com/kaleemibnanwar/dj-cashier
+License: MIT
+Keywords: django,stripe,django-cashier,dj-cashier
+Author: Kaleem ibn Anwar
+Author-email: kaleemibnanwar@gmail.com
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: django
+Project-URL: Documentation, https://dj-cashier.readthedocs.io
+Project-URL: Repository, https://github.com/kaleemibnanwar/dj-cashier
+Description-Content-Type: text/x-rst
+
+=============================
+Django Cashier
+=============================
+
+.. image:: https://circleci.com/gh/kaleemibnanwar/dj-cashier.svg?style=svg
+    :target: https://circleci.com/gh/kaleemibnanwar/dj-cashier
+
+.. image:: https://codecov.io/gh/kaleemibnanwar/dj-cashier/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/kaleemibnanwar/dj-cashier
+
+.. image:: https://readthedocs.org/projects/dj-cashier/badge/?version=latest
+    :target: https://dj-cashier.readthedocs.io/en/latest/?badge=latest
+
+.. image:: https://img.shields.io/pypi/pyversions/envision.svg
+
+.. image:: https://img.shields.io/pypi/pyversions/dj-cashier.svg
+
+.. image:: https://img.shields.io/pypi/v/dj-cashier.svg
+
+.. image:: https://img.shields.io/pypi/wheel/dj-cashier.svg
+
+Your project description goes here
+
+Documentation
+-------------
+
+The full documentation is at https://dj-cashier.readthedocs.io.
+
+Quickstart
+----------
+
+Install Django Cashier::
+
+    pip install dj-cashier
+
+Add it to your `INSTALLED_APPS`:
+
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        ...
+        'dj_cashier',
+        ...
+    )
+
+Add Django Cashier's URL patterns:
+
+.. code-block:: python
+
+    import dj_cashier
+
+    urlpatterns = [
+        ...
+        url(r'^', include(dj_cashier.urls)),
+        ...
+    ]
+
+Features
+--------
+
+* TODO
+
+Running Tests
+-------------
+
+Does the code actually work?::
+
+    $ cd dj-cashier
+    $ poetry install
+    $ poetry run runtests.py
+
+Credits
+-------
+
+Tools used in rendering this package:
+
+*  Cookiecutter_
+*  `cookiecutter-djangopackage`_
+
+.. _Cookiecutter: https://github.com/audreyr/cookiecutter
+.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
+
