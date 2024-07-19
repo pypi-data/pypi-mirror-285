@@ -1,0 +1,297 @@
+enum AnalysisStatus {
+  QUEUED
+  IN_PROGRESS
+  FAILED
+  COMPLETED
+  UNKNOWN
+}
+
+"""Filter for GraphQL queries"""
+input AnalysisStatusGraphQLFilter {
+  eq: AnalysisStatus = null
+  in_: [AnalysisStatus!] = null
+  nin: [AnalysisStatus!] = null
+  gt: AnalysisStatus = null
+  gte: AnalysisStatus = null
+  lt: AnalysisStatus = null
+  lte: AnalysisStatus = null
+  contains: AnalysisStatus = null
+  icontains: AnalysisStatus = null
+  startswith: AnalysisStatus = null
+}
+
+"""Filter for GraphQL queries"""
+input BoolGraphQLFilter {
+  eq: Boolean = null
+  in_: [Boolean!] = null
+  nin: [Boolean!] = null
+  gt: Boolean = null
+  gte: Boolean = null
+  lt: Boolean = null
+  lte: Boolean = null
+  contains: Boolean = null
+  icontains: Boolean = null
+  startswith: Boolean = null
+}
+
+"""Date (isoformat)"""
+scalar Date
+
+"""Filter for GraphQL queries"""
+input DateGraphQLFilter {
+  eq: Date = null
+  in_: [Date!] = null
+  nin: [Date!] = null
+  gt: Date = null
+  gte: Date = null
+  lt: Date = null
+  lte: Date = null
+  contains: Date = null
+  icontains: Date = null
+  startswith: Date = null
+}
+
+"""Date with time (isoformat)"""
+scalar DateTime
+
+"""Filter for GraphQL queries"""
+input DatetimeGraphQLFilter {
+  eq: DateTime = null
+  in_: [DateTime!] = null
+  nin: [DateTime!] = null
+  gt: DateTime = null
+  gte: DateTime = null
+  lt: DateTime = null
+  lte: DateTime = null
+  contains: DateTime = null
+  icontains: DateTime = null
+  startswith: DateTime = null
+}
+
+type GraphQLAnalysis {
+  id: Int!
+  type: String!
+  status: AnalysisStatus!
+  output: String
+  timestampCompleted: DateTime
+  active: Boolean!
+  meta: JSON
+  sequencingGroups: [GraphQLSequencingGroup!]!
+  project: GraphQLProject!
+  auditLogs: [GraphQLAuditLog!]!
+}
+
+type GraphQLAnalysisRunner {
+  arGuid: String!
+  outputPath: String!
+  timestamp: DateTime!
+  accessLevel: String!
+  repository: String!
+  commit: String!
+  script: String!
+  description: String!
+  driverImage: String!
+  configPath: String
+  cwd: String
+  environment: String!
+  hailVersion: String
+  batchUrl: String!
+  submittingUser: String!
+  meta: JSON!
+  project: GraphQLProject!
+}
+
+type GraphQLAssay {
+  id: Int!
+  type: String!
+  meta: JSON!
+  externalIds: JSON!
+  sample: GraphQLSample!
+}
+
+type GraphQLAuditLog {
+  id: Int!
+  author: String!
+  timestamp: DateTime!
+  arGuid: String
+  comment: String
+  meta: JSON!
+}
+
+type GraphQLCohort {
+  id: String!
+  name: String!
+  description: String!
+  author: String!
+  template: GraphQLCohortTemplate!
+  sequencingGroups: [GraphQLSequencingGroup!]!
+  analyses: [GraphQLAnalysis!]!
+  project: GraphQLProject!
+}
+
+type GraphQLCohortTemplate {
+  id: String!
+  name: String!
+  description: String!
+  criteria: JSON!
+  project: GraphQLProject!
+}
+
+type GraphQLEnum {
+  analysisType: [String!]!
+  assayType: [String!]!
+  sampleType: [String!]!
+  sequencingPlatform: [String!]!
+  sequencingTechnology: [String!]!
+  sequencingType: [String!]!
+}
+
+type GraphQLFamily {
+  id: Int!
+  externalId: String!
+  description: String
+  codedPhenotype: String
+  project: GraphQLProject!
+  participants: [GraphQLParticipant!]!
+  familyParticipants: [GraphQLFamilyParticipant!]!
+}
+
+type GraphQLFamilyParticipant {
+  affected: Int
+  notes: String
+  participant: GraphQLParticipant!
+  family: GraphQLFamily!
+}
+
+type GraphQLOurDNADashboard {
+  collectionToProcessEndTime: JSON!
+  collectionToProcessEndTimeStatistics: JSON!
+  collectionToProcessEndTime24h: JSON!
+  processingTimesBySite: JSON!
+  totalSamplesByCollectionEventName: JSON!
+  samplesLostAfterCollection: [GraphQLOurDNALostSample!]!
+  samplesConcentrationGt1ug: JSON!
+  participantsConsentedNotCollected: [Int!]!
+  participantsSignedNotConsented: [Int!]!
+}
+
+type GraphQLOurDNALostSample {
+  sampleId: String!
+  timeSinceCollection: Int!
+  collectionTime: String!
+  processStartTime: String
+  processEndTime: String
+  receivedTime: String
+  receivedBy: String
+  collectionLab: String!
+  courier: String
+  courierTrackingNumber: String
+  courierScheduledPickupTime: String
+  courierActualPickupTime: String
+  courierScheduledDropoffTime: String
+  courierActualDropoffTime: String
+}
+
+type GraphQLParticipant {
+  id: Int!
+  externalId: String!
+  externalIds: JSON!
+  meta: JSON!
+  reportedSex: Int
+  reportedGender: String
+  karyotype: String
+  samples(type: StrGraphQLFilter = null, meta: JSON = null, active: BoolGraphQLFilter = null): [GraphQLSample!]!
+  phenotypes: JSON!
+  families: [GraphQLFamily!]!
+  familyParticipants: [GraphQLFamilyParticipant!]!
+  project: GraphQLProject!
+  auditLog: GraphQLAuditLog
+}
+
+type GraphQLProject {
+  id: Int!
+  name: String!
+  dataset: String!
+  meta: JSON!
+  analysisRunner(arGuid: StrGraphQLFilter = null, author: StrGraphQLFilter = null, repository: StrGraphQLFilter = null, accessLevel: StrGraphQLFilter = null, environment: StrGraphQLFilter = null): [GraphQLAnalysisRunner!]!
+  ourdnaDashboard: GraphQLOurDNADashboard!
+  pedigree(internalFamilyIds: [Int!] = null, replaceWithParticipantExternalIds: Boolean! = true, replaceWithFamilyExternalIds: Boolean! = true, includeParticipantsNotInFamilies: Boolean! = false, emptyParticipantValue: String = null): [JSON!]!
+  families(id: IntGraphQLFilter = null, externalId: StrGraphQLFilter = null): [GraphQLFamily!]!
+  participants(id: IntGraphQLFilter = null, externalId: StrGraphQLFilter = null, meta: JSON = null, reportedSex: IntGraphQLFilter = null, reportedGender: StrGraphQLFilter = null, karyotype: StrGraphQLFilter = null): [GraphQLParticipant!]!
+  samples(type: StrGraphQLFilter = null, externalId: StrGraphQLFilter = null, id: StrGraphQLFilter = null, meta: JSON = null): [GraphQLSample!]!
+  sequencingGroups(id: StrGraphQLFilter = null, externalId: StrGraphQLFilter = null, type: StrGraphQLFilter = null, technology: StrGraphQLFilter = null, platform: StrGraphQLFilter = null, activeOnly: BoolGraphQLFilter = null): [GraphQLSequencingGroup!]!
+  analyses(type: StrGraphQLFilter = null, status: AnalysisStatusGraphQLFilter = null, active: BoolGraphQLFilter = null, meta: JSON = null, timestampCompleted: DatetimeGraphQLFilter = null, ids: IntGraphQLFilter = null): [GraphQLAnalysis!]!
+  cohorts(id: StrGraphQLFilter = null, name: StrGraphQLFilter = null, author: StrGraphQLFilter = null, templateId: StrGraphQLFilter = null, timestamp: DatetimeGraphQLFilter = null): [GraphQLCohort!]!
+}
+
+type GraphQLSample {
+  id: String!
+  externalId: String!
+  externalIds: JSON!
+  active: Boolean!
+  meta: JSON!
+  type: String!
+  participant: GraphQLParticipant
+  assays(type: StrGraphQLFilter = null, meta: JSON = null): [GraphQLAssay!]!
+  project: GraphQLProject!
+  sequencingGroups(id: StrGraphQLFilter = null, type: StrGraphQLFilter = null, technology: StrGraphQLFilter = null, platform: StrGraphQLFilter = null, meta: JSON = null, activeOnly: BoolGraphQLFilter = null): [GraphQLSequencingGroup!]!
+}
+
+type GraphQLSequencingGroup {
+  id: String!
+  type: String!
+  technology: String!
+  platform: String!
+  meta: JSON!
+  externalIds: JSON!
+  sample: GraphQLSample!
+  analyses(status: AnalysisStatusGraphQLFilter = null, type: StrGraphQLFilter = null, meta: JSON = null, active: BoolGraphQLFilter = null, project: StrGraphQLFilter = null): [GraphQLAnalysis!]!
+  assays: [GraphQLAssay!]!
+}
+
+"""Filter for GraphQL queries"""
+input IntGraphQLFilter {
+  eq: Int = null
+  in_: [Int!] = null
+  nin: [Int!] = null
+  gt: Int = null
+  gte: Int = null
+  lt: Int = null
+  lte: Int = null
+  contains: Int = null
+  icontains: Int = null
+  startswith: Int = null
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](https://ecma-international.org/wp-content/uploads/ECMA-404_2nd_edition_december_2017.pdf).
+"""
+scalar JSON @specifiedBy(url: "https://ecma-international.org/wp-content/uploads/ECMA-404_2nd_edition_december_2017.pdf")
+
+type Query {
+  enum: GraphQLEnum!
+  cohortTemplates(id: StrGraphQLFilter = null, project: StrGraphQLFilter = null): [GraphQLCohortTemplate!]!
+  cohorts(id: StrGraphQLFilter = null, project: StrGraphQLFilter = null, name: StrGraphQLFilter = null, author: StrGraphQLFilter = null, templateId: StrGraphQLFilter = null): [GraphQLCohort!]!
+  project(name: String!): GraphQLProject!
+  sample(id: StrGraphQLFilter = null, project: StrGraphQLFilter = null, type: StrGraphQLFilter = null, meta: JSON = null, externalId: StrGraphQLFilter = null, participantId: IntGraphQLFilter = null, active: BoolGraphQLFilter = null): [GraphQLSample!]!
+  sequencingGroups(id: StrGraphQLFilter = null, project: StrGraphQLFilter = null, sampleId: StrGraphQLFilter = null, type: StrGraphQLFilter = null, technology: StrGraphQLFilter = null, platform: StrGraphQLFilter = null, activeOnly: BoolGraphQLFilter = null, createdOn: DateGraphQLFilter = null, assayMeta: JSON = null, hasCram: Boolean = null, hasGvcf: Boolean = null): [GraphQLSequencingGroup!]!
+  assay(id: Int!): GraphQLAssay!
+  participant(id: Int!): GraphQLParticipant!
+  family(familyId: Int!): GraphQLFamily!
+  myProjects: [GraphQLProject!]!
+  analysisRunner(arGuid: String!): GraphQLAnalysisRunner!
+}
+
+"""Filter for GraphQL queries"""
+input StrGraphQLFilter {
+  eq: String = null
+  in_: [String!] = null
+  nin: [String!] = null
+  gt: String = null
+  gte: String = null
+  lt: String = null
+  lte: String = null
+  contains: String = null
+  icontains: String = null
+  startswith: String = null
+}
