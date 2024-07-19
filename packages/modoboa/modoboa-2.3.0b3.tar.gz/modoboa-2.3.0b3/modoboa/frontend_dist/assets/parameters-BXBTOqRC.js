@@ -1,0 +1,1 @@
+import{aa as r}from"./index-8KTu6Yjm.js";const e="parameters",i={getApplications(){return r.get(`/${e}/applications/`)},getApplication(t){return r.get(`/${e}/${t}/`)},getApplicationStructure(t){return r.get(`/${e}/structure/?app=${t}`)},saveApplication(t,p){return r.put(`/${e}/${t}/`,p)}};export{i as p};
