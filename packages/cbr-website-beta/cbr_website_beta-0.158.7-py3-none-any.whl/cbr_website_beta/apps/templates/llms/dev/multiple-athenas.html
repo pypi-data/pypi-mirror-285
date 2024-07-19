@@ -1,0 +1,64 @@
+
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .container-fluid {
+            min-height: 100%;      /* Minimum height to fill the parent */
+            display: flex;          /* Enable flexbox */
+            flex-direction: column; /* Stack children vertically */
+            padding: 0;
+
+        }
+        .row {
+            flex: 1; /* Allow each row to grow */
+            display: flex; /* Enable flexbox for direct children, which are the columns */
+            margin: 0; /* Remove any default margin */
+        }
+        .col-3, .col-4, .col-6, .col-12 {
+            display: flex;
+            padding: 0; /* Override Bootstrap padding */
+        }
+
+        .chatbot-control {
+
+            flex-grow: 1;
+            margin: 0px;
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        </style>
+
+    <div class="container-fluid"> <!-- Full height container -->
+            <div class="row">
+                <div class="col-12">
+                    <div id="chatbot-control-1" class="chatbot-control">
+                        {% with title = '1st model' , target='athena-1' %}
+                            {%  include '/llms/dev/single-with-sidebar.html' %}
+                        {%  endwith %}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="chatbot-control-1" class="chatbot-control">
+                        {% with title = '3rd model', target='athena-2' %}
+                            {%  include '/llms/dev/single.html' %}
+                        {%  endwith %}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div id="chatbot-control-2" class="chatbot-control">
+
+                    </div>
+                </div>
+                <div class="col-3">
+                    <div id="chatbot-control-1" class="chatbot-control">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
