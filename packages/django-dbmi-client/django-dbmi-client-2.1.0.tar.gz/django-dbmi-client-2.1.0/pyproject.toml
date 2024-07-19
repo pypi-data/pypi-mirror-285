@@ -1,0 +1,51 @@
+[build-system]
+requires = [ "setuptools >= 35.0.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.tox]
+legacy_tox_ini = '''
+[tox]
+envlist = py{38,39,310,311}-django{22,32,40,41}
+install_command = pip install {opts} "{packages}"
+
+[testenv]
+basepython =
+    py38: python3.8
+    py39: python3.9
+    py310: python3.10
+    py311: python3.11
+
+commands =
+	nosetests {posargs}
+
+deps =
+    -rrequirements-test.txt
+    django22: Django>=2.2,<2.3
+    django32: Django>=3.2,<4.0
+    django40: Django>=4.0,<4.1
+    django41: Django>=4.1,<5.0
+'''
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths = [
+    "dbmi_client",
+]
