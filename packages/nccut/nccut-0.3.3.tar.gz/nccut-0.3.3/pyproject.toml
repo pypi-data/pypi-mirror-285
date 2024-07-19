@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "nccut"
+version = "v0.3.3"
+description = 'NcCut is a GUI for getting pixel data from images and data values from NetCDF files along linear transects.'
+authors = ["rchartra <rchartra@uw.edu>"]
+readme = "README.md"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/rchartra/NcCut"
+documentation = "https://nccut.readthedocs.io/en/latest/index.html"
+keywords = ["NetCDF", "GUI"]
+classifiers = [
+  "Intended Audience :: Science/Research",
+  "Programming Language :: Python",
+  "Operating System :: OS Independent"
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^2.2.2"
+numpy = "^2.0.0"
+scipy = "^1.13.1"
+matplotlib = "^3.9.0"
+Cython = "^3.0.10"
+xarray = "^2024.6.0"
+netCDF4 = "^1.7.1"
+opencv-python = "^4.10.0.84"
+img2pdf = "^0.5.1"
+Kivy = "^2.3.0"
+
+[tool.poetry.group.test.dependencies]
+flake8 = "^7.1.0"
+pytest = "^8.2.2"
+pooch = "^1.8.2"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.3.7"
+sphinx-rtd-theme = "^2.0.0"
+sphinxcontrib-video = "^0.2.1"
+
+[tool.poetry.scripts]
+nccut = "nccut.nccut:run"
+
+[[tool.poetry_bumpversion.replacements]]
+files = ["docs/source/conf.py"]
+search = "release = '{current_version}'"
+replace = "release = '{new_version}'"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
