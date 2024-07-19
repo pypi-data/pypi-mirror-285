@@ -1,0 +1,102 @@
+Metadata-Version: 2.1
+Name: CustomizeProxy
+Version: 0.0.1
+Summary: 这是一个 mitmproxy 二次封装版本
+Home-page: https://github.com/mitmproxy/mitmproxy/
+Author: CC
+Author-email: 3204604858@qq.com
+License: MIT License
+        
+        Copyright (c) [year] [fullname]
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+Keywords: CustomizeProxy
+Platform: Windows
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Software Development :: User Interfaces
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: mitmproxy
+
+==============
+CustomizeProxy
+==============
+
+CustomizeProxy 是一个基于  mitmproxy 10.3.1 版本的二次封装版本。
+
+概述
+----
+
+CustomizeProxy 是一个允许开发者拦截和修改本地计算机所有网络请求库，在windows平台可自动安装证书。
+
+
+安装
+----
+
+使用 pip 安装 CustomizeProxy ：
+
+.. code-block:: bash
+
+    pip install CustomizeProxy
+
+请注意，由于本项目是 mitmproxy 的封装版本，可能需要从源代码安装或使用特定的安装步骤。
+
+使用示例
+--------
+
+以下是一个简单的使用示例，展示如何使用：
+
+.. code-block:: python
+
+    from CustomizeProxy import exec_listening,addons,Optional,mitmproxy
+    class HTTPInterceptor:
+
+            def load(self, loader):
+                loader.add_option(
+                    name="validate_inbound_headers",
+                    typespec=Optional[bool],
+                    default=False,
+                    help="Validate inbound HTTP headers. (default: False)",
+                ) # 不检查请求头格式
+
+            def request(self, flow: mitmproxy.http.HTTPFlow):
+                print("拦截:",flow.server_conn.address)
+   
+    if __name__ == '__main__':
+        addons.append(HTTPInterceptor())
+        exec_listening()
+
+贡献
+----
+
+我们欢迎任何形式的贡献，包括但不限于：
+
+- 报告问题或错误。
+- 提供功能请求或改进建议。
+
+许可证
+------
+
+本项目采用 MIT 许可证。有关更多信息，请查看 `LICENSE` 文件。
