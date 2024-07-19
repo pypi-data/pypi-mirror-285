@@ -1,0 +1,44 @@
+name: notebooks
+
+on:
+  push:
+    branches:
+      - main
+      - trunk-merge/**
+  pull_request:
+    branches:
+      - main
+
+  schedule:
+    - cron: "0 0 1 * *"
+
+env:
+  TESTING_ENV: "True"
+
+jobs:
+  notebook:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ["3.9", "3.11"]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: pip install G-BigSMILES Python package
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install jupytext ipython jupyter
+          python -m pip install .
+
+      - name: Create test with Jupytext
+        shell: bash -l {0}
+        run: jupytext --to py SI.ipynb
+      - name: Run Notebook test
+        run: python SI.py

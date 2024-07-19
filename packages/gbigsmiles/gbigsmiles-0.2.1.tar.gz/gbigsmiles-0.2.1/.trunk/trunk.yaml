@@ -1,0 +1,58 @@
+version: 0.1
+runtimes:
+  enabled:
+    - go@1.21.0
+    - node@18.12.1
+    - python@3.10.8
+plugins:
+  sources:
+    - id: trunk
+      ref: v1.6.0
+      uri: https://github.com/trunk-io/plugins
+cli:
+  version: 1.22.2
+lint:
+  enabled:
+    - bandit@1.7.9
+    - checkov@3.2.190
+    - ruff@0.5.2
+    - trivy@0.52.2
+    - yamllint@1.35.1
+    - oxipng@9.1.2
+    - actionlint@1.7.1
+    - cspell@8.10.4
+    - black@24.4.2
+    - flake8@7.1.0
+    - git-diff-check@SYSTEM
+    - gitleaks@8.18.4
+    - isort@5.13.2
+    - markdownlint@0.41.0
+    - prettier@3.3.3
+    - taplo@0.9.2
+  ignore:
+    - linters: [prettier]
+      paths:
+        - SI.md
+    - linters: [cspell]
+      paths:
+        - tests/test_molecule.py
+        - .gitignore
+        - src/gbigsmiles/data/*
+    - linters: [yamllint]
+      paths:
+        - .github/workflows/release.yml
+actions:
+  enabled:
+    - trunk-announce
+    - trunk-upgrade-available
+    - trunk-fmt-pre-commit
+    - trunk-check-pre-push
+merge:
+  required_statuses:
+    - trunk
+    - ci-tests (ubuntu-latest)
+    - ci-tests (windows-latest)
+    - ci-tests (macos-latest)
+    - notebook (ubuntu-latest)
+    - notebook (windows-latest)
+    - notebook (macos-latest)
