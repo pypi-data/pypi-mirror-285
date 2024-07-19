@@ -1,0 +1,117 @@
+Metadata-Version: 2.1
+Name: zyla-hub-api
+Version: 1.0
+Summary: Find, Connect and Manage APIs
+Home-page: https://github.com/Zyla-Labs/pypi-api-hub
+Author: Zyla-API-Hub
+Author-email: hello@zylalabs.com
+Keywords: Api Hub,APIs,Find, Connect and Manage APIs,APIs Management,APIs Connection,APIs Integration,APIs Automation,APIs Development
+Description-Content-Type: text/markdown
+
+# [![Zyla-Api-Hub](https://zylalabs.com/img/logo-removebg-preview.png)](https://zylalabs.com)
+
+**Zyla-Api-Hub Python SDK** - Find, Connect and Manage APIs
+All with a single account, single API key, and single SDK.
+
+## Key Features:
+
+- **Built for Developers:** Tailored for developers, ensuring ease of use and seamless integration.
+- **Powerful JSON API:** Robust JSON API designed for accurate and efficient data retrieval.
+- **User-Friendly Documentation:** Navigate through our comprehensive documentation for a smooth integration process.
+- **Specialized Support:** Count on our dedicated support team for assistance tailored to your specific needs.
+
+
+## Documentation
+
+<!-- For detailed information on API endpoints, usage, and integration guidelines, check our [API Documentation](https://www.metals-api.com/documentation). -->
+
+Start using Zyla-Api-Hub today. Visit [Zylalabs.com](https://zylalabs.com) and integrate in just minutes!
+
+
+## Installation
+
+You can install Marketplace-Hub-API Python SDK with pip.
+
+```bash
+pip install zyla-api-hub
+```
+
+## Usage
+
+The Zyla-Api-Hub Python SDK is a wrapper around the [requests](https://docs.python-requests.org/en/master/) library. It supports GET, POST, PUT, and DELETE requests.
+
+Sign-up to Zyla-Api-Hub to [get your API key](https://zylalabs.com/register) and some credits to get started.
+
+### Making the GET request
+
+Here is how to make different types of requests using the make_request method.
+
+```python
+>>> from zyla_api_hub.client import ApiHubClient
+
+>>> client = ApiHubClient(access_key='REPLACE-WITH-YOUR-ACCESS-KEY')
+
+>>> response = client.make_request(url: str, method: str, params: dict, data: dict)
+```
+
+### GET Request without Parameters
+
+```python
+>>> from zyla_api_hub.client import ApiHubClient
+
+>>> client = ApiHubClient(access_key='REPLACE-WITH-YOUR-ACCESS-KEY')
+
+>>> url = "https://zylalabs.com/api/392/exercise+database+api/309/list+of+body+parts"
+
+>>> response = client.make_request(url)
+
+>>> print(response)
+```
+
+### GET Request with Parameters
+
+```python
+>>> from zyla_api_hub.client import ApiHubClient
+
+>>> client = ApiHubClient(access_key='REPLACE-WITH-YOUR-ACCESS-KEY')
+
+>>> url = "https://zylalabs.com/api/4682/us+real+estate+rental+estimator+api/5779/get+estimation"
+
+>>> params = {"address": "5500 Grand Lake Drive, San Antonio, TX, 78244","propertyType": "Condo","bedrooms": 2,"bathrooms": 2,"squareFootage": 1600}
+
+>>> response = client.make_request(url, method='GET', params=params)
+
+>>> print(response)
+```
+
+### POST Request with Body
+
+```python
+>>> from zyla_api_hub.client import ApiHubClient
+
+>>> client = ApiHubClient(access_key='REPLACE-WITH-YOUR-ACCESS-KEY')
+
+>>> url = "https://zylalabs.com/api/4657/gmail+username+validation+api/5748/check+availability"
+
+>>> data = {"username": "isacmartin"}
+
+>>> response = response = client.make_request(url, method='POST', data=data)
+
+>>> print(response)
+```
+
+### Error Handling
+
+In case of an error, the method will print the error message and the response content, if available.
+
+
+### AVAILABLE METHODS
+
+- make_request(url: str, method: str = 'GET', params: dict = None, data: dict = None) 
+
+- url: The URL of the API endpoint.
+- method: The HTTP method (GET, POST, PUT, DELETE).
+- params: Dictionary of URL parameters..
+- data: Dictionary of the request body for POST/PUT requests.- 
+
+
