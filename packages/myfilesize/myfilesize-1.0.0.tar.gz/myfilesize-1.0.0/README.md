@@ -1,0 +1,59 @@
+# myfilesize
+
+`myfilesize` is a Python package designed to help you easily find small and large files within a directory structure.
+
+## Installation
+
+You can install the package using pip:
+
+```bash
+pip install myfilesize
+```
+
+## Usage
+
+### Finding Small Files
+
+```python
+from myfilesize import find_small_files
+
+directory_to_search = "/path/to/directory"
+small_file_max_size_in_bytes = 1024  # Files smaller than 1KB
+small_files = find_small_files(directory_to_search, small_file_max_size_in_bytes)
+
+print("Small files:")
+for file in small_files:
+    print(file)
+```
+
+### Finding Large Files
+
+```python
+from myfilesize import find_large_files
+
+directory_to_search = "/path/to/directory"
+large_file_min_size_in_bytes = 10485760  # Files larger than 10MB
+large_files = find_large_files(directory_to_search, large_file_min_size_in_bytes)
+
+print("Large files:")
+for file in large_files:
+    print(file)
+```
+
+## Benefits
+
+- **Simplicity**: Easily find files based on size criteria with straightforward functions.
+- **Efficiency**: Quickly navigate through directories to locate files that meet your size requirements.
+- **Integration**: Seamless integration into your Python projects for file management tasks.
+
+## Contributing
+
+Contributions are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+## License
+
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+
+---
+
+Thank you for using `myfilesize`! If you find this package helpful, consider starring the repository on [GitHub](https://github.com/ByteBreach/myfilesize). Your support is greatly appreciated!
