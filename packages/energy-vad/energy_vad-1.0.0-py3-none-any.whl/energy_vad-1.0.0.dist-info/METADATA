@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: energy-vad
+Version: 1.0.0
+Summary: Intents for Home Assistant
+Author-email: The Home Assistant Authors <hello@home-assistant.io>
+License: MIT
+Project-URL: Source Code, https://github.com/rhasspy/energy-vad
+Keywords: home,assistant,intent,recognition
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Text Processing :: Linguistic
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.7.0
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+
+# Energy VAD
+
+Simple energy-based voice activity detector (VAD) with no external dependencies.
+
+Energy threshold is calibrated from initial audio, or can be set manually.
+
+## Installation
+
+``` sh
+pip install energy-vad
+```
+
+## Example
+
+``` python
+import wave
+from energy_vad import EnergyVad
+
+vad = EnergyVad()
+
+with wave.open("test.wav", "rb") as wav_file:
+    assert wav_file.getframerate() == 16000
+    assert wav_file.getsampwidth() == 2
+    assert wav_file.getnchannels() == 1
+    
+    chunk = wav_file.readframes(vad.samples_per_chunk)
+    while len(chunk) == vad.bytes_per_chunk:
+        result = vad.process_chunk(chunk)
+        if result is None:
+            # calibrating
+            pass
+        elif result:
+            # speech
+            print("!", end="")
+        else:
+            # silence
+            print(".", end="")
+
+        chunk = wav_file.readframes(vad.samples_per_chunk)
+        
+print("")
+print("Energy threshold:", vad.threshold)
+
+# Clear calibrated threshold
+vad.reset_calibration()
+```
+
