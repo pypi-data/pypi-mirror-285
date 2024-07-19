@@ -1,0 +1,134 @@
+[project]
+name = "pymatviz"
+version = "0.9.3"
+description = "A toolkit for visualizations in materials informatics"
+authors = [{ name = "Janosh Riebesell", email = "janosh.riebesell@gmail.com" }]
+readme = "readme.md"
+license = { file = "license" }
+keywords = [
+    "chemistry",
+    "data visualization",
+    "materials discovery",
+    "materials informatics",
+    "matplotlib",
+    "plotly",
+    "science",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.9",
+]
+urls = { Homepage = "https://github.com/janosh/pymatviz" }
+requires-python = ">=3.9"
+dependencies = [
+    "matplotlib>=3.6.2",
+    "numpy>=1.21.0,<2",
+    "pandas>=2.0.0",
+    "plotly",
+    "pymatgen",
+    "scikit-learn",
+    "scipy",
+]
+
+[project.optional-dependencies]
+test = [
+    "adjustText",
+    "bs4",
+    "cssutils",
+    "jinja2",
+    "kaleido",
+    "lxml",
+    "pdfCropMargins",
+    "pytest",
+    "pytest-cov",
+    "weasyprint",
+]
+data-src = ["matminer", "mp_api"]
+export-figs = ["kaleido"]
+gh-pages = ["jupyter", "lazydocs", "nbconvert"]
+# needed for pandas Stylers, see https://github.com/pandas-dev/pandas/blob/-/pyproject.toml
+df-pdf-export = ["jinja2", "pdfCropMargins", "weasyprint"]
+df-svg-export = ["bs4", "cssutils", "lxml"]
+auto-text-pos = ["adjustText"]
+
+[tool.setuptools.packages]
+find = { include = ["pymatviz*"], exclude = ["tests*"] }
+
+[tool.setuptools.package-data]
+pymatviz = ["*.csv"]
+
+[tool.distutils.bdist_wheel]
+universal = true
+
+[build-system]
+requires = ["setuptools>=61.2"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-p no:warnings"
+
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+show_error_codes = true
+no_implicit_optional = false
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "ANN101",  # missing-type-self
+    "ANN102",  # missing-type-cls
+    "ANN401",  # any-type
+    "C408",    # unnecessary-collection-call
+    "C901",    # complex-structure
+    "COM812",  # trailing comma missing
+    "D205",    # 1 blank line required between summary line and description
+    "E731",    # do not assign a lambda expression, use a def
+    "EM101",   # raw-string-in-exception
+    "EM102",   # f-string-in-exception
+    "ERA001",  # dead code
+    "FIX002",
+    "ISC001",
+    "PLR0911", # too-many-return-statements
+    "PLR0912", # too-many-branches
+    "PLR0913", # function-with-too-many-arguments
+    "PLR0915", # too-many-statements
+    "PLR2004", # magic-number-comparison
+    "PT006",   # pytest-parametrize-names-wrong-type
+    "PTH",     # prefer pathlib over os.path
+    "S311",
+    "SIM105",  # Use contextlib.suppress() instead of try-except-pass
+    "TD",
+    "TRY003",  # raise-vanilla-args
+]
+pydocstyle.convention = "google"
+isort.lines-after-imports = 2
+isort.split-on-trailing-comma = false
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+"tests/*" = ["D", "FBT001", "FBT002", "INP001", "PLR2004", "S101"]
+# T201: print found
+# D100: Missing docstring in public module
+"examples/*" = ["D100", "INP001", "T201"]
+"site/*" = ["D", "INP001", "S602"]
+
+[tool.pyright]
+typeCheckingMode = "off"
+reportPossiblyUnboundVariable = true
+reportUnboundVariable = true
