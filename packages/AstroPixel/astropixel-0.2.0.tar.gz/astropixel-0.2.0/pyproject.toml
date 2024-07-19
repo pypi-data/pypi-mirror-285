@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "astropixel"
+version = "0.2.0"
+description = "Astropixel project"
+authors = [
+    {name = "Savannah Gramze", email = "savannahgramze@ufl.edu"}, 
+    {name = "S M Rafee Adnan", email = "smrafee.adnan@louisville.edu"},
+    ]
+
+dependencies = [
+    "astropy >= 4.3.0",
+    "numpy >= 1.21.0",
+    "matplotlib >= 3.4.2",
+    "spectral-cube >= 0.6.5",
+    "regions >= 0.9",
+]
+
+[tool.setuptools]
+packages = ["astropixel"]
+
+[tool.setuptools.package-dir]
+package_name = "~/codeastro/astropixel/"
+
