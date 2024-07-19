@@ -1,0 +1,266 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_flow/tendon_geometry": {
+      "post": {
+        "summary": "Tendon Geometry",
+        "operationId": "tendon geometry",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/tendon_geometry"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TendonGeometry"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Point": {
+        "properties": {
+          "x": {
+            "type": "number",
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "title": "Y"
+          }
+        },
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "title": "Point",
+        "description": "Point class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Point"
+      },
+      "Points": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Points",
+            "default": [
+              {
+                "x": 0.0,
+                "y": 0.0
+              },
+              {
+                "x": 400.0,
+                "y": 0.0
+              },
+              {
+                "x": 400.0,
+                "y": 600.0
+              },
+              {
+                "x": 0.0,
+                "y": 600.0
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Points",
+        "description": "GSD Points class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Points"
+      },
+      "TendonGeometry": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Tendon Points",
+            "default": [
+              {
+                "x": 200.0,
+                "y": 100.0
+              }
+            ]
+          },
+          "prop": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TendonProp"
+              }
+            ],
+            "description": "properties of the tender",
+            "default": {
+              "area": 287.0,
+              "material": {
+                "design_code": "ACI318M-19",
+                "grade": "Grade 420"
+              },
+              "prestress": 0.0
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Tender Geometry",
+        "description": "GSD tender geometry class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonGeometry"
+      },
+      "TendonGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the tendon",
+            "default": "Grade 420"
+          }
+        },
+        "type": "object",
+        "title": "GSD Tendon Grade",
+        "description": "GSD Tendon grade class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonGrade"
+      },
+      "TendonProp": {
+        "properties": {
+          "area": {
+            "type": "number",
+            "title": "Area",
+            "description": "Area of the tendon",
+            "default": 287.0
+          },
+          "material": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TendonGrade"
+              }
+            ],
+            "description": "Material of the tendon",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "Grade 420"
+            }
+          },
+          "prestress": {
+            "type": "number",
+            "title": "Prestress",
+            "description": "Prestress of the tendon",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "GSD Tendon Properties",
+        "description": "GSD Tendon prop",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonProp"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "tendon_geometry": {
+        "properties": {
+          "position": {
+            "$ref": "#/components/schemas/Points"
+          },
+          "prop": {
+            "$ref": "#/components/schemas/TendonProp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "position",
+          "prop"
+        ],
+        "title": "tendon geometry"
+      }
+    }
+  }
+}

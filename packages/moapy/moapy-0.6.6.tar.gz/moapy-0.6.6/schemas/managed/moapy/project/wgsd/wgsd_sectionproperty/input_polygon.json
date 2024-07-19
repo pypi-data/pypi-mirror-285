@@ -1,0 +1,207 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_sectionproperty/input_polygon": {
+      "post": {
+        "summary": "Input Polygon",
+        "operationId": "input polygon",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/input_polygon"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MPolygon"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MPolygon": {
+        "properties": {
+          "outerPolygon": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Points"
+              }
+            ],
+            "description": "Outer polygon",
+            "default": {
+              "points": [
+                {
+                  "x": 0.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 400.0,
+                  "y": 0.0
+                },
+                {
+                  "x": 400.0,
+                  "y": 600.0
+                },
+                {
+                  "x": 0.0,
+                  "y": 600.0
+                }
+              ]
+            }
+          }
+        },
+        "type": "object",
+        "title": "Polygon",
+        "description": "Polygon"
+      },
+      "Point": {
+        "properties": {
+          "x": {
+            "type": "number",
+            "title": "X"
+          },
+          "y": {
+            "type": "number",
+            "title": "Y"
+          }
+        },
+        "type": "object",
+        "required": [
+          "x",
+          "y"
+        ],
+        "title": "Point",
+        "description": "Point class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Point"
+      },
+      "Points": {
+        "properties": {
+          "points": {
+            "items": {
+              "$ref": "#/components/schemas/Point"
+            },
+            "type": "array",
+            "title": "Points",
+            "description": "Points",
+            "default": [
+              {
+                "x": 0.0,
+                "y": 0.0
+              },
+              {
+                "x": 400.0,
+                "y": 0.0
+              },
+              {
+                "x": 400.0,
+                "y": 600.0
+              },
+              {
+                "x": 0.0,
+                "y": 600.0
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Points",
+        "description": "GSD Points class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Points"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "input_polygon": {
+        "properties": {
+          "points": {
+            "$ref": "#/components/schemas/Points"
+          }
+        },
+        "type": "object",
+        "required": [
+          "points"
+        ],
+        "title": "input polygon"
+      }
+    }
+  }
+}

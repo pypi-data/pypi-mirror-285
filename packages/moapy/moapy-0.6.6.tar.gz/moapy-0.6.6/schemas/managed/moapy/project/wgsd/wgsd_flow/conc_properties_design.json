@@ -1,0 +1,337 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_flow/conc_properties_design": {
+      "post": {
+        "summary": "Conc Properties Design",
+        "description": "Return the concrete material properties based on the design code\n\nArgs:\n    general: general concrete properties\n    uls: concrete stress options for ULS\n    sls: concrete stress options for SLS\n\nreturn:\n    MaterialConcrete: material properties of selected data",
+        "operationId": "conc properties design",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/conc_properties_design"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaterialConcrete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConcreteGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the concrete",
+            "default": "C12"
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Grade",
+        "description": "GSD concrete class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.ConcreteGrade"
+      },
+      "Concrete_General_Properties": {
+        "properties": {
+          "strength": {
+            "type": "integer",
+            "exclusiveMinimum": 0.0,
+            "title": "Strength",
+            "description": "Grade of the concrete",
+            "default": 12
+          },
+          "elastic_modulus": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Elastic Modulus",
+            "description": "Elastic modulus of the concrete",
+            "default": 30000
+          },
+          "density": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Density",
+            "description": "Density of the concrete",
+            "default": 2400
+          },
+          "thermal_expansion_coefficient": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Thermal Expansion Coefficient",
+            "description": "Thermal expansion coefficient of the concrete",
+            "default": 1e-05
+          },
+          "poisson_ratio": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Poisson Ratio",
+            "description": "Poisson ratio of the concrete",
+            "default": 0.2
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete General Properties",
+        "description": "GSD concrete general properties for calculation",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Concrete_General_Properties"
+      },
+      "Concrete_SLS_Options": {
+        "properties": {
+          "material_model": {
+            "type": "string",
+            "title": "Material Model",
+            "description": "Material model for SLS",
+            "default": "Linear"
+          },
+          "plastic_strain_limit": {
+            "type": "number",
+            "title": "Plastic Strain Limit",
+            "description": "Plastic strain limit for SLS",
+            "default": 0.002
+          },
+          "failure_compression_limit": {
+            "type": "number",
+            "title": "Failure Compression Limit",
+            "description": "Failure compression limit for SLS",
+            "default": 0.003
+          },
+          "material_model_tension": {
+            "type": "string",
+            "title": "Material Model Tension",
+            "description": "Material model for SLS tension",
+            "default": "interpolated"
+          },
+          "failure_tension_limit": {
+            "type": "number",
+            "title": "Failure Tension Limit",
+            "description": "Failure tension limit for SLS",
+            "default": 0.003
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Stress Options for SLS",
+        "description": "GSD concrete stress options for SLS",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Concrete_SLS_Options"
+      },
+      "Concrete_Stress_ULS_Options_ACI": {
+        "properties": {
+          "material_model": {
+            "type": "string",
+            "title": "Material Model",
+            "description": "Material model for ULS",
+            "default": "Rectangle"
+          },
+          "factor_b1": {
+            "type": "number",
+            "title": "Factor B1",
+            "description": "Plastic strain limit for ULS",
+            "default": 0.85
+          },
+          "compressive_failure_strain": {
+            "type": "number",
+            "title": "Compressive Failure Strain",
+            "description": "Failure strain limit for ULS",
+            "default": 0.003
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Stress Options for ULS",
+        "description": "GSD concrete stress options for ULS",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Concrete_Stress_ULS_Options_ACI"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "MaterialConcrete": {
+        "properties": {
+          "grade": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConcreteGrade"
+              }
+            ],
+            "description": "Grade of the concrete",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "C12"
+            }
+          },
+          "curve_uls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Uls",
+            "description": "Stress strain curve concrete ULS",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 0.0,
+                "strain": 0.0006
+              },
+              {
+                "stress": 34.0,
+                "strain": 0.0006
+              },
+              {
+                "stress": 34.0,
+                "strain": 0.003
+              }
+            ]
+          },
+          "curve_sls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Sls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 32.8,
+                "strain": 0.001
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Material Concrete",
+        "description": "GSD material for Concrete class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.MaterialConcrete"
+      },
+      "Stress_Strain_Component": {
+        "properties": {
+          "stress": {
+            "type": "number",
+            "title": "Stress",
+            "description": "Stress",
+            "default": 0.0
+          },
+          "strain": {
+            "type": "number",
+            "title": "Strain",
+            "description": "Strain",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "Stress Strain Component",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Stress_Strain_Component"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "conc_properties_design": {
+        "properties": {
+          "general": {
+            "$ref": "#/components/schemas/Concrete_General_Properties"
+          },
+          "uls": {
+            "$ref": "#/components/schemas/Concrete_Stress_ULS_Options_ACI"
+          },
+          "sls": {
+            "$ref": "#/components/schemas/Concrete_SLS_Options"
+          }
+        },
+        "type": "object",
+        "required": [
+          "general",
+          "uls",
+          "sls"
+        ],
+        "title": "conc properties design"
+      }
+    }
+  }
+}

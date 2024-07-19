@@ -1,0 +1,533 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "moapy",
+    "description": "Schema for moapy",
+    "version": "0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://moa.rpm.kr-dv-midasit.com/backend/function-executor/python-execute/"
+    },
+    {
+      "url": "https://moa.rpm.kr-st-midasit.com/backend/function-executor/python-execute/"
+    }
+  ],
+  "paths": {
+    "/moapy/project/wgsd/wgsd_flow/material_properties_design": {
+      "post": {
+        "summary": "Material Properties Design",
+        "operationId": "material properties design",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/material_properties_design"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Material"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ConcreteGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the concrete",
+            "default": "C12"
+          }
+        },
+        "type": "object",
+        "title": "GSD Concrete Grade",
+        "description": "GSD concrete class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.ConcreteGrade"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Material": {
+        "properties": {
+          "concrete": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MaterialConcrete"
+              }
+            ],
+            "description": "Concrete properties",
+            "default": {
+              "grade": {
+                "design_code": "ACI318M-19",
+                "grade": "C12"
+              },
+              "curve_uls": [
+                {
+                  "strain": 0.0,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.0006,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.0006,
+                  "stress": 34.0
+                },
+                {
+                  "strain": 0.003,
+                  "stress": 34.0
+                }
+              ],
+              "curve_sls": [
+                {
+                  "strain": 0.0,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.001,
+                  "stress": 32.8
+                }
+              ]
+            }
+          },
+          "rebar": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MaterialRebar"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Rebar properties",
+            "default": {
+              "grade": {
+                "design_code": "ACI318M-19",
+                "grade": "Grade 420"
+              },
+              "curve_uls": [
+                {
+                  "strain": 0.0,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.0025,
+                  "stress": 500.0
+                },
+                {
+                  "strain": 0.05,
+                  "stress": 500.0
+                }
+              ],
+              "curve_sls": [
+                {
+                  "strain": 0.0,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.0025,
+                  "stress": 500.0
+                },
+                {
+                  "strain": 0.05,
+                  "stress": 500.0
+                }
+              ]
+            }
+          },
+          "tendon": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MaterialTendon"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tendon properties",
+            "default": {
+              "grade": {
+                "design_code": "ACI318M-19",
+                "grade": "Grade 420"
+              },
+              "curve_uls": [
+                {
+                  "strain": 0.0,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.00725,
+                  "stress": 1450.0
+                },
+                {
+                  "strain": 0.05,
+                  "stress": 1750.0
+                }
+              ],
+              "curve_sls": [
+                {
+                  "strain": 0.0,
+                  "stress": 0.0
+                },
+                {
+                  "strain": 0.00725,
+                  "stress": 1450.0
+                },
+                {
+                  "strain": 0.05,
+                  "stress": 1750.0
+                }
+              ]
+            }
+          }
+        },
+        "type": "object",
+        "title": "GSD Material",
+        "description": "GSD concrete class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Material"
+      },
+      "MaterialConcrete": {
+        "properties": {
+          "grade": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/ConcreteGrade"
+              }
+            ],
+            "description": "Grade of the concrete",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "C12"
+            }
+          },
+          "curve_uls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Uls",
+            "description": "Stress strain curve concrete ULS",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 0.0,
+                "strain": 0.0006
+              },
+              {
+                "stress": 34.0,
+                "strain": 0.0006
+              },
+              {
+                "stress": 34.0,
+                "strain": 0.003
+              }
+            ]
+          },
+          "curve_sls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Sls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 32.8,
+                "strain": 0.001
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Material Concrete",
+        "description": "GSD material for Concrete class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.MaterialConcrete"
+      },
+      "MaterialRebar": {
+        "properties": {
+          "grade": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/RebarGrade"
+              }
+            ],
+            "description": "Grade of the rebar",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "Grade 420"
+            }
+          },
+          "curve_uls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Uls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.0025
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.05
+              }
+            ]
+          },
+          "curve_sls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Sls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.0025
+              },
+              {
+                "stress": 500.0,
+                "strain": 0.05
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Material Rebar",
+        "description": "GSD rebar class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.MaterialRebar"
+      },
+      "MaterialTendon": {
+        "properties": {
+          "grade": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/TendonGrade"
+              }
+            ],
+            "description": "Grade of the tendon",
+            "default": {
+              "design_code": "ACI318M-19",
+              "grade": "Grade 420"
+            }
+          },
+          "curve_uls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Uls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 1450.0,
+                "strain": 0.00725
+              },
+              {
+                "stress": 1750.0,
+                "strain": 0.05
+              }
+            ]
+          },
+          "curve_sls": {
+            "items": {
+              "$ref": "#/components/schemas/Stress_Strain_Component"
+            },
+            "type": "array",
+            "title": "Curve Sls",
+            "description": "Stress strain curve",
+            "default": [
+              {
+                "stress": 0.0,
+                "strain": 0.0
+              },
+              {
+                "stress": 1450.0,
+                "strain": 0.00725
+              },
+              {
+                "stress": 1750.0,
+                "strain": 0.05
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "title": "GSD Material Tendon",
+        "description": "GSD tendon class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.MaterialTendon"
+      },
+      "RebarGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the rebar",
+            "default": "Grade 420"
+          }
+        },
+        "type": "object",
+        "title": "GSD Rebar Grade",
+        "description": "GSD rebar grade class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.RebarGrade"
+      },
+      "Stress_Strain_Component": {
+        "properties": {
+          "stress": {
+            "type": "number",
+            "title": "Stress",
+            "description": "Stress",
+            "default": 0.0
+          },
+          "strain": {
+            "type": "number",
+            "title": "Strain",
+            "description": "Strain",
+            "default": 0.0
+          }
+        },
+        "type": "object",
+        "title": "Stress Strain Component",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.Stress_Strain_Component"
+      },
+      "TendonGrade": {
+        "properties": {
+          "design_code": {
+            "type": "string",
+            "title": "Design Code",
+            "description": "Design code",
+            "default": "ACI318M-19"
+          },
+          "grade": {
+            "type": "string",
+            "title": "Grade",
+            "description": "Grade of the tendon",
+            "default": "Grade 420"
+          }
+        },
+        "type": "object",
+        "title": "GSD Tendon Grade",
+        "description": "GSD Tendon grade class",
+        "dataclassname": "moapy.project.wgsd.wgsd_flow.TendonGrade"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "material_properties_design": {
+        "properties": {
+          "conc": {
+            "$ref": "#/components/schemas/MaterialConcrete"
+          },
+          "rebar": {
+            "$ref": "#/components/schemas/MaterialRebar"
+          }
+        },
+        "type": "object",
+        "required": [
+          "conc",
+          "rebar"
+        ],
+        "title": "material properties design"
+      }
+    }
+  }
+}
