@@ -1,0 +1,44 @@
+Metadata-Version: 2.1
+Name: streamlit-lexical
+Version: 0.0.1
+Summary: Streamlit component that allows you to do use Lexical's rich text editor
+Home-page: 
+Author: Ben Fox
+Author-email: ben@musubilabs.ai
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: streamlit==1.36.0
+Provides-Extra: devel
+Requires-Dist: wheel; extra == "devel"
+Requires-Dist: pytest==7.4.0; extra == "devel"
+Requires-Dist: playwright==1.39.0; extra == "devel"
+Requires-Dist: requests==2.31.0; extra == "devel"
+Requires-Dist: pytest-playwright-snapshot==1.0; extra == "devel"
+Requires-Dist: pytest-rerunfailures==12.0; extra == "devel"
+
+# streamlit_lexical
+
+Streamlit component that allows you to use Lexical's rich text plugin. 
+
+## Installation instructions
+
+```sh
+cd streamlit_lexical/frontend
+npm install (or yarn install)
+npm run build
+cd ../..
+pip install -e ./
+```
+
+## Usage instructions
+
+```python
+import streamlit as st
+
+from streamlit_lexical import streamlit_lexical
+
+rich_text_dict = streamlit_lexical("name")
+
+st.markdown(rich_text_dict)
+```
