@@ -1,0 +1,71 @@
+# WaybackRecon
+
+WaybackRecon is a tool designed to fetch and categorize URLs from the Wayback Machine, allowing users to identify and highlight specific patterns, potential leaks, and other important information from archived web content. This tool supports outputting results to JSON and SQLite databases and offers easy searching and categorization.
+
+## Features
+
+- **Fetch URLs**: Retrieve URLs from the Wayback Machine for a specified target domain.
+- **Categorization**: Categorize URLs based on patterns such as APIs, leaks, file extensions, and CMS identifiers.
+- **Highlighting**: Highlight keywords in URLs to easily identify important information.
+- **Output**: Save results to JSON and SQLite databases.
+- **Search**: Search and display specific categories of URLs.
+
+## Installation
+
+```bash
+pip install wayback-recon
+```
+
+## Usage
+
+### Command-line Arguments
+
+- `-t, --target`: Target domain to fetch URLs for (required).
+- `-p, --pattern-file`: Path to the pattern config JSON file (default: `pattern_config.json`).
+- `-o, --output-file`: Output file name for the JSON results.
+- `-s, --search`: Search and display specific categories (e.g., apis, leaks, extensions, cms).
+- `--status-code`: Filter by status codes (e.g., 200, 301, 302).
+
+### Examples
+
+1. Fetch and categorize URLs for a target domain:
+    ```bash
+    wayback-recon -t example.com
+    ```
+
+2. Search for specific categories in the results:
+    ```bash
+    wayback-recon -s apis leaks
+    ```
+
+3. Specify a custom pattern configuration file:
+    ```bash
+    wayback-recon -t example.com -p custom_pattern_config.json
+    ```
+
+4. Output results to a specific JSON file:
+    ```bash
+    wayback-recon -t example.com -o results.json
+    ```
+
+5. Filter URLs by status codes:
+    ```bash
+    wayback-recon -t example.com --status-code 200,301
+    ```
+
+## Configuration
+
+The pattern configuration is stored in a JSON file (`pattern_config.json`) and can be customized to include different patterns for categorization. The default configuration includes patterns for APIs, leaks, file extensions, and CMS identifiers.
+
+### Default Configuration
+
+```json
+{
+    "apis": ["/api", "/v1", "/v2", "/services", "/rest", "/graphql", "/json"],
+    "leaks": ["aws", "apikey", "secret", "password", "auth", "token", "key", "access", "credential", "jwt", "kong", "kong-key", "AIza"],
+    "extensions": [".js", ".css", ".html", ".php", ".asp", ".aspx", ".jsp", ".json", ".xml", ".txt", ".csv"],
+    "cms": ["wp-", "wordpress", "joomla", "drupal", "magento", "typo3", "shopify", "prestashop"]
+}
+```
+
+You can add or remove strings to be filtered.
