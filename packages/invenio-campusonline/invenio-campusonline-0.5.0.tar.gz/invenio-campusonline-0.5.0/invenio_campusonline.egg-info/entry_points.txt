@@ -1,0 +1,9 @@
+[flask.commands]
+campusonline = invenio_campusonline.cli:campusonline
+
+[invenio_base.apps]
+invenio_campusonline = invenio_campusonline:InvenioCampusonline
+
+[invenio_celery.tasks]
+invenio_campusonline = invenio_campusonline.tasks
+
