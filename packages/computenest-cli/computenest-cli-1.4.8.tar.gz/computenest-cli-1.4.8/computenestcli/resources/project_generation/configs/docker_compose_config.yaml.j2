@@ -1,0 +1,45 @@
+Service:
+  RegionId: {{ RegionId }}
+  DeployType: ros
+  DeployMetadata:
+    {%- if ServiceType == 'managed' %}
+    SupplierDeployMetadata:
+      RoleName: {{ RoleName }}
+      UserType: Aliyun
+      SupplierTemplateConfigs:
+        - Name: Template
+          Url: 'ros_templates/template.yaml'
+          PredefinedParameters: []
+          HiddenParameterKeys:
+            - VpcId
+            - VSwitchId
+            - ZoneId
+          ParameterMappings:
+            - ParameterKey: RegionId
+              ParameterMappingKeys:
+                - VpcId
+                - ZoneId
+                - VSwitchId
+              ParameterValueMapping:
+                {{ RegionId }}:
+                  Parameters:
+                    VpcId: {{ VpcId }}
+                    ZoneId: {{ ZoneId }}
+                    VSwitchId: {{ VSwitchId }}
+      {%- endif %}
+    {%- if ServiceType == 'private' %}
+    TemplateConfigs:
+      - Name: 单机版
+        Url: 'ros_templates/template.yaml'
+        AllowedRegions:{% if AllowedRegions -%}
+          {%- for region in AllowedRegions %}
+          - {{ region }}{%- endfor %}
+        {%- else -%}
+          - []
+        {%- endif %}
+    {%- endif %}
+  ServiceType: {{ ServiceType }}
+  ServiceInfo:
+    Locale: zh-CN
+    ShortDescription: docker compose deploy
+    Image: 'resources/icons/service_logo.png'
