@@ -1,0 +1,10 @@
+[console_scripts]
+lander = lander.cli:app
+lander-deparagraph = lander.ext.parser.pandoc.filters.deparagraph:main
+
+[lander.parsers]
+article = lander.parsers.article:ArticleParser
+
+[lander.themes]
+base = lander.themes.base:BaseTheme
+minimalist = lander.themes.minimalist:MinimalistTheme
