@@ -1,0 +1,60 @@
+Metadata-Version: 2.1
+Name: charmcraft
+Version: 3.0.0
+Summary: The main tool to build, upload, and develop in general the Juju charms.
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.10
+License-File: LICENSE
+Requires-Dist: craft-application ~=2.0
+Requires-Dist: craft-cli >=2.3.0
+Requires-Dist: craft-parts >=1.18
+Requires-Dist: craft-providers >=1.23.0
+Requires-Dist: craft-store >=2.4
+Requires-Dist: distro >=1.3.0
+Requires-Dist: humanize >=2.6.0
+Requires-Dist: jsonschema
+Requires-Dist: jinja2
+Requires-Dist: pydantic <2.0,>=1.10
+Requires-Dist: python-dateutil
+Requires-Dist: pyyaml
+Requires-Dist: requests
+Requires-Dist: requests-toolbelt
+Requires-Dist: requests-unixsocket
+Requires-Dist: snap-helpers
+Requires-Dist: tabulate
+Requires-Dist: urllib3 <2.0
+Provides-Extra: apt
+Requires-Dist: python-apt >=2.4.0 ; (sys_platform == "linux") and extra == 'apt'
+Provides-Extra: dev
+Requires-Dist: coverage ; extra == 'dev'
+Requires-Dist: flake8 ; extra == 'dev'
+Requires-Dist: freezegun ; extra == 'dev'
+Requires-Dist: hypothesis ~=6.0 ; extra == 'dev'
+Requires-Dist: pydocstyle ; extra == 'dev'
+Requires-Dist: pyfakefs ; extra == 'dev'
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: pytest-cov ; extra == 'dev'
+Requires-Dist: pytest-mock ; extra == 'dev'
+Requires-Dist: pytest-check ; extra == 'dev'
+Requires-Dist: pytest-subprocess ; extra == 'dev'
+Requires-Dist: responses ; extra == 'dev'
+Provides-Extra: lint
+Requires-Dist: black ~=24.0 ; extra == 'lint'
+Requires-Dist: codespell[tomli] <3.0.0,>=2.2.6 ; extra == 'lint'
+Requires-Dist: yamllint <2.0.0,>=1.32.0 ; extra == 'lint'
+Provides-Extra: types
+Requires-Dist: mypy[reports] ~=1.5 ; extra == 'types'
+Requires-Dist: pyright ==1.1.353 ; extra == 'types'
+Requires-Dist: types-python-dateutil ; extra == 'types'
+Requires-Dist: types-requests <2.31.0.20240312 ; extra == 'types'
+Requires-Dist: types-setuptools ; extra == 'types'
+Requires-Dist: types-tabulate ; extra == 'types'
+Requires-Dist: types-urllib3 ; extra == 'types'
+
