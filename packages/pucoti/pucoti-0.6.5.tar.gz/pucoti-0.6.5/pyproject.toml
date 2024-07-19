@@ -1,0 +1,31 @@
+[tool.poetry]
+name = "pucoti"
+version = "0.6.5"
+description = "A Purposeful Countdown Timer"
+authors = ["ddorn <diego.dorn@free.fr>"]
+readme = "README.md"
+license = "GPL-3.0"
+homepage = "https://github.com/ddorn/pucoti"
+repository = "https://github.com/ddorn/pucoti"
+keywords = ["timer", "countdown", "pygame"]
+include = [
+    "./assets/bell.mp3",
+    "./assets/Bevan-Regular.ttf",
+    "./assets/OFL-Bevan.txt",
+]
+
+[tool.poetry.scripts]
+pucoti = "pucoti:app"
+
+[tool.poetry.dependencies]
+python = "^3.12,<3.13"
+pygame-ce = "2.4.1"
+typer = "^0.12.3"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+pyinstaller = "^6.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
