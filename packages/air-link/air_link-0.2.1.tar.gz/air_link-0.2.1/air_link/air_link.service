@@ -1,0 +1,14 @@
+[Unit]
+Description=Air Link
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/USER/
+ExecStart=/usr/bin/env bash --login -c "air-link run"
+User=USER
+Group=USER
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
