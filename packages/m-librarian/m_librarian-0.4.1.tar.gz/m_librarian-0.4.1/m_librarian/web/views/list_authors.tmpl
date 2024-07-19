@@ -1,0 +1,55 @@
+#encoding utf-8
+#from m_librarian.translations import translations
+#extends views.layout
+#attr $title = 'Список авторов'
+#def body
+<h1>Поиск авторов</h1>
+#from views.search_authors_form import search_authors_form
+$search_authors_form(searchList=$searchList)
+
+<h1>$title</h1>
+
+#if $authors
+#filter WebSafe
+  <table>
+  <tr>
+  #set $_ = $getattr($translations, 'ugettext', None) or $translations.gettext
+  #for $column in $columns
+    <td class="center">$_($column)
+    #if $sort in ($column, '+'+$column, '-'+$column)
+      #if $sort in ($column, '+'+$column)
+        #set $sort_param='-'+$column
+        #set $sort_sign='↓'
+      #elif $sort == '-'+$column
+        #set $sort_param=$quote('+')+$column
+        #set $sort_sign='↑'
+      #end if
+    #else
+      #set $sort_param=$quote('+')+$column
+      #set $sort_sign='↓'
+    #end if
+    #set $case_param='1' if $case_sensitive else ''
+    <a href="/list_authors/?search_authors=$search_authors&search_type=$search_type&case_sensitive=$case_param&sort=$sort_param">$sort_sign</a>
+    </td>
+  #end for
+  </tr>
+  #for $author in $authors
+  <tr>
+  #for $column in $columns
+    #if $column == 'count'
+    #set $style = ' style="text-align: right; width: 5ex"'
+    #else
+    #set $style = ''
+    #end if
+    <td$style><a href="/books-by-author/$author.id/">
+    $unicode($getattr($author, $column) or '')
+    </a></td>
+  #end for
+  </tr>
+  #end for
+  </table>
+#end filter WebSafe
+#else
+  <p>Не найдено ни одного автора!</p>
+#end if
+#end def
