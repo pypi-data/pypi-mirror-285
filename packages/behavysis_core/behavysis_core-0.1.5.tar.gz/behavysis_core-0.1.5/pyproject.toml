@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "behavysis_core"
+version = "0.1.5"
+description = "Core functionality supporting the behavysis suite"
+authors = ["BowenLab"]
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://tlee08.github.io/behavysis_core/"
+repository = "https://github.com/tlee08/behavysis_core"
+packages = [{ include = "behavysis_core" }]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pydantic = "^2.7.0"
+numpy = "^1.26.4"
+pandas = "^2.2.2"
+tables = "^3.9.2"
+pyarrow = "^15.0.2"
+scipy = "^1.13.0"
+opencv-python = "^4.9.0.80"
+seaborn = "^0.13.2"
+natsort = "^8.4.0"
+tqdm = "^4.30.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.8"
+mkdocs-material = "^9.5.18"
+mkdocstrings-python = "^1.9.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
