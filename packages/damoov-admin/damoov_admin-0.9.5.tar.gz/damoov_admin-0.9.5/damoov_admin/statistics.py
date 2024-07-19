@@ -1,0 +1,397 @@
+# statistics.py
+import requests
+from datetime import datetime, timedelta
+
+from .auth import TelematicsAuth
+from .core import TelematicsCore
+from .utility import handle_response, adjust_date_range, transform_response_data
+from requests.exceptions import HTTPError
+import json
+
+
+
+
+class BaseStatistics:
+    BASE_URL = "https://api.telematicssdk.com/indicators/admin/v2"
+    
+    def __init__(self, auth_client: TelematicsAuth):
+        self.auth_client = auth_client
+    
+    def _get_headers(self):
+        return {
+            'accept': 'application/json',
+            'authorization': f'Bearer {self.auth_client.get_access_token()}'
+        }
+        
+class StatisticsModule:
+    def __init__(self, core: TelematicsCore):
+        self.core = core  # Renamed self.code to self.core for clarity
+        
+    @property
+    def Statistics(self):
+        return Statistics(self.core.auth_client)
+
+
+
+class Statistics(BaseStatistics):
+    def user_daily_statistics(self, user_id, start_date, end_date, tag=None):
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+        url = f"{self.BASE_URL}/Statistics/daily?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+        
+    def user_daily_ecoscore(self, user_id, start_date, end_date):
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+        url = f"{self.BASE_URL}/Scores/eco/daily?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+
+    def user_daily_safetyscore(self, user_id, start_date, end_date, tag=None):
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+        
+        url = f"{self.BASE_URL}/Scores/safety/daily?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+    
+    def user_accumulated_statistics(self, user_id, start_date, end_date, tag=None):
+        url = f"{self.BASE_URL}/Statistics?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+
+    def user_accumulated_ecoscore(self, user_id, start_date, end_date):
+        url = f"{self.BASE_URL}/Scores/eco?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+        
+
+    def user_accumulated_safetyscore(self, user_id, start_date, end_date, tag=None):
+        url = f"{self.BASE_URL}/Scores/safety?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            
+            response_data = response.json()
+            transformed_data = transform_response_data(response_data)
+            return StatisticsResponse(transformed_data)
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+        
+    def entity_accumulated_ecoscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+        # Check that exactly one of instance_id, app_id, or company_id is provided
+        provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
+        
+        if len(provided_params) != 1:
+            raise ValueError("Exactly one of 'instance_id', 'app_id', or 'company_id' must be provided.")
+
+        url = f"{self.BASE_URL}/Scores/eco/consolidated?StartDate={start_date}&EndDate={end_date}"
+
+        # Add the provided parameter to the URL
+        if instance_id:
+            url += f"&InstanceId={instance_id}"
+        elif app_id:
+            url += f"&AppId={app_id}"
+        elif company_id:
+            url += f"&CompanyId={company_id}"
+
+        if tag:
+            url += f"&Tag={tag}"
+        
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+            e_response = handle_response(response, StatisticsResponse)
+            return e_response
+
+        
+    
+    def entity_daily_ecoscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+        
+
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+
+        
+        # Check that exactly one of instance_id, app_id, or company_id is provided
+        provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
+        
+        if len(provided_params) != 1:
+            raise ValueError("Exactly one of 'instance_id', 'app_id', or 'company_id' must be provided.")
+
+        url = f"{self.BASE_URL}/Scores/eco/consolidated/daily?StartDate={start_date}&EndDate={end_date}"
+
+        # Add the provided parameter to the URL
+        if instance_id:
+            url += f"&InstanceId={instance_id}"
+        elif app_id:
+            url += f"&AppId={app_id}"
+        elif company_id:
+            url += f"&CompanyId={company_id}"
+
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+            e_response = handle_response(response, StatisticsResponse)
+            return e_response
+
+    
+    def entity_daily_statistics(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+        
+
+        # Adjust date range if it exceeds 14 days
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+
+        # Check that exactly one of instance_id, app_id, or company_id is provided
+        provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
+        
+        if len(provided_params) != 1:
+            raise ValueError("Exactly one of 'instance_id', 'app_id', or 'company_id' must be provided.")
+
+        url = f"{self.BASE_URL}/Statistics/consolidated/daily?StartDate={start_date}&EndDate={end_date}"
+
+        # Add the provided parameter to the URL
+        if instance_id:
+            url += f"&InstanceId={instance_id}"
+        elif app_id:
+            url += f"&AppId={app_id}"
+        elif company_id:
+            url += f"&CompanyId={company_id}"
+
+        if tag:
+            url += f"&Tag={tag}"
+        
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+            e_response = handle_response(response, StatisticsResponse)
+            return e_response
+
+        
+
+    def entity_accumulated_safetyscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+   
+        
+        # Check that exactly one of instance_id, app_id, or company_id is provided
+        provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
+        
+        if len(provided_params) != 1:
+            raise ValueError("Exactly one of 'instance_id', 'app_id', or 'company_id' must be provided.")
+
+        url = f"{self.BASE_URL}/Scores/safety/consolidated?StartDate={start_date}&EndDate={end_date}"
+
+        # Add the provided parameter to the URL
+        if instance_id:
+            url += f"&InstanceId={instance_id}"
+        elif app_id:
+            url += f"&AppId={app_id}"
+        elif company_id:
+            url += f"&CompanyId={company_id}"
+
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+            e_response = handle_response(response, StatisticsResponse)
+            return e_response
+
+
+    def entity_accumulated_statistics(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+        # Check that exactly one of instance_id, app_id, or company_id is provided
+        provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
+        
+        if len(provided_params) != 1:
+            raise ValueError("Exactly one of 'instance_id', 'app_id', or 'company_id' must be provided.")
+
+        url = f"{self.BASE_URL}/Statistics/consolidated?StartDate={start_date}&EndDate={end_date}"
+
+        # Add the provided parameter to the URL
+        if instance_id:
+            url += f"&InstanceId={instance_id}"
+        elif app_id:
+            url += f"&AppId={app_id}"
+        elif company_id:
+            url += f"&CompanyId={company_id}"
+
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+            e_response = handle_response(response, StatisticsResponse)
+            return e_response
+
+
+    def entity_daily_safetyscore(self, start_date, end_date, tag=None, instance_id=None, app_id=None, company_id=None):
+        
+        adjusted_values = adjust_date_range(start_date, end_date)
+        start_date, end_date, start_date_timestamp_sec, end_date_timestamp_sec = adjusted_values
+        
+
+        # Check that exactly one of instance_id, app_id, or company_id is provided
+        provided_params = [p for p in [instance_id, app_id, company_id] if p is not None]
+        
+        if len(provided_params) != 1:
+            raise ValueError("Exactly one of 'instance_id', 'app_id', or 'company_id' must be provided.")
+
+        url = f"{self.BASE_URL}/Scores/safety/consolidated/daily?StartDate={start_date}&EndDate={end_date}"
+
+        # Add the provided parameter to the URL
+        if instance_id:
+            url += f"&InstanceId={instance_id}"
+        elif app_id:
+            url += f"&AppId={app_id}"
+        elif company_id:
+            url += f"&CompanyId={company_id}"
+
+        if tag:
+            url += f"&Tag={tag}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')
+            e_response = handle_response(response, StatisticsResponse)
+            return e_response
+
+
+    def lastupdates(self, user_id):
+        url = f"{self.BASE_URL}/Statistics/dates?UserId={user_id}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            # return response.json()
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+
+
+    def uniquetags(self, user_id, start_date, end_date):
+        url = f"{self.BASE_URL}/Statistics/UniqueTags?UserId={user_id}&StartDate={start_date}&EndDate={end_date}"
+        try:
+            response = self.auth_client.get_with_retry(url, headers=self._get_headers())
+            # return response.json()
+            return StatisticsResponse(response.json())
+        except HTTPError as http_err:
+            print(f'HTTP error occurred: {http_err}')  # Or handle it in some other way
+            e_response = handle_response(response, StatisticsResponse) # Pass EngagementResponse as an argument
+            return e_response
+
+
+class StatisticsResponse:
+    def __init__(self, data):
+        self.data = data if isinstance(data, dict) else {}  # Ensure self.data is always a dictionary
+
+    @property
+    def result(self):
+        result = self.data.get('Result', None)
+        if isinstance(result, list):
+            return result
+        elif isinstance(result, dict):
+            return [result]  # Wrap the dictionary in a list
+        return []  # Default to an empty list if 'Result' is neither a list nor a dictionary
+
+    @property
+    def status(self):
+        return self.data.get('Status')
+
+    @property
+    def title(self):
+        return self.data.get('Title', '')
+
+    @property
+    def errors(self):
+        return self.data.get('Errors', []) if isinstance(self.data.get('Errors', []), list) else []
+
+    @property
+    def latest_trip_date(self):
+        if isinstance(self.result, list) and self.result:
+            return self.result[0].get('LatestTripDate')
+        return None
+
+    @property
+    def latest_scoring_date(self):
+        if isinstance(self.result, list) and self.result:
+            return self.result[0].get('LatestScoringDate')
+        return None
+
+    @property
+    def tags_count(self):
+        if isinstance(self.result, list) and self.result:
+            return self.result[0].get('UniqueTagsCount')
+        return None
+
+    @property
+    def tags_list(self):
+        if isinstance(self.result, list) and self.result:
+            return self.result[0].get('UniqueTagsList', [])
+        return []
+
+    @property
+    def full_response(self):
+        return self.data
+
+    def __iter__(self):
+        for item in self.data:
+            yield item
+
+    def __str__(self):
+        return json.dumps(self.data, indent=4)
+
+    
+
+    
+    # Add at the bottom of statistics.py
+def DamoovAuth(email, password):
+    auth_client = TelematicsAuth(email, password)
+    return Statistics(auth_client)
