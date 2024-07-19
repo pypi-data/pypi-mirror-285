@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "PyNetCheck"
+version = "1.0.2"
+license = "MIT"
+description = "Python Network device checker using Pytest and IP Fabric."
+authors = [
+    "Solution Architecture <solution.architecture@ipfabric.io>",
+    "Justin Jeffery <justin.jeffery@ipfabric.io>",
+]
+readme = "README.md"
+packages = [{include = "pynetcheck"}]
+keywords = ["ipfabric", "ip-fabric", "community-fabric"]
+homepage = "https://gitlab.com/ip-fabric/integrations/pynetcheck"
+repository = "https://gitlab.com/ip-fabric/integrations/pynetcheck"
+documentation = "https://gitlab.com/ip-fabric/integrations/pynetcheck"
+
+[tool.poetry.urls]
+"IP Fabric" = "https://ipfabric.io/"
+"Changelog" = "https://gitlab.com/ip-fabric/integrations/pynetcheck/-/blob/main/CHANGELOG.md"
+
+[tool.poetry.dependencies]
+python = "^3.8.1"
+ipfabric = ">=6.7.0,<7.0.0"
+ciscoconfparse = "^1.9.0"
+pytest = "^8.0.0"
+pytest-html-reporter = "^0.2.9"
+netutils = "^1.8.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pynetcheck = 'pynetcheck:main'
+
+[tool.pytest.ini_options]
+addopts = "--tb=line -W ignore::DeprecationWarning"
+testpaths = ["pynetcheck/tests"]
+required_plugins = ["pytest-html-reporter"]
+markers = [
+    "cisco",
+    "cve",
+    "paloalto"
+]
+
+[tool.flake8]
+exlcude = [
+    '.git',
+    '.venv',
+    'dist',
+    'example',
+    'docs',
+]
+max-complexity = 10
+max-line-length = 127
+count = true
+statistics = true
