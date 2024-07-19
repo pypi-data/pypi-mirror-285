@@ -1,0 +1,44 @@
+[project]
+name = "pdm-download"
+description = "A PDM plugin to download all packages in a lockfile for offline use."
+authors = [
+    { name = "Frost Ming", email = "me@frostming.com" },
+]
+dependencies = [
+    "rich>=13",
+]
+requires-python = ">=3.8"
+readme = "README.md"
+dynamic = []
+classifiers = [
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+version = "0.2.0"
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Repository = "https://github.com/pdm-project/pdm-download"
+
+[project.entry-points.pdm]
+download = "pdm_download:main"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm.version]
+source = "scm"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pdm[pytest]>=2.17",
+]
