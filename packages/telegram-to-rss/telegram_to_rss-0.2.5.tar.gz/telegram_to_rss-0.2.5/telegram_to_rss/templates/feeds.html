@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block head %} {% for feed in feeds %}
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title="{{ feed.name }}"
+  href="/static/{{ feed.id }}.xml"
+/>
+{% endfor %} {% endblock %} {% block content %}
+<div>
+  <p>
+    Logged in as {{ user.first_name }} {{ user.last_name }} ({{ user.username
+    }}).
+  </p>
+  <p>Give it a few minutes on first start to fetch the data.</p>
+  <p>Available feeds:</p>
+  <ul>
+    {% for feed in feeds %}
+    <li>
+      <p>
+        <a href="/static/{{ feed.id }}.xml">{{ feed.name }}</a>
+      </p>
+      <p>Last update: {{ feed.last_update }}</p>
+    </li>
+    {% else %}
+    <p>No feeds available.</p>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

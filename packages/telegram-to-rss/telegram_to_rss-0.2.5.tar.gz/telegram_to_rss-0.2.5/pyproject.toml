@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "telegram-to-rss"
+version = "0.2.5"
+description = ""
+authors = ["aigoncharov"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "telegram_to_rss"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Telethon = "^1.36.0"
+quart = "^0.19.6"
+qrcode = "^7.4.2"
+platformdirs = "^4.2.2"
+tortoise-orm = "^0.21.3"
+anyio = "^4.4.0"
+hypercorn = "^0.17.3"
+
+cryptg = "^0.4.0"
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+flake8-bugbear = "^24.4.26"
+flake8-pyproject = "^1.2.3"
+
+pre-commit = "^3.7.1"
+[tool.flake8]
+max-line-length = 88
+extend-select = "B950"
+extend-ignore = "E203,E501,E701"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+telegram_to_rss = "telegram_to_rss:main"
