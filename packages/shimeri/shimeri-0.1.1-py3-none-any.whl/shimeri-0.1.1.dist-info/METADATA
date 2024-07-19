@@ -1,0 +1,40 @@
+Metadata-Version: 2.3
+Name: shimeri
+Version: 0.1.1
+Summary: A Python package for calculating psychrometric properties of moist air and plotting psychrometric charts.
+Project-URL: Homepage, https://github.com/yutaka-shoji/shimeri
+Author-email: "Shoji, Yutaka" <ytk.shoji@gmail.com>
+License-File: LICENSE
+Requires-Python: >=3.10
+Requires-Dist: numpy>=1.26
+Requires-Dist: plotly>=5.10
+Requires-Dist: scipy>=1.12
+Description-Content-Type: text/markdown
+
+# shimeri
+
+## Overview
+
+A Python package for calculating psychrometric properties of moist air and plotting psychrometric charts based on plotly.
+
+## Motivation
+Psychrometric charts are drawn on an oblique coordinate system with enthalpy and humidity ratio as axes.  
+As a result, dry-bulb temperatures are not precisely equidistant.  
+This tool managed this characteristic.
+
+
+## Installation
+
+```bash
+pip install shimeri
+```
+
+## Usage
+[See sample.py](/sample.py)
+
+Sample Result:  
+![Sample Result](https://github.com/yutaka-shoji/shimeri/blob/main/sample.png?raw=true)
+
+## Attention
+The `PsychrometricCalculator.get_all()` method uses convergence calculations. Especially when calculating from wet-bulb temperature and enthalpy, convergence can be poor, potentially leading to inaccurate results. (The poor convergence can be understood from the fact that the slopes of wet-bulb temperature and enthalpy lines are similar on the psychrometric chart.
+
