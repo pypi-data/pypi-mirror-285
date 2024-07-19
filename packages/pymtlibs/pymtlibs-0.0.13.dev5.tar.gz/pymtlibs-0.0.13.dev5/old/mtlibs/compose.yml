@@ -1,0 +1,85 @@
+version: "3.9"
+
+networks:
+  net:
+    name: net
+    driver: bridge
+    enable_ipv6: false
+    ipam:
+      driver: default
+
+volumes:
+  vscode-server6:
+  maindocker:
+  vscode_server:
+    name: vscode_server
+  gradle:
+    name: gradle
+  maven:
+    name: maven
+  npm_global:
+    name: npm_global
+  yarn_global:
+    name: yarn_global
+  dot_cache:
+    name: dot_cache
+  pgdb:
+    name: pgdb
+  workspace:
+    name: workspace
+
+services:
+  cloudfared:
+    #
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    networks: &network
+      - net
+    command: tunnel --no-autoupdate run --token eyJhIjoiN2VmM2YxZTM3MzZlOGE5MGRkYTljMjdiZDc1YjYxOTMiLCJ0IjoiMDZmNmFhODMtMTYwMy00ODdiLWFhNmItZDNmOWUzMTVhZDIwIiwicyI6Ik5UZzVNakl4WlRJdE56RTFOUzAwT1RGakxUbGhaV1V0T0dWaFpUazRaalJtTVRobCJ9
+
+  pgdb:
+    image: postgres:13
+    restart: unless-stopped
+    networks: *network
+    environment:
+      POSTGRES_DB: mtcms
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: feihuo321
+    volumes:
+      # 持久数据
+      - pgdb:/var/lib/postgresql/data:Z
+
+  main_d:
+    image: gitgit188/dev
+    restart: unless-stopped
+    privileged: true
+    networks: *network
+    depends_on:
+      - pgdb
+      - cloudfared
+    working_dir: /workspace
+    volumes:
+      - /workspace:/workspace
+      # - gradle:/root/.gradle
+      # - maven:/root/.m2
+      - vscode_server:/root/.vscode-server
+      - /var/run/docker.sock:/var/run/docker.sock
+      # - dot_cache:/root/.cache/
+    entrypoint: dockerdev
+
+  mtlibs_test:
+    image: gitgit188/mtlibs_test
+    build:
+      context: .
+      target: test
+      args:
+        - MTX_BUNDLER_PASS=123123123
+
+  # 解密测试
+  mtlibs_test_up:
+    image: gitgit188/mtlibs_test
+    build:
+      context: .
+      target: test
+      args:
+        - MTX_BUNDLER_PASS=123123123

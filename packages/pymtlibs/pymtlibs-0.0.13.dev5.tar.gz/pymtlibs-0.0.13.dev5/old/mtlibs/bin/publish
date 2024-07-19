@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+rm -rdf ./dist
+python3 -m build
+
+python3 -m twine upload dist/*
+
+PYPI_REPO="pipy"
+PYPI_USER=mattwin
+PYPI_PASSWORD="xIl1*yingzi606"
+
+echo "[pypi]" > ~/.pypirc
+echo "username:${PYPI_USER}" >> ~/.pypirc
+echo "password:${PYPI_PASSWORD}" >> ~/.pypirc
+
+python3 -m twine upload --repository pypi dist/*
