@@ -1,0 +1,92 @@
+#encoding utf-8
+#from m_librarian.translations import translations
+#extends views.layout
+#attr $title = 'Список книг'
+#def body
+<h1>$title</h1>
+
+<script type="text/javascript" language="Javascript">
+<!--
+function toggleBooks(selector, value) {
+  cboxes = document.querySelectorAll(selector);
+  for (var i = 0; i < cboxes.length; i++) {
+    cboxes[i].checked = value;
+  }
+}
+
+function toggleAll(value) {
+  toggleBooks('input[type=checkbox]', value);
+}
+
+function toggleAuthor(name, value) {
+  toggleBooks('input[type=checkbox][name^=' + name + ']', value);
+}
+
+function toggleSeries(name, value) {
+  toggleBooks('input[type=checkbox][name^=' + name + '_book]', value);
+}
+// -->
+</script>
+
+#if $books_by_author
+#filter WebSafe
+  <form action="/download/" method="POST" style="height: 80%">
+  <table id="list_books">
+  <tr>
+  <td><input type=checkbox name="_toggleAll"
+  onClick="toggleAll(this.checked)"></td>
+  #set $_ = $getattr($translations, 'ugettext', None) or $translations.gettext
+  #for $column in $columns
+    <td class="center">$_($column)</td>
+  #end for
+  </tr>
+  #set $columns1 = $len($columns)+1
+  #for $anum, $author in $enumerate($sorted($books_by_author))
+    #set $series = None
+    #set $snum = 0
+    #set $books = $books_by_author[$author]
+  <tr>
+  <td><input type=checkbox name="a${anum+1}_"
+  onClick="toggleAuthor(this.name, this.checked)"></td>
+  <td colspan="${columns1-1}"><b>$author</b></td>
+  </tr>
+    #for $book in $books
+    #if $book.series != $series
+    #set $series = $book.series
+    #set $snum += 1
+  <tr>
+  <td><input type=checkbox name="a${anum+1}_s${snum}"
+  onClick="toggleSeries(this.name, this.checked)"></td>
+  <td colspan="${columns1-1}"><b>
+  $author — <i>
+  #if $book.series
+$series, 1#slurp
+  #else
+Вне серий#slurp
+  #end if
+  </i></b></td>
+  </tr>
+    #end if
+  <tr>
+  <td><input type=checkbox name="a${anum+1}_s${snum}_books" value="$book.id"></td>
+  #for $column in $columns
+  #if $column in ('ser_no', 'size')
+  #set $style = ' style="text-align: right; width: 5ex"'
+  #else
+  #set $style = ''
+  #end if
+  <td$style>$unicode($getattr($book, $column) or '')</td>
+  #end for
+  </tr>
+    #end for
+  #end for
+  </table>
+  <div id="bottom" class="center">
+  <input type="submit" value="Скачать">
+  </div>
+  </form>
+#end filter WebSafe
+#else
+  <p>Не найдено ни одной книги!</p>
+#end if
+#end def
