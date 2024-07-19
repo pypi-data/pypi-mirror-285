@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: mlflow-cloudflare-header-plugin
+Version: 1.0.0
+Summary: MLFlow plugin that adds extra headers required for Cloudflare access to all outgoing MLFlow requests
+License: MIT
+Author: Maciej Blasiak
+Author-email: maciej.blasiak@goflink.com
+Requires-Python: >=3.9
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: mlflow (>=2.9.0)
+Description-Content-Type: text/markdown
+
+## MLFlow Cloudflare Auth Request Header plugin
+
+This package provides a custom MLflow plugin that allows users to pass extra headers when authenticating to a MLflow server that is protected by Cloudflare.
+
+
+* `mlflow-cloudflare-header-plugin"`: uses `CloudflareRequestHeaderProvider` class that is used to specify the custom request headers `CF-Access-Client-Id` and `CF-Access-Client-Secret` required for a user to authenticate to the MLflow server when using the MLflow Python API.
+* `pyproject.toml` file defines the entrypoint that tells MLflow to automatically register the custom request header provider to the registry when this package is installed.
+
+### Usage
+
+Install this package using pip and then use MLflow as normal.
+
+```bash
+pip install mlflow-cloudflare-header-plugin
+```
+
+The plugin expects Cloudflare ID and Secret to be defined as env variables
+
