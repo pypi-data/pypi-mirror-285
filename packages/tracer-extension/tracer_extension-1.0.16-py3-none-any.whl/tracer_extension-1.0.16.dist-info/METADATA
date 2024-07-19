@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: tracer-extension
+Version: 1.0.16
+Summary: Python Worker Extension for starting Datadog Tracer and a top level span to enable auto-instrumenting of Azure Function Apps
+Author: Gordon
+Author-email: gordon.hamilton@datadoghq.com
+Requires-Dist: azure-functions <2.0.0,>=1.7.0
+Requires-Dist: ddtrace ==2.9.1
+
+# Python Worker Tracer Extension
+
+This extension is meant to start up the tracer for the Azure function apps as well as auto-instrument the application
+
+## Usage
+
+pip install the package and import it into the code of the function app
