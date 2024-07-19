@@ -1,0 +1,84 @@
+Metadata-Version: 2.1
+Name: dicarlo-lab-to-nwb
+Version: 0.1.1
+Summary: NWB conversion scripts, functions, and classes for DiCarlo conversion
+Author-email: Heberto Mayorquin <h.mayorquin@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2020 CatalystNeuro
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Repository, https://github.com/catalystneuro/dicarlo-lab-to-nwb
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: neuroconv[video]>=0.5.0
+Requires-Dist: spikeinterface==0.101.0rc1
+Requires-Dist: probeinterface>=0.2.23
+Requires-Dist: neo>=0.13.2
+Requires-Dist: pillow>=10.3.0
+Requires-Dist: ndx-binned-spikes>=0.1.0
+Requires-Dist: matplotlib
+Requires-Dist: psutil
+Requires-Dist: docker
+Requires-Dist: numba
+
+# dicarlo-lab-to-nwb
+NWB conversion scripts for DiCarlo lab data to the [Neurodata Without Borders](https://nwb-overview.readthedocs.io/) data format.
+
+
+## Installation
+
+You can install the latest release of the package with pip
+
+```
+pip install dicarlo-lab-to-nwb
+```
+While we wait for the latest release of neo you will also require to install the latest version of neo from the github repository. You can do this by running the following command:
+
+```bash
+pip install "neo@git+https://github.com/NeuralEnsemble/python-neo@master"
+```
+
+To get the latest version of the code, you can install the package by cloning from github and installing
+
+```bash
+git clone https://github.com/catalystneuro/dicarlo-lab-to-nwb
+cd dicarlo-lab-to-nwb
+pip install -e .
+```
+
+If you already have the repository cloned, be sure to run the following instructions so you have the latest version of the code:
+
+```bash
+git pull
+pip install -e . --upgrade
+```
+
+We recommend that you install the package inside a [virtual environment](https://docs.python.org/3/tutorial/venv.html). A simple way of doing this is to use a [conda environment](https://docs.conda.io/projects/conda/en/latest/user-guide/concepts/environments.html) from the `conda` package manager ([installation instructions](https://docs.conda.io/en/latest/miniconda.html)). Detailed instructions on how to use conda environments can be found in their [documentation](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html).
+
+
+
+## Basic Usage
+The basic usage of the package is documented in the [showcase_notebook.ipynb](https://github.com/catalystneuro/dicarlo-lab-to-nwb/blob/main/src/dicarlo_lab_to_nwb/conversion/showcase_notebook.ipynb)
