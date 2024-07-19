@@ -1,0 +1,49 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "larray_eurostat"
+]
+addopts = [
+    "-v",
+    "--doctest-modules",
+#    "--cov",
+]
+
+filterwarnings = [
+    # turn warnings into errors (unless they are explicitly handled in tests or ignored here)
+    "error",
+]
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".eggs",
+    ".git",
+    ".ruff_cache",
+    ".venv",
+    "__pypackages__",
+    "build",
+    "dist",
+    "experiments",
+]
+
+line-length = 120
+
+[tool.ruff.lint]
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F"]
+ignore = []
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+# fixable = ["A", "B", "C", "D", "E", "F", "..."]
+# unfixable = []
+
+[tool.ruff.lint.per-file-ignores]
+"*\\tests\\test_*" = [
+    "S101",   # allow using assert in test functions
+    "D103"    # do not require docstrings for test functions
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
