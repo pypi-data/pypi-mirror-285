@@ -1,0 +1,216 @@
+name: Tests
+on: [push, pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    env:
+      ENV_NAME: ${{ matrix.env_name }}
+      PYTHON: ${{ matrix.python-version }}
+      OS: ${{ matrix.os }}
+    name: Testing
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        # Adding -l {0} helps ensure conda can be found properly.
+        shell: bash -l {0}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        python-version: ["3.10", "3.11", "3.12"]
+        env_name: [pyuvsim_tests_openmpi]
+        include:
+          - env_name: pyuvsim_tests_mpich
+            python-version: "3.11"
+            os: ubuntu-latest
+          - env_name: pyuvsim_tests_mpich
+            python-version: "3.11"
+            os: macos-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - name: Setup Minimamba
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
+          python-version: ${{ env.PYTHON }}
+          environment-file: ci/${{ env.ENV_NAME }}.yaml
+          activate-environment: ${{ env.ENV_NAME }}
+
+      - name: Conda Info
+        run: |
+          conda info -a
+          conda list
+          PYVER=`python -c "import sys; print('{:d}.{:d}'.format(sys.version_info.major, sys.version_info.minor))"`
+          if [[ $PYVER != ${{ env.PYTHON }} ]]; then
+            exit 1;
+          fi
+
+      - name: Install
+        # calling git right before the install seems to prevent a time-out within setuptools_scm on MacOS
+        run: |
+          git describe --tags
+          git version
+          SETUPTOOLS_SCM_DEBUG=1 pip install --no-deps .
+
+      - name: Run Tests
+        run: |
+          python -m pytest -n auto --cov=pyuvsim --cov-config=.coveragerc --cov-report xml:./coverage.xml --junitxml=test-reports/xunit.xml
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        if: success()
+        with:
+          token: ${{secrets.CODECOV_TOKEN}} #required
+          file: ./coverage.xml #optional
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+
+  # Use pip for diversity
+  # do this on min_deps because it's hard to get mpi4py to install from pip
+  min_deps:
+    env:
+      PYTHON: "3.11"
+    name: Min Deps Testing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON }}
+
+      # Just install the test requirements, also install pytest-xdist for speed
+      - name: Install
+        run: |
+          pip install -e .[test]
+          pip install pytest-xdist
+
+      - name: Environment Info
+        run: |
+          pip list
+          PYVER=`python -c "import sys; print('{:d}.{:d}'.format(sys.version_info.major, sys.version_info.minor))"`
+          if [[ $PYVER != ${{ env.PYTHON }} ]]; then
+            exit 1;
+          fi
+
+      - name: Run Tests
+        run: |
+          python -m pytest -n auto --cov=pyuvsim --cov-config=.coveragerc --cov-report xml:./coverage.xml
+
+      - uses: codecov/codecov-action@v4
+        if: success()
+        with:
+          token: ${{secrets.CODECOV_TOKEN}} #required
+          files: ./coverage.xml #optional
+
+  min_versions:
+    env:
+      ENV_NAME: min_versions
+      PYTHON: "3.10"
+    name: Min Versions Testing
+    defaults:
+      run:
+        # Adding -l {0} helps ensure conda can be found properly.
+        shell: bash -l {0}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+      - name: Setup Minimamba
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
+          python-version: ${{ env.PYTHON }}
+          environment-file: ci/${{ env.ENV_NAME }}.yaml
+          activate-environment: ${{ env.ENV_NAME }}
+
+      - name: Conda Info
+        run: |
+          conda info -a
+          conda list
+          PYVER=`python -c "import sys; print('{:d}.{:d}'.format(sys.version_info.major, sys.version_info.minor))"`
+          if [[ $PYVER != ${{ env.PYTHON }} ]]; then
+            exit 1;
+          fi
+
+      - name: Install
+        run: |
+          pip install --no-deps .
+
+      - name: Run Tests
+        run: |
+          python -m pytest -n auto --cov=pyuvsim --cov-config=.coveragerc --cov-report xml:./coverage.xml --junitxml=test-reports/xunit.xml
+
+      - uses: codecov/codecov-action@v4
+        if: success()
+        with:
+          token: ${{secrets.CODECOV_TOKEN}} #required
+          file: ./coverage.xml #optional
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
+
+  warning_test:
+    env:
+      ENV_NAME: pyuvsim_tests_mpich
+      PYTHON: "3.11"
+    name: Warning Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        # Adding -l {0} helps ensure conda can be found properly.
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+
+      - name: Setup Minimamba
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
+          python-version: ${{ env.PYTHON }}
+          environment-file: ci/${{ env.ENV_NAME }}.yaml
+          activate-environment: ${{ env.ENV_NAME }}
+
+      - name: Conda Info
+        run: |
+          conda info -a
+          conda list
+          PYVER=`python -c "import sys; print('{:d}.{:d}'.format(sys.version_info.major, sys.version_info.minor))"`
+          if [[ $PYVER != ${{ env.PYTHON }} ]]; then
+            exit 1;
+          fi
+
+      - name: Install
+        run: |
+          pip install --no-deps .
+
+      - name: Run Tests
+        run: |
+          python -m pytest -n auto -W error --cov=pyuvsim --cov-config=.coveragerc --cov-report xml:./coverage.xml --junitxml=test-reports/xunit.xml
+
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        if: success()
+        with:
+          token: ${{secrets.CODECOV_TOKEN}} #required
+          file: ./coverage.xml #optional
+          env_vars: OS,PYTHON
+          fail_ci_if_error: true
