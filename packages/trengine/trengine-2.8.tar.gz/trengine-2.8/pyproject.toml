@@ -1,0 +1,30 @@
+[project]
+name = "trengine"
+version = "2.8"
+authors = [
+  { name="ZAID", email="me@zaid.pro" },
+]
+description = "TREngine is python library based on 4 translators engines"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "aiohttp",
+  "asyncio",
+  "requests",
+]
+
+[project.urls]
+Homepage = "https://github.com/2ei/trengine"
+Issues = "https://github.com/2ei/trengine/issues"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+include = ["trengine*"]
+exclude = ["docs*", "tests*", "examples*"]
