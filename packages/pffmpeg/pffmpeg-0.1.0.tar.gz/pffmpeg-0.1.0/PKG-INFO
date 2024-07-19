@@ -1,0 +1,146 @@
+Metadata-Version: 2.3
+Name: pffmpeg
+Version: 0.1.0
+Summary: Progress bar for FFmpeg
+Project-URL: Homepage, https://pypi.org/project/pffmpeg/
+Project-URL: Documentation, https://cguichard.github.io/pffmpeg/
+Project-URL: Changelog, https://cguichard.github.io/pffmpeg/changelog/
+Project-URL: Source, https://github.com/CGuichard/pffmpeg
+Project-URL: Tracker, https://github.com/CGuichard/pffmpeg/issues
+Author-email: Clément GUICHARD <clement.guichard0@gmail.com>
+License: MIT License
+        
+        Copyright (c) 2024 Clément GUICHARD
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: ffmpeg,progress,rich
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Console
+Classifier: Framework :: Hatch
+Classifier: Framework :: MkDocs
+Classifier: Framework :: Pytest
+Classifier: Framework :: tox
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Multimedia
+Classifier: Topic :: Multimedia :: Video
+Classifier: Topic :: Multimedia :: Video :: Conversion
+Classifier: Topic :: Software Development :: Version Control :: Git
+Classifier: Topic :: Utilities
+Classifier: Typing :: Typed
+Requires-Python: >=3.10
+Requires-Dist: rich~=13.7
+Description-Content-Type: text/markdown
+
+# PFFmpeg
+
+<div align="center" style="margin:40px;">
+  <img src="https://raw.githubusercontent.com/CGuichard/pffmpeg/main/docs/src/assets/img/logo.png" alt="PFFmpeg logo" style="margin-bottom: 20px" width="300"/>
+
+  _Progress bar for FFmpeg_
+
+  <!-- --8<-- [start:overview-header] -->
+  [![Language](https://img.shields.io/badge/Language-python≥3.10-3776ab?style=flat-square&logo=Python)](https://www.python.org/)
+  ![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)
+  [![Documentation](https://img.shields.io/badge/Documentation-mkdocs-0a507a?style=flat-square)](https://cguichard.github.io/pffmpeg/)
+  ![Style](https://img.shields.io/badge/Style-ruff-9a9a9a?style=flat-square)
+  ![Lint](https://img.shields.io/badge/Lint-ruff,%20mypy-brightgreen?style=flat-square)
+  ![Security](https://img.shields.io/badge/Security-bandit,%20pip%20audit-purple?style=flat-square)
+  [![Tests](https://github.com/CGuichard/pffmpeg/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/CGuichard/pffmpeg/actions/workflows/tests.yml)
+
+  [Pull Request](https://github.com/CGuichard/pffmpeg/pulls) **·**
+  [Bug Report](https://github.com/CGuichard/pffmpeg/issues/new?template=bug_report.md) **·**
+  [Feature Request](https://github.com/CGuichard/pffmpeg/issues/new?template=feature_request.md)
+  <!-- --8<-- [end:overview-header] -->
+
+</div>
+
+<!-- --8<-- [start:overview-body] -->
+---
+
+**Documentation**: <a href="https://cguichard.github.io/pffmpeg" target="_blank">https://cguichard.github.io/pffmpeg</a>
+
+**Source Code**: <a href="https://github.com/CGuichard/pffmpeg" target="_blank">https://github.com/CGuichard/pffmpeg</a>
+
+---
+
+The FFmpeg command line tool is a universal media converter. It can read a wide variety of inputs,
+filter and transcode them into a plethora of output formats. For new user it can be extremely
+convoluted to use, and read the output. When converting a video file for the first time,
+understanding the progress of the current task from the output is quite the confusing task.
+
+This is where PFFmpeg comes in. It's CLI is just on top of FFmpeg's, and delegates everything to it.
+The output of the FFmpeg is parsed and "patched" to display a progress bar while running an action
+such as a video compression. PFFmpeg philosophy is to alter as little as possible the FFmpeg experience,
+and simply add the progress bar when needed, unlike other project who just wrap and hide all of the
+output behind a progress bar. In terms of style, the
+[`rich`](https://rich.readthedocs.io/en/latest/progress.html) progress bar was chosen.
+
+<!-- --8<-- [end:overview-body] -->
+## Table of Contents
+
+- [Quick start](#quick-start)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Quick start
+
+Install PFFmpeg with pip (from PyPI):
+
+```bash
+pip install pffmpeg
+```
+
+You can use any `ffmpeg` command with `pffmpeg`:
+
+```bash
+# Print help
+pffmpeg -h
+
+# Print version
+pffmpeg -version
+
+# Video processing
+pffmpeg -i input.mp4 output.mp4
+```
+
+Demo:
+
+![Demo pffmpeg](./docs/src/assets/img/demo-pffmpeg.gif)
+
+## Contributing
+
+If you want to contribute to this project or understand how it works,
+please check [CONTRIBUTING.md](CONTRIBUTING.md).
+
+Any contribution is greatly appreciated.
+
+## License
+
+Distributed under the MIT License. See [LICENSE](LICENSE) for more
+information.
