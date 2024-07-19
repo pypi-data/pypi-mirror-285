@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Py-Html-Graph</title>
+    <script src="chart.js"></script>
+    <script>
+        (function(d) {
+          var config = {
+            kitId: 'ccp7pog',
+            scriptTimeout: 3000,
+            async: true
+          },
+          h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+        })(document);
+      </script>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <main id="main">
+        <div id="wrapper">
+            <div id="force-overflow-hidden">
+                <canvas id="myChart"></canvas>
+            </div>
+            <a id="dash" class="$jtc.phg.proxy-replacer$" href="/dashboard">Dash<br>board</a>
+            <h1 id="title">$jtc.py-html-graph.graph-title$</h1>
+            <div id="y">
+                <div id="y-line"></div>
+                <div id="y-top-scale" class="y-scale"></div>
+                <div id="y-bottom-scale" class="y-scale"></div>
+                <p id="y-title">$jtc.py-html-graph.y-title$</p><br>
+                <p id="y-top-value" class="y-value y-value-fixed">test1</p>
+                <p id="y-bottom-value" class="y-value y-value-fixed">test2</p>
+            </div>
+            <div id="downleft">
+                <div id="downleft-corner"></div>
+            </div>
+            <div id="labels-wrapper">
+                <div id="labels">
+                    <div class="label" id="sel-uns-all">
+                        <!-- <button id="sel-all">Sel all</button>
+                        <button id="uns-all">Uns all</button> -->
+                        <button id="sel-button" onclick="select_all_variables()"><img id="sel-all"></button>
+                        <button id="uns-button" onclick="unselect_all_variables()"><img id="uns-all"></button>
+                    </div>
+                </div>
+            </div>
+            <div id="x">
+                <div id="x-line"></div>
+                <div id="x-left-scale" class="x-scale"></div>
+                <div id="x-right-scale" class="x-scale"></div>
+                <p id="x-left-value" class="x-value x-value-fixed">test1</p>
+                <p id="x-right-value" class="x-value x-value-fixed">test2</p>
+                <p id="x-title">$jtc.py-html-graph.x-title$</p>
+            </div>
+        </div>
+
+        <div id="resize-paddle"><div></div></div>
+        <div id="options">
+            <label id="fix-y-wrapper">
+                <input type="checkbox" id="fix-y">
+                <p id="fix-y-text">Fix Y range (Global)</p>
+            </label>
+            <div id="fix-y-mask"></div>
+            <button id="to-current" onclick="fit_current()" class="tmp">
+                Fit Y to current
+            </button>
+            <label id="lock-y-wrapper">
+                <input type="checkbox" id="lock-y">
+                <p id="lock-y-text">Lock Y range</p>
+            </label>
+            <label id="lock-graph-wrapper">
+                <input type="checkbox" id="lock-graph">
+                <p id="lock-graph-text">Lock entire graph</p>
+            </label>
+            <div id="y-format">
+                <p id="y-value-text">Y value:</p>
+                <label id="decimal-wrapper">
+                    <input type="radio" id="y-decimal" name="qehbwrnw" onclick="to_decimal()">
+                    <p id="decimal-text">Decimal</p>
+                </label>
+                <div id="y-blank-1"></div>
+                <label id="scientific-wrapper">
+                    <input type="radio" id="y-scientific" name="qehbwrnw" onclick="to_scientific()">
+                    <p id="scientific-text">Scientific</p>
+                </label>
+                <div id="y-blank-2"></div>
+                <input type="text" id="y-digits" value="2">
+                <p id="y-digits-text">digits</p>
+            </div>
+            <label id="x-relative-wrapper">
+                <input type="checkbox" id="x-relative">
+                <p id="x-relative-text">Use relative time in X</p>
+            </label>
+            <div id="y-range">
+                <p id="y-value-text" class="y-range-text">Y range:</p>
+                <p id="y-digits-text">from</p>
+                <input type="text" id="y-range-1" placeholder="0">
+                <p id="y-digits-text">to</p>
+                <input type="text" id="y-range-2" placeholder="0">
+                <button id="y-range-ok" onclick="set_y_range()">OK</button>
+            </div>
+            <label id="x-relative-wrapper" class="x-week-wrapper">
+                <input type="checkbox" id="x-week">
+                <p id="x-relative-text">Show week day in X</p>
+            </label>
+            <label id="x-relative-wrapper" class="debug-mode-wrapper">
+                <input type="checkbox" id="debug-mode" checked="true">
+                <p id="x-relative-text">Debug mode</p>
+            </label>
+            <div id="line-width-wrapper">
+                <p id="y-value-text" class="y-range-text">Line width:</p>
+                <!-- <input type="range" id="line-width"> -->
+                <div id="slider-wrapper">
+                    <div id="slider-button"></div>
+                </div>
+                <button id="lw-reset" onclick="reset_line_width()">Reset</button>
+            </div>
+        </div>
+        <div id="debug-info">
+            <p id="fps">FPS: 0
+            </p><button id="reverse-mouse" onclick="reverse_mouse()">Reverse mouse wheel
+            </button><button id="copy-info" onclick="copy_info()">Copy info
+            </button><div id="y-format" class="data-points">
+                <p id="y-value-text" class="data-points-text">Data points in window (50 ~ 5000):</p>
+                <input type="text" id="data-points-input" value="600">
+                <p id="y-digits-text" class="data-points-after">~ 1200</p>
+            </div><div id="cache-rate">Cache hit: 0.00%
+            </div><div id="http-https">
+            </div>
+            <!-- <p id="reverse-mouse">Reverse mouse wheel direction</p> -->
+        </div>
+        <div id="debug-ph"></div>
+        <div id="debug-container">
+            <p id="debug">Test</p>
+            <p id="debug2">Test</p>
+        </div>
+    </main>
+    <footer>
+        <div></div>
+        <p>
+            py-html-graph: a high-performance interactive numpy line chart viewer, good supplement for the awful
+            matplotlib
+        </p>
+        <p>
+            Github:
+            <a href="https://github.com/jtc1246/py-html-graph" target="_blank">github.com/jtc1246/py-html-graph</a>
+        </p>
+    </footer>
+    <script src="style.js"></script>
+    <script src="axis.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>
