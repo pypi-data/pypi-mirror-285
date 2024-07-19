@@ -1,0 +1,22 @@
+[project]
+name = "pyReqCheck"
+version = "0.93"
+authors = [
+  { name="Joar Gjersund", email="joargjersund@gmail.com" },
+]
+description = "Python library for checking if any modules are missing in your project's requirements.txt file"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+[tool.setuptools.packages.find]
+where = ["src"]
+[tool.setuptools.package-data]
+pyReqCheck = ["*"]
+
+[project.urls]
+Homepage = "https://github.com/JoarGjersund/pyReqCheck"
+Issues = "https://github.com/JoarGjersund/pyReqCheck/issues"

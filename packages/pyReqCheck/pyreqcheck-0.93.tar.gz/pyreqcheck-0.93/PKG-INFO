@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: pyReqCheck
+Version: 0.93
+Summary: Python library for checking if any modules are missing in your project's requirements.txt file
+Author-email: Joar Gjersund <joargjersund@gmail.com>
+Project-URL: Homepage, https://github.com/JoarGjersund/pyReqCheck
+Project-URL: Issues, https://github.com/JoarGjersund/pyReqCheck/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# pyReqCheck
+Python library for checking if any modules are missing in your project's requirements.txt file
+
+
+# Install
+`pip install pyReqCheck`
+
+# Run
+`python -m pyReqCheck`
+
+## Success
+`::success:: All packages are used in requirements.txt`
+
+## warning
+
+`::warning:: Package in requirements.txt file not used in any modules: []`
+
+## Failure
+`::error:: One or more packages are imported but not found in requirements.txt: [comma seperated list of missing modules]`
