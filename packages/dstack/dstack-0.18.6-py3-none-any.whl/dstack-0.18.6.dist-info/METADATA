@@ -1,0 +1,246 @@
+Metadata-Version: 2.1
+Name: dstack
+Version: 0.18.6
+Summary: dstack is an open-source orchestration engine for running AI workloads on any cloud or on-premises.
+Home-page: https://dstack.ai
+Author: Andrey Cheptsov
+Author-email: andrey@dstack.ai
+License: UNKNOWN
+Project-URL: Source, https://github.com/dstackai/dstack
+Platform: UNKNOWN
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: pyyaml
+Requires-Dist: requests
+Requires-Dist: typing-extensions >=4.0.0
+Requires-Dist: cryptography
+Requires-Dist: packaging
+Requires-Dist: python-dateutil
+Requires-Dist: gitpython
+Requires-Dist: jsonschema
+Requires-Dist: paramiko
+Requires-Dist: cursor
+Requires-Dist: rich
+Requires-Dist: rich-argparse
+Requires-Dist: tqdm
+Requires-Dist: simple-term-menu
+Requires-Dist: fastapi
+Requires-Dist: starlette >=0.26.0
+Requires-Dist: uvicorn
+Requires-Dist: pydantic <2.0.0,>=1.10.10
+Requires-Dist: pydantic-duality >=1.2.0
+Requires-Dist: sqlalchemy[asyncio] >=2.0.0
+Requires-Dist: sqlalchemy-utils >=0.40.0
+Requires-Dist: alembic >=1.10.2
+Requires-Dist: apscheduler <4
+Requires-Dist: aiosqlite
+Requires-Dist: aiohttp
+Requires-Dist: websocket-client
+Requires-Dist: watchfiles
+Requires-Dist: python-multipart
+Requires-Dist: filelock
+Requires-Dist: docker >=6.0.0
+Requires-Dist: python-dxf >=11.0.0
+Requires-Dist: cachetools
+Requires-Dist: dnspython
+Requires-Dist: grpcio >=1.50
+Requires-Dist: gpuhunt >=0.0.12
+Requires-Dist: sentry-sdk[fastapi]
+Requires-Dist: httpx
+Requires-Dist: aiorwlock
+Requires-Dist: python-json-logger
+Requires-Dist: alembic-postgresql-enum
+Requires-Dist: asyncpg
+Provides-Extra: all
+Requires-Dist: boto3 ; extra == 'all'
+Requires-Dist: botocore ; extra == 'all'
+Requires-Dist: azure-identity >=1.12.0 ; extra == 'all'
+Requires-Dist: azure-mgmt-subscription >=3.1.1 ; extra == 'all'
+Requires-Dist: azure-mgmt-compute >=29.1.0 ; extra == 'all'
+Requires-Dist: azure-mgmt-network >=23.0.0 ; extra == 'all'
+Requires-Dist: azure-mgmt-resource >=22.0.0 ; extra == 'all'
+Requires-Dist: azure-mgmt-authorization >=3.0.0 ; extra == 'all'
+Requires-Dist: google-auth >=2.3.0 ; extra == 'all'
+Requires-Dist: google-cloud-storage >=2.0.0 ; extra == 'all'
+Requires-Dist: google-cloud-compute >=1.5.0 ; extra == 'all'
+Requires-Dist: google-cloud-logging >=2.0.0 ; extra == 'all'
+Requires-Dist: google-api-python-client >=2.80.0 ; extra == 'all'
+Requires-Dist: google-cloud-billing >=1.11.0 ; extra == 'all'
+Requires-Dist: google-cloud-tpu >=1.18.3 ; extra == 'all'
+Requires-Dist: datacrunch ; extra == 'all'
+Requires-Dist: kubernetes ; extra == 'all'
+Requires-Dist: oci ; extra == 'all'
+Provides-Extra: aws
+Requires-Dist: boto3 ; extra == 'aws'
+Requires-Dist: botocore ; extra == 'aws'
+Provides-Extra: azure
+Requires-Dist: azure-identity >=1.12.0 ; extra == 'azure'
+Requires-Dist: azure-mgmt-subscription >=3.1.1 ; extra == 'azure'
+Requires-Dist: azure-mgmt-compute >=29.1.0 ; extra == 'azure'
+Requires-Dist: azure-mgmt-network >=23.0.0 ; extra == 'azure'
+Requires-Dist: azure-mgmt-resource >=22.0.0 ; extra == 'azure'
+Requires-Dist: azure-mgmt-authorization >=3.0.0 ; extra == 'azure'
+Provides-Extra: datacrunch
+Requires-Dist: datacrunch ; extra == 'datacrunch'
+Provides-Extra: gcp
+Requires-Dist: google-auth >=2.3.0 ; extra == 'gcp'
+Requires-Dist: google-cloud-storage >=2.0.0 ; extra == 'gcp'
+Requires-Dist: google-cloud-compute >=1.5.0 ; extra == 'gcp'
+Requires-Dist: google-cloud-logging >=2.0.0 ; extra == 'gcp'
+Requires-Dist: google-api-python-client >=2.80.0 ; extra == 'gcp'
+Requires-Dist: google-cloud-billing >=1.11.0 ; extra == 'gcp'
+Requires-Dist: google-cloud-tpu >=1.18.3 ; extra == 'gcp'
+Provides-Extra: kubernetes
+Requires-Dist: kubernetes ; extra == 'kubernetes'
+Provides-Extra: lambda
+Requires-Dist: boto3 ; extra == 'lambda'
+Requires-Dist: botocore ; extra == 'lambda'
+Provides-Extra: oci
+Requires-Dist: oci ; extra == 'oci'
+
+<div>
+<h2>
+  <a target="_blank" href="https://dstack.ai">
+    <img alt="dstack" src="https://raw.githubusercontent.com/dstackai/dstack/master/docs/assets/images/dstack-logo.svg" width="350px"/>
+  </a>
+</h2>
+
+[![Last commit](https://img.shields.io/github/last-commit/dstackai/dstack?style=flat-square)](https://github.com/dstackai/dstack/commits/)
+[![PyPI - License](https://img.shields.io/pypi/l/dstack?style=flat-square&color=blue)](https://github.com/dstackai/dstack/blob/master/LICENSE.md)
+[![Discord](https://dcbadge.vercel.app/api/server/u8SmfwPpMd?style=flat-square)](https://discord.gg/CBgdrGnZjy)
+
+</div>
+
+`dstack` is an open-source container orchestration engine designed for running AI workloads across any cloud or data
+center. It simplifies dev environments, running tasks on clusters, and deployment.
+
+The supported cloud providers include AWS, GCP, Azure, OCI, Lambda, TensorDock, Vast.ai, RunPod, and CUDO.
+You can also use `dstack` to run workloads on on-prem clusters.
+
+`dstack` natively supports NVIDIA GPU, and Google Cloud TPU accelerator chips.
+ 
+## Latest news ✨
+
+- [2024/05] [dstack 0.18.4: Google Cloud TPU, and more](https://github.com/dstackai/dstack/releases/tag/0.18.4) (Release)
+- [2024/05] [dstack 0.18.3: OCI, and more](https://github.com/dstackai/dstack/releases/tag/0.18.3) (Release)
+- [2024/05] [dstack 0.18.2: On-prem clusters, private subnets, and more](https://github.com/dstackai/dstack/releases/tag/0.18.2) (Release)
+- [2024/04] [dstack 0.18.0: RunPod, multi-node tasks, and more](https://github.com/dstackai/dstack/releases/tag/0.18.0) (Release)
+- [2024/03] [dstack 0.17.0: Auto-scaling, and other improvements](https://github.com/dstackai/dstack/releases/tag/0.17.0) (Release)
+
+## Installation
+
+Before using `dstack` through CLI or API, set up a `dstack` server.
+
+### Install the server
+    
+The easiest way to install the server, is via `pip`:
+
+```shell
+pip install "dstack[all]" -U
+```
+
+### Configure backends
+
+If you have default AWS, GCP, Azure, or OCI credentials on your machine, the `dstack` server will pick them up automatically.
+
+Otherwise, you need to manually specify the cloud credentials in `~/.dstack/server/config.yml`.
+
+See the [server/config.yml reference](https://dstack.ai/docs/reference/server/config.yml.md#examples)
+for details on how to configure backends for all supported cloud providers.
+
+### Start the server
+
+To start the server, use the `dstack server` command:
+
+<div class="termy">
+
+```shell
+$ dstack server
+
+Applying ~/.dstack/server/config.yml...
+
+The admin token is "bbae0f28-d3dd-4820-bf61-8f4bb40815da"
+The server is running at http://127.0.0.1:3000/
+```
+
+</div>
+
+> **Note**
+> It's also possible to run the server via [Docker](https://hub.docker.com/r/dstackai/dstack).
+
+### CLI & API
+
+Once the server is up, you can use either `dstack`'s CLI or API to run workloads.
+Below is a live demo of how it works with the CLI.
+
+### Dev environments
+
+You specify the required environment and resources, then run it. `dstack` provisions the dev
+environment in the cloud and enables access via your desktop IDE.
+
+<img src="https://raw.githubusercontent.com/dstackai/static-assets/main/static-assets/images/dstack-dev-environment.gif" width="650"/>
+
+### Tasks
+
+Tasks allow for convenient scheduling of any kind of batch jobs, such as training, fine-tuning,
+or data processing, as well as running web applications.
+
+Specify the environment and resources, then run it. `dstack` executes the task in the
+cloud, enabling port forwarding to your local machine for convenient access.
+
+<img src="https://raw.githubusercontent.com/dstackai/static-assets/main/static-assets/images/dstack-task.gif" width="650"/>
+
+### Services
+
+Services make it very easy to deploy any kind of model or web application as public endpoints.
+
+Use any serving frameworks and specify required resources. `dstack` deploys it in the configured
+backend, handles authorization, and provides an OpenAI-compatible interface if needed.
+
+<img src="https://raw.githubusercontent.com/dstackai/static-assets/main/static-assets/images/dstack-service-openai.gif" width="650"/>
+
+### Pools
+
+Pools simplify managing the lifecycle of cloud instances and enable their efficient reuse across runs.
+
+You can have instances provisioned in the cloud automatically, or add them manually, configuring the required resources,
+idle duration, etc.
+
+<img src="https://raw.githubusercontent.com/dstackai/static-assets/main/static-assets/images/dstack-pool.gif" width="650"/>
+
+## Examples
+
+Here are some featured examples:
+
+- [Llama 3](examples/llms/llama3)
+- [Alignment Handbook](examples/fine-tuning/alignment-handbook)
+- [vLLM](examples/deployment/vllm)
+- [Axolotl](examples/fine-tuning/axolotl)
+- [TGI](examples/deployment/tgi)
+- [Ollama](examples/deployment/ollama)
+- [LoRaX](examples/deployment/lorax)
+
+Browse [examples](examples) for more examples.
+
+## More information
+
+For additional information and examples, see the following links:
+
+- [Docs](https://dstack.ai/docs)
+- [Discord](https://discord.gg/u8SmfwPpMd)
+
+## Contributing
+
+We welcome contributions to `dstack`!
+To learn more about getting involved in the project, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[Mozilla Public License 2.0](LICENSE.md)
+
+
