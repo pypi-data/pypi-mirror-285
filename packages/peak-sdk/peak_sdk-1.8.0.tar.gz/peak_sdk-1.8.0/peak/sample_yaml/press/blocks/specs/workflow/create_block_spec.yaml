@@ -1,0 +1,137 @@
+# block_spec.yaml
+
+body:
+  version: 1
+  kind: workflow
+  metadata:
+    name: workflow-block
+    title: Workflow Block
+    summary: Workflow Block
+    description: Creating a new workflow block spec
+    descriptionContentType: text/markdown
+    imageUrl: https://my-block-pics.com/image-0.jpg
+    tags:
+      - name: CLI
+  release:
+    version: 1.0.0
+    notes: This is the original release
+  config:
+    steps:
+      test:
+        command: echo 1
+        type: standard
+        image:
+          context: "."
+          dockerfile: Dockerfile
+          version: 0.0.1
+          buildArguments:
+            git_token: random_token_1
+            npm_token: random_token_2
+          useCache: "@param:use_cache"
+    triggers:
+      - cron: "0 0 * * *"
+    watchers:
+      - user: "@param:watcher_user"
+        events:
+          success: false
+          fail: true
+      - webhook:
+          name: info
+          url: https://abc.com/post
+          payload: |
+            {
+              "system": "external_system",
+              "action": "update",
+              "data": {
+                "field": "value",
+                "timestamp": "2024-05-20T12:00:00Z"
+              }
+            }
+        events:
+          success: false
+          fail: true
+          runtimeExceeded: "@param:runtime_exceeded"
+      - email:
+          name: "email-watcher-1"
+          recipients:
+            to:
+              - "user1@peak.ai"
+              - "user2@peak.ai"
+        events:
+          success: false
+          fail: true
+          runtimeExceeded: "@param:runtime_exceeded"
+parameters:
+  build:
+    - defaultValue: user@peak.ai
+      description: Set the watcher user email
+      name: watcher_user
+      required: true
+      title: Watcher User Email
+      type: string
+      hideValue: false
+    - defaultValue: false
+      description: Enable image caching for the workflow
+      name: use_cache
+      required: false
+      title: Image Caching
+      type: boolean
+    - defaultValue: 10
+      description: Select the runtime exceeded value to trigger a failed notification for the workflow (in minutes)
+      name: runtime_exceeded
+      options:
+        - title: Low
+          value: 10
+        - title: Medium
+          value: 50
+        - title: High
+          value: 100
+      required: false
+      title: Runtime Exceeded
+      type: number
+  run:
+    - defaultValue: AVG
+      description: Select an aggregation function (e.g., AVG, SUM, COUNT)
+      name: agg_type
+      required: false
+      title: Agg Type
+      type: string
+      hideValue: true
+    - defaultValue: false
+      description: Enable email notifications
+      name: email_notifications
+      required: false
+      title: Email Notifications
+      type: boolean
+    - defaultValue: 10
+      description: Select the number of iterations
+      name: num_iterations
+      options:
+        - title: Low
+          value: 10
+        - title: Medium
+          value: 50
+        - title: High
+          value: 100
+      required: false
+      title: Number of Iterations
+      type: number
+    - defaultValue:
+        - input.csv
+        - output.csv
+      description: Specify input and output file names
+      name: file_names
+      required: true
+      title: File Names
+      type: string_array
+artifact:
+  path: "."
+  ignore_files:
+    - ".gitignore"
+    - ".dockerignore"
+featured: true
+autoRunOnDeploy: true
+scope: shared
+tenants:
+  - tenant1
+  - tenant2

@@ -1,0 +1,67 @@
+# workflow.yaml
+
+body:
+  name: new-workflow
+  triggers:
+    - cron: "0 0 * * *"
+  watchers:
+    - user: abc@peak.ai
+      events:
+        success: false
+        fail: true
+    - webhook:
+        name: info
+        url: "https://abc.com/post"
+        payload: |
+          {
+            "system": "external_system",
+            "action": "update",
+            "data": {
+              "field": "value",
+              "timestamp": "2024-05-20T12:00:00Z"
+            }
+          }
+      events:
+        success: false
+        fail: true
+        runtimeExceeded: 10
+    - email:
+        name: "email-watcher-1"
+        recipients:
+          to:
+            - user1@peak.ai
+            - user2@peak.ai
+      events:
+        success: false
+        fail: true
+        runtimeExceeded: 10
+  retryOptions:
+    duration: 5
+    exitCodes: [1, 2]
+    exponentialBackoff: true
+    numberOfRetries: 3
+  tags:
+    - name: foo
+    - name: bar
+  steps:
+    stepName:
+      type: standard
+      imageId: 100
+      imageVersionId: 100
+      command: "python script.py"
+      resources:
+        instanceTypeId: 21
+        storage: 10GB
+      parents: []
+      stepTimeout: 30
+      clearImageCache: true
+      parameters:
+        env:
+          key: value
+        secrets:
+          - secret-1
+          - secret-2
+      repository:
+        branch: main
+        token: random_token
+        url: "https://github.com/org/repo"

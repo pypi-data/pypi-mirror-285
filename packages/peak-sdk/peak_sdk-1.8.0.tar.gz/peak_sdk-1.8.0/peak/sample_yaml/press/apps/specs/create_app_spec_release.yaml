@@ -1,0 +1,15 @@
+# app_spec_release.yaml
+
+body:
+  release:
+    version: 2.0.0
+    notes: This is a new release
+  config:
+    - id: existing_block_spec_id_1
+      release:
+        version: 2.0.0
+      autoRunOnDeploy: True
+    - id: existing_block_spec_id_2
+      release:
+        version: 2.0.0
+      autoRunOnDeploy: False

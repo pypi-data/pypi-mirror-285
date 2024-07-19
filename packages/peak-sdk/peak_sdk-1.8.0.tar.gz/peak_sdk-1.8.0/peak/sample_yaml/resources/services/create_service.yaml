@@ -1,0 +1,25 @@
+# service.yaml
+
+body:
+  name: my-service
+  title: New service
+  description: This is a new service
+  serviceType: web-app
+  imageDetails:
+    imageId: 100
+    versionId: 100
+  resources:
+    instanceTypeId: 43
+  parameters:
+    env:
+      param1: value1
+      param2: value2
+    secrets:
+      - secret1
+      - secret2
+  sessionStickiness: true
+  entrypoint: |
+    python
+    app.py
+  healthCheckURL: /health
+  minInstances: 1

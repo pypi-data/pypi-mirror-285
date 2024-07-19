@@ -1,0 +1,31 @@
+# app_spec.yaml
+
+body:
+  version: 1
+  kind: app
+  metadata:
+    name: example-app
+    title: Example App
+    summary: Example App
+    description: Creating a new app from CLI
+    descriptionContentType: text/markdown
+    imageUrl: https://my-block-pics.com/image-0.jpg
+    tags:
+      - name: CLI
+  release:
+    version: 1.0.0
+    notes: This is the original release
+  config:
+    - id: existing_block_spec_id_1
+      release:
+        version: 1.0.0
+      autoRunOnDeploy: True
+    - id: existing_block_spec_id_2
+      release:
+        version: 1.0.0
+      autoRunOnDeploy: False
+featured: true
+scope: shared
+tenants:
+  - tenant1
+  - tenant2
