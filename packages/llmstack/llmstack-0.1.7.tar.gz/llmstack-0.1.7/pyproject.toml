@@ -1,0 +1,122 @@
+[tool.poetry]
+name = "llmstack"
+version = "0.1.7"
+description = "Low-code platform to build generative AI apps, chatbots and agents with your data"
+authors = ["Ajay Chintala"]
+license = "ELv2"
+readme = "README.md"
+packages = [
+    {include = "llmstack/config.toml"},
+    {include = "llmstack/cli.py"},
+    {include = "llmstack/docker-compose.yml"},
+]
+
+[tool.poetry.scripts]
+llmstack = "llmstack.cli:main"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+toml = {version ="^0.10.2"}
+junos-eznc = {version="^2.6.8", optional=true}
+python-on-whales = "^0.71.0"
+
+[tool.poetry.extras]
+networking = ["junos-eznc"]
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.6.0"
+
+[tool.poetry.group.server]
+
+[tool.poetry.group.server.dependencies]
+django = "^5.0.6"
+drf-yaml = {version = "^3.0.1"}
+django-allauth = "^0.63.3"
+django-environ = "^0.11.2"
+django-picklefield = "^3.2"
+django-redis = "^5.4.0"
+django-rq = "^2.10.2"
+djangorestframework = "^3.15.2"
+django-flags = "^5.0.13"
+django-jsonform = {version = "^2.17.4"}
+django-ratelimit = {version = "^4.1.0"}
+croniter = {version ="^2.0.1"}
+pykka = "^4.0.2"
+asgiref = "^3.8.1"
+channels = "^4.1.0"
+importlib-metadata = {version = "^6.0.0" }
+pyyaml = {version = "^6.0" }
+redis = {version = "^4.5.4" }
+rq = "^1.16.2"
+sendgrid = {version = "^6.10.0" }
+python-liquid = {version ="^1.12.1"}
+orjson = {version = "^3.8.14" }
+ujson = {version = "^5.7.0" }
+openai = {version ="^1.13.3"}
+grpcio-health-checking = {version ="^1.53.0"}
+pyjwt = "^2.8.0"
+psycopg2-binary = "^2.9.9"
+geoip2 = "^4.8.0"
+typing-extensions = {version = "^4.5.0" }
+twisted = "^24.3.0"
+uvloop = [
+  {version = "^0.17.0",  platform = "darwin" },
+  {version = "^0.17.0",  platform = "linux" }
+  ]
+google-auth = {version = "^2.22.0" }
+pydantic = "^2.7.4"
+daphne = "^4.1.2"
+striprtf = "^0.0.26"
+
+
+[tool.poetry.group.processors]
+
+[tool.poetry.group.processors.dependencies]
+scrapy = "^2.11.2"
+unstructured = {version = "0.12.6", python=">=3.10,<3.12"}
+google-generativeai = {version ="^0.3.1"}
+scrapy-playwright = {version ="^0.0.33"}
+pillow-heif = {version ="^0.15.0"}
+opencv-python = {version ="^4.9.0.80"}
+unstructured-inference = {version ="^0.7.23"}
+unstructured-pytesseract = {version ="^0.3.12"}
+python-docx = {version ="^1.1.0"}
+cohere = {version ="5.5.4"}
+google-cloud-speech = {version ="^2.26.0"}
+mysqlclient = {version ="^2.2.4"}
+tiktoken = {version = "^0.4.0" }
+ffmpeg-python = {version = "^0.2.0" }
+pydub = {version = "^0.25.1" }
+boto3 = {version = "^1.26.122" }
+botocore = {version = "^1.29.122" }
+yt-dlp = "^2024.5.27"
+pdf2image = {version = "^1.16.3" }
+pdfminer-six = {version = "^20221105" }
+markdown = {version = "^3.4.4" }
+python-pptx = {version = "^0.6.21" }
+python-magic = {version = "^0.4.27" }
+anthropic = "^0.30.0"
+pypdf = "^4.2.0"
+pikepdf = "^9.0.0"
+llama-index-readers-file = "0.1.30"
+llama-index-vector-stores-chroma = "^0.1.10"
+websockets = "^12.0"
+chromadb = "^0.5.3"
+pynacl = "^1.5.0"
+llama-index-vector-stores-weaviate = "^1.0.0"
+llama-index-core = "^0.10.51"
+beautifulsoup4 = {version = "^4.12.2" }
+playwright = "1.42.0"
+sqlalchemy = "^2.0.31"
+websockify = "^0.12.0"
+spacy = "^3.7.5"
+
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
