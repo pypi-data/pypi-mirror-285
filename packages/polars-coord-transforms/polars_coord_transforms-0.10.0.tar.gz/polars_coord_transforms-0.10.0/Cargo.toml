@@ -1,0 +1,23 @@
+[package]
+name = "polars_coord_transforms"
+version = "0.10.0"
+edition = "2021"
+
+[lib]
+name = "polars_coord_transforms"
+crate-type = ["cdylib"]
+
+
+[dependencies]
+polars = { version = "*" , features=["dtype-struct","dtype-u8",]}
+pyo3 = { version = "*", features = ["extension-module"] }
+pyo3-polars = { version = "*", features = ["derive"] }
+serde = { version = "*", features = ["derive"] }
+s2 = "0.0.12"
+nalgebra = "0.31.0"
+itertools = "0.12.0"
+map_3d = "0.1.5"
+utm = "0.1.6"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+jemallocator = { version = "0.5", features = ["disable_initial_exec_tls"] }
