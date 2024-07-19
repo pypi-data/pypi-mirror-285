@@ -1,0 +1,28 @@
+[project]
+name = "{{ name }}"
+version = "0.1.0"
+description = "__TODO__"
+authors = [
+    {name = "__TODO__", email = "__TODO__"},
+]
+dependencies = [
+    "testsolar-testtool-sdk>=0.4.0",
+    "pydantic>=2.7.4",
+    "loguru>=0.7.2",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest-cov>=5.0.0",
+    "pytest>=8.2.2",
+    "ruff>=0.4.10",
+    "mypy>=1.10.0",
+    "setuptools>=70.1.0",
+]

@@ -1,0 +1,30 @@
+schemaVersion: 1.0
+name: {{name}}
+nameZh: {{name}}测试工具
+description: {{name}}自动化测试工具
+version: 0.1.0
+lang: python
+defaultBaseImage: mirrors.tencent.com/testsolar-base/python:3.9
+langType: INTERPRETED
+parameterDefs:
+  - name: sample_param
+    value: 参数例子
+    desc: 代码类型参数例子
+    default: '# place your extra bash command here'
+    lang: bash
+    inputWidget: code
+entry:
+  load: "python3 /testtools/{{name}}/src/load.py $1"
+  run: "python3 /testtools/{{name}}/src/run.py $1"
+homePage: __TODO__
+versionFile: https://testsolar-1321258242.cos.ap-guangzhou.myqcloud.com/testtools/python/{{name}}/metadata.json
+indexFile: https://testsolar-1321258242.cos.ap-guangzhou.myqcloud.com/testtools/stable.index.json
+scaffoldRepo: __TODO__
+supportOS:
+  - linux
+supportArch:
+  - amd64
+  - arm64
+gitPkgUrl: __TODO__
+httpPkgUrl: __TODO__
+certified: false
