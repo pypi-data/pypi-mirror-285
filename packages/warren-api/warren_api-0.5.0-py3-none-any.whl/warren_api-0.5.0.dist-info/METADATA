@@ -1,0 +1,94 @@
+Metadata-Version: 2.1
+Name: warren-api
+Version: 0.5.0
+Summary: The visualization platform for your learning analytics (API backend)
+Author-email: "Open FUN (France Universite Numerique)" <fun.dev@fun-mooc.fr>
+License: MIT License
+        
+        Copyright (c) 2023-present France Université Numérique
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/openfun/warren
+Project-URL: Bug Tracker, https://github.com/openfun/warren/issues
+Keywords: Analytics,xAPI,LRS,LTI
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+Requires-Dist: alembic ==1.13.1
+Requires-Dist: arrow ==1.3.0
+Requires-Dist: click ==8.1.7
+Requires-Dist: django-lti-toolbox ==2.0.0
+Requires-Dist: fastapi ==0.111.0
+Requires-Dist: importlib-metadata ==7.2.1
+Requires-Dist: pandas ==2.2.2
+Requires-Dist: psycopg2-binary ==2.9.9
+Requires-Dist: pydantic[dotenv] ==1.10.16
+Requires-Dist: python-jose[cryptography] ==3.3.0
+Requires-Dist: rfc3987 ==1.3.8
+Requires-Dist: sentry-sdk[fastapi] ==2.6.0
+Requires-Dist: sqlmodel ==0.0.19
+Requires-Dist: uvicorn[standard] ==0.30.1
+Requires-Dist: ralph-malph[backend-lrs] ==4.2.0
+Provides-Extra: ci
+Requires-Dist: twine ==5.1.0 ; extra == 'ci'
+Provides-Extra: dev
+Requires-Dist: black ==24.4.2 ; extra == 'dev'
+Requires-Dist: build ==1.2.1 ; extra == 'dev'
+Requires-Dist: freezegun ==1.5.1 ; extra == 'dev'
+Requires-Dist: httpx ==0.24.1 ; extra == 'dev'
+Requires-Dist: ipdb ==0.13.13 ; extra == 'dev'
+Requires-Dist: ipython ==8.18.1 ; extra == 'dev'
+Requires-Dist: polyfactory ==2.16.0 ; extra == 'dev'
+Requires-Dist: pytest ==7.4.4 ; extra == 'dev'
+Requires-Dist: pytest-cov ==5.0.0 ; extra == 'dev'
+Requires-Dist: pytest-httpx ==0.22.0 ; extra == 'dev'
+Requires-Dist: ruff ==0.4.10 ; extra == 'dev'
+Requires-Dist: mypy ==1.10.0 ; extra == 'dev'
+Requires-Dist: pandas-stubs ==2.2.2.240603 ; extra == 'dev'
+Requires-Dist: types-python-jose ==3.3.4.20240106 ; extra == 'dev'
+
+# Warren [API]
+
+Warren is a visualization platform for learning analytics.
+
+⚠️ This project is a Proof Of Concept not suitable for production yet. ⚠️
+
+## Contributing
+
+This project is intended to be community-driven, so please, do not hesitate to
+get in touch if you have any question related to our implementation or design
+decisions.
+
+We try to raise our code quality standards and expect contributors to follow
+the recommandations from our
+[handbook](https://handbook.openfun.fr).
+
+## License
+
+This work is released under the MIT License (see [LICENSE](./LICENSE.md)).
