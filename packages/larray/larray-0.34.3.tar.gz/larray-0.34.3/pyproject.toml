@@ -1,0 +1,73 @@
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = [
+    "larray"
+]
+addopts = [
+    "-v",
+    "--doctest-modules",
+    # auto/long/short/line/native/no
+    "--tb=short",
+    # ignore module (because importing it raise an Exception)
+    "--ignore=larray/ipfp",
+    # exclude (doc)tests from ufuncs (because docstrings are copied from numpy
+    #                                 and many of those doctests are failing)
+    "--deselect=larray/core/npufuncs.py",
+    "--deselect=larray/inout/xw_reporting.py",
+    # doctest is copied from numpy (and fails for some Python + numpy version combinations)
+    "--deselect=larray/core/array.py::larray.core.array.Array.astype",
+    # doctest fails (because the plot method returns a matplotlib axis object,
+    # which we do not mention in the doctest to make it nicer)
+    "--deselect=larray/core/array.py::larray.core.array.Array.plot",
+    # skip Pandas-leeched doctests because they are not larray-specific and,
+    # without Pandas-specific documentation build infrastructure, they leave
+    # some plots open
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.area",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.bar",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.barh",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.box",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.hexbin",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.hist",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.kde",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.line",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.pie",
+    "--deselect=larray/core/plot.py::larray.core.plot.PlotObject.scatter",
+#    "--cov",
+]
+
+filterwarnings = [
+    # turn warnings into errors (unless they are explicitly handled in tests or ignored here)
+    "error",
+    # as of version 3.1.2, openpyxl uses datetime.datetime.utcnow() which is deprecated in Python 3.12
+    "ignore::DeprecationWarning:openpyxl.*:",
+    # as of version 3.1.1, xlsxwriter uses datetime.datetime.utcnow() which is deprecated in Python 3.12
+    "ignore::DeprecationWarning:xlsxwriter.*:",
+    "ignore:Special variable 'x' is deprecated.*:FutureWarning:inspect.*:",
+    "ignore:Special variable 'x' is deprecated.*:FutureWarning:_pytest.compat.*:",
+]
+
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".eggs",
+    ".git",
+    ".ruff_cache",
+    ".venv",
+    "__pypackages__",
+    "build",
+    "dist",
+]
+
+line-length = 120
+
+[tool.ruff.lint]
+# Enable Pyflakes `E` and `F` codes by default.
+select = ["E", "F"]
+ignore = []
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+# fixable = ["A", "B", "C", "D", "E", "F", "..."]
+# unfixable = []
+
+per-file-ignores = {}
