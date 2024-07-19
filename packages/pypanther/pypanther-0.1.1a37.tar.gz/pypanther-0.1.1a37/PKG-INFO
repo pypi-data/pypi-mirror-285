@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: pypanther
+Version: 0.1.1a37
+Summary: 
+License: AGPL-3.0-only
+Keywords: Security,CLI
+Author: Panther Labs Inc
+Author-email: pypi@runpanther.io
+Requires-Python: ==3.11.*
+Classifier: License :: OSI Approved :: GNU Affero General Public License v3
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: aiohttp (>=3.9.5,<4.0.0)
+Requires-Dist: ast-comments (>=1.2.2,<2.0.0)
+Requires-Dist: boto3 (>=1.34.99,<2.0.0)
+Requires-Dist: colorama (>=0.4.6,<0.5.0)
+Requires-Dist: dynaconf (>=3.2.5,<4.0.0)
+Requires-Dist: gql (>=3.5.0,<4.0.0)
+Requires-Dist: jsonpath-ng (>=1.6.1,<2.0.0)
+Requires-Dist: panther-core (>=0.10,<1.0)
+Requires-Dist: panther-detection-helpers (>=0.4.0,<0.5.0)
+Requires-Dist: policyuniverse (>=1.5.1.20231109,<2.0.0.0)
+Requires-Dist: prettytable (>=3.10.0,<4.0.0)
+Requires-Dist: pydantic (>=2.7.1,<3.0.0)
+Requires-Dist: ruamel-yaml (>=0.18.6,<0.19.0)
+Description-Content-Type: text/markdown
+
+# panther-analysis-prototypes
+Prototyping for large changes to panther-analysis
+
+## Local Development
+We recommend using poetry for python environment management.
+
+To install the version of pypanther in this repository, run `poetry install` from anywhere within the repository.
+
+pypanther commands are expected to be run from a directory containing a `main.py` file, which leaves several options
+when running from this repository:
+- Navigate to `pypanther/pypanther/` before running commands
+- Add a `main.py` file to the root directory of this repository
+- Run the `main.py` file directly with `poetry run python ./main.py`
+- Test the cli with `poetry run python ./pypanther/main.py <cmd>`
