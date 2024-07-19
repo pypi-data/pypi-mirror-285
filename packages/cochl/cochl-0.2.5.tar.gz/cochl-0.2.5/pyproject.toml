@@ -1,0 +1,31 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cochl"]
+
+[project]
+name = "cochl"
+version = "0.2.5"
+authors = [
+  { name="Cochl", email="support@cochl.ai" },
+]
+description = "Cochl Sense"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "soundfile",
+    "cochl-sense-api==1.6.0",
+    "requests",
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/cochlearai/cochl-sense-py"
+Issues = "https://github.com/cochlearai/cochl-sense-py/issues"
+
