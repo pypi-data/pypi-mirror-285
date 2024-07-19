@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+:root {
+  --color-dark: #344A5F;
+  --color-light: #F0F1F2;
+  --color-primary: #2A94D6;
+  --color-info: #4EB1CB;
+  --color-danger: #CF5C60;
+  --color-purple: #717ECD;
+  --color-success: #4AB471;
+  --color-alert: #F3AE4E;
+  --color-pink: #D96383;
+  --color-white: #FFFFFF;
+}
+
+body {
+  background-color: var(--color-light);
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-section {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 10px;
+  border-radius: 20px;
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: var(--color-info) transparent; /* Firefox */
+}
+
+/* Firefox hover */
+.left-section:hover {
+  scrollbar-color: var(--color-info) rgba(0, 0, 0, 0.1);
+}
+
+/* Webkit browsers (Chrome, Safari) */
+.left-section::-webkit-scrollbar {
+  width: 8px;
+}
+.left-section::-webkit-scrollbar-thumb {
+  background: var(--color-info);
+  border-radius: 4px;
+}
+.left-section::-webkit-scrollbar-thumb:hover {
+  background: var(--color-info);
+}
+.left-section::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+.menu-group {
+  font-size: 10px;
+  padding: 5px;
+  margin: 5px 0;
+  color: var(--color-info);
+}
+
+.menu-hr {
+  margin: 10px;
+  color: var(--color-info);
+}
+
+.menu-item {
+  font-size: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--color-white);
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.menu-item:hover {
+  background-color: var(--color-info);
+  color: var(--color-white);
+  transform: scale(1.05);
+}
+
+.menu-item.selected {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  transform: scale(1.05);
+}
+
+.right-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.table-title {
+  margin: -10px 0px 10px;
+  color: var(--color-dark);
+}
