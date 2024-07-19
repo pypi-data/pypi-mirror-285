@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools", "setuptools_scm[toml]>=6.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fprime-fppm"
+dynamic = ["version"]
+description = "A package manager for F Prime"
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["fprime", "fppm", "nasa", "package", "flight software"]
+authors = [
+  {name = "Ali Mosallaei", email = "Ali.Mosallaei@jpl.nasa.gov"},
+  {name = "Michael Starch", email = "Michael.D.Starch@jpl.nasa.gov"},
+  {name = "Thomas Boyer-Chammard", email = "Thomas.Boyer.Chammard@jpl.nasa.gov"},
+]
+
+dependencies = [
+  "pyyaml>=6.0.0",
+  "cookiecutter>=2.2.3",
+  "validators>=0.28.3",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "black"
+]
+
+[project.urls]
+Homepage = "https://fprime.jpl.nasa.gov"
+Documentation = "https://github.com/mosa11aei/fprime-fppm/tree/devel/docs"
+Repository = "https://github.com/mosa11aei/fprime-fppm"
+
+####
+# Entry Points:
+#
+# Defines the list of entry-level (scripts) that are defined by this package. This allows
+# standard use of utilities that ship as part of F prime.
+####
+[project.scripts]
+fppm = "fppm.cli.__main__:main"
+
+####
+# setuptools_scm dynamically generates version number from git, as well as automatically
+# include all data files tracked by git (e.g. cookiecutter templates).
+# See https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+####
+[tool.setuptools_scm]
+
+
+####
+# Additional notes
+#
+# With regards to the configuration of the older versions of setup.py:
+# - package_data: included by default, and setuptools_scm will automatically include all files tracked by git
+# - package discovery (src/): setuptools will automatically discover all packages as we use the src-layout
+#
+# Reference:
+# - https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+# - https://setuptools.pypa.io/en/latest/userguide/package_discovery.html#src-layout
+####
