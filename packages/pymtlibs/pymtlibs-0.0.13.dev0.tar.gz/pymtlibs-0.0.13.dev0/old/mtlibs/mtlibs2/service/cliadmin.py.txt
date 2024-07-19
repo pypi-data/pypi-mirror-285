@@ -1,0 +1,197 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+import asyncio
+import hmac
+import json
+import logging
+import logging.config
+import os
+import shlex
+import subprocess
+import sys
+import threading
+import time
+from pathlib import Path
+
+import stem.process
+from app import hello
+from dotenv import load_dotenv
+from flask import Flask, jsonify, render_template, request
+from flask_restful import Api, Resource
+from flask_settings import Settings
+from flask_socketio import SocketIO, emit
+from stem.control import Controller
+from stem.util import term
+
+from mtlibs import github, mtutils, process_helper, tor_helper
+from mtlibs.process_helper import exec
+
+# 这里很多环境变量是有启动器传递进来的。
+APP_ROOT = os.environ.get("APP_ROOT", os.path.join(os.path.dirname(__file__)))
+ 
+# dotenv_path = os.path.join(APP_ROOT, '.env')
+# load_dotenv(dotenv_path)
+
+
+logging.config.fileConfig("./logging.conf")
+# github_secret = "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"
+
+# 系统常量
+# HTTP_PORT = os.environ.get("HTTP_PORT", 80)
+# TORCONTROLL_PASSWORD = "my_password"
+# TOR_CONTROLL_PORT = 9051
+# SOCKS_PORT = 49050
+# NOTTOR_USER = 'nottor'
+
+app = Flask(__name__)
+
+# flask 添加自定义配置的代码样本。
+app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
+api = Api(app)
+socketio = SocketIO(app)
+
+# settings = Settings(app)
+
+#####################################################################################
+# restfull
+# 参考：https://flask-restful.readthedocs.io/en/latest/quickstart.html
+
+
+api.add_resource(hello.HelloWorld, '/hello')
+
+
+class Info(Resource):
+    """显示基本信息"""
+
+    def get(self):
+        return {
+            'msg': 'test',
+            'config': app.config['FLASK_ADMIN_SWATCH'],
+            'env1': os.getenv('HIDDEN_SERVICE_KEY')
+        }
+
+
+api.add_resource(Info, '/info')
+
+
+##
+# websocket demo
+##
+@socketio.on('connect')
+def test_connect():
+    emit('after connect',  {'data': 'Lets dance'})
+
+
+def encryption(data):
+    key = github_secret.encode('utf-8')
+    obj = hmac.new(key, msg=data, digestmod='sha1')
+    return obj.hexdigest()
+
+
+# 首页
+@app.route('/')
+def index():
+    return "hello world"
+
+# github hook
+
+
+@app.route('/githubhook', methods=['POST'])
+def post_data():
+    """
+    github加密是将post提交的data和WebHooks的secret通过hmac的sha1加密，放到HTTP headers的
+    X-Hub-Signature参数中
+    """
+    post_data = request.data
+    jsonObj = json.loads(post_data.decode())
+
+    token = encryption(post_data)
+    # 认证签名是否有效
+    signature = request.headers.get('X-Hub-Signature', '').split('=')[-1]
+    if signature != token:
+        return "token认证无效", 401
+    ref = jsonObj["ref"]
+    repo_full_name = jsonObj["repository"]["full_name"]
+    print("""++++新的提交：{repo_full_name} => {ref}
+    """.format(
+        ref=ref,
+        repo_full_name=repo_full_name
+    )
+    )
+    github.deploy_repo(repo_full_name)
+    return jsonify({"status": 200})
+
+
+@app.route('/tor/info', methods=['GET'])
+def tor_info():
+    """TOR, 查看情况"""
+    with Controller.from_port(port=9051) as controller:
+        controller.authenticate(TORCONTROLL_PASSWORD)
+        bytes_read = controller.get_info("traffic/read")
+        bytes_written = controller.get_info("traffic/written")
+        hiddenServiceOptions = controller.get_conf_map("HiddenServiceOptions"),
+
+    # HiddenServiceOptions 没有附带onion域名的信息，现在通过读取文件的方式获取onion 域名
+    for options in hiddenServiceOptions:
+        def read_onion(hidden_service_dir):
+            return open(hidden_service_dir + "/hostname").read()
+        options["onion"] = list(map(read_onion, options["HiddenServiceDir"]))
+
+    return jsonify({
+        "status": 200,
+        "tor_byte_read": bytes_read,
+        "tor_writed": bytes_written,
+        "hiddenServiceOptions": hiddenServiceOptions,
+    })
+
+
+@ app.route('/tor/newonino/<port>/<targetport>/<target_address>')
+def tor_newonino(port, targetport, target_address):
+    """ 创建隐藏服务
+        参考网址：https://stem.torproject.org/tutorials/over_the_river.html
+    """
+    with Controller.from_port() as controller:
+        controller.authenticate(TORCONTROLL_PASSWORD)
+        hidden_service_dir = os.path.join(controller.get_conf(
+            'DataDirectory', '/tmp'), 'hiddenservice1')
+        print(" * Creating our hidden service in %s" % hidden_service_dir)
+        result = controller.create_hidden_service(
+            hidden_service_dir, port,
+            target_port=targetport,
+            target_address=target_address
+        )
+        if result.hostname:
+            return jsonify({
+                "status": 200,
+                "hidden_service_host": result.hostname,
+            })
+        else:
+            return jsonify({
+                "status": 404,
+                "hidden_service_host": 'false',
+            })
+
+
+@ app.route('/tor/hiddenname')
+def tor_hiddenname():
+    """获取当前的onion域名"""
+    host_name = open("/tmp/hiddenservice1/hostname").read().decode()
+    return jsonify({
+        "hostname": host_name
+    })
+
+
+def start():
+    print(term.format("=" * 80, term.Color.GREEN), flush=True)
+    print(term.format("= service cliadmin ", term.Color.GREEN), flush=True)
+    # print(os.environ , flush=True)
+    app.run(
+        host='0.0.0.0',
+        port=os.environ.get('HTTP_PORT',80),
+        debug=True,
+        load_dotenv=True
+    )
+
+
+if __name__ == '__main__':
+    start()

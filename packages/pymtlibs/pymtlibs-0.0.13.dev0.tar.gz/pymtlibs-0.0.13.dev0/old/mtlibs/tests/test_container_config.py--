@@ -1,0 +1,48 @@
+from asyncio import subprocess
+# from importlib.resources import path
+import unittest
+# from unittest import mock
+from unittest import skip
+from mtlibs import container_config
+from unittest.mock import MagicMock, patch, mock_open
+# import json
+from mtlibs.container_config import registerService
+# import subprocess
+import shlex
+import time
+
+
+class Test_Container_Config(unittest.TestCase):
+    @registerService("fakeTaskPing")
+    async def fakeServicePing(args):
+        """测试用的服务，ping google"""
+        def innerfun(name):
+            print("innerfun....")
+        proc = subprocess.Popen(shlex.split("ping -c 10 www.google.com"))
+        innerfun("hello")
+        return {"proc": proc}
+
+    @patch("pathlib.Path.exists", MagicMock(return_value=True))
+    def test_fakeServicePing冒烟(self):
+        yaml = """services:
+            fakeTaskPing:
+                key1: value1
+        """
+        fake_open = mock_open(read_data=yaml)
+        with patch('builtins.open', fake_open, create=False):
+            with patch("subprocess.Popen"):
+                container_config.startAllService()
+
+    @skip(reason="打算放弃openvpn，改用wairegrade")
+    @patch("pathlib.Path.exists", MagicMock(return_value=True))
+    def test_vpnserver冒烟(self):
+        yaml = """services:
+            vpnserver:
+                key1: value1
+        """
+        fake_open = mock_open(read_data=yaml)
+        with patch('builtins.open', fake_open, create=False):
+            with patch("mtlibs.openvpnProc.OpenvpnProc.start") as start:
+                container_config.startAllService()
+                time.sleep(0.2)
+                start.assert_called()

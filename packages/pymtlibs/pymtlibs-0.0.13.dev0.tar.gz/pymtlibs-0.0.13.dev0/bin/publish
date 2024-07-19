@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+set -e
+PYPI_REPO="pipy"
+PYPI_USER=username123
+PYPI_PASSWORD="mypassword"
+
+rm -rdf ./dist
+
+python3 -m poetry config http-basic.pypi ${PYPI_USER} ${PYPI_PASSWORD}
+python3 -m poetry publish --build
+# 本地安装
+pip install .
