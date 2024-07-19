@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "wayback-recon"
+version = "0.2.3"
+description = "This tool do a passive recon using Wayback Machine"
+authors = ["Your Name <dantearcanaelmontford@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+requests = "^2.32.3"
+rich = "^13.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.scripts]
+wayback-recon = "wayback_recon.wayback_recon:main"
