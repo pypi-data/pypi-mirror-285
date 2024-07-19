@@ -1,0 +1,1 @@
+SDF_CLI_VERSION = "0.3.10"
