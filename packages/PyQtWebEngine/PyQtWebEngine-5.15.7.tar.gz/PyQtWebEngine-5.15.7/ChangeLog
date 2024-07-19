@@ -1,0 +1,477 @@
+2024-05-03  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Fixed a regression in pyproject.toml.
+	[a027c8d141dc] [5.15.7] <5.15-maint>
+
+2024-02-18  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* METADATA.in, NEWS, README, README.md, pyproject.toml:
+	Migrated from [tool.sip.metadata] to [project] in pyproject.toml.
+	[e090f1c7bc92] <5.15-maint>
+
+2024-01-02  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS, configure.py, rb-product.toml:
+	Removed configure.py and the product file.
+	[1b4795cd5414] <5.15-maint>
+
+2022-06-18  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.6 for changeset 140468b2e1b2
+	[1e3589aee4dd] <5.15-maint>
+
+2022-03-15  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS, PyQtWebEngine.msp:
+	Allow Qt.AA_ShareOpenGLContexts to be specified before a
+	QCoreApplication is created to allow PyQtWebEngineWidgets to be
+	imported.
+	[140468b2e1b2] [5.15.6] <5.15-maint>
+
+2021-11-22  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated the project version number.
+	[6b8cc0c815da] <5.15-maint>
+
+2021-10-12  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.5 for changeset 69a1dc1f1cf1
+	[2e12f5eba0bc] <5.15-maint>
+
+2021-08-10  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* README:
+	Fixed the README.
+	[69a1dc1f1cf1] [5.15.5] <5.15-maint>
+
+2021-04-05  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Only enable QWebEngineClientCertificateStore when SSL is enabled.
+	[9e311bed7a8f] <5.15-maint>
+
+	* PyQtWebEngine.msp:
+	Removed the internal QtWebEngineCore namespace.
+	[bdf97a8aacfa] <5.15-maint>
+
+2021-03-04  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.4 for changeset 2b38e9f975ce
+	[79bb44a7ba04] <5.15-maint>
+
+	* NEWS:
+	Released as v5.15.4.
+	[2b38e9f975ce] [5.15.4] <5.15-maint>
+
+	* rb-product.toml:
+	Fixed the PyQt dependency.
+	[cefacc6bbb70] <5.15-maint>
+
+2021-03-02  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[34e365fd176e] <5.15-maint>
+
+2021-02-27  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml, rb-product.toml:
+	Fixed the project dependencies.
+	[66291dc36205] <5.15-maint>
+
+	* rb-product, rb-product.toml:
+	Updated the product file.
+	[ee3d635e28f7] <5.15-maint>
+
+2021-02-23  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.3 for changeset b2cd71fcd0e8
+	[848cde6e6a39] <5.15-maint>
+
+	* NEWS:
+	Released as v5.15.3.
+	[b2cd71fcd0e8] [5.15.3] <5.15-maint>
+
+	* pyproject.toml:
+	Fixed the Qt wheel dependency.
+	[1ba4b0c9b7a1] <5.15-maint>
+
+2021-02-22  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[23a66c3f1b52] <5.15-maint>
+
+2021-02-09  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Added the dependency on the Qt wheel.
+	[8dd59deed488] <5.15-maint>
+
+2020-11-23  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.2 for changeset 3f9b37532f26
+	[067f6ce9bb6b] <5.15-maint>
+
+	* NEWS:
+	Released as v5.12.2.
+	[3f9b37532f26] [5.15.2] <5.15-maint>
+
+	* NEWS:
+	Updated the NEWS file.
+	[44ed90634960] <5.15-maint>
+
+2020-10-28  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated to project v15.
+	[e6582f031ff0] <5.15-maint>
+
+2020-09-17  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Require PyQt-builder v1.6 as we no longer specify the sip module and
+	ABI.
+	[1a97486ba722] <5.15-maint>
+
+2020-09-11  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.1 for changeset e2b884210459
+	[21495ba4d85e] <5.15-maint>
+
+	* NEWS:
+	Released as v5.15.1.
+	[e2b884210459] [5.15.1] <5.15-maint>
+
+	* NEWS:
+	Updated the NEWS file.
+	[9f00dc7187f2] <5.15-maint>
+
+2020-08-22  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Set the name of the sip module explicitly.
+	[29bb9b85f3ea] <5.15-maint>
+
+	* pyproject.toml:
+	Fixed the specification of the sip module ABI version.
+	[c7373e5d6751] <5.15-maint>
+
+2020-06-11  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS, PyQtWebEngine.msp:
+	Fixed building against versions of Qt prior to v5.15.
+	[35bb7ef0683d] <5.15-maint>
+
+2020-05-30  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.15.0 for changeset ea6c0ab7d38d
+	[54d036861205]
+
+	* NEWS:
+	Released as v5.15.0.
+	[ea6c0ab7d38d] [5.15.0]
+
+	* PyQtWebEngine.msp:
+	Added a missing private copy ctor.
+	[c4f85de49748]
+
+2020-05-29  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[d3289c4e6e7c]
+
+2020-05-28  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated foe the final releaes of Qt v5.15.0.
+	[c5a2f34ff4e5]
+
+2020-05-22  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Take over the ownership of the QWebEngineNotification from the
+	caller of the notification presenter.
+	[ace44c213a8e]
+
+	* PyQtWebEngine.msp:
+	Fixed QWebEngineProfile.setNotificationPresenter().
+	[24ad94c34413]
+
+2020-05-17  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	First pass through Qt v5.15.0.
+	[e133589b257b]
+
+2020-05-16  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* Merged the 5.14-maint branch.
+	[d1e26f932930]
+
+	* .hgignore:
+	Updated .hgignore.
+	[66fa7be82977] <5.14-maint>
+
+2020-05-09  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	The minimum ABI version is 12.8 which requires SIP v5.3.
+	[76168156a91f] <5.14-maint>
+
+2020-02-08  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Fixed METADATA for the commercial wheels.
+	[7f7fc34864b6] <5.14-maint>
+
+2019-12-18  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.14.0 for changeset f00d480d4a0f
+	[fc828b0c8958]
+
+	* NEWS:
+	Released as v5.14.0.
+	[f00d480d4a0f] [5.14.0]
+
+	* pyproject.toml:
+	Fixed requires-dist for commercial wheels.
+	[23c5bb98a8dd]
+
+2019-12-16  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[b3130010a22c]
+
+2019-12-14  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated for Qt v5.14.0.
+	[08b5399115c5]
+
+2019-12-12  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* Merged the 5.13-maint branch.
+	[3be79b99e71c]
+
+2019-11-02  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.13.2 for changeset 5627b4a59e44
+	[e8c569058a97] <5.13-maint>
+
+	* NEWS:
+	Released as v5.13.2.
+	[5627b4a59e44] [5.13.2] <5.13-maint>
+
+	* NEWS:
+	Updated the NEWS file.
+	[b2d827860c80] <5.13-maint>
+
+2019-10-03  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Fixed the name of PEP 566.
+	[5a397978105b] <5.13-maint>
+
+	* pyproject.toml:
+	Requires PyQt-builder v1.
+	[31bb17aa756b] <5.13-maint>
+
+2019-10-01  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Fixed the name of the PyQt-builder project.
+	[a5e7ae0b670c] <5.13-maint>
+
+2019-09-18  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* configure.py:
+	Fixed building against Qt v5.12.5 and later.
+	[c2040bb2bee2] <5.13-maint>
+
+	* PyQtWebEngine.msp:
+	Added PYQT_WEBENGINE_VERSION and PYQT_WEBENGINE_VERSION_STR ot
+	QtWebEngine.
+	[0a4790429fad] <5.13-maint>
+
+2019-09-14  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* pyproject.toml:
+	Added the requires-dist meta-data.
+	[77195f172cbd] <5.13-maint>
+
+2019-09-07  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.13.1 for changeset e7b3704583be
+	[6d1079a1d9d7] <5.13-maint>
+
+	* NEWS:
+	Released as v5.13.1.
+	[e7b3704583be] [5.13.1] <5.13-maint>
+
+	* NEWS:
+	Updated the NEWS file.
+	[ac313a7714c3] <5.13-maint>
+
+	* pyproject.toml:
+	Temporarily specify PyQt-build v0.1 as the build system.
+	[4a7ce6f828af] <5.13-maint>
+
+2019-08-30  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* METADATA.in, README, pyproject.toml:
+	Added support for sip v5.
+	[3ec37bd4ae78] <5.13-maint>
+
+2019-07-20  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Fixed building when Qt doesn't support QtWebChannel.
+	[091f34543aea] <5.13-maint>
+
+2019-07-13  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Fix building against Qt v5.12 and earlier.
+	[8cb9a50c17c2] <5.13-maint>
+
+2019-07-05  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Added the missing QWebEnginePage.Feature.Notifications enum member.
+	[54f5dff7983d] <5.13-maint>
+
+2019-07-03  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.13.0 for changeset fe9bb03004fd
+	[09c8c2e672ce]
+
+	* NEWS:
+	Released as v5.13.0.
+	[fe9bb03004fd] [5.13.0]
+
+2019-07-02  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[1c0db7013251]
+
+2019-06-30  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp, QtWebEngineCore.versions:
+	Updated for Qt v5.13.0.
+	[4e2c0056d0f9]
+
+2019-06-20  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* rb-product:
+	Updated the minimum PyQt5 wheel.
+	[6eb69c15f896]
+
+	* Merged the 5.12-maint branch.
+	[baeb73a545a6]
+
+	* PyQtWebEngine.msp:
+	Updated for Qt v5.12.4.
+	[9e68d6e3e8d9] <5.12-maint>
+
+2019-04-19  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated for Qt v5.12.3.
+	[2905d2eac4b4] <5.12-maint>
+
+2019-03-19  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.12.1 for changeset f0583eb7da8a
+	[03e09b7b4953] <5.12-maint>
+
+	* NEWS:
+	Released as v5.12.1.
+	[f0583eb7da8a] [5.12.1] <5.12-maint>
+
+2019-03-18  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[598cae9d0f9f] <5.12-maint>
+
+2019-03-17  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated for Qt v5.12.2.
+	[525c367f8949] <5.12-maint>
+
+2019-03-08  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Fixed building without SSL support.
+	[a0b9d2b41efc] <5.12-maint>
+
+	* configure.py:
+	Fixed the configure.py options that relate to stub files.
+	[f089ac081a92] <5.12-maint>
+
+2019-02-10  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* METADATA.in:
+	Fixes for the PyPI project description.
+	[537ba6f4f470] <5.12-maint>
+
+2019-02-04  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgtags:
+	Added tag 5.12 for changeset c4c19b66da43
+	[38d16c6e0c93]
+
+	* NEWS:
+	Released as v5.12.
+	[c4c19b66da43] [5.12]
+
+2019-02-02  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS, PyQtWebEngine.msp:
+	Updated for Qt v5.12.1.
+	[5c423a35c4e8]
+
+2018-12-21  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* METADATA.in:
+	Corrected the wheel meta-data version.
+	[b8125a567523]
+
+2018-12-15  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* NEWS:
+	Updated the NEWS file.
+	[88b124dd7c9a]
+
+2018-12-13  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* PyQtWebEngine.msp:
+	Updated for Qt v5.12.0.
+	[2c85932592b2]
+
+2018-10-03  Phil Thompson  <phil@riverbankcomputing.com>
+
+	* .hgignore, METADATA.in, NEWS, PyQtWebEngine.msp,
+	QtWebEngine.versions, QtWebEngineWidgets.versions, README,
+	configure.py, rb-product:
+	Initial commit of repository.
+	[3fe9991351ad]
