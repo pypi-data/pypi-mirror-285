@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "behavysis_classifier"
+version = "0.1.13"
+description = "Behaviour classifier for the behavysis suite"
+authors = ["BowenLab"]
+license = "LGPL-3.0-or-later"
+readme = "README.md"
+homepage = "https://tlee08.github.io/behavysis_classifier"
+repository = "https://tlee08.github.io/behavysis_classifier"
+documentation = "https://tlee08.github.io/behavysis_classifier"
+packages = [{ include = "behavysis_classifier" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+scikit-learn = "^1.4.2"
+imbalanced-learn = "^0.12.2"
+behavysis_core = "^0.1.3"
+torch = "^2.3.1"
+# torch = {version = "^2.3.1", source = "torch"}
+torchvision = "^0.18.1"
+# torchvision = {version = "^0.18.1", source = "torch"}
+torchaudio = "^2.3.1"
+# torchaudio = {version = "^2.3.1", source = "torch"}
+streamlit = "^1.36.0"
+
+[tool.poetry.group.dev.dependencies]
+behavysis_core = { path = "../behavysis_core", develop = true }
+ruff = "^0.4.8"
+mkdocs-material = "^9.5.18"
+mkdocstrings-python = "^1.9.2"
+
+[[tool.poetry.source]]
+name = "torch"
+url = "https://download.pytorch.org/whl/cu121"
+priority = "explicit"
+
+[tool.poetry.scripts]
+behavysis_make_classifier = "behavysis_classifier.scripts.make_classifier:main"
+behavysis_classifier_gui = "behavysis_classifier.scripts.classifier_gui:run_script"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
