@@ -1,0 +1,1 @@
+gcc -shared -o desaturation.so -fPIC -arch x86_64 desaturation.c
