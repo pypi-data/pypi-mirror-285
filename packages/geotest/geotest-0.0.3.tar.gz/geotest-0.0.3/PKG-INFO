@@ -1,0 +1,57 @@
+Metadata-Version: 2.3
+Name: geotest
+Version: 0.0.3
+Summary: This is a test package for automated package deployment using github actions
+Author-email: geovicco-dev <geovicco.dev@gmail.com>
+License-Expression: MIT
+Requires-Python: >=3.8
+Requires-Dist: typer>=0.12.3
+Description-Content-Type: text/markdown
+
+# `geotest`
+
+**Usage**:
+
+```console
+$ geotest [OPTIONS] COMMAND [ARGS]...
+```
+
+**Options**:
+
+- `--install-completion`: Install completion for the current shell.
+- `--show-completion`: Show completion for the current shell, to copy it or customize the installation.
+- `--help`: Show this message and exit.
+
+**Commands**:
+
+- `hello`
+- `year-born`
+
+## `geotest hello`
+
+**Usage**:
+
+```console
+$ geotest hello [OPTIONS]
+```
+
+**Options**:
+
+- `--name TEXT`: Name to greet [default: World]
+- `--help`: Show this message and exit.
+
+## `geotest year-born`
+
+**Usage**:
+
+```console
+$ geotest year-born [OPTIONS] [AGE]
+```
+
+**Arguments**:
+
+- `[AGE]`: [default: (dynamic)]
+
+**Options**:
+
+- `--help`: Show this message and exit.
