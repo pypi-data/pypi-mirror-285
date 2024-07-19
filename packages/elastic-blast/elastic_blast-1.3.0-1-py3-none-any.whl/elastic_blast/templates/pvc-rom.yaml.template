@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: blast-dbs-pvc
+spec:
+  dataSource:
+    name: blast-dbs-snapshot
+    kind: VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+  storageClassName: gcp-pd-ssd
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: ${ELB_PD_SIZE}

@@ -1,0 +1,20 @@
+# ElasticBLAST configuration file template to run blastn against nt
+
+[cloud-provider]
+gcp-project = ncbi-sandbox-blast
+gcp-region = us-east4
+gcp-zone = us-east4-b
+
+[cluster]
+name = ${USER}-${DB_LABEL}-test
+machine-type = ${MACHINE_TYPE}
+num-nodes = 1
+num-cpus = 15
+pd-size = 3000G
+use-preemptible = yes
+
+[blast]
+program = ${PROGRAM}
+db = ${DB}
+queries = ${QUERY}
+options = ${OPTIONS}

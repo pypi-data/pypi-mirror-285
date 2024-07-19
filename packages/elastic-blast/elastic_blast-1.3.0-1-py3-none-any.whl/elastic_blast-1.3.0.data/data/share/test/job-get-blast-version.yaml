@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: get-blast-latest-version
+  labels:
+    app: test
+spec:
+  template:
+    metadata:
+      labels:
+        app: test
+    spec:
+      containers:
+      - name: blast
+        image: ncbi/blast
+        command: ["blastn",  "-version"]
+      restartPolicy: Never
+  backoffLimit: 1

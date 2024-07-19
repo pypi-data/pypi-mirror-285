@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  # This cannot exceed 52 characters
+  name: elb-janitor
+  labels:
+    app: janitor
+spec:
+  schedule: "${ELB_JANITOR_SCHEDULE}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: janitor
+        spec:
+          containers:
+          - name: check-blast-jobs
+            image: ${ELB_DOCKER_IMAGE}
+            imagePullPolicy: IfNotPresent
+            env:
+            - name: ELB_GCP_PROJECT
+              value: "${ELB_GCP_PROJECT}"
+            - name: ELB_GCP_REGION
+              value: "${ELB_GCP_REGION}"
+            - name: ELB_GCP_ZONE
+              value: "${ELB_GCP_ZONE}"
+            - name: ELB_RESULTS
+              value: "${ELB_RESULTS}"
+            - name: ELB_CLUSTER_NAME
+              value: "${ELB_CLUSTER_NAME}"
+          restartPolicy: OnFailure
+  concurrencyPolicy: Forbid
