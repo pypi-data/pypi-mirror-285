@@ -1,0 +1,100 @@
+Metadata-Version: 2.1
+Name: bioio
+Version: 1.0.3
+Summary: Image reading, metadata management, and image writing for Microscopy images in Python
+Author-email: Eva Maxfield Brown <evamaxfieldbrown@gmail.com>, Dan Toloudis <danielt@alleninstitute.org>
+License: BSD License
+Project-URL: Homepage, https://github.com/bioio-devs/bioio
+Project-URL: Bug Tracker, https://github.com/bioio-devs/bioio/issues
+Project-URL: Documentation, https://bioio-devs.github.io/bioio
+Project-URL: User Support, https://github.com/bioio-devs/bioio/issues
+Classifier: Development Status :: 4 - Beta
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: bioio-base>=0.9.1
+Requires-Dist: dask[array]>=2021.4.1
+Requires-Dist: fsspec>=2022.8.0
+Requires-Dist: imageio[ffmpeg]<2.28.0,>=2.11.0
+Requires-Dist: ngff-zarr>=0.8.2
+Requires-Dist: numpy<2.0.0,>=1.21.0
+Requires-Dist: ome-types[lxml]>=0.4.0
+Requires-Dist: ome-zarr>=0.6.1
+Requires-Dist: semver>=3.0.1
+Requires-Dist: tifffile>=2021.8.30
+Requires-Dist: zarr<2.18.0,>=2.6.0
+Provides-Extra: lint
+Requires-Dist: pre-commit>=2.20.0; extra == "lint"
+Provides-Extra: test
+Requires-Dist: coverage>=5.1; extra == "test"
+Requires-Dist: pytest>=5.4.3; extra == "test"
+Requires-Dist: pytest-cov>=2.9.0; extra == "test"
+Requires-Dist: pytest-raises>=0.11; extra == "test"
+Requires-Dist: quilt3; extra == "test"
+Provides-Extra: docs
+Requires-Dist: gitchangelog>=3.0.4; extra == "docs"
+Requires-Dist: m2r2>=0.2.7; extra == "docs"
+Requires-Dist: Sphinx>=4.0.0; extra == "docs"
+Requires-Dist: furo>=2022.4.7; extra == "docs"
+Requires-Dist: numpydoc; extra == "docs"
+Requires-Dist: sphinx-copybutton; extra == "docs"
+Requires-Dist: docutils<0.19,>=0.18; extra == "docs"
+Provides-Extra: dev
+Requires-Dist: ipython>=8.4.0; extra == "dev"
+
+# BioIO
+
+[![Build Status](https://github.com/bioio-devs/bioio/actions/workflows/ci.yml/badge.svg)](https://github.com/bioio-devs/bioio/actions)
+[![Documentation](https://github.com/bioio-devs/bioio/actions/workflows/docs.yml/badge.svg)](https://bioio-devs.github.io/bioio)
+[![PyPI version](https://badge.fury.io/py/bioio.svg)](https://badge.fury.io/py/bioio)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9,3.10,3.11-blue.svg)](https://www.python.org/downloads/release/python-390/)
+
+Image Reading, Metadata Conversion, and Image Writing for Microscopy Images in Pure Python
+
+---
+
+## Documentation
+
+[See the full documentation on our GitHub pages site](https://bioio-devs.github.io/bioio/OVERVIEW.html)
+
+## Example Usage (see full documentation for more examples)
+
+Install bioio alongside OME TIFF and OME ZARR plug-ins with pip (this example won't use the OME ZARR plug-in):
+
+`pip install bioio bioio-ome-tiff bioio-ome-zarr`
+
+```python
+from bioio import BioImage
+
+# Get a BioImage object
+img = BioImage("my_file.tiff")  # selects the first scene found
+img.data  # returns 5D TCZYX numpy array
+img.xarray_data  # returns 5D TCZYX xarray data array backed by numpy
+img.dims  # returns a Dimensions object
+img.dims.order  # returns string "TCZYX"
+img.dims.X  # returns size of X dimension
+img.shape  # returns tuple of dimension sizes in TCZYX order
+img.get_image_data("CZYX", T=0)  # returns 4D CZYX numpy array
+
+# Get the id of the current operating scene
+img.current_scene
+
+# Get a list valid scene ids
+img.scenes
+
+# Change scene using name
+img.set_scene("Image:1")
+# Or by scene index
+img.set_scene(1)
+
+# Use the same operations on a different scene
+# ...
+```
+
+## Issues
+[_Click here to view all open issues in bioio-devs organization at once_](https://github.com/search?q=user%3Abioio-devs+is%3Aissue+is%3Aopen&type=issues&ref=advsearch)
