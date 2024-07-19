@@ -1,0 +1,89 @@
+# block_spec_release.yaml
+
+body:
+  release:
+    version: 2.0.0
+    notes: This is a new release
+  config:
+    serviceType: web-app
+    image:
+      dockerfile: Dockerfile
+      context: "."
+      version: 0.0.1
+    parameters:
+      env:
+        param1: value1
+        param2: value2
+      secrets:
+        - secret1
+        - secret2
+    resources:
+      instanceTypeId: "@param:instance_type_id"
+    healthCheckURL: "@param:health_check_url"
+    sessionStickiness: false
+    entrypoint: |
+      python
+      app.py
+    minInstances: 1
+parameters:
+  build:
+    - defaultValue: /health
+      description: Enter the health check URL
+      name: health_check_url
+      required: true
+      title: Health Check URL
+      type: string
+      hideValue: false
+    - defaultValue: 43
+      description: Select an instance type
+      name: instance_type_id
+      options:
+        - title: Pico (0.25CPU, 0.5GB RAM)
+          value: 43
+        - title: Nano (0.25CPU, 1GB RAM)
+          value: 44
+        - title: Micro (0.5CPU, 1GB RAM)
+          value: 45
+      required: true
+      title: Instance Type ID
+      type: number
+  run:
+    - defaultValue: AVG
+      description: Select an aggregation function (e.g., AVG, SUM, COUNT)
+      name: agg_type
+      required: false
+      title: Agg Type
+      type: string
+      hideValue: true
+    - defaultValue: false
+      description: Enable email notifications
+      name: email_notifications
+      required: false
+      title: Email Notifications
+      type: boolean
+    - defaultValue: 10
+      description: Select the number of iterations
+      name: num_iterations
+      options:
+        - title: Low
+          value: 10
+        - title: Medium
+          value: 50
+        - title: High
+          value: 100
+      required: false
+      title: Number of Iterations
+      type: number
+    - defaultValue:
+        - input.csv
+        - output.csv
+      description: Specify input and output file names
+      name: file_names
+      required: true
+      title: File Names
+      type: string_array
+artifact:
+  path: "."
+  ignore_files:
+    - ".gitignore"
+    - ".dockerignore"

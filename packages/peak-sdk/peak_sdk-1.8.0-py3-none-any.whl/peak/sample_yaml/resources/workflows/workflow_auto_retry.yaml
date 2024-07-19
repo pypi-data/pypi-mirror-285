@@ -1,0 +1,40 @@
+# workflow-auto-retry.yaml
+
+body:
+  name: new-workflow
+  triggers:
+    - cron: "0 0 * * *"
+  retryOptions:
+    duration: 5
+    exitCodes: [1, 2]
+    exponentialBackoff: true
+    numberOfRetries: 3
+  steps:
+    step-1:
+      type: standard
+      imageId: 100
+      imageVersionId: 100
+      command: echo hello
+      resources:
+        instanceTypeId: 21
+        storage: 10GB
+      parents: []
+      stepTimeout: 30
+      clearImageCache: true
+      runConfiguration:
+        retryOptions:
+          duration: 5
+          exitCodes: [1, 137, 143]
+          exponentialBackoff: true
+          numberOfRetries: 3
+    step-2:
+      type: standard
+      imageId: 100
+      imageVersionId: 100
+      command: echo world
+      resources:
+        instanceTypeId: 21
+        storage: 10GB
+      parents: []
+      stepTimeout: 30
+      clearImageCache: true
