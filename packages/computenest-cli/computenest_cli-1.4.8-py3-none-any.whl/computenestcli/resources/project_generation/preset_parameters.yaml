@@ -1,0 +1,51 @@
+ROSTemplateFormatVersion: '2015-09-01'
+# 定义参数
+Parameters:
+  RoleName:
+    Type: String
+    AssociationProperty: ALIYUN::RAM::Service::Role
+    AssociationPropertyMetadata:
+      Service: supplier.computenest.aliyuncs.com
+      APIProduct: resourcegroup
+      IsServiceLinedRole: false
+    Description: 请前往RAM控制台创建角色，角色需拥有上述模板定义的资源所需的创建权限。<a href='https://help.aliyun.com/zh/compute-nest/create-a-compute-nest-ram-role-and-grant-permissions-to-the-role' target='_blank'><b> 查看文档</b><font color='blue'></a>
+  # 可用区
+  ZoneId:
+    Type: String
+    AssociationProperty: ALIYUN::ECS::Instance:ZoneId
+    Label:
+      en: VSwitch Available Zone
+      zh-cn: 可用区
+  # VPC实例ID
+  VpcId:
+    AssociationProperty: ALIYUN::ECS::VPC::VPCId
+    Type: String
+    Label:
+      en: VPC ID
+      zh-cn: 专有网络VPC实例ID
+  # 交换机实例ID
+  VSwitchId:
+    AssociationProperty: ALIYUN::ECS::VSwitch::VSwitchId
+    AssociationPropertyMetadata:
+      VpcId: ${VpcId}
+      ZoneId: ${ZoneId}
+    Type: String
+    Label:
+      en: VSwitch ID
+      zh-cn: 交换机实例ID
+Metadata:
+  ALIYUN::ROS::Interface:
+    # 定义资源分组，创建服务实例时，同一分组的参数分布在一起
+    ParameterGroups:
+      - Parameters:
+          - RoleName
+        Label:
+          en: Basic Configuration
+          zh-cn: 基础配置
+      - Parameters:
+          - ZoneId
+          - VpcId
+          - VSwitchId
+        Label:
+          en: Network Configuration
+          zh-cn: 网络配置
