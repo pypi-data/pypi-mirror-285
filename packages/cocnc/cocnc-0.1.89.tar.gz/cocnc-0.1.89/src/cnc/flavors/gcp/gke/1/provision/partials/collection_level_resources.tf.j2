@@ -1,0 +1,25 @@
+{% if env_collection.has_active_deployments %}
+
+resource "google_compute_firewall" "{{ env_collection.instance_name }}-gke" {
+  project     = "{{ env_collection.account_id }}"
+  name        = "{{ env_collection.instance_name }}-allow-gke"
+  network     = google_compute_network.app-network.id
+  description = "Allow traffic to gke services"
+
+  allow {
+    protocol  = "tcp"
+    ports     = [
+    {% for service in env_collection.all_services %}
+    {% if service.is_frontend %}
+    "80"{% if not loop.last %},{% endif %}
+    {% elif service.is_backend %}
+    "{{ service.port }}"{% if not loop.last %},{% endif %}
+    {% endif %}
+    {% endfor %}
+    ]
+  }
+
+  source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
+}
+
+{% endif %}{# if env_collection.has_active_deployments #}
