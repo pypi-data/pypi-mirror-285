@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wordllama"
+dynamic = ["version"]
+description = "WordLlama Embedding and Training"
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+authors = [{ name = "Lee Miller", email = "dleemiller@gmail.com" }]
+dependencies = [
+  "numpy",
+  "safetensors",
+  "tokenizers",
+  "toml",
+  "pydantic>=2",
+  "requests"
+]
+
+[project.optional-dependencies]
+train = [
+  "accelerate",
+  "torch>=2",
+  "transformers>=4",
+  "sentence-transformers",
+  "datasets",
+  "nltk",
+]
+
+[project.urls]
+Homepage = "https://github.com/dleemiller"
+Repository = "https://github.com/dleemiller/WordLlama"
+
+[tool.setuptools]
+packages = ["wordllama"]
+
+[tool.setuptools.package-data]
+wordllama = ["**/*.toml", "tokenizers/*.json", "weights/*.safetensors"]
+
+[tool.setuptools.dynamic]
+classifiers = { file = "classifiers.txt" }
+
+[tool.setuptools_scm]
+write_to = "wordllama/_version.py"
+version_scheme = "post-release"
+local_scheme = "no-local-version"
