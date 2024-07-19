@@ -1,0 +1,53 @@
+[tool.poetry]
+name = "phoenixdatatools"
+version = "0.0.9"
+description = "Utilities for ready-made Databricks, to shorten and facilitate the development of notebooks and jobs"
+authors = ["Indicium <leonardo.moretti@indicium.tech>"]
+readme = "README.md"
+packages = [{include = "phoenixdatatools"}]
+classifiers = [
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Natural Language :: English"
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+flake8 = "^7.1.0"
+isort = "^5.13.2"
+taskipy = "^1.13.0"
+
+
+[tool.poetry.group.doc.dependencies]
+mkdocs-material = "^9.5.28"
+mkdocstrings = "^0.25.1"
+mkdocstrings-python = "^1.10.5"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = "--doctest-modules"
+
+[tool.isort]
+profile = "black"
+line_length = 79
+
+# Command ex: task lint 
+[tool.taskipy.tasks]
+pipy_test = "poetry publish --build -r testpypi"
+pipy = "poetry publish --build"
+lint = "flake8 --verbose --doctests phoenixdatatools tests && isort --check --diff phoenixdatatools tests"
+docs = "mkdocs serve"
+pre_test = "task lint"
+test = "pytest -s --cov=phoenixdatatools -vv || coverage html"
