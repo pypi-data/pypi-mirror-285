@@ -1,0 +1,203 @@
+diff --git a/src/TessTemplate.c b/src/TessTemplate.c
+index 1eb6914..152d308 100644
+--- a/src/TessTemplate.c
++++ b/src/TessTemplate.c
+@@ -13,20 +13,11 @@
+ #include <string.h>
+ #include <math.h>
+ 
+-// ==================================================================
+-// Forward declaration of local types
+-// ==================================================================
+-// Node					A node in a linked list of TessAtoms
+-// TessTemplate			The implementation of type TessTemplate
+-// ==================================================================
+-
+-typedef struct _Node Node;
+-typedef struct _TessTemplate TessTemplate;
+-
+ // ==================================================================
+ // Local type Node
+ // ==================================================================
+ 
++typedef struct _Node Node;
+ struct _Node
+ {
+ 	TessAtom *atom;
+@@ -43,51 +34,51 @@ struct _Node
+ // dim					The dimension of the template (# residues)
+ // ==================================================================
+ 
+-struct _TessTemplate
+-{
+-	int count;
+-	TessAtom **atom;
+-	double **distance;
+-	char *symbol;
+-	int dim;
+-};
++// struct _TessTemplate
++// {
++// 	int count;
++// 	TessAtom **atom;
++// 	double **distance;
++// 	char *symbol;
++// 	int dim;
++// };
+ 
+ // ==================================================================
+ // Oracles of type TessTemplate
+ // ==================================================================
+ 
+-static int TessTemplate_count(const Template *T)
++int TessTemplate_count(const Template *T)
+ {
+ 	const TessTemplate *J = (const TessTemplate*)&T[1];
+ 	return J->count;
+ }
+ 
+-static int TessTemplate_match(const Template *T,int k,const Atom *A)
++int TessTemplate_match(const Template *T,int k,const Atom *A)
+ {
+ 	const TessTemplate *J = (const TessTemplate*)&T[1];
+ 	return TessAtom_match(J->atom[k],A);
+ }
+ 
+-static int TessTemplate_range(const Template *T,int i,int j,double *a,double *b)
++int TessTemplate_range(const Template *T,int i,int j,double *a,double *b)
+ {
+ 	const TessTemplate *J = (const TessTemplate*)&T[1];
+ 	*a = *b = J->distance[i][j];
+ 	return 1;
+ }
+ 
+-static const double *TessTemplate_position(const Template *T, int k)
++const double *TessTemplate_position(const Template *T, int k)
+ {
+ 	const TessTemplate *J=(const TessTemplate*)&T[1];
+ 	return TessAtom_position(J->atom[k]);
+ }
+ 
+-static double TessTemplate_distWeight(const Template *T, int k)
++double TessTemplate_distWeight(const Template *T, int k)
+ {
+ 	const TessTemplate *J=(const TessTemplate*)&T[1];
+ 	return TessAtom_distWeight(J->atom[k]);
+ }
+ 
+-static int TessTemplate_check(const Template *T, Atom **A, int k, int ignore_chain)
++int TessTemplate_check(const Template *T, Atom **A, int k, int ignore_chain)
+ {
+ 	const TessTemplate *J = (const TessTemplate*)&T[1];
+ 	int i;
+@@ -129,13 +120,13 @@ static int TessTemplate_check(const Template *T, Atom **A, int k, int ignore_cha
+ 	return 1;
+ }
+ 
+-static const char *TessTemplate_name(const Template *T)
++const char *TessTemplate_name(const Template *T)
+ {
+ 	const TessTemplate *J = (const TessTemplate*)&T[1];
+ 	return J->symbol;
+ }
+ 
+-static double TessTemplate_logE(const Template *T,double rmsd, int n)
++double TessTemplate_logE(const Template *T,double rmsd, int n)
+ {
+ 	const TessTemplate *J = (const TessTemplate*)&T[1];
+ 	const double logA = -8.5;
+@@ -153,7 +144,7 @@ static double TessTemplate_logE(const Template *T,double rmsd, int n)
+ // Private methods of type TessTemplate
+ // ==================================================================
+ 
+-static void TessTemplate_free(Template *T)
++void TessTemplate_free(Template *T)
+ {
+ 	TessTemplate *J;
+ 	int i;
+@@ -269,6 +260,7 @@ Template *TessTemplate_create(FILE *file,const char *sym)
+ 	T->name=TessTemplate_name;
+ 	T->logE=TessTemplate_logE;
+ 	T->distWeight=TessTemplate_distWeight;
++	T->copy=TessTemplate_copy;
+ 
+ 	// Set up the data fields
+ 
+@@ -333,4 +325,77 @@ Template *TessTemplate_create(FILE *file,const char *sym)
+ 	return T;
+ }
+ 
++Template* TessTemplate_copy(const Template *T)
++{
++	int count;
++	int rq;
++	int i,j;
++	Template *T2;
++	TessTemplate *J2;
++	const TessTemplate *J;
++
++	J = (const TessTemplate*)&T[1];
++	count = J->count;
++
++	// Allocate memory for the copy
++
++	rq = sizeof(Template)+sizeof(TessTemplate);
++	rq += count*sizeof(TessAtom*);
++	rq += count*count*sizeof(double);
++	rq += count*sizeof(double*);
++
++	T2 = (Template*)calloc(1,rq);
++	J2 = (TessTemplate*)&T2[1];
++
++	// Set up the method pointers
++
++	T2->free=TessTemplate_free;
++	T2->match=TessTemplate_match;
++	T2->position=TessTemplate_position;
++	T2->count=TessTemplate_count;
++	T2->range=TessTemplate_range;
++	T2->check=TessTemplate_check;
++	T2->name=TessTemplate_name;
++	T2->logE=TessTemplate_logE;
++	T2->distWeight=TessTemplate_distWeight;
++	T2->copy=TessTemplate_copy;
++
++	// Copy atoms
++
++	J2->atom=(TessAtom**)&J2[1];
++	for(i=0; i<count; i++)
++	{
++		J2->atom[i]=TessAtom_copy(J->atom[i]); 
++		if (J2->atom[i] == NULL) {
++			free(T2);
++			return NULL;
++		}
++	}
++
++	// Copy distances
++
++	J2->distance=(double**)&J2->atom[count];
++	J2->distance[0]=(double*)&J2->distance[count];
++	for(i=1; i<count; i++)
++	{
++		J2->distance[i]=(double*)&J2->distance[i-1][count];
++	}
++
++	for (i = 0; i < count; i++)
++	{
++		for (j = 0; j < count; j++)
++		{
++			J2->distance[i][j] = J->distance[i][j];
++		}
++	}
++
++	// Copy data fields
++
++	J2->symbol=(J->symbol==NULL)?NULL:strdup(J->symbol);
++	J2->count=J->count;
++	J2->dim=J->dim;
++
++	return T2;
++}
++
+ // ==================================================================
