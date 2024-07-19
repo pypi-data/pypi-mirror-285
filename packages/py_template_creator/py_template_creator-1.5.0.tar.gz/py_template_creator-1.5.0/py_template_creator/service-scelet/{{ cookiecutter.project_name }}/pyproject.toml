@@ -1,0 +1,25 @@
+[project]
+name = "{{ cookiecutter.project_name }}"
+version = "0.0.0"
+description = "Service python application"
+readme = "README.md"
+authors = [{ name = "{{ cookiecutter.author_name }}", email = "{{ cookiecutter.author_email }}" }]
+
+[project.scripts]
+{{ cookiecutter.project_name }} = "package.run:main"
+
+[tool.setuptools]
+packages = ["package"]
+
+[tool.coverage.run]
+source = ["./"]
+omit = ["package/run.py", "package/app/models/base.py", "package/app/alembic/*"]
+
+[tool.coverage.report]
+fail_under = 80
+show_missing = true
+exclude_lines = ["pragma: no cover"]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["package/tests/"]
