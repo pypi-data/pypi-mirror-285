@@ -1,0 +1,123 @@
+[project]
+name = "adalab-cli"
+version = "1.4.0"
+description = "The CLI app to interact with AdaLab."
+keywords = [ "cli",]
+
+[[project.authors]]
+name = "Adamatics ApS"
+email = "info@adamatics.com"
+
+[tool.poetry]
+name = "adalab-cli"
+version = "1.4.0"
+description = "The CLI app to interact with AdaLab."
+authors = ["Adamatics ApS <info@adamatics.com>"]
+readme = "README.md"
+homepage = "https://adamatics.com"
+repository = "https://gitlab.com/adamatics/python/adalab-cli"
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Typing :: Typed",
+]
+packages = [
+    { include = "adalab_cli" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10.0"
+tabulate = ">=0.9.0"
+typer = ">=0.9.0"
+sh = ">=2.0.6"
+adalib = {version = ">=2.6.0", source = "adalib-dev"}
+adalib-auth = {version = ">=1.1.0", source = "adalib-dev"}
+loguru = ">=0.7.2"
+prompt-toolkit = ">=3.0.47"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+flake8 = "^6.1.0"
+interrogate = "^1.5.0"
+isort = "^5.12.0"
+pre-commit = "^3.4.0"
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
+pyproject-flake8 = "^6.1.0"
+requests-mock = "^1.11.0"
+tox = "^4.11.3"
+
+
+[[tool.poetry.source]]
+name = "adalib-dev"
+url = "https://staging-adalab.adamatics.io/devpi/admin/adalib-dev/+simple/"
+priority = "supplemental"
+
+
+[[tool.poetry.source]]
+name = "PyPI"
+priority = "primary"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+adalab = "adalab_cli.cli:app"
+
+[tool.isort]
+profile = "black"
+src_paths = ["adalab_cli", "tests"]
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+line_length = 99
+
+[tool.black]
+target-version = ["py310"]
+include = '\.pyi?$'
+line-length = 99
+
+[tool.flake8]
+ignore = ["E203", "E266", "E501", "W503"]
+max-complexity = 18
+select = ["B","C","E","F","W","T4"]
+exclude = [".git",".venv",".tox"]
+max-line-length = 99
+
+[tool.pytest]
+testpaths = "tests/"
+
+[tool.pytest.ini_options]
+addopts = """\
+    --cov adalib_cli \
+    --cov tests \
+    --cov-report term-missing \
+    --no-cov-on-fail \
+"""
+
+[tool.coverage.report]
+fail_under = 100
+exclude_lines = [
+    'if TYPE_CHECKING:',
+    'pragma: no cover'
+]
+
+[tool.mypy]
+disallow_any_unimported = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+strict_equality = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_return_any = true
+check_untyped_defs = true
+show_error_codes = true
+files = "src/"
+ignore_missing_imports = true

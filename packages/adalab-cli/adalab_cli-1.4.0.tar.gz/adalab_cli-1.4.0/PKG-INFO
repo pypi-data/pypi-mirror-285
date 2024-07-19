@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: adalab-cli
+Version: 1.4.0
+Summary: The CLI app to interact with AdaLab.
+Home-page: https://adamatics.com
+Author: Adamatics ApS
+Author-email: info@adamatics.com
+Requires-Python: >=3.10.0,<4.0.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Typing :: Typed
+Requires-Dist: adalib (>=2.6.0)
+Requires-Dist: adalib-auth (>=1.1.0)
+Requires-Dist: loguru (>=0.7.2)
+Requires-Dist: prompt-toolkit (>=3.0.47)
+Requires-Dist: sh (>=2.0.6)
+Requires-Dist: tabulate (>=0.9.0)
+Requires-Dist: typer (>=0.9.0)
+Project-URL: Repository, https://gitlab.com/adamatics/python/adalab-cli
+Description-Content-Type: text/markdown
+
+# adalab-cli
+
+This repository contains the source code of `adalab-cli`, the CLI app to interact with the AdaLab platform.
+
+## Installation
+
+`adalab-cli` can be installed from PyPI or a `devpi` index:
+
+```sh
+# PyPI
+pip install adalab-cli
+# devpi
+pip install --extra-index-url <devpi_index_url> adalab-cli
+```
+
+In order to add it to the dependencies of a Python project using `poetry` use:
+
+```sh
+poetry source add --priority=supplemental <repo_name> <devpi_index_url>
+poetry source add --priority=primary PyPI
+poetry add --source <repo_name> adalab-cli
+```
+
+## Usage
+
+See the corresponding documentation pages.
+
+## Contributing
+
+See the [contributor's guide](CONTRIBUTING.md).
+

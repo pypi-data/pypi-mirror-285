@@ -1,0 +1,67 @@
+"""Map of the CLI commands and subcommands for the CLI completion tree."""
+
+completion_tree = {
+    "cards": {
+        "approve-card": {"--help": None},
+        "expose-card": {"--help": None},
+        "get-card": {"--help": None},
+        "hide-card": {"--help": None},
+        "list-cards": {
+            "all": None,
+            "notebook": None,
+            "voila": None,
+            "url": None,
+            "group": None,
+            "--help": None,
+        },
+        "help": None,
+        "exit": None,
+    },
+    "databases": {
+        "list-databases": {"--no-pretty": None, "--help": None},
+        "list-datasets": {"--no-pretty": None, "--return-sql": None, "--help": None},
+        "list-tables": {"--no-pretty": None, "--help": None},
+        "view-dataset": {"--head": None, "--no-pretty": None, "--help": None},
+        "help": None,
+        "exit": None,
+    },
+    "schedules": {
+        "create-schedule": {
+            "--schedule": None,
+            "--pool": None,
+            "--active": None,
+            "--concurrent": None,
+            "--cleanup": None,
+            "--timeout": None,
+            "--help": None,
+        },
+        "delete-run": {"--help": None},
+        "delete-schedule": {"--help": None},
+        "start-run": {
+            "--cleanup": None,
+            "--pool": None,
+            "--timeout": None,
+            "--help": None,
+        },
+        "stop-run": {"--help": None},
+        "update-schedule": {
+            "--schedule": None,
+            "--pool": None,
+            "--active": None,
+            "--concurrent": None,
+            "--cleanup": None,
+            "--timeout": None,
+            "--help": None,
+        },
+        "help": None,
+        "exit": None,
+    },
+    "user": {
+        "whoami": {"--full-information": None, "--with-notifications": None, "--help": None},
+        "help": None,
+        "exit": None,
+    },
+    "version": None,
+    "help": None,
+    "exit": None,
+}
