@@ -1,0 +1,30 @@
+#btnRecordMeeting {
+  border: 1px solid rgb(207, 60, 102);
+  background-color: rgb(207, 60, 102);
+}
+
+#btnUploadFile,
+#btnTranscribeAnalyzeFile {
+  background-color: rgb(55, 59, 188);
+  border: 1px solid rgb(55, 59, 188);
+  /* on mobile make this 100% width */
+}
+@media (max-width: 578px) {
+  #btnUploadFile,
+  #btnTranscribeAnalyzeFile {
+    width: 100%;
+  }
+}
+
+.separator {
+  border-left: 1px solid black;
+  margin: 8px 24px;
+  /* on mobile, vertical line */
+}
+@media (max-width: 578px) {
+  .separator {
+    border-left: none;
+    border-top: 1px solid black;
+    margin: 8px 0;
+  }
+}/*# sourceMappingURL=selector.css.map */

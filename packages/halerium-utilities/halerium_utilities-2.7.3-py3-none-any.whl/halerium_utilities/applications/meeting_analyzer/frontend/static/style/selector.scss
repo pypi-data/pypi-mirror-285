@@ -1,0 +1,30 @@
+@import "vars.scss";
+
+#btnRecordMeeting {
+    border: 1px solid $hal-red;
+    background-color: $hal-red;
+}
+
+#btnUploadFile,
+#btnTranscribeAnalyzeFile {
+    background-color: $hal-blue;
+    border: 1px solid $hal-blue;
+
+    /* on mobile make this 100% width */
+    @media (max-width: 578px) {
+        width: 100%;
+    }
+
+}
+
+.separator {
+    border-left: 1px solid black;
+    margin: 8px 24px;
+
+    /* on mobile, vertical line */
+    @media (max-width: 578px) {
+        border-left: none;
+        border-top: 1px solid black;
+        margin: 8px 0;
+    }
+}
