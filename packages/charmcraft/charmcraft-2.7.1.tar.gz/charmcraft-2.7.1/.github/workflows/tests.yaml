@@ -1,0 +1,261 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+
+  pull_request:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      - name: Configure environment
+        run: |
+          echo "::group::Begin snap install"
+          echo "Installing snaps in the background while running apt and pip..."
+          sudo snap install --no-wait shellcheck
+          echo "::endgroup::"
+          echo "::group::pip install"
+          python -m pip install tox
+          echo "::endgroup::"
+          echo "::group::Create virtual environments for linting processes."
+          tox run -m lint --notest
+          echo "::endgroup::"
+          echo "::group::Wait for snap to complete"
+          snap watch --last=install
+          echo "::endgroup::"
+      - name: Run Linters
+        # Currently picking specific linters that pass until we can enable them all.
+        # Still missing: pyright, yamllint
+        # run: tox run --skip-pkg-install --no-list-dependencies -m lint
+        run: tox run --skip-pkg-install --no-list-dependencies -e lint-black,lint-ruff,lint-shellcheck,lint-codespell,lint-mypy
+  run-tests:
+    strategy:
+      matrix:
+        os: [macos-12, windows-2019, windows-2022]
+        python-version: [3.8, "3.10", "3.11"]
+        include:
+          - os: ubuntu-20.04
+            python-version: "3.8"
+          - os: ubuntu-22.04
+            python-version: "3.10"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python ${{ matrix.python-version }} on ${{ matrix.os }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install/update pip, wheel, and setuptools on non Windows
+        if: ${{ matrix.os != 'windows-2019' && matrix.os != 'windows-2022' }}
+        run: |
+          pip install -U pip wheel setuptools
+      - name: Install/update pip, wheel, and setuptools on Windows
+        if: ${{ matrix.os == 'windows-2019' || matrix.os == 'windows-2022' }}
+        run: |
+          pip install -U wheel setuptools
+      - name: Install Ubuntu-specific dependencies
+        if: ${{ matrix.os == 'ubuntu-20.04' || matrix.os == 'ubuntu-22.04' }}
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip python3-setuptools python3-wheel python3-venv libapt-pkg-dev
+      - name: Install Ubuntu 20.04-specific dependencies
+        if: ${{ matrix.os == 'ubuntu-20.04' }}
+        run: |
+          pip install -U -r requirements-focal.txt
+      - name: Install Ubuntu 22.04-specific dependencies
+        if: ${{ matrix.os == 'ubuntu-22.04' }}
+        run: |
+          pip install -U -r requirements-jammy.txt
+      - name: Install charmcraft and dependencies
+        run: |
+          pip install -U -r requirements-dev.txt
+          pip install -e .
+          pip install tox setuptools
+      - name: Install external dependencies with homebrew
+        # This is only necessary for Linux until skopeo >= 1.11 is in repos.
+        # Once we're running on Noble, we can get skopeo from apt.
+        if: ${{ runner.os == 'Linux' || runner.os == 'macOS' }}
+        run: |
+          if [[ $(uname --kernel-name) == "Linux" ]]; then
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+          fi
+          brew install skopeo
+      - name: Run tests
+        shell: bash
+        run: |
+          if [[ $(uname --kernel-name) == "Linux" ]]; then
+            # Ensure the version of skopeo comes from homebrew
+            # This is only necessary until we move to noble.
+            eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+            # Allow skopeo to access the contents of /run/containers
+            sudo chmod 777 /run/containers || true
+            # Add an xdg runtime dir for skopeo to look into for an auth.json file
+            sudo mkdir -p /run/user/$(id -u)
+            sudo chown $USER /run/user/$(id -u)
+            export XDG_RUNTIME_DIR=/run/user/$(id -u)
+          fi
+          pytest -ra tests
+
+  snap-build:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Build snap
+        uses: snapcore/action-build@v1
+        id: snapcraft
+      - name: Upload snap artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: snap
+          path: ${{ steps.snapcraft.outputs.snap }}
+
+# Commented out until we can provide the necessary launchpad credentials.
+#  snap-remote-build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Start installing snapcraft
+#        run: echo SNAP_JOB=$(sudo snap install --classic --no-wait snapcraft) >> $GITHUB_OUTPUT
+#        id: install
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#      - name: Remote-build snap
+#        id: snapcraft
+#        run: |
+#          sudo snap watch ${{ steps.install.outputs.SNAP_JOB }}
+#          snapcraft remote-build --launchpad-accept-public-upload
+#      - name: Upload snap artifacts
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: snap
+#          path: ./*.snap
+
+  snap-tests:
+    needs: [snap-build]
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Download snap artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: snap
+          path: snap-artifacts
+      - name: Install snap
+        run: |
+          sudo snap install --classic --dangerous snap-artifacts/*.snap
+          rm -rf snap-artifacts
+      - name: Install test dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y python3-pip python3-setuptools python3-wheel python3-distutils
+          sudo snap install charm --classic
+      - name: Refresh LXD dependency on 20.04
+        if: ${{ matrix.os == 'ubuntu-20.04' }}
+        run: |
+          sudo snap refresh lxd || echo "Cannot refresh LXD dependency, using $(lxd --version)"
+          snap list lxd
+      - name: Configured LXD
+        run: |
+          sudo groupadd --force --system lxd
+          sudo usermod --append --groups lxd $USER
+          sudo snap start lxd
+          sudo lxd waitready --timeout=30
+          sudo lxd init --auto
+      - name: Validate snap configuration
+        run: |
+          sudo snap set charmcraft provider=lxd
+          sudo snap set charmcraft provider=multipass
+          if sudo snap set charmcraft provider=invalid; then
+            echo "configure script failure"
+            exit 1
+          fi
+          sudo snap set charmcraft provider=lxd
+
+  windows-build:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          pip install -U pyinstaller -r requirements.txt
+      - name: Build
+        run: |
+          pyinstaller charmcraft.spec
+      - name: Upload unsigned exe
+        uses: actions/upload-artifact@v3
+        with:
+          name: snap
+          path: dist\charmcraft.exe
+      - name: Smoke test executable
+        run: |
+          mkdir my-charm
+          cd my-charm
+          ..\dist\charmcraft.exe version
+          ..\dist\charmcraft.exe init --author "Charmcraft Team"
+          ..\dist\charmcraft.exe clean
+      - name: Update Installer Version
+        run: |
+          python -m tools.version set-charmcraft-iss
+      - name: Build installer(s)
+        env:
+          INNOCC: C:\Program Files (x86)\Inno Setup 6\iscc.exe
+          MAKEAPPX: C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\makeappx.exe
+          SIGNTOOL: C:\Program Files (x86)\Windows Kits\10\bin\10.0.18362.0\x64\signtool.exe
+          TIMESTAMP_SERVICE: http://timestamp.digicert.com
+        run: |
+          windows\generate-self-signed-cert.ps1
+
+          & $Env:SIGNTOOL sign /fd SHA256 /td SHA256 /tr $Env:TIMESTAMP_SERVICE /f test-signing.pfx /p Password1234 dist\charmcraft.exe
+          & $Env:INNOCC windows\charmcraft.iss
+          copy dist\charmcraft-installer.exe dist\charmcraft-installer-self-signed.exe
+          echo "Test signing charmcraft inno installer..."
+          & $Env:SIGNTOOL sign /fd SHA256 /td SHA256 /tr $Env:TIMESTAMP_SERVICE /f test-signing.pfx /p Password1234 dist\charmcraft-installer-self-signed.exe
+
+          echo "Building charmcraft msix installer..."
+          mkdir dist\msix
+          copy dist\charmcraft.exe dist\msix\
+          copy windows\charmcraft.png dist\msix\
+          copy windows\AppxManifest.xml dist\msix\
+          & $Env:MAKEAPPX pack /h SHA256 /d dist\msix /p dist\charmcraft-installer.msix
+
+          echo "Test signing charmcraft msix installer..."
+          & $Env:SIGNTOOL sign /fd SHA256 /td SHA256 /tr $Env:TIMESTAMP_SERVICE /f test-signing.pfx /p Password1234 dist\charmcraft-installer.msix
+      - name: Upload installer(s)
+        uses: actions/upload-artifact@v3
+        with:
+          name: installers
+          path: |
+            dist\charmcraft-installer-self-signed.exe
+            dist\charmcraft-installer.msix
