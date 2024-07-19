@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/lgpl-3.0-standalone.html). -->
+<odoo>
+
+<record id="status_check_tree_view" model="ir.ui.view">
+    <field name="name">status.check.view.tree</field>
+    <field name="model">status.check</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="status_check_item_id" />
+            <field name="status_ok" />
+        </tree>
+    </field>
+</record>
+
+<record id="status_check_form_view" model="ir.ui.view">
+    <field name="name">status.check - form</field>
+    <field name="model">status.check</field>
+    <field name="arch" type="xml">
+        <form>
+            <group name="group_1" colspan="4" col="2">
+                <field name="status_check_item_id" />
+                <field name="status_ok" />
+                <field name="resolution_instruction" />
+            </group>
+        </form>
+    </field>
+</record>
+
+</odoo>
