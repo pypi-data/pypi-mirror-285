@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: autonomy_dev
+Version: 0.2.43
+Summary: A collection of tooling to enable open source development of autonomy tools
+Home-page: https://github.com/8ball030/auto_dev
+License: Apache-2.0
+Author: 8Baller
+Author-email: 8ball030@gmail.com
+Requires-Python: >=3.9,<4.0
+Classifier: Development Status :: 2 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3.8
+Provides-Extra: all
+Provides-Extra: dev
+Provides-Extra: doc
+Requires-Dist: asn1crypto (>=1.4.0,<1.5.0)
+Requires-Dist: autoflake8 (>=0.4.1,<0.5.0) ; extra == "all"
+Requires-Dist: eth-abi (==4.0.0)
+Requires-Dist: eth-utils (==2.2.0)
+Requires-Dist: grpcio (==1.53.0)
+Requires-Dist: hypothesis (==6.21.6)
+Requires-Dist: ipfshttpclient (==0.8.0a2)
+Requires-Dist: open-aea-cli-ipfs (==1.52.0)
+Requires-Dist: open-aea-ledger-cosmos (==1.52.0)
+Requires-Dist: open-aea-ledger-ethereum (==1.52.0)
+Requires-Dist: open-aea-ledger-solana (==1.52.0)
+Requires-Dist: open-aea-test-autonomy (==0.14.12)
+Requires-Dist: open-autonomy (==0.14.12)
+Requires-Dist: protobuf (>=4.21.6,<4.25.0)
+Requires-Dist: py-eth-sig-utils
+Requires-Dist: py-multibase (==1.0.3)
+Requires-Dist: py-multicodec (==0.2.1)
+Requires-Dist: pycryptodome (==3.18.0)
+Requires-Dist: pylama[all] (>=8.4.1,<9.0.0) ; extra == "all"
+Requires-Dist: rich-click (>=1.8.2,<2.0.0)
+Requires-Dist: toml (==0.10.2) ; extra == "dev"
+Requires-Dist: tomte[black,cli,ledgers,tests] (==0.2.17)
+Requires-Dist: typing_extensions (>=3.10.0.2)
+Requires-Dist: web3 (>=6.0.0,<7)
+Description-Content-Type: text/markdown
+
+# Autonomy Dev
+
+Tooling to speed up autonomy development.
+
+## Usage
+
+### Contracts
+
+We can scaffold a new contract using the `adev scaffold contract` command. This will create a new directory with;
+- open-aea contract component
+    - open-aea contract component class 🎉
+    - open-aea contract component function generation 🚧
+    - open-aea contract component test generation 🚧
+
+
+```bash
+adev scaffold contract 0xc939df369C0Fc240C975A6dEEEE77d87bCFaC259 beyond_pricer \
+      --block-explorer-api-key $BLOCK_EXPLORER_API_KEY \
+      --block-explorer-url "https://api-goerli.arbiscan.io"
+```
+
+
+## Installation
+
+```bash
+pip install autonomy-dev[all]
+```
+## Release
+
+```bash
+checkout main
+git pull
+adev release
+```
+
