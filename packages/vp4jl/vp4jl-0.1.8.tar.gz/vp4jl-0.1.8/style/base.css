@@ -1,0 +1,26 @@
+/* stylelint-disable selector-class-pattern */
+
+/*
+    See the JupyterLab Developer Guide for useful CSS Patterns:
+
+    https://jupyterlab.readthedocs.io/en/stable/developer/css.html
+*/
+:root {
+  --vp-ui-font-family: var(--jp-ui-font-family) !important;
+  --vp-ui-font-color-blue: var(--jp-content-link-color) !important;
+  --vp-ui-font-size1: var(--jp-ui-font-size1) !important;
+  --vp-treeview-icon-size: var(--jp-content-presentation-font-size1) !important;
+}
+
+.jp-vp-toolbar {
+  padding: 2px 5px 2px 2px;
+
+  /* disable paint containment from lumino 2.0 default strict CSS containment */
+  contain: style size !important;
+}
+
+.jp-vp-main-area-panel[data-orientation='vertical']
+  .lm-SplitPanel-handle::after {
+  background: #bdbdbd;
+  min-height: 4px !important;
+}
