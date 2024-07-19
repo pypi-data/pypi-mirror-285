@@ -1,0 +1,702 @@
+#!/usr/bin/env python3
+# encoding: utf-8
+'''
+confed -- Programatically update a setting in a configuration file 
+
+@author:     Bernd Wechner
+
+@copyright:  2024. All rights reserved.
+
+@license:    The Hippocratic License 2.1
+
+@contact:    YndlY2huZXJAeWFob28uY29t    (base64 encoded)
+@deffield    updated: 7/6/2024
+'''
+import sys, os, re, textwrap, subprocess
+import pyparsing as pp
+
+from io import BytesIO
+from argparse import ArgumentParser, HelpFormatter,FileType
+from tempfile import NamedTemporaryFile
+
+__prog__ = "confed"
+__all__ = []
+__version__ = 0.2
+__date__ = '2024-05-11'
+__updated__ = '2024-07-19'
+
+ASSIGN_CHAR = '='
+COMMENT_CHAR = '#'
+NAME_CHARS = '_'
+VALUE_CHARS = '-.'
+
+# We assume conf files are basic text files. pyparson supprotds an extended list of
+# unicode whitespace characters (list(pp.White().whiteStrs.keys()) withh shed some light)
+# but we will assumed configuration fiels don't mess about with fancy unicode white space 
+# and are restricted to basic set of white space characters. pyparsing includs \n and \r in
+# the basic list, but we support only single line processing for now and so are content with
+# the basic two.   
+WHITE_SPACE = ' \t'
+
+class RawFormatter(HelpFormatter):
+    
+    extra_indent = '\t'
+
+    def _fill_text(self, text, width, indent):
+        new_lines = [textwrap.fill(line, width) for line in textwrap.indent(textwrap.dedent(text), self.extra_indent+indent).splitlines()]
+        reformatted = "\n".join(new_lines)
+        return reformatted
+
+def get_or_set_setting(conf_file, setting, 
+                       setting_value=None, 
+                       before_setting=None, 
+                       after_setting=None, 
+                       comment=None, 
+                       keep=False,
+                       delete=False,
+                       get=True, 
+                       multiple=False, 
+                       use_regex=False, 
+                       case_insensitive=False, 
+                       debug=None):
+    '''
+    Updates a setting definition in a supplied configuration file. 
+    
+    :param conf_file:        A configuration file to read. The updated version is returned as list of lines.
+    :param setting:          The name of the setting to update
+    :param setting_value:    The new value to set. If in the file already it is updated else added. If delete and multiple are specified deletes it unless keep is specified and comments it out.
+    :param before_setting:   If the setting has to be added to the file, can specify the name of a setting before which to insert the setting   
+    :param after_setting:    If the setting has to be added to the file, can specify the name of a setting after which to insert the setting 
+    :param comment:          A string to add as a comment or replace an existing comment with
+    :param keep:             Keep existing setting (and comment it out, adding a new line after), else change existing setting line
+    :param delete:           Delete the specified setting, or if multiple is True then the specified setting with the specified value.
+    :param get:              Return the current value of the setting or a list of values if multiple is True 
+    :param multiple:         All multiple definitions of this setting (don't replace an existing one or comment out any others, just add a new one after all existing ones unless before- or after- setting is supplied, respect that) 
+    :param use_regex:        If true use setting and setting_value as regular expressions
+    :param case_insensitive: If true then regular expressions are case insensitive (else case sensitive)
+    :param debug:            Print extensive debug tracing information 
+    '''
+    def is_commented_out(line):
+        '''
+        Returns True if the line is commented out
+        '''
+        return line.lstrip(WHITE_SPACE).startswith(COMMENT_CHAR)
+
+    def is_quoted_string(value):
+        try:
+            # Try parsing the value as a quoted string using the defined grammar
+            pp.quoted_string.parseString(value)
+            return True
+        except pp.ParseException:
+            return False    
+
+    def leading_and_trailing_whitespace(s):
+        leading_whitespace = re.match(f'^[{re.escape(WHITE_SPACE)}]*', s).group()
+        trailing_whitespace = re.search(f'[{re.escape(WHITE_SPACE)}]*$', s).group()
+        return (leading_whitespace, trailing_whitespace)
+    
+    def replace_value(line, new_value, new_comment=None):
+        # Capture the locations supplied during parsing for the value and comment
+        line_number = getattr(replace_value, "line_number", 0)
+        vloc = getattr(replace_value, "location_value", {}).get(line_number, None)
+        cloc = getattr(replace_value, "location_comment", {}).get(line_number, None) 
+        
+        # Capture the old value
+        old_value = line[vloc[0]:vloc[1]]
+        
+        # replace the value
+        if new_value is None:
+            # A cue to comment the line out
+            replace_with = old_value
+        elif is_quoted_string(old_value): 
+            replace_with = old_value[0] + new_value + old_value[-1] 
+        elif WHITE_SPACE in VALUE_CHARS:
+            # Capture the leading and trailing white space from the parsed old_value 
+            # and respect it when patching in the new value. Leading and trailing white 
+            # space in the value aren't considered part of it. If white space is permitted 
+            # in values it's the internal white space that is considered part of the value. 
+            ws = leading_and_trailing_whitespace(old_value)
+            replace_with = ws[0] + new_value + ws[1]
+        else:
+            replace_with = new_value
+        
+        new_line = line[:vloc[0]] + replace_with + line[vloc[1]:]
+
+        # if provided, replace the comment
+        if isinstance(new_comment, str):
+            if cloc:
+                post_value_shift = len(comment_prefix) if replace_with is None else len(replace_with) - len(old_value)
+                old_comment = line[cloc[0]:cloc[1]] 
+                # The trailing comment is a taken that contain white space between the COMENT character 
+                # and the start of the comment. We respect that.
+                leading_whitespace = old_comment[:len(old_comment) - len(old_comment.lstrip())] 
+                new_line = new_line[:cloc[0]+post_value_shift] + leading_whitespace + new_comment + new_line[cloc[1]+post_value_shift:]
+            else:
+                new_line = new_line.rstrip() + f" {COMMENT_CHAR} {new_comment}\n" 
+
+        if new_value is None:
+            # A cue to comment the line out
+            new_line = f"{COMMENT_CHAR} {new_line}"
+
+        return new_line
+
+    def prepare_for_parse():
+        # Each is a dict keyed on line number 
+        replace_value.location_value = {}
+        replace_value.location_comment = {}
+
+    def note_value_location(s, loc, toks):
+        assert len(toks) == 1, f"Internal error: Only one matched value is expected, got {toks}"
+        value = toks[0]
+        if WHITE_SPACE in VALUE_CHARS:
+            value = value.strip()
+
+        location = (loc, loc+len(value))
+        line_number = note_value_location.line_number
+        
+        if ASSIGN_CHAR:
+            # An apparent pyparsing bug reported here:
+            #    https://github.com/pyparsing/pyparsing/issues/557
+            # When ASSIGN_CHAR is non empty the locations are captured short one.
+            # So we increment the locs by 1
+            location = tuple([l+1 for l in location])
+        
+        replace_value.location_value[line_number] = location
+        
+        return [value]
+
+    def note_comment_location(s, loc, toks):
+        assert len(toks) == 2, f"Internal error: Comments should match comment character and the comment string. Two token expected, got: {toks}"
+        comment = ''.join(toks)
+        # We want to exclude the actual COMMENT_CHAR and the EOL
+        location = (loc+1, loc+len(comment))
+        line_number = note_comment_location.line_number
+
+        replace_value.location_comment[line_number] = location
+        
+        return toks
+
+    def define_parser(value_location_recorder, comment_location_recorder):
+        setting_name = pp.Word(pp.alphas + NAME_CHARS)
+        setting_value = (pp.quoted_string | pp.Word(pp.alphanums + VALUE_CHARS)).set_parse_action(value_location_recorder)
+        
+        if COMMENT_CHAR:
+            line_comment = pp.Optional(pp.White()) + pp.Optional(pp.Literal(COMMENT_CHAR)) + pp.Optional(pp.White())
+            trailing_comment = pp.Optional((pp.Literal(COMMENT_CHAR) + pp.restOfLine).set_parse_action(comment_location_recorder))
+        else:
+            line_comment = pp.Empty()
+            trailing_comment = pp.Empty()
+            
+        if ASSIGN_CHAR:
+            assign = pp.Literal(ASSIGN_CHAR)
+        else:
+            assign = pp.Empty()
+        
+        eol = pp.StringEnd()
+    
+        parser = (line_comment +
+                  setting_name("name") +
+                  assign +
+                  setting_value("value") +
+                  trailing_comment("trailing_comment") +
+                  eol).parse_with_tabs()
+                  
+        return parser
+    
+    one_line_setting = define_parser(note_value_location, note_comment_location)
+
+    lines = conf_file.readlines()
+
+    # Initialise the first pas result registers
+    #    
+    # As a setting might appear in multiple commented out versions and one (or more) that is active
+    # we want to ideally alter the active one, and if none are active, we'll add a new one after the
+    # last commented one. To wit we track the last active and commented setting lines.
+    #
+    # if more than one active line is seen and 'multiple' are not allowed, then bail with an error.   
+    #  
+    # Two candidates last uncommented instance and last commented
+    change_at = [None, None] 
+
+    insert_at = None
+    insert_prefix = ""
+    empty_lines_at_end = 0
+    existing_values = []    
+    
+    if debug:
+        print(f"Update configuration:")
+        print(f"setting: {setting}")
+        print(f"NAME_CHARS: {repr(NAME_CHARS)}")
+        print(f"VALUE_CHARS: {repr(VALUE_CHARS)}")
+        print(f"ASSIGN_CHAR: {ASSIGN_CHAR}")
+        print(f"COMMENT_CHAR: {COMMENT_CHAR}")
+     
+    # Parse the lines and identify where the setting is used and a change if any should be made
+    #
+    # Goal: set 
+    #        change_at          - list of two line numbers, the last active use of the setting and the last commented use of the setting
+    #        insert_at          - a line number, identified as the insertion point   
+    #        insert_prefix      - the prefix (indentation) of the last active use of the setting (to use when inserting a new use of it)
+    #        empty_lines_at_end - as stated, count of empty lines at end, so 
+    prepare_for_parse()
+    for i,line in enumerate(lines):
+        if debug and not isinstance(debug, bool) and i+1 == debug: breakpoint()
+             
+        try:
+            note_value_location.line_number = i
+            note_comment_location.line_number = i
+            result = one_line_setting.parse_string(line)
+            
+            # Find an insertion point for later use 
+            if before_setting and result.name == before_setting and not is_commented_out(line):
+                insert_at = i  
+            elif after_setting and result.name == after_setting and not is_commented_out(line):
+                insert_at = i+1  
+            elif multiple and result.name == setting:
+                insert_at = i+1
+                if not is_commented_out(line):
+                    insert_prefix = line[:len(line) - len(line.lstrip())]
+            
+            # Python 3.11 introduced re.NOFLAG, but until then 0 is fine for no flags (None, breaks, the arg must be int)
+            flag = re.IGNORECASE if case_insensitive else 0
+            name_matches = re.fullmatch(setting, result.name, flag) if use_regex else result.name == setting 
+            if name_matches:
+                if not is_commented_out(line):
+                    # If the value is quoted return its literal value (no quotes)
+                    value = result.value[1:-1] if is_quoted_string(result.value) else result.value
+                    # Add a newline to make it compatible with the updated_lines return
+                    # That is, a list of new-line terminated strings
+                    existing_values.append(f"{value}\n")  
+                    
+                # If multiple entries are supported we need also to match the 
+                # provided value to request a change at this line.
+                value_matches = re.fullmatch(setting_value, result.value, flag) if use_regex and isinstance(setting_value, str) else result.value == setting_value 
+                if not multiple or value_matches:
+                    if is_commented_out(line):
+                        # The last commented line is a candidate for changing only if we 
+                        # are not deleting the value (setting_value is None)
+                        if not setting_value is None:
+                            change_at[1] = i
+                    else:
+                        # The last last uncommented line is noted
+                        # If multiple uncommented settings are seen and the multiple option is not enabled issue an error 
+                        if not change_at[0] is None and not multiple:
+                            raise Exception(f"Error: multiple lines defining the {setting} found (at lines, {change_at[0]} and {i}) when -m/--multiple was not specified.")
+                        change_at[0] = i
+                    
+                if debug:
+                    print(f"Line {i}: Parsed to:")
+                    tab = '\t'
+                    print(f"{result.dump(indent=tab)}")
+                    
+                    print(f"\n\tTokens:")
+                    for j,token in enumerate(result):
+                        print(f"\t\t{j}: {token}")
+                    
+                    print(f"\t{repr(setting)} == {repr(result.name)}")
+                    print(f"\t{repr(setting_value)} == {repr(result.value)}")
+                    print(f"\t{change_at=}")
+                    
+                    print(f"\t{replace_value.location_value=}")
+                    print(f"\t\tvalue   = <{repr(line[replace_value.location_value[i][0]:replace_value.location_value[i][1]])}>")
+                    print(f"\t{replace_value.location_comment=}")
+                    if j in replace_value.location_comment:
+                        print(f"\t\tcomment = <{repr(line[replace_value.location_comment[i][0]:replace_value.location_comment[i][1]])}>")
+                    print(f"\t{line=}")
+                    print(f"Line with numbers:")
+                    print(pp.testing.with_line_numbers(line))
+                
+        except pp.ParseException as e:
+            if debug:
+                print(f'Line {i}: did not parse "{line.strip()}"')
+
+            if not line.strip(): # Empty line
+                empty_lines_at_end += 1
+            else:
+                empty_lines_at_end = 0 # Reset
+
+    # Perform the actual change
+    updated_lines = list(lines) # Copy the source lines
+
+    if get:
+        # It's a get run and we need to work out what to do from the results of pass 1
+        if not multiple and len(existing_values) > 1:
+            raise Exception(f"Error: multiple lines defining the {setting} found when -m/--multiple was not specified.")
+        elif existing_values:
+            if multiple:
+                return existing_values
+            else:
+                return existing_values[0]
+        else:
+            return None  
+    else:
+        # It's an edit run and we need to work out what to do from the results of pass 1
+        if debug:
+            print(f"Performing change with:")            
+            print(f"\t{change_at=}")            
+            print(f"\t{insert_at=}")            
+    
+        line_to_change = None
+        line_to_comment = None
+        if not change_at[0] is None:
+            # If an uncommented line was found
+            if delete:
+                if keep:
+                    line_to_comment = change_at[0]
+                else:
+                    line_to_change = change_at[0]
+                insert_at = None
+            elif keep:
+                # Comment out the existing definition and insert new one after
+                line_to_comment = change_at[0]
+                # We ignore any before_setting and after_setting request as we want to keep 
+                # the new definition as close to the old as possible
+                insert_at = change_at[0] + 1
+            else:
+                # Change the existing definition
+                line_to_change = change_at[0]
+                insert_at = None            
+        elif not change_at[1] is None:
+            # If only commented lines was found, insert a new line (change none in situ) 
+            if insert_at is None:
+                # after the last commented one by default but respect overrides
+                # if before_setting or after_setting was specified or if multiple 
+                # is enabled (in which case insert_at was set in the initial scan 
+                # of lines - as the last of a set) 
+                insert_at = change_at[1] + 1
+    
+        if debug:
+            print(f"\t{line_to_change=}")
+            print(f"\t{line_to_comment=}")
+            print(f"\t{insert_at=}")
+    
+        if not line_to_comment is None:
+            old_line = lines[line_to_comment]
+            if not comment:
+                if line_to_comment in replace_value.location_comment:
+                    # Append to existing comment if one was found
+                    cloc = replace_value.location_comment[line_to_comment]
+                    comment = old_line[cloc[0]:cloc[1]].strip() + f" (Disabled by {__prog__})"
+                else: 
+                    # Else add one
+                    comment = f"Disabled by {__prog__}"
+                    
+            replace_value.line_number = line_to_comment
+            new_line = replace_value(old_line, None, comment)
+                
+            if debug: 
+                print(f"Commenting line {line_to_comment}:")
+                print(f"\t{old_line=}")            
+                print(f"\t{new_line=}")
+            updated_lines[line_to_comment] = new_line                 
+    
+        if line_to_change is None:
+            # If we're not deleting a setting and we found no line to change we need
+            # insert a new line, either at a discovered selected spot or at end.
+            if not delete:
+                if not comment: comment = f"Added by {__prog__}"
+                assign = "" if ASSIGN_CHAR is None else f"{ASSIGN_CHAR} "
+                new_setting = f"{insert_prefix}{setting} {assign}{setting_value} # {comment}\n"
+                if insert_at is None:
+                    # Append new setting (but secure at least one blank line between the 
+                    # appended definition and the original file contents).
+                    if debug: print(f"Appending: {new_setting}")
+                    if not empty_lines_at_end: updated_lines.append('\n')
+                    updated_lines.append(new_setting)
+                else:
+                    if debug: print(f"Inserting at {insert_at}: {new_setting}")            
+                    updated_lines.insert(insert_at, new_setting)
+        else:
+            old_line = lines[line_to_change]
+            # if delete was specified then the change we apply is to remove the line.
+            if delete:
+                if debug:
+                    print(f"Deleting line {line_to_change}:")
+                    print(f"\t{old_line=}")
+    
+                del updated_lines[line_to_change]
+    
+            # Otherwise we modify the line
+            else:
+                replace_value.line_number = line_to_change
+                new_line = replace_value(old_line, setting_value, comment)
+    
+                if debug:
+                    print(f"Changing line {line_to_change}:")
+                    print(f"\t{old_line=}")            
+                    print(f"\t{new_line=}")
+                    print(f"\t{setting_value=}")
+                    print(f"\t{comment=}")
+                    print(f"\t{replace_value.location_value=}")
+                    print(f"\t{replace_value.location_comment=}")
+                
+                updated_lines[line_to_change] = new_line            
+        
+        return updated_lines
+   
+if __name__ == "__main__":
+    program_version = f"v{__version__}"
+    program_build_date = str(__updated__)
+    program_version_message = f"%(prog)s {program_version} ({program_build_date})"
+    program_shortdesc = __import__('__main__').__doc__.split("\n")[1]
+    
+    program_description = f'''
+        Programatically update a setting in a configuration file
+        
+        The settings should be defined on a single line. Multi-line syntax
+        is not currently supported.
+        
+        Options configure the characters allowed in setting names and values,
+        as well as the character used for assigment (between the setting name
+        and its value) and to introduce comments.  
+        
+        Use -m/--multiple for settings that can be repeated. 
+        Examples include:
+            Defaults in the sudoers configuration
+            exec- and many others in uwsgi configuration
+        It is up to you to specify explicitly if mulptiple entries are 
+        permitted. Failure to do so will see your setting alone 
+        configured (and all other mentions commented out).
+        
+        Checking the results of any {__prog__} using the -t/--test option 
+        is highly recommended, most especially if using -I/--Inplace for 
+        in place reconfiguration (no backup is made by this utility, that 
+        is your responsibility).
+            
+        Created by Bernd Wechner on {str(__date__)}.
+        Copyright 2024. All rights reserved.
+
+        Licensed under The Hippocratic License 2.1
+        https://firstdonoharm.dev/
+
+        Distributed on an "AS IS" basis without warranties
+        or conditions of any kind, either express or implied.
+        '''    
+
+    parser = ArgumentParser(description=program_description, formatter_class=RawFormatter, prog=__prog__)
+
+    parser.add_argument('setting', help='Name of the setting to update')
+    parser.add_argument('value', nargs='?', default=None, help='New value for the setting')
+
+    parser.add_argument('-c', '--comment', nargs='?', default=None, help='Update the comment if any or add a new end of line comment to the line we modify or add.')
+    
+    # Either delete the value(s) or list them, or neither (the defaul is to update the with the  value provided (above)
+    actions = parser.add_mutually_exclusive_group(required=False)
+    actions.add_argument('-d', '--delete', action='store_true', help='Delete the setting (by commenting out any defining lines - so it\'s not set, and a default is assumed)')
+    actions.add_argument('-l', '--list', action='store_true', help='List the value (or values) of the setting')
+    
+    parser.add_argument('-m', '--multiple', action='store_true', help=f'Permit multiple definitions of this setting.')   
+    parser.add_argument('-k', '--keep', action='store_true', help='Keep the existing definition (commenting it out) and add a new line (else, replace an existing definition)')
+    parser.add_argument('-r', '--regex', action='store_true', help='Treat the setting name and value provided as case insensitve regular expressions when looking for matches.')
+    parser.add_argument('-R', '--RegEx', action='store_true', help='Treat the setting name and value provided as case sensitive regular expressions when looking for matches.')
+    parser.add_argument('-W', '--WhiteSpaceNames', action='store_true', help='Explictly allow white space in setting names')
+    parser.add_argument('-w', '--WhiteSpaceValues', action='store_true', help='Explictly allow white space in setting values')
+
+    group_input = parser.add_mutually_exclusive_group(required=False)
+    group_input.title = "Input"
+    group_input.description = "Provide an input file"
+    group_input.add_argument('-i', '--input', nargs='?', default=None, help='Input configuration file')
+    group_input.add_argument('-I', '--Inplace', nargs='?', default=None, help='Perform in-place editing (modify file)')
+
+    parser.add_argument('-o', '--output', nargs='?', default=None, help='Output configuration file')
+    
+    parser.add_argument('-b', '--before', nargs='?', help='Insert new setting before specified setting if present, else append to file')
+    parser.add_argument('-a', '--after', nargs='?', help='Insert new setting after specified setting if present, else append to file')
+
+    parser.add_argument('-v', '--version', action='version', version=program_version_message)
+    parser.add_argument('-t', '--test', action='store_true', help='Test mode (non-descructive, and prints input/ouput context diff')
+    
+    # Some config file parser configurations    
+    parser.add_argument('-A', '--AssignmentCharacter', nargs='?', default=None, const='', help=f'Defines the assignement character. Default is {ASSIGN_CHAR}. Provide an empty string for a null operation.')   
+    parser.add_argument('-C', '--CommentCharacter', nargs='?', default=None, const='', help=f'Defines the comment character. Default is {COMMENT_CHAR}. Provide an empty string to disable comment parsing (no comments are supported)')
+    parser.add_argument('-N', '--NameCharacters', nargs='?', default=None, const='', help=f'Defines the assignement character. Default is {ASSIGN_CHAR}. Provide a string containing all the characters allowed in setting names.')   
+    parser.add_argument('-V', '--ValueCharacters', nargs='?', default=None, const='', help=f'Defines the assignement character. Default is {ASSIGN_CHAR}. Provide a string containing all the characters allowed in setting values.')   
+
+    # Some understood shortcuts for chose of comment and assign chars.
+    group_shortcuts = parser.add_mutually_exclusive_group(required=False)
+    group_shortcuts.title = "Shortcuts"
+    group_shortcuts.description = "Shortcut options common configuration file formats"
+    group_shortcuts.add_argument('--postgres', action='store_true', help='Use postgresql configuration')
+    group_shortcuts.add_argument('--ssh', action='store_true', help='Use SSH configuration')
+    group_shortcuts.add_argument('--sudo', action='store_true', help='Use sudoers configuration')
+    group_shortcuts.add_argument('--php', action='store_true', help='Use PHP configuration')
+    group_shortcuts.add_argument('--uwsgi', action='store_true', help='Use UWSGI configuration')
+
+    # A special setting not needed in production
+    parser.add_argument('-D', '--Debug', nargs='?', default=None, const=True, help='Print each token as it\'s processed')
+
+    args = parser.parse_args()
+
+    # Cross group mutual exclusions (argparse can't handle that internally)
+    if args.value and args.delete and not args.multiple:
+        parser.error("argument -d/--delete: can only be used with a new_value if -m/--multiple is also specified.")
+    
+    if args.Inplace:
+        if args.output is not None:
+            parser.error("argument -o/--output: not allowed with argument -I/--Inplace")
+
+    if args.list:
+        if not args.value is None:
+            parser.error("argument [value]: not allowed with argument -l/--list")
+        if args.Inplace:
+            parser.error("argument -I/--Inplace: not allowed with argument -l/--list")
+        if not args.comment is None:
+            parser.error("argument -c/--comment: not allowed with argument -l/--list")
+        if args.keep:
+            parser.error("argument -k/--keep: not allowed with argument -l/--list")
+        if args.before is not None:
+            parser.error("argument -b/--before: not allowed with argument -l/--list")
+        if args.after is not None:
+            parser.error("argument -a/--after: not allowed with argument -l/--list")
+
+    if args.keep:
+        if args.before is not None:
+            parser.error("argument -b/--before: not allowed with argument -k/--keep")
+        if args.after is not None:
+            parser.error("argument -a/--after: not allowed with argument -k/--keep")
+            
+    if isinstance(args.Debug, str):
+        try:
+            args.Debug = int(args.Debug)
+        except:
+            parser.error("argument -D/--Debug: can only take a line number as an optional argument")
+
+    # Known basic configurations
+    # Explicitly setting Assign or Comment overrides either.
+    if args.postgres:
+        ASSIGN_CHAR = '='
+        COMMENT_CHAR = '#'
+        NAME_CHARS = '_'
+        VALUE_CHARS = '-.'
+    elif args.ssh:
+        ASSIGN_CHAR = None
+        COMMENT_CHAR = '#'
+        NAME_CHARS = '_'
+        VALUE_CHARS = '-._/:~*' + WHITE_SPACE
+    elif args.sudo:
+        ASSIGN_CHAR = None
+        COMMENT_CHAR = '#'
+        NAME_CHARS = '%_'
+        VALUE_CHARS = '-._/():="\'' + WHITE_SPACE
+    elif args.php:
+        ASSIGN_CHAR = '='
+        COMMENT_CHAR = ';'
+        NAME_CHARS = '_'
+        VALUE_CHARS = '-._/()#&~*' + WHITE_SPACE
+    elif args.uwsgi:
+        ASSIGN_CHAR = '='
+        COMMENT_CHAR = '#'
+        NAME_CHARS = '-'
+        VALUE_CHARS = '-._/:' + WHITE_SPACE
+
+    # A DRY function to extract configuration arguments
+    def get_arg(arg_value, default, allow_empty=True, arg_name=None):
+        if arg_value is None:
+            return default # Leave the default
+        elif arg_value == '':
+            if allow_empty:
+                return None # Disable
+            else:
+                parser.error(f"argument {arg_name}: requires a value")
+        else:
+            return arg_value # Use the provided value
+
+    # Explicit configurations override the shortucts above
+    COMMENT_CHAR = get_arg(args.CommentCharacter, COMMENT_CHAR)
+    ASSIGN_CHAR = get_arg(args.AssignmentCharacter, ASSIGN_CHAR)
+    NAME_CHARS = get_arg(args.NameCharacters, NAME_CHARS, False, '-N/--NameCharacters')
+    VALUE_CHARS = get_arg(args.ValueCharacters, VALUE_CHARS, False, '-V/--ValueCharacters')
+    
+    if args.WhiteSpaceNames and not WHITE_SPACE in NAME_CHARS:
+        NAME_CHARS += WHITE_SPACE
+
+    if args.WhiteSpaceValues and not WHITE_SPACE in VALUE_CHARS:
+        VALUE_CHARS += WHITE_SPACE
+        
+    if args.Debug:
+        import traceback
+    
+    # Read the config file 
+    if args.input:
+        source = open(args.input, 'r')
+        if args.test:
+            diff_source_path = args.input
+    elif args.Inplace:
+        source = open(args.Inplace, 'r')
+        if args.test:
+            diff_source_path = args.Inplace
+    else:
+        if args.test:
+            # Make a copy of stdin and use that (for diffing)
+            input = sys.stdin.readlines()
+            with NamedTemporaryFile(mode="w", prefix=f"{__prog__}_source_", delete=False) as temp:
+                temp.writelines(input)
+                diff_source_path = temp.name
+            source = open(diff_source_path, 'r')
+        else:
+            source = sys.stdin 
+    
+    try:
+        result = get_or_set_setting(source, 
+                                    args.setting, 
+                                    args.value, 
+                                    args.before, 
+                                    args.after, 
+                                    args.comment, 
+                                    args.keep, 
+                                    args.delete, 
+                                    args.list, 
+                                    args.multiple,
+                                    args.regex or args.RegEx, 
+                                    args.regex, 
+                                    args.Debug)
+        source.close()
+    except Exception as e:
+        source.close()
+        print(f"Error: {e}")
+        if args.Debug:
+            tb = traceback.format_exc()
+            print(tb)        
+        exit(1)
+   
+    # Write the the config file
+    if args.Inplace or (args.input == args.output):
+        if args.list:
+            raise Exception(f"Internal Error: attempting to overwrite configuration file with lsit of values!")
+                
+        if args.test:
+            target = NamedTemporaryFile(mode="w", prefix=f"{__prog__}_target_", delete=False)
+            diff_target_path = target.name
+        elif args.Inplace:
+            target = open(args.Inplace, 'w')
+        else: 
+            target = open(args.input, 'w')
+             
+        target.writelines(result)
+        target.close()
+    else:
+        if args.test:
+            target = NamedTemporaryFile(mode="w", prefix=f"{__prog__}_target_", delete=False)
+            diff_target_path = target.name
+        elif args.output: 
+            target = open(args.output, 'w')
+        else:
+            target = sys.stdout 
+            
+        target.writelines(result)
+        target.close()
+        
+    if args.test:
+        if args.list:
+            if args.multiple:
+                print(f"Found these values for '{args.setting}':")
+                for value in result:
+                    print(f"\t{value}")
+            else:
+                print(f"Found a value of '{result}' for '{args.setting}':")
+                
+            print(f"\tIn the configuration file that contained these lines mentioning '{args.setting}'")
+            subprocess.run(["grep", args.setting, diff_source_path])
+            
+        else:
+            subprocess.run(["diff", "-c", diff_source_path, diff_target_path])
