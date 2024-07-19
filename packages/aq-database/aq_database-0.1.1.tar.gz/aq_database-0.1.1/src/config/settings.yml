@@ -1,0 +1,21 @@
+# settings.yml
+default: &default
+  api_url: "https://example.com/dev"
+  aws: &aws
+    s3_bucket:
+      - my-bucket
+
+dev: &dev
+  <<: *default
+
+test: &test
+  <<: *default
+  api_url: "https://example.com/test"
+
+prod: &prod
+  <<: *default
+  api_url: "https://prod.example.com/"
+  aws:
+    <<: *aws
+    s3_bucket:
+      - my-prod-bucket
