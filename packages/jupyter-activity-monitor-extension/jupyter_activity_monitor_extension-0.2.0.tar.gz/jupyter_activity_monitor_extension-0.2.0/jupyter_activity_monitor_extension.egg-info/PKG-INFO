@@ -1,0 +1,25 @@
+Metadata-Version: 2.1
+Name: jupyter-activity-monitor-extension
+Version: 0.2.0
+Summary: Jupyter Server Extension for checking last activity time
+Home-page: https://aws.amazon.com/sagemaker/
+Author: Amazon
+License: Amazon Software License
+Keywords: Jupyter,JupyterLab
+Platform: Linux
+Platform: Mac OS X
+Platform: Windows
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Framework :: Jupyter
+Requires-Python: >=3.9
+License-File: LICENSE
+Requires-Dist: jupyter_server>=2.0.0
+Requires-Dist: tornado
+Requires-Dist: jmespath
+Provides-Extra: dev
+Requires-Dist: pytest>=6; extra == "dev"
+Requires-Dist: pytest-cov; extra == "dev"
+Requires-Dist: black; extra == "dev"
+Requires-Dist: pytest_jupyter; extra == "dev"
