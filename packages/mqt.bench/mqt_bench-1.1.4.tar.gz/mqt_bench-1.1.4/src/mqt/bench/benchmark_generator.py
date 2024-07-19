@@ -1,0 +1,535 @@
+"""Module for the benchmark generation and benchmark retrieval."""
+
+from __future__ import annotations
+
+import argparse
+import json
+import signal
+import sys
+from pathlib import Path
+from typing import TYPE_CHECKING, Any, Literal, TypedDict, overload
+from warnings import warn
+
+from joblib import Parallel, delayed
+from qiskit import QuantumCircuit
+
+from mqt.bench import devices, qiskit_helper, tket_helper, utils
+from mqt.bench.devices import (
+    get_available_provider_names,
+    get_available_providers,
+    get_device_by_name,
+    get_provider_by_name,
+)
+
+if TYPE_CHECKING:  # pragma: no cover
+    from collections.abc import Callable
+    from types import ModuleType
+
+    from pytket.circuit import Circuit
+
+if TYPE_CHECKING or sys.version_info >= (3, 10, 0):  # pragma: no cover
+    from importlib import resources
+else:
+    import importlib_resources as resources
+
+from dataclasses import dataclass
+
+
+class Benchmark(TypedDict, total=False):
+    """Data class for the benchmark generation configuration."""
+
+    name: str
+    include: bool
+    min_qubits: int
+    max_qubits: int
+    min_nodes: int
+    max_nodes: int
+    min_index: int
+    max_index: int
+    min_uncertainty: int
+    max_uncertainty: int
+    instances: list[str]
+    ancillary_mode: list[str]
+    stepsize: int
+    precheck_possible: bool
+
+
+@dataclass
+class QiskitSettings:
+    """Data class for the Qiskit compiler settings."""
+
+    optimization_level: int = 1
+
+
+@dataclass
+class TKETSettings:
+    """Data class for the TKET compiler settings."""
+
+    placement: str = "lineplacement"
+
+
+@dataclass
+class CompilerSettings:
+    """Data class for the compiler settings."""
+
+    qiskit: QiskitSettings | None = None
+    tket: TKETSettings | None = None
+
+
+class BenchmarkGenerator:
+    """Class to generate benchmarks based on a configuration file."""
+
+    def __init__(self, cfg_path: str | None = None, qasm_output_path: str | None = None) -> None:
+        """Initialize the BenchmarkGenerator."""
+        if cfg_path is None:
+            cfg_path = utils.get_default_config_path()
+        with Path(cfg_path).open(encoding="locale") as jsonfile:
+            self.cfg = json.load(jsonfile)
+            print("Read config successful")
+        self.timeout = self.cfg["timeout"]
+        if qasm_output_path is None:
+            self.qasm_output_path = str(resources.files("mqt.bench") / "viewer" / "static" / "files" / "qasm_output")
+        else:
+            self.qasm_output_path = qasm_output_path
+
+        Path(self.qasm_output_path).mkdir(exist_ok=True, parents=True)
+
+    def create_benchmarks_from_config(self, num_jobs: int) -> bool:
+        """Create benchmarks based on the configuration file.
+
+        Arguments:
+            num_jobs: number of parallel jobs to run
+
+        Returns:
+            True if successful
+        """
+        benchmarks = [Benchmark(benchmark) for benchmark in self.cfg["benchmarks"]]  # type: ignore[misc]
+        Parallel(n_jobs=num_jobs, verbose=100)(
+            delayed(self.define_benchmark_instances)(benchmark) for benchmark in benchmarks
+        )
+        return True
+
+    def define_benchmark_instances(self, benchmark: Benchmark) -> None:
+        """Define the instances for a benchmark."""
+        lib = utils.get_module_for_benchmark(benchmark["name"])
+        file_precheck = benchmark["precheck_possible"]
+        instances: list[tuple[int, str]] | list[int] | list[str] | range
+        if benchmark["include"]:
+            if benchmark["name"] in ("grover", "qwalk"):
+                instances_without_anc_mode = range(
+                    benchmark["min_qubits"],
+                    benchmark["max_qubits"],
+                    benchmark["stepsize"],
+                )
+                instances = [
+                    (instance, anc_mode)
+                    for instance in instances_without_anc_mode
+                    for anc_mode in benchmark["ancillary_mode"]
+                ]
+
+            elif benchmark["name"] == "shor":
+                instances = [lib.get_instance(choice) for choice in benchmark["instances"]]
+
+            elif benchmark["name"] in ("routing", "tsp"):
+                instances = range(benchmark["min_nodes"], benchmark["max_nodes"])
+
+            elif benchmark["name"] == "groundstate":
+                instances = benchmark["instances"]
+
+            elif benchmark["name"] in ("pricingcall", "pricingput"):
+                instances = range(benchmark["min_uncertainty"], benchmark["max_uncertainty"])
+
+            else:
+                instances = range(
+                    benchmark["min_qubits"],
+                    benchmark["max_qubits"],
+                    benchmark["stepsize"],
+                )
+
+            self.generate_all_benchmarks(lib, instances, file_precheck)
+
+    def generate_all_benchmarks(
+        self,
+        lib: ModuleType,
+        parameter_space: list[tuple[int, str]] | list[int] | list[str] | range,
+        file_precheck: bool,
+    ) -> None:
+        """Generate all benchmarks for a given benchmark."""
+        self.generate_indep_levels(file_precheck, lib, parameter_space)
+        self.generate_native_gates_levels(file_precheck, lib, parameter_space)
+        self.generate_mapped_levels(file_precheck, lib, parameter_space)
+
+    def generate_mapped_levels(
+        self,
+        file_precheck: bool,
+        lib: ModuleType,
+        parameter_space: list[tuple[int, str]] | list[int] | list[str] | range,
+    ) -> None:
+        """Generate mapped level benchmarks for a given benchmark."""
+        for provider in get_available_providers():
+            for device in provider.get_available_devices():
+                for opt_level in [0, 1, 2, 3]:
+                    for parameter_instance in parameter_space:
+                        qc = timeout_watcher(lib.create_circuit, self.timeout, parameter_instance)
+                        if not qc:
+                            break
+                        assert isinstance(qc, QuantumCircuit)
+                        if qc.num_qubits <= device.num_qubits:
+                            res = timeout_watcher(
+                                qiskit_helper.get_mapped_level,
+                                self.timeout,
+                                [
+                                    qc,
+                                    qc.num_qubits,
+                                    device,
+                                    opt_level,
+                                    file_precheck,
+                                    False,
+                                    self.qasm_output_path,
+                                ],
+                            )
+                            if not res:
+                                break
+                        else:
+                            break
+
+                for lineplacement in (False, True):
+                    for parameter_instance in parameter_space:
+                        qc = timeout_watcher(lib.create_circuit, self.timeout, parameter_instance)
+                        if not qc:
+                            break
+                        assert isinstance(qc, QuantumCircuit)
+                        if qc.num_qubits <= device.num_qubits:
+                            res = timeout_watcher(
+                                tket_helper.get_mapped_level,
+                                self.timeout,
+                                [
+                                    qc,
+                                    qc.num_qubits,
+                                    device,
+                                    lineplacement,
+                                    file_precheck,
+                                    False,
+                                    self.qasm_output_path,
+                                ],
+                            )
+                            if not res:
+                                break
+                        else:
+                            break
+
+    def generate_native_gates_levels(
+        self,
+        file_precheck: bool,
+        lib: ModuleType,
+        parameter_space: list[tuple[int, str]] | list[int] | list[str] | range,
+    ) -> None:
+        """Generate native gates level benchmarks for a given benchmark."""
+        for provider in get_available_providers():
+            for opt_level in [0, 1, 2, 3]:
+                for parameter_instance in parameter_space:
+                    qc = timeout_watcher(lib.create_circuit, self.timeout, parameter_instance)
+                    if not qc:
+                        break
+                    assert isinstance(qc, QuantumCircuit)
+                    res = timeout_watcher(
+                        qiskit_helper.get_native_gates_level,
+                        self.timeout,
+                        [
+                            qc,
+                            provider,
+                            qc.num_qubits,
+                            opt_level,
+                            file_precheck,
+                            False,
+                            self.qasm_output_path,
+                        ],
+                    )
+                    if not res:
+                        break
+
+            for parameter_instance in parameter_space:
+                qc = timeout_watcher(lib.create_circuit, self.timeout, parameter_instance)
+                if not qc:
+                    break
+                assert isinstance(qc, QuantumCircuit)
+                res = timeout_watcher(
+                    tket_helper.get_native_gates_level,
+                    self.timeout,
+                    [
+                        qc,
+                        provider,
+                        qc.num_qubits,
+                        file_precheck,
+                        False,
+                        self.qasm_output_path,
+                    ],
+                )
+                if not res:
+                    break
+
+    def generate_indep_levels(
+        self,
+        file_precheck: bool,
+        lib: ModuleType,
+        parameter_space: list[tuple[int, str]] | list[int] | list[str] | range,
+    ) -> None:
+        """Generate independent level benchmarks for a given benchmark."""
+        for function in [qiskit_helper.get_indep_level, tket_helper.get_indep_level]:
+            for parameter_instance in parameter_space:
+                qc = timeout_watcher(lib.create_circuit, self.timeout, parameter_instance)
+                if not qc:
+                    break
+                assert isinstance(qc, QuantumCircuit)
+                res = timeout_watcher(
+                    function,
+                    self.timeout,
+                    [qc, qc.num_qubits, file_precheck, False, self.qasm_output_path],
+                )
+                if not res:
+                    break
+
+
+@overload
+def get_benchmark(
+    benchmark_name: str,
+    level: str | int,
+    circuit_size: int | None = None,
+    benchmark_instance_name: str | None = None,
+    compiler: Literal["qiskit"] = "qiskit",
+    compiler_settings: CompilerSettings | None = None,
+    provider_name: str = "ibm",
+    device_name: str = "ibm_washington",
+    **kwargs: str,
+) -> QuantumCircuit: ...
+
+
+@overload
+def get_benchmark(
+    benchmark_name: str,
+    level: str | int,
+    circuit_size: int | None = None,
+    benchmark_instance_name: str | None = None,
+    compiler: Literal["tket"] = "tket",
+    compiler_settings: CompilerSettings | None = None,
+    provider_name: str = "ibm",
+    device_name: str = "ibm_washington",
+    **kwargs: str,
+) -> Circuit: ...
+
+
+@overload
+def get_benchmark(
+    benchmark_name: str,
+    level: str | int,
+    circuit_size: int | None = None,
+    benchmark_instance_name: str | None = None,
+    compiler: str = "qiskit",
+    compiler_settings: CompilerSettings | None = None,
+    provider_name: str = "ibm",
+    device_name: str = "ibm_washington",
+    **kwargs: str,
+) -> QuantumCircuit | Circuit: ...
+
+
+def get_benchmark(
+    benchmark_name: str,
+    level: str | int,
+    circuit_size: int | None = None,
+    benchmark_instance_name: str | None = None,
+    compiler: str = "qiskit",
+    compiler_settings: CompilerSettings | None = None,
+    provider_name: str = "ibm",
+    device_name: str = "ibm_washington",
+    **kwargs: str,
+) -> QuantumCircuit | Circuit:
+    """Returns one benchmark as a qiskit.QuantumCircuit Object or a pytket.Circuit object.
+
+    Arguments:
+        benchmark_name: name of the to be generated benchmark
+        level: Choice of level, either as a string ("alg", "indep", "nativegates" or "mapped") or as a number between 0-3 where 0 corresponds to "alg" level and 3 to "mapped" level
+        circuit_size: Input for the benchmark creation, in most cases this is equal to the qubit number
+        benchmark_instance_name: Input selection for some benchmarks, namely "groundstate" and "shor"
+        compiler: "qiskit" or "tket"
+        compiler_settings: Data class containing the respective compiler settings for the specified compiler (e.g., optimization level for Qiskit or placement for TKET)
+        provider_name: "ibm", "rigetti", "ionq", "oqc", or "quantinuum" (required for "nativegates" level)
+        device_name: "ibm_washington", "ibm_montreal", "rigetti_aspen_m3", "ionq_harmony", "ionq_aria1", "oqc_lucy", "quantinuum_h2" (required for "mapped" level)
+        kwargs: Additional arguments for the benchmark generation
+
+    Returns:
+        Quantum Circuit Object representing the benchmark with the selected options, either as Qiskit::QuantumCircuit or Pytket::Circuit object (depending on the chosen compiler---while the algorithm level is always provided using Qiskit)
+    """
+    if "gate_set_name" in kwargs:
+        msg = "gate_set_name is deprecated and will be removed in a future release. Use provider_name instead."
+        warn(msg, DeprecationWarning, stacklevel=2)
+        provider_name = kwargs["gate_set_name"]
+
+    if benchmark_name not in utils.get_supported_benchmarks():
+        msg = f"Selected benchmark is not supported. Valid benchmarks are {utils.get_supported_benchmarks()}."
+        raise ValueError(msg)
+
+    if level not in utils.get_supported_levels():
+        msg = f"Selected level must be in {utils.get_supported_levels()}."
+        raise ValueError(msg)
+
+    if benchmark_name not in ["shor", "groundstate"] and not (isinstance(circuit_size, int) and circuit_size > 0):
+        msg = "circuit_size must be None or int for this benchmark."
+        raise ValueError(msg)
+
+    if benchmark_name in ["shor", "groundstate"] and not isinstance(benchmark_instance_name, str):
+        msg = "benchmark_instance_name must be defined for this benchmark."
+        raise ValueError(msg)
+
+    lib = utils.get_module_for_benchmark(
+        benchmark_name.split("-")[0]
+    )  # split is used to filter the ancillary mode for grover and qwalk
+
+    if "grover" in benchmark_name or "qwalk" in benchmark_name:
+        if "noancilla" in benchmark_name:
+            anc_mode = "noancilla"
+        elif "v-chain" in benchmark_name:
+            anc_mode = "v-chain"
+        else:
+            msg = "Either `noancilla` or `v-chain` must be specified for ancillary mode of Grover and QWalk benchmarks."
+            raise ValueError(msg)
+
+        qc = lib.create_circuit(circuit_size, ancillary_mode=anc_mode)
+
+    elif benchmark_name == "shor":
+        to_be_factored_number, a_value = lib.get_instance(benchmark_instance_name)
+        qc = lib.create_circuit(to_be_factored_number, a_value)
+
+    elif benchmark_name == "groundstate":
+        qc = lib.create_circuit(benchmark_instance_name)
+
+    else:
+        qc = lib.create_circuit(circuit_size)
+
+    if level in ("alg", 0):
+        return qc
+
+    compiler = compiler.lower()
+
+    if compiler.lower() not in utils.get_supported_compilers():
+        msg = f"Selected compiler must be in {utils.get_supported_compilers()}."
+        raise ValueError(msg)
+
+    if compiler_settings is None:
+        compiler_settings = CompilerSettings(QiskitSettings(), TKETSettings())
+    elif not isinstance(compiler_settings, CompilerSettings):
+        msg = "compiler_settings must be of type CompilerSettings or None."  # type: ignore[unreachable]
+        raise ValueError(msg)
+
+    independent_level = 1
+    if level in ("indep", independent_level):
+        if compiler == "qiskit":
+            return qiskit_helper.get_indep_level(qc, circuit_size, False, True)
+        if compiler == "tket":
+            return tket_helper.get_indep_level(qc, circuit_size, False, True)
+
+    if provider_name not in get_available_provider_names():
+        msg = f"Selected provider_name must be in {get_available_provider_names()}."
+        raise ValueError(msg)
+
+    native_gates_level = 2
+    if level in ("nativegates", native_gates_level):
+        provider = get_provider_by_name(provider_name)
+        if compiler == "qiskit":
+            assert compiler_settings.qiskit is not None
+            opt_level = compiler_settings.qiskit.optimization_level
+            return qiskit_helper.get_native_gates_level(qc, provider, circuit_size, opt_level, False, True)
+        if compiler == "tket":
+            return tket_helper.get_native_gates_level(qc, provider, circuit_size, False, True)
+
+    if device_name not in devices.get_available_device_names():
+        msg = f"Selected device_name must be in {devices.get_available_device_names()}."
+        raise ValueError(msg)
+
+    mapped_level = 3
+    if level in ("mapped", mapped_level):
+        device = get_device_by_name(device_name)
+        if compiler == "qiskit":
+            assert compiler_settings.qiskit is not None
+            opt_level = compiler_settings.qiskit.optimization_level
+            assert isinstance(opt_level, int)
+            return qiskit_helper.get_mapped_level(
+                qc,
+                circuit_size,
+                device,
+                opt_level,
+                False,
+                True,
+            )
+        if compiler == "tket":
+            assert compiler_settings.tket is not None
+            placement = compiler_settings.tket.placement.lower()
+            lineplacement = placement == "lineplacement"
+            return tket_helper.get_mapped_level(
+                qc,
+                circuit_size,
+                device,
+                lineplacement,
+                False,
+                True,
+            )
+
+    msg = f"Invalid level specified. Must be in {utils.get_supported_levels()}."
+    raise ValueError(msg)
+
+
+def generate(num_jobs: int = -1) -> None:
+    """Generate benchmarks based on the configuration file."""
+    parser = argparse.ArgumentParser(description="Create Configuration")
+    parser.add_argument("--file-name", type=str, help="optional filename", default=None)
+    args = parser.parse_args()
+    benchmark_generator = BenchmarkGenerator(args.file_name)
+    benchmark_generator.create_benchmarks_from_config(num_jobs)
+
+
+def timeout_watcher(
+    func: Callable[..., bool | QuantumCircuit],
+    timeout: int,
+    args: list[Any] | int | tuple[int, str] | str,
+) -> bool | QuantumCircuit | Circuit:
+    """Function to handle timeouts for the benchmark generation."""
+    if sys.platform == "win32":
+        warn("Timeout is not supported on Windows.", category=RuntimeWarning, stacklevel=2)
+        return func(*args) if isinstance(args, tuple | list) else func(args)
+
+    class TimeoutExceptionError(Exception):  # Custom exception class
+        """Custom exception class for timeout."""
+
+    def timeout_handler(_signum: int, _frame: Any) -> None:  # noqa: ANN401
+        """Function to handle the timeout."""
+        raise TimeoutExceptionError
+
+    # Change the behavior of SIGALRM
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(timeout)
+    try:
+        res = func(*args) if isinstance(args, tuple | list) else func(args)
+    except TimeoutExceptionError:
+        print(
+            "Calculation/Generation exceeded timeout limit for ",
+            func.__name__,
+            func.__module__.split(".")[-1],
+        )
+        if isinstance(args, list) and isinstance(args[0], QuantumCircuit):
+            print(args[0].name, args[1:])
+        else:
+            print(args)
+        return False
+    except Exception as e:
+        print(
+            "Exception: ",
+            e,
+            func.__name__,
+            func.__module__.split(".")[-1],
+            args,
+        )
+        return False
+    else:
+        # Reset the alarm
+        signal.alarm(0)
+
+    return res
