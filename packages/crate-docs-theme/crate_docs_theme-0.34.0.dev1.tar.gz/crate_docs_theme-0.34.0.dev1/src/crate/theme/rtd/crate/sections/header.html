@@ -1,0 +1,27 @@
+{% if project == 'SQL 99' %}
+<div class="container">
+  <!-- empty -->
+</div>
+{% else %}
+
+<div class="container-fluid">
+  <div class="navbar w-nav" data-animation="default" data-collapse="small" data-contain="1" data-duration="400">
+    <a class="brand w-nav-brand" href="/" title="cratedb.com">
+      <img src="{{ pathto('_static', 1) }}/images/cratedb-logo.svg" alt="CrateDB Logo" width="218" height="36">
+    </a>
+    <nav class="w-nav-menu main-nav" role="navigation">
+      <ul id="menu-main-navigation" class="menu">
+        <li class="menu-item menu-item-type-post_type menu-item-object-page navlink w-nav-link">
+          <a class="menu-link" target="_blank" href="https://cratedb.com/community">Community</a>
+        </li>
+        <li class="menu-item menu-item-type-post_type menu-item-object-page navlink w-nav-link">
+          <a class="menu-link" target="_blank" rel="noreferrer" href="https://console.cratedb.cloud/?utm_source=website&amp;utm_medium=mainnav&amp;utm_campaign=cratedbcloud">Login</a>
+        </li>
+        <li class="nav-highlight cr-menu-btn menu-item navlink w-nav-link">
+          <a class="menu-link" target="_blank" href="https://cratedb.com/download/">Get CrateDB</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+{% endif %}
