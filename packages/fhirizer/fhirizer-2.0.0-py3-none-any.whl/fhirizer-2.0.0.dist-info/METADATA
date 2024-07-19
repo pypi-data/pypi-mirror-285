@@ -1,0 +1,197 @@
+Metadata-Version: 2.1
+Name: fhirizer
+Version: 2.0.0
+Summary: Mapping GDC's and Cellosaurus schema to FHIR schema.
+Home-page: https://github.com/bmeg/fhirizer
+Author: https://ellrottlab.org/
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Bio-Informatics
+Requires-Python: >=3.9, <4.0
+Description-Content-Type: text/markdown
+Requires-Dist: charset-normalizer
+Requires-Dist: idna
+Requires-Dist: certifi
+Requires-Dist: requests
+Requires-Dist: pydantic
+Requires-Dist: pytest
+Requires-Dist: click
+Requires-Dist: pathlib
+Requires-Dist: orjson
+Requires-Dist: tqdm
+Requires-Dist: uuid
+Requires-Dist: openpyxl
+Requires-Dist: pandas
+Requires-Dist: inflection
+Requires-Dist: iteration-utilities
+Requires-Dist: icd10-cm
+Requires-Dist: beautifulsoup4
+Requires-Dist: gen3-tracker >=0.0.4rc36
+Requires-Dist: fhir.resources >=7.1.0
+
+# fhirizer
+![Status](https://img.shields.io/badge/Status-Build%20Passing-lgreen)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+
+![mapping](./imgs/fhir_flame.png)
+
+
+### Project overview:
+Transforms and harmonizes data from Genomic Data Commons (GDC), Cellosaurus cell-lines, and International Cancer Genome Consortium (ICGC) repositories into 🔥 FHIR (Fast Healthcare Interoperability Resources) format.
+
+- #### GDC study simplified FHIR graph 
+![mapping](./imgs/gdc_tcga_study_example_fhir_graph.png)
+
+## Usage 
+### Installation
+
+- from source 
+```
+git clone repo
+cd fhirizer
+# create virtual env ex. 
+# NOTE: package_data folders must be in python path in virtual envs 
+python -m venv venv-fhirizer
+source venv-fhirizer/bin/activate
+pip install . 
+```
+
+- Dockerfile
+
+```
+(sudo) docker build -t <tag-name>:latest .
+(sudo) docker run -it  --mount type=bind,source=<path-to-input-ndjson>,target=/opt/data --rm <tag-name>:latest
+```
+
+- Singularity 
+```
+singularity build fhirizer.sif docker://quay.io/ohsu-comp-bio/fhirizer
+singularity shell fhirizer.sif
+```
+
+### Convert and Generate
+
+Detailed step-by-step guide on FHIRizing data for a project's study can be found in the [project's directory overview](https://github.com/bmeg/fhirizer/blob/master/projects).
+
+- GDC 
+  - convert GDC schema keys to fhir mapping
+  - generate fhir object models ndjson files in directory
+
+    Example run for patient - replace path's to ndjson files or directories. 
+ 
+  ```
+  fhirizer convert --name case --in_path ./projects/<my-project>/cases.ndjson --out_path ./projects/<my-project>/cases_key.ndjson --verbose True
+  
+  fhirizer generate --name case --out_dir ./projects/<my-project>/META --entity_path ./projects/<my-project>/cases_key.ndjson
+  ``` 
+
+  - to generate document reference for the patients
+  
+  ```
+  fhirizer convert --name file --in_path ./projects/<my-project>/files.ndjson --out_path ./projects/<my-project>/files_key.ndjson --verbose True
+  
+  fhirizer generate --name file --out_dir ./projects/<my-project>/META --entity_path ./projects/<my-project>/files_key.ndjson
+  ``` 
+
+- Cellosaurus 
+
+  - Cellosaurus ndjson follows [Cellosaurus GET API](https://api.cellosaurus.org/)  json format
+  
+  ```
+   fhirizer generate --name cellosaurus --out_dir ./projects/<my-project>/META --entity_path ./projects/<my-project>/<cellosaurus-celllines-ndjson>
+  ```
+
+- ICGC
+
+  - NOTE: Active site and data dictionary updates from [ICGC DCC](https://dcc.icgc.org/) to [ICGC ARGO](https://platform.icgc-argo.org/) is in progress.
+  
+  ```
+   fhirizer generate --name icgc --icgc <ICGC_project_name> --has_files
+  ```
+### Constructing GDC maps cli cmds 
+
+initialize initial structure of project, case, or file to add Maps
+
+```
+fhirizer project_init 
+# to update Mappings run associated labels script ex ./labels/project.py 
+
+fhirizer case_init 
+fhirizer file_init 
+```
+
+
+### Testing 
+```
+pytest -cov 
+```
+
+### fhirizer structure:
+
+Data directories included in package data:
+- **resources**: data resources generated or used in mappings
+- **mapping**: json data maps produced by fhirizer pydantic schema maps
+****
+```
+fhirizer/
+|-- fhirizer/
+|   |-- __init__.py
+|   |-- labels/
+|   |   |-- __init__.py
+|   |   |-- files.py
+|   |   |-- case.py
+|   |   └── project.py
+|   |   
+|   |-- schema.py
+|   |-- entity2fhir.py
+|   |-- mapping.py
+|   |-- utils.py
+|   └── cli.py
+|   
+|-- mapping/
+|   |-- project.json
+|   |-- case.json
+|   └── file.json
+|  
+|-- resources/
+|   |-- gdc_resources/
+|   |   |-- content_annotations/
+|   |   |-- data_dictionary/
+|   |   └── fields/
+|   └── fhir_resources/
+| 
+|-- tests/
+|   |-- __init__.py
+|   |-- unit/
+|   |   |-- __init__.py
+|   |   └── test_mapping.py
+|   |-- integration/
+|   |   |-- __init__.py
+|   |   |-- test_generate.py
+|   |   └── test_convert.py
+|   └── fixtures/
+| 
+|-- projects/
+|   └── GDC/ 
+|   |     └── TCGA-STUDY/
+|   |           |-- cases.ndjson
+|   |           |-- filess.ndjson
+|   |           └── META/
+|   └── ICGC/
+|         └── ICGC-STUDY/ 
+|                |-- data/
+|                └── META/
+|--README.md
+└── setup.py
+```
