@@ -1,0 +1,294 @@
+from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta
+from typing import Dict, List, Optional
+
+from deprecation import deprecated
+
+from ..protogen.common.objects_pb2 import (
+    Empty,
+)
+from ..protogen.common.objects_pb2 import (
+    Output as WorkerOutput,
+)
+from ..protogen.common.objects_pb2 import (
+    TaskOptions as RawTaskOptions,
+)
+from ..protogen.common.partitions_common_pb2 import PartitionRaw
+from ..protogen.common.result_status_pb2 import ResultStatus as RawResultStatus
+from ..protogen.common.results_common_pb2 import ResultRaw
+from ..protogen.common.session_status_pb2 import SessionStatus as RawSessionStatus
+from ..protogen.common.sessions_common_pb2 import SessionRaw
+from ..protogen.common.task_status_pb2 import TaskStatus as RawTaskStatus
+from ..protogen.common.tasks_common_pb2 import TaskDetailed
+from .enumwrapper import ResultStatus, SessionStatus, TaskStatus
+from .helpers import duration_to_timedelta, timedelta_to_duration, timestamp_to_datetime
+
+
+@dataclass()
+class TaskOptions:
+    max_duration: timedelta
+    priority: int
+    max_retries: int
+    partition_id: Optional[str] = None
+    application_name: Optional[str] = None
+    application_version: Optional[str] = None
+    application_namespace: Optional[str] = None
+    application_service: Optional[str] = None
+    engine_type: Optional[str] = None
+    options: Dict[str, str] = field(default_factory=dict)
+
+    @classmethod
+    def from_message(cls, task_options):
+        return cls(
+            max_duration=duration_to_timedelta(task_options.max_duration),
+            max_retries=task_options.max_retries,
+            priority=task_options.priority,
+            partition_id=task_options.partition_id,
+            application_name=task_options.application_name,
+            application_version=task_options.application_version,
+            application_namespace=task_options.application_namespace,
+            application_service=task_options.application_service,
+            engine_type=task_options.engine_type,
+            options=task_options.options,
+        )
+
+    def to_message(self) -> RawTaskOptions:
+        return RawTaskOptions(
+            max_duration=timedelta_to_duration(self.max_duration),
+            max_retries=self.max_retries,
+            priority=self.priority,
+            partition_id=self.partition_id,
+            application_name=self.application_name,
+            application_version=self.application_version,
+            application_namespace=self.application_namespace,
+            application_service=self.application_service,
+            engine_type=self.engine_type,
+            options=self.options,
+        )
+
+
+@dataclass()
+class Output:
+    error: Optional[str] = None
+
+    @property
+    def success(self) -> bool:
+        return self.error is None
+
+    def to_message(self):
+        if self.error is None:
+            return WorkerOutput(ok=Empty())
+        return WorkerOutput(error=WorkerOutput.Error(details=self.error))
+
+
+@dataclass()
+class TaskDefinition:
+    payload_id: str = field(default_factory=str)
+    payload: bytes = field(default_factory=bytes)
+    expected_output_ids: List[str] = field(default_factory=list)
+    data_dependencies: List[str] = field(default_factory=list)
+    options: Optional[TaskOptions] = None
+
+    def __post_init__(self):
+        if len(self.expected_output_ids) <= 0:
+            raise ValueError("expected_output_ids must be not be empty")
+
+
+@dataclass()
+class Task:
+    id: Optional[str] = None
+    session_id: Optional[str] = None
+    owner_pod_id: Optional[str] = None
+
+    initial_task_id: Optional[str] = None
+    parent_task_ids: List[str] = field(default_factory=list)
+    data_dependencies: List[str] = field(default_factory=list)
+    expected_output_ids: List[str] = field(default_factory=list)
+    retry_of_ids: List[str] = field(default_factory=list)
+
+    status: RawTaskStatus = TaskStatus.UNSPECIFIED
+    status_message: Optional[str] = None
+
+    options: Optional[TaskOptions] = None
+    created_at: Optional[datetime] = None
+    submitted_at: Optional[datetime] = None
+    received_at: Optional[datetime] = None
+    acquired_at: Optional[datetime] = None
+    fetched_at: Optional[datetime] = None
+    started_at: Optional[datetime] = None
+    processed_at: Optional[datetime] = None
+    ended_at: Optional[datetime] = None
+    pod_ttl: Optional[datetime] = None
+
+    creation_to_end_duration: Optional[timedelta] = timedelta(0)
+    processing_to_end_duration: Optional[timedelta] = timedelta(0)
+    received_to_end_duration: Optional[timedelta] = timedelta(0)
+
+    output: Optional[Output] = None
+
+    pod_hostname: Optional[str] = None
+
+    payload_id: Optional[str] = None
+
+    def refresh(self, task_client) -> None:
+        """Refresh the fields of this task object by using the given task client
+
+        Args:
+            task_client: ArmoniKTasks client
+        """
+        result: "Task" = task_client.get_task(self.id)
+        self.session_id = result.session_id
+        self.owner_pod_id = result.owner_pod_id
+
+        self.initial_task_id = result.initial_task_id
+        self.parent_task_ids = result.parent_task_ids
+        self.data_dependencies = result.data_dependencies
+        self.expected_output_ids = result.expected_output_ids
+        self.retry_of_ids = result.retry_of_ids
+
+        self.status = result.status
+        self.status_message = result.status_message
+
+        self.options = result.options
+        self.created_at = result.created_at
+        self.submitted_at = result.submitted_at
+        self.received_at = result.received_at
+        self.acquired_at = result.acquired_at
+        self.fetched_at = result.fetched_at
+        self.started_at = result.started_at
+        self.processed_at = result.processed_at
+        self.ended_at = result.ended_at
+        self.pod_ttl = result.pod_ttl
+
+        self.creation_to_end_duration = result.creation_to_end_duration
+        self.processing_to_end_duration = result.processing_to_end_duration
+        self.received_to_end_duration = result.received_to_end_duration
+
+        self.output = result.output
+
+        self.pod_hostname = result.pod_hostname
+        self.payload_id = result.payload_id
+        self.is_init = True
+
+    @classmethod
+    def from_message(cls, task_raw: TaskDetailed) -> "Task":
+        return cls(
+            id=task_raw.id,
+            session_id=task_raw.session_id,
+            owner_pod_id=task_raw.owner_pod_id,
+            initial_task_id=task_raw.initial_task_id,
+            parent_task_ids=list(task_raw.parent_task_ids),
+            data_dependencies=list(task_raw.data_dependencies),
+            expected_output_ids=list(task_raw.expected_output_ids),
+            retry_of_ids=list(task_raw.retry_of_ids),
+            status=task_raw.status,
+            status_message=task_raw.status_message,
+            options=TaskOptions.from_message(task_raw.options),
+            created_at=timestamp_to_datetime(task_raw.created_at),
+            submitted_at=timestamp_to_datetime(task_raw.submitted_at),
+            received_at=timestamp_to_datetime(task_raw.received_at),
+            acquired_at=timestamp_to_datetime(task_raw.acquired_at),
+            fetched_at=timestamp_to_datetime(task_raw.fetched_at),
+            started_at=timestamp_to_datetime(task_raw.started_at),
+            processed_at=timestamp_to_datetime(task_raw.processed_at),
+            ended_at=timestamp_to_datetime(task_raw.ended_at),
+            pod_ttl=timestamp_to_datetime(task_raw.pod_ttl),
+            creation_to_end_duration=duration_to_timedelta(task_raw.creation_to_end_duration),
+            processing_to_end_duration=duration_to_timedelta(task_raw.processing_to_end_duration),
+            received_to_end_duration=duration_to_timedelta(task_raw.received_to_end_duration),
+            output=Output(error=(task_raw.output.error if not task_raw.output.success else None)),
+            pod_hostname=task_raw.pod_hostname,
+            payload_id=task_raw.payload_id,
+        )
+
+
+@deprecated(deprecated_in="3.14.0", details="Use sessions, task and results client instead")
+@dataclass
+class ResultAvailability:
+    errors: List[str] = field(default_factory=list)
+
+    def is_available(self) -> bool:
+        return len(self.errors) == 0
+
+
+@dataclass
+class Session:
+    session_id: Optional[str] = None
+    status: RawSessionStatus = SessionStatus.UNSPECIFIED
+    client_submission: Optional[bool] = None
+    worker_submission: Optional[bool] = None
+    partition_ids: List[str] = field(default_factory=list)
+    options: Optional[TaskOptions] = None
+    created_at: Optional[datetime] = None
+    cancelled_at: Optional[datetime] = None
+    closed_at: Optional[datetime] = None
+    purged_at: Optional[datetime] = None
+    deleted_at: Optional[datetime] = None
+    duration: Optional[timedelta] = None
+
+    @classmethod
+    def from_message(cls, session_raw: SessionRaw) -> "Session":
+        return cls(
+            session_id=session_raw.session_id,
+            status=session_raw.status,
+            client_submission=session_raw.client_submission,
+            worker_submission=session_raw.worker_submission,
+            partition_ids=list(session_raw.partition_ids),
+            options=TaskOptions.from_message(session_raw.options),
+            created_at=timestamp_to_datetime(session_raw.created_at),
+            cancelled_at=timestamp_to_datetime(session_raw.cancelled_at),
+            closed_at=timestamp_to_datetime(session_raw.closed_at),
+            purged_at=timestamp_to_datetime(session_raw.purged_at),
+            deleted_at=timestamp_to_datetime(session_raw.deleted_at),
+            duration=duration_to_timedelta(session_raw.duration),
+        )
+
+
+@dataclass
+class Result:
+    session_id: Optional[str] = None
+    name: Optional[str] = None
+    owner_task_id: Optional[str] = None
+    status: RawResultStatus = ResultStatus.UNSPECIFIED
+    created_at: Optional[datetime] = None
+    completed_at: Optional[datetime] = None
+    result_id: Optional[str] = None
+    size: Optional[int] = None
+
+    @classmethod
+    def from_message(cls, result_raw: ResultRaw) -> "Result":
+        return cls(
+            session_id=result_raw.session_id,
+            name=result_raw.name,
+            owner_task_id=result_raw.owner_task_id,
+            status=result_raw.status,
+            created_at=timestamp_to_datetime(result_raw.created_at),
+            completed_at=timestamp_to_datetime(result_raw.completed_at),
+            result_id=result_raw.result_id,
+            size=result_raw.size,
+        )
+
+
+@dataclass
+class Partition:
+    id: str
+    parent_partition_ids: List[str]
+    pod_reserved: int
+    pod_max: int
+    pod_configuration: Dict[str, str]
+    preemption_percentage: int
+    priority: int
+
+    @classmethod
+    def from_message(cls, partition_raw: PartitionRaw) -> "Partition":
+        return cls(
+            id=partition_raw.id,
+            parent_partition_ids=partition_raw.parent_partition_ids,
+            pod_reserved=partition_raw.pod_reserved,
+            pod_max=partition_raw.pod_max,
+            pod_configuration=partition_raw.pod_configuration,
+            preemption_percentage=partition_raw.preemption_percentage,
+            priority=partition_raw.priority,
+        )
