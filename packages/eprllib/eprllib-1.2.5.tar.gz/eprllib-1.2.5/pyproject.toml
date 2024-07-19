@@ -1,0 +1,26 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "eprllib"
+version = "1.2.5"
+authors = [
+  { name="Germán Rodolfo Henderson"},
+]
+description = "Building control trought DRL."
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "ray[all] >=2.9.3",
+    "gymnasium >=0.28.1",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/hermmanhender/eprllib"
+"Bug Tracker" = "https://github.com/hermmanhender/eprllib/issues"
