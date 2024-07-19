@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "colorpycker"
+description = "A simple color picker written in Qt"
+readme = "README.md"
+version = "1.0.0"
+dependencies = [
+    "PySide6",
+    "PyYAML"
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.svg"]
+
+[project.scripts]
+colorpycker = "colorpycker:main"
+
+[project.urls]
+Homepage = "https://github.com/transistxr/colorpycker"
+Issues = "https://github.com/transistxr/colorpycker/issues"
