@@ -1,0 +1,33 @@
+Metadata-Version: 2.1
+Name: gptsummary
+Version: 0.0.12
+Summary: AI-Powered Summary Tools
+Home-page: UNKNOWN
+Author: Ainancer
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3
+Description-Content-Type: text/markdown
+Requires-Dist: openai >=1.14.3
+
+An AI-Powered Summary Tool
+
+```commandline
+from gptsummary.gptsummary import AISummary
+ai_summary = AISummary(base_url="",
+                       api_key="",
+                       model_id="gpt-4")
+content = ai_summary.extract(content="""纯视觉才是智驾的未来！视觉一定是未来发展的方向，图片的语义定义是激光雷达所不具备的优势""", 
+                             prompt="", length=200)
+
+print(content)
+
+title = ai_summary.refined_title(content="""纯视觉才是智驾的未来！视觉一定是未来发展的方向，图片的语义定义是激光雷达所不具备的优势""", 
+                                   prompt="请从输入文字中总结合适的标题，不超过20字")
+
+print(title)
+```
+
