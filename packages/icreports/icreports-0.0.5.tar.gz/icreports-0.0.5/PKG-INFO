@@ -1,0 +1,57 @@
+Metadata-Version: 2.1
+Name: icreports
+Version: 0.0.5
+Summary: Utilities for generating technical reports.
+Author-email: "James Grogan, Irish Centre for High End Computing" <james.grogan@ichec.ie>
+Project-URL: Repository, https://git.ichec.ie/performance/toolshed/icreports
+Project-URL: Homepage, https://git.ichec.ie/performance/toolshed/icreports
+Keywords: Publishing,Technical Reports
+Classifier: Development Status :: 3 - Alpha
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: System :: Distributed Computing
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: icplot>=0.0.2
+Requires-Dist: iccore==0.0.6
+Requires-Dist: markdown-it-py
+Requires-Dist: mdformat
+Requires-Dist: beautifulsoup4
+Requires-Dist: pyspelling
+Requires-Dist: jupyter-book
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+Requires-Dist: pytest-sugar; extra == "test"
+Requires-Dist: black; extra == "test"
+Requires-Dist: mypy; extra == "test"
+
+# icreports
+
+This project is a collection of tools and templates for generating reports at IHCEC.
+
+# Contents #
+
+## Latex Templates ##
+
+### Technical Report ###
+
+There is a sample Technical Report template in `meida/templates/latex/technical_report.tex`, which can be converted to a PDF with `pdflatex`.
+
+### Gantt Chart ###
+
+There is a sample Gantt Chart template in `media/templates/latex/gantt.tex`. It needs a few LaTeX packages for use:
+
+``` shell
+tlmgr install pgfgantt standalone helvetic
+```
+
+Then it can be used to generate a PDF with `pdflatex`.
+
+# Copyright #
+
+Copyright 2024 Irish Centre for High End Computing
+
+The software in this repository can be used under the conditions of the GPLv3+ license, which is available for reading in the accompanying 
