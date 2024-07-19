@@ -1,0 +1,67 @@
+{
+  "additionalProperties": true,
+  "description": "Models a CBA (child billing account) which directly relates to a single contract. It contains information about\nlocks and billing dates. But in the first place, CBAs will be grouped together by the address in their contracts.\nFor each group of CBAs with a common address there will be created an MBA (master billing\naccount) to support that the invoices for the CBAs can be bundled into a single invoice for the MBA.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "ouid": {
+      "title": "Ouid",
+      "type": "integer"
+    },
+    "vertragsAdresse": {
+      "$ref": "Adresse.json#"
+    },
+    "vertragskontonummer": {
+      "title": "Vertragskontonummer",
+      "type": "string"
+    },
+    "rechnungsstellung": {
+      "$ref": "../enum/Kontaktart.json#"
+    },
+    "vertrag": {
+      "$ref": "../bo/Vertrag.json#"
+    },
+    "erstellungsdatum": {
+      "format": "date-time",
+      "title": "Erstellungsdatum",
+      "type": "string"
+    },
+    "enddatum": {
+      "format": "date-time",
+      "title": "Enddatum",
+      "type": "string"
+    },
+    "rechnungsdatumStart": {
+      "format": "date-time",
+      "title": "Rechnungsdatumstart",
+      "type": "string"
+    },
+    "rechnungsdatumNaechstes": {
+      "format": "date-time",
+      "title": "Rechnungsdatumnaechstes",
+      "type": "string"
+    }
+  },
+  "required": [
+    "ouid",
+    "vertragsAdresse",
+    "vertragskontonummer",
+    "rechnungsstellung",
+    "vertrag",
+    "erstellungsdatum",
+    "rechnungsdatumStart",
+    "rechnungsdatumNaechstes"
+  ],
+  "title": "VertragskontoCBA",
+  "type": "object"
+}

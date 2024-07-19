@@ -1,0 +1,74 @@
+{
+  "additionalProperties": true,
+  "description": "The zaehlpunkt object was created during a migration project.\nIt contains attributes needed for metering mapping.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "periodenverbrauchVorhersage": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "decimal"
+        }
+      ],
+      "title": "Periodenverbrauchvorhersage"
+    },
+    "einheitVorhersage": {
+      "allOf": [
+        {
+          "$ref": "../enum/Mengeneinheit.json#"
+        }
+      ],
+      "default": "KWH"
+    },
+    "zeitreihentyp": {
+      "default": "Z21",
+      "title": "Zeitreihentyp",
+      "type": "string"
+    },
+    "kundenWert": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "decimal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Kundenwert"
+    },
+    "einheitKunde": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Mengeneinheit.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "grundzustaendiger": {
+      "default": true,
+      "title": "Grundzustaendiger",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "periodenverbrauchVorhersage",
+    "kundenWert"
+  ],
+  "title": "Zaehlpunkt",
+  "type": "object"
+}

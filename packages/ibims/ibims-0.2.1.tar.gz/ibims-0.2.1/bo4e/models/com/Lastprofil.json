@@ -1,0 +1,48 @@
+{
+  "additionalProperties": true,
+  "description": "This is not part of the official BO4E standard, but is implemented in the c# and go versions:\nhttps://github.com/Hochfrequenz/BO4E-dotnet/blob/9bdc151170ddba5c9d7535e863d5a396fe7fec52/BO4E/COM/Lastprofil.cs\nhttps://github.com/Hochfrequenz/go-bo4e/blob/708b39de0dcea8a9448ed4e7341a2687f6bf7c11/com/lastprofil.go\nFields, which are not needed for migrations, are omitted and the field \"profilart\" is modelled as Profiltyp ENUM.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "bezeichnung": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bezeichnung"
+    },
+    "einspeisung": {
+      "default": false,
+      "title": "Einspeisung",
+      "type": "boolean"
+    },
+    "profilart": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Profiltyp.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "title": "Lastprofil",
+  "type": "object"
+}

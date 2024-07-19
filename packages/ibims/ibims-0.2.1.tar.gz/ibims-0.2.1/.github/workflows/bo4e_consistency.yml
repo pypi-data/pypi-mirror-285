@@ -1,0 +1,41 @@
+name: "BO4E Consistency Check"
+
+on: [push]
+jobs:
+  bo4e_consistency_check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r dev_requirements/requirements-formatting.txt
+      - name: Install tox
+        run: pip install tox
+      - name: Build BO4E
+        run: |
+          tox -e generate_bo4e
+      - name: Run formatters
+        run: |
+          isort src/ibims/bo4e
+          black src/ibims/bo4e
+      - name: Detect changed files
+        uses: tj-actions/verify-changed-files@v20
+        id: verify-changed-files
+        with:
+          files: src/ibims/bo4e
+      - name: Fail if changes detected
+        if: steps.verify-changed-files.outputs.files_changed == 'true'
+        run: |
+          echo "src/ibims/bo4e is inconsistent with the configuration in bo4e/. \
+          Please run 'tox -e generate_bo4e' and commit the changes or try editing the configuration files \
+          if you want to change files in src/ibims/bo4e/."
+
+          echo "The following files have been changed:"
+          echo "${{ steps.verify-changed-files.outputs.changed_files }}"
+          git diff
+          exit 1

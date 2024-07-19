@@ -1,0 +1,75 @@
+{
+  "additionalProperties": true,
+  "description": "The Concession Fee object was created during a migration project.\nIt contains attributes needed for metering mapping.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "marketLocationId": {
+      "title": "Marketlocationid",
+      "type": "string"
+    },
+    "group": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Group"
+    },
+    "obis": {
+      "title": "Obis",
+      "type": "string"
+    },
+    "activeFrom": {
+      "format": "date-time",
+      "title": "Activefrom",
+      "type": "string"
+    },
+    "activeUntil": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Activeuntil"
+    },
+    "ka": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ka"
+    }
+  },
+  "required": [
+    "marketLocationId",
+    "obis",
+    "activeFrom"
+  ],
+  "title": "ConcessionFee",
+  "type": "object"
+}

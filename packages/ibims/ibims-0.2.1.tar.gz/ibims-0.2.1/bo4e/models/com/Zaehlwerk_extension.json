@@ -1,0 +1,99 @@
+[
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "vorkommastellen",
+    "fieldDef": {
+      "title": "Vorkommastellen",
+      "type": "integer"
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "nachkommastellen",
+    "fieldDef": {
+      "title": "Nachkommastellen",
+      "type": "integer"
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "schwachlastfaehig",
+    "fieldDef": {
+      "title": "Schwachlastfaehig",
+      "type": "boolean"
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "konzessionsabgabenTyp",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "$ref": "../enum/AbgabeArt.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "activeFrom",
+    "fieldDef": {
+      "format": "date-time",
+      "title": "Activefrom",
+      "type": "string"
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "activeUntil",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Activeuntil"
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "description",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Description"
+    }
+  },
+  {
+    "pattern": "com\\.Zaehlwerk",
+    "fieldName": "verbrauchsart",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Verbrauchsart"
+    }
+  }
+]

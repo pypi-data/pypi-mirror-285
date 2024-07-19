@@ -1,0 +1,114 @@
+{
+  "additionalProperties": true,
+  "description": "This component contains bank connection information.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "iban": {
+      "anyOf": [
+        {
+          "maxLength": 34,
+          "minLength": 15,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Iban"
+    },
+    "bic": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bic"
+    },
+    "gueltigSeit": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gueltigseit"
+    },
+    "gueltigBis": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gueltigbis"
+    },
+    "bankname": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bankname"
+    },
+    "sepaInfo": {
+      "anyOf": [
+        {
+          "$ref": "SepaInfo.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "kontoinhaber": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Kontoinhaber"
+    },
+    "ouid": {
+      "title": "Ouid",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "ouid"
+  ],
+  "title": "Bankverbindung",
+  "type": "object"
+}

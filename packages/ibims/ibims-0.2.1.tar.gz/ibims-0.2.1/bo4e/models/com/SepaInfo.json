@@ -1,0 +1,57 @@
+{
+  "additionalProperties": true,
+  "description": "This class includes details about the sepa mandates.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "sepaId": {
+      "title": "Sepaid",
+      "type": "string"
+    },
+    "sepaZahler": {
+      "title": "Sepazahler",
+      "type": "boolean"
+    },
+    "creditorIdentifier": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Creditoridentifier"
+    },
+    "gueltigSeit": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Gueltigseit"
+    }
+  },
+  "required": [
+    "sepaId",
+    "sepaZahler"
+  ],
+  "title": "SepaInfo",
+  "type": "object"
+}

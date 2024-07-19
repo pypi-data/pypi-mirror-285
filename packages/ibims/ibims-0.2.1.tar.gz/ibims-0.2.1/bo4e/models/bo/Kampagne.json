@@ -1,0 +1,49 @@
+{
+  "additionalProperties": true,
+  "description": "A \"Kampagne\"/campaign models which marketing activities led customers to a product/tariff.",
+  "properties": {
+    "_version": {
+      "default": "2",
+      "title": " Version",
+      "type": "string"
+    },
+    "_typ": {
+      "allOf": [
+        {
+          "$ref": "../enum/Typ.json#"
+        }
+      ],
+      "default": "KAMPAGNE",
+      "title": " Typ"
+    },
+    "zusatzAttribute": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "../ZusatzAttribut.json#"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "ZusatzAttribute"
+    },
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ],
+  "title": "Kampagne",
+  "type": "object"
+}

@@ -1,0 +1,39 @@
+{
+  "description": "This class represents a file that is stored in the database.",
+  "properties": {
+    "file_name_for_docstore": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "File Name For Docstore"
+    },
+    "folder_name_for_docstore": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Folder Name For Docstore"
+    },
+    "file": {
+      "format": "binary",
+      "title": "File",
+      "type": "string"
+    }
+  },
+  "required": [
+    "file"
+  ],
+  "title": "File",
+  "type": "object"
+}

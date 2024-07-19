@@ -1,0 +1,214 @@
+[
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "ablesegrund",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ablesegrund"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "ablesebeschreibung",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Ablesebeschreibung"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "periodenverbrauch",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "decimal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Periodenverbrauch"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "periodenverbrauchUrsprung",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Periodenverbrauchursprung"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "ableser",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "$ref": "../enum/AblesendeRolle.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "status",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Ablesungsstatus.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "energiegehaltGas",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "decimal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Energiegehaltgas"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "energiegehaltGasGueltigVon",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Energiegehaltgasgueltigvon"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "energiegehaltGasGueltigBis",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Energiegehaltgasgueltigbis"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "umwandlungsfaktorGas",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "decimal"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Umwandlungsfaktorgas"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "umwandlungsfaktorGasGueltigVon",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Umwandlungsfaktorgasgueltigvon"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "umwandlungsfaktorGasGueltigBis",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Umwandlungsfaktorgasgueltigbis"
+    }
+  },
+  {
+    "pattern": "com\\.Verbrauch",
+    "fieldName": "messwertstatus",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Messwertstatus.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  }
+]

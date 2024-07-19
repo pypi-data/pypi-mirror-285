@@ -1,0 +1,301 @@
+{
+  "requiredFields": [
+    "\\w+\\.\\w+\\._(version|typ)",
+    "bo\\.Energiemenge\\.energieverbrauch",
+    "bo\\.Geschaeftspartner\\.name1",
+    "bo\\.Messlokation\\.messlokationsId",
+    "bo\\.Marktlokation\\.marktlokationsId",
+    "bo\\.Marktlokation\\.sparte",
+    "bo\\.Marktteilnehmer\\.name1",
+    "bo\\.Preisblatt\\.bezeichnung",
+    "bo\\.Preisblatt\\.gueltigkeit",
+    "bo\\.Preisblatt\\.preispositionen",
+    "bo\\.Rechnung\\.gesamtbrutto",
+    "bo\\.Rechnung\\.gesamtsteuer",
+    "bo\\.Rechnung\\.rechnungstyp",
+    "bo\\.Rechnung\\.storno",
+    "bo\\.Rechnung\\.zuzahlen",
+    "bo\\.Vertrag\\.vertragsbeginn",
+    "bo\\.Vertrag\\.vertragsnummer",
+    "bo\\.Vertrag\\.vertragspartner1",
+    "bo\\.Vertrag\\.vertragspartner2",
+    "bo\\.Zaehler(Gas)?\\.zaehlernummer",
+    "bo\\.Zaehler(Gas)?\\.zaehlwerke",
+    "bo\\.Zaehler(Gas)?\\.sparte",
+    "com\\.Adresse\\.ort",
+    "com\\.Adresse\\.postleitzahl",
+    "com\\.Betrag\\.wert",
+    "ZusatzAttribut\\.name",
+    "ZusatzAttribut\\.wert",
+    "com\\.Menge\\.wert",
+    "com\\.Messlokationszuordnung\\.messlokationsId",
+    "com\\.Preisgarantie\\.zeitlicheGueltigkeit",
+    "com\\.Preisposition\\.preisstaffeln",
+    "com\\.Preisstaffel\\.einheitspreis",
+    "com\\.Rechnungsposition\\.positionsMenge",
+    "com\\.Rechnungsposition\\.teilsummeNetto",
+    "com\\.Rechnungsposition\\.teilsummeSteuer",
+    "com\\.Steuerbetrag\\.basiswert",
+    "com\\.Steuerbetrag\\.steuerwert",
+    "com\\.Verbrauch\\.obisKennzahl",
+    "com\\.Verbrauch\\.wert",
+    "com\\.Zaehlwerk\\.obisKennzahl"
+  ],
+  "additionalFields": [
+    {
+      "$ref": "models/bo/Geschaeftspartner_extension.json"
+    },
+    {
+      "$ref": "models/bo/Marktlokation_extension.json"
+    },
+    {
+      "$ref": "models/bo/Rechnung_extension.json"
+    },
+    {
+      "$ref": "models/bo/Zaehler_extension.json"
+    },
+    {
+      "$ref": "models/com/Adresse_extension.json"
+    },
+    {
+      "$ref": "models/com/Preisgarantie_extension.json"
+    },
+    {
+      "$ref": "models/com/Preisposition_extension.json"
+    },
+    {
+      "$ref": "models/com/Steuerbetrag_extension.json"
+    },
+    {
+      "$ref": "models/com/Verbrauch_extension.json"
+    },
+    {
+      "$ref": "models/com/Zaehlwerk_extension.json"
+    }
+  ],
+  "additionalEnumItems": [
+    {
+      "pattern": "enum\\.BDEWArtikelnummer",
+      "items": [
+        "ZUSATZDIENSTLEISTUNG_PARAGRAPH_35_2_1_MSBG",
+        "ZUSATZDIENSTLEISTUNG_PARAGRAPH_35_2_2_MSBG",
+        "ZUSATZDIENSTLEISTUNG_PARAGRAPH_35_2_3_MSBG",
+        "ZUSATZDIENSTLEISTUNG_PARAGRAPH_35_2_4_MSBG",
+        "ZUSATZDIENSTLEISTUNG_PARAGRAPH_35_2_5_MSBG",
+        "ZUSATZDIENSTLEISTUNG_PARAGRAPH_35_3_MSBG"
+      ]
+    },
+    {
+      "pattern": "enum\\.Typ",
+      "items": [
+        "BILANZIERUNG",
+        "DOKUMENT",
+        "FILE",
+        "HINWEIS",
+        "KAMPAGNE",
+        "TRANSAKTIONSDATENQUANTITIES",
+        "ZAEHLERGAS"
+      ]
+    },
+    {
+      "pattern": "enum\\.Rechnungstyp",
+      "items": [
+        "TURNUSRECHNUNG",
+        "ABSCHLAGSRECHNUNG",
+        "ABSCHLUSSRECHNUNG",
+        "ZWISCHENRECHNUNG",
+        "INTEGRIERTE_13TE_RECHNUNG",
+        "MONATSRECHNUNG",
+        "ZUSAETZLICHE_13TE_RECHNUNG"
+      ]
+    },
+    {
+      "pattern": "enum\\.Zaehlertyp",
+      "items": [
+        "WIRBELGASZAEHLER",
+        "MESSDATENREGISTRIERGERAET",
+        "ELEKTRONISCHERHAUSHALTSZAEHLER",
+        "SONDERAUSSTATTUNG",
+        "MODERNEMESSEINRICHTUNG",
+        "LASTGANGZAEHLER",
+        "NEUEMESSEINRICHTUNG"
+      ]
+    }
+  ],
+  "additionalModels": [
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/Bilanzierung.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/Dokument.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/File.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/Hinweis.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/Kampagne.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/ZaehlerGas.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/Transaktionsdaten_invoices.json"
+      }
+    },
+    {
+      "module": "bo",
+      "schema": {
+        "$ref": "models/bo/Transaktionsdaten_quantities.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/Bankverbindung.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/ConcessionFee.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/Lastprofil.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/SepaInfo.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/VertragskontoCBA.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/VertragskontoMBA.json"
+      }
+    },
+    {
+      "module": "com",
+      "schema": {
+        "$ref": "models/com/Zaehlpunkt.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/AblesendeRolle.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Ablesungsstatus.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Aggregationsverantwortung.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/HinweisThema.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/InvoiceStatus.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Marktgebiet.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/MesstechnischeEinordnung.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Messwerterfassung.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Messwertstatus.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Profiltyp.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Prognosegrundlage.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/QuantitesStatus.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Regelzone.json"
+      }
+    },
+    {
+      "module": "enum",
+      "schema": {
+        "$ref": "models/enum/Variant.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "additionalProperties": true,
+  "description": "A generic document reference like for bills, order confirmations and cancellations",
+  "properties": {
+    "_version": {
+      "default": "2",
+      "title": " Version",
+      "type": "string"
+    },
+    "_typ": {
+      "allOf": [
+        {
+          "$ref": "../enum/Typ.json#"
+        }
+      ],
+      "default": "DOKUMENT",
+      "title": " Typ"
+    },
+    "zusatzAttribute": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "../ZusatzAttribut.json#"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "ZusatzAttribute"
+    },
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "erstellungsdatum": {
+      "format": "date-time",
+      "title": "Erstellungsdatum",
+      "type": "string"
+    },
+    "hasBeenSent": {
+      "title": "Hasbeensent",
+      "type": "boolean"
+    },
+    "dokumentenname": {
+      "title": "Dokumentenname",
+      "type": "string"
+    },
+    "vorlagenname": {
+      "title": "Vorlagenname",
+      "type": "string"
+    }
+  },
+  "required": [
+    "erstellungsdatum",
+    "hasBeenSent",
+    "dokumentenname",
+    "vorlagenname"
+  ],
+  "title": "Dokument",
+  "type": "object"
+}

@@ -1,0 +1,48 @@
+{
+  "additionalProperties": true,
+  "description": "Models an MBA (master billing account). Its main purpose is to bundle CBAs together having the same address in\ntheir related contracts. This feature supports a single invoice for all CBAs instead of several\ninvoices for each.",
+  "properties": {
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "ouid": {
+      "title": "Ouid",
+      "type": "integer"
+    },
+    "vertragsAdresse": {
+      "$ref": "Adresse.json#"
+    },
+    "vertragskontonummer": {
+      "title": "Vertragskontonummer",
+      "type": "string"
+    },
+    "rechnungsstellung": {
+      "$ref": "../enum/Kontaktart.json#"
+    },
+    "cbas": {
+      "items": {
+        "$ref": "VertragskontoCBA.json#"
+      },
+      "title": "Cbas",
+      "type": "array"
+    }
+  },
+  "required": [
+    "ouid",
+    "vertragsAdresse",
+    "vertragskontonummer",
+    "rechnungsstellung",
+    "cbas"
+  ],
+  "title": "VertragskontoMBA",
+  "type": "object"
+}

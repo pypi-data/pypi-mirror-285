@@ -1,0 +1,137 @@
+{
+  "additionalProperties": true,
+  "description": "Bilanzierung is a business object used for balancing. This object is no BO4E standard and a complete go\nimplementation can be found at\nhttps://github.com/Hochfrequenz/go-bo4e/blob/3414a1eac741542628df796d6beb43eaa27b0b3e/bo/bilanzierung.go",
+  "properties": {
+    "_version": {
+      "default": "2",
+      "title": " Version",
+      "type": "string"
+    },
+    "_typ": {
+      "allOf": [
+        {
+          "$ref": "../enum/Typ.json#"
+        }
+      ],
+      "default": "BILANZIERUNG",
+      "title": " Typ"
+    },
+    "zusatzAttribute": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "../ZusatzAttribut.json#"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "ZusatzAttribute"
+    },
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "bilanzierungsbeginn": {
+      "format": "date-time",
+      "title": "Bilanzierungsbeginn",
+      "type": "string"
+    },
+    "bilanzierungsende": {
+      "format": "date-time",
+      "title": "Bilanzierungsende",
+      "type": "string"
+    },
+    "bilanzkreis": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Bilanzkreis"
+    },
+    "aggregationsverantwortung": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Aggregationsverantwortung.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "lastprofile": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "../com/Lastprofil.json#"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Lastprofile"
+    },
+    "prognosegrundlage": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Prognosegrundlage.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "detailsPrognosegrundlage": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Profiltyp.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "lastprofilNamen": {
+      "default": null,
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "bilanzierungsbeginn",
+    "bilanzierungsende"
+  ],
+  "title": "Bilanzierung",
+  "type": "object"
+}

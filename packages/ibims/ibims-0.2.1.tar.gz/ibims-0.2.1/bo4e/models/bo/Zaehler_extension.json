@@ -1,0 +1,50 @@
+[
+  {
+    "pattern": "bo\\.Zaehler",
+    "fieldName": "messwerterfassung",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "$ref": "../enum/Messwerterfassung.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Messwerterfassung"
+    }
+  },
+  {
+    "pattern": "bo\\.Zaehler",
+    "fieldName": "nachstesAblesedatum",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Nachstesablesedatum"
+    }
+  },
+  {
+    "pattern": "bo\\.Zaehler",
+    "fieldName": "aktiverZeitraum",
+    "fieldDef": {
+      "anyOf": [
+        {
+          "$ref": "../com/Zeitraum.json#"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  }
+]

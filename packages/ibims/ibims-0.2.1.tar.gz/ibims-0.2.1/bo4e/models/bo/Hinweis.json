@@ -1,0 +1,74 @@
+{
+  "additionalProperties": true,
+  "description": "Contains specific hints for the handling of contracts and customers.\nHints are meant to be read and written by agents or customer service employees.",
+  "properties": {
+    "_version": {
+      "default": "2",
+      "title": " Version",
+      "type": "string"
+    },
+    "_typ": {
+      "allOf": [
+        {
+          "$ref": "../enum/Typ.json#"
+        }
+      ],
+      "default": "HINWEIS",
+      "title": " Typ"
+    },
+    "zusatzAttribute": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "../ZusatzAttribut.json#"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Zusatzattribute"
+    },
+    "_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": " Id"
+    },
+    "erstellungsdatum": {
+      "format": "date-time",
+      "title": "Erstellungsdatum",
+      "type": "string"
+    },
+    "thema": {
+      "anyOf": [
+        {
+          "$ref": "../enum/HinweisThema.json#"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "title": "Thema"
+    },
+    "nachricht": {
+      "title": "Nachricht",
+      "type": "string"
+    }
+  },
+  "required": [
+    "erstellungsdatum",
+    "thema",
+    "nachricht"
+  ],
+  "title": "Hinweis",
+  "type": "object"
+}

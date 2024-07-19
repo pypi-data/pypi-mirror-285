@@ -1,0 +1,90 @@
+{
+  "additionalProperties": true,
+  "description": "This class adds additional data to the transaktionsdaten, which is needed for an energy amount",
+  "properties": {
+    "migration_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Migration_id"
+    },
+    "_typ": {
+      "allOf": [
+        {
+          "$ref": "../enum/Typ.json#"
+        }
+      ],
+      "default": "TRANSAKTIONSDATENQUANTITIES",
+      "title": " Typ"
+    },
+    "import_fuer_storno_adhoc": {
+      "type": "string",
+      "title": "Import_fuer_storno_adhoc"
+    },
+    "sparte": {
+      "$ref": "../enum/Sparte.json#",
+      "title": "Sparte"
+    },
+    "pruefidentifikator": {
+      "type": "string",
+      "title": "Pruefidentifikator"
+    },
+    "datenaustauschreferenz": {
+      "type": "string",
+      "title": "Datenaustauschreferenz"
+    },
+    "nachrichtendatum": {
+      "type": "string",
+      "title": "Nachrichtendatum"
+    },
+    "nachrichten_referenznummer": {
+      "type": "string",
+      "title": "Nachrichten_referenznummer"
+    },
+    "absender": {
+      "type": "string",
+      "title": "Absender"
+    },
+    "empfaenger": {
+      "type": "string",
+      "title": "Empfaenger"
+    },
+    "dokumentennummer": {
+      "type": "string",
+      "title": "Dokumentennummer"
+    },
+    "kategorie": {
+      "type": "string",
+      "title": "Kategorie"
+    },
+    "nachrichtenfunktion": {
+      "type": "string",
+      "title": "Nachrichtenfunktion"
+    },
+    "trans_typ": {
+      "type": "string",
+      "title": "TransTyp"
+    },
+    "datumsformat": {
+      "type": "string",
+      "title": "Datumsformat"
+    },
+    "status": {
+      "allOf": [
+        {
+          "$ref": "../enum/QuantitiesStatus.json#"
+        }
+      ],
+      "default": "VALID",
+      "title": "Status"
+    }
+  },
+  "title": "TransaktionsdatenQuantities",
+  "type": "object"
+}
