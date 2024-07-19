@@ -1,0 +1,58 @@
+Metadata-Version: 2.1
+Name: mosqlient
+Version: 1.4.0
+Summary: client library for the mosqlimate client library
+Home-page: https://github.com/Mosqlimate-project/mosqlimate-client
+License: GPLv3
+Keywords: data science,epidemiology,forecasting
+Author: Flávio Codeço Coelho
+Author-email: fccoelho@gmail.com
+Requires-Python: >=3.10,<3.13
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: aiohttp (>=3.9.5,<4.0.0)
+Requires-Dist: altair (>=5.3.0,<6.0.0)
+Requires-Dist: matplotlib (>=3.9.0,<4.0.0)
+Requires-Dist: nest-asyncio (>=1.6.0,<2.0.0)
+Requires-Dist: pandas (>=2.2.2,<3.0.0)
+Requires-Dist: pmdarima (>=2.0.4,<3.0.0)
+Requires-Dist: pydantic (>=2.7.3,<3.0.0)
+Requires-Dist: requests (>=2.32.2,<3.0.0)
+Requires-Dist: scikit-learn (>=1.5.0,<2.0.0)
+Requires-Dist: scoringrules (>=0.5.2,<0.6.0)
+Requires-Dist: types-requests (>=2.32.0.20240523,<3.0.0.0)
+Project-URL: Repository, https://github.com/Mosqlimate-project/mosqlimate-client
+Description-Content-Type: text/markdown
+
+# Mosqlimate client
+
+[![ci](https://github.com/Mosqlimate-project/mosqlimate-client/workflows/ci/badge.svg)](https://github.com/Mosqlimate-project/mosqlimate-client/actions?query=workflow%3Aci)
+[![documentation](https://img.shields.io/badge/docs-mkdocs%20material-blue.svg?style=flat)](https://Mosqlimate-project.github.io/mosqlimate-client/)
+[![pypi version](https://img.shields.io/pypi/v/mosqlimate-client.svg)](https://pypi.org/project/mosqlimate-client/)
+[![gitter](https://badges.gitter.im/join%20chat.svg)](https://gitter.im/mosqlimate-client/community)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+client library for the Mosqlimate project data platform.
+
+## Requirements
+
+Mosqlimate client requires Python 3.10 or above.
+
+
+
+## Installation
+
+```bash
+pip install mosqlient
+```
+
+## Using from R
+Despite `mosqlient` being a Python library, it can be used from R using the `reticulate` package. Here is an example of how to use `mosqlient` from R:
+
+In the examples folder, you can find an [R jupyter notebook](/examples/Using%20Mosqlient%20from%20R.ipynb) of how to use `mosqlient` from R.
+
+
+
