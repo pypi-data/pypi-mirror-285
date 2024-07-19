@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "supavisor"
+version = "0.0.1"
+description = "A simple library for interacting with a Supavisor Instance"
+authors = ["Jamal Saied <jsaied99@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "supavisor" }]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.8.2"
+orjson = "^3.10.6"
+aiohttp = "^3.9.5"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.2"
+mypy = "^1.10.1"
+basedpyright = "^1.14.0"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+explicit_package_bases = true
+warn_return_any = false
+warn_unused_configs = true
+ignore_missing_imports = true
+
+[tool.basedpyright]
+reportMissingSuperCall = true
+reportCallInDefaultInitializer = true
+reportMissingTypeStubs = false
+reportAny = false
+reportImportCycles = false
+reportWildcardImportFromLibrary = false
+reportUnusedCallResult = false
+
+pythonVersion = "3.12"
+pythonPlatform = "Linux"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
