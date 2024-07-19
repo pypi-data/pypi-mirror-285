@@ -1,0 +1,204 @@
+[tool.poetry]
+name = "competitive-verifier"
+version = "3.2.2"
+description = "Verifier for libraries of competitive programming"
+
+license = "MIT"
+authors = ["kzrnm <gengesa@gmail.com>"]
+
+repository = "https://github.com/competitive-verifier/competitive-verifier"
+homepage = "https://github.com/competitive-verifier/competitive-verifier"
+readme = "README.md"
+
+packages = [
+    { include = "competitive_verifier", from = "src" },
+    { include = "competitive_verifier_resources", from = "src" },
+    { include = "onlinejudge", from = "src/porting_oj" },
+]
+include = [{ path = "tests", format = "sdist" }]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+competitive-verifier = "competitive_verifier.app:main"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+colorlog = "^6.7.0"
+colorama = "^0.4.6"
+pydantic = "^2.0.3"
+pyyaml = "^6.0"
+importlab = "^0.8"
+charset-normalizer = "^3.3.2"
+tomli = { version = "^2.0.1", python = "<3.11" }
+requests = "^2.32.3"
+appdirs = "^1.4.4"
+beautifulsoup4 = "^4.12.3"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^7.2.0"
+pytest-mock = "^3.12.0"
+pytest-subtests = "^0.11.0"
+pytest-order = "^1.1.0"
+
+[tool.poetry.group.dev.dependencies]
+black = { version = "^23.7.0", extras = ["lint"] }
+isort = { version = "^5.10.1", extras = ["lint"] }
+pyright = { version = "^1.1.277", extras = ["lint"] }
+poethepoet = "^0.24.2"
+
+flake8 = { version = "^7.0.0", extras = ["lint"] }
+pyproject-flake8 = { version = "^7.0.0", extras = ["lint"] }
+[tool.poe.tasks]
+flake8 = "pflake8 src/competitive_verifier tests"
+isort = "isort src/competitive_verifier tests"
+black = "black src/competitive_verifier tests"
+pyright = "pyright src/competitive_verifier tests"
+format = ["isort", "black", "pyright", "flake8"]
+"lint:isort" = "isort --check-only --diff src/competitive_verifier tests"
+"lint:black" = "black --diff --check src/competitive_verifier tests"
+lint = ["lint:isort", "lint:black", "pyright", "flake8"]
+test = "pytest"
+test-quick = "pytest -m 'not integration'"
+test-integration = "pytest -m integration"
+test-each-language-integration = "pytest -m each_language_integration"
+test-use-prev-dest = "poe test --use-prev-dest"
+
+"jekyll:serve" = { cmd = "bundle exec jekyll serve --incremental --livereload", cwd = ".competitive-verifier/_jekyll" }
+"jekyll:init" = { shell = "bundle config set --local path '.vendor/bundle'; bundle install", cwd = ".competitive-verifier/_jekyll" }
+
+[tool.poe.tasks."port-oj"]
+shell = """
+mkdir -p src/porting_oj
+mkdir -p downloads
+wget -q https://github.com/online-judge-tools/oj/archive/refs/heads/master.zip -O downloads/oj.zip
+wget -q https://github.com/online-judge-tools/api-client/archive/refs/heads/master.zip -O downloads/api-client.zip
+
+unzip -o downloads/oj.zip -d downloads
+unzip -o downloads/api-client.zip -d downloads
+
+mv downloads/oj-master/onlinejudge_command src/porting_oj
+mv downloads/api-client-master/onlinejudge src/porting_oj
+
+echo '\\e[33mThis task should be deleted when https://github.com/online-judge-tools/oj/issues/929 is completed.\\e[m'
+"""
+
+[tool.poe.tasks."schema-verify_files"]
+script = "competitive_verifier.script_tools.schema:show_verify_json_schema"
+[tool.poe.tasks."schema-verify_result"]
+script = "competitive_verifier.script_tools.schema:show_result_json_schema"
+[tool.poe.tasks."schema-config_yml"]
+script = "competitive_verifier.script_tools.docs:show_default_config_yml"
+
+[tool.poe.tasks."dev-oj-resolve"]
+shell = "competitive-verifier oj-resolve --include examples --config examples/config.toml > .competitive-verifier/tmp/all-verify_files.json"
+
+[tool.poe.tasks."dev-verify"]
+shell = "competitive-verifier verify --output .competitive-verifier/tmp/all-result.json"
+env = { COMPETITIVE_VERIFY_FILES_PATH = ".competitive-verifier/tmp/all-verify_files.json" }
+
+[tool.poe.tasks."dev-docs"]
+shell = "competitive-verifier docs .competitive-verifier/tmp/all-result.json --include examples/"
+env = { COMPETITIVE_VERIFY_FILES_PATH = ".competitive-verifier/tmp/all-verify_files.json" }
+
+[tool.poe.tasks."dev-external-verify"]
+shell = "competitive-verifier verify --output .competitive-verifier/tmp/result.json"
+env = { COMPETITIVE_VERIFY_FILES_PATH = "examples/external/verify_files.json" }
+
+[tool.poe.tasks."dev-external-docs"]
+shell = "competitive-verifier docs .competitive-verifier/tmp/result.json --include examples/"
+env = { COMPETITIVE_VERIFY_FILES_PATH = "examples/external/verify_files.json" }
+
+
+[tool.poe.tasks.serve]
+env = { _COMPETITIVE_SERVE_DIR = ".competitive-verifier/_jekyll" }
+[[tool.poe.tasks.serve.sequence]]
+default = "pass"
+[tool.poe.tasks.serve.sequence.control]
+expr = "os.path.isdir(os.getenv('_COMPETITIVE_SERVE_DIR'))"
+imports = ["os"]
+[[tool.poe.tasks.serve.sequence.switch]]
+case = "False"
+ref = "dev-docs"
+[[tool.poe.tasks.serve.sequence]]
+ref = "_serve"
+
+[tool.poe.tasks.serve-handmade]
+env = { _COMPETITIVE_SERVE_DIR = "integration_test_data/dst_dir/documents/handmade/test_hand_docs" }
+[[tool.poe.tasks.serve-handmade.sequence]]
+default = "pass"
+[tool.poe.tasks.serve-handmade.sequence.control]
+expr = "os.path.isdir(os.getenv('_COMPETITIVE_SERVE_DIR'))"
+imports = ["os"]
+[[tool.poe.tasks.serve-handmade.sequence.switch]]
+case = "False"
+cmd = "pytest --use-prev-dest tests/integration/test_command_docs.py::test_hand_docs"
+[[tool.poe.tasks.serve-handmade.sequence]]
+ref = "_serve"
+
+
+[tool.poe.tasks._serve]
+[[tool.poe.tasks._serve.sequence]]
+default = "pass"
+[tool.poe.tasks._serve.sequence.control]
+expr = "os.path.isdir(os.getenv('_COMPETITIVE_SERVE_DIR')+'/.vendor')"
+imports = ["os"]
+[[tool.poe.tasks._serve.sequence.switch]]
+case = "False"
+ref = "jekyll:init"
+cwd = "${_COMPETITIVE_SERVE_DIR}"
+
+[[tool.poe.tasks._serve.sequence]]
+ref = "jekyll:serve"
+cwd = "${_COMPETITIVE_SERVE_DIR}"
+
+
+[tool.pylint.'MESSAGES CONTROL']
+max-line-length = 120
+disable = """
+    missing-module-docstring,
+    missing-function-docstring,
+    consider-using-f-string
+"""
+
+[tool.black]
+target-version = ['py39']
+line-length = 88
+
+[tool.isort]
+line_length = 88
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.flake8]
+max-line-length = 500
+max-complexity = 18
+exclude = [
+    "examples",
+    "src/competitive_verifier_resources/jekyll",
+    "tests/integration/testdata",
+    "src/oj_porting",
+]
+ignore = ["E203", "E266", "E501", "E701", "E704", "W503", "B905", "B907"]
+per-file-ignores = [
+    "tests/integration/test_command_docs.py: E501",
+    "src/competitive_verifier/oj/tools/pretty_printers.py: E741",
+]
+
+[tool.pyright]
+pythonVersion = "3.9"
+typeCheckingMode = "strict"
+include = ["src", "tests"]
+exclude = [
+    "src/competitive_verifier_resources/jekyll",
+    "tests/integration/testdata",
+    "src/oj_porting",
+]
+reportMissingImports = true
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+testpaths = "tests/"
+markers = ["integration", "each_language_integration"]
