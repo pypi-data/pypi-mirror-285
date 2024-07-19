@@ -1,0 +1,41 @@
+Metadata-Version: 2.1
+Name: pgn-clis
+Version: 0.1.20
+Summary: package_description
+Author-email: Marcel Claramunt <marcel@moveread.com>
+Project-URL: repo, https://github.com/moveread/chess.git
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: chess-utils
+Requires-Dist: chess-notation
+Requires-Dist: fs-tools
+
+# PGN CLIs
+
+- `clean-pgns`:
+  ```bash
+  cat games.pgn clean-pgns > sans.txt # yields space delimited SANs, one game per line
+  ```
+- `lichess-download`:
+  ```bash
+  lichess-download -y 2021 -m 12
+  ```
+- `sans2ucis`
+  ```bash
+  cat sans.txt | sans2ucis -v > ucis.txt
+  ```
+
+- `sans2fens`
+  ```bash
+  cat sans.txt | sans2fens -v > fens.txt # yield space delimited board FENs, one game per line
+  ```
+
+- `style-sans`
+  ```bash
+  cat sans.txt | style-sans -v > styled.txt
+  ```
+
+- `random-samples`
+  ```bash
+  random-samples -n 1000000 -l 300 -v -o output/folder # or -i sans.txt -u ucis.txt
+  ```
