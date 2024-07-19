@@ -1,0 +1,81 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "moriarty"
+description = "moriarty"
+keywords = ["moriarty"]
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2",
+    "brq",
+    "httpx",
+    "loguru",
+    "click",
+    "anyio",
+    "importlib_metadata",
+    "async-timeout;python_version<'3.11'",
+]
+dynamic = ["version"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+]
+
+[project.optional-dependencies]
+matrix = ["moriarty[service]", "moriarty[sqs]"]
+
+sqs = ["boto3"]
+service = [
+    "psycopg2-binary",
+    "sqlalchemy[asyncio]",
+    "asyncpg",
+    "uvicorn[standard]",
+    "fastapi",
+    "pluggy",
+    "kubernetes_asyncio",
+    "escapism",
+    "alembic",
+    "jinja2",
+]
+test = [
+    "pytest",
+    "pytest-asyncio",
+    "moriarty[matrix]",
+    "docker",
+    "pytest-cov",
+    "boto3-stubs[sqs]",
+]
+docs = ["Sphinx", "pydata-sphinx-theme", "sphinx-click", "autodoc_pydantic"]
+
+[[project.authors]]
+name = "wh1isper"
+email = "jizhongsheng957@gmail.com"
+
+[project.scripts]
+
+moriarty-matrix = "moriarty.matrix.cli:cli"
+moriarty-operator = "moriarty.matrix.operator_.cli:cli"
+moriarty-connector = "moriarty.matrix.connector.cli:cli"
+moriarty-sidecar = "moriarty.sidecar.cli:cli"
+moriarty-deploy = "moriarty.deploy.cli:cli"
+
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.license]
+text = "BSD 3-Clause License"
+
+[project.urls]
+Source = "https://github.com/wh1isper/moriarty"
+
+[tool.check-manifest]
+ignore = [".*"]
+
+[tool.hatch.version]
+path = "moriarty/__init__.py"
