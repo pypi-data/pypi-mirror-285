@@ -1,0 +1,26 @@
+[package]
+name = "xyz-parse"
+version = "0.1.4"
+edition = "2021"
+authors = ["Julian Popescu <jpopesculian@gmail.com>"]
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/aqora-io/xyz-parse"
+documentation = "https://docs.rs/xyz-parse/"
+repository = "https://github.com/aqora-io/xyz-parse"
+description = "Simple parser for the XYZ file format"
+keywords = ["xyz", "chemistry", "parser", "parse"]
+categories = ["parsing"]
+
+[lib]
+path = "src/lib.rs"
+name = "xyz_parse"
+crate-type = ["cdylib"]
+
+[features]
+default = []
+pyo3-lib = ["pyo3", "pyo3/extension-module", "pyo3/abi3-py37"]
+
+[dependencies]
+rust_decimal = { version = "1.35", default-features = false }
+pyo3 = { version = "0.21", features = ["rust_decimal"], optional = true }
