@@ -1,0 +1,31 @@
+Metadata-Version: 2.3
+Name: xyz-parse
+Version: 0.1.4
+Classifier: Programming Language :: Rust
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Summary: Simple parser for the XYZ file format
+Keywords: xyz,chemistry,parser,parse
+Home-Page: https://github.com/aqora-io/xyz-parse
+Author: Julian Popescu <jpopesculian@gmail.com>
+Author-email: Julian Popescu <jpopesculian@gmail.com>
+License: MIT OR Apache-2.0
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Source Code, https://github.com/aqora-io/xyz-parse
+
+# xyz-parse
+
+A parser for the [XYZ file format](https://en.wikipedia.org/wiki/XYZ_file_format)
+
+The formatting of the .xyz file format is as follows:
+
+```rust
+<number of atoms>
+comment line
+<element> <X> <Y> <Z>
+...
+```
+
+Currently the parser does not support extended XYZ format, but may do so in the future
+
