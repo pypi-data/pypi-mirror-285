@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Command Line Test Program",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/psc_datalogger/testprog.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "GUI",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "psc_datalogger",
+            "args": [
+                "--log",
+                "DEBUG"
+            ]
+        },
+    ]
+}
