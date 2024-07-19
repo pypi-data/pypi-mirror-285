@@ -1,0 +1,14 @@
+digraph "graph" {
+	"Start 1" [label=<<table cellspacing="0" border="0" cellborder="0"><tr><td><img src="/home/dvdxnss/PycharmProjects/flex-toolbox/flex-icons/start.png" /></td><td> Start 1</td></tr></table>> fillcolor=LightGreen shape=box style=filled]
+	"End 1" [label=<<table cellspacing="0" border="0" cellborder="0"><tr><td><img src="/home/dvdxnss/PycharmProjects/flex-toolbox/flex-icons/end.png" /></td><td> End 1</td></tr></table>> fillcolor=LightCoral shape=box style=filled]
+	"Check If Sha1 is in S3 Tags" [label=<<table cellspacing="0" border="0" cellborder="0"><tr><td><img src="/home/dvdxnss/PycharmProjects/flex-toolbox/flex-icons/decision.png" /></td><td> check-asset-sha1-s3-tag-exists</td></tr></table>> fillcolor=GhostWhite shape=box style=filled]
+	"Set Asset SHA1 from S3 Tags" [label=<<table cellspacing="0" border="0" cellborder="0"><tr><td><img src="/home/dvdxnss/PycharmProjects/flex-toolbox/flex-icons/script.png" /></td><td> set-asset-sha1-from-asset-tag</td></tr></table>> fillcolor=GhostWhite shape=box style=filled]
+	"Compute Asset SHA1" [label=<<table cellspacing="0" border="0" cellborder="0"><tr><td><img src="/home/dvdxnss/PycharmProjects/flex-toolbox/flex-icons/checksum.png" /></td><td> compute-asset-sha1</td></tr></table>> fillcolor=GhostWhite shape=box style=filled]
+	"Set Asset SHA1 from FFP" [label=<<table cellspacing="0" border="0" cellborder="0"><tr><td><img src="/home/dvdxnss/PycharmProjects/flex-toolbox/flex-icons/script.png" /></td><td> set-asset-sha1-from-filesHashInfo</td></tr></table>> fillcolor=GhostWhite shape=box style=filled]
+	"Start 1" -> "Check If Sha1 is in S3 Tags"
+	"Check If Sha1 is in S3 Tags" -> "Set Asset SHA1 from S3 Tags" [label=TRUE]
+	"Check If Sha1 is in S3 Tags" -> "Compute Asset SHA1" [label=FALSE]
+	"Set Asset SHA1 from S3 Tags" -> "End 1"
+	"Compute Asset SHA1" -> "Set Asset SHA1 from FFP"
+	"Set Asset SHA1 from FFP" -> "End 1"
+}

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=1.0.0", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ftbx"
+description = "Tool to facilitate and accelerate Flex operations. "
+authors = [
+  {name="David NAISSE"},
+  {email="dnaisse@dalet.com"}
+]
+maintainers = [
+  {name="David NAISSE"}, 
+  {email="dnaisse@dalet.com"}
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+dynamic = ["dependencies", "version"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}
+
+[project.urls]
+Homepage = "https://pypi.org/project/ftbx/"
+Repository = "https://bitbucket.org/ooyalaflex/flex-toolbox/src/master/"
+
+[tool.setuptools_scm]
+version_file = "version.py"
+local_scheme = "no-local-version"
+
+[tool.setuptools]
+packages = ["ftbx", "src"]
+
+[tool.setuptools.package-dir]
+ftbx = "."
+src = "src"
+
+[project.scripts]
+ftbx = "ftbx.ftbx:main"

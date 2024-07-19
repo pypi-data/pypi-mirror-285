@@ -1,0 +1,338 @@
+{
+  "name": "Get Or Compute Asset Checksum",
+  "description": "This workflow handles two scenarios:\n- one of computed-sha1/sha1 s3 tags exists for the asset -> get and set asset sha1\n- no s3 sha1 tag exists for the asset -> compute sha1 (FFP)",
+  "version": 1,
+  "width": 1146,
+  "height": 740,
+  "nodes": [
+    {
+      "id": 7963,
+      "name": "Start 1",
+      "path": "/Start 1",
+      "type": "START",
+      "visited": true,
+      "layout": {
+        "width": 150,
+        "height": 38,
+        "x": 712,
+        "y": 262
+      }
+    },
+    {
+      "id": 7964,
+      "name": "End 1",
+      "path": "/End 1",
+      "type": "END",
+      "visited": false,
+      "layout": {
+        "width": 150,
+        "height": 38,
+        "x": 720,
+        "y": 702
+      }
+    },
+    {
+      "id": 7965,
+      "name": "Check If Sha1 is in S3 Tags",
+      "path": "/Check If Sha1 is in S3 Tags",
+      "type": "ACTION",
+      "action": {
+        "id": 3591577,
+        "uuid": "171432d8-020f-419b-97d1-eff06a53d690",
+        "name": "check-asset-sha1-s3-tag-exists",
+        "displayName": "check-asset-sha1-s3-tag-exists",
+        "href": "https://vault.stg.archive.warnerbros.com/api/actions/3591577",
+        "type": "Decision",
+        "pluginClass": "tv.nativ.mio.plugins.actions.jef.JEFActionProxyCommand",
+        "runRuleExpression": "",
+        "icons": {
+          "small": "https://vault.stg.archive.warnerbros.com:443/images/icons/small/decision.png",
+          "normal": "https://vault.stg.archive.warnerbros.com:443/images/icons/normal/decision.png",
+          "medium": "https://vault.stg.archive.warnerbros.com:443/images/icons/medium/decision.png",
+          "large": "https://vault.stg.archive.warnerbros.com:443/images/icons/giant/decision.png"
+        },
+        "accountId": 305,
+        "actionType": {
+          "id": 35,
+          "name": "decision",
+          "displayName": "Decision",
+          "href": "https://vault.stg.archive.warnerbros.com/api/actionTypes/35",
+          "category": "Workflow",
+          "supportsWorkflow": true,
+          "supportsManualLaunch": false,
+          "supportsGroupExecution": true,
+          "supportsGroupMemberExecution": false,
+          "supportsReferenceName": false,
+          "iconName": "decision",
+          "runRuleExpression": null,
+          "supportsRedo": false,
+          "supportsUndo": false
+        }
+      },
+      "layout": {
+        "width": 203,
+        "height": 38,
+        "x": 685,
+        "y": 357
+      }
+    },
+    {
+      "id": 7966,
+      "name": "Set Asset SHA1 from S3 Tags",
+      "path": "/Set Asset SHA1 from S3 Tags",
+      "type": "ACTION",
+      "action": {
+        "id": 3591578,
+        "uuid": "0558986a-958f-423a-9ffb-0c95d25572ea",
+        "name": "set-asset-sha1-from-asset-tag",
+        "displayName": "set-asset-sha1-from-asset-tag",
+        "href": "https://vault.stg.archive.warnerbros.com/api/actions/3591578",
+        "type": "Script",
+        "pluginClass": "tv.nativ.mio.plugins.actions.script.GroovyScriptCommand",
+        "runRuleExpression": "",
+        "icons": {
+          "small": "https://vault.stg.archive.warnerbros.com:443/images/icons/small/script.png",
+          "normal": "https://vault.stg.archive.warnerbros.com:443/images/icons/normal/script.png",
+          "medium": "https://vault.stg.archive.warnerbros.com:443/images/icons/medium/script.png",
+          "large": "https://vault.stg.archive.warnerbros.com:443/images/icons/giant/script.png"
+        },
+        "accountId": 305,
+        "actionType": {
+          "id": 42,
+          "name": "script",
+          "displayName": "Script",
+          "href": "https://vault.stg.archive.warnerbros.com/api/actionTypes/42",
+          "category": "Workflow",
+          "supportsWorkflow": true,
+          "supportsManualLaunch": false,
+          "supportsGroupExecution": true,
+          "supportsGroupMemberExecution": false,
+          "supportsReferenceName": false,
+          "iconName": "script",
+          "runRuleExpression": "#{mioObject.entity instanceof T(tv.nativ.mio.enterprise.asset.MioAsset) && (!mioObject.entity.group && (!mioObject.entity.archived || mioObject.entity.restored || mioObject.entity.allowActionOnArchived)) || mioObject.entity.group}",
+          "supportsRedo": false,
+          "supportsUndo": false
+        }
+      },
+      "layout": {
+        "width": 219,
+        "height": 38,
+        "x": 357,
+        "y": 481
+      }
+    },
+    {
+      "id": 7967,
+      "name": "Compute Asset SHA1",
+      "path": "/Compute Asset SHA1",
+      "type": "ACTION",
+      "action": {
+        "id": 3591580,
+        "uuid": "58f4cb34-3a55-4962-8029-20874cfa65b8",
+        "name": "compute-asset-sha1",
+        "displayName": "compute-asset-sha1",
+        "href": "https://vault.stg.archive.warnerbros.com/api/actions/3591580",
+        "type": "Checksum",
+        "pluginClass": "tv.nativ.mio.plugins.actions.jef.JEFActionProxyCommand",
+        "runRuleExpression": "",
+        "icons": {
+          "small": "https://vault.stg.archive.warnerbros.com:443/images/icons/small/launch.png",
+          "normal": "https://vault.stg.archive.warnerbros.com:443/images/icons/normal/launch.png",
+          "medium": "https://vault.stg.archive.warnerbros.com:443/images/icons/medium/launch.png",
+          "large": "https://vault.stg.archive.warnerbros.com:443/images/icons/giant/launch.png"
+        },
+        "accountId": 305,
+        "actionType": {
+          "id": 57,
+          "name": "checksum",
+          "displayName": "Checksum",
+          "href": "https://vault.stg.archive.warnerbros.com/api/actionTypes/57",
+          "category": "Process",
+          "supportsWorkflow": true,
+          "supportsManualLaunch": true,
+          "supportsGroupExecution": false,
+          "supportsGroupMemberExecution": false,
+          "supportsReferenceName": false,
+          "iconName": "launch",
+          "runRuleExpression": "#{mioObject.entity instanceof T(tv.nativ.mio.enterprise.asset.MioAsset) && !mioObject.deleted && !mioObject.entity.group && !mioObject.entity.placeHolder && (!mioObject.entity.archived || mioObject.entity.restored)}",
+          "supportsRedo": false,
+          "supportsUndo": false
+        }
+      },
+      "layout": {
+        "width": 168,
+        "height": 38,
+        "x": 957,
+        "y": 480
+      }
+    },
+    {
+      "id": 7968,
+      "name": "Set Asset SHA1 from FFP",
+      "path": "/Set Asset SHA1 from FFP",
+      "type": "ACTION",
+      "action": {
+        "id": 3591579,
+        "uuid": "5f901477-e0ce-4881-b49a-372ffc834ef1",
+        "name": "set-asset-sha1-from-filesHashInfo",
+        "displayName": "set-asset-sha1-from-filesHashInfo",
+        "href": "https://vault.stg.archive.warnerbros.com/api/actions/3591579",
+        "type": "Script",
+        "pluginClass": "tv.nativ.mio.plugins.actions.jef.JEFActionProxyCommand",
+        "runRuleExpression": "",
+        "icons": {
+          "small": "https://vault.stg.archive.warnerbros.com:443/images/icons/small/script.png",
+          "normal": "https://vault.stg.archive.warnerbros.com:443/images/icons/normal/script.png",
+          "medium": "https://vault.stg.archive.warnerbros.com:443/images/icons/medium/script.png",
+          "large": "https://vault.stg.archive.warnerbros.com:443/images/icons/giant/script.png"
+        },
+        "accountId": 305,
+        "actionType": {
+          "id": 42,
+          "name": "script",
+          "displayName": "Script",
+          "href": "https://vault.stg.archive.warnerbros.com/api/actionTypes/42",
+          "category": "Workflow",
+          "supportsWorkflow": true,
+          "supportsManualLaunch": false,
+          "supportsGroupExecution": true,
+          "supportsGroupMemberExecution": false,
+          "supportsReferenceName": false,
+          "iconName": "script",
+          "runRuleExpression": "#{mioObject.entity instanceof T(tv.nativ.mio.enterprise.asset.MioAsset) && (!mioObject.entity.group && (!mioObject.entity.archived || mioObject.entity.restored || mioObject.entity.allowActionOnArchived)) || mioObject.entity.group}",
+          "supportsRedo": false,
+          "supportsUndo": false
+        }
+      },
+      "layout": {
+        "width": 203,
+        "height": 38,
+        "x": 943,
+        "y": 590
+      }
+    }
+  ],
+  "transitions": [
+    {
+      "id": 9137,
+      "name": null,
+      "description": null,
+      "from": {
+        "id": 7963,
+        "name": "Start 1",
+        "path": "/Start 1"
+      },
+      "to": {
+        "id": 7965,
+        "name": "Check If Sha1 is in S3 Tags",
+        "path": "/Check If Sha1 is in S3 Tags"
+      },
+      "layout": {
+        "labelX": null,
+        "labelY": null,
+        "bendPoints": []
+      }
+    },
+    {
+      "id": 9138,
+      "name": "TRUE",
+      "description": null,
+      "from": {
+        "id": 7965,
+        "name": "Check If Sha1 is in S3 Tags",
+        "path": "/Check If Sha1 is in S3 Tags"
+      },
+      "to": {
+        "id": 7966,
+        "name": "Set Asset SHA1 from S3 Tags",
+        "path": "/Set Asset SHA1 from S3 Tags"
+      },
+      "layout": {
+        "labelX": null,
+        "labelY": null,
+        "bendPoints": []
+      }
+    },
+    {
+      "id": 9139,
+      "name": "FALSE",
+      "description": null,
+      "from": {
+        "id": 7965,
+        "name": "Check If Sha1 is in S3 Tags",
+        "path": "/Check If Sha1 is in S3 Tags"
+      },
+      "to": {
+        "id": 7967,
+        "name": "Compute Asset SHA1",
+        "path": "/Compute Asset SHA1"
+      },
+      "layout": {
+        "labelX": null,
+        "labelY": null,
+        "bendPoints": []
+      }
+    },
+    {
+      "id": 9140,
+      "name": null,
+      "description": null,
+      "from": {
+        "id": 7966,
+        "name": "Set Asset SHA1 from S3 Tags",
+        "path": "/Set Asset SHA1 from S3 Tags"
+      },
+      "to": {
+        "id": 7964,
+        "name": "End 1",
+        "path": "/End 1"
+      },
+      "layout": {
+        "labelX": null,
+        "labelY": null,
+        "bendPoints": []
+      }
+    },
+    {
+      "id": 9141,
+      "name": null,
+      "description": null,
+      "from": {
+        "id": 7967,
+        "name": "Compute Asset SHA1",
+        "path": "/Compute Asset SHA1"
+      },
+      "to": {
+        "id": 7968,
+        "name": "Set Asset SHA1 from FFP",
+        "path": "/Set Asset SHA1 from FFP"
+      },
+      "layout": {
+        "labelX": null,
+        "labelY": null,
+        "bendPoints": []
+      }
+    },
+    {
+      "id": 9142,
+      "name": null,
+      "description": null,
+      "from": {
+        "id": 7968,
+        "name": "Set Asset SHA1 from FFP",
+        "path": "/Set Asset SHA1 from FFP"
+      },
+      "to": {
+        "id": 7964,
+        "name": "End 1",
+        "path": "/End 1"
+      },
+      "layout": {
+        "labelX": null,
+        "labelY": null,
+        "bendPoints": []
+      }
+    }
+  ],
+  "image": "/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAIBAQIBAQICAgICAgICAwUDAwMDAwYEBAMFBwYHBwcG\r\nBwcICQsJCAgKCAcHCg0KCgsMDAwMBwkODw0MDgsMDAz/2wBDAQICAgMDAwYDAwYMCAcIDAwMDAwM\r\nDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAz/wAARCAEsASwDASIA\r\nAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA\r\nAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3\r\nODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm\r\np6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA\r\nAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx\r\nBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK\r\nU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3\r\nuLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9/KKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA\r\nooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi\r\niigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA\r\nooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi\r\niigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA\r\nooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi\r\niigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA\r\nooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi\r\niigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA\r\nooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi\r\niigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigA\r\nooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACi\r\niigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKK\r\nKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoooo\r\nAKKKKACiiigAooooAKKKKAP/"
+}
