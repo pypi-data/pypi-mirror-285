@@ -1,0 +1,156 @@
+Metadata-Version: 2.1
+Name: eta-utility
+Version: 3.2.1
+Summary: A framework for researching energy optimization of factory operations
+Home-page: https://www.ptw.tu-darmstadt.de
+License: BSD-2-Clause
+Keywords: connectors,servers,simulators,industrial energy optimization,rolling horizon optimization
+Author: Technical University of Darmstadt, Institute for Production Management, Technology and Machine Tools (PTW).
+Author-email: info@ptw.tu-darmstadt.de
+Requires-Python: >=3.9,<3.12
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Manufacturing
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development :: Libraries
+Provides-Extra: develop
+Provides-Extra: eta-x
+Provides-Extra: examples
+Requires-Dist: asyncua-fork-for-eta-utility (==1.0.7)
+Requires-Dist: attrs (>=23.1.0,<24.0.0)
+Requires-Dist: black (>=23.7,<23.8) ; extra == "develop"
+Requires-Dist: blacken_docs (>=1.16,<1.17) ; extra == "develop"
+Requires-Dist: cryptography (>=41.0.4,<42.0.0)
+Requires-Dist: fmpy (>=0.3.5,<0.4.0)
+Requires-Dist: gymnasium (==0.29.1) ; extra == "develop" or extra == "eta-x"
+Requires-Dist: keyboard (>=0.13.5,<0.14.0) ; extra == "develop" or extra == "examples"
+Requires-Dist: lxml (>=4.9.3,<5.0.0)
+Requires-Dist: matplotlib (>=3.7.0,<3.8.0) ; extra == "develop" or extra == "examples"
+Requires-Dist: mypy (>=1.9,<1.10) ; extra == "develop"
+Requires-Dist: numpy (>=1.26.0,<1.27.0)
+Requires-Dist: onnxruntime (>=1.16.0,<2.0.0) ; extra == "develop" or extra == "examples"
+Requires-Dist: openpyxl (>=3.1.2,<4.0.0) ; extra == "develop"
+Requires-Dist: pandas (>=2.2.2,<2.3.0)
+Requires-Dist: pre-commit (>=3.4.0,<4.0.0) ; extra == "develop"
+Requires-Dist: pygame (>=2.5.2,<3.0.0) ; extra == "develop" or extra == "examples"
+Requires-Dist: pyglet (<2) ; extra == "develop" or extra == "examples"
+Requires-Dist: pymodbustcp (==0.2.0)
+Requires-Dist: pyomo (>=6.6.2,<6.7.0) ; extra == "develop" or extra == "eta-x"
+Requires-Dist: pytest (>=7.4.2,<8.0.0) ; extra == "develop"
+Requires-Dist: pytest-cov (>=4.1.0,<5.0.0) ; extra == "develop"
+Requires-Dist: python-dateutil (>=2.8.2,<3.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: requests-cache (>=1.2.0,<2.0.0)
+Requires-Dist: ruff (>=0.4.4,<0.5.0) ; extra == "develop"
+Requires-Dist: sphinx (>=7.1.2,<8.0.0) ; extra == "develop"
+Requires-Dist: sphinx-copybutton (>=0.5.2,<0.6.0) ; extra == "develop"
+Requires-Dist: sphinx-rtd-theme (>=1.3.0,<2.0.0) ; extra == "develop"
+Requires-Dist: stable-baselines3 (==2.2.1) ; extra == "develop" or extra == "eta-x"
+Requires-Dist: tensorboard (>=2.14.0,<2.15.0) ; extra == "develop" or extra == "eta-x"
+Requires-Dist: torch (==2.0.0) ; extra == "develop" or extra == "eta-x"
+Requires-Dist: types-python-dateutil (>=2.8.19.14,<3.0.0.0) ; extra == "develop"
+Requires-Dist: types-pytz (>=2024.1.0.20240203,<2025.0.0.0) ; extra == "develop"
+Requires-Dist: types-requests (>=2.31.0.4,<3.0.0.0) ; extra == "develop"
+Requires-Dist: wetterdienst (>=0.88.0,<0.89.0)
+Requires-Dist: xlrd (>=2.0.1,<3.0.0)
+Project-URL: Documentation, https://eta-utility.readthedocs.io/
+Project-URL: Issues, https://git.ptw.maschinenbau.tu-darmstadt.de/eta-fabrik/public/eta-utility/-/issues
+Project-URL: Repository, https://github.com/PTW-TUDa/eta_utility/
+Description-Content-Type: text/x-rst
+
+ETA Utility Functions
+======================
+
+While there are many tools which are useful in the area of energy optimized factory operations, at the
+`ETA-Fabrik <https://www.ptw.tu-darmstadt.de>`_ at Technical University of Darmstadt we have recognized a lack of
+comprehensive frameworks which combine functionality for optimization, simulation and communication with
+devices in the factory.
+
+Therefore, we developed the *eta_utility* framework, which provides a standardized interface for the development
+of digital twins of factories or machines in a factory. The framework is based on the Gymnasium environment
+and follows a rolling horizon optimization approach. It provides standardized connectors for multiple
+communication protocols, including OPC UA and Modbus TCP. These facilities can be utilized to easily implement
+rolling horizon optimizations for factory systems and to directly control devices in the factory with the
+optimization results.
+
+Full Documentation can be found on the
+`Documentation Page <https://eta-utility.readthedocs.io/>`_.
+
+You can find the `source code on github <https://github.com/PTW-TUDa/eta_utility/>`_. If you would like to contribute, please
+check our `working repository <https://git.ptw.maschinenbau.tu-darmstadt.de/eta-fabrik/public/eta-utility/>`_.
+
+
+.. warning::
+    This is beta software. APIs and functionality might change without prior notice. Please fix the version you
+    are using in your requirements to ensure your software will not be broken by changes in *eta_utility*.
+
+The package *eta_utility* consists of five main modules and some additional functionality:
+
+- *eta_x* is the rolling horizon optimization module which combines the functionality of the
+  other modules. It is based on the *gymnasium* framework and utilizes
+  algorithms and functions from the *stable_baselines3* package. *eta_x* also contains extended base classes for
+  environments and additional agents (or algorithms).
+- The *connectors* module provides a standardized way to connect to machines and devices in a
+  factory or other factory systems (such as energy management systems). The **connectors** can also
+  handle subscriptions, for example to regularly store values in a database.
+- The *servers* module can be used to easily instantiate servers, for example to publish optimization
+  results.
+- *simulators* are interfaces based on the *fmpy* package which provide a way to simulate FMU
+  (Functional Mockup Unit) models.
+  The  *simulators* can be used to perform quick complete simulations or to step through simulation
+  models, as would be the case in rolling horizons optimization.
+- *timeseries* is an interface based on the *pandas* package to load and manipulate timeseries data
+  from CSV files. It can for example rename columns, resample data in more complex ways such as
+  multiple different resampling intervals or select random time slices from data. The *scenario_from_csv* function combines much of this functionality.
+- Other functionality includes some general utilities which are available on the top level of the
+  package.
+
+Some particularities
+----------------------
+
+If you want to have logging output from eta utility, call:
+
+.. code-block::
+
+    from eta_utility import get_logger
+    get_logger()
+
+**eta_utility** uses dataframes to pass timeseries data and the dataframes are ensured to
+contain timezone information where sensible.
+
+Citing this project
+--------------------
+
+Please cite this project using our publication:
+
+.. code-block::
+
+    Grosch, B., Ranzau, H., Dietrich, B., Kohne, T., Fuhrländer-Völker, D., Sossenheimer, J., Lindner, M., Weigold, M.
+    A framework for researching energy optimization of factory operations.
+    Energy Inform 5 (Suppl 1), 29 (2022). https://doi.org/10.1186/s42162-022-00207-6
+
+We would like to thank the many contributors who developed functionality for the package, helped with
+documentation or provided insights which helped to create the framework architecture.
+
+- *Niklas Panten* for the first implementation of the rolling horizon optimization now available in
+  *eta_x*,
+- *Nina Strobel* for the first implementation of the connectors,
+- *Thomas Weber* for contributions to the rolling horizon optimization with MPC algorithms,
+- *Guilherme Fernandes*, *Tobias Koch*, *Tobias Lademann*, *Saahil Nayyer*, *Magdalena Patyna*, *Jerome Stock*,
+- and all others who made small and large contributions.
+
+Contributions
+--------------------
+
+If you would like to contribute, please create an issue in the repository to discuss you suggestions.
+Once the general idea has been agreed upon, you can create a merge request from the issue and
+implement your changes there.
+
