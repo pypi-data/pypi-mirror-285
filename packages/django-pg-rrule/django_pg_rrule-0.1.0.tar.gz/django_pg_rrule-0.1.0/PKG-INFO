@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: django-pg-rrule
+Version: 0.1.0
+Summary: 
+License: BSD-3-Clause
+Author: Jonathan Weth
+Author-email: dev@jonathanweth.de
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: Django (>4.0)
+Requires-Dist: django-cte (>=1.3.2,<2.0.0)
+Description-Content-Type: text/markdown
+
+# django-pg-rrule
+
+django-pg-rrule provides Django support for the PostgreSQL extension
+pg_rrule in the form of a reusable mixin. This way, one can store and
+query recurrences as specified in RFC 5545.
+
+## Usage
+
+1. Activate extension in PostgreSQL
+```bash
+$ sudo -u postgres psql <your_database>
+CREATE EXTENSION pg_rrule;
+```
+
+## License
+
+This project is licensed under the BSD-3-Clause.
+
+(C) 2024 by Jonathan Weth <dev@jonathanweth.de>
+(C) 2024 by Dominik George <dominik.george@teckids.org>
+
