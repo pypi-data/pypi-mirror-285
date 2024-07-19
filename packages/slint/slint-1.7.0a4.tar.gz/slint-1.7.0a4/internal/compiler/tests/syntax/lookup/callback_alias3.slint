@@ -1,0 +1,37 @@
+// Copyright © SixtyFPS GmbH <info@slint.dev>
+// SPDX-License-Identifier: GPL-3.0-only OR LicenseRef-Slint-Royalty-free-2.0 OR LicenseRef-Slint-Software-3.0
+
+Sub := Rectangle {
+    callback compute(int) -> int;
+    callback compute_alias <=> compute;
+}
+
+export Xxx := Rectangle {
+
+    foo := Rectangle {
+        callback hello(int) -> int;
+    }
+
+    callback colr <=> foo.background;
+//  ^error{Binding to callback 'colr' must bind to another callback}
+    property propr <=> foo.hello;
+//  ^error{Could not infer type of property 'propr'}
+
+    callback loop1 <=> loop2;
+    callback loop3 <=> loop1;
+//                     ^error{Unknown unqualified identifier 'loop1'}
+//  ^^error{Binding to callback 'loop3' must bind to another callback}
+    callback loop2 <=> loop3;
+
+    Sub {
+        compute_alias(a, b, c) => {
+            debug(b); // FIXME: one should actually check that the connection has the right amount of arguments
+//                ^error{Unknown unqualified identifier 'b'}
+            return "hello";
+//          ^error{Cannot convert string to int}
+        }
+
+        callback x <=> compute_alias;
+//               ^error{Cannot declare callback 'x' when a property with the same name exists}
+    }
+}
