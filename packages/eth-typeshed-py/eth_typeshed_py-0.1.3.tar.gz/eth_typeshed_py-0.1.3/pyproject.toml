@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68", "setuptools_scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eth-typeshed-py"
+requires-python = ">=3.10"
+dynamic = ["version"]
+dependencies = [
+    "eth_rpc_py",
+]
+
+# Enables the usage of setuptools_scm
+[tool.setuptools_scm]
+version_scheme = "guess-next-dev"
+local_scheme = "no-local-version"
+
+[project.optional-dependencies]
+test = [
+    "pytest==7.4.1",
+    "pytest-cov==4.1.0",
+    "coverage[toml]==7.3.1",
+]
+build = [
+    "build[virtualenv]==1.0.3",
+]
+dev = [
+    "tox",
+    "eth-typeshed-py[lint]",
+    "eth-typeshed-py[test]",
+    "eth-typeshed-py[build]",
+]
+
+[tool.pytest.ini_options]
+python_paths = ["src"]
