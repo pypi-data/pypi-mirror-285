@@ -1,0 +1,22 @@
+---
+probes:
+# через конфиг git'а можно выкачать исходники, так же в блобах могут быть случайно добавленные креды
+- condition: status_code == 200
+  match: \[branch "[^"]+"\]
+  name: git config
+  path: /.git/config
+# если есть листинг каталогов, то там можно поискать дампы
+- condition: status_code == 200 && content_type == 'text/html' && title =~ '^Index of /'
+  name: server directory listing
+  path: /{wp-content,{backup,dump}{,s}}/
+# если для деплоя используется докер, то в переменных окружения могут быть доступы к базам и тп
+- condition: status_code == 200 && content_type == 'text/html' && title == 'phpinfo()'
+  name: phpinfo
+  path: /{php,}info.php
+# часто бекапы сайта валяются прямо в корне
+- condition: status_code == 200
+  name: site backup
+  # если есть теги, то это точно не архив
+  not_match: (?i)<html
+  path: /{site,www,backup}.{zip,tar.{g,x}z}
+  save: true

@@ -1,0 +1,17 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "debug httpscan",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "src/httpscan.py",
+      "console": "integratedTerminal",
+      // # php -S 127.0.0.1:8000
+      "args": ["-u", "www.google.com", "korndev.com", "-xh", "ignore_hosts.txt", "-w", "2", "--proxy", "socks5://localhost:1080", "-vvv"]
+    }
+  ]
+}
