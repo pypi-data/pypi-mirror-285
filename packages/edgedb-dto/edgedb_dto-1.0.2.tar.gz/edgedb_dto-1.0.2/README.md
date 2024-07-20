@@ -1,0 +1,210 @@
+<div align="center">
+  <h1>Edgedb DTO</h1>
+  <a href="https://pypi.org/project/edgedb-dto/" rel="nofollow">
+    <img src="https://img.shields.io/pypi/pyversions/edgedb-dto" alt="Downloads">
+  </a>
+  <a href="https://pypi.org/project/edgedb-dto/" rel="nofollow">
+    <img src="https://img.shields.io/pypi/v/edgedb-dto" alt="PyPI">
+  </a>
+  <a href="https://gitlab.com/linguacustodia/edgedb-dto/-/blob/main/LICENSE">
+    <img alt="license" src="https://img.shields.io/badge/license-MIT-blue" />
+  </a>
+  <a href="https://pypi.org/project/edgedb-dto/" rel="nofollow">
+    <img src="https://img.shields.io/pypi/dm/edgedb-dto" alt="Downloads">
+  </a>
+  <a href="https://gitlab.com/linguacustodia/edgedb-dto" rel="nofollow">
+    <img src="https://img.shields.io/gitlab/stars/linguacustodia/edgedb-dto" alt="Stars">
+  </a>
+  <br />
+  <br />
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+    <a href="https://gitlab.com/linguacustodia/edgedb-dto/-/tree/main/examples/simple?ref_type=heads">Example : Simple</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+    <a href="https://gitlab.com/linguacustodia/edgedb-dto/-/tree/main/examples/linked_dtos?ref_type=heads">Example : Linked DTOS</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+</div>
+  
+
+Introduction
+------------
+
+EdgeDB DTO is a CLI tool for Python that generates **pydantic** dataclasses for **edgeql** queries (EdgeDB query language).
+
+Table of Contents
+-----------------
+
+*   [Python Code](#python-code)
+*   [Features](#features)
+*   [Installation](#installation)
+*   [Example pipeline](#example-pipeline)
+*   [CLI Options](#cli-options)
+*   [Dependencies](#dependencies)
+*   [Limitations](#limitations)
+*   [Contributors](#contributors)
+*   [License](#license)
+
+Python Code
+----------------
+
+```python
+# main.py
+from simple.queries.dto import InsertPerson
+from edgedb import create_client
+
+CLIENT = create_client()
+
+def insert_three_people():
+    rob = InsertPerson(name="Rob")
+    alice = InsertPerson(name="Alice", best_friend=rob)
+    tom = InsertPerson(name="Tom", best_friend=alice)
+    tom.run(executor=CLIENT, transaction=True)
+
+insert_three_people()
+```
+
+Features
+--------
+
+*   **Mix and Match multiple Classes**: Missed ORMs while using EdgeDB in Python? Look no further! edgedb-dto supports embedding DTOs in each other.
+*   **Easy, intuitive and in 3 steps**:
+    *   Write .edgeql queries.
+    *   run `edgedb-py && edgedb-dto` in the terminal
+    *   Import generated classes
+*   **Validation using pydantic**: `edgedb-dto` generates pydantic dataclasses that you can modify as you wish to validate your input data.
+*   **Asynchronous and Synchronous Support**: Supports both asynchronous and synchronous database calls.
+
+Installation
+------------
+
+To install EdgeDB DTO from PyPI, run:
+
+```sh
+pip install edgedb-dto
+```
+
+Example Pipeline
+---------------------------
+
+### Define your database
+#### Project Tree
+
+![Project Tree](https://i.imgur.com/sPhGst5.png)
+
+#### Schema
+
+We have the following simple schema:
+
+```esdl
+# default.esdl
+module default {
+    type Person{
+        required name: str{
+            constraint exclusive;
+        }
+        best_friend: Person;
+    }
+}
+```
+
+#### EdgeQL Query
+
+We also have the following simple .edgeql query:
+
+```edgeql
+# insert_person.edgeql
+insert Person{
+    name := $name,
+    best_friend := $best_friend
+} unless conflict on .name else (
+    select Person filter .name = $name
+)
+```
+
+### Generate DTO Classes
+
+Let's do some **Magic ✨**
+
+```bash
+edgedb-py --no-skip-pydantic --target=blocking && edgedb-dto
+```
+**PS :** To do async calls just remove --target option (run `edgedb-py --help` for more context)
+
+#### New Project Tree
+
+![New Project Tree](https://i.imgur.com/cmLVsif.jpeg)
+
+#### Generated DTO Class
+
+```python
+# insert_person_edgeql_dto.py
+from ..insert_person_edgeql import InsertPersonResult, insert_person
+
+@dataclass
+class InsertPerson(DTO):
+    name: str
+    best_friend: DTO | uuid.UUID | None = None
+
+    def _query(self, **kwargs):
+        return insert_person(**kwargs)
+
+    def run(self, executor: Client, transaction: bool = False
+) -> InsertPersonResult | None:
+        return self._run(executor, transaction)
+```
+
+### Using our DTO Classes
+
+Now let's populate our database with ease:
+
+```python
+# main.py
+from simple.queries.dto import InsertPerson
+from edgedb import create_client
+
+CLIENT = create_client()
+
+def insert_three_people():
+    rob = InsertPerson(name="Rob")
+    alice = InsertPerson(name="Alice", best_friend=rob)
+    tom = InsertPerson(name="Tom", best_friend=alice)
+    tom.run(executor=CLIENT, transaction=True)
+
+insert_three_people()
+```
+
+By calling `run` method on the `tom` DTO class, we managed to insert all of our data into the database in a single **transaction**.
+
+CLI Options
+-----------
+
+*   `--source-directory` (`-s`) \[Optional argument\]: Source directory containing EdgeQL files.  
+Default: Edgedb-DTO will scan for the fiels generated by edgedb-py.
+*   `--output-directory` (`-o`) \[Optional argument\]: Output directory for generated DTO classes.  
+Default: the files will be generated in a folder named `dto` in the parent folder of the EdgeQL Python files.  
+Please note that it's better for type safety to not specify the `output-directory`
+
+Dependencies
+------------
+
+*   `python`: version=^3.11 is required to run this library.
+*   `jinja2`: For templating the DTO classes.
+*   `pydantic`: For data validation and settings management.
+*   `edgedb`: For interacting with the EdgeDB database.
+
+Limitations
+-----------
+
+#### N + 1 Problem
+
+edgedb-dto does not act like a query builder. So the more DTOs you link, the more back and forth calls are made to the database. In the last example, 3 queries to the database are made to complete the transaction.
+
+Contributors
+------------
+
+*   [Mohamed SAHNOUN](https://gitlab.com/mohammed.sahnounn)
+*   [Jean-Gabriel BARTHELEMY](https://gitlab.com/jgcb00)
+
+License
+-------
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

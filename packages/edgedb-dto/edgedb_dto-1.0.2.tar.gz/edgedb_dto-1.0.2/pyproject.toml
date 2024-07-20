@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "edgedb-dto"
+version = "1.0.2"
+description = "Edgedb DTO is a library that generates DTO pydantic dataclasses from edgeql files."
+authors = ["Mohamed Sahnoun <mohammed.sahnounn@gmail.com>", "Jean-Gabriel Barthelemy <j-g.barthelemy@linguacustodia.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.7.3"
+jinja2 = "^3.1.4"
+edgedb = "^1.9.0"
+black = "^24.4.2"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+edgedb-dto = 'edgedb_dto.cli:cli'
