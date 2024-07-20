@@ -1,0 +1,70 @@
+Metadata-Version: 2.1
+Name: pydactim
+Version: 1.0.9
+Summary: A library to post-process MRI data
+Home-page: https://github.com/PierreFayolle/PyDactim
+Author: Pierre Fayolle
+Author-email: fayollepierre86@gmail.com
+License: UNKNOWN
+Project-URL: Documentation, https://pydactim.readthedocs.io/en/latest/
+Project-URL: Source, https://github.com/PierreFayolle/PyDactim
+Project-URL: Download, https://pypi.org/project/PyDactim/#files
+Project-URL: Tracker, https://github.com/PierreFayolle/PyDactim/issues
+Platform: UNKNOWN
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python
+Classifier: Topic :: Scientific/Engineering
+Classifier: Operating System :: Microsoft :: Windows :: Windows 10
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: torchio >=0.18.86
+Requires-Dist: SimpleITK
+Requires-Dist: numpy
+Requires-Dist: nibabel
+Requires-Dist: matplotlib
+Requires-Dist: pydicom >=2.3.1
+Requires-Dist: dicom2nifti
+Requires-Dist: itk-elastix ==0.17.1
+Requires-Dist: dipy >=1.7.0
+Requires-Dist: scikit-image
+Requires-Dist: numba
+Requires-Dist: pyside6
+Requires-Dist: pyqtgraph
+
+# PyDactim
+
+[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![PyPI version](https://img.shields.io/pypi/v/pydactim?label=PyPI%20version&logo=python&logoColor=white)](https://pypi.org/project/pydactim/)
+[![Doc](https://img.shields.io/readthedocs/pydactim?label=Docs&logo=Read%20the%20Docs)](https://pydactim.readthedocs.io/en/latest/)
+[![Doc](https://img.shields.io/badge/GitHub-PyDactim-black?logo=github)](https://github.com/PierreFayolle/PyDactim)
+<!-- [![Open In Collab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/PierreFayolle/PyDactim/blob/master/tests/transformation.ipynb) -->
+
+
+## Description
+
+> **Warning**
+: Currently in development
+
+A MRI preprocessing tool which provides a dozen of functions easy to use made from some of the most popular Python libraries 🚀
+
+It includes :
+  - Transformations : skull stripping, resampling, registration, histogram matching, bias field correction, normalization and so on
+  - Preprocessing : BIDS compatible, preprocess all of your patient data with only two lines of code
+  - Conversion : Dicom to Nifti, Nifti to Dicom
+  - Sorting : an elegant way to organize your Dicom files 
+  - Anonymization : Dicom files can be anonymized according to your own rules
+  - Visualization : 2D and 3D light viewer
+  - Spectroscopy : generation of mask of the MRS voxel/slab
+
+## Installation
+
+Requires at least Python 3.7 or above. This library uses a lot of common libraries in image processing as such as [Pytorch](https://github.com/pytorch/pytorch), [Torchio](https://github.com/fepegar/torchio), [Numpy](https://github.com/numpy/numpy), [Nibabel](https://github.com/nipy/nibabel), [SimpleITK](https://github.com/SimpleITK/SimpleITK), [Matplotlib](https://github.com/matplotlib/matplotlib), [Pydicom](https://github.com/pydicom/pydicom), [Dicom2nifti](https://github.com/icometrix/dicom2nifti) and so more !
+
+Can be quickly installed with pip :
+
+```
+pip install pydactim
+```
+
+
