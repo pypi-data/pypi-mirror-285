@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "tmo-reboot"
+version = "0.2.1"
+description = "A script to reboot the T-Mobile Home Internet 5G Gateways"
+authors = ["Hugo Haas <hugoh@hugoh.net>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/hugoh/tmo-reboot"
+packages = [{ include = "tmo_reboot" }, { include = "tmo_monitor" }]
+
+[tool.poetry.scripts]
+tmo-reboot = "tmo_reboot.command_line:main"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+requests = "^2.32.3"
+
+
+[tool.poetry.group.dev.dependencies]
+python-semantic-release = "^9.8.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.semantic_release]
+version_toml = ["pyproject.toml:tool.poetry.version"]
+branch = "main"
+upload_to_PyPI = true
+upload_to_release = true
+build_command = "pip3 install poetry && poetry build"
