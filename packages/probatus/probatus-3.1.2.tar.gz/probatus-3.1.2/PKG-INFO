@@ -1,0 +1,99 @@
+Metadata-Version: 2.1
+Name: probatus
+Version: 3.1.2
+Summary: Validation of regression & classifiers and data used to develop them
+Author-email: "ING Bank N.V." <reinier.koops@ing.com>
+License: Copyright (c) ING Bank N.V.
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Project-URL: Homepage, https://ing-bank.github.io/probatus/
+Project-URL: Documentation, https://ing-bank.github.io/probatus/api/feature_elimination.html
+Project-URL: Repository, https://github.com/ing-bank/probatus.git
+Project-URL: Changelog, https://github.com/ing-bank/probatus/blob/main/CHANGELOG.md
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: LICENCE
+Requires-Dist: scikit-learn>=0.22.2
+Requires-Dist: pandas>=1.0.0
+Requires-Dist: matplotlib>=3.1.1
+Requires-Dist: joblib>=0.13.2
+Requires-Dist: shap>=0.43.0
+Requires-Dist: numpy<2.0.0,>=1.23.2
+Requires-Dist: numba>=0.57.0
+Requires-Dist: loguru>=0.7.2
+Provides-Extra: dev
+Requires-Dist: black>=19.10b0; extra == "dev"
+Requires-Dist: mypy>=0.770; extra == "dev"
+Requires-Dist: pytest>=6.0.0; extra == "dev"
+Requires-Dist: pytest-cov>=2.10.0; extra == "dev"
+Requires-Dist: pyflakes; extra == "dev"
+Requires-Dist: joblib>=0.13.2; extra == "dev"
+Requires-Dist: jupyter>=1.0.0; extra == "dev"
+Requires-Dist: nbconvert>=6.0.7; extra == "dev"
+Requires-Dist: pre-commit>=2.7.1; extra == "dev"
+Requires-Dist: isort>=5.12.0; extra == "dev"
+Requires-Dist: codespell>=2.2.4; extra == "dev"
+Requires-Dist: ruff>=0.2.2; extra == "dev"
+Requires-Dist: lightgbm>=3.3.0; extra == "dev"
+Requires-Dist: catboost>=1.2; extra == "dev"
+Requires-Dist: xgboost>=1.5.0; extra == "dev"
+Provides-Extra: docs
+Requires-Dist: mkdocs>=1.5.3; extra == "docs"
+Requires-Dist: mkdocs-jupyter>=0.24.3; extra == "docs"
+Requires-Dist: mkdocs-material>=9.5.13; extra == "docs"
+Requires-Dist: mkdocstrings>=0.24.1; extra == "docs"
+Requires-Dist: mkdocstrings-python>=1.8.0; extra == "docs"
+Provides-Extra: all
+Requires-Dist: probatus[dev,docs]; extra == "all"
+
+<img src="https://github.com/ing-bank/probatus/raw/main/docs/img/logo_large.png" width="120" align="right">
+
+[![pytest](https://github.com/ing-bank/probatus/workflows/Development/badge.svg)](https://github.com/ing-bank/probatus/actions?query=workflow%3A%22Development%22)
+[![PyPi Version](https://img.shields.io/pypi/pyversions/probatus)](#)
+[![PyPI](https://img.shields.io/pypi/v/probatus)](#)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/probatus)](#)
+![GitHub contributors](https://img.shields.io/github/contributors/ing-bank/probatus)
+
+# Probatus
+
+## Overview
+
+**Probatus** is a python package that helps validate regression & (multiclass) classification models and the data used to develop them. Main features:
+
+- [probatus.interpret](https://ing-bank.github.io/probatus/api/model_interpret.html) provides shap-based model interpretation tools
+- [probatus.sample_similarity](https://ing-bank.github.io/probatus/api/sample_similarity.html) to compare two datasets using resemblance modelling, f.e. `train` with out-of-time `test`.
+- [probatus.feature_elimination.ShapRFECV](https://ing-bank.github.io/probatus/api/feature_elimination.html) provides cross-validated Recursive Feature Elimination using shap feature importance.
+
+## Installation
+
+```bash
+pip install probatus
+```
+
+## Documentation
+
+Documentation at [ing-bank.github.io/probatus/](https://ing-bank.github.io/probatus/).
+
+You can also check out blog posts about Probatus:
+
+-  [Open-sourcing ShapRFECV — Improved feature selection powered by SHAP.](https://medium.com/ing-blog/open-sourcing-shaprfecv-improved-feature-selection-powered-by-shap-994fe7861560)
+-  [Model Explainability — How to choose the right tool?](https://medium.com/ing-blog/model-explainability-how-to-choose-the-right-tool-6c5eabd1a46a)
+
+## Contributing
+
+To learn more about making a contribution to Probatus, please see [`CONTRIBUTING.md`](CONTRIBUTING.md).

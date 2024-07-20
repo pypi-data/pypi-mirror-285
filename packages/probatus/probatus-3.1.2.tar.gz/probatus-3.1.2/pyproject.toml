@@ -1,0 +1,123 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "probatus"
+version = "3.1.2"
+requires-python= ">=3.9"
+description = "Validation of regression & classifiers and data used to develop them"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [
+    { name = "ING Bank N.V.", email = "reinier.koops@ing.com" }
+]
+license = { file = "LICENCE" }
+classifiers = [
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "scikit-learn>=0.22.2",
+    "pandas>=1.0.0",
+    "matplotlib>=3.1.1",
+    "joblib>=0.13.2",
+    "shap>=0.43.0",
+    "numpy>=1.23.2,<2.0.0",
+    "numba>=0.57.0",
+    "loguru>=0.7.2",
+]
+
+[project.urls]
+Homepage = "https://ing-bank.github.io/probatus/"
+Documentation = "https://ing-bank.github.io/probatus/api/feature_elimination.html"
+Repository = "https://github.com/ing-bank/probatus.git"
+Changelog = "https://github.com/ing-bank/probatus/blob/main/CHANGELOG.md"
+
+[project.optional-dependencies]
+
+
+dev = [
+    "black>=19.10b0",
+    "mypy>=0.770",
+    "pytest>=6.0.0",
+    "pytest-cov>=2.10.0",
+    "pyflakes",
+    "joblib>=0.13.2",
+    "jupyter>=1.0.0",
+    "nbconvert>=6.0.7",
+    "pre-commit>=2.7.1",
+    "isort>=5.12.0",
+    "codespell>=2.2.4",
+    "ruff>=0.2.2",
+    "lightgbm>=3.3.0",
+    "catboost>=1.2",
+    "xgboost>=1.5.0",
+]
+docs = [
+    "mkdocs>=1.5.3",
+    "mkdocs-jupyter>=0.24.3",
+    "mkdocs-material>=9.5.13",
+    "mkdocstrings>=0.24.1",
+    "mkdocstrings-python>=1.8.0",
+]
+
+# Separating these allow for more install flexibility.
+all = ["probatus[dev,docs]"]
+
+[tool.setuptools.packages.find]
+exclude = ["tests", "notebooks", "docs"]
+
+[tool.nbqa.addopts]
+# E402: Ignores imports not at the top of file for IPYNB since this makes copy-pasting easier.
+ruff = ["--fix", "--ignore=E402"]
+isort = ["--profile=black"]
+black = ["--line-length=120"]
+
+[tool.mypy]
+python_version = "3.9"
+ignore_missing_imports = true
+namespace_packages = true
+pretty = true
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["docs", "mkdocs.yml", ".github", "*md", "LICENCE", ".pre-commit-config.yaml", ".gitignore"]
+force-exclude = true
+
+[tool.ruff.lint]
+# D100 requires all Python files (modules) to have a "public" docstring even if all functions within have a docstring.
+# D104 requires __init__ files to have a docstring
+# D202 No blank lines allowed after function docstring
+# D212
+# D200
+# D411 Missing blank line before section
+# D412 No blank lines allowed between a section header and its content
+# D417 Missing argument descriptions in the docstring # Only ignored because of false positve when using multiline args.
+# E203
+# E731 do not assign a lambda expression, use a def
+# W293 blank line contains whitespace
+ignore = ["D100", "D104", "D202", "D212", "D200", "E203", "E731", "W293", "D412", "D417", "D411", "RUF100"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.isort]
+line_length = "120"
+profile = "black"
+filter_files = true
+extend_skip = ["__init__.py", "docs"]
+
+[tool.codespell]
+skip = "**.egg-info*"
+
+[tool.black]
+line-length = 120
