@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+cf_update_submodules() {
+    # Updates all git submodules in case no local changes are found.
+    #
+    # Required environment variables:
+    #   CF_BASE:
+    #       The columnflow base path.
+    #   CF_REPO_BASE:
+    #       The base path of the main analysis repository invoking tasks or scripts.
+
+    # zsh options
+    local shell_is_zsh="$( [ -z "${ZSH_VERSION}" ] && echo "false" || echo "true" )"
+    if ${shell_is_zsh}; then
+        emulate -L bash
+        setopt globdots
+    fi
+
+    # load cf setup helpers
+    CF_SKIP_SETUP="1" source "${CF_BASE}/setup.sh" "" || return "$?"
+
+    # update columnflow submodules
+    if [ -d "${CF_BASE}/.git" ] || [ -f "${CF_BASE}/.git" ]; then
+        for m in $( ls -1q "${CF_BASE}/modules" ); do
+            echo "checking submodule ${m} in \$CF_BASE/modules"
+            cf_init_submodule "${CF_BASE}" "modules/${m}"
+        done
+    fi
+
+    # for updating analysis supmodules, CF_REPO_BASE must be set
+    if [ -d "${CF_REPO_BASE}/.git" ]; then
+        for m in $( ls -1q "${CF_REPO_BASE}/modules" ); do
+            echo "checking submodule ${m} in \$CF_REPO_BASE/modules"
+            cf_init_submodule "${CF_REPO_BASE}" "modules/${m}"
+        done
+    fi
+}
+
+cf_update_submodules "$@"
+
