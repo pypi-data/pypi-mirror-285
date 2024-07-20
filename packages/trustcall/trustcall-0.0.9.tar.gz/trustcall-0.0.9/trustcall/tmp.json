@@ -1,0 +1,143 @@
+{
+  "title": "PatchFunctionParameters",
+  "description": "Respond with all JSONPatch operations required to update the previous function call.\n\nUse to correct all validation errors in non-compliant function calls,\nor to extend or update existing structured data in the presence of new information.",
+  "type": "object",
+  "properties": {
+    "schema_id": {
+      "title": "Schema Id",
+      "description": "The ID of the function you are patching.",
+      "type": "string"
+    },
+    "reasoning": {
+      "title": "Reasoning",
+      "description": "Think step-by-step, listing each validation error and the JSONPatch operation needed to correct it. Cite the fields in the JSONSchema you referenced in developing this plan.",
+      "type": "string"
+    },
+    "patches": {
+      "title": "Patches",
+      "description": "A list of JSONPatch operations to be applied to the previous tool call's response.",
+      "type": "array",
+      "items": { "$ref": "#/definitions/JsonPatch" }
+    }
+  },
+  "required": ["schema_id", "reasoning", "patches"],
+  "definitions": {
+    "JsonPatch": {
+      "title": "JsonPatch",
+      "description": "A JSON Patch document represents an operation to be performed on a JSON document.\n\nNote that the op and path are ALWAYS required. Value is required for ALL operations except 'remove'.\n\nExamples:\n```json\n{\"op\": \"add\", \"path\": \"/a/b/c\", \"patch_value\": 1}\n{\"op\": \"replace\", \"path\": \"/a/b/c\", \"patch_value\": 2}\n{\"op\": \"remove\", \"path\": \"/a/b/c\"}\n```",
+      "type": "object",
+      "properties": {
+        "op": {
+          "title": "Op",
+          "description": "The operation to be performed. Must be one of 'add', 'remove', 'replace'.",
+          "enum": ["add", "remove", "replace"],
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "description": "A JSON Pointer path that references a location within the target document where the operation is performed.",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "description": "The value to be used within the operation. REQUIRED for 'add', 'replace', and 'test' operations.",
+          "anyOf": [
+            { "type": "string" },
+            { "type": "integer" },
+            { "type": "boolean" },
+            { "type": "number" },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "integer" },
+                  { "type": "boolean" },
+                  { "type": "number" }
+                ]
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "integer" },
+                  { "type": "boolean" },
+                  { "type": "number" }
+                ]
+              }
+            },
+            {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "integer" },
+                  { "type": "boolean" },
+                  { "type": "number" },
+                  {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "integer" },
+                        { "type": "boolean" },
+                        { "type": "number" }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "integer" },
+                        { "type": "boolean" },
+                        { "type": "number" }
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": {
+                "anyOf": [
+                  { "type": "string" },
+                  { "type": "integer" },
+                  { "type": "boolean" },
+                  { "type": "number" },
+                  {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "integer" },
+                        { "type": "boolean" },
+                        { "type": "number" }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        { "type": "string" },
+                        { "type": "integer" },
+                        { "type": "boolean" },
+                        { "type": "number" }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      "required": ["op", "path", "value"]
+    }
+  }
+}
