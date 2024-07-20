@@ -1,0 +1,153 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+    tags:
+      - "v*" # Push events to matching v*, i.e. v1.0, v20.15.10
+  pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.platform }} py${{ matrix.python-version }} ${{ matrix.runner }}
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        platform: [ubuntu-latest]
+        python-version: [3.7, 3.8, 3.9, '3.10', '3.11', '3.12']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install setuptools tox
+      # this runs the platform-specific tests declared in tox.ini
+      - name: Test with tox
+        run: python -m tox run -e pip
+
+      - name: Test with tox-uv
+        if: matrix.python-version != '3.7'
+        run: python -m tox run -e uv
+
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: cov-reports-${{ matrix.platform }}-${{ matrix.python-version }}
+          path: |
+            ./.coverage.*
+
+
+
+  test_different_python:
+    name: ${{ matrix.platform }} different
+    runs-on: ${{ matrix.platform }}
+    strategy:
+      matrix:
+        platform: [ubuntu-latest, macos-latest] # windows-latest
+    env:
+      REQUIRE_ALL_TESTS: 1
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: |
+            3.8
+            3.9
+            3.10
+            3.11
+            3.12
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install setuptools tox tox-gh-actions
+      # this runs the platform-specific tests declared in tox.ini
+      - name: Test with tox
+        run: python -m tox
+
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: cov-reports-${{ matrix.platform }}-different
+          path: |
+            ./.coverage.*
+
+  coverage_prepare:
+    name: Prepare coverage
+    runs-on: ubuntu-latest
+    needs: [ test, test_different_python ]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+          cache-dependency-path: pyproject.toml
+          cache: 'pip'
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install codecov
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v4
+        with:
+          pattern: cov-reports-*
+          path: coverage
+          merge-multiple: true
+      - name: combine coverage data
+        run: |
+          python -Im coverage combine --debug=pathmap,config coverage
+          python -Im coverage xml -o coverage.xml
+          # Report and write to summary.
+          python -Im coverage report --format=markdown --skip-empty --skip-covered >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage_xml
+          path: coverage.xml
+          retention-days: 5
+
+      - name: Upload coverage data
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+  deploy:
+    # this will run when you have tagged a commit, starting with "v*"
+    # and requires that you have put your twine API key in your
+    # github secrets (see readme for details)
+    needs: [test, test_different_python]
+    runs-on: ubuntu-latest
+    if: contains(github.ref, 'tags')
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U setuptools setuptools_scm wheel twine build
+      - name: Build
+        run: |
+          git tag
+          python -m build .
+      - name: Publish a Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.TWINE_API_KEY }}

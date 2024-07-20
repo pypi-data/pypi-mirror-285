@@ -1,0 +1,122 @@
+[build-system]
+requires = [
+  "setuptools >= 42",
+  "wheel",
+  "setuptools_scm[toml]>=3.4"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tox-min-req"
+description = 'Tox plugin to run tests with minimal requirements base on setup.cfg or pyproject.toml'
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+keywords = []
+authors = [
+  { name = "Grzegorz Bokota", email = "bokota+github@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.7",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Software Development :: Testing",
+  "Intended Audience :: Developers",
+  "Framework :: tox"
+]
+dependencies = [
+  "packaging>=20.0",
+  "tox>=4.0.0",
+  "toml>=0.10.2 ; python_version<'3.11'",
+]
+dynamic = ["version"]
+
+[project.urls]
+Documentation = "https://github.com/czaki/tox-min-req#readme"
+Issues = "https://github.com/czaki/tox-min-req/issues"
+Source = "https://github.com/czaki/tox-min-req"
+
+[project.optional-dependencies]
+testing = [
+  "pytest",
+  "tox[testing]",
+  "coverage"
+]
+
+[project.entry-points.tox]
+min-req = "tox_min_req._tox_plugin"
+
+
+[tool.setuptools_scm]
+write_to = "tox_min_req/_version.py"
+
+[tool.coverage.run]
+branch = true
+parallel = true
+omit = [
+  "tox_min_req/__about__.py",
+  "tox_min_req/_version.py",
+]
+source = [
+  "tox_min_req",
+  "tests",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "pragma: no cover",
+]
+
+[tool.coverage.paths]
+source = [
+  "../tox-min-req",
+  "/Users/runner/work/tox-min-req/tox-min-req",
+]
+
+
+[tool.ruff]
+line-length = 88
+target-version = "py37"
+fix = true
+
+[tool.ruff.lint]
+select = ["F", "E", "W", "C90", "I", "D", "UP", "PL", "RUF", "PT"]
+ignore = ["D203", "D212", "E501", "PLR0913"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["ANN", "S101", "D"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | examples
+    | vendored
+    | _vendor
+  )/
+)
+'''
