@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: dlqhandler
+Version: 0.6.8
+Summary: A library for handling DLQ messages in AWS SQS
+Home-page: https://github.com/seuusuario/dlq_handler_lib
+Author: Marcelo Ferreira
+Author-email: jaytilangus@gmail.com
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: boto3
+Requires-Dist: mock
+
+# DLQ Handler Library
+
+A library for handling DLQ (Dead Letter Queue) messages in AWS SQS. This library allows you to reprocess messages from a DLQ with specified parameters such as the queue URL, original queue URL, and maximum number of attempts.
+
+## Installation
+
+To install the library, use `pip`:
+
+```sh
+pip install dlqhandler
+
+from dlqhandler import ProcessMessage
+
+# Initialize the DLQHandler with the required parameters
+process_message_handler = ProcessMessage(
+    dlq_queue_url='https://sqs.us-east-1.amazonaws.com/123456789012/my-dlq',
+    original_queue_url='https://sqs.us-east-1.amazonaws.com/123456789012/my-queue',
+    max_attempts=5,
+    region_name='us-east-1',
+    env=my_env_config,  # replace with your actual environment config
+    nome_lambda='lambda-reprocessamento-dlq',
+    namespace='DLQ-Mensageria'
+)
+
+# Process the messages from the DLQ
+process_message_handler.execute()
+
+
