@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "memiter"
+version = "0.2.0"
+description = "A generator that extends the functionality of a generator. simplifying pagination and data access."
+authors = ["Udi Shalev <azsd91@gmail.com>"]
+homepage = "https://github.com/xpinked/memiter"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+pytest-html = "^4.1.1"
+ruff = "^0.4.10"
+mypy = "^1.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
