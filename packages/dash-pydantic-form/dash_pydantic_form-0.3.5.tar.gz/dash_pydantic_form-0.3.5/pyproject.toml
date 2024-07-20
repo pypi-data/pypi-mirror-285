@@ -1,0 +1,54 @@
+[project]
+name = "dash-pydantic-form"
+dynamic = ["version"]
+description = "Create Dash forms from pydantic objects"
+authors = [
+    {name = "Renaud Lainé", email = "renaud.laine@enea-consulting.com"},
+]
+readme = "README.md"
+requires-python =  ">=3.10,<3.13"
+license = {text = "Copyright ENEA Australia Pty Ltd - All Rights Reserved. Proprietary and confidential"}
+dependencies = [
+    "dash",
+    "dash_mantine_components>=0.14",
+    "dash_iconify",
+    "dash_ag_grid",
+    "pandas",
+    "pydantic==2.*",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit",
+    "pytest",
+    "dash[testing]",
+]
+
+[project.urls]
+Homepage = "https://pydf-docs.onrender.com"
+Source = "https://github.com/RenaudLN/dash-pydantic-form"
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools >= 67", "setuptools_scm>=7.1"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages]
+find = {}
+
+[tool.setuptools_scm]
+
+[tool.ruff]
+line-length = 120
+fix = true
+target-version = "py310"
+lint.select = ["I", "D", "UP", "S", "C4", "SIM", "B", "PL", "ARG", "E", "F"]
+lint.ignore = ["D100", "D104", "D205", "D200", "D401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
