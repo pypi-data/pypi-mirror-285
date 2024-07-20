@@ -1,0 +1,50 @@
+#miniconda
+wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda3-py38_4.9.2-Linux-x86_64.sh
+chmod +x Miniconda3-py38_4.9.2-Linux-x86_64.sh
+bash Miniconda3-py38_4.9.2-Linux-x86_64.sh
+source ~/.bashrc
+#虚拟环境
+conda create -n test python=3.6
+conda init
+source activate  test
+conda activate  test
+conda deactivate
+
+/root/.config/Ultralytics/Arial.ttf
+pip install ultralytics
+pip install opencv-python
+pip install yanyulong
+pip install --upgrade torch
+find / -name "yanyulong"
+设置默认源pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+阿里https://mirrors.aliyun.com/pypi/simple/
+
+train
+-images
+-labels
+val
+-images
+-labels
+
+find / -name "yolov8.yaml"
+\site-packages\ultralytics\cfg\models\v8\yolov8.yaml
+
+cp yolov8.yaml yolov8n.yaml
+#\site-packages\ultralytics\cfg\datasets\mydata.yaml
+
+train: C:\DatasetsD\train\images 
+val: C:\DatasetsD\val\images #
+#test: test-dev2017.txt 
+
+# Classes
+names:
+  0: car
+  1: biao
+  2: pai
+
+#命令行
+yolo segment train data=./mnist160 model=yolov8n-cls.yaml pretrained=yolov8-cls.pt epochs=10 imgsz=64
+yolo classify train data=datasets model=yolov8n-cls.pt epochs=10
+yolo detect train data=mydata.yaml model=yolov8n.yaml pretrained=yolov8n.pt epochs=10
+yolo val model=yolov8n.pt data=coco8.yaml imgsz=640 batch=16 conf=0.25 iou=0.6 device=0
+yolo detect predict model=path/to/best.pt source='https://ultralytics.com/images/bus.jpg'
