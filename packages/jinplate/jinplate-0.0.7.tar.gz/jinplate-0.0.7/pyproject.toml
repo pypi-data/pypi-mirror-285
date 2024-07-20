@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jinplate"
+description = "CLI renderer for Jinja2"
+authors = [{name = "Evin Dunn"}]
+requires-python = ">=3.10"
+classifiers = [
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Framework :: Ansible",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+    "Topic :: Text Processing",
+]
+license = {file = "LICENSE.txt"}
+dynamic = ["version", "readme", "dependencies"]
+
+
+[project.urls]
+homepage = "https://github.com/evindunn/jinplate"
+
+[project.scripts]
+jinplate = "jinplate.cli:jinplate_cli"
+
+[project.optional-dependencies]
+ansible = ["ansible-core>=2.9"]
+
+[tool.setuptools.dynamic]
+dependencies = {file = "requirements.txt"}
+readme = {file = "README.md", content-type = "text/markdown; charset=UTF-8; variant=GFM"}
+version = {attr = "jinplate.__version__.__VERSION__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.black]
+diff = true
+extend-exclude = '''
+(
+    ^/\.venv/.*
+    | ^/tests/.*
+)
+'''
+
+[tool.isort]
+profile = "black"
+
+[tool.pylint.FORMAT]
+max-line-length = 88
+
+[tool.pylint.MASTER]
+ignore-paths = [
+    '^\.venv/.*$',
+    '^tests/.*$'
+]
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+    'fixme',
+    'missing-module-docstring'
+]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = """\
+    -s \
+    --cov=jinplate \
+    --cov-report term-missing\
+"""
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')"
+]
+
+[tool.coverage.run]
+omit = [
+    "__init__.py",
+    "test_*.py",
+]
