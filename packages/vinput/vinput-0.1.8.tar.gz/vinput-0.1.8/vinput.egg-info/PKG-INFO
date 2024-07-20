@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: vinput
+Version: 0.1.8
+Summary: Python bindings for the libvinput library
+Author-email: Slendi <slendi@socopon.com>
+License: AGPLv3
+Project-URL: Homepage, https://github.com/xslendix/libvinput.py
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Python bindings for libvinput 
+
+## Installation
+
+You can install the bindings this way:
+```
+$ python3 -m pip install vinput
+```
+
+Please note on Linux, you need libxdo installed.
+
+## Example
+
+The simplest program is the following:
+```python
+import vinput
+l = vinput.EventListener(True)
+l.start(print)
+```
+
+You can log mouse buttons and movements too:
+```python
+import vinput
+l = vinput.EventListener(True, True, True)
+l.start(print, print, print)
+```
+
+## License
+
+This software is licensed under the AGPLv3 license, more info in the LICENSE
+file.
+
