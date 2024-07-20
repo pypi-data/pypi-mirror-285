@@ -1,0 +1,145 @@
+Metadata-Version: 2.1
+Name: montepy
+Version: 0.3.1
+Summary: A library for reading, editing, and writing MCNP input files
+Author-email: Micah Gale <mgale@montepy.org>, Travis Labossiere-Hickman <Travis.LabossiereHickman@inl.gov>, Brenna Carbno <brenna.carbno@inl.gov>
+Maintainer-email: Micah Gale <mgale@montepy.org>
+License: MIT License
+        
+        Copyright (c) 2024 Battelle Energy Alliance, LLC
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://www.montepy.org/
+Project-URL: Repository, https://github.com/idaholab/montepy.git
+Project-URL: Documentation, https://idaholab.github.io/MontePy/index.html
+Project-URL: Bug Tracker, https://github.com/idaholab/MontePy/issues
+Keywords: MCNP,neutronics,imcnp,input file,monte carlo,radiation transport
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Scientific/Engineering :: Physics
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Human Machine Interfaces
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+License-File: NOTICE.txt
+License-File: AUTHORS
+Requires-Dist: numpy>=1.18
+Requires-Dist: sly==0.5
+Provides-Extra: test
+Requires-Dist: coverage[toml]>=6.3.2; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Provides-Extra: doc
+Requires-Dist: sphinx>=7.4.0; extra == "doc"
+Requires-Dist: sphinxcontrib-apidoc; extra == "doc"
+Requires-Dist: sphinx_rtd_theme; extra == "doc"
+Provides-Extra: format
+Requires-Dist: black>=23.3.0; extra == "format"
+Provides-Extra: build
+Requires-Dist: build; extra == "build"
+Requires-Dist: setuptools>=64.0.0; extra == "build"
+Requires-Dist: setuptools-scm>=8; extra == "build"
+Provides-Extra: develop
+Requires-Dist: montepy[test]; extra == "develop"
+Requires-Dist: montepy[doc]; extra == "develop"
+Requires-Dist: montepy[format]; extra == "develop"
+Requires-Dist: montepy[build]; extra == "develop"
+
+# MontePy
+
+<img src="https://raw.githubusercontent.com/idaholab/MontePy/develop/graphics/monty.svg" width="180" alt="MontePY: a cute snek on a red over white circle"/>
+
+[![license](https://img.shields.io/github/license/idaholab/MontePy.svg)](https://github.com/idaholab/MontePy/blob/develop/LICENSE)
+[![JOSS article status](https://joss.theoj.org/papers/e5b5dc8cea19605a1507dd4d420d5199/status.svg)](https://joss.theoj.org/papers/e5b5dc8cea19605a1507dd4d420d5199)
+[![Coverage Status](https://coveralls.io/repos/github/idaholab/MontePy/badge.svg?branch=develop)](https://coveralls.io/github/idaholab/MontePy?branch=develop)
+[![PyPI version](https://badge.fury.io/py/montepy.svg)](https://badge.fury.io/py/montepy)
+
+MontePy is a python library to read, edit, and write MCNP input files. 
+
+## Installing
+
+Simply run:
+
+```
+pip install montepy
+```
+
+For more complicated setups
+see the [Installing section in the user guide](https://www.montepy.org/starting.html#installing).
+
+
+## User Documentation
+
+MontePy has a [sphinx website](https://www.montepy.org/). 
+This has a getting started guide for users,
+as well as API documentation. 
+There is also a developer's guide covering the design and approach of MontePy, and how to contribute.
+
+## Features
+	
+* Handles almost all MCNP input syntax including: message blocks, & continue, comments, etc.
+* Parses Cells, surfaces, materials, and transforms very well.	
+* Can parse the following surfaces exactly P(X|Y|Z), C(X|Y|Z), C/(X|Y|Z) (I mean it can do PX, and PY, etc.)
+* Can read in all other inputs but not understand them	
+* Can write out full MCNP problem even if it doesn't fully understand an input.	
+* Can write out the MCNP problem verbatim, and try to match the original user formatting. 
+* Can quickly access cells, surfaces, and materials by their numbers. For example: `cell = problem.cells[105]`.
+* Can quickly update cell importances. For example `cell.importance.neutron = 2.0`.
+* Has over 240 test cases right now 
+
+ 
+Quick example for renumbering all of the cells in a problem:
+
+```python
+import montepy
+foo = montepy.read_input("foo.imcnp")
+i = 9500
+for cell in foo.cells:
+  cell.number = i
+  i = i + 5
+  
+foo.write_to_file("foo_update.imcnp")
+
+```
+
+## Limitations
+
+Here a few of the known bugs and limitations:
+
+	
+* Cannot handle vertical input mode.
+* Does not support tallies in an easy way.
+* Does not support source definition in an easy way.
+	
+## Bugs, Requests and Development
+
+So MontePy doesn't do what you want? Right now development is done with a  Just-In-Time development approach, as in features are added JIT for a developer to use them on my current projects. 
+If there's a feature you want add an issue here with the feature request tag. 
+If you want to add a feature on your own talk to Micah Gale (but still add the issue). 
+The system is very modular and you should be able to develop it pretty quickly.
+Also read the [developer's guide](https://www.montepy.org/developing.html).
+
+ 
+# Finally: make objects not regexes!
