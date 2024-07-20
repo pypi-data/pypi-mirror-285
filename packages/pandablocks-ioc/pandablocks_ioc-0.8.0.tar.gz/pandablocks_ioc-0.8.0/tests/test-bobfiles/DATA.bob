@@ -1,0 +1,336 @@
+<display version="2.0.0">
+  <name>Display</name>
+  <x>0</x>
+  <y>0</y>
+  <width>506</width>
+  <height>463</height>
+  <grid_step_x>4</grid_step_x>
+  <grid_step_y>4</grid_step_y>
+  <widget type="label" version="2.0.0">
+    <name>Title</name>
+    <class>TITLE</class>
+    <text>DATA - TEST_PREFIX:</text>
+    <x use_class="true">0</x>
+    <y use_class="true">0</y>
+    <width>506</width>
+    <height>25</height>
+    <font use_class="true">
+      <font name="Header 1" family="Liberation Sans" style="BOLD" size="22.0">
+      </font>
+    </font>
+    <foreground_color use_class="true">
+      <color name="Text" red="0" green="0" blue="0">
+      </color>
+    </foreground_color>
+    <transparent use_class="true">true</transparent>
+    <horizontal_alignment>1</horizontal_alignment>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>HDF</name>
+    <x>5</x>
+    <y>30</y>
+    <width>496</width>
+    <height>156</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Hdf Directory</text>
+      <x>0</x>
+      <y>0</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>TEST_PREFIX:DATA:HDF_DIRECTORY</pv_name>
+      <x>255</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <format>6</format>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Createdirectory</text>
+      <x>0</x>
+      <y>25</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>TEST_PREFIX:DATA:CreateDirectory</pv_name>
+      <x>255</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Directoryexists</text>
+      <x>0</x>
+      <y>50</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>TEST_PREFIX:DATA:DirectoryExists</pv_name>
+      <x>255</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Hdf File Name</text>
+      <x>0</x>
+      <y>75</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>TEST_PREFIX:DATA:HDF_FILE_NAME</pv_name>
+      <x>255</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+      <format>6</format>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Hdf Full File Path</text>
+      <x>0</x>
+      <y>100</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>TEST_PREFIX:DATA:HDF_FULL_FILE_PATH</pv_name>
+      <x>255</x>
+      <y>100</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <format>6</format>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>CAPTURE</name>
+    <x>5</x>
+    <y>191</y>
+    <width>496</width>
+    <height>206</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Capture</text>
+      <x>0</x>
+      <y>0</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>TEST_PREFIX:DATA:NUM_CAPTURE</pv_name>
+      <x>255</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Captured</text>
+      <x>0</x>
+      <y>25</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>TEST_PREFIX:DATA:NUM_CAPTURED</pv_name>
+      <x>255</x>
+      <y>25</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Num Received</text>
+      <x>0</x>
+      <y>50</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>TEST_PREFIX:DATA:NUM_RECEIVED</pv_name>
+      <x>255</x>
+      <y>50</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Flush Period</text>
+      <x>0</x>
+      <y>75</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textentry" version="3.0.0">
+      <name>TextEntry</name>
+      <pv_name>TEST_PREFIX:DATA:FLUSH_PERIOD</pv_name>
+      <x>255</x>
+      <y>75</y>
+      <width>205</width>
+      <height>20</height>
+      <horizontal_alignment>1</horizontal_alignment>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Capture</text>
+      <x>0</x>
+      <y>100</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>TEST_PREFIX:DATA:CAPTURE</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>1</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Start</text>
+      <x>255</x>
+      <y>100</y>
+      <width>65</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>WritePV</name>
+      <pv_name>TEST_PREFIX:DATA:CAPTURE</pv_name>
+      <actions>
+        <action type="write_pv">
+          <pv_name>$(pv_name)</pv_name>
+          <value>0</value>
+          <description>$(name)</description>
+        </action>
+      </actions>
+      <text>Stop</text>
+      <x>325</x>
+      <y>100</y>
+      <width>65</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+    <widget type="led" version="2.0.0">
+      <name>LED</name>
+      <pv_name>TEST_PREFIX:DATA:CAPTURE</pv_name>
+      <x>417</x>
+      <y>100</y>
+      <width>20</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Capture Mode</text>
+      <x>0</x>
+      <y>125</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="combo" version="2.0.0">
+      <name>ComboBox</name>
+      <pv_name>TEST_PREFIX:DATA:CAPTURE_MODE</pv_name>
+      <x>255</x>
+      <y>125</y>
+      <width>205</width>
+      <height>20</height>
+    </widget>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>All Postion Capture Parameters</text>
+      <x>0</x>
+      <y>150</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="action_button" version="3.0.0">
+      <name>OpenDisplay</name>
+      <actions>
+        <action type="open_display">
+          <file>PandA_PositionsTable.bob</file>
+          <target>tab</target>
+          <description>Open Display</description>
+        </action>
+      </actions>
+      <text>All Postion Capture Parameters</text>
+      <x>255</x>
+      <y>150</y>
+      <width>205</width>
+      <height>20</height>
+      <tooltip>$(actions)</tooltip>
+    </widget>
+  </widget>
+  <widget type="group" version="2.0.0">
+    <name>OUTPUTS</name>
+    <x>5</x>
+    <y>402</y>
+    <width>496</width>
+    <height>56</height>
+    <transparent>true</transparent>
+    <widget type="label" version="2.0.0">
+      <name>Label</name>
+      <text>Status</text>
+      <x>0</x>
+      <y>0</y>
+      <width>250</width>
+      <height>20</height>
+    </widget>
+    <widget type="textupdate" version="2.0.0">
+      <name>TextUpdate</name>
+      <pv_name>TEST_PREFIX:DATA:STATUS</pv_name>
+      <x>255</x>
+      <y>0</y>
+      <width>205</width>
+      <height>20</height>
+      <font>
+        <font name="Default Bold" family="Liberation Sans" style="BOLD" size="14.0">
+      </font>
+      </font>
+      <horizontal_alignment>1</horizontal_alignment>
+      <format>6</format>
+    </widget>
+  </widget>
+</display>
