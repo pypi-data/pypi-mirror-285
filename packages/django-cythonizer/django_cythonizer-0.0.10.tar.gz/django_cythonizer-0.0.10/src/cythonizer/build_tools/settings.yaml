@@ -1,0 +1,51 @@
+# Build settings
+build:
+  path: 'build'
+
+# Exclusion settings
+exclude:
+  files:
+    - 'setup.py'
+    - '__init__.py'
+    - 'manage.py'
+    - 'urls.py'
+    - '.gitigonre'
+    - '.git'
+
+
+  dirs:
+    - 'migrations'
+    - '.venv'
+    - 'build'
+  copying_files:
+    - '.env'
+    - '.gitignore'
+    - 'README.md'
+  copying_dirs:
+    - 'logs'
+    - 'media'
+    - 'static'
+    - '.venv'
+    - 'build'
+    - 'logs'
+
+
+# Logging settings
+logging:
+  dir: 'logs'
+  filename: 'build_log_{timestamp}.txt'
+
+# Cython settings
+cython:
+  language_level: '3'
+
+# Project settings
+project:
+  name: 'django_cython'
+  version: '0.0.10'
+  python_requires: '>=3.6'
+  install_requires:
+    - 'Django>=3.2'
+    - 'djangorestframework>=3.15.2'
+    - 'Cython>=3.0.10'
+    - 'PyYAML>=0.5.1'
