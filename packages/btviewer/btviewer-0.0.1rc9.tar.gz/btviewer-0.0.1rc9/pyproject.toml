@@ -1,0 +1,61 @@
+# Packaging for the backend application
+# https://flask.palletsprojects.com/en/3.0.x/tutorial/install/
+# https://flask.palletsprojects.com/en/3.0.x/patterns/packages/
+# https://python.plainenglish.io/how-to-create-a-flask-application-as-a-python-package-d22e11163246
+
+[build-system]
+requires = ["setuptools >= 61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "btviewer"
+version = "0.0.1rc9"
+dependencies = [
+    "flask==3.*",
+    "waitress==3.*",
+    "pillow==10.*",
+    "numpy==1.*"
+]
+# https://devguide.python.org/versions/
+requires-python = ">=3.8"
+authors = [
+    { name = "Mike Smith", email = "m.t.smith@sheffield.ac.uk" },
+    { name = "Joe Heffer", email = "joe.heffer@sheffield.ac.uk" },
+    { name = "Shi Min Chua", email = "s.chua@sheffield.ac.uk" },
+]
+maintainers = [
+    { name = "Mike Smith", email = "m.t.smith@sheffield.ac.uk" }
+]
+description = "Web app for human labelling of tracking images"
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = ["bee", "small animals", "tracking"]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+[project.optional-dependencies]
+test = [
+    "flake8",
+    "pytest"
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/btviewer"
+Bug_Tracker = "https://github.com/SheffieldMLtracking/btviewer/issues"
+Documentation = "https://github.com/SheffieldMLtracking/btviewer/blob/main/README.md"
+Repository = "https://github.com/SheffieldMLtracking/btviewer"
+Changelog = "https://github.com/SheffieldMLtracking/btviewer/releases"
+
+#https://docs.pytest.org/en/8.0.x/reference/customize.html
+[tool.pytest.ini_options]
+pythonpath = ['btviewer']
+testpaths = ['tests']
+
+# Executable scripts
+# https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#creating-executable-scripts
+[project.scripts]
+btviewer = "btviewer.__main__:main"
