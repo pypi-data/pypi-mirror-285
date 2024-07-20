@@ -1,0 +1,24 @@
+Metadata-Version: 2.3
+Name: geometry-nylinary
+Version: 0.0.3
+Summary: Пакет для работы с геометрическими фигурами.
+Author-email: Nikita Sysoev <nylinary@gmail.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.2.15
+Description-Content-Type: text/markdown
+
+Инициализируйте фигуру из модуля geometry.figures
+
+from geometry.figures import Circle, Triangle
+
+circle = Circle(radius=2.25)
+triangle = Triangle(1,2,3)
+
+
+Используйте свойства и методы фигуры:
+
+circle.area
+triangle.is_right()

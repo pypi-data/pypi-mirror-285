@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "geometry-nylinary"
+version = "0.0.3"
+authors = [
+  { name="Nikita Sysoev", email="nylinary@gmail.com" },
+]
+description = "Пакет для работы с геометрическими фигурами."
+readme = "README.md"
+requires-python = ">=3.2.15"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.hatch.build.targets.wheel]
+optional-dependencies = [
+    "pytest>=8.2.2"
+]
+packages = ["geometry/"]
+
+[tool.black]
+line-length = 120
