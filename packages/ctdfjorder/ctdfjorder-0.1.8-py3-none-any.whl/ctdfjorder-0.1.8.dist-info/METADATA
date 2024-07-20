@@ -1,0 +1,85 @@
+Metadata-Version: 2.1
+Name: ctdfjorder
+Version: 0.1.8
+Summary: A package for processing and analyzing CTD data.
+Home-page: https://github.com/nikothomas/ctdfjorder
+Author: Nikolas Yanek-Chrones
+Author-email: research@icarai.io
+Project-URL: Homepage, https://github.com/nikothomas/ctdfjorder
+Project-URL: Issues, https://github.com/nikothomas/ctdfjorder/issues
+Keywords: CTD
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: polars ~=1.1.0
+Requires-Dist: psutil ~=6.0.0
+Requires-Dist: enlighten ~=1.12.4
+Requires-Dist: pandas ~=2.2.2
+Requires-Dist: setuptools ~=70.3.0
+Requires-Dist: openpyxl ~=3.1.4
+Requires-Dist: tensorflow
+Requires-Dist: numpy ~=1.26.4
+Requires-Dist: gsw ~=3.6.18
+Requires-Dist: matplotlib ~=3.9.1
+Requires-Dist: statsmodels ~=0.14.2
+Requires-Dist: keras ~=3.4.1
+Requires-Dist: scikit-learn ~=1.5.1
+Requires-Dist: pyrsktools ==0.1.9
+Requires-Dist: colorlog ~=6.8.2
+Requires-Dist: pyarrow ~=17.0.0
+Requires-Dist: fastexcel ~=0.10.4
+
+# CTDFjorder
+
+ctdfjorder is a Python package for processing and analyzing CTD (Conductivity, Temperature, Depth) data.
+Documentation: [Read the docs](https://nikothomas.github.io/ctdfjorder/)
+
+## Features
+
+- Read RSK (.rsk) and Castaway (.csv) files and extract CTD data
+- Process CTD data, including removing non-positive samples and cleaning data
+- Calculate derived quantities such as absolute salinity, density, and potential density
+- Determine mixed layer depth (MLD) using different methods
+- Generate plots for visualizing CTD profiles and derived quantities
+- Command-line interface (CLI) for easy processing and merging of RSK files
+
+## Installation
+It's recommended that you create a new environment just for ctdfjorder. This can be done in conda with the following
+command.
+```shell
+conda create --name ctdfjorder python=3.11
+conda activate ctdfjorder
+```
+To install ctdfjorder you can use pip:
+```shell
+pip install ctdfjorder
+```
+
+## Usage
+
+CTDFjorder provides a command-line interface (CLI) for processing and analyzing CTD data.
+This command runs the default processing pipeline and creates plots on all RSK and .csv files found in the current folder with master sheet Fjord Phyto MASTERSHEET.xlsx:
+
+```shell
+ctdfjorder-cli default -r -v -v -m -p "FjordPhyto MASTERSHEET.xlsx" -w 4
+```
+
+## Contributing
+
+Contributions to ctdfjorder are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request on the [GitHub repository](https://github.com/nikothomas/CTDFjorder).
+
+## License
+
+ctdfjorder is released under the MIT License.
+
+## Acknowledgments
+
+CTDFjorder was developed by Nikolas Yanek-Chrones for the Fjord Phyto project. The gsw library was used for certain dervied calculations.
+
+## Citations
+McDougall, T. J., & Barker, P. M. (2011). Getting started with TEOS-10 and the Gibbs Seawater (GSW) Oceanographic Toolbox. SCOR/IAPSO WG127.
+
