@@ -1,0 +1,33 @@
+[project]
+name = "fastapi-tortoise-crud"
+version = "0.2.5"
+description = "fastpi简单crud"
+keywords = [
+    "Fastapi-admin",
+    "Tortoise-orm",
+    "Crud",
+]
+authors = [
+    { name = "moxiaoying", email = "768091671@qq.com" },
+]
+dependencies = [
+    "tortoise-orm>=0.20.0",
+    "fastapi>=0.101.1",
+    "fastapi-pagination>=0.12.8",
+]
+requires-python = ">=3.9"
+readme = "README.md"
+license = { text = "MIT" }
+
+
+[tool]
+[tool.pdm]
+[tool.pdm.build]
+includes = [
+    "fastapi_tortoise_crud/**",
+]
+
+[[tool.pdm.source]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+verify_ssl = true
+name = "pypi"
