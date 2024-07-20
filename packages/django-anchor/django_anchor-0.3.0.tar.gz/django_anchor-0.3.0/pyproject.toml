@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "django-anchor"
+version = "0.3.0"
+description = "Attach files to Django models"
+authors = ["Elias Hernandis <elias@hernandis.me>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "anchor"}]
+homepage = "https://github.com/knifecake/django-anchor"
+repository = "https://github.com/knifecake/django-anchor"
+documentation = "https://django-anchor.readthedocs.io/en/latest/"
+keywords = ["django", "files", "attachments"]
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Topic :: File Formats",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/knifecake/django-anchor/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4"
+django = ">=4.2,<6"
+huey = "^2.5.1"
+base58 = "^2.1.1"
+redis = "^5.0.7"
+pillow = "^10.4.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.7.1"
+coverage = "^7.6.0"
+sphinx = "^7.4.5"
+toml = "^0.10.2"
+
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+target-version = "py312"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
