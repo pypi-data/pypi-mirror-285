@@ -1,0 +1,19 @@
+[build-system]
+build-backend = "flit_core.buildapi"
+requires = ["flit_core >=3.2,<4"]
+
+[project]
+authors = [{name = "Stephan Fitzpatrick", email = "knowsuchagency@gmail.com"}]
+classifiers = ["License :: OSI Approved :: Apache Software License"]
+description = "A simple yet powerful abstraction for litellm and pydantic"
+license = {file = "LICENSE"}
+name = "promptic"
+dependencies = [
+  "litellm~=1.38",
+  "pydantic~=2.7",
+]
+version = "0.7.7"
+readme = "README.md"
+
+[project.urls]
+Home = "https://github.com/knowsuchagency/promptic"
