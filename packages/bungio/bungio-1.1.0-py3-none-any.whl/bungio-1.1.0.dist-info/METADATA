@@ -1,0 +1,130 @@
+Metadata-Version: 2.1
+Name: bungio
+Version: 1.1.0
+Summary: A destiny 2 / bungie api wrapper
+Author: Daniel J
+License: MIT License
+        
+        Copyright (c) 2022 - present Kigstn
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Repository, https://github.com/Kigstn/BungIO
+Project-URL: Documentation, https://bungio.readthedocs.io/en/latest/
+Keywords: asyncio,destiny,destiny 2,bungie,api
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp ~=3.8
+Requires-Dist: attrs ~=22.1
+Requires-Dist: sqlalchemy[aiosqlite] ~=1.4
+Provides-Extra: cache
+Requires-Dist: aiohttp-client-cache ~=0.7 ; extra == 'cache'
+Provides-Extra: dev
+Requires-Dist: ruff ~=0.5 ; extra == 'dev'
+Requires-Dist: pre-commit ~=3.7 ; extra == 'dev'
+Provides-Extra: docs
+Requires-Dist: mkdocstrings[python] ~=0.25 ; extra == 'docs'
+Requires-Dist: mkdocs-material ~=9.5 ; extra == 'docs'
+Requires-Dist: mkdocs-awesome-pages-plugin ~=2.9 ; extra == 'docs'
+Requires-Dist: mkdocs-autorefs ~=1.0 ; extra == 'docs'
+Provides-Extra: speedups
+Requires-Dist: orjson ~=3.6 ; extra == 'speedups'
+Requires-Dist: aiodns ~=3.0 ; extra == 'speedups'
+Requires-Dist: brotli ~=1.0 ; extra == 'speedups'
+Requires-Dist: charset-normalizer ~=3.3 ; extra == 'speedups'
+Provides-Extra: test
+Requires-Dist: pytest ~=7.1 ; extra == 'test'
+Requires-Dist: pytest-asyncio ~=0.18 ; extra == 'test'
+
+[![](https://img.shields.io/pypi/v/bungio?label=Version&logo=pypi)](https://pypi.org/project/bungio/)
+[![](https://img.shields.io/pypi/dm/bungio?label=Downloads&logo=pypi)](https://pypi.org/project/bungio/)
+[![](https://img.shields.io/readthedocs/bungio?label=Docs&logo=readthedocs)](https://bungio.readthedocs.io/en/latest/)
+![](https://img.shields.io/badge/Python-3.10+-1081c1?logo=python)
+[![](https://img.shields.io/github/workflow/status/Kigstn/BungIO/Black%20Formatting/master?label=Black%20Formatting&logo=github)](https://github.com/Kigstn/BungIO/actions/workflows/black.yml)
+[![](https://img.shields.io/github/workflow/status/Kigstn/BungIO/Flake8%20Styling/master?label=Flake%20Styling&logo=github)](https://github.com/Kigstn/BungIO/actions/workflows/flake.yml)
+
+
+<h1 align="center">
+    <p>
+        <img src="https://raw.githubusercontent.com/Kigstn/BungIO/master/docs/src/images/favicon.png" alt="BungIO Logo">
+    </p>
+    BungIO
+</h1>
+
+---
+
+BungIO is a modern and pythonic wrapper for Bungies Destiny 2 API.
+
+- [X] Python 3.10+
+- [X] Asynchronous
+- [X] 100% typed and raw api coverage
+- [X] Ratelimit compliant
+- [X] Manifest support
+- [X] OAuth2 support
+- [X] Easily used in combination with other libraries like FastApi
+
+Click [here](https://bungio.readthedocs.io/en/latest/installation) to get started or visit
+the [guides](https://bungio.readthedocs.io/en/latest/Guides/basic)
+or [api reference](https://bungio.readthedocs.io/en/latest/API%20Reference/client/).
+
+
+## Basic Example
+
+```py
+import asyncio
+import os
+
+from bungio import Client
+from bungio.models import BungieMembershipType, DestinyActivityModeType, DestinyUser
+
+
+# create the client obj with our bungie authentication
+client = Client(
+    bungie_client_id=os.getenv("BUNGIE_CLIENT_ID"),
+    bungie_client_secret=os.getenv("BUNGIE_CLIENT_SECRET"),
+    bungie_token=os.getenv("BUNGIE_TOKEN"),
+)
+
+async def main():
+    # create a user obj using a known bungie id
+    user = DestinyUser(membership_id=4611686018467765462, membership_type=BungieMembershipType.TIGER_STEAM)
+
+    # iterate thought the raids that user has played
+    async for activity in user.yield_activity_history(mode=DestinyActivityModeType.RAID):
+
+        # print the date of the activity
+        print(activity.period)
+
+# bungio is by nature asynchronous, it can only be run in an asynchronous context
+asyncio.run(main())
+```
+---
+
+## Dev Setup
+
+#### Install Dependencies
+- `pip install uv`
+- `uv pip install -e .[speedups,cache,docs,test,dev]`
+
+#### Run Tests
+- `pytest .`
+
+#### Run Docs
+- `mkdocs serve`
