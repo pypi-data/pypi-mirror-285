@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Web Scraper</title>
+  </head>
+  <body>
+    <div>
+      <h1>Web Scraper</h1>
+      <form id="scrape-form">
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url" value="https://docs.python.org/3/library/venv.html" required>
+        <button type="submit">Scrape</button>
+      </form>
+      <form id="view-form-1">
+        <label for="method-1">Method 1:</label>
+        <select id="method-1" name="method-1">
+          <option value="bs4-base">BeautifulSoup Base</option>
+          <option value="bs4-text">BeautifulSoup Text</option>
+          <option value="markdownify">Markdownify</option>
+          <option value="base">Base</option>
+          <!-- <option value="ollama">Ollama</option> -->
+          <option value="jina">Jina</option>
+        </select>
+        <button type="submit">View</button>
+      </form>
+      <form id="view-form-2">
+        <label for="method-2">Method 2:</label>
+        <select id="method-2" name="method-2">
+          <option value="bs4-base">BeautifulSoup Base</option>
+          <option value="bs4-text">BeautifulSoup Text</option>
+          <option value="markdownify">Markdownify</option>
+          <option value="base">Base</option>
+          <!-- <option value="ollama">Ollama</option> -->
+          <option value="jina">Jina</option>
+        </select>
+        <button type="submit">View</button>
+      </form>
+      <div id="result-1" style="width: 50%; float: left;"></div>
+      <div id="result-2" style="width: 50%; float: right;"></div>
+    </div>
+
+    <script>
+      document.getElementById('scrape-form').onsubmit = async (e) => {
+        e.preventDefault();
+        const url = document.getElementById('url').value;
+        const response = await fetch('/scrape', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: `url=${encodeURIComponent(url)}`,
+        });
+        const data = await response.json();
+        if (data.error) {
+          document.getElementById('result').innerText = `Error: ${data.error}`;
+        } 
+      };
+      document.getElementById('view-form-1').onsubmit = async (e) => {
+        e.preventDefault();
+        const method = document.getElementById('method-1').value;
+        console.log(method)
+        const response = await fetch(`/view?method=${encodeURIComponent(method)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        });
+        const data = await response.json();
+        document.getElementById('result-1').innerText = data.result;
+      };
+      document.getElementById('view-form-2').onsubmit = async (e) => {
+        e.preventDefault();
+        const method = document.getElementById('method-2').value;
+        console.log(method)
+        const response = await fetch(`/view?method=${encodeURIComponent(method)}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+        });
+        const data = await response.json();
+        document.getElementById('result-2').innerText = data.result;
+      };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "saldor"
+version = "0.0.1"
+description = "An end to end RAG solution for web content."
+authors = ["Jack Cameron <jack@saldor.com>", "Jacob Bland <jacob@saldor.com>"]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+spacy = "^3.7.5"
+Flask = "^2.0.2"
+beautifulsoup4 = "^4.10.0"
+requests = "^2.26.0"
+selenium = "^4.1.0"
+webdriver-manager = "^3.8.3"
+werkzeug = "^2.0.2"
+markdownify = "^0.10.0"
+ollama = "^0.2.1"
+anthropic = "*"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

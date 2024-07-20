@@ -1,0 +1,54 @@
+Metadata-Version: 2.1
+Name: saldor
+Version: 0.0.1
+Summary: An end to end RAG solution for web content.
+License: MIT
+Author: Jack Cameron
+Author-email: jack@saldor.com
+Requires-Python: >=3.9,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: Flask (>=2.0.2,<3.0.0)
+Requires-Dist: anthropic
+Requires-Dist: beautifulsoup4 (>=4.10.0,<5.0.0)
+Requires-Dist: markdownify (>=0.10.0,<0.11.0)
+Requires-Dist: ollama (>=0.2.1,<0.3.0)
+Requires-Dist: requests (>=2.26.0,<3.0.0)
+Requires-Dist: selenium (>=4.1.0,<5.0.0)
+Requires-Dist: spacy (>=3.7.5,<4.0.0)
+Requires-Dist: webdriver-manager (>=3.8.3,<4.0.0)
+Requires-Dist: werkzeug (>=2.0.2,<3.0.0)
+Description-Content-Type: text/markdown
+
+# ragscrape
+
+## scraper
+
+The scraper is written assuming you are running a python virtual environment.
+
+To create the virtual environment:
+
+```
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+To install the requirements:
+
+```
+pip install -r requirements.txt
+```
+
+To run the scraper:
+
+```
+python3 app.py
+```
+
+The scraper right now shows a few different basic scraping techniques and the 
+website provides a nice way to compare them.
+
