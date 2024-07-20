@@ -1,0 +1,3 @@
+[pypi]
+username = selfuse
+password = pypi-AgEIcHlwaS5vcmcCJGU4YmI1ZDNkLTQzNmEtNDMxNS1hMGIzLTJjNTYwZTFmMzg5MgACKlszLCJjMmJkNTMwZS02NjE5LTQwYjMtYTFmZi1mYjVhMWIzYzExOTEiXQAABiAh9wyTpr5wJxMYmI4yJ9YVB_MmgPpFmOvBlrznaaNITQ
