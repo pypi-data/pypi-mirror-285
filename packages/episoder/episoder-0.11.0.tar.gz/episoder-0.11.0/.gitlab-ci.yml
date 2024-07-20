@@ -1,0 +1,107 @@
+stages:
+  - test
+  - deploy
+
+.jammy_image: &jammy
+  image: registry.gitlab.com/schabe/episoder:ubuntu-jammy
+
+.bookworm_image: &bookworm
+  image: registry.gitlab.com/schabe/episoder:debian-bookworm
+
+.noble_image: &noble
+  image: registry.gitlab.com/schabe/episoder:ubuntu-noble
+
+.test_template: &test_installed_setuptools
+  stage: test
+  script:
+    - python3 setup.py install
+    - python3 -m pytest --junitxml=report.xml --cov=episoder/
+    - python3 -m coverage xml
+  artifacts:
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
+.test_template: &test
+  stage: test
+  script:
+    - python3 -m pytest --junitxml=report.xml --cov=episoder/
+    - python3 -m coverage xml
+  artifacts:
+    reports:
+      junit: report.xml
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage.xml
+
+.deploy_setuptools_template: &deploy_setuptools
+  stage: deploy
+  script:
+    - python3 setup.py install
+    - python3 setup.py sdist
+    - python3 setup.py bdist_egg
+    - episoder --version
+
+.deploy_pip_template: &deploy_pip
+  stage: deploy
+  script:
+    - pip install .
+    - episoder --version
+
+.deploy_setuptools_venv_template: &deploy_pip_venv
+  stage: deploy
+  script:
+    - python3 -m venv --system-site-packages venv
+    - venv/bin/python3 setup.py install
+    - venv/bin/python3 setup.py sdist
+    - venv/bin/python3 setup.py bdist_egg
+    - venv/bin/episoder --version
+
+.deploy_pip_venv_template: &deploy_pip_venv
+  stage: deploy
+  script:
+    - python3 -m venv --system-site-packages venv
+    - venv/bin/pip install .
+    - venv/bin/episoder --version
+
+py310-jammy:test:
+  <<: *jammy
+  <<: *test
+
+py310-jammy-setuptools:deploy:
+  <<: *jammy
+  <<: *deploy_setuptools
+
+py310-jammy-pip:deploy:
+  <<: *jammy
+  <<: *deploy_pip
+
+py311-bookworm:test:
+  <<: *bookworm
+  <<: *test
+
+py311-bookworm-setuptools:deploy:
+  needs: ["py311-bookworm:test"]
+  <<: *bookworm
+  <<: *deploy_setuptools
+
+py311-bookworm-pip:deploy:
+  needs: ["py311-bookworm:test"]
+  <<: *bookworm
+  <<: *deploy_pip_venv
+
+py312-noble:test:
+  <<: *noble
+  <<: *test
+
+py312-noble-setuptools:deploy:
+  needs: ["py312-noble:test"]
+  <<: *noble
+  <<: *deploy_setuptools
+
+py312-noble-pip:deploy:
+  needs: ["py312-noble:test"]
+  <<: *noble
+  <<: *deploy_pip_venv
