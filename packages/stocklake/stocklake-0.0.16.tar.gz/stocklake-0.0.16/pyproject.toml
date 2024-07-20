@@ -1,0 +1,71 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+dependencies = [
+  "alembic",
+  "click",
+  "pandas",
+  "polygon-api-client",
+  "psycopg2-binary",
+  "pydantic",
+  "python-dotenv",
+  "requests",
+  "sqlalchemy-utils",
+  "beautifulsoup4"
+]
+
+name = "stocklake"
+dynamic = ["version"]
+readme = "README.md"
+license = "MIT"
+
+[project.optional-dependencies]
+dev = ["black", "ruff-lsp", "pre-commit", "mypy", "pytest"]
+
+[project.scripts]
+stocklake = "stocklake.cli:stocklake"
+
+[tool.hatch.version]
+path = "stocklake/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/stocklake"]
+
+[tool.ruff]
+ignore = ["E501"]
+select = [
+  # pycodestyle
+  "E",
+  # Pyflakes
+  "F",
+  # pyupgrade
+  "UP",
+  # flake8-bugbear
+  "B",
+  # flake8-simplify
+  "SIM",
+  # isort
+  "I",
+]
+
+[tool.ruff.isort]
+combine-as-imports = true
+section-order = [
+  "future",
+  "standard-library",
+  "third-party",
+  "first-party",
+  "local-folder",
+]
+split-on-trailing-comma = true
+
+[tool.mypy]
+namespace_packages = true
+ignore_missing_imports = true
+python_version = "3.11"
+
+[[tool.mypy.overrides]]
+module = "requests.*"
+ignore_missing_imports = true

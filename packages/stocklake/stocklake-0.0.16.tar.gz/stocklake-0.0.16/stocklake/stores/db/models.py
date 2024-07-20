@@ -1,0 +1,139 @@
+from sqlalchemy import BigInteger, Column, DateTime, Float, Integer, String
+from sqlalchemy.sql import func
+
+from stocklake.stores.db.database import Base
+
+
+class NasdaqApiData(Base):
+    __tablename__ = "nasdaq_api_data"
+
+    id = Column(Integer, primary_key=True)
+    exchange = Column(String(10))
+    symbol = Column(String(10))
+    name = Column(String(256))
+    last_sale = Column(Float)
+    pct_change = Column(Float, nullable=True)
+    net_change = Column(Float)
+    volume = Column(Float)
+    marketcap = Column(Float)
+    country = Column(String)
+    ipo_year = Column(Integer)
+    industry = Column(String)
+    sector = Column(String)
+    url = Column(String)
+    created_at = Column(DateTime(timezone=True), default=func.now())
+    updated_at = Column(
+        DateTime(timezone=True), default=func.now(), onupdate=func.now()
+    )
+
+
+class PolygonFinancialsData(Base):
+    __tablename__ = "polygonapi_financials_data"
+
+    id = Column(Integer, primary_key=True)
+    created_at = Column(DateTime(timezone=True), default=func.now())
+    updated_at = Column(
+        DateTime(timezone=True), default=func.now(), onupdate=func.now()
+    )
+
+    equity_attributable_to_noncontrolling_interest = Column(Float, nullable=True)
+    liabilities = Column(Float, nullable=True)
+    equity_attributable_to_parent = Column(Float, nullable=True)
+    noncurrent_assets = Column(Float, nullable=True)
+    liabilities_and_equity = Column(Float, nullable=True)
+    assets = Column(Float, nullable=True)
+    fixed_assets = Column(Float, nullable=True)
+    other_than_fixed_noncurrent_assets = Column(Float, nullable=True)
+    noncurrent_liabilities = Column(Float, nullable=True)
+    current_assets = Column(Float, nullable=True)
+    equity = Column(Float, nullable=True)
+    current_liabilities = Column(Float, nullable=True)
+    # - cash flow statement
+    # net_cash_flow_from_investing_activities = Column(Float)
+    # net_cash_flow_from_operating_activities_continuing = Column(Float)
+    exchange_gains_losses = Column(Float, nullable=True)
+    # net_cash_flow_continuing = Column(Float)
+    net_cash_flow = Column(Float, nullable=True)
+    net_cash_flow_from_financing_activities = Column(Float, nullable=True)
+    # net_cash_flow_from_investing_activities_continuing = Column(Float)
+    # net_cash_flow_from_operating_activities = Column(Float)
+    # net_cash_flow_from_financing_activities_continuing = Column(Float)
+    # - comprehensive income
+    # loss_attributable_to_noncontrolling_interest = Column(Float)
+    # loss_attributable_to_parent = Column(Float)
+    comprehensive_income_loss_attributable_to_parent = Column(Float, nullable=True)
+    other_comprehensive_income_loss = Column(Float, nullable=True)
+    # other_comprehensive_income_loss_attributable_to_parent = Column(Float)
+    comprehensive_income_loss = Column(Float, nullable=True)
+    # - income statement
+    # income_loss_before_equity_method_investments = Column(Float)
+    # diluted_earnings_per_share = Column(Float)
+    # income_loss_from_equity_method_investments = Column(Float)
+    operating_expenses = Column(Float, nullable=True)
+    # income_loss_from_continuing_operations_after_tax = Column(Float)
+    # preferred_stock_dividends_and_other_adjustments = Column(Float)
+    basic_earnings_per_share = Column(Float, nullable=True)
+    cost_of_revenue = Column(Float, nullable=True)
+    # net_income_loss_attributable_to_parent = Column(Float)
+    # income_loss_from_continuing_operations_before_tax = Column(Float)
+    # income_tax_expense_benefit_deferred = Column(Float)
+    # costs_and_expenses = Column(Float)
+    gross_profit = Column(Float, nullable=True)
+    # benefits_costs_expenses = Column(Float)
+    # participating_securities_distributed_and_undistributed_earnings_loss_basic = Column(
+    # Float
+    # )
+    # income_tax_expense_benefit = Column(Float)
+    # net_income_loss_attributable_to_noncontrolling_interest = Column(Float)
+    # interest_expense_operating = Column(Float)
+    # net_income_loss_available_to_common_stockholders_basic = Column(Float)
+    revenues = Column(Float, nullable=True)
+    # net_income_loss = Column(Float)
+    # operating_income_loss = Column(Float)
+    # meta data
+    ticker = Column(String)
+    start_date = Column(String)
+    end_date = Column(String)
+    filing_date = Column(String, nullable=True)
+    cik = Column(String)
+    company_name = Column(String)
+    fiscal_period = Column(String)
+    fiscal_year = Column(Integer, nullable=True)
+    source_filing_url = Column(String, nullable=True)
+    source_filing_file_url = Column(String, nullable=True)
+
+
+class WikiSP500Data(Base):
+    __tablename__ = "wiki_sp500"
+
+    id = Column(Integer, primary_key=True)
+    created_at = Column(DateTime(timezone=True), default=func.now())
+    updated_at = Column(
+        DateTime(timezone=True), default=func.now(), onupdate=func.now()
+    )
+
+    symbol = Column(String)
+    company = Column(String)
+    sector = Column(String, nullable=True)
+    industry = Column(String, nullable=True)
+    headquarters = Column(String, nullable=True)
+
+
+class PolygonAggregatesBarsData(Base):
+    __tablename__ = "polygonapi_aggregates_bars_data"
+
+    id = Column(Integer, primary_key=True)
+    created_at = Column(DateTime(timezone=True), default=func.now())
+    updated_at = Column(
+        DateTime(timezone=True), default=func.now(), onupdate=func.now()
+    )
+
+    ticker = Column(String)
+    timestamp_ms = Column(BigInteger)
+    open = Column(Float)
+    high = Column(Float)
+    low = Column(Float)
+    close = Column(Float)
+    transactions = Column(Integer)
+    volume = Column(Float)
+    volume_weighted_average_price = Column(Float)
