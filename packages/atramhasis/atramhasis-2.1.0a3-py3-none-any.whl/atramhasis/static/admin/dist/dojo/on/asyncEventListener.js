@@ -1,0 +1,3 @@
+//>>built
+define("dojo/on/asyncEventListener",["../on","../has","../_base/window","../dom-construct","../domReady!"],function(k,l,b,d){var f,c=!1;if(d){b=d.create("input",{type:"button"},b.body());k.once(b,"click",function(a){f=a});b.click();try{c=void 0===f.clientX}catch(a){c=!0}finally{d.destroy(b)}}l.add("native-async-event-support",!c);return function(a){return c?function(g){var m=a.call,h={},e;for(e in g)h[e]=g[e];m.call(a,this,h)}:a}});
+//# sourceMappingURL=asyncEventListener.js.map

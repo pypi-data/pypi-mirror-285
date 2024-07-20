@@ -1,0 +1,4 @@
+//>>built
+define("app/utils/DomUtils",["dojo/_base/array","dojo/dom-construct","dojo/_base/lang","dojo/_base/connect"],function(f,e,h,k){return{addOptionsToSelect:function(a,b){e.empty(a);b.placeholder&&e.place('\x3coption value\x3d""\x3e'+b.placeholder+"\x3c/option\x3e",a);f.forEach(b.data,function(c){e.place('\x3coption value\x3d"'+c[b.idProperty]+'"\x3e'+(b.showId?c[b.labelProperty]+" ("+c[b.idProperty]+")":c[b.labelProperty])+"\x3c/option\x3e",a)})},getSelectedOption:function(a){return a.options[a.selectedIndex]?
+a.options[a.selectedIndex].value:null},setSelectedOptions:function(a,b){for(var c=a&&a.options,d=0,g=c.length;d<g;d++)c[d].selected=-1<b.indexOf(c[d].value)}}});
+//# sourceMappingURL=DomUtils.js.map

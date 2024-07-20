@@ -1,0 +1,5 @@
+//>>built
+define("dojo/has",["./global","require","module"],function(d,l,m){var a=l.has||function(){};a.add("dom-addeventlistener",!!document.addEventListener);a.add("touch","ontouchstart"in document||"onpointerdown"in document&&0<navigator.maxTouchPoints||window.navigator.msMaxTouchPoints);a.add("touch-events","ontouchstart"in document);a.add("pointer-events","pointerEnabled"in window.navigator?window.navigator.pointerEnabled:"PointerEvent"in window);a.add("MSPointer",window.navigator.msPointerEnabled);a.add("touch-action",
+a("touch")&&a("pointer-events"));a.add("device-width",screen.availWidth||innerWidth);d=document.createElement("form");a.add("dom-attributes-explicit",0==d.attributes.length);a.add("dom-attributes-specified-flag",0<d.attributes.length&&40>d.attributes.length);a.clearElement=function(b){b.innerHTML="";return b};a.normalize=function(b,f){var c=b.match(/[\?:]|[^:\?]*/g),h=0,e=function(k){var g=c[h++];if(":"==g)return 0;if("?"==c[h++]){if(!k&&a(g))return e();e(!0);return e(k)}return g||0};return(b=e())&&
+f(b)};a.load=function(b,f,c){b?f([b],c):c()};return a});
+//# sourceMappingURL=has.js.map

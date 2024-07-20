@@ -1,0 +1,4 @@
+//>>built
+define("dojo/store/Cache",["../_base/lang","../when"],function(k,g){var l=function(e,d,h){h=h||{};return k.delegate(e,{query:function(a,c){var b=e.query(a,c);b.forEach(function(f){h.isLoaded&&!h.isLoaded(f)||d.put(f)});return b},queryEngine:e.queryEngine||d.queryEngine,get:function(a,c){return g(d.get(a),function(b){return b||g(e.get(a,c),function(f){f&&d.put(f,{id:a});return f})})},add:function(a,c){return g(e.add(a,c),function(b){d.add(b&&"object"==typeof b?b:a,c);return b})},put:function(a,c){d.remove(c&&
+c.id||this.getIdentity(a));return g(e.put(a,c),function(b){d.put(b&&"object"==typeof b?b:a,c);return b})},remove:function(a,c){return g(e.remove(a,c),function(b){return d.remove(a,c)})},evict:function(a){return d.remove(a)}})};k.setObject("dojo.store.Cache",l);return l});
+//# sourceMappingURL=Cache.js.map

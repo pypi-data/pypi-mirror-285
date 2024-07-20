@@ -1,0 +1,11 @@
+[console_scripts]
+delete_scheme = atramhasis.scripts.delete_scheme:main
+dump_rdf = atramhasis.scripts.dump_rdf:main
+generate_ldf_config = atramhasis.scripts.generate_ldf_config:main
+import_file = atramhasis.scripts.import_file:main
+initialize_atramhasis_db = atramhasis.scripts.initializedb:main
+migrate_sqlalchemy_providers = atramhasis.scripts.migrate_sqlalchemy_providers:main
+sitemap_generator = atramhasis.scripts.sitemap_generator:main
+
+[paste.app_factory]
+main = atramhasis:main

@@ -1,0 +1,4 @@
+//>>built
+define("dojo/NodeList-data",["./_base/kernel","./query","./_base/lang","./_base/array","./dom-attr"],function(g,l,m,p,n){var e=l.NodeList,c={},q=0,h=function(b){var a=n.get(b,"data-dojo-dataid");a||(a="pid"+q++,n.set(b,"data-dojo-dataid",a));return a},r=g._nodeData=function(b,a,f){var d=h(b),k;c[d]||(c[d]={});if(1==arguments.length)return c[d];"string"==typeof a?2<arguments.length?c[d][a]=f:k=c[d][a]:k=m.mixin(c[d],a);return k},t=g._removeNodeData=function(b,a){var f=h(b);c[f]&&(a?delete c[f][a]:
+delete c[f])};e._gcNodeData=g._gcNodeData=function(){var b=l("[data-dojo-dataid]").map(h),a;for(a in c)0>p.indexOf(b,a)&&delete c[a]};m.extend(e,{data:e._adaptWithCondition(r,function(b){return 0===b.length||1==b.length&&"string"==typeof b[0]}),removeData:e._adaptAsForEach(t)});return e});
+//# sourceMappingURL=NodeList-data.js.map

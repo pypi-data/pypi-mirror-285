@@ -1,0 +1,4 @@
+//>>built
+define("dojo/json5/util",["./unicode"],function(b){return{isSpaceSeparator:function(a){return"string"===typeof a&&b.Space_Separator.test(a)},isIdStartChar:function(a){return"string"===typeof a&&("a"<=a&&"z">=a||"A"<=a&&"Z">=a||"$"===a||"_"===a||b.ID_Start.test(a))},isIdContinueChar:function(a){return"string"===typeof a&&("a"<=a&&"z">=a||"A"<=a&&"Z">=a||"0"<=a&&"9">=a||"$"===a||"_"===a||"\u200c"===a||"\u200d"===a||b.ID_Continue.test(a))},isDigit:function(a){return"string"===typeof a&&/[0-9]/.test(a)},
+isHexDigit:function(a){return"string"===typeof a&&/[0-9A-Fa-f]/.test(a)}}});
+//# sourceMappingURL=util.js.map

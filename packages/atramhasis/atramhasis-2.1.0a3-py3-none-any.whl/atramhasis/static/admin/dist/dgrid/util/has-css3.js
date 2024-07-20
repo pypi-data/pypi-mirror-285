@@ -1,0 +1,4 @@
+//>>built
+define("dgrid/util/has-css3",["dojo/has"],function(d){function f(a,b){var c=a.style,e;if(b in c)return!0;b=b.slice(0,1).toUpperCase()+b.slice(1);for(e=g.length;e--;)if(g[e]+b in c)return g[e];return!1}var g=["ms","O","Moz","Webkit"];d.add("css-transitions",function(a,b,c){return f(c,"transitionProperty")});d.add("css-transforms",function(a,b,c){return f(c,"transform")});d.add("css-transforms3d",function(a,b,c){return f(c,"perspective")});d.add("transitionend",function(){var a=d("css-transitions");
+return a?!0===a?"transitionend":{ms:"MSTransitionEnd",O:"oTransitionEnd",Moz:"transitionend",Webkit:"webkitTransitionEnd"}[a]:!1});return d});
+//# sourceMappingURL=has-css3.js.map

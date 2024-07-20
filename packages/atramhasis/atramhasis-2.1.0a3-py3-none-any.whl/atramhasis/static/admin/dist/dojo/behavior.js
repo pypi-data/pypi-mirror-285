@@ -1,0 +1,5 @@
+//>>built
+define("dojo/behavior","./_base/kernel ./_base/lang ./_base/array ./_base/connect ./query ./domReady".split(" "),function(g,f,p,h,q,r){g.deprecated("dojo.behavior","Use dojo/on with event delegation (on.selector())");g.behavior=new function(){function n(b,a){b[a]||(b[a]=[]);return b[a]}function k(b,a,c){var e={},d;for(d in b)"undefined"==typeof e[d]&&(c?c.call(a,b[d],d):a(b[d],d))}var t=0;this._behaviors={};this.add=function(b){k(b,this,function(a,c){var e=n(this._behaviors,c);"number"!=typeof e.id&&
+(e.id=t++);var d=[];e.push(d);if(f.isString(a)||f.isFunction(a))a={found:a};k(a,function(l,m){n(d,m).push(l)})})};var u=function(b,a,c){f.isString(a)?"found"==c?h.publish(a,[b]):h.connect(b,c,function(){h.publish(a,arguments)}):f.isFunction(a)&&("found"==c?a(b):h.connect(b,c,a))};this.apply=function(){k(this._behaviors,function(b,a){q(a).forEach(function(c){var e=0,d="_dj_behavior_"+b.id;if("number"==typeof c[d]&&(e=c[d],e==b.length))return;for(var l;l=b[e];e++)k(l,function(m,v){f.isArray(m)&&p.forEach(m,
+function(w){u(c,w,v)})});c[d]=b.length})})}};r(function(){g.behavior.apply()});return g.behavior});
+//# sourceMappingURL=behavior.js.map

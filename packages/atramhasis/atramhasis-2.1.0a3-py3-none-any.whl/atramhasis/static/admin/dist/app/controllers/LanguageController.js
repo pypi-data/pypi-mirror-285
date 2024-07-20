@@ -1,0 +1,4 @@
+//>>built
+define("app/controllers/LanguageController","dojo/_base/declare dstore/Rest dstore/Trackable dstore/Cache dstore/Memory dojo/topic".split(" "),function(a,c,d,e,f,g){return a(null,{_target:"/languages",TrackableRest:null,_baseUrl:"",_langStore:null,_langList:null,constructor:function(b){a.safeMixin(this,b);this.TrackableRest=a([c,d])},getLanguageStore:function(){if(!this._langStore){var b=new this.TrackableRest({target:this._baseUrl+this._target,idProperty:"id",sortParam:"sort",useRangeHeaders:!0,
+accepts:"application/json"});this._langStore=e.create(b,{cachingStore:new f,isValidFetchCache:!0})}return this._langStore},updateLanguageStore:function(){this.getLanguageStore().invalidate();g.publish("languages.updated")}})});
+//# sourceMappingURL=LanguageController.js.map

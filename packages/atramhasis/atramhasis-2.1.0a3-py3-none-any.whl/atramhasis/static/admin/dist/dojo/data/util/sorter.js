@@ -1,0 +1,4 @@
+//>>built
+define("dojo/data/util/sorter",["../../_base/lang"],function(t){var d={};t.setObject("dojo.data.util.sorter",d);d.basicComparator=function(a,b){var e=-1;null===a&&(a=void 0);null===b&&(b=void 0);if(a==b)e=0;else if(a>b||null==a)e=1;return e};d.createSortFunction=function(a,b){function e(h,l,k,f){return function(u,v){var w=f.getValue(u,h),x=f.getValue(v,h);return l*k(w,x)}}for(var m=[],g,p=b.comparatorMap,q=d.basicComparator,n=0;n<a.length;n++){g=a[n];var c=g.attribute;if(c){g=g.descending?-1:1;var r=
+q;p&&("string"!==typeof c&&"toString"in c&&(c=c.toString()),r=p[c]||q);m.push(e(c,g,r,b))}}return function(h,l){for(var k=0;k<m.length;){var f=m[k++](h,l);if(0!==f)return f}return 0}};return d});
+//# sourceMappingURL=sorter.js.map

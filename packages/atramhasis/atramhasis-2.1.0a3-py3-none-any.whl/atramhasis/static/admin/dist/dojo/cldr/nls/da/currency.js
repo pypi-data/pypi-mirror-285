@@ -1,0 +1,3 @@
+//>>built
+define("dojo/cldr/nls/da/currency",{HKD_displayName:"hongkongsk dollar",CHF_displayName:"schweizerfranc",CHF_symbol:"CHF",JPY_symbol:"JP\u00a5",CAD_displayName:"canadisk dollar",HKD_symbol:"HK$",CNY_displayName:"kinesisk yuan",AUD_displayName:"australsk dollar",JPY_displayName:"japansk yen",CAD_symbol:"CA$",USD_displayName:"amerikansk dollar",EUR_symbol:"\u20ac",CNY_symbol:"CN\u00a5",GBP_displayName:"britisk pund",GBP_symbol:"\u00a3",AUD_symbol:"AU$",EUR_displayName:"euro"});
+//# sourceMappingURL=currency.js.map

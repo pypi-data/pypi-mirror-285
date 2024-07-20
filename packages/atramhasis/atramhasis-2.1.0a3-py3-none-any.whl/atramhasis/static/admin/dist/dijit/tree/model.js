@@ -1,0 +1,3 @@
+//>>built
+define("dijit/tree/model",["dojo/_base/declare"],function(c){return c("dijit.tree.model",null,{destroy:function(){},getRoot:function(a){},mayHaveChildren:function(a){},getChildren:function(a,b){},isItem:function(a){},getIdentity:function(a){},getLabel:function(a){},newItem:function(a,b,d,e){},pasteItem:function(a,b,d,e,f,g){},onChange:function(a){},onChildrenChange:function(a,b){}})});
+//# sourceMappingURL=model.js.map
