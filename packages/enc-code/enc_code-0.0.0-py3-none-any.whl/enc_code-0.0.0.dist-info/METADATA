@@ -1,0 +1,37 @@
+Metadata-Version: 2.1
+Name: enc-code
+Version: 0.0.0
+Summary: This is an installer for the enc command.
+Author-email: Suhas Krishna Srivastava <suhas.srivastava@vaastav.tech>
+Maintainer-email: Suhas Krishna Srivastava <suhas.srivastava@vaastav.tech>
+Project-URL: Homepage, https://www.vaastav.tech/products/enc-code
+Project-URL: Issues, https://www.vaastav.tech/issues/enc-code
+Classifier: Development Status :: 1 - Planning
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Education
+Classifier: Topic :: Software Development :: Version Control
+Classifier: Topic :: Software Development :: Version Control :: Git
+Classifier: License :: Free For Educational Use
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: 3 :: Only
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: typing-extensions
+Requires-Dist: tox
+Requires-Dist: pytest
+Requires-Dist: pytest-mock
+Provides-Extra: dev
+Requires-Dist: check-manifest ; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: coverage ; extra == 'test'
+Requires-Dist: tox ; extra == 'test'
+
