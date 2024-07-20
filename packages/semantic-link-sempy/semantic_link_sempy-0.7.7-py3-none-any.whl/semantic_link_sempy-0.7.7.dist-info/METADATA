@@ -1,0 +1,145 @@
+Metadata-Version: 2.1
+Name: semantic-link-sempy
+Version: 0.7.7
+Summary: Semantic link for Microsoft Fabric
+Home-page: https://learn.microsoft.com/en-us/fabric/data-science/semantic-link-overview
+Author: Microsoft
+Author-email: semanticdatascience@service.microsoft.com
+License: proprietary and confidential
+Platform: Microsoft Fabric
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown; charset=UTF-8
+License-File: LICENSE.txt
+Requires-Dist: clr-loader >=0.2.5
+Requires-Dist: graphviz >=0.20.1
+Requires-Dist: pyarrow >=12.0.1
+Requires-Dist: pythonnet >=3.0.1
+Requires-Dist: scikit-learn >=1.2.2
+Requires-Dist: setuptools >=68.2.2
+Requires-Dist: tqdm >=4.65.0
+
+Semantic link is a feature that allows you to establish a connection between [Power BI datasets](https://learn.microsoft.com/en-us/power-bi/connect-data/service-datasets-understand) and [Synapse Data Science in Microsoft Fabric](https://learn.microsoft.com/en-us/fabric/data-science/data-science-overview).  
+
+The primary goals of semantic link are to facilitate data connectivity, enable the propagation of semantic information, and seamlessly integrate with established tools used by data scientists, such as notebooks.  
+
+Semantic link helps you to preserve domain knowledge about data semantics in a standardized way that can speed up data analysis and reduce errors.
+
+[Package (PyPi)](https://pypi.org/project/semantic-link/) | [API reference documentation](https://learn.microsoft.com/en-us/python/api/semantic-link-sempy/) | [Product documentation](https://learn.microsoft.com/en-us/fabric/data-science/semantic-link-overview) | [Samples](https://github.com/microsoft/fabric-samples/tree/main/docs-samples/data-science/semantic-link-samples)
+
+By downloading, installing, using or accessing this distribution package for semantic link, you agree to the [Terms of Service](https://github.com/microsoft/semantic-link-functions/blob/main/sempy/LICENSE.txt).
+
+This package has been tested with Microsoft Fabric.
+
+# Getting started
+## Prerequisites
+
+* A [Microsoft Fabric subscription](https://learn.microsoft.com/en-us/fabric/enterprise/licenses). Or sign up for a free [Microsoft Fabric (Preview) trial](https://learn.microsoft.com/en-us/fabric/get-started/fabric-trial).
+* Sign in to [Microsoft Fabric](https://fabric.microsoft.com/).
+* Create [a new notebook](https://learn.microsoft.com/en-us/fabric/data-engineering/how-to-use-notebook#create-notebooks) or a new [spark job](https://learn.microsoft.com/en-us/fabric/data-engineering/create-spark-job-definition) to use this package. **Note that semantic link is supported only within Microsoft Fabric.**
+
+## About the semantic link packages
+The functionalities for semantic link are split into multiple packages to allow for a modular installation.
+If you want to install only a subset of the semantic link functionalities, you can install the individual packages instead of the `semantic-link` meta-package.
+This can help solve dependency issues. The following are some of the available packages:
+
+* [semantic-link](https://pypi.org/project/semantic-link/) - The meta-package that depends on all the individual semantic link packages and serves as a convenient way to install all the semantic link packages at once.
+* [semantic-link-sempy](https://pypi.org/project/semantic-link-sempy/) - The package that contains the core semantic link functionality.
+* [semantic-link-functions-holidays](https://pypi.org/project/semantic-link-functions-holidays/) - A package that contains semantic functions for holidays and dependence on [holidays](https://pypi.org/project/holidays).
+* [semantic-link-functions-geopandas](https://pypi.org/project/semantic-link-functions-geopandas/) - A package that contains semantic functions for geospatial data and dependence on [geopandas](https://pypi.org/project/geopandas).
+* ...
+
+## Install the `semantic-link` meta package
+
+For Spark 3.4 and above, Semantic link is available in the default runtime when using Fabric, and there's no need to install it. If you're using Spark 3.3 or below, or if you want to update to the most recent version of Semantic Link, you have two options:
+* To install the most recent version `semantic-link` in your notebook kernel by executing this code in a notebook cell:
+
+  ```python
+  %pip install -U semantic-link
+  ```
+
+* Alternatively, you can add semantic link to your Fabric environments directly. For more information, see [library management in Fabric environments](https://learn.microsoft.com/fabric/data-engineering/environment-manage-library).
+
+# Key concepts
+SemPy offers the following capabilitites:
+
+* Connectivity to Power BI
+* Connectivity through Power BI Spark native connector
+* Data augmentation with Power BI measures
+* Semantic propagation for pandas users
+* Built-in and custom semantic functions
+
+# Change logs
+
+## 0.7.7
+- fix list_partitions: records per segment calculation
+- Added resolve_dataset_id and resolve_dataset_name
+
+## 0.7.6
+- update evaluate_dax: allow limiting number rows
+- fix create_notebook: supported resolving default lakehouse from another workspace
+- fix api doc: removed broken xrefs
+- fix get_artifact_id for high concurrency
+
+## 0.7.5
+- FabricRestClient & PowerBIRestClient: support waiting for long-run operations
+- FabricRestClient & PowerBIRestClient: support paged responses
+- Added resolve_item_id and resolve_item_name
+- evaluate_dax: support reading data from semantic models with read-only access
+
+## 0.7.4
+- internal bug fixes
+
+## 0.7.3
+- add delta_column_mapping_mode parameter to FabricDataFrame.to_onelake_table
+- update find_relationships: swap from/to for relationships to align with PowerBI
+- make sure users can execute DAX against semantic models they have access to AND not have access to the workspace
+- support jupyter runtime
+- update list_columns : added missing workspace parameter
+- fix list_partitions: record / segment computation
+- fix list_tables_duplicates
+- fix list_tables(extended=True)
+- fix broken doc links
+
+## 0.7.2
+- list_* (additional_xmla_properties): handle property names that might fail for some rows 
+- fix list_tables
+
+## 0.7.1
+- fix list_annotations
+
+## 0.7.0
+
+- add create_tom_server
+- add additional_xmla_properties argument to all applicable list_* functions
+- add list_annotations
+- update list_columns: alternate columns/tables
+- update list_relationships: add extended argument
+- update list_hierarchies: add extended argument
+- update list_partitions: add extended argument
+- update list_measures: add additional columns
+- fix plot_relationship_metadata: arrows for relationships point in the same direction as PowerBI
+- fix list_datasources
+
+## 0.6.0
+- add list_datasources
+- add list_dataflows
+- add list_apps
+- add list_list_gateways
+- add list_tables
+- add list_calcuation_items
+- add list_columns
+- add list_perspectives
+- introduce the "extended" flag to query DMVs with more information (e.g. table size)
+- add additional xmla properties
+- update capacity id to lower case
+- make FabricDataFrame creation more robust
+- fix list_translations
+
+# Next steps
+View our [Samples](https://github.com/microsoft/fabric-samples/tree/main/docs-samples/data-science/semantic-link-samples)
+
+
