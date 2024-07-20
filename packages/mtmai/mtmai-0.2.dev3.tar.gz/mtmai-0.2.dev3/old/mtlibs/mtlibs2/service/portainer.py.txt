@@ -1,0 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+import argparse
+import os
+import sys
+from distutils.spawn import find_executable
+from pathlib import Path
+
+from stem.util import term
+
+# 目前还没找到安装 portainer 的方式，网上提供的教程目前看到的都是直接使用容器的。
+# docker run -d -p 9000:9000 -v /var/run/docker.sock:/var/run/docker.sock portainer/portainer
+# 不知道使用dind，在本容器内部启动容器，行不行。
