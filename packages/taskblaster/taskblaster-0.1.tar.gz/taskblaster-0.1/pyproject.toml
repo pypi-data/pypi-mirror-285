@@ -1,0 +1,44 @@
+[build-system]
+requires = ['setuptools']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'taskblaster'
+description = 'Light-weight computational workflow manager'
+version = '0.1'
+readme = 'README.rst'
+
+requires-python = '>=3.8'
+dependencies = ['click']
+
+classifiers = [
+    'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+    'Environment :: Console',
+]
+
+[project.scripts]
+tb = 'taskblaster.cli:tb'
+
+[project.urls]
+repository = 'https://gitlab.com/taskblaster/taskblaster'
+homepage = 'https://gitlab.com/taskblaster/taskblaster'  # TODO change to docs
+
+[project.optional-dependencies]
+docs = ['sphinx', 'sphinx_rtd_theme', 'sphinx_click']
+test = ['pytest']
+# myqueue is also an optional dependency in principle.
+
+[tool.ruff]
+include = ['taskblaster/**/*.py', 'test/**/*.py', 'docs/**/*.py']
+line-length = 79
+
+[tool.ruff.lint]
+select = [
+    'F', # pyflakes
+    'E', # pycodestyle error
+    'W', # pycodestyle warning
+    'I', # isort
+]
+
+[tool.ruff.format]
+quote-style = 'single'
