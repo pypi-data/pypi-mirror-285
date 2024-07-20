@@ -1,0 +1,5 @@
+S3_GET_BUCKET_LOCATION = 's3:GetBucketLocation'
+S3_GET_BUCKET_TAGGING = 's3:GetBucketTagging'
+S3_PUT_BUCKET_TAGGING = 's3:PutBucketTagging'
+S3_GET_BUCKET_VERSIONING = 'S3:GetBucketVersioning'
+S3_PUT_BUCKET_VERSIONING = 's3:PutBucketVersioning'
