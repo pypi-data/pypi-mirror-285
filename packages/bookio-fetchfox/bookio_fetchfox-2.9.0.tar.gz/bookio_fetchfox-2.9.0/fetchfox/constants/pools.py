@@ -1,0 +1,4 @@
+BOOK_POOL_TICKER = "BOOK"
+
+BOOK_POOL_ID = "7da52b944987bcc11821a802d33993bc4c7135270619e0e2cc6ddcf5"
+BOOK_POOL_FINGERPRINT = "pool10kjjh9zfs77vzxpp4qpdxwvnh3x8zdf8qcv7pckvdhw02fu6unz"
