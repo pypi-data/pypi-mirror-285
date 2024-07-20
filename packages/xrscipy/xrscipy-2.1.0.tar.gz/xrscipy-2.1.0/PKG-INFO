@@ -1,0 +1,66 @@
+Metadata-Version: 2.1
+Name: xrscipy
+Version: 2.1.0
+Summary: Scipy integrated into xarray
+Home-page: https://github.com/hippalectryon-0/xr-scipy
+License: Apache
+Author: xarray Developers
+Author-email: xarray@googlegroups.com
+Requires-Python: >=3.9,<4
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: License :: Other/Proprietary License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering
+Requires-Dist: docstring-parser (>=0.15,<0.16)
+Requires-Dist: scipy (>=1.9)
+Requires-Dist: xarray (>=2023)
+Project-URL: Documentation, https://xr-scipy.readthedocs.io
+Project-URL: Repository, https://github.com/hippalectryon-0/xr-scipy
+Description-Content-Type: text/markdown
+
+[![Documentation Status](https://readthedocs.org/projects/xr-scipy/badge/?version=latest)](http://xr-scipy.readthedocs.io/en/latest/?badge=latest)
+
+# scipy for xarray
+
+xr-scipy is a thin wrapper of scipy for the [xarray](https://docs.xarray.dev) eco-system. You can read the documentation [here](https://xr-scipy.readthedocs.io).
+
+Many scipy functions, such as `scipy.integrate.trapezoid` requires coordinate array as an argument.
+xr-scipy wraps these functions to use native coordinate objects of xarray and returns an xarray object with the computed data.
+This enables more xarray-oriented data analysis with scipy.
+
+Other usage/options are kept almost the same as the original scipy function.
+
+# Example
+
+```python
+import xarray as xr
+import numpy as np
+import xrscipy.integrate
+
+In[1]: da = xr.DataArray([0, 3, 2, 4, 6], coords={'x': np.linspace(0, 1, 5)})
+In[2]: da
+Out[2]:
+<xarray.DataArray (x: 5)>
+array([0, 3, 2, 4, 6])
+Coordinates:
+  * x        (x) float64 0.0 0.25 0.5 0.75 1.0
+
+In[3]: xrscipy.integrate.cumulative_trapezoid(da, coord='x')
+Out[3]:
+<xarray.DataArray (x: 5)>
+array([0.   , 0.375, 1.   , 1.75 , 3.   ])
+Coordinates:
+  * x        (x) float64 0.0 0.25 0.5 0.75 1.0
+```
+
+# Installation
+
+`pip install xrscipy`
+
