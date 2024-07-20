@@ -1,0 +1,127 @@
+{
+    "type": "object",
+    "properties": {
+        "meta": {
+            "$ref": "#/definitions/Meta",
+            "default": {
+                "key": "meta",
+                "version": "0.4.2",
+                "stem": ""
+            }
+        },
+        "figures": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/Figure"
+            },
+            "default": []
+        }
+    },
+    "description": "\n    Wrapper of the docx.Document with additional path meta-data and figures with tabular\n    data converted to a JSON serializable format\n    ",
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "definitions": {
+        "Meta": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "default": "meta"
+                },
+                "version": {
+                    "type": "string",
+                    "default": "0.4.2"
+                },
+                "stem": {
+                    "type": "string",
+                    "default": ""
+                }
+            },
+            "description": "Meta(key: 'str' = 'meta', version: 'str' = '0.4.2', stem: 'str' = <factory>)"
+        },
+        "Figure": {
+            "type": "object",
+            "required": [
+                "key",
+                "figure_nr",
+                "caption",
+                "description"
+            ],
+            "properties": {
+                "key": {
+                    "type": "string"
+                },
+                "figure_nr": {
+                    "type": "integer"
+                },
+                "caption": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "page_nr": {
+                    "type": "integer"
+                },
+                "table": {
+                    "$ref": "#/definitions/Table"
+                }
+            },
+            "description": "\n    A figure as captioned in the NVMe Specification Documents.\n\n    Ensuring that the 'figure' being \"enriched\" is always available. Providing a\n    factory-method, constructing the class using 'figure' information, and enriched data\n    from 'match.groupdict()'\n    "
+        },
+        "Table": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "default": "table"
+                },
+                "rows": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Row"
+                    },
+                    "default": []
+                }
+            },
+            "description": "Table(key: 'str' = 'table', rows: 'List[Row]' = <factory>)"
+        },
+        "Row": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "default": "row"
+                },
+                "cells": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Cell"
+                    },
+                    "default": []
+                }
+            },
+            "description": "Row(key: 'str' = 'row', cells: 'List[Cell]' = <factory>)"
+        },
+        "Cell": {
+            "type": "object",
+            "properties": {
+                "key": {
+                    "type": "string",
+                    "default": "cell"
+                },
+                "text": {
+                    "type": "string",
+                    "default": ""
+                },
+                "tables": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Table"
+                    },
+                    "default": []
+                }
+            },
+            "description": "Cell(key: 'str' = 'cell', text: 'str' = <factory>, tables: 'List[Table]' = <factory>)"
+        }
+    }
+}
