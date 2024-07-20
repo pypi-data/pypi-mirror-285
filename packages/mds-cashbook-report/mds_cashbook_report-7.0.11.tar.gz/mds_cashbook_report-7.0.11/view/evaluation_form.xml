@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<form col="6">
+    <label name="name"/>
+    <field name="name"/>
+    <label name="currency"/>
+    <field name="currency"/>
+    <newline/>
+
+    <separator colspan="6" id="sepdtype" string="Type of data displayed"/>
+    <label name="dtype1"/>
+    <field name="dtype1"/>
+    <label name="dtype2"/>
+    <field name="dtype2"/>
+    <label name="dtype3"/>
+    <field name="dtype3"/>
+
+    <label name="dtype4"/>
+    <field name="dtype4"/>
+    <label name="dtype5"/>
+    <field name="dtype5"/>
+    <newline/>
+
+    <separator colspan="6" id="sepdisplay" string="Representation"/>
+    <label name="chart"/>
+    <field name="chart"/>
+    <label name="maincolor"/>
+    <field name="maincolor"/>
+    <label name="legend"/>
+    <field name="legend"/>
+
+    <label name="bgcolor"/>
+    <field name="bgcolor"/>
+    <newline/>
+
+    <field name="cashbooks" colspan="6"/>
+    <field name="types" colspan="6"/>
+    <field name="currencies" colspan="6"/>
+    <field name="categories" colspan="6"/>
+</form>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- This file is part of the diagram-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <record model="ir.action.wizard" id="wizard_open_chart">
+            <field name="name">Open Chart</field>
+            <field name="wiz_name">cashbook_report.wizchart</field>
+            <field name="model">cashbook_report.evaluation</field>
+        </record>
+
+        <record model="ir.action.keyword" id="wizard_open_chart_keyword1">
+            <field name="keyword">tree_open</field>
+            <field name="model">cashbook_report.evaluation,-1</field>
+            <field name="action" ref="wizard_open_chart"/>
+        </record>
+
+    </data>
+</tryton>

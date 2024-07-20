@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- This file is part of the diagram-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- views -->
+        <record model="ir.ui.view" id="evalline_view_graph">
+            <field name="model">cashbook_report.eval_line</field>
+            <field name="type">graph</field>
+            <field name="name">evalline_graph</field>
+        </record>
+        <record model="ir.ui.view" id="evalline_view_list">
+            <field name="model">cashbook_report.eval_line</field>
+            <field name="type">tree</field>
+            <field name="name">evalline_list</field>
+        </record>
+        <record model="ir.ui.view" id="evalline_view_form">
+            <field name="model">cashbook_report.eval_line</field>
+            <field name="type">form</field>
+            <field name="name">evalline_form</field>
+        </record>
+
+        <!-- action view - for graph view -->
+        <record model="ir.action.act_window" id="act_evaluation_graph_view">
+            <field name="name">Evaluation</field>
+            <field name="res_model">cashbook_report.eval_line</field>
+            <field name="context_model">cashbook_report.evaluation.context</field>
+            <field name="domain"
+                eval="[('evaluation', '=', Eval('evaluation', -1))]"
+                pyson="1"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_evaluation_graph_view-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="evalline_view_graph"/>
+            <field name="act_window" ref="act_evaluation_graph_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_evaluation_graph_view-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="evalline_view_list"/>
+            <field name="act_window" ref="act_evaluation_graph_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_evaluation_graph_view-3">
+            <field name="sequence" eval="30"/>
+            <field name="view" ref="evalline_view_form"/>
+            <field name="act_window" ref="act_evaluation_graph_view"/>
+        </record>
+
+        <record model="ir.action-res.group" id="graph_view-group_cashbook">
+            <field name="action" ref="act_evaluation_graph_view"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+
+    </data>
+</tryton>
