@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "rlvortex"
+version = "0.0.42"
+description = "A reinforcement learning algorithm library"
+authors = ["ZhiquanW <zhiquan.wzq@gmail.com>"]
+license = "GPL-2.0-only"
+readme = "README.md"
+package-mode = true
+classifiers = [
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
+]
+[tool.poetry.dependencies]
+python = "^3.8"
+gymnasium = { version = "0.29.1", extras = ["all"] }
+swig = "^4.1.1"
+torch = "^1.8.0"
+numpy = "1.24.4"
+scipy = "^1.5.0"
+tensorboard = "2.13.0"
+loguru = "^0.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
