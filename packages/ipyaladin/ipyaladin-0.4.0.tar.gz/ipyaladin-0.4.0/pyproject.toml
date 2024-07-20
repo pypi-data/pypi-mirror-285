@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ipyaladin"
+dynamic = ["version"]
+dependencies = ["anywidget", "astropy"]
+readme = "README.md"
+license = "BSD-3-Clause"
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = ["pytest", "watchfiles", "jupyterlab", "ruff"]
+recommended = ["mocpy", "regions"]
+
+# automatically add the dev feature to the default env (e.g., hatch shell)
+[tool.hatch.envs.default]
+features = ["dev"]
+
+[tool.hatch.version]
+path = "src/ipyaladin/__about__.py"
+
+[tool.hatch.build]
+only-packages = true
+artifacts = ["src/ipyaladin/static/*"]
+
+[tool.hatch.build.hooks.jupyter-builder]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = ["src/ipyaladin/static/widget.js"]
+skip-if-exists = ["src/ipyaladin/static/widget.js"]
+dependencies = ["hatch-jupyter-builder>=0.5.0"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+npm = "npm"
+build_cmd = "build"
+
+[tool.ruff]
+fix = true
+show-fixes = true
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+extend-select = ["E", "W", "YTT", "ASYNC", "BLE", "B", "A",
+                 "C4", "ISC", "PIE", "PYI", "RSE", "RET", "SIM",
+                 "PTH", "TD", "ERA", "PL", "PERF", "RUF", "ARG",
+                 "ANN", "D"
+                ]
+ignore = ["ISC001", "ANN101", "D203", "D213", "D100", "D105"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.lint.per-file-ignores]
+# D104: Missing docstring in public package
+"__init__.py" = ["D104"]
+
+[tool.ruff.format]
+docstring-code-format = false
