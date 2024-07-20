@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools-rust"]
+
+[project]
+name = "field-compression-benchmark"
+version = "0.0.4"
+requires-python = ">=3.10"
+description = "Data compression methods and benchmarks for Cli/Met datasets"
+license = { file = "LICENSE-APACHE" }
+authors = [{ name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }]
+maintainers = [{ name = "Juniper Tyree", email = "juniper.tyree@helsinki.fi" }]
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "cfgrib == 0.9.10.4",
+    "dask == 2024.2.1",
+    "matplotlib == 3.5.2",
+    "netcdf4 == 1.6.5",
+    "numcodecs == 0.12.1",
+    "numpy == 1.26.4",
+    "pint == 0.23",
+    "xarray == 2023.12.0",
+    "xeofs == 2.3.1",
+    "xhistogram == 0.3.2",
+    "zarr == 2.17.0",
+]
+
+[project.readme]
+text = """
+    Benchmarking tools to compare the performance of various data compression methods \
+    with different settings across a variety of variables and their derivatives from \
+    different GRIB, NetCDF, or Zarr datasets.\
+"""
+content-type = "text/markdown"
+
+[tool.setuptools.package-dir]
+fcbench = "fcbench/fcbench"
+
+[[tool.setuptools-rust.ext-modules]]
+target = "fcbench._fcbench"
+path = "fcbench/Cargo.toml"
+binding = "PyO3"
+
+[tool.poetry]
+name = "field-compression-benchmark"
+version = "0.0.4"
+description = "field-compression-benchmark Python environment"
+authors = ["Juniper Tyree <juniper.tyree@helsinki.fi>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "~3.11"
+cfgrib = "0.9.10.4"
+dask = "2024.2.1"
+matplotlib = "3.5.2"
+netcdf4 = "1.6.5"
+numcodecs = "0.12.1"
+numpy = "1.26.4"
+pint = "0.23"
+xarray = "2023.12.0"
+xeofs = "2.3.1"
+xhistogram = "0.3.2"
+zarr = "2.17.0"
+
+[tool.ruff]
+exclude = [
+    "miniconda3",
+    "venv",
+]
+line-length = 79

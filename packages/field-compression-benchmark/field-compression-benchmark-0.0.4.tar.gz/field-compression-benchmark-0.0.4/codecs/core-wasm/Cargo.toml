@@ -1,0 +1,28 @@
+[package]
+name = "codecs-core-wasm"
+version = "0.1.0"
+edition = { workspace = true }
+authors = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+rust-version = { workspace = true }
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+codecs-core = { workspace = true }
+serde = { workspace = true, features = ["alloc", "derive"] }
+wit-bindgen = { workspace = true, features = ["macros", "realloc"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+format_serde_error = { workspace = true, features = ["serde_json"] }
+log = { workspace = true }
+serde_json = { workspace = true, features = ["alloc"] }
+wasi-logger = { workspace = true }
+
+[dev-dependencies]
+check-wit-deps = { workspace = true }
+
+[lints]
+workspace = true

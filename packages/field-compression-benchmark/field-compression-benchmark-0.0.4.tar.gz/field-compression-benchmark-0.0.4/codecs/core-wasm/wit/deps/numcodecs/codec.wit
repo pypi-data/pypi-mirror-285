@@ -1,0 +1,34 @@
+package numcodecs:abc@0.1.0;
+
+interface codec {
+  variant buffer {
+    %u8(list<u8>),
+    %u16(list<u16>),
+    %u32(list<u32>),
+    %u64(list<u64>),
+    i8(list<s8>),
+    i16(list<s16>),
+    i32(list<s32>),
+    i64(list<s64>),
+    %f32(list<f32>),
+    %f64(list<f64>),
+  }
+
+  type usize = u32;
+
+  record shaped-buffer {
+    buffer: buffer,
+    shape: list<usize>,
+  }
+
+  resource codec {
+    from-config: static func(config: string) -> result<codec, string>;
+    encode: func(data: buffer, shape: list<usize>) -> result<shaped-buffer, string>;
+    decode: func(data: buffer, shape: list<usize>) -> result<shaped-buffer, string>;
+    get-config: func() -> result<string, string>;
+  }
+
+  codec-id: func() -> string;
+  signature: func() -> string;
+  documentation: func() -> string;
+}
