@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "pl_compare"
+version = "0.5.0"
+description = "A tool to find the differences between two tables."
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [ {include = "pl_compare"} ]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+polars = "^1.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.2.0"
+ruff = "^0.3"
+mypy = "^1.9.0"
+pytest = "^8.1.1"
+pandas = "^2.0.3"
+
+[tool.black]
+line-length = 100
+
+[tool.ruff]
+lint.ignore = ["E501"]
+line-length = 100
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.urls]
+"Repository" = "https://github.com/concur1/pl_compare"
+"Changelog" = "https://github.com/concur1/pl_compare/releases"
