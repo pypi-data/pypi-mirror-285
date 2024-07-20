@@ -1,0 +1,46 @@
+[package]
+name = "lox-space"
+description = "The Lox toolbox for space mission analysis and design"
+version = "0.1.0-alpha.2"
+rust-version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[lib]
+name = "lox_space"
+crate-type = ["lib", "cdylib"]
+
+[dependencies]
+lox-bodies.workspace = true
+lox-orbits.workspace = true
+lox-time.workspace = true
+lox-math.workspace = true
+
+pyo3 = { workspace = true, optional = true }
+
+[features]
+default = ["python"]
+python = [
+    "dep:pyo3",
+    "lox-bodies/python",
+    "lox-orbits/python",
+    "lox-time/python",
+    "lox-math/python",
+]
+
+[dev-dependencies]
+divan.workspace = true
+
+[[bench]]
+name = "iau_frames"
+harness = false
+
+[[bench]]
+name = "time_delta"
+harness = false
+
+[[bench]]
+name = "observables"
+harness = false
