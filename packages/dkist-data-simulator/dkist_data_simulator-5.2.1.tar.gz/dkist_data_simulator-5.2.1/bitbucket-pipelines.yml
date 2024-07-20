@@ -1,0 +1,52 @@
+image: python:3.10
+
+definitions:
+  steps:
+    - step: &test
+        size: 2x
+        caches:
+          - pip
+        name: Test
+        script:
+          - pip install -U pip
+          - pip install tox
+          - tox run -e py310-test -- --cov-report=xml -n 4 --dist=worksteal
+          # Upload test coverage to codecov
+          - curl https://keybase.io/codecovsecurity/pgp_keys.asc | gpg --no-default-keyring --keyring trustedkeys.gpg --import
+          - curl -Os https://uploader.codecov.io/latest/linux/codecov
+          - curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM
+          - curl -Os https://uploader.codecov.io/latest/linux/codecov.SHA256SUM.sig
+          - gpgv codecov.SHA256SUM.sig codecov.SHA256SUM
+          - shasum -a 256 -c codecov.SHA256SUM
+          - chmod +x codecov
+          - ./codecov -t ${CODECOV_TOKEN}
+
+    - step: &lint
+        caches:
+          - pip
+        name: Lint
+        script:
+          - pip install -U pip
+          - pip install tox
+          - tox run -e codestyle
+
+    - step: &push
+        caches:
+          - pip
+        name: Push
+        script:
+          - pip install -U pip
+          - pip install twine build
+          - python -m build --outdir wheelhouse .
+          - python -m twine upload --skip-existing wheelhouse/*
+
+pipelines:
+  default:
+    - parallel:
+      - step: *lint
+      - step: *test
+  tags:
+    'v*':
+      - step: *lint
+      - step: *test
+      - step: *push
