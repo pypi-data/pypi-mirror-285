@@ -1,0 +1,46 @@
+[project]
+name = 'metabot.calendars.google'
+version = '0.2.1'
+description = 'Google Calendar loader for metabot.'
+authors = [
+    {name = 'Daniel Reed', email = 'nmlorg@gmail.com'},
+]
+requires-python = '>=3.8'
+dependencies = [
+    'google-api-python-client',
+    'metabot >= 0.3.24',
+    'oauth2client',
+]
+
+[project.optional-dependencies]
+dev = [
+    'pylint',
+    'pytest-cov',
+    'pytest',
+    'requests-mock',
+]
+
+[project.urls]
+Homepage = 'https://github.com/nmlorg/metabot.calendars.google'
+Issues = 'https://github.com/nmlorg/metabot.calendars.google/issues'
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+    'consider-using-ternary',
+    'duplicate-code',
+    'inconsistent-return-statements',
+    'useless-object-inheritance',
+]
+
+[tool.pytest.ini_options]
+addopts = '-rN --cov=metabot --cov-report=html'
+consider_namespace_packages = true
+testpaths = ['metabot']
+verbosity_assertions = 2
+
+[tool.setuptools.packages.find]
+include = ['metabot', 'metabot.*']
+
+[tool.yapf]
+based_on_style = 'google'
+column_limit = 100
