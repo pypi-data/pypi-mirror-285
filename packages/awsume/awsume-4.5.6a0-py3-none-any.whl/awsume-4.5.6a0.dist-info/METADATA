@@ -1,0 +1,31 @@
+Metadata-Version: 2.1
+Name: awsume
+Version: 4.5.6a0
+Summary: Awsume - A cli that makes using AWS IAM credentials easy
+Home-page: https://github.com/trek10inc/awsume
+Author: Trek10, Inc
+Author-email: package-management@trek10.com
+License: MIT
+Platform: UNKNOWN
+Requires-Python: >=3.5
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: colorama
+Requires-Dist: boto3
+Requires-Dist: psutil
+Requires-Dist: pluggy
+Requires-Dist: pyyaml
+Provides-Extra: configure
+Requires-Dist: setuptools ; (python_version >= "3.12") and extra == 'configure'
+Provides-Extra: console
+Requires-Dist: awsume-console-plugin ; extra == 'console'
+Provides-Extra: fuzzy
+Requires-Dist: python-levenshtein ; extra == 'fuzzy'
+Provides-Extra: saml
+Requires-Dist: xmltodict ; extra == 'saml'
+
+# AWSume: AWS Assume Made Awesome
+
+Check out the documentation at [awsu.me](https://awsu.me)!
+
+
