@@ -1,0 +1,67 @@
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[project]
+name = "orbie"
+version = "0.1.3"
+description = "A checker to restrict the tangling of import interdependencies"
+authors = [
+    { name = "Michael Ho", email = "michael.ho@ieee.org" },
+]
+dependencies = [
+    "importlab>=0.8.1",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+
+[project.license]
+text = "MIT"
+
+[project.scripts]
+orbie = "orbie.orbie:main"
+
+[tool.bandit.assert_used]
+skips = [
+    "*_test.py",
+    "*test_*.py",
+]
+
+[tool.isort]
+profile = "black"
+py_version = 312
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "black>=24.4.2",
+    "isort>=5.13.2",
+    "toml-sort>=0.23.1",
+    "ruff>=0.5.3",
+    "bandit>=1.7.9",
+    "mypy>=1.11.0",
+]
+
+[tool.pdm.scripts]
+lint-check = "ruff check --config ./pyproject.toml ."
+lint-fix = "ruff check --config ./pyproject.toml . --fix"
+security-scan = "bandit -rc pyproject.toml src/ tests/"
+test = "pytest"
+
+[tool.pdm.scripts.check-formatting]
+composite = [
+    "black --check src/ tests/",
+    "isort --check --settings-path ./pyproject.toml src/ tests/",
+    "toml-sort --check ./pyproject.toml",
+]
+
+[tool.pdm.scripts.format]
+composite = [
+    "black src/ tests/",
+    "isort --settings-path ./pyproject.toml src/ tests/",
+    "toml-sort -i ./pyproject.toml",
+]
