@@ -1,0 +1,45 @@
+from ultralytics import YOLO
+model = YOLO('/root/ultralytics/ultralytics/cfg/models/v8/yolov8.yaml').load("yolov8n.pt")
+result=model.train(data='/root/autodl-tmp/train', epochs=30,batch=4)
+
+results1=model.train(data='\site-packages\ultralytics\cfg\datasets\mydata.yaml', epochs=100,batch=4, imgsz=640)
+
+# 评估模型在验证集上的性能
+metrics = model.val(save_json=True)
+metrics.box.map  # map50-95
+metrics.box.map50  # map50
+metrics.box.map75  # map75
+metrics.box.maps  # a list contains map50-95 of each category
+
+# ---------- 加载模型 ----------
+model = YOLO('runs/detect/train3/weights/best.pt')  
+# ---------- 模型评估 ----------
+model.val(data='coco128.yaml')
+————————————————
+
+# 使用模型对图片进行目标检测
+import cv2
+from PIL import Image
+from ultralytics import YOLO
+model = YOLO("model.pt")
+results = model.predict(source="/folder/", show=True)  
+
+# from PIL
+im1 = Image.open("bus.jpg")
+results = model.predict(source=im1, save=True)  # save plotted images
+
+# from ndarray
+im2 = cv2.imread("bus.jpg")
+results = model.predict(source=im2, save=True, save_txt=True)  # save predictions as labels
+
+# 将模型导出
+success = model.export(format='onnx')
+
+#预测代码
+model = YOLO('yolov8n-cls.pt')
+results = model("best.pt")
+print(results[0].names)
+# 对结果进行处理
+for result in results:
+    probs = result.probs
+    print(probs)

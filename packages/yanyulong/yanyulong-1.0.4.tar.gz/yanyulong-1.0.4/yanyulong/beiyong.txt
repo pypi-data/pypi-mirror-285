@@ -1,0 +1,76 @@
+import json
+
+# 准备数据
+data = {
+    "name": "John Doe",
+    "age": 30,
+    "city": "New York"
+}
+
+# 定义文件名和路径
+file_path = 'output.json'
+
+# 使用json.dump()将数据写入文件
+with open(file_path, 'w', encoding='utf-8') as file:
+    json.dump(data, file, ensure_ascii=False, indent=2)  # ensure_ascii=False保持中文等非ASCII字符，indent=2美化输出格式
+
+a = df3.drop(['a'], axis=0)				# axis=0时 删除指定的行
+b = df3.drop(['A'], axis=1)				# axis=1时，删除指定的列
+
+# 数据可视化
+import matplotlib.pyplot as plt
+import missingno
+import seaborn as sns
+from pandas.tools.plotting import scatter_matrix
+# 绘制每个特征的分布
+def plot_distribution(dataset, cols=5, width=20, height=15, hspace=0.2, wspace=0.5):
+    plt.style.use('seaborn-whitegrid') 
+    fig = plt.figure(figsize=(width,height))
+    fig.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=wspace, hspace=hspace) # 调整图表位置和大小间距
+    rows = math.ceil(float(dataset.shape[1]) / cols)# ceil方法向上取整
+    for i, column in enumerate(dataset.columns): #返回索引和列名
+        ax = fig.add_subplot(rows, cols, i + 1)# 创建子图，类似于subplot方法
+        ax.set_title(column)	# 设置轴的标题
+        if dataset.dtypes[column] == np.object: # 通过列的类型来区分所选取的图像类型
+            g = sns.countplot(y=column, data=dataset)
+            substrings = [s.get_text()[:18] for s in g.get_yticklabels()]
+            g.set(yticklabels=substrings)
+            plt.xticks(rotation=25) 
+        else:
+            g = sns.distplot(dataset[column])
+            plt.xticks(rotation=25)
+plot_distribution(dataset_raw, cols=3, width=20, height=20, hspace=0.45, wspace=0.5)
+
+#连续值离散化
+ataset_bin['age'] = pd.cut(dataset_raw['age'], 10) # 离散化
+dataset_bin.head()
+
+
+
+
+#画图
+plt.style.use('seaborn-whitegrid')		
+fig = plt.figure(figsize=(20,5)) 
+plt.subplot(1, 2, 1)						# 第一个子图
+sns.countplot(y="age", data=dataset_bin);	# 绘制柱状图
+plt.subplot(1, 2, 2)						# 第二个子图
+# 带趋势线的直方图
+# 属性值大于50K的直方图
+sns.distplot(dataset_con.loc[dataset_con['predclass'] == 1]['age'], kde_kws={"label": ">$50K"});				# 设置标签
+# 属性值小于于50K的直方图
+sns.distplot(dataset_con.loc[dataset_con['predclass'] == 0]['age'], kde_kws={"label": "<$50K"});
+
+# 可视化数据
+plt.style.use('seaborn-whitegrid')
+plt.figure(figsize=(20,3)) 
+# 使用workclass作为y轴，绘制柱状图
+sns.countplot(y="workclass", data=dataset_raw);
+
+
+# One-Hot编码
+dataset_bin_enc = pd.get_dummies(dataset_bin, columns=one_hot_cols)
+dataset_bin_enc.head()
+
+
+
+
