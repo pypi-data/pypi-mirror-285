@@ -1,0 +1,38 @@
+### Indentation must be consistent!  Do not mix leading tabs and spaces.
+
+### See the curl manpage for supported --proxy parameters
+### For a direct connection, leave the right-hand side blank
+proxy: http://vpn-gw:8118
+# proxy2: http://gw2:8118
+
+### Override the default cache directory (~/.cache/mmgen-node-tools):
+cachedir:
+
+### Additional asset columns:
+# add_columns:
+#  - cnhusd=x  # Yuan
+#  - 6j=f      # Yen futures
+
+### Asset rows
+### Asset labels are arbitrary strings.  Use as many or few as you wish.
+### Invoke ‘mmnode-ticker --list-ids’ for a full list of supported asset IDs.
+assets:
+  coin1:
+    - btc-bitcoin
+    - eth-ethereum
+    - xmr-monero
+  coin2:
+    - ada-cardano
+    - bnb-binance-coin
+  commodity:
+    - gc=f # gold futures
+    - si=f # silver futures
+    - bz=f # Brent futures
+  fiat:
+    - gbpusd=x # Pound Sterling
+    - eurusd=x # Euro
+    - chfusd=x # Swiss Franc
+  index:
+    - ^dji  # Dow Jones Industrials
+    - ^ixic # Nasdaq 100
+    - ^gspc # S&P 500
