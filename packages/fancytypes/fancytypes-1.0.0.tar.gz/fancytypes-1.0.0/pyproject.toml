@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools", "wheel", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fancytypes"
+dynamic = ["version"]
+description = """
+Contains a base class representing an updatable parameter set that is \
+equipped with methods to facilitate parameter data serialization and \
+validation.\
+"""
+readme = "README.md"
+authors = [
+    {name = "Matthew Fitzpatrick", email = "matthew.rc.fitzpatrick@gmail.com"}
+]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Natural Language :: English"
+]
+keywords = [
+    "type checking",
+    "type conversion"
+]
+dependencies = [
+    "czekitout"
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+tests = [
+    "pytest-cov"
+]
+examples = [
+    "jupyter",
+    "ipympl"
+]
+docs = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "sphinx-autodoc-typehints",
+    "numpydoc",
+    "docutils"
+]
+all = [
+    "fancytypes[tests, examples, docs]"
+]
+
+[project.urls]
+Homepage = "https://mrfitzpa.github.io/fancytypes"
+Repository = "https://github.com/mrfitzpa/fancytypes"
+
+[tool.setuptools_scm]
+write_to = "fancytypes/version.py"
+version_scheme = "post-release"
