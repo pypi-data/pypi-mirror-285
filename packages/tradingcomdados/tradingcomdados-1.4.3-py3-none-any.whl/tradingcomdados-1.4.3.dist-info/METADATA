@@ -1,0 +1,103 @@
+Metadata-Version: 2.1
+Name: tradingcomdados
+Version: 1.4.3
+Summary: tradingcomdados
+Author: Lucas Roberto Correa
+Description-Content-Type: text/markdown
+Requires-Dist: pandas ==2.0.3
+Requires-Dist: requests ==2.31.0
+Requires-Dist: requests-oauthlib ==1.3.1
+Requires-Dist: requests-unixsocket ==0.2.0
+Requires-Dist: numpy ==1.25.2
+Requires-Dist: joblib ==1.1.1
+Requires-Dist: scikit-learn ==1.2.2
+
+# tradingcomdados
+
+## Introduction
+*Trading com Dados Library for quantitative finance*
+
+The library consists of a collection of methods that can be used in order to help Data Scientists, Quantitative Analysts and data professionals during the development of quantitative finance applications. One of the main objectives of the library is to provide methods to connect to Trading com dados' data provider services.
+
+## Library Motivation and Description
+Trading com dados is an Edtech that provides educational content for people who want to know quantitative finance and in order to obtain that knowlegde, we need quality data, thus this library and our API service was created to solve that.
+
+## API methods
+-> get_data
+
+-> get_data_tickers
+
+
+## How to install
+```python 
+pip install tradingcomdados
+```
+
+## Machine Learning
+This library has a few machine learning models that you can use in your daily activities.
+
+With our lib, you can easily implement machine learning models to your daily activities in the financial market.
+
+```python
+from tradingcomdados import unsupervised_learning as ul
+
+ul.clustering_pipeline()
+```
+
+## Alternative Data
+You can obtain alternative data from the Brazilian Market and NASDAQ using this library
+
+Examples:
+* Indexes, such as IBOV, IFIX but also S&P 500
+* Economy sectors of companies listed in the Brazilian stock exchange or NASDAQ
+
+
+```python
+from tradingcomdados import alternative_data as ad
+
+# General function
+ad.index_composition()
+
+# Obtaining composition of IBOV
+ad.index_composition('ibov')
+
+# Obtaining sectors of Brazilian companies listed at B3
+ad.get_sectors('B3')
+
+# Obtaing sectors of companies listed at NASDAQ
+ad.get_sectors('NASDAQ')
+
+# Obtaining sector classification of a particular company listed at B3
+ad.get_sectors('B3','PETR3') 
+
+# Obtaining sector classification of a particular company listed at NASDAQ
+ad.get_sectors('NASDAQ', 'AAPL')
+
+# Obtaining multiple companies
+ad.get_sectors('NASDAQ', 'AAPL','META')
+ad.get_sectors('B3', 'VALE3', 'MGLU3', 'PETR4')
+```
+
+
+## Funds Data
+Fetches data of investment funds from the Brazilian Securities and Exchange Commission (CVM)
+
+
+```python
+from tradingcomdados import funds_data as fd
+
+# Fetching daily data containing information such as quote value, number of investors, and so on
+fd.get_fund_data()
+
+# You can either leave it empty or specify a CNPJ
+fd.get_fund_data(cnpj = '07.593.972/0001-86', start = '2024-07-01', end = '2024-07-10')
+
+
+# Fetch the registration data of investment funds
+fd.get_funds_info()
+
+# You can either leave it empty or specify a CNPJ
+fd.get_funds_info('07.593.972/0001-86')
+
+
+```
