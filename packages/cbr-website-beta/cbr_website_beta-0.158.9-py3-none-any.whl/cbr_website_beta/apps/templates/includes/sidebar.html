@@ -1,0 +1,120 @@
+<aside class="left-sidebar" data-sidebarbg="skin6">
+    <a href="home">
+        <img src="{{ config.ASSETS_ROOT }}/{{ config.CBR_LOGO }}" height="67" class="dark-logo"  style="margin: 10px"/>
+    </a>
+    <!-- Sidebar scroll-->
+    <div class="scroll-sidebar">
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav">
+            <ul id="sidebarnav">
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="home" aria-expanded="false"><i
+                            class="mdi me-2 mdi-home"></i><span class="hide-menu">Home</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="athena" aria-expanded="false"><i
+                            class="mdi me-2 mdi-robot"></i><span class="hide-menu">Athena</span></a></li>
+                {% if config.LOGIN_ENABLED %}
+<!--                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"-->
+<!--                            href="user/chat-threads" aria-expanded="false"><i-->
+<!--                                class="mdi me-2 mdi-archive"></i><span class="hide-menu">Past Chats</span></a></li>-->
+                {% endif %}
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="content" aria-expanded="false"><i class="mdi me-2 mdi-security"></i><span
+                            class="hide-menu">Security content</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="content/videos" aria-expanded="false"><i class="mdi me-2 mdi-video"></i><span
+                            class="hide-menu">Videos</span></a></li>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                        href="docs" aria-expanded="false"><i class="mdi me-2 mdi-book-multiple-variant"></i><span
+                            class="hide-menu">Docs</span></a></li>
+                <!-- User Profile-->
+                {% if config.LOGIN_ENABLED %}
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="user/profile" aria-expanded="false">
+                            <i class="mdi me-2 mdi-account-check"></i><span class="hide-menu">Profile</span></a>
+                    </li>
+                {% endif %}
+                <!-- Conditional link for /dev -->
+                {% if g.user_groups and 'CBR-Team' in g.user_groups %}
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                            href="dev" aria-expanded="false"><i
+                            class="mdi me-2 mdi-developer-board"></i><span class="hide-menu">Dev</span></a></li>
+                   <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                 href="minerva" aria-expanded="false"><i
+                                class="mdi me-2 mdi-robot"></i><span class="hide-menu">Minerva</span></a></li>
+                {% endif %}
+                <br/>
+                <br/>
+                {%   if ('username' | current_user) %}
+                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                     href="sign-out" aria-expanded="false"><i
+                                     class="mdi me-2 mdi-logout"></i><span class="hide-menu">Logout</span></a></li>
+                {% else %}
+                    {% if config.LOGIN_ENABLED %}
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                     href="login" aria-expanded="false">
+                                                        <i class="mdi me-2 mdi-login"></i>
+                                                        <span >Login</span>
+                                                  </a></li>
+                    {% endif %}
+                {% endif %}
+
+
+            {%  if ('admin_token' | current_user) and ('impersonating' | current_user)%}
+                <br/>
+                <hr/>
+                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                   href="admin/restore_admin_user" aria-expanded="false">
+                                                        <i class="mdi me-2 mdi-restore"></i>
+                                                        <span class="hide-menu">RESTORE ADMIN USER</span>
+                                          </a></li>
+            {% endif %}
+
+            <!-- start of CBR community links -->
+
+            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                   href="chat-with-llms" aria-expanded="false">
+                                                        <i class="mdi me-2 mdi-message"></i>
+                <span class="hide-menu">Chat with LLMs</span></a></li>
+            <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link"
+                                                   href="https://discord.gg/HdJJbFpzMX" aria-expanded="false">
+                                                        <i class="mdi me-2 mdi-message"></i>
+                <span class="hide-menu">Community (Discord)</span></a></li>
+            </ul>
+
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <h4 class="alert-heading">Important Note</h4>
+                <p>Don't use any private or confidential data in the chats.
+                    There is no control over what happens inside the LLM platforms used,
+                    and all chat thread content is publicly available.</p>
+            </div>
+
+        </nav>
+
+        <!-- End Sidebar navigation -->
+    </div>
+
+    <!-- End Sidebar scroll-->
+    <div class="sidebar-footer">
+
+        <div class="row">
+            {% if config.LOGIN_ENABLED %}
+                <div class="col-4 link-wrap">
+                    <!-- item-->
+                    <a href="user/profile"
+                       class="link" data-toggle="tooltip" title="User profile" data-original-title="Settings">
+                       <i class="ti-settings"></i></a>
+                </div>
+                <div class="col-4 link-wrap">
+                </div>
+                {%   if ('username' | current_user) %}
+                    <div class="col-4 link-wrap">
+                        <a href="sign-out" class="link" data-toggle="tooltip" title="Sign out" data-original-title="Logout"><i
+                           class="mdi mdi-power"></i></a>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% include 'includes/footer.html' %}
+    </div>
+</aside>
