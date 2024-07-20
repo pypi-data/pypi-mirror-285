@@ -1,0 +1,13 @@
+import setuptools
+setuptools.setup(
+    name='a_oder',
+    version='8.0.0',
+    author='Programmer king ',
+    description='telegram ',
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+        "License :: OSI Approved :: MIT License"
+    ]
+)
