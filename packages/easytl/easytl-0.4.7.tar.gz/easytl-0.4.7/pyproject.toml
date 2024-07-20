@@ -1,0 +1,43 @@
+[build-system]
+requires = [
+    "setuptools>=61.0",
+    "wheel",
+    "setuptools_scm>=6.0",
+    "tomli"
+]
+
+build-backend = "setuptools.build_meta"
+
+[project]
+dependencies = [
+    "google-generativeai==0.7.2",
+    "deepl==1.16.1",
+    "openai==1.36.0",
+    "backoff==2.2.1",
+    "tiktoken==0.7.0",
+    "google-cloud-translate==3.15.3",
+    "anthropic==0.31.2",
+    "requests>=2.31.0",
+]
+
+name = "easytl"
+version = "v0.4.7"
+authors = [
+  { name="Kaden Bilyeu (Bikatr7)", email="Bikatr7@proton.me"},
+  { name="Alejandro Mata", email="alemalvarez@icloud.com"},
+] 
+description = "Seamless Multi-API Translation: Simplifying Language Barriers with DeepL, OpenAI, Gemini, Google Translate and More."
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/Bikatr7/EasyTL"
+Issues = "https://github.com/Bikatr7/EasyTL/issues"
+Documentation = "https://easytl.readthedocs.io/en/latest/index.html"
