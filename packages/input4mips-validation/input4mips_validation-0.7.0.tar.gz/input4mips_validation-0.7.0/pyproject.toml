@@ -1,0 +1,602 @@
+[project]
+authors = [
+    { name = "Zebedee Nicholls", email = "zebedee.nicholls@climate-resource.com" },
+]
+requires-python = ">=3.9"
+dependencies = [
+    "netcdf4>=1.7.1",
+    "numpy<2.0,>=1.20",
+    "loguru>=0.7",
+    "cf-xarray>=0.8",
+    "xarray>=2022.0",
+    "pint-xarray>=0.3",
+    "cftime>=1.6",
+    "typing-extensions>=4.0",
+    "pooch>=1.0",
+    "attrs>=22.0",
+    "typer>=0.9.0",
+    "validators>=0.28.3",
+    "cattrs>=23.2.3",
+]
+name = "input4mips-validation"
+version = "0.7.0"
+description = "Validation of input4MIPs data (checking file formats, metadata etc.)."
+readme = "README.md"
+
+[project.license]
+text = "BSD-3-Clause"
+
+[project.optional-dependencies]
+dev = [
+    "liccheck<1.0.0,>=0.9.1",
+    "mypy<2.0.0,>=1.2.0",
+    "pandas-stubs<3.0.0.0,>=2.2.2.240603",
+    "pip<25.0,>=24.0",
+    "pre-commit<4.0.0,>=3.3.1",
+    "pyyaml<7.0,>=6.0.1",
+    "ruff<1.0.0,>=0.1.8",
+    "towncrier<24.0,>=23.11.0",
+    "types-requests<3.0.0.0,>=2.31.0.20240125",
+]
+docs = [
+    "myst-nb<1.0.0,>=0.17.0",
+    "sphinx-book-theme<2.0.0,>=1.1.0",
+    "sphinx-autodoc-typehints<2.0.0,>=1.23.0",
+    "sphinx-autodocgen<2.0,>=1.3",
+    "jupytext<2.0.0,>=1.14.5",
+    "sphinx-copybutton<1.0.0,>=0.5.2",
+    "sphinx-click<6.0.0,>=5.1.0",
+]
+notebooks = [
+    "notebook>=6.0",
+]
+plots = [
+    "matplotlib>=3.0",
+]
+tests = [
+    "pytest<8.0.0,>=7.3.1",
+    "pytest-cov<5.0.0,>=4.0.0",
+    "coverage<8.0.0,>=7.2.0",
+]
+locked = [
+    "appdirs==1.4.4",
+    "attrs==23.2.0",
+    "cattrs==23.2.3",
+    "certifi==2024.7.4",
+    "cf-xarray==0.9.4",
+    "cftime==1.6.4",
+    "charset-normalizer==3.3.2",
+    "click==8.1.7",
+    "colorama==0.4.6 ; sys_platform == \"win32\" or platform_system == \"Windows\"",
+    "exceptiongroup==1.2.2 ; python_version < \"3.11\"",
+    "flexcache==0.3",
+    "flexparser==0.3.1",
+    "idna==3.7",
+    "loguru==0.7.2",
+    "markdown-it-py==2.2.0",
+    "mdurl==0.1.2",
+    "netcdf4==1.7.1.post1",
+    "numpy==1.26.4",
+    "packaging==24.1",
+    "pandas==2.2.2",
+    "pint==0.24.3",
+    "pint-xarray==0.4",
+    "platformdirs==4.2.2",
+    "pooch==1.8.2",
+    "pygments==2.18.0",
+    "python-dateutil==2.9.0.post0",
+    "pytz==2024.1",
+    "requests==2.32.3",
+    "rich==13.7.1",
+    "shellingham==1.5.4",
+    "six==1.16.0",
+    "typer==0.12.3",
+    "typing-extensions==4.12.2",
+    "tzdata==2024.1",
+    "urllib3==2.2.2",
+    "validators==0.33.0",
+    "win32-setctime==1.1.0 ; sys_platform == \"win32\"",
+    "xarray==2024.6.0",
+]
+dev-locked = [
+    "cfgv==3.4.0",
+    "click==8.1.7",
+    "colorama==0.4.6 ; sys_platform == \"win32\" or platform_system == \"Windows\"",
+    "distlib==0.3.8",
+    "filelock==3.15.4",
+    "identify==2.6.0",
+    "importlib-resources==6.4.0 ; python_version < \"3.10\"",
+    "incremental==22.10.0",
+    "jinja2==3.1.4",
+    "liccheck==0.9.2",
+    "markupsafe==2.1.5",
+    "mypy==1.10.1",
+    "mypy-extensions==1.0.0",
+    "nodeenv==1.9.1",
+    "numpy==1.26.4",
+    "pandas-stubs==2.2.2.240603",
+    "pip==24.1.2",
+    "platformdirs==4.2.2",
+    "pre-commit==3.7.1",
+    "pyyaml==6.0.1",
+    "ruff==0.5.3",
+    "semantic-version==2.10.0",
+    "toml==0.10.2",
+    "tomli==2.0.1 ; python_version < \"3.11\"",
+    "towncrier==23.11.0",
+    "types-pytz==2024.1.0.20240417",
+    "types-requests==2.32.0.20240712",
+    "typing-extensions==4.12.2",
+    "urllib3==2.2.2",
+    "virtualenv==20.26.3",
+    "zipp==3.19.2",
+]
+docs-locked = [
+    "accessible-pygments==0.0.5",
+    "alabaster==0.7.16",
+    "appnope==0.1.4 ; platform_system == \"Darwin\"",
+    "asttokens==2.4.1",
+    "attrs==23.2.0",
+    "babel==2.15.0",
+    "beautifulsoup4==4.12.3",
+    "certifi==2024.7.4",
+    "cffi==1.16.0",
+    "charset-normalizer==3.3.2",
+    "click==8.1.7",
+    "colorama==0.4.6 ; sys_platform == \"win32\" or platform_system == \"Windows\"",
+    "comm==0.2.2",
+    "debugpy==1.8.2",
+    "decorator==5.1.1",
+    "docutils==0.19",
+    "exceptiongroup==1.2.2 ; python_version < \"3.11\"",
+    "executing==2.0.1",
+    "fastjsonschema==2.20.0",
+    "greenlet==3.0.3 ; (platform_machine == \"win32\" or platform_machine == \"WIN32\" or platform_machine == \"AMD64\" or platform_machine == \"amd64\" or platform_machine == \"x86_64\" or platform_machine == \"ppc64le\" or platform_machine == \"aarch64\") and python_version < \"3.13\"",
+    "idna==3.7",
+    "imagesize==1.4.1",
+    "importlib-metadata==8.0.0",
+    "ipykernel==6.29.5",
+    "ipython==8.18.1",
+    "jedi==0.19.1",
+    "jinja2==3.1.4",
+    "jsonschema==4.23.0",
+    "jsonschema-specifications==2023.12.1",
+    "jupyter-cache==0.6.1",
+    "jupyter-client==8.6.2",
+    "jupyter-core==5.7.2",
+    "jupytext==1.16.3",
+    "markdown-it-py==2.2.0",
+    "markupsafe==2.1.5",
+    "matplotlib-inline==0.1.7",
+    "mdit-py-plugins==0.3.5",
+    "mdurl==0.1.2",
+    "myst-nb==0.17.2",
+    "myst-parser==0.18.1",
+    "nbclient==0.7.4",
+    "nbformat==5.10.4",
+    "nest-asyncio==1.6.0",
+    "packaging==24.1",
+    "parso==0.8.4",
+    "pexpect==4.9.0 ; sys_platform != \"win32\"",
+    "platformdirs==4.2.2",
+    "prompt-toolkit==3.0.47",
+    "psutil==6.0.0",
+    "ptyprocess==0.7.0 ; os_name != \"nt\" or sys_platform != \"win32\"",
+    "pure-eval==0.2.2",
+    "pycparser==2.22",
+    "pydata-sphinx-theme==0.15.4",
+    "pygments==2.18.0",
+    "python-dateutil==2.9.0.post0",
+    "pywin32==306 ; sys_platform == \"win32\" and platform_python_implementation != \"PyPy\"",
+    "pyyaml==6.0.1",
+    "pyzmq==26.0.3",
+    "referencing==0.35.1",
+    "requests==2.32.3",
+    "rpds-py==0.19.0",
+    "six==1.16.0",
+    "snowballstemmer==2.2.0",
+    "soupsieve==2.5",
+    "sphinx==5.3.0",
+    "sphinx-autodoc-typehints==1.23.0",
+    "sphinx-autodocgen==1.3",
+    "sphinx-book-theme==1.1.3",
+    "sphinx-click==5.2.1",
+    "sphinx-copybutton==0.5.2",
+    "sphinxcontrib-applehelp==1.0.8",
+    "sphinxcontrib-devhelp==1.0.6",
+    "sphinxcontrib-htmlhelp==2.0.5",
+    "sphinxcontrib-jsmath==1.0.1",
+    "sphinxcontrib-qthelp==1.0.7",
+    "sphinxcontrib-serializinghtml==1.1.10",
+    "sqlalchemy==2.0.31",
+    "stack-data==0.6.3",
+    "tabulate==0.9.0",
+    "tomli==2.0.1 ; python_version < \"3.11\"",
+    "tornado==6.4.1",
+    "traitlets==5.14.3",
+    "typing-extensions==4.12.2",
+    "urllib3==2.2.2",
+    "wcwidth==0.2.13",
+    "zipp==3.19.2",
+]
+notebooks-locked = [
+    "anyio==4.4.0",
+    "appnope==0.1.4 ; platform_system == \"Darwin\"",
+    "argon2-cffi==23.1.0",
+    "argon2-cffi-bindings==21.2.0",
+    "arrow==1.3.0",
+    "asttokens==2.4.1",
+    "async-lru==2.0.4",
+    "attrs==23.2.0",
+    "babel==2.15.0",
+    "beautifulsoup4==4.12.3",
+    "bleach==6.1.0",
+    "certifi==2024.7.4",
+    "cffi==1.16.0",
+    "charset-normalizer==3.3.2",
+    "colorama==0.4.6 ; sys_platform == \"win32\" or platform_system == \"Windows\"",
+    "comm==0.2.2",
+    "debugpy==1.8.2",
+    "decorator==5.1.1",
+    "defusedxml==0.7.1",
+    "exceptiongroup==1.2.2 ; python_version < \"3.11\"",
+    "executing==2.0.1",
+    "fastjsonschema==2.20.0",
+    "fqdn==1.5.1",
+    "h11==0.14.0",
+    "httpcore==1.0.5",
+    "httpx==0.27.0",
+    "idna==3.7",
+    "importlib-metadata==8.0.0",
+    "ipykernel==6.29.5",
+    "ipython==8.18.1",
+    "isoduration==20.11.0",
+    "jedi==0.19.1",
+    "jinja2==3.1.4",
+    "json5==0.9.25",
+    "jsonpointer==3.0.0",
+    "jsonschema==4.23.0",
+    "jsonschema-specifications==2023.12.1",
+    "jsonschema[format-nongpl]==4.23.0",
+    "jupyter-client==8.6.2",
+    "jupyter-core==5.7.2",
+    "jupyter-events==0.10.0",
+    "jupyter-lsp==2.2.5",
+    "jupyter-server==2.14.2",
+    "jupyter-server-terminals==0.5.3",
+    "jupyterlab==4.2.4",
+    "jupyterlab-pygments==0.3.0",
+    "jupyterlab-server==2.27.3",
+    "markupsafe==2.1.5",
+    "matplotlib-inline==0.1.7",
+    "mistune==3.0.2",
+    "nbclient==0.7.4",
+    "nbconvert==7.16.4",
+    "nbformat==5.10.4",
+    "nest-asyncio==1.6.0",
+    "notebook==7.2.1",
+    "notebook-shim==0.2.4",
+    "overrides==7.7.0",
+    "packaging==24.1",
+    "pandocfilters==1.5.1",
+    "parso==0.8.4",
+    "pexpect==4.9.0 ; sys_platform != \"win32\"",
+    "platformdirs==4.2.2",
+    "prometheus-client==0.20.0",
+    "prompt-toolkit==3.0.47",
+    "psutil==6.0.0",
+    "ptyprocess==0.7.0 ; os_name != \"nt\" or sys_platform != \"win32\"",
+    "pure-eval==0.2.2",
+    "pycparser==2.22",
+    "pygments==2.18.0",
+    "python-dateutil==2.9.0.post0",
+    "python-json-logger==2.0.7",
+    "pywin32==306 ; sys_platform == \"win32\" and platform_python_implementation != \"PyPy\"",
+    "pywinpty==2.0.13 ; os_name == \"nt\"",
+    "pyyaml==6.0.1",
+    "pyzmq==26.0.3",
+    "referencing==0.35.1",
+    "requests==2.32.3",
+    "rfc3339-validator==0.1.4",
+    "rfc3986-validator==0.1.1",
+    "rpds-py==0.19.0",
+    "send2trash==1.8.3",
+    "setuptools==71.0.3",
+    "six==1.16.0",
+    "sniffio==1.3.1",
+    "soupsieve==2.5",
+    "stack-data==0.6.3",
+    "terminado==0.18.1",
+    "tinycss2==1.3.0",
+    "tomli==2.0.1 ; python_version < \"3.11\"",
+    "tornado==6.4.1",
+    "traitlets==5.14.3",
+    "types-python-dateutil==2.9.0.20240316",
+    "typing-extensions==4.12.2",
+    "uri-template==1.3.0",
+    "urllib3==2.2.2",
+    "wcwidth==0.2.13",
+    "webcolors==24.6.0",
+    "webencodings==0.5.1",
+    "websocket-client==1.8.0",
+    "zipp==3.19.2",
+]
+plots-locked = [
+    "contourpy==1.2.1",
+    "cycler==0.12.1",
+    "fonttools==4.53.1",
+    "importlib-resources==6.4.0 ; python_version < \"3.10\"",
+    "kiwisolver==1.4.5",
+    "matplotlib==3.9.1",
+    "numpy==1.26.4",
+    "packaging==24.1",
+    "pillow==10.4.0",
+    "pyparsing==3.1.2",
+    "python-dateutil==2.9.0.post0",
+    "six==1.16.0",
+    "zipp==3.19.2",
+]
+tests-locked = [
+    "colorama==0.4.6 ; sys_platform == \"win32\" or platform_system == \"Windows\"",
+    "coverage==7.6.0",
+    "coverage[toml]==7.6.0",
+    "exceptiongroup==1.2.2 ; python_version < \"3.11\"",
+    "iniconfig==2.0.0",
+    "packaging==24.1",
+    "pluggy==1.5.0",
+    "pytest==7.4.4",
+    "pytest-cov==4.1.0",
+    "tomli==2.0.1 ; python_version < \"3.11\"",
+]
+
+[project.scripts]
+input4mips-validation = "input4mips_validation.cli:app"
+
+[tool.pixi.feature.py39.dependencies]
+python = "3.9.*"
+
+[tool.pixi.feature.py310.dependencies]
+python = "3.10.*"
+
+[tool.pixi.feature.py311.dependencies]
+python = "3.11.*"
+
+[tool.pixi.environments.default]
+features = [
+    "py39",
+]
+
+[tool.pixi.environments.docs]
+features = [
+    "docs",
+]
+solve-group = "default"
+
+[tool.pixi.environments.all-dev]
+features = [
+    "dev",
+    "docs",
+    "notebooks",
+    "plots",
+    "tests",
+]
+solve-group = "default"
+
+[tool.pixi.environments.py39]
+features = [
+    "py39",
+]
+solve-group = "default"
+
+[tool.pixi.environments.py310]
+features = [
+    "py310",
+]
+
+[tool.pixi.environments.py311]
+features = [
+    "py311",
+]
+
+[tool.pixi.environments.test-py39]
+features = [
+    "tests",
+]
+solve-group = "default"
+
+[tool.pixi.environments.test-py310]
+features = [
+    "tests",
+    "py310",
+]
+
+[tool.pixi.environments.test-py311]
+features = [
+    "tests",
+    "py311",
+]
+
+[tool.pixi.project]
+channels = [
+    "conda-forge",
+]
+platforms = [
+    "osx-64",
+    "osx-arm64",
+    "linux-64",
+    "linux-aarch64",
+    "win-64",
+]
+
+[tool.pixi.pypi-dependencies.input4mips_validation]
+path = "."
+editable = true
+
+[tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+netcdf4 = ">=1.7.1"
+numpy = "<2.0,>=1.20"
+
+[tool.pdm.dev-dependencies]
+
+[tool.pdm.build]
+locked = true
+includes = [
+    "src/input4mips_validation",
+    "LICENCE",
+]
+
+[tool.coverage.run]
+source = [
+    "src",
+]
+branch = true
+
+[tool.coverage.report]
+fail_under = 80
+skip_empty = true
+show_missing = true
+exclude_also = [
+    "if TYPE_CHECKING",
+]
+
+[tool.mypy]
+strict = true
+disallow_any_unimported = true
+show_error_codes = true
+show_error_context = true
+warn_unreachable = true
+follow_imports = "normal"
+
+[tool.jupytext]
+formats = "ipynb,py:percent"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+
+[tool.ruff]
+src = [
+    "src",
+]
+target-version = "py39"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "D",
+    "PL",
+    "TRY",
+    "NPY",
+    "RUF",
+    "UP",
+    "S",
+]
+unfixable = [
+    "PD002",
+]
+ignore = [
+    "D200",
+    "D400",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"test*.py" = [
+    "D",
+    "S101",
+    "PLR2004",
+]
+"docs/source/notebooks/*" = [
+    "D100",
+    "E402",
+    "S101",
+]
+"scripts/*" = [
+    "S101",
+]
+"stubs/*" = [
+    "PLR0913",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = [
+    "src",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.towncrier]
+package = "input4mips_validation"
+package_dir = "src"
+filename = "docs/source/changelog.md"
+directory = "changelog/"
+title_format = "## input4mips-validation {version} ({project_date})"
+underlines = [
+    "",
+    "",
+    "",
+]
+issue_format = "[#{issue}](https://github.com/climate-resource/input4mips_validation/pulls/{issue})"
+type = [
+    { directory = "breaking", name = "Breaking Changes", showcontent = true },
+    { directory = "deprecation", name = "Deprecations", showcontent = true },
+    { directory = "feature", name = "Features", showcontent = true },
+    { directory = "improvement", name = "Improvements", showcontent = true },
+    { directory = "fix", name = "Bug Fixes", showcontent = true },
+    { directory = "docs", name = "Improved Documentation", showcontent = true },
+    { directory = "trivial", name = "Trivial/Internal Changes", showcontent = false },
+]
+
+[tool.liccheck]
+authorized_licenses = [
+    "bsd",
+    "bsd license",
+    "BSD 3-Clause",
+    "CC0",
+    "apache",
+    "apache 2.0",
+    "apache software",
+    "apache software license",
+    "Apache License, Version 2.0",
+    "Historical Permission Notice and Disclaimer (HPND)",
+    "isc license",
+    "isc license (iscl)",
+    "gnu lgpl",
+    "lgpl with exceptions or zpl",
+    "LGPLv2+",
+    "GNU Lesser General Public License v2 (LGPLv2)",
+    "GNU Lesser General Public License v2 or later (LGPLv2+)",
+    "mit",
+    "mit license",
+    "Mozilla Public License 2.0 (MPL 2.0)",
+    "python software foundation",
+    "python software foundation license",
+    "zpl 2.1",
+]
+unauthorized_licenses = [
+    "agpl",
+    "gnu agpl",
+    "gpl v3",
+    "gplv3",
+    "gpl v2",
+    "gplv2",
+    "gpl v1",
+    "gplv1",
+]
+
+[build-system]
+requires = [
+    "pdm-backend",
+    "pdm-build-locked",
+]
+build-backend = "pdm.backend"
