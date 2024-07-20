@@ -1,0 +1,152 @@
+Metadata-Version: 2.1
+Name: commons-codec
+Version: 0.0.2
+Summary: Data decoding, encoding, conversion, and translation utilities.
+Author-email: Andreas Motl <andreas.motl@panodata.org>
+License: LGPL 3, EUPL 1.2
+Project-URL: Changelog, https://github.com/daq-tools/commons-codec/blob/main/CHANGES.md
+Project-URL: Documentation, https://github.com/daq-tools/commons-codec/tree/main/docs
+Project-URL: Homepage, https://github.com/daq-tools/commons-codec
+Project-URL: Issues, https://github.com/daq-tools/commons-codec/issues
+Project-URL: Repository, https://github.com/daq-tools/commons-codec
+Keywords: airrohr,bson,cdc,conversion,convert,data,decode,deserialize,dynamodb,encode,i/o,json,luftdaten.info,map data,marshall,mongodb,nested data,sensor.community,serialize,sql,tasmota,tool,transcode,transform,translate,ttn,tts,unmarshall,unserialize,utility
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Plugins
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Manufacturing
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: System Administrators
+Classifier: Intended Audience :: Telecommunications Industry
+Classifier: License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Operating System :: Unix
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Classifier: Programming Language :: SQL
+Classifier: Topic :: Adaptive Technologies
+Classifier: Topic :: Communications
+Classifier: Topic :: Database
+Classifier: Topic :: Documentation
+Classifier: Topic :: Education
+Classifier: Topic :: Internet
+Classifier: Topic :: Office/Business
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Pre-processors
+Classifier: Topic :: Software Development :: Testing
+Classifier: Topic :: Software Development :: Version Control
+Classifier: Topic :: System :: Archiving
+Classifier: Topic :: System :: Benchmark
+Classifier: Topic :: System :: Clustering
+Classifier: Topic :: System :: Distributed Computing
+Classifier: Topic :: System :: Logging
+Classifier: Topic :: System :: Monitoring
+Classifier: Topic :: System :: Networking
+Classifier: Topic :: System :: Systems Administration
+Classifier: Topic :: Text Processing
+Classifier: Topic :: Utilities
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: simplejson<4
+Requires-Dist: toolz<0.13
+Provides-Extra: develop
+Requires-Dist: mypy<1.11; extra == "develop"
+Requires-Dist: poethepoet<0.28; extra == "develop"
+Requires-Dist: pyproject-fmt<2.2; extra == "develop"
+Requires-Dist: ruff<0.6; extra == "develop"
+Requires-Dist: validate-pyproject<0.19; extra == "develop"
+Provides-Extra: mongodb
+Requires-Dist: pymongo<4.9; extra == "mongodb"
+Provides-Extra: release
+Requires-Dist: build<2; extra == "release"
+Requires-Dist: twine<6; extra == "release"
+Provides-Extra: test
+Requires-Dist: pytest<9; extra == "test"
+Requires-Dist: pytest-cov<6; extra == "test"
+Requires-Dist: pytest-mock<4; extra == "test"
+
+# commons-codec
+
+[![Tests](https://github.com/daq-tools/commons-codec/actions/workflows/tests.yml/badge.svg)](https://github.com/daq-tools/commons-codec/actions/workflows/tests.yml)
+[![Coverage](https://codecov.io/gh/daq-tools/commons-codec/branch/main/graph/badge.svg)](https://app.codecov.io/gh/daq-tools/commons-codec)
+[![Build status (documentation)](https://readthedocs.org/projects/commons-codec/badge/)](https://cratedb.com/docs/commons-codec/)
+[![PyPI Version](https://img.shields.io/pypi/v/commons-codec.svg)](https://pypi.org/project/commons-codec/)
+[![Python Version](https://img.shields.io/pypi/pyversions/commons-codec.svg)](https://pypi.org/project/commons-codec/)
+[![PyPI Downloads](https://pepy.tech/badge/commons-codec/month)](https://pepy.tech/project/commons-codec/)
+[![Status](https://img.shields.io/pypi/status/commons-codec.svg)](https://pypi.org/project/commons-codec/)
+[![License](https://img.shields.io/pypi/l/commons-codec.svg)](https://pypi.org/project/commons-codec/)
+
+## About
+Data decoding, encoding, conversion, and translation utilities.
+
+> A codec is a device or computer program that encodes or decodes a data stream or signal.
+> Codec is a portmanteau of coder/decoder.
+>
+> A coder or encoder encodes a data stream or a signal for transmission or storage,
+> [...], and the decoder function reverses the encoding for playback or editing.
+>
+> -- https://en.wikipedia.org/wiki/Codec
+
+## Details
+A collection of reusable utilities with minimal dependencies for transcoding
+purposes, mostly collected from other projects like [Kotori] and [LorryStream],
+in order to provide them per standalone package for broader use cases.
+
+## Installation
+The package is available from [PyPI] at [commons-codec].
+To install the most recent version, run:
+```shell
+pip install --upgrade commons-codec
+```
+
+## Usage
+In order to learn how to use the library, please visit the [documentation],
+and explore the source code or its [examples].
+
+
+## Project Information
+
+### Acknowledgements
+Kudos to the authors of all the many software components this library is
+vendoring and building upon.
+
+### Contributing
+The `commons-codec` package is an open source project, and is
+[managed on GitHub](https://github.com/daq-tools/commons-codec).
+The project is still in its infancy, and we appreciate contributions
+of any kind.
+
+### Etymology
+The [Apache Commons Codec] library was the inspiration for the name. Otherwise,
+both libraries' ingredients don't have anything in common, yet.
+
+### License
+The project uses the LGPLv3 license for the whole ensemble. However, individual
+portions of the code base are vendored from other Python packages, where
+deviating licenses may apply. Please check for detailed license information
+within the header sections of relevant files.
+
+
+
+[Apache Commons Codec]: https://commons.apache.org/proper/commons-codec/
+[commons-codec]: https://pypi.org/project/commons-codec/
+[documentation]: https://github.com/daq-tools/commons-codec/tree/main/docs
+[examples]: https://github.com/daq-tools/commons-codec/tree/main/examples
+[Kotori]: https://github.com/daq-tools/kotori
+[LorryStream]: https://github.com/daq-tools/lorrystream/
+[PyPI]: https://pypi.org/
