@@ -1,0 +1,19 @@
+flake8>=4.0
+pytest>=7.0
+
+[doc]
+sphinx>=3.5
+jaraco.packaging>=9.3
+rst.linker>=1.9
+furo
+sphinx-lint
+
+[test]
+pytest!=8.1.*,>=6
+pytest-checkdocs>=2.4
+pytest-cov
+pytest-mypy
+pytest-enabler>=2.2
+
+[test:sys_platform != "cygwin"]
+pytest-ruff>=0.2.1
