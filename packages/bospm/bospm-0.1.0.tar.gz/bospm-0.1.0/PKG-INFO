@@ -1,0 +1,44 @@
+Metadata-Version: 1.1
+Name: bospm
+Version: 0.1.0
+Summary: Bellande Operating System Package Manager
+Home-page: https://github.com/Algorithm-Model-Research/bellande_operating_system_package_manager
+Author: Ronaldson Bellande
+Author-email: ronaldsonbellande@gmail.com
+License: GNU General Public License v3 or later (GPLv3+)
+Description: # Bellande Operating System Package Manager (BOSPM)
+        
+        ## BellandeOS
+        - BOSPM is a cross-platform package manager built entirely in Python. It works on Windows, macOS, Linux, and BellandeOS without relying on any external package managers
+        
+        ## Repository
+        
+        The BOSPM project is hosted on GitHub: [https://github.com/Algorithm-Model-Research/bellande_operating_system_package_manager](https://github.com/Algorithm-Model-Research/bellande_operating_system_package_manager)
+        
+        
+        ## BOSPM Terminal Commands Usage
+        After installation, you can use bospm commands directly from the terminal:
+        
+        - bospm create <package_name> <version> <file1> [<file2> ...] [--os <os>] [--arch <arch>]  Create a new package
+        - bospm install <package_name> <version> [--os <os>] [--arch <arch>]                       Install a package
+        - bospm uninstall <package_name>                                                           Uninstall a package
+        - bospm list                                                                               List installed packages
+        - bospm available [--source <github|website>]                                              List available packages
+        - bospm update <package_name> [<version>] [--os <os>] [--arch <arch>]                      Update a package
+        
+        
+        ## Contributing
+        Contributions are welcome! Please feel free to submit a Pull Request.
+        
+Platform: any
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires: requests (>=2.25.1)
