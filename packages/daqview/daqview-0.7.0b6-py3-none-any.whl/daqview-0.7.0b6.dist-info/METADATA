@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: daqview
+Version: 0.7.0b6
+Summary: DAQ Data Analysis Software
+License: GPL-3.0-only
+Author: Adam Greig
+Author-email: adam@ael.co.uk
+Requires-Python: >=3.9,<3.13
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Requires-Dist: PySide6 (>=6.6.2,<7.0.0)
+Requires-Dist: colour (>=0.1,<0.2)
+Requires-Dist: h5py (>=3.6,<4.0)
+Requires-Dist: importlib-resources (>=6.1.2,<7.0.0)
+Requires-Dist: numexpr (>=2.8,<3.0)
+Requires-Dist: numpy (>=1.26.4,<2.0.0)
+Requires-Dist: platformdirs (>=4.2,<5.0)
+Requires-Dist: pyqtgraph (>=0.13,<0.14)
+Requires-Dist: pyyaml (>=6.0,<7.0)
+Requires-Dist: scipy (>=1.8,<2.0)
+Description-Content-Type: text/markdown
+
+# DAQview
+
+DAQview is a desktop application for viewing live and historic DAQ data
+from the Airborne Engineering Ltd DAQ system.
+
+For more information and the user manual, refer to our website:
+
+https://www.ael.co.uk/pages/daqview.html
+
+Licensed under the GPL 3.0 license.
+
+## Installation
+
+The recommended way to install is to use `pipx` to install from the published
+version on PyPI:
+
+```
+pipx install daqview
+```
+
+To run DAQview after installation, run `daqview`.
+
+On a Linux desktop, complete installation by running `daqview --install`
+to add the application to your list of locally-installed applications.
+
+## Development Environment
+
+First ensure poetry is installed:
+
+```
+pipx install poetry
+```
+
+Then you should be able to install all dependencies using:
+
+```
+poetry install
+```
+
+Run using:
+```
+poetry run python -m daqview
+```
+
+Run tests with:
+```
+poetry run pytest
+```
+
+Run linters with:
+```
+poetry run flake8 daqview
+```
+
