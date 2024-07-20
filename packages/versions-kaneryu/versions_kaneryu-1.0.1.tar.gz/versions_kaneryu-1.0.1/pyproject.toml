@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "versions_kaneryu"
+version = "1.0.1"
+authors = [
+  { name="Kaneryu", email="hello@kan.moe" },
+]
+
+description = "Simple version class"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report=lcov:lcov.info --cov-report=term"
+
+[tool.coverage.run]
+source = ["versions"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["versions"]
+
+[project.urls]
+Homepage = "https://github.com/kaneryu/versions"
+Issues = "https://github.com/kaneryu/versions/issues"
