@@ -1,0 +1,36 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="elsai-agent-hub",
+    version="0.0.3",
+    description="A Python package designed to facilitate the quick and customized development of agent-driven applications leveraging large language models (LLMs). This library aims to streamline tasks such as analyzing customer data, sending emails, and extracting information from various sources, including PDFs and web URLs.",
+    long_description=open("README.md").read(),
+    long_description_content_type="text/markdown",
+    author="Sriramraja.K",
+    author_email="sriramraja.k@optisolbusiness.com",
+    packages=find_packages(),
+    install_requires=[
+        "PyMuPDF==1.24.7",
+        "python-dotenv==1.0.1",
+        "langchain-community==0.2.6",
+        "langchain-openai==0.1.13",
+        "beautifulsoup4==4.12.3",
+        "tqdm==4.66.4",
+        "pandas==2.2.2",
+        "duckduckgo_search==6.1.9",
+        "python-docx==1.1.2",
+        "chromadb==0.5.4",
+        "pinecone-client[grpc]==4.1.2",
+    ],
+    license="MIT",
+    classifiers=[
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
+    ],
+    python_requires=">=3.8.1, <3.12",
+)
