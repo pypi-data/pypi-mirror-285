@@ -1,0 +1,51 @@
+{% extends 'generic/object.html' %}
+{% load render_table from django_tables2 %}
+{% block content %}
+
+<div class="row mb-3">
+    <div class="col col-md-6">
+      <div class="card">
+        <h5 class="card-header">Repository detail</h5>
+        <div class="card-body">
+          <table class="table table-hover attr-table">
+            <tr>
+              <th scope="row">Name</th>
+              <td>{{ object.name }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Type</th>
+              <td>{{ object.type }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Local path</th>
+              <td>{{ object.local_path }}</td>
+            </tr>
+            <tr>
+              <th scope="row">S3 bucket id</th>
+              <td>{{ object.s3_bucket_id }}</td>
+            </tr>
+            <tr>
+              <th scope="row">S3 access key</th>
+              <td>{{ object.s3_access_key }}</td>
+            </tr>
+            <tr>
+              <th scope="row">S3 secret key</th>
+              <td>{{ object.s3_secret_key }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Docker registry url</th>
+              <td>{{ object.docker_registry_url }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Docker access token</th>
+              <td>{{ object.docker_access_token }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% include 'inc/panels/tags.html' %}
+      {% include 'inc/panels/comments.html' %}
+      {% include 'inc/panels/custom_fields.html' %}
+    </div>
+  </div>
+{% endblock %}

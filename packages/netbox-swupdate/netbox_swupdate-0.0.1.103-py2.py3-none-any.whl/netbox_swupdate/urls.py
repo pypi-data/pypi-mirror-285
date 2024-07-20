@@ -1,0 +1,193 @@
+from django.urls import path
+from netbox.views.generic import ObjectChangeLogView
+
+from netbox_swupdate.models import (
+    Deploy,
+    FirmwareRequest,
+    Monitoring,
+    Repository,
+    Software,
+)
+from netbox_swupdate.views import (
+    DeployDeleteView,
+    DeployEditView,
+    DeployListView,
+    DeployView,
+    FirmwareRequestDeleteView,
+    FirmwareRequestEditView,
+    FirmwareRequestListView,
+    FirmwareRequestView,
+    MonitoringDeleteView,
+    MonitoringEditView,
+    MonitoringListView,
+    MonitoringView,
+    RepositoryDeleteView,
+    RepositoryEditView,
+    RepositoryListView,
+    RepositoryView,
+    SoftwareDeleteView,
+    SoftwareEditView,
+    SoftwareListView,
+    SoftwareView,
+)
+
+urlpatterns = (
+    path(
+        "deployments/",
+        DeployListView.as_view(),
+        name="deploy_list",
+    ),
+    path(
+        "deploy/add/",
+        DeployEditView.as_view(),
+        name="deploy_add",
+    ),
+    path(
+        "deploy/<int:pk>/",
+        DeployView.as_view(),
+        name="deploy",
+    ),
+    path(
+        "deploy/<int:pk>/edit/",
+        DeployEditView.as_view(),
+        name="deploy_edit",
+    ),
+    path(
+        "deploy/<int:pk>/delete/",
+        DeployDeleteView.as_view(),
+        name="deploy_delete",
+    ),
+    path(
+        "deploy/<int:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="deploy_changelog",
+        kwargs={"model": Deploy},
+    ),
+    path(
+        "monitorings/",
+        MonitoringListView.as_view(),
+        name="monitoring_list",
+    ),
+    path(
+        "monitoring/add/",
+        MonitoringEditView.as_view(),
+        name="monitoring_add",
+    ),
+    path(
+        "monitoring/<int:pk>/",
+        MonitoringView.as_view(),
+        name="monitoring",
+    ),
+    path(
+        "monitoring/<int:pk>/edit/",
+        MonitoringEditView.as_view(),
+        name="monitoring_edit",
+    ),
+    path(
+        "monitoring/<int:pk>/delete/",
+        MonitoringDeleteView.as_view(),
+        name="monitoring_delete",
+    ),
+    path(
+        "monitoring/<int:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="monitoring_changelog",
+        kwargs={"model": Monitoring},
+    ),
+    # Repository
+    path(
+        "repositories/",
+        RepositoryListView.as_view(),
+        name="repository_list",
+    ),
+    path(
+        "repository/add/",
+        RepositoryEditView.as_view(),
+        name="repository_add",
+    ),
+    path(
+        "repository/<int:pk>/",
+        RepositoryView.as_view(),
+        name="repository",
+    ),
+    path(
+        "repository/<int:pk>/edit/",
+        RepositoryEditView.as_view(),
+        name="repository_edit",
+    ),
+    path(
+        "repository/<int:pk>/delete/",
+        RepositoryDeleteView.as_view(),
+        name="repository_delete",
+    ),
+    path(
+        "repository/<int:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="repository_changelog",
+        kwargs={"model": Repository},
+    ),
+    # Software
+    path(
+        "softwares/",
+        SoftwareListView.as_view(),
+        name="software_list",
+    ),
+    path(
+        "software/add/",
+        SoftwareEditView.as_view(),
+        name="software_add",
+    ),
+    path(
+        "software/<int:pk>/",
+        SoftwareView.as_view(),
+        name="software",
+    ),
+    path(
+        "software/<int:pk>/edit/",
+        SoftwareEditView.as_view(),
+        name="software_edit",
+    ),
+    path(
+        "software/<int:pk>/delete/",
+        SoftwareDeleteView.as_view(),
+        name="software_delete",
+    ),
+    path(
+        "software/<int:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="software_changelog",
+        kwargs={"model": Software},
+    ),
+    # Firmware Request
+    path(
+        "firmware-requests/",
+        FirmwareRequestListView.as_view(),
+        name="firmwarerequest_list",
+    ),
+    path(
+        "firmware-request/add/",
+        FirmwareRequestEditView.as_view(),
+        name="firmwarerequest_add",
+    ),
+    path(
+        "firmware-request/<int:pk>/",
+        FirmwareRequestView.as_view(),
+        name="firmwarerequest",
+    ),
+    path(
+        "firmware-request/<int:pk>/edit/",
+        FirmwareRequestEditView.as_view(),
+        name="firmwarerequest_edit",
+    ),
+    path(
+        "firmware-request/<int:pk>/delete/",
+        FirmwareRequestDeleteView.as_view(),
+        name="firmwarerequest_delete",
+    ),
+    path(
+        "firmware-request/<int:pk>/changelog/",
+        ObjectChangeLogView.as_view(),
+        name="firmwarerequest_changelog",
+        kwargs={"model": FirmwareRequest},
+    ),
+)
