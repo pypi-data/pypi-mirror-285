@@ -1,0 +1,302 @@
+Metadata-Version: 2.1
+Name: xinference
+Version: 0.13.2
+Summary: Model Serving Made Easy
+Home-page: https://github.com/xorbitsai/inference
+Author: Qin Xuye
+Author-email: qinxuye@xprobe.io
+Maintainer: Qin Xuye
+Maintainer-email: qinxuye@xprobe.io
+License: Apache License 2.0
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Topic :: Software Development :: Libraries
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: xoscar >=0.3.0
+Requires-Dist: torch
+Requires-Dist: gradio ==4.26.0
+Requires-Dist: typer[all] <0.12.0
+Requires-Dist: pillow
+Requires-Dist: click
+Requires-Dist: tqdm >=4.27
+Requires-Dist: tabulate
+Requires-Dist: requests
+Requires-Dist: pydantic
+Requires-Dist: fastapi ==0.110.3
+Requires-Dist: uvicorn
+Requires-Dist: huggingface-hub >=0.19.4
+Requires-Dist: typing-extensions
+Requires-Dist: fsspec ==2023.10.0
+Requires-Dist: s3fs ==2023.10.0
+Requires-Dist: modelscope >=1.10.0
+Requires-Dist: sse-starlette >=1.6.5
+Requires-Dist: openai >1
+Requires-Dist: python-jose[cryptography]
+Requires-Dist: passlib[bcrypt]
+Requires-Dist: aioprometheus[starlette] >=23.12.0
+Requires-Dist: pynvml
+Requires-Dist: async-timeout
+Requires-Dist: peft
+Requires-Dist: timm
+Requires-Dist: opencv-contrib-python
+Provides-Extra: all
+Requires-Dist: llama-cpp-python !=0.2.58,>=0.2.25 ; extra == 'all'
+Requires-Dist: transformers >=4.34.1 ; extra == 'all'
+Requires-Dist: torch ; extra == 'all'
+Requires-Dist: accelerate >=0.27.2 ; extra == 'all'
+Requires-Dist: sentencepiece ; extra == 'all'
+Requires-Dist: transformers-stream-generator ; extra == 'all'
+Requires-Dist: bitsandbytes ; extra == 'all'
+Requires-Dist: protobuf ; extra == 'all'
+Requires-Dist: einops ; extra == 'all'
+Requires-Dist: tiktoken ; extra == 'all'
+Requires-Dist: sentence-transformers >=2.7.0 ; extra == 'all'
+Requires-Dist: diffusers ; extra == 'all'
+Requires-Dist: controlnet-aux ; extra == 'all'
+Requires-Dist: orjson ; extra == 'all'
+Requires-Dist: optimum ; extra == 'all'
+Requires-Dist: outlines ==0.0.34 ; extra == 'all'
+Requires-Dist: attrdict ; extra == 'all'
+Requires-Dist: timm >=0.9.16 ; extra == 'all'
+Requires-Dist: torchvision ; extra == 'all'
+Requires-Dist: FlagEmbedding ; extra == 'all'
+Requires-Dist: omegaconf ~=2.3.0 ; extra == 'all'
+Requires-Dist: nemo-text-processing ; extra == 'all'
+Requires-Dist: WeTextProcessing ; extra == 'all'
+Requires-Dist: librosa ; extra == 'all'
+Requires-Dist: xxhash ; extra == 'all'
+Requires-Dist: torchaudio ; extra == 'all'
+Requires-Dist: ChatTTS >0.1 ; extra == 'all'
+Requires-Dist: boto3 <1.28.65,>=1.28.55 ; extra == 'all'
+Requires-Dist: tensorizer ~=2.9.0 ; extra == 'all'
+Requires-Dist: auto-gptq ; (sys_platform != "darwin") and extra == 'all'
+Requires-Dist: autoawq ; (sys_platform != "darwin") and extra == 'all'
+Requires-Dist: mlx-lm ; (sys_platform == "darwin" and platform_machine == "arm64") and extra == 'all'
+Requires-Dist: vllm >=0.2.6 ; (sys_platform == "linux") and extra == 'all'
+Requires-Dist: sglang[all] ; (sys_platform == "linux") and extra == 'all'
+Provides-Extra: audio
+Requires-Dist: omegaconf ~=2.3.0 ; extra == 'audio'
+Requires-Dist: nemo-text-processing ; extra == 'audio'
+Requires-Dist: WeTextProcessing ; extra == 'audio'
+Requires-Dist: librosa ; extra == 'audio'
+Requires-Dist: xxhash ; extra == 'audio'
+Requires-Dist: torchaudio ; extra == 'audio'
+Requires-Dist: ChatTTS >0.1 ; extra == 'audio'
+Provides-Extra: benchmark
+Requires-Dist: psutil ; extra == 'benchmark'
+Provides-Extra: dev
+Requires-Dist: cython >=0.29 ; extra == 'dev'
+Requires-Dist: pytest >=3.5.0 ; extra == 'dev'
+Requires-Dist: pytest-cov >=2.5.0 ; extra == 'dev'
+Requires-Dist: pytest-timeout >=1.2.0 ; extra == 'dev'
+Requires-Dist: pytest-forked >=1.0 ; extra == 'dev'
+Requires-Dist: pytest-asyncio >=0.14.0 ; extra == 'dev'
+Requires-Dist: pytest-mock >=3.11.1 ; extra == 'dev'
+Requires-Dist: ipython >=6.5.0 ; extra == 'dev'
+Requires-Dist: sphinx >=3.0.0 ; extra == 'dev'
+Requires-Dist: pydata-sphinx-theme >=0.3.0 ; extra == 'dev'
+Requires-Dist: sphinx-intl >=0.9.9 ; extra == 'dev'
+Requires-Dist: jieba >=0.42.0 ; extra == 'dev'
+Requires-Dist: flake8 >=3.8.0 ; extra == 'dev'
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: openai >1 ; extra == 'dev'
+Requires-Dist: opencv-contrib-python ; extra == 'dev'
+Requires-Dist: langchain ; extra == 'dev'
+Requires-Dist: langchain-community ; extra == 'dev'
+Requires-Dist: orjson ; extra == 'dev'
+Requires-Dist: sphinx-tabs ; extra == 'dev'
+Requires-Dist: sphinx-design ; extra == 'dev'
+Provides-Extra: doc
+Requires-Dist: ipython >=6.5.0 ; extra == 'doc'
+Requires-Dist: sphinx >=3.0.0 ; extra == 'doc'
+Requires-Dist: pydata-sphinx-theme >=0.3.0 ; extra == 'doc'
+Requires-Dist: sphinx-intl >=0.9.9 ; extra == 'doc'
+Requires-Dist: sphinx-tabs ; extra == 'doc'
+Requires-Dist: sphinx-design ; extra == 'doc'
+Requires-Dist: prometheus-client ; extra == 'doc'
+Requires-Dist: timm ; extra == 'doc'
+Requires-Dist: opencv-contrib-python ; extra == 'doc'
+Provides-Extra: embedding
+Requires-Dist: sentence-transformers >=2.7.0 ; extra == 'embedding'
+Provides-Extra: ggml
+Requires-Dist: llama-cpp-python !=0.2.58,>=0.2.25 ; extra == 'ggml'
+Provides-Extra: image
+Requires-Dist: diffusers ; extra == 'image'
+Requires-Dist: controlnet-aux ; extra == 'image'
+Provides-Extra: intel
+Requires-Dist: torch ==2.1.0a0 ; extra == 'intel'
+Requires-Dist: intel-extension-for-pytorch ==2.1.10+xpu ; extra == 'intel'
+Provides-Extra: mlx
+Requires-Dist: mlx-lm ; extra == 'mlx'
+Provides-Extra: rerank
+Requires-Dist: FlagEmbedding ; extra == 'rerank'
+Provides-Extra: sglang
+Requires-Dist: sglang[all] ; extra == 'sglang'
+Provides-Extra: transformers
+Requires-Dist: transformers >=4.34.1 ; extra == 'transformers'
+Requires-Dist: torch ; extra == 'transformers'
+Requires-Dist: accelerate >=0.27.2 ; extra == 'transformers'
+Requires-Dist: sentencepiece ; extra == 'transformers'
+Requires-Dist: transformers-stream-generator ; extra == 'transformers'
+Requires-Dist: bitsandbytes ; extra == 'transformers'
+Requires-Dist: protobuf ; extra == 'transformers'
+Requires-Dist: einops ; extra == 'transformers'
+Requires-Dist: tiktoken ; extra == 'transformers'
+Requires-Dist: optimum ; extra == 'transformers'
+Requires-Dist: attrdict ; extra == 'transformers'
+Requires-Dist: timm >=0.9.16 ; extra == 'transformers'
+Requires-Dist: torchvision ; extra == 'transformers'
+Requires-Dist: peft ; extra == 'transformers'
+Requires-Dist: auto-gptq ; (sys_platform != "darwin") and extra == 'transformers'
+Requires-Dist: autoawq ; (sys_platform != "darwin") and extra == 'transformers'
+Provides-Extra: vllm
+Requires-Dist: vllm >=0.2.6 ; extra == 'vllm'
+
+<div align="center">
+<img src="./assets/xorbits-logo.png" width="180px" alt="xorbits" />
+
+# Xorbits Inference: Model Serving Made Easy 🤖
+
+[![PyPI Latest Release](https://img.shields.io/pypi/v/xinference.svg?style=for-the-badge)](https://pypi.org/project/xinference/)
+[![License](https://img.shields.io/pypi/l/xinference.svg?style=for-the-badge)](https://github.com/xorbitsai/inference/blob/main/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/xorbitsai/inference/python.yaml?branch=main&style=for-the-badge&label=GITHUB%20ACTIONS&logo=github)](https://actions-badge.atrox.dev/xorbitsai/inference/goto?ref=main)
+[![Slack](https://img.shields.io/badge/join_Slack-781FF5.svg?logo=slack&style=for-the-badge)](https://join.slack.com/t/xorbitsio/shared_invite/zt-1o3z9ucdh-RbfhbPVpx7prOVdM1CAuxg)
+[![Twitter](https://img.shields.io/twitter/follow/xorbitsio?logo=x&style=for-the-badge)](https://twitter.com/xorbitsio)
+
+English | [中文介绍](README_zh_CN.md) | [日本語](README_ja_JP.md)
+</div>
+<br />
+
+
+Xorbits Inference(Xinference) is a powerful and versatile library designed to serve language, 
+speech recognition, and multimodal models. With Xorbits Inference, you can effortlessly deploy 
+and serve your or state-of-the-art built-in models using just a single command. Whether you are a 
+researcher, developer, or data scientist, Xorbits Inference empowers you to unleash the full 
+potential of cutting-edge AI models.
+
+<div align="center">
+<i><a href="https://join.slack.com/t/xorbitsio/shared_invite/zt-1z3zsm9ep-87yI9YZ_B79HLB2ccTq4WA">👉 Join our Slack community!</a></i>
+</div>
+
+## 🔥 Hot Topics
+### Framework Enhancements
+- Support Continuous batching for Transformers engine: [#1724](https://github.com/xorbitsai/inference/pull/1724)
+- Support MLX backend for Apple Silicon chips: [#1765](https://github.com/xorbitsai/inference/pull/1765)
+- Support specifying worker and GPU indexes for launching models: [#1195](https://github.com/xorbitsai/inference/pull/1195)
+- Support SGLang backend: [#1161](https://github.com/xorbitsai/inference/pull/1161)
+- Support LoRA for LLM and image models: [#1080](https://github.com/xorbitsai/inference/pull/1080)
+- Support speech recognition model: [#929](https://github.com/xorbitsai/inference/pull/929)
+- Metrics support: [#906](https://github.com/xorbitsai/inference/pull/906)
+### New Models
+- Built-in support for [Gemma-2-it](https://huggingface.co/blog/gemma2): [#1774](https://github.com/xorbitsai/inference/pull/1774)
+- Built-in support for [jina-reranker-v2](https://huggingface.co/jinaai/jina-reranker-v2-base-multilingual): [#1733](https://github.com/xorbitsai/inference/pull/1733)
+- Built-in support for [Qwen2](https://github.com/QwenLM/Qwen2): [#1509](https://github.com/xorbitsai/inference/pull/1597)
+- Built-in support for [ChatTTS](https://github.com/2noise/ChatTTS): [#1578](https://github.com/xorbitsai/inference/pull/1578)
+- Built-in support for [GLM-4 & GLM-4V](https://github.com/THUDM/GLM-4): [#1584](https://github.com/xorbitsai/inference/pull/1584) 
+- Built-in support for [Mistral-7B-Instruct-v0.3](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3): [#1576](https://github.com/xorbitsai/inference/pull/1576) 
+- Built-in support for [Codestral-22B-v0.1](https://huggingface.co/mistralai/Codestral-22B-v0.1): [#1575](https://github.com/xorbitsai/inference/pull/1575) 
+- Built-in support for [MiniCPM-Llama3-V 2.5](https://github.com/OpenBMB/MiniCPM-V): [#1577](https://github.com/xorbitsai/inference/pull/1577)
+### Integrations
+- [Dify](https://docs.dify.ai/advanced/model-configuration/xinference): an LLMOps platform that enables developers (and even non-developers) to quickly build useful applications based on large language models, ensuring they are visual, operable, and improvable.
+- [FastGPT](https://github.com/labring/FastGPT): a knowledge-based platform built on the LLM, offers out-of-the-box data processing and model invocation capabilities, allows for workflow orchestration through Flow visualization.
+- [Chatbox](https://chatboxai.app/): a desktop client for multiple cutting-edge LLM models, available on Windows, Mac and Linux.
+- [RAGFlow](https://github.com/infiniflow/ragflow): is an open-source RAG engine based on deep document understanding.
+
+
+## Key Features
+🌟 **Model Serving Made Easy**: Simplify the process of serving large language, speech 
+recognition, and multimodal models. You can set up and deploy your models
+for experimentation and production with a single command.
+
+⚡️ **State-of-the-Art Models**: Experiment with cutting-edge built-in models using a single 
+command. Inference provides access to state-of-the-art open-source models!
+
+🖥 **Heterogeneous Hardware Utilization**: Make the most of your hardware resources with
+[ggml](https://github.com/ggerganov/ggml). Xorbits Inference intelligently utilizes heterogeneous
+hardware, including GPUs and CPUs, to accelerate your model inference tasks.
+
+⚙️ **Flexible API and Interfaces**: Offer multiple interfaces for interacting
+with your models, supporting OpenAI compatible RESTful API (including Function Calling API), RPC, CLI 
+and WebUI for seamless model management and interaction.
+
+🌐 **Distributed Deployment**: Excel in distributed deployment scenarios, 
+allowing the seamless distribution of model inference across multiple devices or machines.
+
+🔌 **Built-in Integration with Third-Party Libraries**: Xorbits Inference seamlessly integrates
+with popular third-party libraries including [LangChain](https://python.langchain.com/docs/integrations/providers/xinference), [LlamaIndex](https://gpt-index.readthedocs.io/en/stable/examples/llm/XinferenceLocalDeployment.html#i-run-pip-install-xinference-all-in-a-terminal-window), [Dify](https://docs.dify.ai/advanced/model-configuration/xinference), and [Chatbox](https://chatboxai.app/).
+
+## Why Xinference
+| Feature                                        | Xinference | FastChat | OpenLLM | RayLLM |
+|------------------------------------------------|------------|----------|---------|--------|
+| OpenAI-Compatible RESTful API                  | ✅ | ✅ | ✅ | ✅ |
+| vLLM Integrations                              | ✅ | ✅ | ✅ | ✅ |
+| More Inference Engines (GGML, TensorRT)        | ✅ | ❌ | ✅ | ✅ |
+| More Platforms (CPU, Metal)                    | ✅ | ✅ | ❌ | ❌ |
+| Multi-node Cluster Deployment                  | ✅ | ❌ | ❌ | ✅ |
+| Image Models (Text-to-Image)                   | ✅ | ✅ | ❌ | ❌ |
+| Text Embedding Models                          | ✅ | ❌ | ❌ | ❌ |
+| Multimodal Models                              | ✅ | ❌ | ❌ | ❌ |
+| Audio Models                                   | ✅ | ❌ | ❌ | ❌ |
+| More OpenAI Functionalities (Function Calling) | ✅ | ❌ | ❌ | ❌ |
+
+## Getting Started
+
+**Please give us a star before you begin, and you'll receive instant notifications for every new release on GitHub!**
+
+* [Docs](https://inference.readthedocs.io/en/latest/index.html)
+* [Built-in Models](https://inference.readthedocs.io/en/latest/models/builtin/index.html)
+* [Custom Models](https://inference.readthedocs.io/en/latest/models/custom.html)
+* [Deployment Docs](https://inference.readthedocs.io/en/latest/getting_started/using_xinference.html)
+* [Examples and Tutorials](https://inference.readthedocs.io/en/latest/examples/index.html)
+
+### Jupyter Notebook
+
+The lightest way to experience Xinference is to try our [Juypter Notebook on Google Colab](https://colab.research.google.com/github/xorbitsai/inference/blob/main/examples/Xinference_Quick_Start.ipynb).
+
+### Docker 
+
+Nvidia GPU users can start Xinference server using [Xinference Docker Image](https://inference.readthedocs.io/en/latest/getting_started/using_docker_image.html). Prior to executing the installation command, ensure that both [Docker](https://docs.docker.com/get-docker/) and [CUDA](https://developer.nvidia.com/cuda-downloads) are set up on your system.
+
+```bash
+docker run --name xinference -d -p 9997:9997 -e XINFERENCE_HOME=/data -v </on/your/host>:/data --gpus all xprobe/xinference:latest xinference-local -H 0.0.0.0
+```
+
+### Quick Start
+
+Install Xinference by using pip as follows. (For more options, see [Installation page](https://inference.readthedocs.io/en/latest/getting_started/installation.html).)
+
+```bash
+pip install "xinference[all]"
+```
+
+To start a local instance of Xinference, run the following command:
+
+```bash
+$ xinference-local
+```
+
+Once Xinference is running, there are multiple ways you can try it: via the web UI, via cURL,
+ via the command line, or via the Xinference’s python client. Check out our [docs]( https://inference.readthedocs.io/en/latest/getting_started/using_xinference.html#run-xinference-locally) for the guide.
+
+![web UI](assets/screenshot.png)
+
+## Getting involved
+
+| Platform                                                                                      | Purpose                                            |
+|-----------------------------------------------------------------------------------------------|----------------------------------------------------|
+| [Github Issues](https://github.com/xorbitsai/inference/issues)                                | Reporting bugs and filing feature requests.        |
+| [Slack](https://join.slack.com/t/xorbitsio/shared_invite/zt-1o3z9ucdh-RbfhbPVpx7prOVdM1CAuxg) | Collaborating with other Xorbits users.            |
+| [Twitter](https://twitter.com/xorbitsio)                                                      | Staying up-to-date on new features.                |
+
+## Contributors
+
+<a href="https://github.com/xorbitsai/inference/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=xorbitsai/inference" />
+</a>
