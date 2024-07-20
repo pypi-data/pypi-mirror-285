@@ -1,0 +1,51 @@
+Metadata-Version: 2.1
+Name: pyliblo3
+Version: 0.16.0
+Summary: Python bindings for the liblo OSC library
+Home-page: https://github.com/gesellkammer/pyliblo3
+Author: Dominic Sacre
+Author-email: dominic.sacre@gmx.de
+Maintainer: Eduardo Moguillansky
+Maintainer-email: eduardo.moguillansky@gmail.com
+License: LGPL
+Requires-Python: >=3.9
+Description-Content-Type: text/markdown
+License-File: COPYING
+
+# pyliblo3 
+
+This is a fork of the original bindings for liblo, making it pip installable.
+
+As of version 0.16 it includes liblo itself within the python wheel for all
+three desktop platforms. 
+
+## Example
+
+
+### Simple Server
+
+```python
+
+import pyliblo3 as liblo
+server = liblo.Server(8080)
+
+def test_handler(path, args, types, src):
+    print(args)
+    
+server.add_method("/test", None, test_handler)
+
+while True:
+    server.recv(100)
+```
+
+## Installation
+
+
+```bash
+
+pip install pyliblo3
+
+```
+
+
+
