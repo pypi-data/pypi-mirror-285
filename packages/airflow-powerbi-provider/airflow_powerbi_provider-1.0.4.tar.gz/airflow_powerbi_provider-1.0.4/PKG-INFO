@@ -1,0 +1,31 @@
+Metadata-Version: 2.3
+Name: airflow-powerbi-provider
+Version: 1.0.4
+Summary: A provider package for Apache Airflow to refresh Powerbi Datasets
+Project-URL: Homepage, https://github.com/gschuurman/airflow-powerbi-provider
+Project-URL: Issues, https://github.com/gschuurman/airflow-powerbi-provider/issues
+Author-email: Glenn Schuurman <info@schuurman-it.com>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.8
+Requires-Dist: apache-airflow>=2.9.3
+Requires-Dist: azure-identity>=1.17.1
+Description-Content-Type: text/markdown
+
+# Apache Airflow PowerBI Connector
+## Description
+This is a sensor, hook, and operator to refresh powerbi datasets
+
+## Setting up an airflow connection
+
+Create a connection in airflow with the following properties: \
+type: http \
+login: Client_ID
+Password: Client_secret \
+extra: \ 
+```json
+{
+  "tenant_id": "TENANT_ID"
+}
+```
