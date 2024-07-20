@@ -1,0 +1,12 @@
+title: Redis Indexed CAS storage backend
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  storage:
+    type: storage
+  redis:
+    type: redis-connection
+required:
+  - storage
+  - redis

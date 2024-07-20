@@ -1,0 +1,26 @@
+title: Redis connection manager
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  host:
+    type: string
+  port:
+    type: integer
+  password:
+    type: string
+  db:
+    type: integer
+  dns-srv-record:
+    type: string
+  sentinel-master-name:
+    type: string
+  retries:
+    type: integer
+    minimum: 0
+oneOf:
+  - required:
+    - host
+    - port
+  - required:
+    - dns-srv-record
