@@ -1,0 +1,90 @@
+Metadata-Version: 2.1
+Name: celestical
+Version: 0.21.4
+Summary: A CLI to interact with the Parametry Cloud.
+Home-page: https://celestical.net
+License: LGPL-3.0-or-later
+Author: Red Boumghar
+Author-email: red@parametry.ai
+Requires-Python: >=3.11,<4.0
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 or later (LGPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: aenum (>=3.1.11)
+Requires-Dist: docker (>=7.0.0,<8.0.0)
+Requires-Dist: icecream (>=2.1.3,<3.0.0)
+Requires-Dist: paramiko (>=3.3.1,<4.0.0)
+Requires-Dist: prettytable (>=3.9.0,<4.0.0)
+Requires-Dist: pydantic (>=2.5)
+Requires-Dist: python-dateutil (>=2.5.3)
+Requires-Dist: pyyaml (>=6.0.1,<7.0.0)
+Requires-Dist: requests (>=2.31.0,<3.0.0)
+Requires-Dist: rich (>=13.7.0,<14.0.0)
+Requires-Dist: tqdm (>=4.66.1,<5.0.0)
+Requires-Dist: typer (>=0.9.0,<0.10.0)
+Requires-Dist: urllib3 (>=1.25.3,<2.1.0)
+Project-URL: Repository, https://gitlab.com/parametry-ai/celestical/celestical
+Description-Content-Type: text/markdown
+
+# Celestical Cloud CLI
+
+The Independent Green European Serverless Cloud made by Space Engineers, powered by Parametry.ai
+
+This repo is the code for the command line client. It is also your best
+companion to include in a batch continuous deployment process.
+
+Our rationale is that we can extract all necessary information from your local
+`docker-compose.yml` file to be able to deploy your application.
+
+So...
+ - You do your docker-compose
+ - We do the rest.
+
+
+## Quick start
+
+``` bash
+pip install celestical
+celestical
+```
+
+You get the help for the celestical command line.
+The following command will deploy your app if you have an account 
+
+``` bash
+celestical deploy
+```
+
+## Troubleshooting
+
+### For MacOS users
+
+ - if you have an issue with Docker socket connections which translates into a
+   failure for reading the local docker API version then make sure that users
+   can use the socket, for this:
+    - In your docker engine app go to **Advanced settings**
+    - Select the check box which says **Allow the default Docker socket to be used (requires password)**
+
+## For Developers and Contributors
+
+This client is open source, you have the freedom to adapt it to your own needs
+as well as to [create issues on things that you don't like or don't work
+perfectly](https://gitlab.com/parametry-ai/celestical/pws_cli/-/issues/new)
+
+### Roadmap
+ - [x] Creating a functional enriched docker-compose file
+ - [x] Pushing all necessary information to Celestical
+ - [ ] Ability to call in batch mode (for CI/CD purposes)
+ - [ ] Viewing deployment status of all my applications
+ - [ ] Deploying to space
+
+
+### Using poetry
+
+You can create a poetry env with `poetry install` and load it with `poetry shell`.
+
+More in [OPENAPI.md](OPENAPI.md) about how to generate API client code.
+
+
