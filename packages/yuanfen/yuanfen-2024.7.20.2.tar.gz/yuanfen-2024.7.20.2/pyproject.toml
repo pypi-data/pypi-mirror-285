@@ -1,0 +1,42 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "yuanfen"
+dynamic = ["version"]
+description = "Yuanfen Python Library"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Bean", email = "bean@yuanfen.net" }]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    'Programming Language :: Python',
+    "Programming Language :: Python :: 3",
+]
+requires-python = '>=3'
+dependencies = [
+    "chardet",
+    "pydantic>=2.4.2",
+    "pytz",
+    "pyyaml",
+    "redis",
+    "requests",
+    "watchdog",
+]
+
+[project.urls]
+Homepage = "https://github.com/YuanfenNet/yf-lib-py"
+
+[tool.hatch.version]
+path = "src/yuanfen/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = ["/src/yuanfen"]
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 180
