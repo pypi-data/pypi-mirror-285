@@ -1,0 +1,66 @@
+# TransLink's Python Tools
+
+Python tools to read data, yaml configuration, logging, and much more.
+
+## Getting Started
+
+To use the tools within this package, you must first install this package:
+
+### Method 1: precompiled wheel
+
+Install with precompiled wheels from PyPI is the fastest way to get started:
+
+```bash
+pip install tlpytools --upgrade
+```
+
+### Method 2: build from source
+
+Build and install from source allow you to access the latest version or a specific version without any available precompiled wheels:
+
+```bash
+git clone https://github.com/TransLinkForecasting/tlpytools.git --depth=1
+cd tlpytools
+python -m pip install --upgrade build
+python -m build
+pip install dist/tlpytools-0.1.5-py3-none-any.whl --upgrade --force-reinstall
+```
+
+### Method 3: editable install for development
+
+If you are developing and testing tlpytools to work with downstream code, you may install the package as an [editable install](https://pip.pypa.io/en/stable/cli/pip_install/?highlight=edit%20mode#editable-installs). This allows you to continuously make changes to the `tlpytools` package in your local development folder, while integrating these changes in real time with your downstream code.
+
+```bash
+git clone https://github.com/TransLinkForecasting/tlpytools.git --depth=1
+cd tlpytools
+pip install -e ./
+```
+
+Note that after this installation, any code changes you make within the `tlpytools` folder will take effect immeidately witin your development environment.
+
+## Usage
+
+After installation, you can access the `tlpytools` namespace within your data project and importing parts of the package in your python script:
+
+```python
+from tlpytools.log import logger
+from tlpytools.config import run_yaml
+```
+
+## Build and Distribution Process
+
+1. Review `setup.cfg` and `pyproject.toml` to ensure dependencies and versions are up to date.
+2. Generate distribution archives
+```
+conda activate base
+python -m pip install --upgrade build
+python -m build
+```
+3. Upload to PyPI
+```
+python -m pip install --upgrade twine
+python -m twine upload dist/*
+```
+Review the newly upload package on `https://test.pypi.org/project/tlpytools/`
+
+If you are having problem authenticating to PyPI, you should register on [PyPI](https://pypi.org/account/register/) and create a new token. Set up the token in `~/.pypirc` by following [package distribution guide](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#create-an-account)
