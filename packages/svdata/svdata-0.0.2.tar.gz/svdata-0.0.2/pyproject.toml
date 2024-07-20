@@ -1,0 +1,45 @@
+[build-system]
+requires = ["maturin>=1.3,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "svdata"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "License :: OSI Approved :: MIT License",
+    "Development Status :: 3 - Alpha",
+]
+dynamic = ["version"]
+authors = [{ name = "Pontus Thomsson", email = "pontusthomsson@gmail.com" }]
+maintainers = [{ name = "Pontus Thomsson", email = "pontusthomsson@gmail.com" }]
+description = "Parse systemverilog files in Python."
+readme = "README.md"
+license = { file = "LICENSE" }
+keywords = ["systemverilog", "parser", "python"]
+
+
+[project.urls]
+Homepage = "https://github.com/prokie/svdata"
+Documentation = "https://github.com/prokie/svdata"
+Repository = "https://github.com/prokie/svdata"
+Issues = "https://github.com/prokie/svdata/issues"
+
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
+
+
+[project.optional-dependencies]
+dev = ["mypy", "ruff", "pytest"]
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests/python"]
