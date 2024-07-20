@@ -1,0 +1,30 @@
+[build-system]
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+wheel.packages = ["src/imports", "src/smart_pip"]
+
+[project]
+name = "smart-pip-magic"
+version = "0.0.10"
+authors = [
+  { name="Xiao Chen", email="xiao.chen@databricks.com" },
+]
+description = "A alternative pip magic to jupyter's %pip. It shows if you need to restart python after %smart_pip install"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = ["ipython >= 6.0.0"]
+
+[project.optional-dependencies]
+dev = [
+    "ruff"
+]
+
+[project.urls]
+Homepage = "https://github.com/xiaochen-db/smart-pip-magic"
+Issues = "https://github.com/xiaochen-db/smart-pip-magic/issues"
