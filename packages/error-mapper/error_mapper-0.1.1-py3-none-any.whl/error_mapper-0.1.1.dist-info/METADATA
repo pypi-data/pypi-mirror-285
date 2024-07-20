@@ -1,0 +1,66 @@
+Metadata-Version: 2.3
+Name: error-mapper
+Version: 0.1.1
+Summary: Decorator error mapper
+Project-URL: Homepage, https://github.com/likeinlife/error_mapper
+Author-email: likeinlife <likeinlife@outlook.com>
+License-Expression: MIT
+License-File: LICENSE
+Keywords: decorator,error mapping
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+
+# Description
+
+Decorator error mapper
+
+# Installing
+
+`pip install error-mapper`
+
+# Example
+
+## Error map
+
+```python
+from error_mapper import ErrorMapType, error_map_decorator
+
+class SuppressedError(Exception): ...
+
+class RaiseError(Exception): ...
+
+error_map: ErrorMapType = {
+    SuppressedError: RaiseError,
+}
+
+@error_map_decorator(error_map, RaiseError)
+def fn() -> None:
+    raise SuppressedError
+```
+
+## On error execute
+
+```python
+from error_mapper import ErrorMapTypeExecute, on_error_execute
+
+class SuppressedError(Exception): ...
+
+class RaiseError(Exception): ...
+
+def process_error(error: Exception) -> tp.NoReturn:
+    raise RaiseError from error
+
+error_map: ErrorMapTypeExecute = {
+    SuppressedError: process_error,
+}
+
+@on_error_execute(error_map, RaiseError)
+def fn() -> None:
+    raise SuppressedError
+```
+
+# Testing, linting, formatting
+
+- `rye test`
+- `rye lint`
+- `rye fmt`
