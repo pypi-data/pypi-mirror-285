@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "solidity-python-sdk"
+version = "0.1.5"
+description = "SDK for interacting with Digital Product Passport smart contracts"
+readme = "README.md"
+requires-python = ">=3.6"
+license = {text = "MIT"}
+authors = [
+  {name = "Luthiano Trarbach", email = "bhagah.trarbach@gmail.com"}
+]
+dependencies = ["web3", "python-dotenv", "requests"]
+
+[project.urls]
+Homepage = "https://github.com/DigitalProductPassport/solidity-python-sdk"
+
+[tool.setuptools]
+packages = ["solidity_python_sdk"]
+
+[tool.setuptools.package-data]
+"solidity_python_sdk" = [
+    "resources/ABI/**/*.json"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
