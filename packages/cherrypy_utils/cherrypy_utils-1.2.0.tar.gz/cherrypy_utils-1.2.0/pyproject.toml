@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "cherrypy_utils"
+dynamic = ["version"]
+authors = [{ name = "Ian Davis", email = "ian.davis.18.ctr@afrl.af.mil" }]
+description = "Collection of utility functions and modules for cherrypy web servers"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+]
+dependencies = ["cherrypy", "requests", "python-dateutil", "sqlalchemy", "pytz"]
+
+[project.optional-dependencies]
+optionals = []
+
+[project.urls]
+"Homepage" = "https://mindmodeling.afresearchlab.dev/"
+"Bug Tracker" = "https://mindmodeling.afresearchlab.dev/"
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+path = "cherrypy_utils/__about__.py"
