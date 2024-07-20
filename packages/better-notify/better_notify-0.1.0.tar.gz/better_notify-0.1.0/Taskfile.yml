@@ -1,0 +1,50 @@
+version: "3"
+
+#
+# global vars: https://taskfile.dev/#/usage?id=variables
+#
+vars:
+  VAR1: "some-var"
+
+# global env:
+env:
+  ENV1: testing
+
+################################################################################################
+
+tasks:
+  test:
+    aliases: [ "t" ]
+    cmds:
+      - pytest tests/ {{.CLI_ARGS}}
+
+  add:list:
+    aliases: [ "a" ]
+    cmds:
+      - rye add loguru
+      - rye add --dev isort pytest mypy ruff pytest-asyncio watchfiles
+
+  rye:
+    aliases: [ "pm" ]
+    cmds:
+      - rye {{.CLI_ARGS}} # install, update
+
+  pdm:
+    cmds:
+      - pdm {{.CLI_ARGS}}
+
+  poetry:
+    cmds:
+      - poetry {{.CLI_ARGS}}
+
+  # 代码统计
+  count:
+    cmds:
+      # go install github.com/boyter/scc/v3@latest
+      - scc
+
+  rel:
+    aliases: [ "publish" ]
+    cmds:
+      - rye build
+      - rye publish
