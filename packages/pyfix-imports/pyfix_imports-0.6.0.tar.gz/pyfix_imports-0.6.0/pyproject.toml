@@ -1,0 +1,38 @@
+[project]
+name = "pyfix-imports"
+version = "0.6.0"
+description = "python tool that will fix your missing imports"
+authors = [
+    { name = "Rishabh", email = "jharishabh672003@gmail.com" },
+]
+dependencies = [
+    "click>=8.1.7",
+    "pyflakes>=3.2.0",
+    "importlib>=1.0.4",
+    "xdg-base-dirs>=6.0.1",
+]
+requires-python = ">=3.11"
+readme = "README.md"
+
+[project.license]
+text = "GPL-3.0-only"
+
+[project.scripts]
+pyfix-imports = "pyfix_imports.commandline.cli:cli"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+lint = [
+    "ruff>=0.5.0",
+]
+tests = [
+    "pytest>=8.2.2",
+]
