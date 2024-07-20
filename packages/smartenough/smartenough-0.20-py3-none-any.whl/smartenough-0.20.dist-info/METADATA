@@ -1,0 +1,158 @@
+Metadata-Version: 2.3
+Name: smartenough
+Version: 0.20
+Summary: Convert cheap LLMs into efficient, validated API calls.
+Project-URL: Homepage, https://codeberg.org/Medusa-Intelligence-Corp/smartenough
+Project-URL: Issues, https://codeberg.org/Medusa-Intelligence-Corp/smartenough/issues
+Author-email: Medusa Intelligence Corporation <info@medusaintel.co>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Requires-Dist: anthropic>=0.31.2
+Requires-Dist: beautifulsoup4>=4.12.3
+Requires-Dist: google-generativeai>=0.7.2
+Requires-Dist: mistralai>=0.4.2
+Requires-Dist: openai>=1.36.0
+Requires-Dist: requests>=2.32.3
+Requires-Dist: urlextract>=1.9.0
+Requires-Dist: validators>=0.33.0
+Description-Content-Type: text/markdown
+
+# smartenough
+
+Effortlessly convert inexpensive (and sometimes free) Large Language Models (LLMs) into efficient, validated API calls. Designed for speed, stability, and simplicity, making it ideal for routing individual calls to low-cost LLMs and ensuring validated outputs.
+
+![](https://codeberg.org/Medusa-Intelligence-Corp/smartenough/media/branch/main/smartenough.png)
+
+## Project Goals
+
+* be lightweight and easy to use
+* be very fast in implementing the latest models
+* don't lock ourselves into any one model provider
+* save money by using the cheapest models available
+
+## Opinionated
+
+smartenough is 'opinionated' in that it chooses newest, cheapest and best models for you from each provider (see details in code [here](https://codeberg.org/Medusa-Intelligence-Corp/smartenough/src/branch/main/src/smartenough/llm.py#L215)), this saves you from having to think about the details. smartenough is designed to be simple and easy to use, and to provide the best results for the lowest cost. it is used in production in a number of Medusa Intelligence Corp applications see [medusaintel.co](medusaintel.co) for more information.
+
+Note that if you are installing ```openai```, ```anthropic```,```mistralai```, or ```google-generativeai``` packages yourself by hand, and hard-coding version numbers then things might break. smartenough will only support the latest versions of the packages, use old versions at your own risk.
+
+## Cheap
+
+smartenough is designed to be cheap to use. It will automatically select the cheapest model from the available providers. This means that you can use the best model for your needs without having to worry about the cost.
+
+### Note on OpenRouter and the random free model feature
+
+When ```OpenRouter``` is selected as the provider, smartenough will pick a **random free model** from the list of free models available. The list changes daily but see the latest here [openrouter.io/models](https://openrouter.ai/models?order=top-weekly&max_price=0).
+
+## Installation
+
+You can install the package using pip:
+
+```sh
+pip install smartenough
+```
+
+### API KEYS
+
+smartenough assumes that you have set the appropriate API keys in your environment variables. You can set the following environment variables:
+
+```sh
+export OPENAI_API_KEY="sk-3F5t...";
+export ANTHROPIC_API_KEY="sk-ant-api0.3...";
+export MISTRAL_API_KEY="waohAU...";
+export GOOGLE_API_KEY="AISOza";
+export OPENROUTER_API_KEY="sk-or-v1-915356...";
+```
+
+**Note that you only need to set the API keys for the services you plan to use.**
+
+### Importing
+
+```python
+from smartenough.llm import get_smart_answer 
+```
+
+### get_smart_answer
+
+smartenough has one main function, ```get_smart_answer``` that takes a question and returns an answer. The function has the following signature:
+
+```python
+get_smart_answer(instructions, additional_context="", model_provider="OpenRouter", validation=None):
+```
+
+The function takes the following arguments:
+- ```instructions```: a string containing the question you want to ask
+- ```additional_context```: a string containing additional context for the question (optional)
+- ```model_provider```: a string specifying the model provider to use (default is "OpenRouter") you can also import the ```get_supported_providers``` function that'll return a list of supproted providers. As of this writing they are ```['Anthropic', 'OpenAI', 'Mistral', 'Google', 'OpenRouter', 'Random']``` where ```Random``` will randomly select a provider for you.
+- ```validation```: if you are asking for output in a specific format, we'll validate ```json```, ```url``` (for a list of valid URLs), and ```html``` (for valid html) (optional)
+
+## Example Usage
+
+### Example 1: Ask a question and get an answer
+
+Use the defaults and just ask a question, OpenRouter is the default provider
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("In your opinion what are the most important news sources in the world?")
+" As an AI, I don't have personal opinions, but based on relevance, reach, and credibility, important news sources in the world often include:\n\n1. BBC News - Recognized globally for comprehensive news coverage.\n2. CNN - Known for breaking news coverage, especially in the United States.\n3. Al Jazeera - Offers extensive news coverage, with a focus on Middle East and international news.\n4. The New York Times - Respected for in-depth reporting and analysis of domestic and international news.\n5. The Guardian - Known for in-depth investigative reporting, particularly on social issues and human rights.\n6. Reuters - Highly regarded for fast and accurate business and financial news.\n7. The Economist - Provides global economic and political analysis and commentary.\n\nThese are just a few among countless sources. For local news, consider sources relevant to your specific region such as your national or local newspapers, public broadcasters, and regional news outlets. Always remember to cross-verify information for accuracy."
+```
+
+### Example 2: Ask a question and get an answer in a format you like
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("In your opinion what are the most important news sources in the world? Return only valid urls", validation="url")
+['https://www.bbc.com/news', 'https://www.cnn.com/', 'https://www.nytimes.com/', 'https://www.theguardian.com/international', 'https://www.reuters.com/topics/world', 'https://apnews.com', 'https://www.washingtonpost.com/world/', 'https://www.nbcnews.com/news/world', 'https://www.wsj.com/worldnews']
+```
+
+### Example 3: Ask a question and get an answer from a specific provider
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("write me a kid-friendly joke in Japanese", model_provider="Google")
+'なんでパンダは白黒なの？ \n\n> なんで？\n\nだって、パンダは「パン」ダから「ダ」を取ると「パン」になるから！ \n\n(Why is a panda black and white? \n\n> Why?\n\nBecause if you take the "da" from "panda" you get "pan"!) \n'
+```
+
+### Example 4: Ask a question and add some additonal context for the model
+
+```python
+>>> from smartenough import get_smart_answer
+>>> writing_sample = """ Welcome to the HYPE THREAD, a place to share your excitement about in-game achievements, brag about success, and get hyped for upcoming events. CAPS LOCK IS OPTIONAL IF IT HELPS YOU GET YOUR HYPE ON!
+... 
+... This is a chance to post about your successes. Our rules against self-promotion and most low-quality content, including shiny Pokemon pics, are relaxed in these threads--please talk all you like about your luck and accomplishments!
+... 
+... This thread is meant to be pretty positive, so please think twice before downvoting someone! Rude and negative comments will be removed -- please report them if you see them :D """
+>>> 
+>>> get_smart_answer("How old do you think the person was that wrote this?  Writing Sample:",additional_context=writing_sample)
+' Based on the casual and enthusiastic tone of the writing sample, as well as the use of gaming terms like "achievements," "brag about success," and "in-game achievements," it\'s likely that the person who wrote this is a young person, possibly in their late teens or early 20s, who is passionate about gaming and enjoys engaging with a community of like-minded individuals.'
+```
+
+### Example 5: Everything all at once
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("Translate this sentence to Hungarian and put it in a basic webpage, return only vaild html", additional_context="Hello World, welcome to Brad's Website!",model_provider="Anthropic",validation="html")
+"<html>
+  <head>
+  <title>Brad's Website</title>
+  </head>
+  <body>
+    <h1>Szia Világ, üdvözlünk Brad weboldalán!</h1>
+  </body>
+</html>"
+```
+
+## Contributing
+
+Feel free! Submit a PR! We are always looking for ways to improve the package.
+
+## FAQ
+
+* **Q: What about function calling?**
+* **A: Some models allow for function calling, but not all, and certainly not all cheap ones. See [this leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html) for a more detailed status**
+
+
