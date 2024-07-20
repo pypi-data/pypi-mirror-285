@@ -1,0 +1,83 @@
+[build-system]
+requires = ["setuptools==70.3.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["blank_project"]
+
+[tool.setuptools.dynamic]
+version = {attr = "blank_project.__version__"}
+
+[tool.setuptools.package-data]
+blank_project = ["py.typed"]
+
+[project]
+name = "blank-project"
+dynamic = ["version"]
+authors = [
+  {name = "Peter Bro", email = "p3t3rbr0@gmail.com"},
+]
+description = "A dummy package for quickly starting typical Python projects."
+keywords = ["utility", "dummy package"]
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed"
+]
+
+[project.urls]
+Homepage = "https://git.peterbro.su/peter/py3-blank-project"
+Documentation = "https://git.peterbro.su/peter/py3-blank-project/src/branch/master/README.md"
+Repository = "https://git.peterbro.su/peter/py3-blank-project.git"
+Issues = "https://git.peterbro.su/peter/py3-blank-project/issues"
+Changelog = "https://git.peterbro.su/peter/py3-blank-project/src/branch/master/CHANGELOG.md"
+
+[project.optional-dependencies]
+build = ["build==1.2.1", "twine==5.1.1"]
+dev = [
+    "coverage==7.6.0",
+    "mypy==1.10.1",
+    "isort==5.13.2",
+    "flake8==7.1.0",
+    "black==24.4.2",
+    "pydocstyle==6.3.0",
+]
+
+[tool.mypy]
+exclude = ["tests"]
+ignore_missing_imports = true
+
+[tool.isort]
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.pydocstyle]
+inherit = false
+convention = "google"
+match-dir = "^(?!tests|.docs).+$"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pass",
+    "\\.\\.\\.",
+    "def __str__",
+    "def __getattr__",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["blank_project"]
+
+[tool.coverage.html]
+directory = "coverage_report"
