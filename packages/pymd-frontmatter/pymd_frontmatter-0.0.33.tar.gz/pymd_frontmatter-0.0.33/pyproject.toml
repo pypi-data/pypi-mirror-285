@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymd-frontmatter"
+authors = [
+  { name="J.T. Hartzfeld", email="johnathan.t.hartzfeld@gmail.com" },
+]
+description = "A FrontMatter parser/extractor for python-markdown"
+version = "0.0.33"
+requires-python = ">=3.11"
+dependencies = [
+    "Markdown>=3.4.1",
+    "PyYAML>=6.0"
+]
+
+readme = "README.md"
+classifiers = ["Programming Language :: Python :: 3",
+"License :: OSI Approved :: MIT License",
+"Operating System :: OS Independent",
+]
+
+
+[project.entry-points."markdown.extensions"]
+frontmatter = "pymd_frontmatter:FrontMatterExtension"
+
+
+[project.urls]
+"Homepage" = "https://github.com/JTHartzfeld/pymd-frontmatter"
+"Bug Tracker" = "https://github.com/JTHartzfeld/pymd-frontmatter/issues"
