@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "mkdocs-drawio"
+version = "1.6.4"
+description = "MkDocs plugin for embedding Drawio files"
+authors = [
+    "Sergey Lukin <onixpro@gmail.com>",
+    "Jan Larwig <jan@larwig.com>"
+]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/tuunit/mkdocs-drawio/"
+homepage = "https://github.com/tuunit/mkdocs-drawio/"
+keywords = [
+    "mkdocs", "plugin", "markdown", "drawio"
+]
+packages = [
+    { include = "mkdocs_drawio/plugin.py" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.7.0"
+requests = ">=2.0"
+Jinja2 = ">=3.0"
+beautifulsoup4 = ">=4.0"
+lxml = ">=4.0"
+mkdocs = ">=1.3"
+
+[tool.poetry.dev-dependencies]
+black = ">=24.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.plugins."mkdocs.plugins"]
+drawio = 'mkdocs_drawio.plugin:DrawioPlugin'
