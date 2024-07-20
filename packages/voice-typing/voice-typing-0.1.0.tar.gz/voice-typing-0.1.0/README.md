@@ -1,0 +1,33 @@
+# Voice Typing
+
+Voice Typing is a Python application that uses tkinter and speech recognition to type text based on your voice input.
+
+## Author
+
+### Developed by Er. Harsh Raj
+
+- [Email](mailto:developerharshraj@gmail.com)
+- [LinkedIn](https://in.linkedin.com/in/harsh-raj-416a0b27b)
+- [GitHub](https://github.com/HarshRajTiwary)
+
+## Installation
+
+To install the package, use pip:
+
+## Usage
+
+To use the voice-typing library directly after it has been set up and installed, follow these steps:
+
+## Step 1: Install the Library
+
+First, you need to install the library. If it's hosted on PyPI, you can install it using pip:
+
+`pip install voice-typing`
+
+## Step 2: Run the Application
+
+Once the library is installed, you can run the application directly from the terminal using the command defined in the entry point.
+
+Simply open your terminal and type:
+
+`voice-typing`
