@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "github-overlord"
+version = "0.6.7"
+description = "Automatically merge Dependabot PRs in public repositories"
+authors = ["Michael Bianco <mike@mikebian.co>"]
+readme = "README.md"
+keywords = ["github", "dependabot", "automation"]
+homepage = "https://github.com/iloveitaly/github-overlord"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pygithub = "^2.3.0"
+click = "^8.1.7"
+python-decouple-typed = "^3.11.0"
+funcy-pipe = "^0.11.0"
+structlog = "^24.2.0"
+apscheduler = "^3.10.4"
+openai = "^1.35.3"
+
+[tool.poetry.scripts]
+github-overlord = "github_overlord:cli"
+
+
+[tool.isort]
+profile = "black"
+# helpful when copy/pasting GPT code
+float_to_top = true
+
+[tool.poetry.group.dev.dependencies]
+isort = "^5.13.2"
+black = "^24.4.2"
+pyright = "^1.1.368"
+pylint = "^3.2.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
