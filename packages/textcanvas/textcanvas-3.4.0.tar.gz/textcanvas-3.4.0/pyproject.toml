@@ -1,0 +1,52 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "textcanvas"
+version = "3.4.0"
+authors = [
+    { name="Quentin Richert", email="noreply@richert.co" },
+]
+description = "Draw to the terminal like an HTML Canvas."
+readme = "README.md"
+requires-python = ">= 3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+]
+license = { file="LICENSE" }
+keywords = ["tui", "canvas", "draw", "terminal", "console"]
+
+[project.urls]
+"Homepage" = "https://github.com/qrichert/textcanvas"
+
+[tool.setuptools]
+packages = ["textcanvas"]
+
+[tool.ruff.lint]
+extend-select = ["I"]
+
+[tool.docformatter]
+style = "google"
+black = true
+wrap-summaries = 72
+wrap-descriptions = 72
+close-quotes-on-newline = true
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+
+[tool.coverage.report]
+exclude_lines = [
+    # Note: 'pass' should be included, use '...' for stubs.
+    "pragma: no cover",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "\\.\\.\\.",
+]
