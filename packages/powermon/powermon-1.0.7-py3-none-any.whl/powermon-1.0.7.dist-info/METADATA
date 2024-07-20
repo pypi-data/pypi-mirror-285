@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: powermon
+Version: 1.0.7
+Summary: Package to communicate with Solar inverters and BMSs
+Author: John Blance
+Requires-Python: >=3.11,<3.13
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: api
+Provides-Extra: ble
+Provides-Extra: dev
+Provides-Extra: modbus
+Provides-Extra: systemd
+Requires-Dist: PyYAML (>=6)
+Requires-Dist: bleak (>=0.21.1) ; extra == "ble"
+Requires-Dist: construct (>=2.10.70,<3.0.0)
+Requires-Dist: cysystemd (>=1.6.0) ; extra == "systemd"
+Requires-Dist: fastapi (>=0.68.0) ; extra == "api"
+Requires-Dist: fastapi-mqtt (>=1.1) ; extra == "api"
+Requires-Dist: jinja2 (>=3.1.3,<4.0.0) ; extra == "api"
+Requires-Dist: paho-mqtt (>=1.6,<2.0.0)
+Requires-Dist: pyaml-env (>=1.2.1,<2.0.0)
+Requires-Dist: pycryptodome (>=3.20.0,<4.0.0) ; extra == "ble"
+Requires-Dist: pydantic (>=1.8.0)
+Requires-Dist: pymodbus (>=3.6.4,<4.0.0) ; extra == "modbus"
+Requires-Dist: pyserial (>3)
+Requires-Dist: requests (>=2.31.0) ; extra == "api"
+Requires-Dist: sqlalchemy (>=2.0.15,<3.0.0) ; extra == "api"
+Requires-Dist: twine (>=4.0.2,<5.0.0) ; extra == "dev"
+Requires-Dist: uvicorn (>=0.15.0) ; extra == "api"
+Description-Content-Type: text/markdown
+
+# Powermon #
+## Python based Power Device Access Package ##
+
+- minimum python supported 3.11
+
+
+Python package with reference library of commands (and responses)
+designed to get information from inverters and other solar inverters and power devices
+
+Currently has support for:
+- MPP-Solar and similar inverters, e.g.
+  - PIP-4048MS
+  - IPS-4000WM
+  - Voltronic Axpert MKS 5KVA Off-grid Inverter-Chargers
+  - LV5048
+- JK BMS
+- Victron VE Direct Devices:
+  - tested on SmartShunt 500A
+- Daly BMS
+
+## Install ##
+- `pip install powermon` (minimal install)
+- `pip install powermon[api]` (install web api )
+
+
+## Documentation ##
+[See the wiki for documentation](https://github.com/jblance/powermon/wiki)
+
+## Support ##
+If you want to tip me for this work, you can now buy me a coffee
+
+[![buymeacoffee1](https://user-images.githubusercontent.com/1266998/225745276-54d6a4d4-a1ed-44f9-a1f2-e99eb1aa2812.png)](https://www.buymeacoffee.com/jblance)
+
+
