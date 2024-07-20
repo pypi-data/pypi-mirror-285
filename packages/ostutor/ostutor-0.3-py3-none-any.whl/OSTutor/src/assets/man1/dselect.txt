@@ -1,0 +1,426 @@
+
+dselect(1)                        dpkg suite                        dselect(1)
+
+NAME
+       dselect - Debian package management frontend
+
+SYNOPSIS
+       dselect [option...] [command...]
+
+DESCRIPTION
+       dselect  is one of the primary user interfaces for managing packages on
+       a Debian system. At the dselect main  menu,  the  system  administrator
+       can:
+        - Update the list of available package versions,
+        - View the status of installed and available packages,
+        - Alter package selections and manage dependencies,
+        - Install new packages or upgrade to newer versions.
+
+       dselect  operates  as  a  front-end  to  dpkg(1),  the low-level Debian
+       package handling tool. It features  a  full-screen  package  selections
+       manager  with  package  depends  and  conflicts resolver. When run with
+       administrator privileges,  packages  can  be  installed,  upgraded  and
+       removed. Various access methods can be configured to retrieve available
+       package version  information  and  installable  packages  from  package
+       repositories.   Depending on the used access method, these repositories
+       can be public archive servers on the internet, local archive servers or
+       cdroms.  The recommended access method is apt, which is provided by the
+       package apt.
+
+       Normally dselect is invoked without parameters. An interactive menu  is
+       presented,  offering the user a list of commands. If a command is given
+       as argument, then that command is started immediately. Several  command
+       line  parameters are still available to modify the running behaviour of
+       dselect or show additional information about the program.
+
+OPTIONS
+       All options can be specified both  on  the  command  line  and  in  the
+       dselect  configuration  file  /etc/dpkg/dselect.cfg or the files on the
+       configuration directory  /etc/dpkg/dselect.cfg.d/.  Each  line  in  the
+       configuration file is either an option (exactly the same as the command
+       line option but without leading hyphens) or a  comment  (if  it  starts
+       with a '#').
+
+       --admindir directory
+              Changes  the  directory where the dpkg 'status', 'available' and
+              similar files are located.  This defaults to  /var/lib/dpkg  and
+              normally there shouldn't be any need to change it.
+
+       -Dfile, --debug file
+              Turn on debugging. Debugging information is sent to file.
+
+       --expert
+              Turns  on  expert  mode,  i.e. doesn't display possibly annoying
+              help messages.
+
+       --colour|--color screenpart:[foreground],[background][:attr[+attr]...]
+              Configures screen  colors.  This  works  only  if  your  display
+              supports colors.  This option may be used multiple times (and is
+              best used in dselect.cfg).  Each  use  changes  the  color  (and
+              optionally,  other  attributes)  of one part of the screen.  The
+              parts of the screen (from top to bottom) are:
+
+              title  The screen title.
+
+              listhead
+                     The header line above the list of packages.
+
+              list   The scrolling list of packages (and also some help text).
+
+              listsel
+                     The selected item in the list.
+
+              pkgstate
+                     In the list of packages, the text indicating the  current
+                     state of each package.
+
+              pkgstatesel
+                     In  the list of packages, the text indicating the current
+                     state of the currently selected package.
+
+              infohead
+                     The header line that displays the state of the  currently
+                     selected package.
+
+              infodesc
+                     The package's short description.
+
+              info   Used  to  display  package  info  such  as  the package's
+                     description.
+
+              infofoot
+                     The last line of the screen when selecting packages.
+
+              query  Used to display query lines
+
+              helpscreen
+                     Color of help screens.
+
+              After the part of  the  screen  comes  a  colon  and  the  color
+              specification.  You can specify either the foreground color, the
+              background color, or both, overriding  the  compiled-in  colors.
+              Use standard curses color names.
+
+              Optionally,  after the color specification is another colon, and
+              an attribute specification. This  is  a  list  of  one  or  more
+              attributes,  separated  by  plus  ('+')  characters.   Available
+              attributes  include  (not  all  of  these  will  work   on   all
+              terminals): normal, standout, underline, reverse, blink, bright,
+              dim, bold
+
+       -?, --help
+              Print a brief help text and exit successfully.
+
+       --version
+              Print version information and exit successfully.
+
+COMMANDS
+       When dselect is started it can perform the following  commands,  either
+       directly  if  it  was specified on the command line or by prompting the
+       user with a menu of available commands if running interactively:
+
+   access
+       Choose and configure an access method to access package repositories.
+
+       By default, dselect provides several methods such as  cdrom,  multi_cd,
+       nfs,  multi_nfs,  harddisk,  mounted,  multi_mount  or  ftp,  but other
+       packages may provide additional methods,  eg.  the  apt  access  method
+       provided by the apt package.
+
+       The use of the apt access method is strongly recommended.
+
+   update
+       Refresh the available packages database.
+
+       Retrieves  a  list  of  available  package  versions  from  the package
+       repository, configured for the current access method,  and  update  the
+       dpkg   database.  The  package  lists  are  commonly  provided  by  the
+       repository as files named Packages or Packages.gz.  These files can  be
+       generated    by    repository    maintainers,    using    the   program
+       dpkg-scanpackages(1).
+
+       Details  of  the  update  command  depend  on   the   access   method's
+       implementation.   Normally  the process is straightforward and requires
+       no user interaction.
+
+   select
+       View or manage package selections and dependencies.
+
+       This is the main function of dselect. In the select  screen,  the  user
+       can  review  a  list  of all available and installed packages. When run
+       with administrator privileges, it is  also  possible  to  interactively
+       change  packages  selection  state.  dselect tracks the implications of
+       these changes to other depending or conflicting packages.
+
+       When a conflict or failed depends is detected, a dependency  resolution
+       subscreen  is  prompted  to  the  user.  In  this  screen,  a  list  of
+       conflicting or depending  packages  is  shown,  and  for  each  package
+       listed,  the  reason  for  its listing is shown. The user may apply the
+       suggestions proposed by dselect, override them, or  back  out  all  the
+       changes,  including  the  ones  that  created the unresolved depends or
+       conflicts.
+
+       The use of the interactive  package  selections  management  screen  is
+       explained in more detail below.
+
+   install
+       Installs selected packages.
+
+       The  configured  access  method  will  fetch  installable or upgradable
+       packages from the relevant repositories and install these  using  dpkg.
+       Depending  on the implementation of the access method, all packages can
+       be prefetched before installation, or fetched when needed.  Some access
+       methods may also remove packages that were marked for removal.
+
+       If  an  error  occurred  during install, it is usually advisable to run
+       install again. In most cases, the problems will disappear or be solved.
+       If problems persist or the installation performed was incorrect, please
+       investigate into the causes and circumstances, and file a  bug  in  the
+       Debian bug tracking system. Instructions on how to do this can be found
+       at https://bugs.debian.org/ or by reading the documentation for  bug(1)
+       or reportbug(1), if these are installed.
+
+       Details   of   the  install  command  depend  on  the  access  method's
+       implementation.  The user's attention and input may be required  during
+       installation, configuration or removal of packages. This depends on the
+       maintainer scripts in the  package.  Some  packages  make  use  of  the
+       debconf(1)  library,  allowing  for  more  flexible  or  even automated
+       installation setups.
+
+   config
+       Configures any previously installed, but not fully configured packages.
+
+   remove
+       Removes or purges installed packages, that are marked for removal.
+
+   quit
+       Quit dselect.
+
+       Exits the program with zero (successful) errorcode.
+
+PACKAGE SELECTIONS MANAGEMENT
+   Introduction
+       dselect directly exposes the administrator to some of the  complexities
+       involved   with   managing   large   sets   of   packages   with   many
+       interdependencies. For a user who is unfamiliar with the  concepts  and
+       the  ways  of  the  Debian  package  management system, it can be quite
+       overwhelming. Although dselect is aimed at  easing  package  management
+       and  administration,  it is only instrumental in doing so and cannot be
+       assumed to be a  sufficient  substitute  for  administrator  skill  and
+       understanding.  The  user  is required to be familiar with the concepts
+       underlying the Debian packaging system.  In case of doubt, consult  the
+       dpkg(1) manpage and the distribution policy.
+
+       Unless  dselect  is  run  in expert or immediate mode, a help screen is
+       first displayed when choosing this command from the menu. The  user  is
+       strongly  advised  to  study  all  of  the information presented in the
+       online help screens, when one pops up.  The online help screens can  at
+       any time be invoked with the '?' key.
+
+   Screen layout
+       The  select screen is by default split in a top and a bottom half.  The
+       top half shows  a  list  of  packages.  A  cursor  bar  can  select  an
+       individual package, or a group of packages, if applicable, by selecting
+       the group header. The bottom half of  the  screen  shows  some  details
+       about  the  package  currently  selected in the top half of the screen.
+       The type of detail that is displayed can be varied.
+
+       Pressing the 'I' key toggles a  full-screen  display  of  the  packages
+       list,  an  enlarged  view  of the package details, or the equally split
+       screen.
+
+   Package details view
+       The  package  details  view  by  default  shows  the  extended  package
+       description  for the package that is currently selected in the packages
+       status list.  The type of detail can be toggled  by  pressing  the  'i'
+       key.  This alternates between:
+        - the extended description
+        - the control information for the installed version
+        - the control information for the available version
+
+       In  a  dependency  resolution  screen, there is also the possibility of
+       viewing the specific unresolved depends or  conflicts  related  to  the
+       package and causing it to be listed.
+
+   Packages status list
+       The  main  select  screen  displays a list of all packages known to the
+       Debian package management system. This includes packages  installed  on
+       the system and packages known from the available packages database.
+
+       For  every  package,  the  list  shows  the package's status, priority,
+       section, installed and available architecture, installed and  available
+       versions,  the package name and its short description, all in one line.
+       By pressing the 'A' key, the display of  the  installed  and  available
+       architecture  can  be  toggled  between on an off.  By pressing the 'V'
+       key, the display of the installed and available version can be  toggled
+       between on an off.  By pressing the 'v' key, the package status display
+       is toggled between verbose and shorthand.   Shorthand  display  is  the
+       default.
+
+       The  shorthand status indication consists of four parts: an error flag,
+       which should normally be clear, the current status, the last  selection
+       state  and  the  current  selection state.  The first two relate to the
+       actual state of the package, the second pair are about  the  selections
+       set by the user.
+
+       These are the meanings of the shorthand package status indicator codes:
+        Error flag:
+         empty   no error
+         R       serious error, needs reinstallation;
+        Installed state:
+         empty   not installed;
+         *       fully installed and configured;
+         -       not installed but some config files may remain;
+         U       unpacked but not yet configured;
+         C       half-configured (an error happened);
+         I       half-installed (an error happened).
+        Current and requested selections:
+         *       marked for installation or upgrade;
+         -       marked for removal, configuration files remain;
+         =       on hold: package will not be processed at all;
+         _       marked for purge, also remove configuration;
+         n       package is new and has yet to be marked.
+
+   Cursor and screen movement
+       The  package  selection  list  and  the  dependency conflict resolution
+       screens can be navigated using motion commands mapped to the  following
+       keys:
+         p, Up, k           move cursor bar up
+         n, Down, j         move cursor bar down
+         P, Pgup, Backspace scroll list 1 page up
+         N, Pgdn, Space     scroll list 1 page down
+         ^p                 scroll list 1 line up
+         ^n                 scroll list 1 line down
+         t, Home            jump to top of list
+         e, End             jump to end of list
+         u                  scroll info 1 page up
+         d                  scroll info 1 page down
+         ^u                 scroll info 1 line up
+         ^d                 scroll info 1 line down
+         B, Left-arrow      pan display 1/3 screen left
+         F, Right-arrow     pan display 1/3 screen right
+         ^b                 pan display 1 character left
+         ^f                 pan display 1 character right
+
+   Searching and sorting
+       The  list  of packages can be searched by package name. This is done by
+       pressing '/',  and  typing  a  simple  search  string.  The  string  is
+       interpreted  as  a regex(7) regular expression.  If you add '/d' to the
+       search expression, dselect will also search in  descriptions.   If  you
+       add  '/i'  the  search will be case insensitive.  You may combine these
+       two suffixes like this: '/id'.  Repeated searching is  accomplished  by
+       repeatedly  pressing  the  'n' or '\' keys, until the wanted package is
+       found.  If the search reaches the bottom of the list, it wraps  to  the
+       top and continues searching from there.
+
+       The  list  sort  order  can  be varied by pressing the 'o' and 'O' keys
+       repeatedly.  The following nine sort orderings can be selected:
+        alphabet          available           status
+        priority+section  available+priority  status+priority
+        section+priority  available+section   status+section
+       Where not listed above explicitly, alphabetic  order  is  used  as  the
+       final subordering sort key.
+
+   Altering selections
+       The  requested  selection  state  of individual packages may be altered
+       with the following commands:
+         +, Insert    install or upgrade
+         =, H         hold in present state and version
+         :, G         unhold: upgrade or leave uninstalled
+         -, Delete    remove, but leave configuration
+         _            remove & purge configuration
+
+       When the change request results in one or more unsatisfied  depends  or
+       conflicts,  dselect  prompts  the  user  with  a  dependency resolution
+       screen. This will be further explained below.
+
+       It is also possible to  apply  these  commands  to  groups  of  package
+       selections,  by  pointing the cursor bar onto a group header. The exact
+       grouping  of  packages  is  dependent  on  the  current  list  ordering
+       settings.
+
+       Proper  care  should be taken when altering large groups of selections,
+       because this can instantaneously create  large  numbers  of  unresolved
+       depends  or  conflicts,  all  of which will be listed in one dependency
+       resolution screen, making them very hard to handle. In  practice,  only
+       hold and unhold operations are useful when applied to groups.
+
+   Resolving depends and conflicts
+       When  the  change request results in one or more unsatisfied depends or
+       conflicts, dselect  prompts  the  user  with  a  dependency  resolution
+       screen. First however, an informative help screen is displayed.
+
+       The  top  half  of  this  screen  lists all the packages that will have
+       unresolved depends or conflicts, as a result of the  requested  change,
+       and  all  the  packages  whose  installation  can  resolve any of these
+       depends or whose removal can resolve any of the conflicts.  The  bottom
+       half defaults to show the depends or conflicts that cause the currently
+       selected package to be listed.
+
+       When the sublist of packages is displayed initially, dselect  may  have
+       already  set  the  requested  selection  status  of  some of the listed
+       packages, in order to resolve the depends or conflicts that caused  the
+       dependency  resolution  screen  to be displayed. Usually, it is best to
+       follow up the suggestions made by dselect.
+
+       The listed packages' selection state may be reverted  to  the  original
+       settings,  as they were before the unresolved depends or conflicts were
+       created, by pressing the  'R'  key.   By  pressing  the  'D'  key,  the
+       automatic  suggestions  are  reset,  but  the  change  that  caused the
+       dependency resolution screen to  be  prompted  is  kept  as  requested.
+       Finally, by pressing 'U', the selections are again set to the automatic
+       suggestion values.
+
+   Establishing the requested selections
+       By pressing  enter,  the  currently  displayed  set  of  selections  is
+       accepted.  If  dselect detects no unresolved depends as a result of the
+       requested selections, the new selections  will  be  set.   However,  if
+       there  are  any  unresolved depends, dselect will again prompt the user
+       with a dependency resolution screen.
+
+       To alter a  set  of  selections  that  creates  unresolved  depends  or
+       conflicts  and  forcing  dselect  to accept it, press the 'Q' key. This
+       sets  the  selections  as  specified  by  the  user,   unconditionally.
+       Generally, don't do this unless you've read the fine print.
+
+       The  opposite effect, to back out any selections change requests and go
+       back to the previous list of selections, is attained  by  pressing  the
+       'X'  or  escape  keys.  By repeatedly pressing these keys, any possibly
+       detrimental changes to the requested package selections can  be  backed
+       out completely to the last established settings.
+
+       If  you  mistakenly  establish some settings and wish to revert all the
+       selections to what is currently installed on the system, press the  'C'
+       key.   This  is  somewhat  similar  to  using the unhold command on all
+       packages, but provides a more obvious panic button in cases  where  the
+       user pressed enter by accident.
+
+EXIT STATUS
+       0      The requested command was successfully performed.
+
+       2      Fatal  or unrecoverable error due to invalid command-line usage,
+              or interactions  with  the  system,  such  as  accesses  to  the
+              database, memory allocations, etc.
+
+ENVIRONMENT
+       HOME   If  set, dselect will use it as the directory from which to read
+              the user specific configuration file.
+
+BUGS
+       The dselect package selection interface is confusing to some new users.
+       Reportedly, it even makes seasoned kernel developers cry.
+
+       The documentation is lacking.
+
+       There is no help option in the main menu.
+
+       The visible list of available packages cannot be reduced.
+
+       The  built  in access methods can no longer stand up to current quality
+       standards. Use the access method provided by apt, it is  not  only  not
+       broken, it is also much more flexible than the built in access methods.
+
+SEE ALSO
+       dpkg(1), apt-get(8), sources.list(5), deb(5).
+
+1.19.7                            2022-05-25                        dselect(1)

@@ -1,0 +1,35 @@
+
+ESTWOLEFIND(1)                   HyperEstraier                  ESTWOLEFIND(1)
+
+NAME
+       estwolefind - listing WWWOFFLE cache for hyper estraier
+
+SYNOPSIS
+       estwolefind dir
+
+DESCRIPTION
+       This manual page documents briefly the estwolefind commands.
+
+       estwolefind  is  a  program  that lists up WWWOFFLE caches for input of
+       estcmd.  It outputs pathnames of WWWOFFLE cache files in the  directory
+       specified  by  first  argument  and corresponding URLs in Tab separeted
+       value formats.
+
+EXAMPLES
+       The following command will register cache files of WWWOFFLE into Hyper-
+       Estraier database.
+
+            estwolefind  /var/cache/wwwoffle |           estcmd gather -cl -fm
+       -px @uri -sd -cm casket -
+
+SEE ALSO
+       estcmd(1).
+
+AUTHOR
+       estraier was written  by  Mikio  Hirabayashi  <mikio  at  users.source-
+       forge.net>.
+
+       This manual page was written by Fumitoshi UKAI <ukai@debian.or.jp>, for
+       the Debian project (but may be used by others).
+
+Man Page                          2005-08-01                    ESTWOLEFIND(1)

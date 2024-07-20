@@ -1,0 +1,198 @@
+
+SCANMACHO(1)              Documentation for pax-utils             SCANMACHO(1)
+
+NAME
+       scanmacho - user-space utility to scan Mach-O files
+
+SYNOPSIS
+       scanmacho [options] Mach-Os or directories
+
+DESCRIPTION
+       scanmacho is a user-space utility to quickly scan given Mach-Os,
+       directories, or common system paths for different information. This may
+       include Mach-O types, their install_names, etc...
+
+       Because Mach-O files can be "fat", it is possible for a single file to
+       return multiple lines. Each line represents a single architecture,
+       contained in the fat (universal) file. While there are no real
+       restrictions, in practice, the entries can be distinguished by their
+       arch type, e.g. ppc, ppc64, i386, x86_64, arm, ...
+
+OPTIONS
+       -A, --archives
+           Scan archives (.a files)
+
+       -a, --all
+           Print all useful/simple info
+
+       -B, --nobanner
+           Don't display the header
+
+       -b, --bind
+           Print flags from mach_header
+
+       -D, --endian
+           Print Mach-O endianness
+
+       -E, --etype filetype
+           Print only Mach-O files matching specified etype (like
+           MH_EXECUTABLE, MH_DYLIB, etc...)
+
+       -F, --format FORMAT
+           Use specified format for output; see the FORMAT section for more
+           information.
+
+       -f, --from FILE
+           Read input stream from specified filename
+
+       -g, --gmatch
+           Use strncmp to match libraries (use with -N). Or regexp with symbol
+           matching
+
+       -h, --help
+           Show condensed usage and exit
+
+       -i, --interp
+           Print the interpreter information (LC_LOAD_DYLINKER)
+
+       -M, --bits BITS
+           Print only Mach-O files matching specified numeric bits (like
+           32/64)
+
+       -m, --mount
+           Don't recursively cross mount points
+
+       -N, --lib INSTALLNAME
+           Find Mach-Os that need the specified INSTALL_NAME
+
+       -n, --needed
+           Print libraries the Mach-O is linked against (LC_LOAD_DYLIB).
+
+       -O, --perms PERMS
+           Print only Mach-O files with matching specified octal bits (like
+           755).
+
+       -o, --file FILE
+           Write output stream to specified filename.
+
+       -p, --path
+           Scan all directories in PATH environment.
+
+       -q, --quiet
+           Only output 'bad' things.
+
+       -R, --recursive
+           Scan directories recursively
+
+       -r, --rpath
+           Print RPATH encoded in the Mach-O (LC_RPATH)
+
+       -S, --soname
+           Print the Mach-O's shared library name (install_name).
+
+       -V, --version
+           Print version and exit
+
+       -v, --verbose
+           Be verbose (can be used more than once)
+
+       -y, --symlink
+           Don't scan symlinks
+
+       -Z, --size SIZE
+           Print Mach-O file size
+
+FORMAT
+       The format string is much like a printf string in that it is a literal
+       string with flags requesting different information. For example, you
+       could use a format string and expect the following results.
+
+             # scanmacho -BF "file %f needs %n; funky time" /bin/bash
+             file bash needs /usr/lib/libncurses.5.4.dylib,/usr/lib/libSystem.B.dylib; funky time
+
+       Note that when you use a format string, generally information related
+       flags should be omitted. In other words, you do not want to try and
+       request NEEDED output (-n) and try to specify a format output at the
+       same time as these operations are mutually exclusive. Each information
+       related flag has an equivalent conversion specifier, so use those
+       instead. You can of course continue to use non-information related
+       flags (such as --verbose).
+
+       There are three characters that introduce conversion specifiers.
+
+       o % - replace with info
+       o   # - silent boolean match
+       o   + - verbose match
+
+       And there are a number of conversion specifiers. We try to match up the
+       specifier with corresponding option.
+
+       o a - arch type
+
+       o   b - mach_header flags
+       o   D - endian
+       o   F - long filename
+       o   f - short filename
+       o   i - dyld
+       o   M - CPU_TYPE class
+       o   N - specified needed
+       o   n - needed libraries
+       o   p - filename (minus search)
+       o   o - mh_type
+       o   O - perms
+       o   r - rpaths
+       o   S - install_name
+
+MACH-O FILETYPES
+       You can narrow your search by specifying the Mach-O object file type.
+       The commandline option takes the symbolic type name. Multiple values
+       can be passed comma separated. Example -E MH_EXECUTE,MH_DYLIB
+
+       Here is the normal list available for your pleasure.
+
+       o MH_OBJECT - intermediate object file (.o)
+       o   MH_EXECUTE - standard executable program
+       o   MH_BUNDLE - dlopen plugin (.bundle)
+       o   MH_DYLIB - dynamic shared library (.dylib)
+       o   MH_PRELOAD - executable not loaded by Mac OS X kernel (ROM)
+       o   MH_CORE - program crash core file
+       o   MH_DYLINKER - dynamic linker shared library (dyld)
+       o   MH_DYLIB_STUB - shared library stub for static only, no sections
+       o   MH_DSYM - debug symbols file (in .dSYM dir)
+
+MACH-O BITS
+       You can also narrow your search by specifying the Mach-O bitsize.
+       Specify the numeric value.
+
+       o 32 - 32bit mach_header
+       o   64 - 64bit mach_header_64
+
+HOMEPAGE
+       http://hardened.gentoo.org/pax-utils.xml
+
+REPORTING BUGS
+       Please include as much information as possible (using any available
+       debugging options) and send bug reports to the maintainers (see the
+       AUTHORS section). Please use the Gentoo bugzilla at
+       http://bugs.gentoo.org/ if possible.
+
+SEE ALSO
+       chpax(1), dumpelf(1), paxctl(1), pspax(1), readelf(1), scanelf(1),
+       elf(5)
+
+AUTHORS
+       Ned Ludd <solar@gentoo.org>
+           Maintainer
+
+       Mike Frysinger <vapier@gentoo.org>
+           Maintainer
+
+       Fabian Groffen <grobian@gentoo.org>
+           Mach-O Maintainer
+
+NOTES
+        1. http://hardened.gentoo.org/pax-utils.xml
+
+        2. http://bugs.gentoo.org/
+
+pax-utils git                     03/31/2020                      SCANMACHO(1)

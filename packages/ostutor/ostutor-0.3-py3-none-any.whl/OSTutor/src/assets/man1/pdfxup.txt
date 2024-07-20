@@ -1,0 +1,139 @@
+
+man(1)                          pdfxup man page                         man(1)
+
+NAME
+       pdfxup - n-up tool with reduced margins
+
+SYNOPSIS
+       pdfxup [OPTIONS] [FILE]
+
+DESCRIPTION
+       pdfxup  creates a PDF document where each page is obtained by combining
+       several pages of a PDF file given as output. The important  feature  of
+       pdfxup,  compared  to similar programs, is that it tries to compute the
+       (global) bounding box of the input PDF file, in  order  to  remove  the
+       margins  and to keep the text only. Instead of having the font size di-
+       vided by 2 (for the case of 2-up output), in some case you may  end  up
+       with  almost  the same font size as in the original document (as is the
+       case for a default 'article' document produced by LaTeX).
+
+       pdfxup uses ghostscript for computing the maximal bounding box of (some
+       of)  the  pages  of the document, and then uses pdflatex (with graphicx
+       package) in order to produce the new document.
+
+OPTIONS
+       pdfxup accepts numerous options. The most important ones are:
+
+       -x n, --columns n
+              sets the number of columns in the output file (default 2);
+
+       -y n, --rows n
+              sets the number of lines in the output file (default 1);
+
+       -l, --landscape
+              sets orientation of paper (of final document) landscape;
+
+       -b (le|se), --booklet (le|se)
+              configure for printing as a booklet. Value 'le'  (which  is  the
+              default  value when -b is used with no argument) means that two-
+              sided printing is in 'long-edge' mode (you turn from one page to
+              the  next along the long edge of the paper). 'se' is the 'short-
+              edge' option.
+
+       -c, --clip
+              clip pages to the computed bounding box. By default, content  is
+              not  clipped, which may result in overlap of neighbouring pages.
+              With this option, anything outside the bounding box will not  be
+              displayed.
+
+       -o file, --output file
+              name of output file;
+
+       -i     ask before overwriting output file;
+
+       -fw d, --framewidth d
+              width  of the frame around each page (default 0.4pt). Set to 0pt
+              to have no frame at all;
+
+       -im d, --innermargins d
+              inner margin between frame and page (default 5pt);
+
+       -m d, --margins d
+              margin of pages of the new document (default 5pt);
+
+       -is d, --intspaces d
+              space between different pages (default 1pt);
+
+       -p list, --pages list
+              only consider sublist of pages of  input  document.  List  is  a
+              comma-separated list of pages or ranges pages of the form a-b; a
+              can be omitted to start from first page, and b can be omitted to
+              end  at  the last page. Therefore, "-p -" (which is the default)
+              includes all pages. Also allows modulo, so that "-p  0%2"  would
+              include only even-numbered pages.
+
+       -bb list, --bb list
+              only  consider  sublist of pages of input document for computing
+              bounding box;
+
+       -nobb list, --no-bb list
+              omit list of pages of input document from computation of  bound-
+              ing box;
+
+       -g, --get-bb
+              only compute (and output) bounding box;
+
+       -s x y W H, --set-bb x y W H
+              set the bounding box to the given values;
+
+       -w file, --watermark file
+              use  file  as  background  watermark. file can be any format ac-
+              cepted by pdflatex (e.g. png or pdf). If file is a multipage PDF
+              file,  page  n  of the watermark file is used with page n of the
+              input file, and the last page of the watermark file is  repeated
+              if the input file has more pages;
+
+       -wp p, --watermark-period p
+              repeat  the  last  p pages of the watermark file instead of only
+              the last one;
+
+       -d, --debug
+              debug mode: keep intermediary files;
+
+       -V [0-3], --verbose [0-3]
+              select verbosity (default: 1);
+
+       -q, --quiet
+              run quietly (equiv. '-V=0');
+
+       -v, --version
+              print version number and exit;
+
+       -h, --help
+              print help message and exit.
+
+EXAMPLES
+       # pdfxup file.pdf
+              produces 2-up pdf file from file.pdf
+
+       # pdfxup -bb 1-4 file.pdf
+              same behaviour, but computes the bounding  box  only  using  the
+              first 4 pages (this saves time when processing long documents)
+
+       # pdfxup -b -o booklet.pdf file.pdf
+              same behaviour, but creates a booklet (as booklet.pdf)
+
+       # pdfxup -kbb -x1 -y2 -l0 beamer-frames.pdf
+              arranges 2 beamer frames per page (not reducing margins)
+
+       # pdfxup -kbb -x2 -y2 -l beamer-frames.pdf:1-12,15-19
+              arranges  4  beamer  frames per page (not reducing margins), in-
+              cluding only frames 1 to 12 and 15 to 19.
+
+SEE ALSO
+       gs(1), pdflatex(1)
+
+AUTHOR
+       Nicolas Markey (pdfxup@markey.fr)
+
+1.51                            06 january 2020                         man(1)

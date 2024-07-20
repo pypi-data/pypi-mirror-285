@@ -1,0 +1,92 @@
+
+dbconfig-generate-include(1)    dbconfig-common   dbconfig-generate-include(1)
+
+NAME
+       dbconfig-generate-include - generate custom format db include files
+
+SYNOPSIS
+       dbconfig-generate-include  [-hv] [-f format] [-o options] [-a] [-d[var-
+       name]] [-u[varname]] [-p[varname]] [-s[varname]] [-P[varname]] [-t[var-
+       name]]  [-C[commentstr]] [-O owner[:group]] [-m mode] [-U] infile [out-
+       file]
+
+DESCRIPTION
+       dbconfig-generate-include is a program to generate  custom  format  in-
+       clude  files  containing the information necessary to connect a program
+       to a database resource.
+
+OPTIONS
+       infile use the given dbconfig-common config file as input
+
+       outfile
+              use the given file as output (default: stdout)
+
+       -f|--format
+              use the given output format (default: sh)
+
+       -o|--options
+              pass options specific to an output format in a  semicolon  sepa-
+              rated list. see OUTPUT FORMATS/OPTIONS for more information.
+
+       -a|--all
+              include all information in output (default)
+
+       -d|--dbname
+              include the dbname in the output
+
+       -p|--dbpass
+              include the dbpass in the output
+
+       -s|--dbserver
+              include the dbserver in the output
+
+       -P|--dbport
+              include the dbport in the output
+
+       -u|--dbuser
+              include the dbuser in the output
+
+       -t|--dbtype
+              include the dbtype in the output
+
+       -C|--comment
+              "comment  out"  any  unset variables, using a string appropriate
+              comment string for the programming language in question.  can be
+              overridden with an optional parameter as an arbitrary comment.
+
+       -O|--owner
+              set the owner:group of the output file
+
+       -m|--mode
+              set the permissions on the output file
+
+       -U|--ucf
+              register the outputfile with ucf
+
+       -h|--help
+              display this helpful message
+
+       -v|--version
+              output the version and exit
+
+OUTPUT FORMATS/OPTIONS
+       format  is one of a list of include-file style formats for various pro-
+       gramming languages.  the current list includes:
+
+       sh     /bin/sh style include file.
+
+       perl   perl parseable include file.
+
+       php    php parseable include file.
+
+       template
+              a file which contains a series of fields to be replaced with ac-
+              tual values.  all substitutable fields consist of the underlying
+              dbc_ variable name capitalized and surrounded with  underscores.
+              for example: _DBC_DBUSER_.
+               options:   template_infile  (path to input file containing tem-
+              plate)
+
+       cpp    c-style header file, using #define'd constants.
+
+sean finney                       March 2005      dbconfig-generate-include(1)

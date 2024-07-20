@@ -1,0 +1,56 @@
+
+DH_INSTALLDEFOMA(1)           Debhelper Commands           DH_INSTALLDEFOMA(1)
+
+NAME
+       dh_installdefoma - install a defoma related scripts
+
+SYNOPSIS
+       dh_installdefoma [debhelper options] [-n]
+
+DESCRIPTION
+       dh_installdefoma  is  a  debhelper  program that is responsible for in-
+       stalling files related to defoma (DEbian  FOnt  MAnager)  into  package
+       build  directories.  dh_installdefoma can be used by defoma-aware pack-
+       ages and/or font packages using defoma.
+
+       It also automatically generates the postinst  and  pre/postrm  commands
+       needed  to register a package as a defoma-aware and/or font package us-
+       ing defoma. See dh_installdeb(1) for an explanation of how this works.
+
+       If a file named debian/package.defoma exists, then it is installed into
+       usr/share/defoma/scripts/package.defoma  in the package build directory
+       and put an un/registration method in maintainer  scripts  with  defoma-
+       app.   If  a  file named debian/package.defoma-hints exists, then it is
+       installed in etc/defoma/hints/package.hints in the package build direc-
+       tory  and  put an un/registration method in maintainer scripts with de-
+       foma-font.  So when you create a defoma font package, what you need  to
+       do is only to put its hints file in debian/package.defoma-hints and in-
+       stall font files written in the hints file  in  the  appropriate  loca-
+       tions.  When  you create a defoma-aware package, what you need to do is
+       only to put its defoma-script file in debian/package.defoma. The script
+       file is automatically installed in the package build directory.
+
+OPTIONS
+       debhelper options
+              See  debhelper(1)  for a list of options common to all debhelper
+              commands.
+
+       -n, --noscripts
+              Do not modify postinst/postrm scripts.
+
+ENVIRONMENT
+       See debhelper(1) for a list of environment variables  that  affect  all
+       debhelper commands.
+
+NOTES
+       Note  that  this  command  is  not  idempotent. "dh_clean -k" should be
+       called between invocations of this command.  Otherwise,  it  may  cause
+       multiple instances of the same text to be added to maintainer scripts.
+
+SEE ALSO
+       debhelper(1)
+
+AUTHOR
+       Masato Taruishi <taru@debian.org>
+
+Debhelper Commands              20 August 2000             DH_INSTALLDEFOMA(1)

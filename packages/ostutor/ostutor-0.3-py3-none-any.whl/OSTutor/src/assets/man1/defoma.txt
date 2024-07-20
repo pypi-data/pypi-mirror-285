@@ -1,0 +1,121 @@
+
+defoma(1)                   General Commands Manual                  defoma(1)
+
+NAME
+       defoma - Debian Font Manager, a framework for automatic font configura-
+       tion.
+
+SYNOPSIS
+       defoma-font [options] command args..
+       defoma-app [options] command args..
+       defoma-subst [options] command args..
+
+DESCRIPTION
+       Defoma stands for Debian Font Manager. It provides a framework for  au-
+       tomatic font configuration. This manpage introduces general Defoma con-
+       cepts, please refer the manpage of defoma-font, defoma-app, or  defoma-
+       subst for the detailed information of each command.
+
+       Fonts  are used by numerous applications, but generally need to be con-
+       figured separately for each application. Defoma solves this problem  by
+       calling  configuration  scripts to update the font configuration of ap-
+       plications whenever a font is installed or removed.
+
+       A Defoma-configuration script is a perl library that  each  application
+       should       install       as       application-name.defoma       under
+       /usr/share/defoma/scripts and which configures a font for that applica-
+       tion. The following is an example of a script named foo.defoma.
+
+       @ACCEPT_CATEGORIES = qw(type1 truetype);
+
+       package foo;
+
+       sub type1 {
+         my $com = shift;
+         ...
+       }
+
+       sub truetype {
+         my $com = shift;
+         ...
+       }
+
+       1;
+
+       This  example  represents  an  application  foo that wants to configure
+       truetype and type1 category fonts. A function by the same name  as  the
+       relevant category is called by Defoma with a command as the first argu-
+       ment, and then additional arguments depending on the command.  The fol-
+       lowing is a list of commands.
+
+       * register
+       * unregister
+       * do-install-real do-install-alias do-install-subst
+       * do-remove-real do-remove-alias do-remove-subst
+       * init
+       * term
+       * purge
+
+       do-install-*  and  do-remove-*  commands are only called from Id cache.
+       init and term are called at the start and end (respectively) of the en-
+       tire process.
+
+       Id cache is another feature of Defoma. A common problem during automat-
+       ic configuration is name space conflicts. Usually  applications  access
+       fonts through logical font names (like XLFDs and PostScript font names)
+       rather than the fonts themselves  (as  font  filenames).  Logical  font
+       names,  called  identifiers  in  Defoma, can easily conflict especially
+       when font aliases are permitted. Through the Id cache  mechanism,  only
+       one  font  is actually installed for each identifier even if it is pro-
+       vided by several fonts.
+
+       Id Substitution is an additional feature of Id  cache.   It  selects  a
+       font  to provide an id specified by a rulefile.  The rulefile describes
+       rules giving required ids and their hints.  A rule is used to have more
+       similar-looking  fonts  with  the  same characters substitute for a re-
+       quired id. This feature can also be used for the  purpose  of  grouping
+       fonts into different categories.
+
+       A  category  represents  a type of font. Generally fonts that belong to
+       the same category are configured the same way.
+
+       Hints represent essential font  information  and  typeface  information
+       about  the font.  They consist of some HintTypes and their values. They
+       can be specified from the  command  line  options  of  defoma-font,  or
+       through a hintfile.
+
+       Hintfile  describes one or more fonts and their hints in a single file.
+       It is supposed to be put under /etc/defoma/hints as a conffile, so that
+       users can modify the hints.
+       Below  is an example hintfile.  defoma-hints is a tool to help generat-
+       ing hints as well as the hintfile, so you do not  have  to  create  one
+       from scratch.
+
+       category type1
+       begin /usr/share/fonts/type1/foo.pfa
+         FontName = Helvetica
+         Charset = ISO8859-1
+         Family = Helvetica
+         Weight = Medium
+         Shape = Upright NoSerif
+         GeneralFamily = SansSerif
+         X-FontName = -urw-helvetica-medium-r-noraml--0-0-0-0-p-iso8859-1
+       end
+       begin /usr/share/fonts/type1/foob.pfa
+         FontName = Helvetica-Bold
+         Charset = ISO8859-1
+         Family = Helvetica
+         Weight = Bold
+         Shape = Upright NoSerif
+         GeneralFamily = SansSerif
+         X-FontName = -urw-helvetica-bold-r-noraml--0-0-0-0-p-iso8859-1
+       end
+
+SEE ALSO
+       defoma-font(1).    defoma-app(1).   defoma-subst(1).   defoma-hints(1).
+       defoma-psfont-installer(1).  defoma-reconfigure(1).  Defoma::Font(3pm).
+       Defoma::Id(3pm).        Defoma::Subst(3pm).        Defoma::Common(3pm).
+       /usr/share/doc/defoma-doc/developers.html/index.html
+       /usr/share/doc/defoma-doc/defoma-script.html/index.html
+
+                                March  4, 2001                       defoma(1)

@@ -1,0 +1,56 @@
+
+BDF2GDFONT(1p)        User Contributed Perl Documentation       BDF2GDFONT(1p)
+
+NAME
+       bdf2gdfont.pl - Convert X11 "BDF" fonts into a loadable font format for
+       GD.
+
+SYNOPSIS
+         % bdf2gdfont.pl courR12.bdf > courR12.fnt
+
+DESCRIPTION
+       This script converts BDF-style X11 font files into a format that can be
+       loaded by the GD module using the GD::Font->load() method.  There are a
+       number of ways to obtain BDF fonts.
+
+       1. The font is already present on your system.
+           Some BDF fonts can be found in the standard X11R6 distribution.
+           This script will automatically uncompress gzipped font files if
+           their extension ends with .gz (the gunzip program must be on your
+           path).
+
+       2. From a font server.
+           The "fstobdf" utility, a standard X11 utility, will read a named
+           font from the font server of your choice and return it in BDF
+           format.  You can pipe it to bdf2gdfont.pl:
+
+             fstobdf -s fontserverhost:7100 -fn 8x16 | bdf2gdfont.pl > newfont.fnt
+
+           Use xlsfonts to find out what fonts are available.  Most fonts will
+           have long names like
+           -B&H-LucidaTypewriter-Bold-R-Normal-Sans-18-180-75-75-M-110-ISO8859-10.
+
+       3. Using the pcf2bdf utility.
+           Some fonts are only available in PCF (compiled) format.  To obtain
+           these, you can either turn on a font server and follow recipe (2),
+           or use TAGA Nayuta's pcf2bdf utility. This utility is available
+           from http://www.tsg.ne.jp/GANA/S/pcf2bdf/ (page is in Japanese, but
+           you can find the download link).
+
+   Limitations
+       This font converter only works with fixed-width fonts.  If used with a
+       TrueType or proportional font it will die with an error message.
+
+SEE ALSO
+       GD
+
+AUTHOR
+       Lincoln Stein <lstein@cshl.org>, heavily adapted from bdftogd from Jan
+       Pazdziora <adelton@fi.muni.cz>.
+
+       Copyright (c) 2004 Cold Spring Harbor Laboratory
+
+       This library is free software; you can redistribute it and/or modify it
+       under the same terms as Perl itself.
+
+perl v5.30.0                      2019-10-18                    BDF2GDFONT(1p)

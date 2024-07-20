@@ -1,0 +1,151 @@
+
+MCPP(1)                          User Commands                         MCPP(1)
+
+NAME
+       mcpp - Matsui CPP, an alternative C preprocessor
+
+SYNOPSIS
+       mcpp [options] [<infile> [<outfile>]]
+
+DESCRIPTION
+       mcpp  is a C/C++ preprocessor with the highest conformance which imple-
+       ments C90, C99 and C++98.  mcpp  has  plentiful  diagnostics  and  many
+       #pragmas.   It is useful to check portability of your program, and also
+       useful to debug complicated macro.  This is a man-page for mcpp of com-
+       piler-independent-build.
+
+OPTIONS
+       mcpp  expects  two file names as arguments, <infile> and <outfile>.  If
+       not specified, <infile> defaults to standard input  and  <outfile>  de-
+       faults to standard output.
+
+       It takes the following options.
+
+       Commonly used options:
+
+       -@MODE Specify preprocessing mode. MODE should be one of these 4:
+
+           -@std
+              Standard conforming mode. (default)
+
+           -@poststd, -@post
+              special 'post-Standard' mode.
+
+           -@kr
+              K&R 1st mode.
+
+           -@oldprep, -@old
+              "old_preprocessor" mode (i.e. "Reiser model" cpp).
+
+       -C     Output also comments.
+
+       -D <macro>[=<value>]
+              Define <macro> as <value> (default:1).
+
+       -D <macro(args)>[=<replace>]
+              Define <macro(args)> as <replace>.
+
+       -e <encoding>
+              Change  the  default  multi-byte  character  encoding to one of:
+              euc_jp, gb2312, ksc5601, big5, sjis, iso2022_jp, utf8.
+
+       -I <directory>
+              Add <directory> to the #include search list.
+
+       -I-    Unset system or site specific include directories.
+
+       -j     Do not output the source line in diagnostics.
+
+       -M, -MM, -MD, -MMD, -MP, -MQ target, -MT target, -MF file
+              Output source file dependency line for makefile.
+
+       -N     Don't predefine any non-standard macros.
+
+       -o <file>
+              Output to <file>.
+
+       -P     Don't output #line lines.
+
+       -Q     Output diagnostics to "mcpp.err" (default:stderr).
+
+       -U <macro>
+              Undefine <macro>.
+
+       -v     Show version of mcpp.
+
+       -W <level>
+              Set warning level to <level> (OR of {0,1,2,4,8,16}, default:1).
+
+       -z     Don't output the included file, only defining macros.
+
+       Options available with -@std (default) or -@poststd options:
+
+       -+     Process C++ source.
+
+       -2     Enable digraphs.
+
+       -h <n> Re-define the pre-defined macro __STDC_HOSTED__ as <n>.
+
+       -S <n> Redefine __STDC__ to <n>, undefine old style macros.
+
+       -V <n> Redefine __STDC_VERSION__ or __cplusplus to <n>.
+              C with -V199901L specifies C99 mode.
+              C++ with -V199901L specifies C99 compatible mode.
+
+       Options available with only -@std (default) option:
+
+       -@compat
+              Expand recursive macro more than Standard.
+
+       -3     Enable trigraphs.
+
+       -K     Embed macro annotations into comments.
+
+       Options available with -@std (default), -@kr or -@oldprep options:
+
+       -a     Process "assembler" source.
+
+PRAGMA
+       mcpp has the following #pragma directives.
+
+       #pragma once
+              Read the header file only once even if multiply #included.
+
+       #pragma __setlocale( "encoding")
+              Specify the multibyte character encoding to "encoding".  See  -e
+              option for the encodings.
+
+       #pragma MCPP put_defines
+              Putout all the macro definitions currently valid.
+
+       #pragma MCPP debug <args>
+              Start to putout debugging informations.
+                  <args> should be one or more of:
+                  token expand macro_call path if expression memory getc
+
+       #pragma MCPP end_debug <args>
+              Stop to putout debugging informations.
+                  <args> are the same with 'debug'.
+                  No argument specifies all arguments.
+
+       #pragma MCPP push_macro( "MACRO")
+              Save the macro definition to the stack.
+
+       #pragma MCPP pop_macro( "MACRO")
+              Retrieve the macro definition from the stack.
+
+       #pragma MCPP preprocess
+              "Pre-preprocess" the following header files for mcpp.
+
+       #pragma MCPP warning    any message
+              Putout warning "any message".
+
+VERSION
+       MCPP V.2.7 (2008/03) compiler-independent-build
+
+SEE ALSO
+       Do  'man mcpp-gcc' for mcpp of GCC-specific-build.  The full documenta-
+       tion for mcpp are maintained  as  html  files.   Please  see  mcpp-man-
+       ual.html.
+
+alternative CPP                    Mar 2008                            MCPP(1)

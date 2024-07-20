@@ -1,0 +1,219 @@
+
+DOVEADM-ACL(1)                      Dovecot                     DOVEADM-ACL(1)
+
+NAME
+       doveadm-acl - Manage Access Control List (ACL)
+
+SYNOPSIS
+       doveadm [-Dv] [-f formatter] acl command [OPTIONS] [ARGUMENTS]
+
+DESCRIPTION
+       The  doveadm acl COMMANDS can be used to execute various Access Control
+       List related actions.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies the formatter for formatting  the  output.   Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints a table header followed  by  tab  separated  value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       This command uses by default the output formatter table.
+
+       Command specific options:
+
+       -A     If the -A option is present, the command will be  performed  for
+              all  users.   Using this option in combination with system users
+              from userdb { driver = passwd } is not recommended,  because  it
+              contains  also  users  with  a lower UID than the one configured
+              with the first_valid_uid setting.
+
+              When the SQL userdb module is used  make  sure  that  the  iter-
+              ate_query  setting  in /etc/dovecot/dovecot-sql.conf.ext matches
+              your database layout.  When using the LDAP userdb  module,  make
+              sure  that  the  iterate_attrs  and  iterate_filter  settings in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -F file
+              Execute the command for all the users in the file.  This is sim-
+              ilar to the -A option, but instead of getting the list of  users
+              from  the  userdb,  they are read from the given file.  The file
+              contains one username per line.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain  socket, or a hostname and port (hostname:port), in order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run  the command only for the given user.  It's also possible to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When neither the -A option, nor  the  -F file  option,  nor  the
+              -u user was specified, the command will be executed with the en-
+              vironment of the currently logged in user.
+
+ARGUMENTS
+       id     The id (identifier) is one of:
+
+                     *   group-override=group_name
+
+                     *   user=user_name
+
+                     *   owner
+
+                     *   group=group_name
+
+                     *   authenticated
+
+                     *   anyone (or anonymous, which is an alias for anyone)
+
+              The ACLs are processed in the precedence given above, so for ex-
+              ample  if  you  have given read-access to a group, you can still
+              remove that from specific users inside the group.
+              Group-override identifier allows you to  override  users'  ACLs.
+              Probably  the  most  useful  reason to do this is to temporarily
+              disable access for some users.  For example:
+
+              user=timo rw
+              group-override=tempdisabled
+
+              Now if timo is a member of the tempdisabled group, he has no ac-
+              cess  to  the  mailbox.  This wouldn't be possible with a normal
+              group identifier, because the user=timo would override it.
+
+       mailbox
+              The name of the mailbox, for which the ACL  manipulation  should
+              be  done.  It's also possible to use the wildcard characters "*"
+              and/or "?" in the mailbox name.
+
+       right  Dovecot ACL right name. This isn't the same as the IMAP ACL let-
+              ters,  which  aren't  currently supported.  Here is a mapping of
+              the IMAP ACL letters to Dovecot ACL names:
+
+                     l -> lookup
+                         Mailbox is visible in mailbox list.  Mailbox  can  be
+                         subscribed to.
+
+                     r -> read
+                         Mailbox can be opened for reading.
+
+                     w -> write
+                         Message  flags  and  keywords  can be changed, except
+                         \Seen and \Deleted.
+
+                     s -> write-seen
+                         \Seen flag can be changed.
+
+                     t -> write-deleted
+                         \Deleted flag can be changed.
+
+                     i -> insert
+                         Messages can be written or copied to the mailbox.
+
+                     p -> post
+                         Messages can be posted to the mailbox by dovecot-lda,
+                         e.g. from Sieve scripts.
+
+                     e -> expunge
+                         Messages can be expunged.
+
+                     k -> create
+                         Mailboxes  can be created/renamed directly under this
+                         mailbox (but not necessarily under its children,  see
+                         ACL Inheritance in the wiki).
+                         Note: Renaming also requires the delete right.
+
+                     x -> delete
+                         Mailbox can be deleted.
+
+                     a -> admin
+                         Administration  rights  to  the  mailbox  (currently:
+                         ability to change ACLs for mailbox).
+
+COMMANDS
+   acl add
+       doveadm acl add [-u user|-A|-F file] [-S socket_path] mailbox id  right
+       [right ...]
+
+       Add ACL rights to the mailbox/id.  If the id already exists, the exist-
+       ing rights are preserved.
+
+   acl debug
+       doveadm acl debug [-u user|-A|-F file] [-S socket_path] mailbox
+
+       This command can be used to debug why a shared mailbox isn't accessible
+       to the user.  It will list exactly what the problem is.
+
+   acl delete
+       doveadm acl delete [-u user|-A|-F file] [-S socket_path] mailbox id
+
+       Remove the whole ACL entry for the mailbox/id.
+
+   acl get
+       doveadm acl get [-u user|-A|-F file] [-S socket_path] [-m] mailbox
+
+       Show all the ACLs for the mailbox.
+
+   acl recalc
+       doveadm acl recalc [-u user|-A|-F file] [-S socket_path]
+
+       Make   sure   the  user's  shared  mailboxes  exist  correctly  in  the
+       acl_shared_dict.
+
+   acl remove
+       doveadm acl remove [-u user|-A|-F file]  [-S  socket_path]  mailbox  id
+       right [right ...]
+
+       Remove the specified ACL rights from the mailbox/id.  If all rights are
+       removed, the entry still exists without any rights.
+
+   acl rights
+       doveadm acl rights [-u user|-A|-F file] [-S socket_path] mailbox
+
+       Show the user's current ACL rights for the mailbox.
+
+   acl set
+       doveadm acl set [-u user|-A|-F file] [-S socket_path] mailbox id  right
+       [right ...]
+
+       Set ACL rights to the mailbox/id.  If the id already exists, the exist-
+       ing rights are replaced.
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1), dovecot-lda(1)
+
+       Additional resources:
+
+       ACL Inheritance
+              http://wiki2.dovecot.org/ACL#ACL_Inheritance
+
+Dovecot v2.3                      2015-05-09                    DOVEADM-ACL(1)

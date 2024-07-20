@@ -1,0 +1,21 @@
+
+MERGELIB(1)                 General Commands Manual                MERGELIB(1)
+
+NAME
+       mergelib - merge one library into another
+
+SYNOPSIS
+       mergelib to-library from-library [object-filename-prefix]
+
+DESCRIPTION
+       The mergelib program merges objects from one library into another.  The
+       names of object files in from-library will be prefixed by  object-file-
+       name-prefix ("_" by default) to avoid name clashes.  The merged library
+       will be left in to-library.
+
+AUTHOR
+       Jim Fulton wrote the mergelib program for the X Consortium.
+
+       Colin Watson wrote this manual page, originally for the Debian Project.
+
+X Version 11                      imake 1.0.7                      MERGELIB(1)

@@ -1,0 +1,72 @@
+
+bibdoiadd(1)                   CROSSREF LIBRARY                   bibdoiadd(1)
+
+NAME
+       bibdoiadd.pl - add DOI numbers to papers in a given bib file
+
+SYNOPSIS
+       bibdoiadd [-c config_file] [-C 1|0] [-e 1|0] [-f] [-o output] bib_file
+
+OPTIONS
+       -c config_file
+           Configuration file.  If this file is absent, some defaults are
+           used.  See below for its format.
+
+       -C 1|0
+           Whether to canonize names in the output (1) or not (0).  By
+           default, 1.
+
+       -e  If 1 (default), add empty doi if a doi cannot be found.  This
+           prevents repeated searches for the same entries if you add new
+           entries to the file.  Calling "-e 0" suppresses this behavior.
+
+       -f  Force checking doi number even if one is present
+
+       -o output
+           Output file.  If this option is not used, the name for the output
+           file is formed by adding "_doi" to the input file
+
+DESCRIPTION
+       The script reads a BibTeX file.  It checks whether the entries have
+       DOIs.  If not, it tries to contact http://www.crossref.org to get the
+       corresponding DOI.  The result is a BibTeX file with the fields
+       "doi=..." added.
+
+       The name of the output file is either set by the -o option or is
+       derived by adding the suffix "_doi" to the output file.
+
+       There are two options for making queries with Crossref: free account
+       and paid membership.  In the first case you still must register with
+       Crossref and are limited to a small number of queries, see the
+       agreement at
+       "http://www.crossref.org/01company/free_services_agreement.html".  In
+       the second case you have a username and password, and can use them for
+       automatic queries.  I am not sure whether the use of this script is
+       allowed for the free account holders.  Anyway if you try to add DOI to
+       a large number of entries, you should register as a paid member.
+
+CONFIGURATION FILE
+       The configuration file is mostly self-explanatory: it has comments
+       (starting with "#") and assginments in the form
+
+          $field = value ;
+
+       The important parameters are $mode ('free' or 'paid'), $email (for free
+       users) and $username & $password for paid members.
+
+EXAMPLES
+          bibdoiadd -c bibdoiadd.cfg -o - citations.bib > result.bib
+          bibdoiadd -c bibdoiadd.cfg -o result.bib citations.bib
+
+AUTHOR
+       Boris Veytsman
+
+COPYRIGHT AND LICENSE
+       Copyright (C) 2014-2017  Boris Veytsman
+
+       This is free software.  You may redistribute copies of it under the
+       terms of the GNU General Public License
+       <http://www.gnu.org/licenses/gpl.html>.  There is NO WARRANTY, to the
+       extent permitted by law.
+
+                                  2017-11-26                      bibdoiadd(1)

@@ -1,0 +1,49 @@
+
+PPLTOTF(1)                  General Commands Manual                 PPLTOTF(1)
+
+NAME
+       ppltotf, uppltotf - Create Japanese pTeX font metric (JFM)
+
+SYNOPSIS
+       ppltotf [options] pl_file_name[.pl] [tfm_file_name[.tfm]]
+
+DESCRIPTION
+       The ppltotf program translates a Japanese property list (JPL) file to a
+       Japanese pTeX font metric (JFM) file.  The resulting JFM  file  can  be
+       used with pTeX and e-pTeX.
+
+       The  uppltotf program is a Unicode-enabled version of ppltotf.  The re-
+       sulting JFM file can be used with upTeX and e-upTeX.
+
+       In the following sections, we refer to these programs as (u)ppltotf.
+
+       (u)ppltotf is upper compatible with pltotf; if the input PL file is for
+       roman  fonts,  it  is translated into an ordinary TeX font metric (TFM)
+       file.  The difference between ppltotf and uppltotf lies in  the  output
+       encoding:  ppltotf  always  outputs JIS-encoded JFM; on the other hand,
+       uppltotf outputs Unicode-encoded JFM by default.
+
+OPTIONS
+       Compared to pltotf, the following option is added to (u)ppltotf.
+
+       -kanji string
+              Sets the input Japanese Kanji code.  The string can  be  one  of
+              the       followings:      euc (EUC-JP),      jis (ISO-2022-JP),
+              sjis (Shift_JIS), utf8 (UTF-8), uptex (UTF-8; uppltotf only).
+
+       When one of euc, jis, sjis or utf8 is specified, both ppltotf  and  up-
+       pltotf  output  a  JIS-encoded  JFM.   When uptex is specified with up-
+       pltotf, it outputs a Unicode-encoded JFM.
+
+SEE ALSO
+       ptex(1).
+
+AUTHORS
+       (u)ppltotf  is  maintained  by  Japanese  TeX   Development   Community
+       <https://texjp.org>.   For bug reports, open an issue at GitHub reposi-
+       tory <https://github.com/texjporg/tex-jp-build>, or send an  e-mail  to
+       <issue@texjp.org>.
+
+       This manual page was written by Hironobu Yamashita.
+
+Web2C 2019                       15 March 2019                      PPLTOTF(1)

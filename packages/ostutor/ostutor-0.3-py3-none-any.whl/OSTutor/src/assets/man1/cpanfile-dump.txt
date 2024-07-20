@@ -1,0 +1,64 @@
+
+CPANFILE-DUMP(1p)     User Contributed Perl Documentation    CPANFILE-DUMP(1p)
+
+NAME
+       cpanfile-dump - Dump prerequisites from a cpanfile
+
+SYNOPSIS
+         # Install typical required and recommended modules
+         cpan `cpanfile-dump`
+
+         # Skip configures phase
+         cpan `cpanfile-dump --no-configure`
+
+         # Also include develop phase and suggests type
+         cpan `cpanfile-dump --develop --suggests`
+
+         # Include a feature
+         cpan `cpanfile-dump --with-feature=sqlite`
+
+DESCRIPTION
+       This script reads prereqs from a cpanfile and dumps a raw list of them
+       to standard output.  This is useful for piping these as input to
+       another program that doesn't support reading cpanfile directly, i.e.
+       "cpan" or "cpanp".
+
+       By default, it prints configure, build, test and runtime requirements
+       and recommendations.  Command line options can be used to modify the
+       default choices.
+
+       This script is distributed with Module::CPANfile since version 1.0002.
+
+OPTIONS
+       --configure, --build, --test, --runtime, --develop
+           Specify the phase to include/exclude. Defaults to include all but
+           "--develop" but you can exclude some phases by specifying the
+           options with "--no-" prefix, like "--no-configure".
+
+       --requires, --recommends, --suggests, --conflicts
+           Specify the type to include/exclude. Defaults to include only
+           "--requires" and "--recommends" but you can exclude some types by
+           specifying the options with "--no-" prefix, like "--no-recommends".
+
+           Specifying "--conflicts" will turn off all other types (even if
+           specified on the command line).
+
+       --with-feature, --with-all-features, --without-feature
+               cpanfile-dump --with-feature=sqlite
+               cpanfile-dump --with-all-features --without-feature=yaml
+
+           Specify features to include in the dump.  "--with-feature" and
+           "--without-feature" may be used more than once.
+
+NOTES
+       Because "cpanm" supports reading cpanfile directly, instead of piping
+       the output of this program, you're recommended to use "cpanm
+       --installdeps ." to install modules from cpanfile.
+
+AUTHOR
+       David Golden
+
+SEE ALSO
+       Module::CPANfile cpanfile App::mymeta_requires
+
+perl v5.26.2                      2018-05-17                 CPANFILE-DUMP(1p)

@@ -1,0 +1,78 @@
+
+LTNU(1)                                                                LTNU(1)
+
+NAME
+       ltnu - lists packages of a maintainer ordered by last upload
+
+SYNOPSIS
+       env DEBEMAIL=maintainer ltnu [-m]
+
+       ltnu [-m] maintainer
+
+       ltnu --help
+
+DESCRIPTION
+       ltnu (Long Time No Upload) queries the public mirror of the Ultimate
+       Debian Database (udd-mirror.debian.net) for all uploads of packages by
+       the given uploader or maintainer and displays them ordered by the last
+       upload of that package to Debian Unstable, oldest uploads first.
+
+       Its primary purpose is to check which of your own or your team's
+       packages haven't been uploaded for a long time and likely need a
+       packaging revamp. It's less suitable for MIA team purposes as it
+       doesn't make a difference with regards to who actually uploaded a
+       package.
+
+OPTIONS
+       -m  Only search in the Maintainer field and ignore the Uploaders field.
+
+PARAMETERS
+       The maintainer/uploader to query can be given either by setting
+       $DEBEMAIL as environment variable or as single commandline parameter.
+
+       If a commandline parameter does not contain an "@", "@debian.org" is
+       appended, e.g. "ltnu abe" queries for "abe@debian.org".
+
+       Exceptions are some shortcuts for common, long e-mail addresses. So far
+       implemented shortcuts:
+
+       pkg-gnustep  pkg-gnustep-maintainers@lists.alioth.debian.org
+
+       pkg-perl     pkg-perl-maintainers@lists.alioth.debian.org
+
+       pkg-zsh      pkg-zsh-devel@lists.alioth.debian.org
+
+       qa           packages@qa.debian.org
+
+ENVIRONMENT
+       The following environment variables are honoured:
+
+       DEBEMAIL
+           Used for querying if no parameter is given.
+
+       PAGER
+           Used by psql as pager.
+
+EXAMPLE
+           $ ltnu pkg-zsh
+                    source          |     ver      |        uploaded
+           -------------------------+--------------+------------------------
+            zgen                    | 0~20150919-3 | 2016-08-24 04:55:31+00
+            zplug                   | 2.4.1-1      | 2017-01-13 09:51:26+00
+            zsh-syntax-highlighting | 0.6.0-1      | 2017-08-30 09:06:26+00
+            zsh                     | 5.4.2-2      | 2017-11-02 20:56:55+00
+           (4 rows)
+
+DEPENDENCIES
+       ltnu uses the PostgreSQL client command psql and hence needs Debian's
+       postgresql-client package to be installed.
+
+AUTHOR, COPYRIGHT, LICENSE
+       Copyright 2017 Axel Beckert <abe@debian.org>. Licensed under the GNU
+       General Public License, version 2 or later.
+
+SEE ALSO
+       <https://udd-mirror.debian.net/>, <https://udd.debian.org/>,
+       <https://wiki.debian.org/UltimateDebianDatabase>
+
+Debian Utilities                  2020-02-13                           LTNU(1)

@@ -1,0 +1,35 @@
+
+UDISKS-DAEMON(8)                 udisks-daemon                UDISKS-DAEMON(8)
+
+NAME
+       udisks-daemon - udisks Daemon
+
+SYNOPSIS
+       udisks-daemon [--help]
+
+DESCRIPTION
+       udisks-daemon provides the org.freedesktop.UDisks service on the system
+       message bus. Users or administrators should never need to start this
+       daemon as it will be automatically started by dbus-daemon(1) whenever
+       an application calls into the org.freedesktop.UDisks service.
+
+       See the udisks(7) man page for information on how to customize how
+       udisks-daemon works.
+
+OPTIONS
+       --help
+           Show help options.
+
+AUTHOR
+       Written by David Zeuthen <david@fubar.dk> with a lot of help from many
+       others.
+
+BUGS
+       Please send bug reports to either the distribution bug tracker or the
+       upstream bug tracker at
+       https://bugs.freedesktop.org/enter_bug.cgi?product=udisks.
+
+SEE ALSO
+       udisks(7), udisks(1), udisks-tcp-bridge(1), dbus-daemon(1)
+
+udisks                            April 2008                  UDISKS-DAEMON(8)

@@ -1,0 +1,105 @@
+
+DOVEADM-MAILBOX-CRYPTOKEY(1)        Dovecot       DOVEADM-MAILBOX-CRYPTOKEY(1)
+
+NAME
+       doveadm-mailbox-cryptokey - Mail crypt plugin management
+
+SYNOPSIS
+       doveadm -o plugin/mail_crypt_private_password=password [ -Dv ][ -f for-
+       matter ]  mailbox cryptokey export|generate|list|password [ -u username
+       | -A ][ -S ][ -F file ] [ other options ]
+
+DESCRIPTION
+       Generate  new  keypair for user or folder. The new keypair is marked as
+       active.
+
+OPTIONS
+       options:
+
+       -A     If the -A option is present, the command will be  performed  for
+              all  users.   Using this option in combination with system users
+              from userdb { driver = passwd } is not recommended,  because  it
+              contains  also  users  with  a lower UID than the one configured
+              with the first_valid_uid setting.
+
+              When the SQL userdb module is used  make  sure  that  the  iter-
+              ate_query  setting  in /etc/dovecot/dovecot-sql.conf.ext matches
+              your database layout.  When using the LDAP userdb  module,  make
+              sure  that  the  iterate_attrs  and  iterate_filter  settings in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -F file
+              Execute the command for all the users in the file.  This is sim-
+              ilar to the -A option, but instead of getting the list of  users
+              from  the  userdb,  they are read from the given file.  The file
+              contains one username per line.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain  socket, or a hostname and port (hostname:port), in order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run  the command only for the given user.  It's also possible to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When neither the -A option, nor  the  -F file  option,  nor  the
+              -u user was specified, the command will be executed with the en-
+              vironment of the currently logged in user.
+
+       -o plugin/mail_crypt_private_password=password
+              Dovecot option, needed if you use password protected keys
+
+SUBCOMMANDS
+       export [ -U ] | mailbox-mask
+
+       -U     Operate on user keypair only
+
+       Exports user's or folder's keypair(s) in PEM format.  If the  keys  are
+       password protected, -o is needed.
+
+       generate [ -Rf  [ -U ] | mailbox-mask ]
+
+       -U     Operate on user keypair only
+
+       -R     Re-encrypt all folder keys with current active user key
+
+       -f     Force keypair creation, normally keypair is only created if none
+              found
+
+       Generates new keypair for user or folder. If you want to  generate  new
+       user  key  and use it to secure your folder keys, use generate -u user-
+       name -UR.
+
+       If you want to password-protect your key here, use -o.
+
+       list [ -U ] | mailbox-mask
+
+       -U     Operate on user keypair only
+
+       List all keys for user or folder. No password is required.
+
+       password [ -N | -n password ]  [ -O | -o password ] [ -C ]
+
+       -O     Ask for old password
+
+       -o old-password
+              Provide old password
+
+       -N     Ask for new password
+
+       -n new-password
+              Provide new password
+
+       -C     Clear (unset/remove) password. Your key will not be protected by
+              password.
+
+       Set, change or clear password from your user key.
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2016-01-12      DOVEADM-MAILBOX-CRYPTOKEY(1)

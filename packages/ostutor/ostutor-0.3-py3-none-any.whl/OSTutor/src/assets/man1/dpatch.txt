@@ -1,0 +1,337 @@
+
+DPATCH(1)                           dpatch                           DPATCH(1)
+
+NAME
+       dpatch - patch maintenance system for Debian
+
+SYNOPSIS
+       dpatch [options] command [command-arguments]
+
+DESCRIPTION
+       dpatch  is  an  easy  to use patch system for Debian packages, somewhat
+       similar to the dbs package, but much simpler to use.
+
+       It lets you store patches and other simple customization  templates  in
+       debian/patches  and  otherwise  does not require much reorganization of
+       your source tree. To get the patches applied at build time  you  simply
+       need to include a makefile snippet and then depend on the patch/unpatch
+       target in the build or clean stage of debian/rules. For added flexibil-
+       ity, you can call /usr/bin/dpatch directly too.
+
+WARNING
+       dpatch  is deprecated, please switch to the `3.0 (quilt)' Debian source
+       package  format   instead.   See   http://wiki.debian.org/Projects/Deb-
+       Src3.0#FAQ for a short guide on how to do it.
+
+GLOBAL OPTIONS
+       There  are  a few options which change the overall behaviour of dpatch,
+       and have an effect on not only one, but most of the available commands.
+
+       These global options are:
+
+       --workdir (-d) DIRECTORY
+              By default, dpatch applies patches to the source tree it was run
+              from.  With this option, one can change that, and tell dpatch to
+              work on a different tree, although taking the dpatches from  the
+              current one.
+
+              Note  that  this  will  only  pass  a  second argument to dpatch
+              scriptlets, and will not change to the specified  directory.  To
+              do that, use the --chdir option explained below.
+
+       --chdir (-c)
+              When  using  a different working directory than the current one,
+              change there before trying to apply patches.
+
+              This should be used together with the --workdir option.
+
+       --strict (-S)
+              Enable strict mode, which means that dpatch will bail out  early
+              even on warnings (like when trying to apply a patch which is al-
+              ready applied - normally it will simply skip it).
+
+       --force (-F)
+              Force the application  or  deapplication  of  patches,  even  if
+              dpatch  would  normally  skip them because the operation was al-
+              ready done earlier.
+
+       --with-cpp
+              Force the use of cpp. Overrides use of  DPATCH_OPTION_CPP=1  op-
+              tion in debian/patches/00options file.
+
+COMMANDS
+   Patch handling commands
+       There is a generic syntax for all patch handling commands, namely that,
+       that the command itself takes a list of dpatch names to work with, then
+       does  what it is meant to do on all of them, in the exact same order it
+       was specified on the command line.
+
+       Then, there is a version of each patch handling command  with  an  -all
+       suffix,  which  does not take any arguments, and performs the necessary
+       action for each and every available dpatch.
+
+       The last variation is a command with a -until or -up-to  suffix,  which
+       takes  only  one argument: the name of a dpatch. The appropriate action
+       will be performed on all dpatches up to and  including  this  specified
+       one.
+
+       apply [options]
+       patch [options]
+              Applies  one  or  more dpatches to the working tree (the current
+              directory, if not told  otherwise).  By  default  the  specified
+              patches will be applied in the exact same order they were speci-
+              fied.
+
+              Options
+                     --stampdir=directory, -s=directory
+                            Put stamp files into directory instead of the  de-
+                            fault debian/patched.
+                     --help (-h)
+                            Print a short help message about the command.
+                     --quiet (-q)
+                            Forces the command to not print anything.
+                     --verbose (-v)
+                            Disables hiding of the scriptlet output.
+
+       deapply [options]
+       unpatch [options]
+              Deapplies  one or more dpatches to the working tree (the current
+              directory, if not told  otherwise).  By  default  the  specified
+              patches  will be deapplied in the reverse order they were speci-
+              fied as one generally should deapply in reverse order  (compared
+              to the apply order, that is).
+
+              Options
+                     --stampdir=directory, -s=directory
+                            Use  stamp  files  in directory instead of the de-
+                            fault debian/patched.
+                     --help (-h)
+                            Print a short help message about the command.
+                     --quiet (-q)
+                            Forces the command to not print anything.
+                     --verbose (-v)
+                            Disables hiding of the scriptlet output.
+
+       cat [options]
+              Print meta-information about a dpatch, such as its name,  author
+              and description (any of which can be disabled with the appropri-
+              ate option).
+
+              Options
+                     --no-meta, --desc-only (-nm, -d)
+                            Only print the patch description.
+                     --author-only (-a)
+                            Only print the author of the patch.
+                     --no-desc, (-nd)
+                            Do not print the patch description.
+                     --help (-h)
+                            Print a short help message about the command.
+                     --quiet (-q)
+                            Forces the command to not print anything.
+
+       list [options]
+              List the name of the given patches. This commands is not  really
+              useful,  except  the list-all variant, which lists all available
+              patches.
+
+              Options
+                     --help (-h)
+                            Print a short help message about the command.
+
+       status [options]
+              Prints the status of the given patches - whether  they  are  ap-
+              plied to the working tree or not.
+
+              Options
+                     --stampdir=directory, -s=directory
+                            Use  stamp  files  in directory instead of the de-
+                            fault debian/patched.
+                     --help (-h)
+                            Print a short help message about the command.
+                     --quiet (-q)
+                            Forces the command to not print anything.
+
+       log [options]
+              Displays the log of the given patching attempts.
+
+              Options
+                     --stampdir=directory, -s=directory
+                            Use stamp files in directory instead  of  the  de-
+                            fault debian/patched.
+                     --help (-h)
+                            Print a short help message about the command.
+                     --quiet (-q)
+                            Forces  the command to not print anything, but the
+                            logs without extra sugar on top.
+
+       call [options]
+              Call a dpatch with a user-specified argument. All arguments with
+              a  pkg-  prefix is guaranteed to be unused by dpatch itself, and
+              are reserved for use with this very command.
+
+              This command is most useful for extracting custom  meta-informa-
+              tion from dpatch scriptlets.
+
+              Options
+                     --argument=arg (-a=arg)
+                            Call patches with arg as argument.
+                     --help (-h)
+                            Print a short help message about the command.
+                     --quiet (-q)
+                            Forces the command to not print anything.
+
+   Miscellaneous commands
+       patch-template [options] [patchname] [description]
+              Print  a quasi-standard dpatch script template, based on the in-
+              formation give on the command-line. If a description  given,  it
+              will be folded at about 72 characters into multiple lines appro-
+              priately.
+
+              When prepending the template to STDIN, the contents of the stan-
+              dard input will be printed right after the template.
+
+              Options
+                     --prepend (-p)
+                            Prepend the template to STDIN.
+                     --help (-h)
+                            Print a short help message about the command.
+
+       help (--help, -h) [command]
+              Attempt to give a little more detailed help about dpatch itself,
+              or about a given dpatch command.
+
+       version
+              Prints the dpatch version number and exits.
+
+DPATCH IN DEBIAN PACKAGES
+       There are two different ways to use dpatch in debian/rules: calling  it
+       directly,  or  including dpatch.make(7). Only the former method will be
+       described here - the latter has its own manual page.
+
+       NOTE: The following examples also require adding the .NOTPARALLEL  flag
+       to  the head of debian/rules since the dependency lists rely on the or-
+       der of the execution. Without .NOTPARALLEL, they execution order may be
+       wrong with multiple make threads (the -j option).
+
+       In  most  situations,  one  will  want to run dpatch as soon during the
+       build process, as possible. How that can be accomplished depends  heav-
+       ily  on  the  existing  debian/rules.  However, in common practice most
+       packages have a build (or build-stamp), config.status, or configure (or
+       configure-stamp)  target.  The  easiest  way to make dpatching the very
+       first thing, one only has to write a rule that calls dpatch, and add it
+       to the list of prerequisites for the appropriate target (see above).
+
+       Deapplying dpatches can be easy or a bit more tricky. If nothing in the
+       clean rule touches files modified by  dpatches  (creating  incompatible
+       changes), you can safely add unpatch to the list of the clean rules de-
+       pendencies.
+
+       If the patches might affect the build system, they should be  deapplied
+       after  the  source  tree has been cleaned. To do this, rename the clean
+       target to, say, clean-patched, write a rule that calls dpatch to  deap-
+       ply  the dpatches, and make a new clean rule that has clean-patched and
+       unpatch as its prerequisites.
+
+       Let us look at an example! First, let us look at the relevant parts  of
+       the original debian/rules of our imaginary package:
+
+              config.status: configure
+                   ./configure --prefix=/usr --mandir=/usr/share
+              build: config.status
+                   ${MAKE}
+              clean:
+                   $(testdir)
+                   $(testroot)
+                   ${MAKE} distclean
+                   rm -rf debian/imaginary-package debian/files debian/substvars
+
+       After dpatchifying, this would look like this:
+
+              config.status: patch configure
+                   ./configure --prefix=/usr --mandir=/usr/share
+              build: config.status
+                   ${MAKE}
+              clean: clean-patched unpatch
+              clean-patched:
+                   $(testdir)
+                   $(testroot)
+                   ${MAKE} distclean
+                   rm -rf debian/imaginary-package debian/files debian/substvars
+
+              patch: patch-stamp
+              patch-stamp:
+                   dpatch apply-all
+                   dpatch cat-all >patch-stamp
+
+              unpatch:
+                   dpatch deapply-all
+                   rm -rf patch-stamp debian/patched
+
+   Adding dpatch scriptlets to a package
+       When using dpatch, one surely wants to tell the system what dpatches to
+       apply, and which ones to discard. In the  most  common  situation,  one
+       only needs to list the names of the dpatches (the filenames relative to
+       debian/patches) in debian/patches/00list.  They usually have the exten-
+       sion  .dpatch  and  the  extension  can  be  omitted,  thus  a file de-
+       bian/patches/01_one_patch.dpatch is written as 01_one_patch inside  de-
+       bian/patches/00list
+
+       However,  there  may  be  situations  where  something more flexible is
+       needed, like applying the same patch on only  two  architectures,  say,
+       m68k  and  powerpc. One solve this in at least two very different ways:
+       One is to list the same patch in  both  debian/patches/00list.m68k  and
+       debian/patches/00list.powerpc,  the other is to use DPATCH_OPTION_CPP=1
+       in debian/patches/00options.  00list file is passed through cpp command
+       with   DEB_BUILD_ARCH   variable   set   to   the   architecture,   and
+       DEB_BUILD_ARCH_architecture being set to 1.  With cpp, our  sample  de-
+       bian/patches/00list might look like this:
+
+              01_manpage_typo
+              #if defined(DEB_BUILD_ARCH_m68k) || defined(DEB_BUILD_ARCH_powerpc)
+              /* This patch fixes a random build-time breakage on Macintosh boxen. */
+              02_macintosh_foo
+              #endif
+
+   Creating dpatch scriptlets
+       There  are many ways to create dpatch scriptlets. They are simple, exe-
+       cutable files, which follow a standardised  calling  convention  (docu-
+       mented in dpatch(7)).
+
+       You  can fire up your $EDITOR, or use dpatch-edit-patch, and you should
+       be all set.
+
+       For most cases, where the dpatch file is only to apply a simple  patch,
+       there is an even easier way:
+
+              dpatch patch-template -p "01_some_patch" "A random patch" \
+                   <random.diff >debian/patches/01_some_patch.dpatch
+
+FILES
+       debian/patches/00list
+              The list of patches to apply, deapply, or otherwise fiddle with.
+
+       debian/patches/00list.arch
+              List  of  patches to work with - additionally to the common list
+              in debian/patches/00list -, when building on the arch  architec-
+              ture.
+
+       /etc/dpatch.conf
+              System-wide  configuration  file  for dpatch, for setting global
+              options permanently.
+
+       ~/.dpatch.conf
+              Per-user configuration file, for setting global  options  perma-
+              nently.
+
+AUTHORS
+       dpatch  was written by Joerg Jaspert, David B Harris, Gergely Nagy, Ju-
+       nichi Uekawa and others.
+
+       This manual page was written by Gergely Nagy, and  updated  by  Junichi
+       Uekawa
+
+SEE ALSO
+       dpatch(7),  dpatch.make(7), dpatch-edit-patch(1), dpatch-list-patch(1),
+       dpatch-convert-diffgz(1)
+
+DPATCH 2                          Dec 13 2011                        DPATCH(1)

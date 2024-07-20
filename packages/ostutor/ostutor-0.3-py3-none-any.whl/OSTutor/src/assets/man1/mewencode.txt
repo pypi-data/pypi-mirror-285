@@ -1,0 +1,47 @@
+
+MEWENCODE(1)                General Commands Manual               MEWENCODE(1)
+
+NAME
+       mewencode, mewdecode, mewcat - MIME encoder/decoder
+
+SYNOPSIS
+       mewencode [-options] [infile [outfile]]
+       mewdecode [-options] [infile [outfile]]
+       mewcat [-options] [infile]
+
+DESCRIPTION
+       The mewencode utility encode/decode MIME objects.
+
+       The options are as follows:
+
+       -e      Encoding.
+
+       -d      Decoding.
+
+       -8      See if any 8bit characters are contained.
+
+       -b      MIME base64 en/decoding.
+
+       -q      MIME quoted-printable en/decoding.
+
+       -g      MIME gzip64 en/decoding(not yet specified in RFC).
+
+       -z      The same as -g.
+
+       -u      Uudecoding.
+
+       -l length
+               Line  length into which base64/quoted-printable/gzip64 encoding
+               truncate.
+
+       -t      On base64/gzip64 encoding, local newline is  treated  as  CRLF.
+               On  base/gzip64  decoding, any newline is translated into local
+               newline.  Specify this option only when the  input  is  a  line
+               based  object(e.g.  Content-Type:  is  text/plain  or  applica-
+               tion/postscript).
+
+       -h      Display this help message.
+
+       -v      Display the version.
+
+4th Berkeley Distribution       March 17, 2001                    MEWENCODE(1)

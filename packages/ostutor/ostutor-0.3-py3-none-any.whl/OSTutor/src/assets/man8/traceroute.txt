@@ -1,0 +1,272 @@
+
+TRACEROUTE(8)               System Manager's Manual              TRACEROUTE(8)
+
+NAME
+       traceroute - print route IP packets follow going to a remote host
+
+SYNOPSIS
+       traceroute [ options ] host [ size ]
+
+DESCRIPTION
+       Traceroute attempts to trace the route an IP packet follows to some in-
+       ternet host.  It finds out intermediate hops by launching probe packets
+       with a small time-to-live (TTL) value, and then listens for an ICMP re-
+       ply of time exceeded from an intermediate  router.   Traceroute  starts
+       probing with a TTL of one, and increments by one until an ICMP port un-
+       reachable reply is received.  This means the probe either  got  through
+       to host, or hit the maximum TTL.
+
+       host  is  the only mandatory argument, and specifies the target system,
+       either as an IP address, or as a host name.  Parameter size  determines
+       the size of the probe packets in bytes.
+
+OPTIONS
+       -a     Abort after 10 consecutive hops without an answer.
+
+       -d     Turn  on  socket level debugging.  This option is only available
+              to the super-user (root).
+
+       -m max_ttl
+              Set the maximum time-to-live (TTL) value that will be  used  for
+              probing.  Hosts that are farther than max_ttl hops away will not
+              be traced (default 30).
+
+       -n     Report only IP addresses, but no hostnames.
+
+       -p port
+              Start probing at an alternate UDP port (default 33434).  Tracer-
+              oute  by default sends out UDP packets with increasing port num-
+              bers starting at port, and listens for ICMP errors returned from
+              remote  hosts.   This  scheme  only  works  if  there are no UDP
+              servers listening on the probed hosts in the range from port  to
+              port + max_ttl.
+
+       -q n   Send  out  n  queries for each TTL (each intermediate host) (de-
+              fault 3).
+
+       -r     Set Dont Route option, advising routers to drop the packets.  In
+              other words, only probe within the local subnet.
+
+       -s addr
+              Set  source address of outgoing packets to addr, given either as
+              numeric IP address, or as hostname.
+
+       -t tos Set the type-of-service field in the outgoing  IP  packets  (de-
+              fault 0).  tos is valid in the range of 0 to 255.
+
+       -u     Use microsecond timestamps.
+
+       -v     Turn on verbose output.
+
+       -w wait
+              Set  timeout for replies to wait seconds (default 5 sec).  If no
+              ICMP reply is received within wait after a packet has been  sent
+              out, the probe is considered as failed.
+
+       -A     Report  the Autonomous System Number (ASN) at each hop.  Roughly
+              speaking, the ASN tells which administration a router is subject
+              to.   See  RFC 1930 for all the details, and section ENVIRONMENT
+              below on how to fine tune the lookup.
+
+       -I proto
+              Send out probe packets using IP protocol proto, given either  as
+              name  or numerical value (default UDP).  Some features like par-
+              allel probing are only available when using UDP.
+
+       -M     Determine the maximum transfer unit (MTU) along the  path.   See
+              RFC 1191 for details.
+
+       -O     At each hop, perform a DNS lookup and report the owner as listed
+              in the SOA record.
+
+       -P     Send out multiple probes in  parallel.   The  default  behaviour
+              probes  each  hop  in turn, starting from the nearest.  Parallel
+              mode is faster, but less reliable.  Many routers rate limit ICMP
+              packets  from a single host, so dropouts are much more likely in
+              parallel mode, and need not indicate a networking problem.
+
+       -Q     Report detailed statistics on the round trip times at  each  hop
+              (minimum / average +- standard deviation / maximum).  The values
+              are given in milli seconds.
+
+       -S min_ttl
+              Set the time-to-live (TTL) value in the first packet sent out to
+              min_ttl (default 1).  This option determines the first (nearest)
+              host that will show up in the trace.
+
+       -T t   End each line with t instead of a newline.  This comes in handy,
+              for example, when including traceroute's output in an HTML page.
+
+       -U     Move  on to probing the next hop as soon as the first successful
+              probe arrives.
+
+       -$     Send out nothing but a single ping with a  very  large  time-to-
+              live.
+
+DIAGNOSTICS
+       Usually  the  round  trip  time  is printed for each probe at each hop.
+       Special symbols denote when something went wrong:
+
+       *      No reply received within wait seconds.
+
+       !      Reply arrived with a time-to-live value of one or lower.
+
+       !H     Received a reply telling that the destination host  is  unreach-
+              able.
+
+       !N     Received  a  reply  telling  that the destination network is un-
+              reachable.
+
+       !P     Received a reply telling that the desired protocol  is  unavail-
+              able.
+
+       !S     Received  a  reply  telling  that source routing failed.  Should
+              never occur--unless the probed gateway is screwed.
+
+       !F     Received a reply telling that fragmentation is  needed.   Should
+              never occur--unless the probed gateway is screwed.
+
+EXAMPLES
+       (This  section  is  taken almost verbatim from the documentation in the
+       traceroute sourcecode.)
+
+              [yak 71]% traceroute nis.nsf.net.
+              traceroute to nis.nsf.net (35.1.1.48), 30 hops max, 56 byte packet
+               1  helios.ee.lbl.gov (128.3.112.1)  19 ms  19 ms  0 ms
+               2  lilac-dmc.Berkeley.EDU (128.32.216.1)  39 ms  39 ms  19 ms
+               3  lilac-dmc.Berkeley.EDU (128.32.216.1)  39 ms  39 ms  19 ms
+               4  ccngw-ner-cc.Berkeley.EDU (128.32.136.23)  39 ms  40 ms  39 ms
+               5  ccn-nerif22.Berkeley.EDU (128.32.168.22)  39 ms  39 ms  39 ms
+               6  128.32.197.4 (128.32.197.4)  40 ms  59 ms  59 ms
+               7  131.119.2.5 (131.119.2.5)  59 ms  59 ms  59 ms
+               8  129.140.70.13 (129.140.70.13)  99 ms  99 ms  80 ms
+               9  129.140.71.6 (129.140.71.6)  139 ms  239 ms  319 ms
+              10  129.140.81.7 (129.140.81.7)  220 ms  199 ms  199 ms
+              11  nic.merit.edu (35.1.1.48)  239 ms  239 ms  239 ms
+
+       Note that lines 2 & 3 are the same.  This is due to a buggy  kernel  on
+       the  2nd  hop  system  -- lbl-csam.arpa -- that forwards packets with a
+       zero TTL.
+
+       A more interesting example is:
+
+              [yak 72]% traceroute allspice.lcs.mit.edu.
+              traceroute to allspice.lcs.mit.edu (18.26.0.115), 30 hops max
+               1  helios.ee.lbl.gov (128.3.112.1)  0 ms  0 ms  0 ms
+               2  lilac-dmc.Berkeley.EDU (128.32.216.1)  19 ms  19 ms  19 ms
+               3  lilac-dmc.Berkeley.EDU (128.32.216.1)  39 ms  19 ms  19 ms
+               4  ccngw-ner-cc.Berkeley.EDU (128.32.136.23)  19 ms  39 ms  39 ms
+               5  ccn-nerif22.Berkeley.EDU (128.32.168.22)  20 ms  39 ms  39 ms
+               6  128.32.197.4 (128.32.197.4)  59 ms  119 ms  39 ms
+               7  131.119.2.5 (131.119.2.5)  59 ms  59 ms  39 ms
+               8  129.140.70.13 (129.140.70.13)  80 ms  79 ms  99 ms
+               9  129.140.71.6 (129.140.71.6)  139 ms  139 ms  159 ms
+              10  129.140.81.7 (129.140.81.7)  199 ms  180 ms  300 ms
+              11  129.140.72.17 (129.140.72.17)  300 ms  239 ms  239 ms
+              12  * * *
+              13  128.121.54.72 (128.121.54.72)  259 ms  499 ms  279 ms
+              14  * * *
+              15  * * *
+              16  * * *
+              17  * * *
+              18  ALLSPICE.LCS.MIT.EDU (18.26.0.115)  339 ms  279 ms  279 ms
+
+       (I start to see why I'm having so much trouble with mail to MIT.)  Note
+       that  the gateways 12, 14, 15, 16 & 17 hops away either don't send ICMP
+       "time exceeded" messages or send them with a TTL too small to reach us.
+       14  - 17 are running the MIT C Gateway code that doesn't send "time ex-
+       ceeded"s.  God only knows what's going on with 12.
+
+       The silent gateway 12 in the above may be the result of a  bug  in  the
+       4.[23]BSD  network  code  (and its derivatives):  4.x (x <= 3) sends an
+       unreachable message using whatever TTL remains in  the  original  data-
+       gram.   Since,  for gateways, the remaining TTL is zero, the icmp "time
+       exceeded" is guaranteed to not make it back to  us.   The  behavior  of
+       this  bug  is slightly more interesting when it appears on the destina-
+       tion system:
+
+               1  helios.ee.lbl.gov (128.3.112.1)  0 ms  0 ms  0 ms
+               2  lilac-dmc.Berkeley.EDU (128.32.216.1)  39 ms  19 ms  39 ms
+               3  lilac-dmc.Berkeley.EDU (128.32.216.1)  19 ms  39 ms  19 ms
+               4  ccngw-ner-cc.Berkeley.EDU (128.32.136.23)  39 ms  40 ms  19 ms
+               5  ccn-nerif35.Berkeley.EDU (128.32.168.35)  39 ms  39 ms  39 ms
+               6  csgw.Berkeley.EDU (128.32.133.254)  39 ms  59 ms  39 ms
+               7  * * *
+               8  * * *
+               9  * * *
+              10  * * *
+              11  * * *
+              12  * * *
+              13  rip.Berkeley.EDU (128.32.131.22)  59 ms !  39 ms !  39 ms !
+
+       Notice that there are 12 "gateways" (13 is the final  destination)  and
+       exactly  the  last half of them are "missing".  What's really happening
+       is that rip (a Sun-3 running Sun OS3.5) is using the TTL from  our  ar-
+       riving  datagram as the TTL in its icmp reply.  So, the reply will time
+       out on the return path until we probe with a TTL that's at least  twice
+       the path length.  I.e., rip is really only 7 hops away.
+
+ENVIRONMENT
+       The  lookup  process  of  Autonomous System Numbers (ASN, see option -A
+       above) can be configured via several environment variables. By default,
+       traceroute  issues  a whois query on the Routing Assets Database (RADB)
+       at whois.ra.net, which should be sufficient in most cases.  Chances are
+       that  you don't want to change anything here, unless you know very well
+       what you are doing.
+
+       The contents of the following environment variables are limited to  100
+       characters  at most.  Any trailing characters are silently ignored.  If
+       unset, compiled-in defaults are used.
+
+       RA_SERVER
+              Server to issue a RADB whois query on, given either as hostname,
+              or dotted-quad IP address.  Defaults to whois.ra.net.
+
+       RA_SERVICE
+              TCP port to connect to on the whois server, given either as name
+              or port number.  Defaults to whois.
+
+       The following variables determine how traceroute attempts to extract an
+       ASN from the whois reply.
+
+       DATA_DELIMITER
+              Each  line  containing an ASN starts with this tag.  Defaults to
+              origin:.
+
+       The RADB may contain more than one entry for a given  IP  address.   To
+       find  out  the correct entry, traceroute has to look up the subnet that
+       is the most specific to this IP.
+
+       ROUTE_DELIMITER
+              Each line containing a subnet entry starts with this  tag.   De-
+              faults to route:.
+
+       PREFIX_DELIMITER
+              The  network  IP  and the prefix are separated by this tag.  De-
+              faults to /.
+
+NOTES
+       This is not the standard version of  traceroute  (as  included  in  the
+       netkit  package),  but an alternative implementation maintained by Ehud
+       Gavron. It is based on the Van Jacobson/BSD  traceroute,  and  includes
+       additional features including AS lookup, TOS support, microsecond time-
+       stamps, path MTU discovery, and  parallel  probing.   It  is  known  as
+       trACESroute or traceroute-nanog.
+
+SEE ALSO
+       mtr(8), netstat(8), pchar(8), ping(8)
+
+BUGS
+       Please  send any bugs to Ehud Gavron <gavron@wetwork.net> and/or report
+       them  to  the   Debian   Bug   Tracking   System   at   http://bugs.de-
+       bian.org/traceroute-nanog.
+
+AUTHORS
+       TrACESroute is maintained by Ehud Gavron <ehud.gavron@login.com>.
+
+       The  first man page was written by Brian Russo for use with Debian/GNU,
+       and was later rewritten by Daniel Kobras <kobras@debian.org> and Martin
+       A. Godisch <martin@godisch.de>.  Some parts are taken from the documen-
+       tation in the source code.  Still, this man page may be used by others.
+
+NANOG traceroute 6.3.10           March 2004                     TRACEROUTE(8)

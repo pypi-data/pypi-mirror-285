@@ -1,0 +1,67 @@
+
+SHTOOL-MKDIR.TMP(1)         GNU Portable Shell Tool        SHTOOL-MKDIR.TMP(1)
+
+NAME
+       shtool-mkdir - GNU shtool mkdir(1) style command
+
+SYNOPSIS
+       shtool mkdir [-t|--trace] [-f|--force] [-p|--parents] [-m|--mode mode]
+       [-o|--owner owner] [-g|--group group] dir [dir ...]
+
+DESCRIPTION
+       This is a mkdir(1) style command with additional options and the
+       ability to be smart if the directory already exists which is important
+       for installation procedures.
+
+OPTIONS
+       The following command line options are available.
+
+       -t, --trace
+           Shows the actually involved shell commands.
+
+       -f, --force
+           Forced continuation and no complaints if directory already exists.
+           Default is to terminate with error.
+
+       -p, --parents
+           Automatic parent directory creation. Default is to only create the
+           last directory in the path and fail if parents are missing.
+
+       -m, --mode mode
+           The directory mode applied to the directory, see chmod(1). Omitting
+           mode skips this step and leaves the operating system default which
+           is usually based on umask(1). Some directory modes require
+           superuser privileges to be set. Default is to stick with operating
+           system defaults.
+
+       -o, --owner owner
+           The directory owner name or id applied to the directory, see
+           chown(1).  This option requires superuser privileges to execute.
+           Default is to skip this step and leave the operating system default
+           which is usually based on the executing uid or the parent setuid
+           directory.
+
+       -g, --group group
+           The directory group name or id applied to the directory, see
+           chgrp(1). This option requires superuser privileges to execute to
+           the fullest extend, otherwise the choice of group is limited on
+           most operating systems.  Default is to skip this step and leave the
+           operating system default which is usually based on the executing
+           gid or the parent setgid directory.
+
+EXAMPLE
+        #   Makefile
+        install:
+            shtool mkdir -f -p -m 755 $(bindir)
+            shtool mkdir -f -p -m 755 $(mandir)/man1
+             :
+
+HISTORY
+       The GNU shtool mkdir command was originally written for Public Domain
+       by Noah Friedman and later revised by Ralf S. Engelschall
+       <rse@engelschall.com> in 1999 for inclusion into GNU shtool.
+
+SEE ALSO
+       shtool(1), mkdir(1).
+
+18-Jul-2008                      shtool 2.0.8              SHTOOL-MKDIR.TMP(1)

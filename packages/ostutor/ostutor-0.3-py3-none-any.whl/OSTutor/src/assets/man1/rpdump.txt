@@ -1,0 +1,42 @@
+
+rpdump(1)                   General Commands Manual                  rpdump(1)
+
+NAME
+       rpdump - alpine remote data utility
+
+SYNTAX
+       rpdump [ -f ] -l Local_file -r Remote_folder
+
+DESCRIPTION
+       Rpdump  may be used to copy the actual data from remote Alpine configu-
+       ration files or address books into a local file.  It is intended to  be
+       used  by  system administrators.  Regular users should normally use the
+       facilities provided within Alpine.
+
+       Local_file will normally be a local temporary file.   Remote_folder  is
+       the  IMAP  folder being used as a remote Alpine configuration (with the
+       help of Alpine's -P, -p, and -x commands or PINECONF, PINERC, and  PIN-
+       ERCEX  environment  variables) or remote Alpine address book folder.  A
+       copy of the data from Remote_folder will be copied to Local_file.
+
+       -f                  Force the dump even if the remote folder is  in  an
+                           unrecognized format.
+
+       -l Local_file       The file on this system that is to be copied to.
+
+       -r Remote_folder    A  remote  folder  name to be copied from.  See the
+                           Alpine documentation for the  syntax  of  a  remote
+                           folder name.  One example is
+                           {my.imap.server}remote_pinerc.
+
+DIAGNOSTICS
+       Exit status is zero if all goes well, -1 otherwise.
+
+SEE ALSO
+       Rpload(1).
+
+       Copyright 1989-2007 by the University of Washington.
+
+       $Date: 2005/01/14 20:40:14 $
+
+                                                                     rpdump(1)

@@ -1,0 +1,42 @@
+
+bibmradd(1)                    CROSSREF LIBRARY                    bibmradd(1)
+
+NAME
+       bibmradd.pl - add MR numbers to papers in a given bib file
+
+SYNOPSIS
+       bibmradd  [-d] [-f] [-e 1|0] [-o output] bib_file
+
+OPTIONS
+       -d  Debug mode
+
+       -e  If 1 (default), add an empty mrnumber if a mr cannot be found.
+           This prevents repeated searches for the same entries if you add new
+           entries to the file.  Calling "-e 0" suppresses this behavior.
+
+       -f  Force searching for MR numbers even if the entry already has one.
+
+       -o output
+           Output file.  If this option is not used, the name for the output
+           file is formed by adding "_mr" to the input file
+
+DESCRIPTION
+       The script reads a BibTeX file.  It checks whether the entries have
+       mrnumberss.  If not, tries to contact internet to get the numbers.  The
+       result is a BibTeX file with the fields "mrnumber=..." added.
+
+       The name of the output file is either set by the -o option or is
+       derived by adding the suffix "_mr" to the output file.
+
+AUTHOR
+       Boris Veytsman
+
+COPYRIGHT AND LICENSE
+       Copyright (C) 2014-2017  Boris Veytsman
+
+       This is free software.  You may redistribute copies of it under the
+       terms of the GNU General Public License
+       <http://www.gnu.org/licenses/gpl.html>.  There is NO WARRANTY, to the
+       extent permitted by law.
+
+                                  2017-11-18                       bibmradd(1)

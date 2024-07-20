@@ -1,0 +1,200 @@
+
+SHTOOL-PLATFORM.TMP(1)      GNU Portable Shell Tool     SHTOOL-PLATFORM.TMP(1)
+
+NAME
+       shtool-platform - GNU shtool Unix platform identification
+
+SYNOPSIS
+       shtool platform [-F|--format format] [-S|--sep string] [-C|--conc
+       string] [-L|--lower] [-U|--upper] [-v|--verbose] [-c|--concise]
+       [-n|--newline] [-d|--debug] [-t|--type type] [-n|--newline]
+       [-d|--debug]
+
+DESCRIPTION
+       shtool platform is a flexible Unix platform identification program.  It
+       distinguishes a platform according to its hardware architecture and
+       operating system. For both there is a class, product and technology
+       identification. For each of those six identifications, there is a
+       verbose, regular and concise version.
+
+       This leads to eighteen (2x3x3) available identification strings for
+       each platform, from which usually 2 are chosen in a particular
+       situation.  This is done by assembling the platform identification
+       string using a format string containing one or more identification
+       constructs of the forms ""%[xx]"" (verbose), ""%{xx}"" (regular) and
+       ""%<xx>"" (concise).
+
+OPTIONS
+       The following command line options are available.
+
+       -F, --format format
+           This option controls the output formatting of this program. It is a
+           plain-text string with the ""%"xx" constructs which expand to the
+           various platform information strings. ""%{"xx"}"" is the canonical
+           regular version of the information. ""%["xx"]"" is the verbose
+           version of the information. ""%<"xx">"" is the concise version of
+           the information. In total, the following constructs are available
+           for expansion:
+
+            %[ac]    verbose hardware architecture class
+            %{ac}    regular hardware architecture class
+            %<ac>    concise hardware architecture class
+
+            %[ap]    verbose hardware architecture product
+            %{ap}    regular hardware architecture product
+            %<ap>    concise hardware architecture product
+
+            %[at]    verbose hardware architecture technology
+            %{at}    regular hardware architecture technology
+            %<at>    concise hardware architecture technology
+
+            %[sc]    verbose operating system class
+            %{sc}    regular operating system class
+            %<sc>    concise operating system class
+
+            %[sp]    verbose operating system product
+            %{sp}    regular operating system product
+            %<sp>    concise operating system product
+
+            %[st]    verbose operating system technology
+            %{st}    regular operating system technology
+            %<st>    concise operating system technology
+
+           The default format string is ""%{sp} (%{ap})"", providing the
+           regular operating system and hardware architecture product
+           information.
+
+       -S, --sep string
+           This option sets the word separation string for the platform
+           information strings. By default it is "" "" (whitespace). It is
+           especially used for separating the operating system name and the
+           operating system version.
+
+       -C, --conc string
+           This option sets the word concatenation string for the platform
+           information strings. By default it is ""/"". It is especially used
+           to concatenate multiple parts in operating system name and version
+           parts.
+
+       -L, --lower
+           This options enforces conversion of the output to all lower case.
+
+       -U, --upper
+           This options enforces conversion of the output to all upper case.
+
+       -v, --verbose
+           This option enforces verbose versions of all expansion constructs
+           in format string of option -F. It is equal to specifying all
+           expansion constructs as ""%["xx"]"".
+
+       -c, --concise
+           This option enforces concise versions of all expansion constructs
+           in format string of option -F. It is equal to specifying all
+           expansion constructs as ""%<"xx">"".
+
+       -n, --no-newline
+           This option omits the usual trailing newline character in the
+           output.
+
+       -t, --type type
+           This option is a meta option which internally sets options -F, -S,
+           -C, -L, -U, -v or -c according to TYPE. It can be used to easily
+           specify various commonly known outputs. The following TYPEs are
+           available:
+
+           binary
+               Binary Package Id (OpenPKG RPM).  This is equal to ""-F
+               '%<ap"-%<sp>' -L -S '' -C '+'>" and results in outputs like
+               ""ix86-freebsd4.9"" and ""ix86-debian3.0"".
+
+           build
+               Build-Time Checking (OpenPKG RPM).  This is equal to ""-F
+               '%<at"-%<st>' -L -S '' -C '+'>" and results in outputs like
+               ""i686-freebsd4.9"" and ""i586-linux2.4"".
+
+           gnu GNU config.guess Style Id.  This is similar to build and is
+               equal to ""-F '"%<at"-unknown-%<st>' -L -S '' -C '+'>" and
+               results in outputs like ""i686-unknown-freebsd4.9"" and
+               ""i586-unknown-linux2.4"".
+
+           web HTTP Server Header Id.  This is equal to ""-F '"%<sp"-%<ac>' -S
+               '/' -C '+'>" and results in outputs like ""FreeBSD/4.9-iX86""
+               and ""Debian/3.0-iX86"".
+
+           summary
+               Human Readable Verbose Summary Information. This is equal to
+               ""-F 'Class: %[sc] (%[ac])\nProduct: %[sp] (%[ap])\nTechnology:
+               %[st] (%[at])' -S ' ' -C '/'"" and results in outputs like:
+
+                Class:      4.4BSD (iX86)
+                Product:    FreeBSD 4.9-RC (iX86)
+                Technology: FreeBSD 4.9-RC (i686)
+
+               and
+
+                Class:      LSB (iX86)
+                Product:    Debian GNU/Linux 3.0 (iX86)
+                Technology: GNU/Linux 2.2/2.4 (i686)
+
+           all-in-one
+               All-In-One Full-Table Information. This just outputs really all
+               2x2x3 identification strings as a table.
+
+       -d, --debug
+           This option enables some internal debugging messages.
+
+       -V, --version
+           This option outputs the version information of shtool platform
+           only.
+
+       -h, --help
+           This option outputs the usage information of shtool platform only.
+
+EXAMPLE
+       The following real-life use cases are known:
+
+       OpenPKG build-time decisions
+            $ platform -c -L -S "" -C "+" -F "%at-%st"
+            $ platform -c -L -S "" -C "+" -F "%ac-%sc"
+
+       OpenPKG binary RPM packages
+            $ platform -c -L -S "" -C "+" -F "%ap-%sp"
+
+       README files
+            $ platform -v -F "%sp (%ap)"
+            $ platform -v -F "%sc (%ac)"
+
+       Debugging
+            $ platform --type=all-in-one
+
+SUPPORT
+       shtool platform currently knows the following particular Unix platforms
+       in detail: FreeBSD, NetBSD, OpenBSD, Linux, Sun Solaris, SCO UnixWare,
+       QNX Neutrino, SGI IRIX, HP HP-UX, HP Tru64, IBM AIX and Apple Mac OS X
+       Darwin.
+
+       All other Unix platforms are recognized through generic uname(1)
+       information and so usually can be identified sufficiently, although the
+       identification might be not as precise as possible.
+
+HISTORY
+       shtool platform was implemented in September 2003 by Ralf S.
+       Engelschall for use in the OSSP and OpenPKG projects. It was prompted
+       by the need in OpenPKG to have both product (for RPM filenames) and
+       technology (for build-time decisions) identifiers for the Unix
+       platforms, OpenPKG packages are maintained for. It was inspired by the
+       GNU config.guess and the old GNU shtool guessos command.
+
+       The major difference to GNU config.guess is that shtool platform does
+       not use a vendor identification (cannot be determined most of the time
+       and is not used at all in all projects I've ever seen) and is a lot
+       more flexible (class, product and technology identifications combined
+       with verbose, regular and concise outputs). The drawback of shtool
+       platform is that it (still) knows less particular platforms, although
+       the generic platform identification is sufficient enough most of the
+       time.
+
+SEE ALSO
+       uname(3), GNU config.guess.
+
+18-Jul-2008                      shtool 2.0.8           SHTOOL-PLATFORM.TMP(1)

@@ -1,0 +1,42 @@
+
+SHTOOL-FIXPERM.TMP(1)       GNU Portable Shell Tool      SHTOOL-FIXPERM.TMP(1)
+
+NAME
+       shtool-fixperm - GNU shtool file permission fixing command
+
+SYNOPSIS
+       shtool fixperm [-v|--verbose] [-t|--trace] path [path ...]
+
+DESCRIPTION
+       shtool fixperm fixes file permissions inside a source tree under path
+       by cleaning up the permission bits. It determines the cleaned up
+       permission from the already set bits. It is intended to be run before a
+       tarball is rolled (usually with shtool tarball) out of a source tree.
+       The trick is that this is more convenient than having to set the
+       permissions manually or by using a large file list.
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+EXAMPLE
+        #   Makefile.in
+        dist:
+            shtool fixperm -v *
+            ...
+
+HISTORY
+       The GNU shtool fixperm command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1996 for OSSP eperl.  It was later
+       taken over into GNU shtool.
+
+SEE ALSO
+       shtool(1), chmod(1).
+
+18-Jul-2008                      shtool 2.0.8            SHTOOL-FIXPERM.TMP(1)

@@ -1,0 +1,94 @@
+
+PYCENTRAL()                                                        PYCENTRAL()
+
+NAME
+       pycentral - register and build utility for Python packages
+
+SYNOPSIS
+       pycentral [-h] [-v] <cmd> [<cmd options>] [<args>]
+
+DESCRIPTION
+       pycentral
+        provides support for installing python modules independent
+        of the current installed Python version and handling
+        byte-compilation and -removal tasks in installation scripts.
+
+OPTIONS
+       -v, --version
+              Limit the output to the version numbers of the python versions.
+
+       -h, --help
+              Print a help text.
+
+       pycentral  has the following sub commands. For fine grained help, call:
+       pycentral <cmd>.
+
+       bccompile
+              Byte compile .py files in a package.
+
+       bcremove
+              Remove the byte compiled .py files.
+
+       list   List all managed files.
+
+       pkginstall
+              Make a package available for all supported runtimes.
+
+       pkgprepare
+              Prepare a package for all supported runtimes.
+
+       pkgremove
+              Remove a package installed for all supported runtimes.
+
+       pkglist
+              List pycentral-managed files of a package for all supported run-
+              times.
+
+       rtinstall
+              Make installed packages available for this runtime.
+
+       rtremove
+              Remove packages installed for this runtime.
+
+       updatedefault
+              Update the default python version.
+
+       debhelper
+              move   files  to  pycentral  locaation,  variable  substitutions
+              (called by dh_pycentral).
+
+       pycentraldir <package>
+              Show the installation directory used by pycentral for <package>.
+
+       showdefault
+              Show default  python  version  number.  Deprecated,  use  pyver-
+              sions(1)
+
+       showsupported
+              Show  the  supported  python  versions.  Deprecated,  use pyver-
+              sions(1)
+
+       showversions
+              Show version numbers of supported python versions.   Deprecated,
+              use pyversions(1) dh_pycentral, should not be called directly).
+
+       version
+              Show the pycentral version.
+
+FILES
+       /etc/python/debian_config  is  searched for the attribute overwrite-lo-
+       cal.    If    set    to    1,    or    True,    existing    files    in
+       /usr/lib/pythonX.Y/*-packages  are  overwritten  with symbolic links to
+       the pycentral install area. The default is to abort the installation of
+       a package, when files already exist. This behaviour may be useful, when
+       python libraries were manually installed into this directory.  The  at-
+       tribute byte-compile can be set to a comma separated list of the values
+       standard and optimze to indicate how files should be byte-compiled.
+
+SEE ALSO
+       pyversions(1), Python policy.
+
+AUTHOR
+       Matthias Klose
+
+                                                                   PYCENTRAL()

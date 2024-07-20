@@ -1,0 +1,84 @@
+
+SHTOOL-INSTALL.TMP(1)       GNU Portable Shell Tool      SHTOOL-INSTALL.TMP(1)
+
+NAME
+       shtool-install - GNU shtool install(1) command
+
+SYNOPSIS
+       shtool install [-v|--verbose] [-t|--trace] [-d|--mkdir] [-c|--copy]
+       [-C|--compare-copy] [-s|--strip] [-m|--mode mode] [-o|--owner owner]
+       [-g|--group group] [-e|--exec sed-cmd] file [file ...]  path
+
+DESCRIPTION
+       This command installs a one or more files to a given target path
+       providing all important options of the BSD install(1) command.  The
+       trick is that the functionality is provided in a portable way.
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -d, --mkdir
+           To maximize BSD compatibility, the BSD "shtool "install -d"" usage
+           is internally mapped to the "shtool "mkdir -f -p -m 755"" command.
+
+       -c, --copy
+           Copy the file to the target path. Default is to move.
+
+       -C, --compare-copy
+           Same as -c except if the destination file already exists and is
+           identical to the source file, no installation is done and the
+           target remains untouched.
+
+       -s, --strip
+           This option strips program executables during the installation, see
+           strip(1). Default is to install verbatim.
+
+       -m, --mode mode
+           The file mode applied to the target, see chmod(1). Setting mode to
+           ""-"" skips this step and leaves the operating system default which
+           is usually based on umask(1). Some file modes require superuser
+           privileges to be set. Default is 0755.
+
+       -o, --owner owner
+           The file owner name or id applied to the target, see chown(1). This
+           option requires superuser privileges to execute. Default is to skip
+           this step and leave the operating system default which is usually
+           based on the executing uid or the parent setuid directory.
+
+       -g, --group group
+           The file group name or id applied to the target, see chgrp(1). This
+           option requires superuser privileges to execute to the fullest
+           extend, otherwise the choice of group is limited on most operating
+           systems.  Default is to skip this step and leave the operating
+           system default which is usually based on the executing gid or the
+           parent setgid directory.
+
+       -e, --exec sed-cmd
+           This option can be used one or multiple times to apply one or more
+           sed(1) commands to the file contents during installation.
+
+EXAMPLE
+        #   Makefile
+        install:
+             :
+            shtool install -c -s -m 4755 foo $(bindir)/
+            shtool install -c -m 644 foo.man $(mandir)/man1/foo.1
+            shtool install -c -m 644 -e "s/@p@/$prefix/g" foo.conf $(etcdir)/
+
+HISTORY
+       The GNU shtool install command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1997 for GNU shtool. It was
+       prompted by portability issues in the installation procedures of OSSP
+       libraries.
+
+SEE ALSO
+       shtool(1), umask(1), chmod(1), chown(1), chgrp(1), strip(1), sed(1).
+
+18-Jul-2008                      shtool 2.0.8            SHTOOL-INSTALL.TMP(1)

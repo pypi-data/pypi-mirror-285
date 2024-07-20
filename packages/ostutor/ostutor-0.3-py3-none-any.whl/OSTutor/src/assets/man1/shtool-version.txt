@@ -1,0 +1,76 @@
+
+SHTOOL-VERSION.TMP(1)       GNU Portable Shell Tool      SHTOOL-VERSION.TMP(1)
+
+NAME
+       shtool-version - GNU shtool maintain version information file
+
+SYNOPSIS
+       shtool version [-l|--language lang] [-n|--name name] [-p|--prefix
+       prefix] [-s|--set version] [-e|--edit] [-i|--increase knob]
+       [-d|--display type] file
+
+DESCRIPTION
+       This command displays and maintains version information in file.
+
+       The version is always described with a triple <version,revision,level>
+       and is represented by a string which always matches the regular
+       expression ""[0-9]+\.[0-9]+[sabp.][0-9]+"".
+
+       The hexadecimal format for a version "v.rtl" is "VVRRTLL" where "VV"
+       and "RR" directly correspond to "v" and "r", "T" encodes the level type
+       as 9, 2, 1, 0 (representing "s", "p"/".", "b", "a" in this order) and
+       "LL" is either directly corresponding to "l" or set to 99 if level type
+       is "s".
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Print verbose information during processing.
+
+       -l, --language lang
+           Choose format of version file file. lang=""txt"", ANSI C
+           (lang="c"), M4 (lang="m4"), Perl (lang="perl") or Python
+           (lang="python"). Default is "txt".
+
+       -n, --name name
+           Name the program the version is maintained for. Default is
+           "unknown".
+
+       -p, --prefix prefix =item -s, --set version
+           Set the version to version.
+
+       -e, --edit
+           Interactively enter a new version.
+
+       -i, --increase knob
+           When option ``-i'' is used, the current version in file is updated
+           by increasing one element of the version where knob can be one of
+           the following: ``"v"'' for increasing the version by 1 (and
+           resetting revision and level to 0), ``"r"'' for increasing the
+           revision by 1 (and resetting level to 0) or ``"l"'' for increasing
+           the level by 1.
+
+       -d, --display type
+           Control the display type: ""short"" for a short version display,
+           ""long"" for a longer version display, ""hex"" for a hexadecimal
+           display of the version and ""libtool"" for a format suitable for
+           use with GNU libtool.
+
+EXAMPLE
+        #   shell script
+        shtool version -l c -n FooBar -p foobar -s 1.2b3 version.c
+
+        #   configure.in
+        V=`shtool version -l c -d long version.c`
+        echo "Configuring FooBar, Version $V"
+
+HISTORY
+       The GNU shtool version command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1994 for OSSP eperl. It was later
+       rewritten from scratch for inclusion into GNU shtool.
+
+SEE ALSO
+       shtool(1).
+
+18-Jul-2008                      shtool 2.0.8            SHTOOL-VERSION.TMP(1)

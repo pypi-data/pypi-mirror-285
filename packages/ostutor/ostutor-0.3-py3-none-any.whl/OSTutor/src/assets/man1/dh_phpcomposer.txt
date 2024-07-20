@@ -1,0 +1,58 @@
+
+DH_PHPCOMPOSER(1)                  Debhelper                 DH_PHPCOMPOSER(1)
+
+NAME
+       dh_phpcomposer - calculates PHP Composer substvars
+
+SYNOPSIS
+       dh_phpcomposer [debhelperoptions] [options]
+
+DESCRIPTION
+       dh_phpcomposer is a debhelper program that is responsible for
+       generating the ${phpcomposer:*} substitutions and adding them to
+       substvars files.
+
+       The program will look for composer.json file in the package root, and
+       will use this information to generate:
+
+       o ${phpcomposer:name} and ${phpcomposer:description}
+
+       o ${phpcomposer:Debian-require}, ${phpcomposer:Debian-require-dev},
+         ${phpcomposer:Debian-conflict}, ${phpcomposer:Debian-replace},
+         ${phpcomposer:Debian-provide}, ${phpcomposer:Debian-suggest} and
+         ${phpcomposer:Debian-recommend}
+
+       Those variables will be substituted into the package's control file
+       wherever the token ${phpcomposer:*} are placed.
+
+       This feature requires pkg-php-tools (>= 1.7~).
+
+OPTIONS
+       --sourcedirectory=directory
+           Assume that the original package source tree is at the specified
+           directory rather than the top level directory of the Debian source
+           package tree.
+
+           This feature requires pkg-php-tools (>= 1.14~).
+
+FILES
+       debian/pkg-php-tools-overrides
+           Package that don't want to follow automatic Composer package name
+           to Debian package name conversion can override the conversion by
+           creating this file.
+
+           More information is available in dh_phppear(1).
+
+CONFORMING TO
+       Debian policy, version 3.9.6.
+
+       PHP PEAR policy, version yet-to-be-written.
+
+SEE ALSO
+       debhelper(7), pkg-php-tools(7),
+       /usr/share/doc/pkg-php-tools/README.Composer
+
+AUTHOR
+       Mathieu Parent <sathieu@debian.org>
+
+1.38                              2019-09-14                 DH_PHPCOMPOSER(1)

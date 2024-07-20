@@ -1,0 +1,115 @@
+
+DOVEADM-REPLICATOR(1)               Dovecot              DOVEADM-REPLICATOR(1)
+
+NAME
+       doveadm-replicator - Manage users' mail replication
+
+SYNOPSIS
+       doveadm [-Dv] [-f formatter] replicator command [OPTIONS] [ARGUMENTS]
+
+DESCRIPTION
+       The  doveadm  replicator  COMMANDS  can be used to manage the automated
+       replication of users' mail.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies the formatter for formatting  the  output.   Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints a table header followed  by  tab  separated  value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       This command uses by default the output  formatter  flow  (without  the
+       key= prefix).
+
+       Command specific options:
+
+       -a replicator_socket_path
+              This  option  is used to specify an absolute path to an alterna-
+              tive UNIX domain socket.
+
+              By  default  doveadm(1)  will  use  the  socket   /var/run/dove-
+              cot/replicator-doveadm.   The  socket  may be located in another
+              directory, when the default base_dir setting was  overridden  in
+              /etc/dovecot/dovecot.conf.
+
+ARGUMENTS
+       user_mask
+              Specifies  for  which  users the command should be executed.  In
+              most cases you would like to use patterns which  contains  wild-
+              cards,  e.g. \*@example.net for all users of the example.net do-
+              main, or simply \* for all users.
+
+              When the SQL userdb module is used  make  sure  that  the  iter-
+              ate_query  setting  in /etc/dovecot/dovecot-sql.conf.ext matches
+              your database layout.  When using the LDAP userdb  module,  make
+              sure  that  the  iterate_attrs  and  iterate_filter  settings in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+COMMANDS
+   replicator add
+       doveadm replicator add [-a replicator_socket_path] user_mask
+
+       Add the specified user(s) to the replicator.  If the user_mask contains
+       "?" or "*" wildcards, the list of  usernames  is  looked  up  from  the
+       userdb.
+
+   replicator dsync-status
+       doveadm replicator dsync-status [-a replicator_socket_path]
+
+       Show the status for the currently running dsync processes.
+
+   replicator remove
+       doveadm replicator remove [-a replicator_socket_path] username
+
+       Remove the specified user from replicator.
+
+   replicator replicate
+       doveadm  replicator replicate [-a replicator_socket_path] [-f] [-p pri-
+       ority] user_mask
+
+       Start replication for the specified users now.  If the -f parameter  is
+       given, full replication is done for the user.  You can also specify the
+       priority, which can be either high  or  low.  If the user mask contains
+       "?" or "*" wildcards, the list of usernames is looked up from the users
+       that currently exist in replicator (not from the userdb).
+
+   replicator status
+       doveadm replicator status [-a replicator_socket_path] user_mask
+
+       Show the replication status for users.
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1), doveadm-sync(1),
+
+       Additional resources:
+
+       Replication with dsync
+              http://wiki2.dovecot.org/Replication
+
+Dovecot v2.3                      2014-10-05             DOVEADM-REPLICATOR(1)

@@ -1,0 +1,45 @@
+
+VERSION(1SSL)                       OpenSSL                      VERSION(1SSL)
+
+NAME
+       openssl-version, version - print OpenSSL version information
+
+SYNOPSIS
+       openssl version [-help] [-a] [-v] [-b] [-o] [-f] [-p] [-d] [-e]
+
+DESCRIPTION
+       This command is used to print out version information about OpenSSL.
+
+OPTIONS
+       -help
+           Print out a usage message.
+
+       -a  All information, this is the same as setting all the other flags.
+
+       -v  The current OpenSSL version.
+
+       -b  The date the current version of OpenSSL was built.
+
+       -o  Option information: various options set when the library was built.
+
+       -f  Compilation flags.
+
+       -p  Platform setting.
+
+       -d  OPENSSLDIR setting.
+
+       -e  ENGINESDIR setting.
+
+NOTES
+       The output of openssl version -a would typically be used when sending
+       in a bug report.
+
+COPYRIGHT
+       Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.
+
+       Licensed under the OpenSSL license (the "License").  You may not use
+       this file except in compliance with the License.  You can obtain a copy
+       in the file LICENSE in the source distribution or at
+       <https://www.openssl.org/source/license.html>.
+
+1.1.1f                            2023-10-10                     VERSION(1SSL)

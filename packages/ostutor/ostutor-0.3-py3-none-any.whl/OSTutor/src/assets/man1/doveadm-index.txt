@@ -1,0 +1,112 @@
+
+DOVEADM-INDEX(1)                    Dovecot                   DOVEADM-INDEX(1)
+
+NAME
+       doveadm-index - Index mailboxes
+
+SYNOPSIS
+       doveadm [-Dv] index [-S socket_path] [-q] [-n max_recent] mailbox
+       doveadm [-Dv] index [-S socket_path] -A [-q] [-n max_recent] mailbox
+       doveadm [-Dv] index [-S socket_path] -F file [-q] [-n max_recent] mail-
+       box
+       doveadm [-Dv] index [-S socket_path] -u user [-q] [-n max_recent] mail-
+       box
+
+DESCRIPTION
+       Add unindexed messages in a mailbox into index/cache file. If full text
+       search is enabled, also add unindexed messages to the fts database.
+
+       The caching adds only the fields that  were  previously  added  to  the
+       mailbox's  caching  decisions, so it won't do anything useful for mail-
+       boxes that user's client hasn't accessed yet. You can use doveadm  dump
+       command to show a specific mailbox's current caching decisions.
+
+       Messages  can also be added automatically to full text search index us-
+       ing:
+
+       plugin {
+         ...
+         fts_autoindex = yes
+       }
+       in /etc/dovecot/conf.d/90-plugin.conf.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -A     If  the  -A option is present, the command will be performed for
+              all users.  Using this option in combination with  system  users
+              from  userdb  { driver = passwd } is not recommended, because it
+              contains also users with a lower UID  than  the  one  configured
+              with the first_valid_uid setting.
+
+              When  the  SQL  userdb  module  is used make sure that the iter-
+              ate_query setting in  /etc/dovecot/dovecot-sql.conf.ext  matches
+              your  database  layout.  When using the LDAP userdb module, make
+              sure that  the  iterate_attrs  and  iterate_filter  settings  in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -F file
+              Execute the command for all the users in the file.  This is sim-
+              ilar  to the -A option, but instead of getting the list of users
+              from the userdb, they are read from the given  file.   The  file
+              contains one username per line.
+
+       -n max_recent
+              An  integer value, which specifies the maximum number of \Recent
+              messages in  mailboxes.   If  the  mailbox  contains  more  than
+              max_recent  messages with \Recent flag set, the mailbox will not
+              be indexed.  This may be useful to  avoid  unnecessary  indexing
+              for large mailboxes that are never opened.
+
+       -q     Queues  the  indexing  to be run by indexer process.  Without -q
+              the indexing is done directly by the doveadm(1)  process.   Some
+              backends  like fts-lucene can't handle multiple processes updat-
+              ing the indexes simultaneously, so -q should usually be used  on
+              production.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain socket, or a hostname and port (hostname:port), in  order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run the command only for the given user.  It's also possible  to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When  neither  the  -A  option,  nor the -F file option, nor the
+              -u user was specified, the command will be executed with the en-
+              vironment of the currently logged in user.
+
+ARGUMENTS
+       mailbox
+              The name of the mailbox to index.
+
+EXAMPLE
+       Index bob's INBOX:
+
+       doveadm index -u bob INBOX
+
+REPORTING BUGS
+       Report  bugs, including doveconf -n output, to the Dovecot Mailing List
+       <dovecot@dovecot.org>.  Information about reporting bugs  is  available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2015-05-09                  DOVEADM-INDEX(1)

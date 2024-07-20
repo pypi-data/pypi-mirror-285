@@ -1,0 +1,77 @@
+
+MUNIN-NODE(1p)        User Contributed Perl Documentation       MUNIN-NODE(1p)
+
+NAME
+       munin-node - A daemon to gather information in cooperation with the
+       main Munin program
+
+SYNOPSIS
+       munin-node [--options]
+
+DESCRIPTION
+       munin-node is a daemon for reporting statistics on system performance.
+
+       It doesn't produce these itself, but instead relies on a number of
+       plugins which are responsible for gathering the data they require, and
+       describing how this should be graphed.  In fact, it does little more
+       than fielding requests from the Munin master, running the appropriate
+       plugins, and returning the output they produce.
+
+OPTIONS
+       --config <configfile>
+            Use <file> as configuration file. [/etc/munin/munin-node.conf]
+
+        --[no]paranoia
+            Only run plugins owned by root. Check permissions as well.
+            [--noparanoia]
+
+        --help
+            View this help message.
+
+        --[no]debug
+            View debug messages.  This can be very verbose.
+
+        --[no]pidebug
+            Plugin debug.  Sets the environment variable MUNIN_DEBUG to 1 so
+            that plugins may enable debugging. [--nopidebug]
+
+FILES
+           /etc/munin/munin-node.conf
+           /etc/munin/plugins/*
+           /etc/munin/plugin-conf.d/*
+           /var/run/munin/munin-node.pid
+           /var/log/munin/munin-node.log
+
+VERSION
+       This is munin-node v2.0.56
+
+       $Id$
+
+AUTHORS
+       Audun Ytterdal, Jimmy Olsen, and Tore Anderson.
+
+BUGS
+       Please see <http://munin-monitoring.org/report/1>.
+
+COPYRIGHT
+       Copyright (C) 2002-2006 Audun Ytterdal, Jimmy Olsen, and Tore Anderson
+       / Linpro AS.
+
+       This is free software; see the source for copying conditions. There is
+       NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR
+       PURPOSE.
+
+       This program is released under the GNU General Public License
+
+SEE ALSO
+       For information on configuration options, please refer to the man page
+       for munin-node.conf.
+
+       Many plugins can report whether or not they can reasonably be used on
+       the node.  "munin-node-configure" can use this information to help
+       manage installed plugins.
+
+       The network protocol is documented at
+       <http://munin-monitoring.org/wiki/network-protocol>
+
+perl v5.30.0                      2020-02-14                    MUNIN-NODE(1p)

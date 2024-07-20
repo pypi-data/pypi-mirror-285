@@ -1,0 +1,65 @@
+
+PKEYPARAM(1SSL)                     OpenSSL                    PKEYPARAM(1SSL)
+
+NAME
+       openssl-pkeyparam, pkeyparam - public key algorithm parameter
+       processing tool
+
+SYNOPSIS
+       openssl pkeyparam [-help] [-in filename] [-out filename] [-text]
+       [-noout] [-engine id] [-check]
+
+DESCRIPTION
+       The pkeyparam command processes public key algorithm parameters.  They
+       can be checked for correctness and their components printed out.
+
+OPTIONS
+       -help
+           Print out a usage message.
+
+       -in filename
+           This specifies the input filename to read parameters from or
+           standard input if this option is not specified.
+
+       -out filename
+           This specifies the output filename to write parameters to or
+           standard output if this option is not specified.
+
+       -text
+           Prints out the parameters in plain text in addition to the encoded
+           version.
+
+       -noout
+           Do not output the encoded version of the parameters.
+
+       -engine id
+           Specifying an engine (by its unique id string) will cause pkeyparam
+           to attempt to obtain a functional reference to the specified
+           engine, thus initialising it if needed. The engine will then be set
+           as the default for all available algorithms.
+
+       -check
+           This option checks the correctness of parameters.
+
+EXAMPLES
+       Print out text version of parameters:
+
+        openssl pkeyparam -in param.pem -text
+
+NOTES
+       There are no -inform or -outform options for this command because only
+       PEM format is supported because the key type is determined by the PEM
+       headers.
+
+SEE ALSO
+       genpkey(1), rsa(1), pkcs8(1), dsa(1), genrsa(1), gendsa(1)
+
+COPYRIGHT
+       Copyright 2006-2019 The OpenSSL Project Authors. All Rights Reserved.
+
+       Licensed under the OpenSSL license (the "License").  You may not use
+       this file except in compliance with the License.  You can obtain a copy
+       in the file LICENSE in the source distribution or at
+       <https://www.openssl.org/source/license.html>.
+
+1.1.1f                            2023-10-10                   PKEYPARAM(1SSL)

@@ -1,0 +1,40 @@
+
+SHTOOL-TABLE.TMP(1)         GNU Portable Shell Tool        SHTOOL-TABLE.TMP(1)
+
+NAME
+       shtool-table - GNU shtool pretty-print a field-separated list
+
+SYNOPSIS
+       shtool table [-F|--field-sep sep] [-w|--width width] [-c|--columns
+       cols] [-s|--strip strip] strsepstr...
+
+DESCRIPTION
+       This pretty-prints a list of strings as a table.
+
+OPTIONS
+       The following command line options are available.
+
+       -F, --field-sep sep
+           Separate columns using sep. Default is ":".
+
+       -w, --width width
+           Width of each column. Default is 15 characters.
+
+       -c, --columns cols
+           Number of columns. Default is 3.
+
+       -s, --strip strip
+           Strip off any characters past strip. Default is 79.
+
+EXAMPLE
+        #   shell script
+        shtool table -F , -w 5 -c 4 "1,2,3,4,5,6,7,8,9,10,11,12"
+
+HISTORY
+       The GNU shtool table command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1999 for GNU shtool.
+
+SEE ALSO
+       shtool(1), tr(1), fmt(1), sh(1), awk(1), sed(1).
+
+18-Jul-2008                      shtool 2.0.8              SHTOOL-TABLE.TMP(1)

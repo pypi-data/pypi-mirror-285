@@ -1,0 +1,87 @@
+
+INCM(1)                     General Commands Manual                    INCM(1)
+
+NAME
+       incm - Incorporating new mails for Mew
+
+SYNOPSIS
+       incm [options]
+
+DESCRIPTION
+       The incm utility incorporates new mails from the mbox or the maildir to
+       Mew's inbox folder.
+
+       The options are as follows:
+
+       -a      Retrieve all mails from maildir/{cur,new} for maildir.
+
+       -b      Backup mails.   mbox:  No  truncate  mbox  file.   maildir:  To
+               maildir/cur directory.
+
+       -c      Use  the Content-Length: field, instead of the "From " line, as
+               a mail separator for mbox.
+
+       -d path Path to mbox/maildir.  If path is a file, mbox is  assumed.  If
+               path is a directory, maildir is assumed.
+
+       -m path The same as the -d option.
+
+       -s      Read one mail from stdin instead of mbox/maildir.
+
+       -i inboxdir
+               A path to the inbox directory.
+
+       -u      Don't touch ".mew-mtime".
+
+       -f      Preserve Unix From (Envelope Sender) line in mbox case.
+
+       -p mode Specify file mode that creates in mbox case.
+
+       -o      Use the suffix when creating messages.
+
+       -x suffix
+               Use this suffix.
+
+       -h      Display this help message.
+
+       -v      Display the version.
+
+   mbox
+       For mbox, the mail separator is "From " in the beginning of lines.  The
+       incm utility does not convert ">From " to "From " in the  beginning  of
+       lines in the body.  On Solaris, Content-Length: should be used with the
+       -c option to tell the end of mail.
+
+       To lock mbox, a  lock  file("<user>.lock"),  flock()  or  lockf(),  and
+       open(O_EXLOCK) are used.
+
+   maildir
+       For maildir, no lock and no separator are necessary.
+
+       Consider the following situation:
+               cur/{1,2}
+               new/{3,4}
+
+       Executing incm without the options results in:
+               cur/{1,2}
+               new/{}
+               to inbox: {3,4}
+
+       Executing incm with the -a option results in:
+               cur/{}
+               new/{}
+               to inbox: {1,2,3,4}
+
+       Executing incm with the -b option results in:
+               cur/{1,2,3,4}
+               new/{}
+               to inbox: {3,4}
+
+       Executing incm with the -a option and the -b option results in:
+               cur/{1,2,3,4}
+               new/{}
+               to inbox: {1,2,3,4}
+       So,  if  both  options  are  specified, messages are retrieved multiple
+       times.
+
+                               December 25, 2001                       INCM(1)

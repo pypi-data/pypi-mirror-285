@@ -1,0 +1,219 @@
+
+PERLKO(1)              Perl Programmers Reference Guide              PERLKO(1)
+
+        .    POD    POD (pod/perlpod.pod )  .
+
+NAME
+       perlko -  Perl
+
+DESCRIPTION
+       Perl    !
+
+       Perl  'Practical Extraction and Report Language'      'Pathologically
+       Eclectic Rubbish Lister'  .      Perl     . Perl  Larry        .
+       'Perl'   .    . Larry    .
+
+        p   'perl'  . P 'Perl'     'perl' p         .
+
+Perl
+       Perl          ,  , GUI   .
+
+         ( , ,  ) ( , ,  )   .   ,       ,     ,     3     Perl   .
+
+       Perl   pod/perlintro.pod  .
+
+            pod/perldelta.pod .
+
+            Perl     .    pod/perlbook.pod  .
+
+               Perl      .
+
+           ./Configure -des -Dprefix=$HOME/localperl
+           make test
+           make install
+
+                ,   ,    localperl  perl .
+
+               Perl    INSTALL      .       Perl        README  .
+
+        Perl   "perldoc"  .     .
+
+           perldoc perl
+
+       Perl  .     .   "perlbug"     .  "perlbug"     "perldoc perlbug"
+       "perlbug"     .
+
+       Perl     Perl          .
+
+           perl CPAN (Comprehensive Perl Archive Network)
+       <http://www.cpan.org/src/>    .
+
+       perl      pod/perlhack.pod "SUPER QUICK PATCH GUIDE" .
+
+         .          .     "(Author)"  .       "(Authorship)"      .  Perl   .
+       :-)
+
+       - "".
+
+       Perl 5.8.0 /ISO 10646   .  .   (  ,  ,  ,   ,  ,  ,  ,  ,  ,     )
+       .
+
+       Perl      .     Perl    UTF-8    ,   ( , , index, substr)     .
+       pod/perlunicode.pod  .        , /     Encode   .   Encode          .
+
+   Encode
+
+       Encode      .
+
+       o   "euc-kr"
+
+           US-ASCII KS X 1001  . KS X 2901 RFC 1557 .
+
+       o   "cp949"
+
+           MS-Windows 9x/ME   . euc-kr 8,822    . alias uhc, windows-949,
+           x-windows-949, ks_c_5601-1987.      , Microsoft  CP949   .
+
+       o   "johab"
+
+           KS X 1001:1998  3  .   cp949 US-ASCII  KS X 1001 8,822        .
+
+       o   "iso-2022-kr"
+
+           RFC 1557       US-ASCII KS X 1001    euc-kr    .  1997-8        .
+
+       o   "ksc5601-raw"
+
+           KS X 1001(KS C 5601) GL(, MSB 0  )   .  US-ASCII      X11
+           (ksc5601.1987-0. '0' GL )  . KS C 5601 1997 KS X 1001  . 1998 (
+           ) .
+
+        , euc-kr    UTF-8   .
+
+           perl -Mencoding=euc-kr,STDOUT,utf8 -pe1 < file.euc-kr > file.utf8
+
+           .
+
+           perl -Mencoding=utf8,STDOUT,euc-kr -pe1 < file.utf8 > file.euc-kr
+
+               piconv Perl  .   Encode    Perl      Unix "iconv"   .    .
+
+          piconv -f euc-kr -t utf8 < file.euc-kr > file.utf8
+          piconv -f utf8 -t euc-kr < file.utf8 > file.euc-kr
+
+       Perl   UTF-8  Encode          .
+
+       o      UTF-8
+
+       o      "use utf8;"
+
+       o    , , ,
+
+       o
+
+       o   (double)
+
+       o   perluniintro
+
+       o   perlunicode
+
+       o   Encode
+
+       o   Encode::KR
+
+       o   encoding
+
+       o   <http://www.unicode.org/>
+
+       o   <http://std.dkuug.dk/JTC1/SC2/WG2>
+
+            Unicode  ISO   ISO/IEC 10646 UCS(Universal Character Set)  ISO/IEC
+           JTC1/SC2/WG2
+
+       o   <http://www.cl.cam.ac.uk/~mgk25/unicode.html>
+
+           /   UTF-8    FAQ
+
+       o   <http://wiki.kldp.org/Translations/html/UTF8-Unicode-KLDP/UTF8-Unicode-KLDP.html>
+
+           /   UTF-8    FAQ
+
+Perl
+         Perl   .
+
+       o   <http://www.perl.org/>
+
+           Perl
+
+       o   <http://www.perl.com/>
+
+           O'Reilly Perl
+
+       o   <http://www.cpan.org/>
+
+           CPAN - Comprehensive Perl Archive Network,  Perl
+
+       o   <http://metacpan.org>
+
+            CPAN
+
+       o   <http://lists.perl.org/>
+
+           Perl
+
+       o   <http://blogs.perl.org/>
+
+           Perl
+
+       o   <http://www.perlmonks.org/>
+
+           Perl
+
+       o   <http://www.pm.org/groups/asia.html>
+
+             Perl
+
+       o   <http://www.perladvent.org/>
+
+           Perl
+
+        Perl          .
+
+       o   <http://perl.kr/>
+
+            Perl
+
+       o   <http://doc.perl.kr/>
+
+           Perl
+
+       o   <http://cafe.naver.com/perlstudy.cafe>
+
+            Perl
+
+       o   <http://www.perl.or.kr/>
+
+            Perl
+
+       o   <http://advent.perl.kr>
+
+           Seoul.pm Perl   (2010 ~ 2012)
+
+       o   <http://gypark.pe.kr/wiki/Perl>
+
+           GYPARK(Geunyoung Park) Perl
+
+       o   <http://seoul.pm.org>
+
+           Seoul.pm -  Perl
+
+       README  'LICENSING'  .
+
+AUTHORS
+       o   Jarkko Hietaniemi <jhi@iki.fi>
+
+       o    <jshin@mailaps.org>
+
+       o    <keedi@cpan.org>
+
+perl v5.30.0                      2023-11-23                         PERLKO(1)

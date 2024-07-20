@@ -1,0 +1,30 @@
+
+dkimproxy-sign(1)           General Commands Manual          dkimproxy-sign(1)
+
+NAME
+       dkimproxy-sign - computes a DKIM signature for an email message
+
+SYNOPSIS
+         dkimproxy-sign [options] < original_email.txt
+           options:
+             --method=METHOD
+             --selector=SELECTOR
+             --debug-canonicalization=FILE
+
+         dkimproxy-sign --help
+           to see a full description of the various options
+
+OPTIONS
+       --method  Determines the desired canonicalization method. Possible val-
+       ues are simple,  simple/simple,  simple/relaxed,  relaxed,  relaxed/re-
+       laxed, relaxed/simple.
+
+       --debug-canonicalization Outputs the canonicalized message to the spec-
+       ified file, in addition to computing the DKIM signature. This is  help-
+       ful for debugging canonicalization methods.
+
+SEE ALSO
+       dkimproxy.in(8),  dkimproxy.out(8),  dkimproxy-verify(1),  dkim_respon-
+       der(1)
+
+                                                             dkimproxy-sign(1)

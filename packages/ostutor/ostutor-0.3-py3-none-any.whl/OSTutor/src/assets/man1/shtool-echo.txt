@@ -1,0 +1,70 @@
+
+SHTOOL-ECHO.TMP(1)          GNU Portable Shell Tool         SHTOOL-ECHO.TMP(1)
+
+NAME
+       shtool-echo - GNU shtool echo(1) extensional command
+
+SYNOPSIS
+       shtool echo [-n|--newline] [-e|--expand] string
+
+DESCRIPTION
+       shtool echo is an echo(1) style command which prints string to stdout
+       and optionally provides special expansion constructs (terminal bold
+       mode, environment details, date, etc) and newline control. The trick of
+       this command is that it provides a portable -n option and hides the
+       gory details needed to find out the environment details under option
+       -e.
+
+OPTIONS
+       The following command line options are available.
+
+       -n, --newline
+           By default, output is written to stdout followed by a "newline"
+           (ASCII character 0x0a). If option -n is used, this newline
+           character is omitted.
+
+       -e, --expand
+           If option -e is used, string can contain special "%x" constructs
+           which are expanded before the output is written. Currently the
+           following constructs are recognized:
+
+           %B  switch terminal mode to bold display mode.
+
+           %b  switch terminal mode back to normal display mode.
+
+           %u  the current user name.
+
+           %U  the current user id (numerical).
+
+           %g  the current group name.
+
+           %G  the current group id (numerical).
+
+           %h  the current hostname (without any domain extension).
+
+           %d  the current domain name.
+
+           %D  the current day of the month.
+
+           %M  the current month (numerical).
+
+           %m  the current month name.
+
+           %Y  the current year.
+
+EXAMPLE
+        #   shell script
+        shtool echo -n -e "Enter your name [%B%u%b]: "; read name
+        shtool echo -e "Your Email address might be %u@%h%d"
+        shtool echo -e "The current date is %D-%m-%Y"
+
+HISTORY
+       The GNU shtool echo command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1998 for Website META Language
+       (WML) under the name buildinfo. It was later taken over into GNU
+       shtool.
+
+SEE ALSO
+       shtool(1), echo(1).
+
+18-Jul-2008                      shtool 2.0.8               SHTOOL-ECHO.TMP(1)

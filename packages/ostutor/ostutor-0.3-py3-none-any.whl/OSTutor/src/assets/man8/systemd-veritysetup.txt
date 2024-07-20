@@ -1,0 +1,26 @@
+
+SYSTEMD-VERITYSETUP@.SERVsystemd-veritysetup@.sSYSTEMD-VERITYSETUP@.SERVICE(8)
+
+NAME
+       systemd-veritysetup@.service, systemd-veritysetup - Disk integrity
+       protection logic
+
+SYNOPSIS
+       systemd-veritysetup@.service
+
+       /lib/systemd/systemd-veritysetup
+
+DESCRIPTION
+       systemd-veritysetup@.service is a service responsible for setting up
+       integrity protection (verity) block devices. It should be instantiated
+       for each device that requires integrity protection.
+
+       At early boot and when the system manager configuration is reloaded
+       kernel command line configuration for integrity protected block devices
+       is translated into systemd-veritysetup@.service units by systemd-
+       veritysetup-generator(8).
+
+SEE ALSO
+       systemd(1), systemd-veritysetup-generator(8), veritysetup(8)
+
+systemd 245                                    SYSTEMD-VERITYSETUP@.SERVICE(8)

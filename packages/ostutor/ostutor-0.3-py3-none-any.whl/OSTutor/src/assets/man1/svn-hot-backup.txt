@@ -1,0 +1,28 @@
+
+svn-hot-backup(1)           General Commands Manual          svn-hot-backup(1)
+
+NAME
+       svn-hot-backup - perform a "hot" backup of a Berkeley DB repository.
+
+SYNOPSIS
+       svn-hot-backup [--archive-type=type] repos_path backup_dir
+
+DESCRIPTION
+       svn-hot-backup  performs a "hot" backup of a Subversion BDB repository,
+       and cleans old logfiles after the backup completes.
+
+OPTIONS
+       --archive-type=gz
+       --archive-type=bz2
+       --archive-type=zip
+              Create a compressed archive of the backup, in .tar.gz, .tar.bz2,
+              or .zip format respectively.
+
+       -h, --help
+              Print this help message and exit.
+
+AUTHOR
+       Voluntary  contributions  made by many individuals.  Copyright (C) 2006
+       CollabNet.
+
+                                  2006-11-09                 svn-hot-backup(1)

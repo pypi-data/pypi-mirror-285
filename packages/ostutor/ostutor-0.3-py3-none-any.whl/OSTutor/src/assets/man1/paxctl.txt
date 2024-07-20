@@ -1,0 +1,103 @@
+
+paxctl(1)                             PaX                            paxctl(1)
+
+NAME
+       paxctl - user-space utility to control PaX flags
+
+SYNTAX
+       paxctl <flags> <files>
+
+DESCRIPTION
+       paxctl  is  a tool that allows PaX flags to be modified on a per-binary
+       basis.  PaX is part of common security-enhancing kernel patches and se-
+       cure  distributions,  such  as  GrSecurity and Hardened Gentoo, respec-
+       tively.  Your system needs to be running a properly patched and config-
+       ured kernel for this program to have any effect.
+
+       -P     enforce paging based non-executable pages (PAGEEXEC)
+
+       -p     do not enforce paging based non-executable pages (NOPAGEEXEC)
+
+       -E     emulate trampolines (EMUTRAMP)
+
+       -e     do not emulate trampolines (NOEMUTRAMP)
+
+       -M     enforce secure memory protections (MPROTECT)
+
+       -m     do not enforce secure memory protections (NOMPROTECT)
+
+       -R     randomize memory regions (RANDMMAP)
+
+       -r     do not randomize memory regions (NORANDMMAP)
+
+       -X     randomize  base  address  of  normal (ET_EXEC) executables (RAN-
+              DEXEC)
+
+       -x     do not randomize base address of  normal  (ET_EXEC)  executables
+              (NORANDEXEC)
+
+       -S     enforce segmentation based non-executable pages (SEGMEXEC)
+
+       -s     do  not  enforce segmentation based non-executable pages (NOSEG-
+              MEXEC)
+
+       -v     view flags
+
+       -z     reset all flags (further flags still apply)
+
+       -c     create the PT_PAX_FLAGS program header if it does not  exist  by
+              converting the PT_GNU_STACK program header if it exists
+
+       -C     create  the  PT_PAX_FLAGS program header if it does not exist by
+              adding a new program header, if it is possible
+
+       -q     suppress error messages
+
+       -Q     report flags in short format
+
+CAVEATS
+       The old PaX flag location and control method have  been  obsoleted,  if
+       your kernel and binaries use it you have to use chpax(1) instead (it is
+       recommended to use PT_PAX_FLAGS along with -c or -C however).
+
+       Converting PT_GNU_STACK into PT_PAX_FLAGS means that the information in
+       the former is destroyed, in particular you must make sure that the EMU-
+       TRAMP PaX option is properly set in  the  newly  created  PT_PAX_FLAGS.
+       The  secure  way  is to disable EMUTRAMP first and if PaX reports stack
+       execution attempts from nested function trampolines then enable it.
+
+       Note that the new PT_PAX_FLAGS is created in the same state that  binu-
+       tils/ld itself would produce (equivalent to -zex).
+
+       Note  that  if you use both PT_PAX_FLAGS and the extended attribute PaX
+       flags on a binary then they must be exactly the same (except  for  RAN-
+       DEXEC).
+
+       Note  that RANDEXEC is no longer supported by PaX kernels since 2.6.13,
+       the paxctl flags are simply ignored there.
+
+       Note that paxctl does not make backup copies of the files it modifies.
+
+       Note that paxctl is meant to work on the native architecture's binaries
+       only,  however  it should work on foreign binaries as long as they have
+       the same endianess as the native architecture  (e.g.,  an  i386  paxctl
+       should  work  on  amd64 or little-endian arm but not on big-endian mips
+       binaries).
+
+AUTHOR
+       Written by The PaX Team <pageexec@freemail.hu>
+
+       This manpage was adapted from the chpax manpage written  by  Martin  F.
+       Krafft  <madduck@debian.org> for the Debian GNU/Linux Distribution, but
+       may be used by others.
+
+SEE ALSO
+       chpax(1), gradm(8)
+
+       PaX website: http://pax.grsecurity.net
+
+       GrSecurity website: http://www.grsecurity.net
+
+       Hardened Gentoo website: http://www.gentoo.org/proj/en/hardened
+
+paxctl Manual                     2012-02-19                         paxctl(1)

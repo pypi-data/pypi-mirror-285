@@ -1,0 +1,249 @@
+
+DCUT(1)                     General Commands Manual                    DCUT(1)
+
+NAME
+       dcut - Debian command upload tool for the archive upload queue
+
+SYNOPSIS
+       dcut [-Pds] [-c CONFIGFILE] [-k KEYID] [-m MAINTAINER] [-O COMMANDFILE]
+            [ [--host] HOSTNAME] COMMAND [, COMMAND] ...
+
+       dcut [-Pds] [-c CONFIGFILE] [-k KEYID] [-m MAINTAINER] [-O COMMANDFILE]
+            [ [--host] HOSTNAME] -i CHANGESFILE
+
+       dcut [-Pds] [-c CONFIGFILE] [ [--host] HOSTNAME] -U COMMANDFILE
+
+       dcut -h
+
+       dcut -v
+
+DESCRIPTION
+       dcut  creates and / or uploads Debian queue commands files for a Debian
+       repository upload queue.  It is a companion for dput(1) and  uses  dput
+       configuration files (see FILES, below).
+
+       The normal workflow is:
+
+       o      Determine the queue control commands.
+
+       o      Compose the batch of commands to upload.
+
+       o      Determine the hostname of the queue host.
+
+       o      Upload the commands to the queue host.
+
+   Determine queue control commands
+       In  the  default  command-line syntax, parse each command-line argument
+       COMMAND, in the format needed by a Debian archive queue manager.   Mul-
+       tiple  queue  commands  must  be separated by a comma (,) as a separate
+       word between each command.
+
+       See COMMANDS below for valid queue commands.
+
+       When the CHANGESFILE parameter is specified, instead  parse  that  file
+       and compose a rm command for each file specified in CHANGESFILE.
+
+       If  the  --upload (-U) option is specified, instead read the queue con-
+       trol commands from the file COMMANDFILE.
+
+   Compose the batch of commands
+       The Uploader field in the batch is set to the package maintainer speci-
+       fication  MAINTAINER.  If not specified, the value of MAINTAINER is de-
+       rived from environment variables (see ENVIRONMENT, below).
+
+       The Commands field in the batch is set to the sequence of queue control
+       commands determined.
+
+       If  the  --output (-O) option is specified, write the batch to the file
+       named by its COMMANDFILE argument.  Otherwise, write  the  batch  to  a
+       temporary file and remove it after upload.
+
+       After  writing the batch of commands to a file, sign the file with deb-
+       sign(1).  The MAINTAINER and KEYID parameters, if specified, are passed
+       to the debsign command.
+
+       If  the  --upload (-U) option is specified, do not compose the batch of
+       commands; instead use the content of its COMMANDFILE  argument  as  the
+       name of the command file to upload to the queue host.
+
+   Determine the queue host
+       The  HOSTNAME  must  match  one of the named hosts in the configuration
+       (see dput.cf(5)).  The value is determined as follows:
+
+       o      If the --host option is specified, use  that  option's  HOSTNAME
+              argument.
+
+       o      If  the  first non-option argument is not a valid queue command,
+              that is interpreted as the HOSTNAME.
+
+       o      Otherwise,  HOSTNAME  defaults  to  the   value   of   the   de-
+              fault_host_main configuration parameter.
+
+   Upload queue commands
+       Upload the composed batch of queue commands to the queue host HOSTNAME,
+       using the parameters in the dput.cf(5) configuration for that host.
+
+       If the --output (-O) option is specified, do not upload the commands to
+       the  queue  host.   Instead, leave the composed file COMMANDFILE on the
+       filesystem.
+
+COMMANDS
+       Presently supported commands are:
+
+       rm     Remove files from the UploadQueue directories.   dcut  generates
+              commands  that  search the subdirectories automatically, but you
+              can also specify --nosearchdirs and then target  individual  Up-
+              loadQueue  directories,  i.e.  either filenames without path for
+              regular incoming or  DELAYED/DAYS-day/filename.   Wildcards  are
+              accepted.
+
+       reschedule CHANGESFILE DAYS-day
+              Move  an  upload  from any DEFERRED queue to DAYS-day (use 0-day
+              for immediate processing).
+
+       cancel CHANGESFILE
+              Cancels an upload from DEFERRED.
+
+       Both reschedule and cancel take a complete basename of a  changes  file
+       as  argument  and operate on the whole upload, they process the changes
+       and all files mentioned by it.
+
+       The authoritative documentation for the commands interface can be found
+       at <ftp://ftp.upload.debian.org/pub/UploadQueue/README>.
+
+OPTIONS
+       -c CONFIGFILE
+       --config CONFIGFILE
+              Use  the  file CONFIGFILE for configuration.  See dput.cf(5) for
+              the specification of this file format.
+
+       -d
+       --debug
+              Display debugging messages.
+
+       -h
+       --help Display help information, then exit.
+
+       --host HOSTNAME
+              Specify the HOSTNAME unambiguously.  This allows naming  a  host
+              that may be ambiguous with a queue command.
+
+       -m MAINTAINER
+       --maintainer MAINTAINER
+              Use  MAINTAINER  for the Uploader field and GnuPG key selection.
+              This has no effect when --upload is used.
+
+       -k KEYID
+       --keyid KEYID
+              Specify the GnuPG key id KEYID to pass to  the  debsign(1)  com-
+              mand.  This has no effect when --upload is used.
+
+       -O COMMANDFILE
+       --output COMMANDFILE
+              Write  commands  file  to COMMANDFILE instead of uploading.  You
+              should not specify a HOSTNAME when  using  this  option.   Also,
+              this option should not be used with --upload.
+
+       -P
+       --passive
+              Use  passive mode for FTP.  If not specified, default for FTP is
+              active mode.
+
+       -s
+       --simulate
+              Do not actually upload to the queue host.
+
+       -U COMMANDFILE
+       --upload COMMANDFILE
+              Instead of composing a new queue command file, upload the exist-
+              ing  file  COMMANDFILE.  Note: No checks (syntax or presence/va-
+              lidity of signature) are currently performed.
+
+       -i CHANGESFILE
+       --input CHANGESFILE
+              Do not parse queue commands from the command line. Instead, read
+              the  package  changes  file CHANGESFILE and compose a rm command
+              for each file specified in CHANGESFILE.  This has no effect when
+              --upload is used.
+
+       -v
+       --version
+              Display version information, then exit.
+
+ENVIRONMENT
+       DEBEMAIL
+       EMAIL  If MAINTAINER is not specified, use the first of these which has
+              a value to determine the email address portion of MAINTAINER.
+
+       DEBFULLNAME
+              If MAINTAINER is not specified, use this value to determine  the
+              full name portion of MAINTAINER.
+
+       USER   If  no  username  is  specified for authenticating to the remote
+              host, use the value of this variable.
+
+FILES
+       Configuration
+              See dput.cf(5) for the files to configure dcut.
+
+EXAMPLES
+       To upload a GPG signed commands file that removes dput_0.9.2.33_all.deb
+       file from the queue, one would have to do:
+
+       $ dcut rm dput_0.9.2.33_all.deb
+
+       This creates and uploads a commands file that looks like the following:
+
+       -----BEGIN PGP SIGNED MESSAGE-----
+       Hash: SHA1
+
+       Uploader: Foo Bar <foo@bar.org>
+       Commands:
+        rm dput_0.9.2.33_all.deb
+
+       -----BEGIN PGP SIGNATURE-----
+       Version: GnuPG v1.4.9 (GNU/Linux)
+
+       iEYEARECAAYKAkisYx0ACgkQ4eu+pS04mIfwLQCg85XVpae/LHLrbvzywcQNt9PS
+       ztsAoMgw6HjcI9flfmwjgMiapcu379Pu
+       =fjp0
+       -----END PGP SIGNATURE-----
+
+       To  upload  a  GPG  signed  commands  file  that removes files named in
+       dput_0.9.4_i386.changes from the queue, one would have to do:
+
+       $ dcut --input dput_0.9.4_i386.changes
+
+       This creates and uploads a commands file that looks like the following:
+
+       -----BEGIN PGP SIGNED MESSAGE-----
+       Hash: SHA1
+
+       Uploader: Foo Bar <foo@bar.org>
+       Commands:
+        rm --searchdirs dput_0.9.4.dsc
+        rm --searchdirs dput_0.9.4.tar.gz
+        rm --searchdirs dput_0.9.4_all.deb
+
+       -----BEGIN PGP SIGNATURE-----
+       Version: GnuPG v1.4.9 (GNU/Linux)
+
+       iEYEARECAAYKAkisYx0ACgkQ4eu+pS04mIfwLQCg85XVpae/LHLrbvzywcQNt9PS
+       ztsAoMgw6HjcI9flfmwjgMiapcu379Pu
+       =fjp0
+       -----END PGP SIGNATURE-----
+
+       If you've uploaded packages with the --delayed option (uploaded to  DE-
+       FERRED queue), then use the cancel command with a .changes file:
+
+       $ dcut cancel dput_0.9.4_i386.changes
+
+       This creates and uploads a commands file just like the other commands.
+
+SEE ALSO
+       dput(1), dput.cf(5), debsign(1)
+
+       Read     Me     document     for     the     Debian     upload    queue
+       <ftp://ftp.upload.debian.org/pub/UploadQueue/README>.
+
+Debian                            2017-01-09                           DCUT(1)

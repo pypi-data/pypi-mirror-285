@@ -1,0 +1,70 @@
+
+xlhtml(1)                   General Commands Manual                  xlhtml(1)
+
+NAME
+       xlhtml - A program for converting Microsoft Excel Files .xls
+
+SYNOPSIS
+       xlhtml [-a] [-asc] [-csv] [-xml] [-bcNNNNNN] [-bi/path] [-c] [-dp] [-v]
+       [-fw] [-m] [-nc] [-nh] [-tcNNNNNN] [-te]  [-xc:N-N]  [-xp:N]  [-xr:N-N]
+       FILE
+
+DESCRIPTION
+       This  manual  page  explains  the xlhtml program. The program xlhtml is
+       used to convert Microsoft Excel Spreadsheet files into either  html  or
+       tab delimitted ASCII. The program can be interfaced with helper scripts
+       for viewing email attachments. Most use of this program is through  the
+       helper  scripts  and one would probably rarely resort to using the com-
+       mandline interface.
+
+OPTIONS
+       -a     aggressively  optimize  html  by   removing   </TR>   </TD>   or
+              VALIGN="bottom". Some older browsers may not display properly in
+              this mode.
+
+       -asc   Ascii out of -dp and extraction data (-xc, -xp, -xr)
+
+       -csv   Output in Comma Separated Values  of  -dp  and  extraction  data
+              (-xc, -xp, -xr)
+
+       -xml   Output in XML of -dp and extraction data (-xc, -xp, -xr)
+
+       -bc    Override the background color. e.g. -bc808080     for gray
+
+       -bi    Use background image. e.g. -bi/home/httpd/icon/tar.gif
+
+       -c     Centers the tables horizontally
+
+       -dp    Dump page count and max columns and rows per page
+
+       -v     Prints program version
+
+       -fw    suppress formula warnings about accuracy
+
+       -m     No encoding for multibyte
+
+       -nc    tells it not to colorize the output.
+
+       -nh    Suppress header and body tags in html output
+
+       -tc    Override the text color. e.g. -tcFF0000     for red
+
+       -te    Trims empty rows & columns at the edges of a worksheet
+
+       -xc    Columns (separated by a dash) for extraction (zero based)
+
+       -xp    Page for extraction (zero based), one page only
+
+       -xr    Rows (separated by a dash) to be extracted (zero based)
+
+       An  example  of  the  extraction command line is: xlhtml -fw -asc -xp:0
+       -xr:2-6 -xc:0-1 Test.xls
+
+       The extraction output is: Formatted output of cells by column  left  to
+       right,  columns  separated  by a tab, end of row is: 0x0A, end of file:
+       \n\n
+
+AUTHOR
+       Steve Grubb, Charles N Wyble
+
+xlhtml                           May 15, 2002                        xlhtml(1)

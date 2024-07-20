@@ -1,0 +1,132 @@
+
+DOVEADM-SIEVE(1)                  Pigeonhole                  DOVEADM-SIEVE(1)
+
+NAME
+       doveadm-sieve - Commands related to handling Sieve scripts
+
+SYNOPSIS
+       doveadm [-Dv] [-f formatter] sieve_cmd [options] [arguments]
+
+DESCRIPTION
+       The  doveadm sieve commands are part of the Pigeonhole Project (pigeon-
+       hole(7)), which adds Sieve (RFC 5228) and ManageSieve (RFC  5804)  sup-
+       port  to  the  Dovecot  secure  IMAP  and POP3 server (dovecot(1)). The
+       doveadm sieve commands can be used to manage Sieve filtering.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies the formatter for formatting  the  output.   Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints a table header followed  by  tab  separated  value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -A     If the -A option is present, the command will be  performed  for
+              all  users.   Using this option in combination with system users
+              from userdb { driver = passwd } is not recommended,  because  it
+              contains  also  users  with  a lower UID than the one configured
+              with the first_valid_uid setting.
+
+              When the SQL userdb module is used  make  sure  that  the  iter-
+              ate_query  setting  in /etc/dovecot/dovecot-sql.conf.ext matches
+              your database layout.  When using the LDAP userdb  module,  make
+              sure  that  the  iterate_attrs  and  iterate_filter  settings in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain socket, or a hostname and port (hostname:port), in  order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run the command only for the given user.  It's also possible  to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When  neither  the -A option nor -u user was specified, the com-
+              mand will be executed with  the  environment  of  the  currently
+              logged in user.
+
+ARGUMENTS
+       scriptname
+              Is  the  name  of  a  Sieve script,  as  visible  to ManageSieve
+              clients.
+
+              NOTE: For Sieve scripts that are stored on  disk,  this  is  the
+              filename without the ".sieve" extension.
+
+COMMANDS
+   sieve put
+       doveadm sieve put [-A|-u user] [-S socket_path] [-a] scriptname
+
+       This  command  puts  one  new  Sieve  script in the script storage. The
+       script is read from standard input. If  the  script  compiles  success-
+       fully,  it  is stored under the provided scriptname .  If the -a option
+       is present, the Sieve script  is  subsequently  marked  as  the  active
+       script for execution at delivery.
+
+   sieve get
+       doveadm sieve get [-A|-u user] [-S socket_path] scriptname
+
+       This command retrieves the Sieve script named scriptname.
+
+   sieve delete
+       doveadm sieve delete [-A|-u user] [-S socket_path] [-a] scriptname ...
+
+       This  command deletes one or more Sieve scripts. The deleted script may
+       not be the active script, unless the -a option is present.
+
+   sieve list
+       doveadm sieve list [-A|-u user] [-S socket_path] scriptname
+
+       Use this command to get an overview of existing Sieve scripts.
+
+   sieve rename
+       doveadm sieve rename [-A|-u user] [-S socket_path] old_name new_name
+
+       The sieve rename command is used to rename the Sieve script old_name to
+       new_name.
+
+   sieve activate
+       doveadm sieve activate [-A|-u user] [-S socket_path] scriptname
+
+       This  command  marks  the  Sieve  script named scriptname as the active
+       script for execution at delivery.
+
+   sieve deactivate
+       doveadm sieve deactivate [-A|-u user] [-S socket_path] scriptname
+
+       This command deactivates Sieve processing.
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1) dovecot-lda(1), pigeonhole(7)
+
+Pigeonhole v0.5 for Dovecot v2.3  2017-12-18                  DOVEADM-SIEVE(1)

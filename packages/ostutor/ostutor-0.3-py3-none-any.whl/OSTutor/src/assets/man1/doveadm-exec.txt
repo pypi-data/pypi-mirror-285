@@ -1,0 +1,52 @@
+
+DOVEADM-EXEC(1)                     Dovecot                    DOVEADM-EXEC(1)
+
+NAME
+       doveadm-exec - easily execute commands from Dovecot's libexec_dir
+
+SYNOPSIS
+       doveadm [-Dv] exec binary [binary arguments]
+
+DESCRIPTION
+       This  command  allows  administrators and local users to simply execute
+       commands from within libexec_dir.  So for example a  logged  in  system
+       user  could  start a pre-authenticated imap session, using the command:
+       doveadm exec imap.  An administrator would  use  the  command:  doveadm
+       exec imap -u username.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+ARGUMENTS
+       binary the name of an executable located in /usr/lib/dovecot.
+
+       binary arguments
+              options and arguments, which will be passed through to  the  bi-
+              nary.
+
+EXAMPLE
+       This  example  demonstrates  how  to deliver a message from a file to a
+       user's mailbox.
+
+       doveadm exec dovecot-lda -d user@example.net \
+       -f admin@example.net < ~/stuff/welcome.msg
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1), dovecot-lda(1)
+
+Dovecot v2.3                      2013-08-05                   DOVEADM-EXEC(1)

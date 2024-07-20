@@ -1,0 +1,67 @@
+
+deb3(1)                     General Commands Manual                    deb3(1)
+
+NAME
+       deb3 - convert debian source package to new 3.0 (quilt) format
+
+SYNOPSIS
+       deb3 [quilt|dpatch|0|1|2]
+
+DESCRIPTION
+       deb3  converts  debian source packages which use series of patches from
+       1.0 format to new 3.0 (quilt) format while adjusting  contents  in  de-
+       bian/patches.   This  is  run from the package top level directory.  If
+       run without argument, deb3 guesses source structure.  Following formats
+       are auto detected.
+
+       o  dh_quilt_patch/dh_quilt_unpatch
+
+       o  dpatch
+
+       o  cdbs (simple-patchsys.mk)
+
+       o  dbs (dbs-build.mk)
+
+ARGUMENT
+       You can force particular conversion using argument.
+
+       quilt     conversion for dh_quilt_patch/dh_quilt_unpatch
+
+       dpatch    conversion for dpatch
+
+       0         conversion for dbs and cdbs made with -p 0 patches (default)
+
+       1         conversion for dbs and cdbs made with -p 1 patches
+
+       2         conversion for dbs and cdbs made with -p 2 patches
+
+TERMINATING THE CONVERSION
+       This  deb3 program only provides a starting point. After its execution,
+       further modifications are needed to your package. Typical changes are:
+
+       o  Build-Depends: you should remove cdbs, dpatch and  quilt.   Instead,
+          you should add debhelper (>= 7.0.50~)
+
+       o  Add override_dh_* targets to debian/rules to address special cases.
+
+       o  Remove --with quilt from the debian/rules, if it uses the dh $@ syn-
+          tax.
+
+       You can find tutorial for packaging using this new dh $@ style and  new
+       3.0  (quilt)  source  format  in  the  maint-guide package.  It is also
+       available at:
+
+          http://www.debian.org/doc/manuals/maint-guide/index.en.html
+
+COPYRIGHT
+       (c) Osamu Aoki, 2010, GPL2+
+
+       dpatch2quilt.sh is used  as  the  base  of  this  program;  Parts  from
+       http://blog.orebokech.com/2007/08/converting-debian-packages-from-
+       dpatch.html
+
+        (c) gregor herrmann, 2007-2008, GPL2+
+        (c) Damyan Ivanov, 2007-2008, GPL2+
+        (c) Martin Quinson, 2008, GPL2+
+
+deb3                             Dec 25, 2012                          deb3(1)

@@ -1,0 +1,29 @@
+
+CMEW(1)                     General Commands Manual                    CMEW(1)
+
+NAME
+       cmew - create Mew's database file
+
+SYNOPSIS
+       cmew [-f] [db_file [maildir [ignore_regex [target_folder]]]]
+
+DESCRIPTION
+       The  cmew  utility creates a Message-ID database file with SQLite 3 for
+       Mew.
+
+       db_file is a database file name.  (default: "~/Mail/id.db")
+
+       maildir is a mail directory name.  (default: "~/Mail")
+
+       ignore_regex is a regular expression for the mail  directory  names  to
+       not create the database.  (default: "^\./casket$|^\./casket/|/\.")
+
+       target_folder  is a target folder. Information about messages contained
+       in this folder only are updated.
+
+       The options are as follows:
+
+       -f      Full update. Unless this option is specified,  incremental  up-
+               date is used.
+
+                               February 17, 2008                       CMEW(1)

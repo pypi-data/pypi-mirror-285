@@ -1,0 +1,131 @@
+
+DH_PHPPEAR(1)                      Debhelper                     DH_PHPPEAR(1)
+
+NAME
+       dh_phppear - calculates PHP PEAR substvars
+
+SYNOPSIS
+       dh_phppear [debhelperoptions] [options]
+
+DESCRIPTION
+       dh_phppear is a debhelper program that is responsible for generating
+       the ${phppear:*} substitutions and adding them to substvars files.
+
+       The program will look at package.xml (or package2.xml) in the package,
+       and will use this information to generate:
+
+       o ${phppear:summary}, ${phppear:description} and ${phppear:channel}
+
+       o ${phppear:Debian-Depends}, ${phppear:Debian-Recommends},
+         ${phppear:Debian-Suggests} and ${phppear:Debian-Breaks}
+
+       Deprecated: the <pear-channels> package should be used (and updated)
+       instead of introducing a new standalone channel package.
+
+       The program will look at channel.xml in the package, and will use this
+       information to generate:
+
+       o ${phppear:channel-name}, ${phppear:channel-summary} and
+         ${phppear:channel-alias}
+
+       o ${phppear:channel-common-description}
+
+       Those variables will be substituted into the package's control file
+       wherever the token ${phppear:*} are placed.
+
+OPTIONS
+       --sourcedirectory=directory
+           Assume that the original package source tree is at the specified
+           directory rather than the top level directory of the Debian source
+           package tree.
+
+           This feature requires pkg-php-tools (>= 1.14~).
+
+FILES
+       debian/pkg-php-tools-overrides
+           Package that don't want to follow automatic PEAR package name to
+           Debian package name conversion can override the conversion by
+           creating this file.
+
+           It can be installed in
+           /usr/share/pkg-php-tools/overrides/src:package.
+
+           This feature requires pkg-php-tools (>= 1~).
+
+           The format is a set of lines, with each line having the following
+           fields:
+
+           channel_url
+                 The channel URL as found in package.xml (example:
+                 pear.phpunit.de).
+
+           pear_package_name
+                 The PEAR package name (example: phpunit).
+
+           debian_package_name
+                 The resulting Debian package name (example: phpunit).
+
+                 Use builtin if the package is compiled from the php source
+                 package.
+
+                 Use none if the PEAR package can't be simply translated to
+                 Debian name.
+
+           version_override
+                 Optional, for composer packages only, can be none if the
+                 version constraint from the original package should not be
+                 used for the replacement. Useful when a package is being
+                 replaced by a PHP extension that doesn't follow the same
+                 versioning scheme.
+
+ADVANCED USAGE
+   Building a PECL package
+       A PECL package is a PEAR package which is compiled. Extra steps are
+       needed:
+
+       o Adding php-dev, pkg-php-tools (>= 1.6~) and dh-php to Build-Depends.
+
+       o Adding ${shlibs:Depends} and ${misc:Depends} to Depends.
+
+       o Adding --with php to dh line in debian/rules.
+
+   Patching
+       dh_phppear will remove md5sums and sha1sums to ease patching. You can
+       patch as usual.
+
+   Removing some files from the upstream tarball
+       If some files are removed from the upstream tarball, the package will
+       be incomplete unless they are stripped from the package.xml file in the
+       PEAR package subdir. This can be done after the dh_auto_configure step.
+       Example:
+
+         override_dh_auto_configure:
+               dh_auto_configure -O--buildsystem=phppear
+               # Remove references of JsMin
+               sed -i '/JsMin\.php/d' */package.xml
+
+       This feature requires pkg-php-tools (>= 1.1~).
+
+   Building a channel package (DEPRECATED)
+       Deprecated: the pear-channels package should be used (and updated)
+       instead of introducing a new standalone channel package.
+
+       Simply put the channel.xml file downloaded from the PEAR channel in the
+       root of the package source and use a debian/rules similar to a PEAR
+       package.
+
+       This feature requires pkg-php-tools (>= 1.3~).
+
+CONFORMING TO
+       Debian policy, version 3.9.6.
+
+       PHP PEAR policy, version yet-to-be-written.
+
+SEE ALSO
+       debhelper(7), pkg-php-tools(7),
+       /usr/share/doc/pkg-php-tools/README.PEAR
+
+AUTHOR
+       Mathieu Parent <sathieu@debian.org>
+
+1.38                              2019-09-14                     DH_PHPPEAR(1)

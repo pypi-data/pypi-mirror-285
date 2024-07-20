@@ -1,0 +1,29 @@
+
+SMEW(1)                     General Commands Manual                    SMEW(1)
+
+NAME
+       smew - search related messages from Mew's database file
+
+SYNOPSIS
+       smew myid [mydb [mydir]]
+
+DESCRIPTION
+       The  smew  utility searches related messages from a Message-ID database
+       file with SQLite 3 for Mew.
+
+       myid is a Message-ID of the message to search.
+
+       mydb is a database file name.  (default: "~/Mail/id.db")
+
+       mydir is a directory part of the message in  the  database.  Note  that
+       messages  are  contained  as a relative path from "~/Mail". If multiple
+       messages are found by myid , the first found one is preferred. However,
+       the message whose directory is mydir is preferred to the first one.
+
+       The options are as follows:
+
+       -c      Search a parent message only.
+
+       -p      Search a child message only.
+
+                               February 17, 2008                       SMEW(1)

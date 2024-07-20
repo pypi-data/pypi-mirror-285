@@ -1,0 +1,296 @@
+
+SCANELF(1)                Documentation for pax-utils               SCANELF(1)
+
+NAME
+       scanelf - user-space utility to scan ELF files
+
+SYNOPSIS
+       scanelf [options] ELFs or directories
+
+DESCRIPTION
+       scanelf is a user-space utility to quickly scan given ELFs,
+       directories, or common system paths for different information. This may
+       include ELF types, their PaX markings, TEXTRELs, etc...
+
+OPTIONS
+       -A, --archives
+           Scan archives (.a files)
+
+       -a, --all
+           Print all useful/simple info
+
+       -B, --nobanner
+           Don't display the header
+
+       -b, --bind
+           Print symbol binding information (lazy or now)
+
+       -D, --endian
+           Print ELF endianness (big/little/...)
+
+       -E, --etype ETYPE
+           Print only ELF files matching specified etype (like ET_DYN,
+           ET_EXEC, etc...)
+
+       -e, --header
+           Print GNU_STACK markings
+
+       -F, --format FORMAT
+           Use specified format for output; see the FORMAT section for more
+           information
+
+       -f, --from FILE
+           Read input stream from specified filename
+
+       -g, --gmatch
+           Use strncmp to match libraries (use with -N). Or regexp with symbol
+           matching
+
+       -h, --help
+           Show condensed usage and exit
+
+       -I, --osabi
+           Print OSABI
+
+       -i, --interp
+           Print the interpreter information (.interp/PT_INTERP)
+
+       -k, --section SECTION
+           Find ELFs with the specified section. May be specified multiple
+           times to match multiple sections simultaneously. See SECTION
+           MATCHING for more info.
+
+       -L, --ldcache
+           Utilize ld.so.cache information (use with -r/-n)
+
+       -l, --ldpath
+           Scan all directories in /etc/ld.so.conf
+
+       -M, --bits BITS
+           Print only ELF files matching specified numeric bits (like 32/64)
+
+       -m, --mount
+           Don't recursively cross mount points
+
+       -N, --lib SONAME
+           Find ELFs that need the specified SONAME. May be specified multiple
+           times to match multiple SONAMEs simultaneously. See SONAME MATCHING
+           for more info.
+
+       -n, --needed
+           Print libraries the ELF is linked against (DT_NEEDED)
+
+       -O, --perms PERMS
+           Print only ELF files with matching specified octal bits (like 755)
+
+       -o, --file FILE
+           Write output stream to specified filename
+
+       -p, --path
+           Scan all directories in PATH environment
+
+       -q, --quiet
+           Only output 'bad' things
+
+       -R, --recursive
+           Scan directories recursively
+
+       -r, --rpath
+           Print runpaths encoded in the ELF (DT_RPATH/DT_RUNPATH)
+
+       -S, --soname
+           Print the ELF's shared library name (DT_SONAME)
+
+       -s, --symbol SYMBOL
+           Find the specified symbol; see SYMBOL MATCHING for more info
+
+       -T, --textrels
+           Locate cause of TEXTRELs via objdump
+
+       -t, --textrel
+           Print TEXTREL information
+
+       -V, --version
+           Print version and exit
+
+       -v, --verbose
+           Be verbose (can be used more than once)
+
+       -X, --fix
+           Try and 'fix' bad things (use with -r/-e)
+
+       -x, --pax
+           Print PaX markings
+
+       -Y, --eabi
+           Print EABI (only matters for a few architectures)
+
+       -y, --symlink
+           Don't scan symlinks
+
+       -Z, --size SIZE
+           Print ELF file size
+
+       -z, --setpax FLAGS
+           Sets EI_PAX/PT_PAX_FLAGS to specified flags (use with -Xx)
+
+       --use-ldpath
+           Use the ld.so.conf paths to find the full path to libraries (use in
+           conjunction with --needed).
+
+       --root PATH
+           Search the specified root tree instead of /. Generally paired with
+           options like -l or -p. This implicitly treats all paths specified
+           on the command line as relative to the root, so be sure to omit it
+           if you are explicitly listing ELFs.
+
+FORMAT
+       The format string is much like a printf string in that it is a literal
+       string with flags requesting different information. For example, you
+       could use a format string and expect the following results.
+
+             # scanelf -BF "file %f needs %n; funky time" /bin/bash
+             file bash needs libncurses.so.5,libdl.so.2,libc.so.6; funky time
+
+       Note that when you use a format string, generally information related
+       flags should be omitted. In other words, you do not want to try and
+       request NEEDED output (-n) and try to specify a format output at the
+       same time as these operations are mutually exclusive. Each information
+       related flag has an equivalent conversion specifier, so use those
+       instead. You can of course continue to use non-information related
+       flags (such as --verbose).
+
+       There are three characters that introduce conversion specifiers.
+
+       o % - replace with info
+       o # - silent boolean match
+       o + - verbose match
+
+       And there are a number of conversion specifiers. We try to match up the
+       specifier with corresponding option.
+
+       o a - machine (EM) type
+       o b - bind flags
+       o e - program headers
+       o D - endian
+       o I - osabi
+       o Y - eabi
+       o F - long filename
+       o f - short filename
+       o i - interp
+       o k - section
+       o M - EI class
+       o N - specified needed
+       o n - needed libraries
+       o p - filename (minus search)
+       o o - etype
+       o O - perms
+       o r - runpaths
+       o S - SONAME
+       o s - symbol
+       o T - all textrels
+       o t - textrel status
+       o x - pax flags
+
+SYMBOL MATCHING
+       The string specified takes the form [%[modifiers]%][[+-]<symbol
+       name>][,[.....]].
+
+       If the symbol name is empty, then all symbols are matched.
+
+       If the symbol name is a glob ("*"), then all symbols are dumped in a
+       debug format. Do not rely on the structure of this output as it changes
+       whenever we feel like it.
+
+       If the first char of the symbol name is a plus ("+"), then only match
+       defined symbols. If it's a minus ("-"), only match undefined symbols.
+       When we say "defined", we mean the symbol is defined in the ELF vs
+       having an external reference.
+
+       Putting modifiers in between the percent signs ("%") allows for more in
+       depth filters. There are groups of modifiers. If you don't specify a
+       member of a group, then all types in that group are matched.
+
+       o STT group (symbol type)
+       o n - STT_NOTYPE
+       o o - STT_OBJECT
+       o f - STT_FUNC
+       o F - STT_FILE
+       o STB group (symbol binding)
+       o l - STB_LOCAL
+       o g - STB_GLOBAL
+       o w - STB_WEAK
+       o STV group (symbol visibility)
+       o p - STV_DEFAULT
+       o i - STV_INTERNAL
+       o h - STV_HIDDEN
+       o P - STV_PROTECTED
+       o SHN group (section header)
+       o d - defined
+       o u - SHN_UNDEF
+       o a - SHN_ABS
+       o c - SHN_COMMON
+
+       You can search for multiple symbols simultaneously by using a comma
+       (",") to separate different searches. Every symbol that matches will be
+       displayed while unmatched symbols will not.
+
+ELF ETYPES
+       You can narrow your search by specifying the ELF object file type
+       (ETYPE). The commandline option takes the numeric value and or symbolic
+       type. Multiple values can be passed comma separated. Example -E
+       ET_EXEC,ET_DYN,1
+
+       Here is the normal list available for your pleasure. You of course are
+       free to specify any numeric value you want.
+
+       o 0 - ET_NONE - unknown type
+       o 1 - ET_REL - relocatable file
+       o 2 - ET_EXEC - executable file
+       o 3 - ET_DYN - shared object
+       o 4 - ET_CORE - core file
+
+ELF BITS
+       You can also narrow your search by specifying the ELF bitsize. Again,
+       specify the numeric value or the symbolic define.
+
+       o 32 - ELFCLASS32 - 32bit ELFs
+       o 64 - ELFCLASS64 - 64bit ELFs
+
+SECTION MATCHING
+       A !  prefix will only show ELF's that do not have the specified
+       section.
+
+NEEDED SONAME MATCHING
+       A !  prefix will only show ELF's that do not depend on the specified
+       library.
+
+HOMEPAGE
+       http://hardened.gentoo.org/pax-utils.xml
+
+REPORTING BUGS
+       Please include as much information as possible (using any available
+       debugging options) and send bug reports to the maintainers (see the
+       AUTHORS section). Please use the Gentoo bugzilla at
+       http://bugs.gentoo.org/ if possible.
+
+SEE ALSO
+       chpax(1), dumpelf(1), paxctl(1), pspax(1), readelf(1), scanelf(1),
+       elf(5)
+
+AUTHORS
+       Ned Ludd <solar@gentoo.org>
+           Maintainer
+
+       Mike Frysinger <vapier@gentoo.org>
+           Maintainer
+
+       Fabian Groffen <grobian@gentoo.org>
+           Mach-O Maintainer
+
+NOTES
+        1. http://hardened.gentoo.org/pax-utils.xml
+
+        2. http://bugs.gentoo.org/
+
+pax-utils git                     03/31/2020                        SCANELF(1)

@@ -1,0 +1,31 @@
+
+UDISKS-TCP-BRIDGE(1)           udisks-tcp-bridge          UDISKS-TCP-BRIDGE(1)
+
+NAME
+       udisks-tcp-bridge - udisks TCP/IP bridge
+
+SYNOPSIS
+       udisks-tcp-bridge  [--port port] [--help]
+
+DESCRIPTION
+       This program is used by remote clients to connect to the
+       org.freedesktop.UDisks D-Bus service on the system bus.
+
+       Users or administrators never needs to start this program as it started
+       automatically by a remote client connecting via ssh(1). See the
+       udisks(7) manual page for information about the higher level connection
+       protocol used.
+
+AUTHOR
+       Written by David Zeuthen <david@fubar.dk> with a lot of help from many
+       others.
+
+BUGS
+       Please send bug reports to either the distribution bug tracker or the
+       upstream bug tracker at
+       http://bugs.freedesktop.org/enter_bug.cgi?product=udisks.
+
+SEE ALSO
+       udisks-daemon(8), udisks(7), udisks(1), ssh(1)
+
+udisks                           December 2009            UDISKS-TCP-BRIDGE(1)

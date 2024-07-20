@@ -1,0 +1,50 @@
+
+TAB2GRAPH(1p)         User Contributed Perl Documentation        TAB2GRAPH(1p)
+
+NAME
+       tab2graph - turn tabular data into a graph
+
+SYNOPSIS
+         tab2graph [options] file.tab
+
+       Options:
+
+         -c|--color           Add some color to the output (default is white)
+         -d|--directed        Make graph directed (default is not)
+         -l|--layout          GraphViz layout; choose from dot, neato, twopi,
+                              circo (default), and fdp
+         -f|--fields          Restrict to set of fields in first row
+         -n|--numbers         Show the numbers (default is not)
+         -o|--out             Name of output file (default is STDOUT)
+         --format             Output format (default is PNG)
+         --fs=x               Use "x" as the field separator (default is tab)
+         --rs=x               Use "x" as the record separator (default is newline)
+
+         --help               Show brief help and quit
+         --man                Show full documentation
+
+DESCRIPTION
+       Turns tabular data into a graph using GraphViz.  This may or may not be
+       useful.
+
+SEE ALSO
+       o   Text::RecordParser
+
+       o   GraphViz
+
+AUTHOR
+       Ken Youens-Clark <kclark@cpan.org>.
+
+LICENSE AND COPYRIGHT
+       Copyright (C) 2009-10 Ken Youens-Clark.  All rights reserved.
+
+       This program is free software; you can redistribute it and/or modify it
+       under the terms of the GNU General Public License as published by the
+       Free Software Foundation; version 2.
+
+       This program is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+       General Public License for more details.
+
+perl v5.30.0                      2019-11-26                     TAB2GRAPH(1p)

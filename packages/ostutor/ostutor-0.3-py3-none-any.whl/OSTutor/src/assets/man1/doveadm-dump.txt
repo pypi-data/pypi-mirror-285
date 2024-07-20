@@ -1,0 +1,81 @@
+
+DOVEADM-DUMP(1)                     Dovecot                    DOVEADM-DUMP(1)
+
+NAME
+       doveadm-dump - Dump the content of Dovecot's binary mailbox index/log
+
+SYNOPSIS
+       doveadm [-Dv] dump [-t type] path
+
+DESCRIPTION
+       Dovecot  uses  several  binary  index and log files in order to improve
+       performance for accessing mails. For some mailbox formats, such as  sd-
+       box  and mdbox, the index files are part of the format itself.  For de-
+       tails about index files, see also: http://wiki2.dovecot.org/IndexFiles
+
+       doveadm dump is used to show the contents of  those  mailbox  index/log
+       files,  in human readable format. This is mainly useful for Dovecot de-
+       velopers when debugging some problem.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -t type
+              the  file  type of the file to be dumped.  If the type was omit-
+              ted, doveadm(1) tries to detect the type of path.  type can be:
+
+              dbox        => m.n (sdbox or mdbox mailbox file)
+
+              fts-expunge-log
+                          Dump the  list  of  expunged  mails  in  dovecot-ex-
+                          punges.log.  Currently used only by fts-lucene.
+
+              fts-lucene  Dump the list of indexed mails in lucene-indexes di-
+                          rectory
+
+              imapzlib    Uncompress an IMAP traffic log, which contains  data
+                          compressed using the IMAP COMPRESSION extension.
+
+              dcrypt-file Dump metadata of a dcrypt encrypted file.
+
+              dcrypt-key  Dump metadata of a dcrypt key.
+
+              index       => dovecot.index, dovecot.map.index
+
+              log         => dovecot.index.log, dovecot.map.index.log
+
+              mailboxlog  => dovecot.mailbox.log
+
+              thread      => dovecot.index.thread
+
+ARGUMENTS
+       path   The  path  to the corresponding dbox storage, index or log file.
+              If only a directory is specified, doveadm tries  to  detect  the
+              type of files under it and dumps them.
+
+EXAMPLE
+       Look at the contents of a mailbox's index:
+
+       doveadm dump ~/Maildir/.work/
+
+REPORTING BUGS
+       Report  bugs, including doveconf -n output, to the Dovecot Mailing List
+       <dovecot@dovecot.org>.  Information about reporting bugs  is  available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2014-08-24                   DOVEADM-DUMP(1)

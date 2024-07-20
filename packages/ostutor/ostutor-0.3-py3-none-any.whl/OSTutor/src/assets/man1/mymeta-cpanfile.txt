@@ -1,0 +1,52 @@
+
+MYMETA-CPANFILE(1p)   User Contributed Perl Documentation  MYMETA-CPANFILE(1p)
+
+NAME
+       mymeta-cpanfile - Dump cpanfile out of (MY)META files
+
+SYNOPSIS
+         perl Makefile.PL # or Build.PL
+         mymeta-cpanfile
+
+         # Skip configures phase and suggests type
+         mymeta-cpanfile --no-configure --no-suggests
+
+         # Include empty blcok for phases without prereqs
+         mymeta-cpanfile --include-empty
+
+DESCRIPTION
+       This script reads prereqs metadata from MYMETA files in the current
+       directory and prints "cpanfile" that represents the prereqs. Useful
+       when you want to migrate to using cpanfile from existing "Makefile.PL"
+       or "Build.PL" with dependency specification.
+
+       This script is distributed with Module::CPANfile since version 0.9021.
+
+OPTIONS
+       --configure, --build, --test, --runtime, --develop
+           Specify the phase to include/exclude. Defaults to include all
+           phases, but you can exclude some phases by specifying the options
+           with "--no-" prefix, like "--no-configure".
+
+       --requires, --recommends, --suggests, --conflicts
+           Specify the type to include/exclude. Defaults to include all types,
+           but you can exclude some types by specifying the options with
+           "--no-" prefix, like "--no-conflicts".
+
+       --include-empty
+           By default, phases without any prereqs are not dumped, By giving
+           this option, cpanfile will have an empty block such as:
+
+             on test => sub {
+
+             };
+
+           Defaults to false.
+
+AUTHOR
+       Tatsuhiko Miyagawa
+
+SEE ALSO
+       Module::CPANfile cpanfile App::mymeta_requires
+
+perl v5.26.2                      2018-05-17               MYMETA-CPANFILE(1p)

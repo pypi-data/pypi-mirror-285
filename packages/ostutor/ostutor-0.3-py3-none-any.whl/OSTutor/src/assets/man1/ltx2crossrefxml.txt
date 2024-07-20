@@ -1,0 +1,51 @@
+
+ltx2crossrefxml(1)             CROSSREF LIBRARY             ltx2crossrefxml(1)
+
+NAME
+       ltx2crossrefxml.pl - a tool for creation of XML files for submitting to
+       crossref.
+
+SYNOPSIS
+       ltx2crossrefxml [-c config_file]  [-o output] latex_file latex_file ...
+
+OPTIONS
+       -c config_file
+           Configuration file.  If this file is absent, some defaults are
+           used.  See below for its format.
+
+       -o output
+           Output file.  If this option is not used, the XML is output to
+           stdout.
+
+DESCRIPTION
+       The script takes a number of latex files and produces an XML file ready
+       for submission to Crossref.  Each file must be previously processed by
+       LaTeX with the newest "resphilosophica" package: the package creates
+       the file ".rti" wtih the information about the bibliography.
+
+       The processing of reference list is at present rather limited: only so
+       called unstructured references are produced.
+
+CONFIGURATION FILE FORMAT
+       The configuration file is mostly self-explanatory: it has comments
+       (starting with "#") and assginments in the form
+
+          $field = value ;
+
+EXAMPLES
+         ltx2crossrefxml.pl ../paper1/paper1.tex ../paper2/paper2.tex -o result.xml
+
+         ltx2crossrefxml.pl -c myconfig.cnf paper.tex -o paper.xml
+
+AUTHOR
+       Boris Veytsman
+
+COPYRIGHT AND LICENSE
+       Copyright (C) 2012-2016  Boris Veytsman
+
+       This is free software.  You may redistribute copies of it under the
+       terms of the GNU General Public License
+       <http://www.gnu.org/licenses/gpl.html>.  There is NO WARRANTY, to the
+       extent permitted by law.
+
+                                  2017-11-18                ltx2crossrefxml(1)

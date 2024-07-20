@@ -1,0 +1,35 @@
+
+DPATCH-CONVERT_DIFFGZ(1)    General Commands Manual   DPATCH-CONVERT_DIFFGZ(1)
+
+NAME
+       dpatch-convert-diffgz - Convert a debian .diff.gz to a dpatch file
+
+SYNOPSIS
+       dpatch-convert-diffgz patchno patchname
+       dpatch-convert-diffgz patchno_patchname
+
+DESCRIPTION
+       This  manual  page  documents briefly the dpatch-convert-diffgz command
+       which simply generates a dpatch file from an existing  Debian  .diff.gz
+       file.
+
+       It does so, by building the sources with dpkg-buildpackage, and operat-
+       ing on the resulting Debian .diff.gz.
+
+WARNING
+       dpatch is deprecated, please switch to the `3.0 (quilt)' Debian  source
+       package   format   instead.   See  http://wiki.debian.org/Projects/Deb-
+       Src3.0#FAQ for a short guide on how to do it.
+
+SEE ALSO
+       dpatch(1),     dpatch(7),     dpatch.make(7),     dpatch-edit-patch(1),
+       dpatch-list-patch(1)
+
+       Files in /usr/share/doc/dpatch/
+
+AUTHOR
+       dpatch-convert-diffgz   was   written  by  Junichi  Uekawa  <dancer@de-
+       bian.org>.
+       This manual page was written by Gergely Nagy <algernon@debian.org>.
+
+DPATCH                           Dec 13, 2011         DPATCH-CONVERT_DIFFGZ(1)

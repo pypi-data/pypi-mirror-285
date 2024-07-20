@@ -1,0 +1,102 @@
+
+PERLTW(1)              Perl Programmers Reference Guide              PERLTW(1)
+
+, .   POD () ; , . ,  perlpod .
+
+NAME
+       perltw -  Perl
+
+DESCRIPTION
+        Perl !
+
+        5.8.0 , Perl  Unicode () , ; CJK () .  Unicode , : , ,  (, , , , , ,
+       ).  ( PC ).
+
+       Perl  Unicode .  Perl  Unicode ; Perl  ()  Unicode .  ,  Unicode , Perl
+       Encode , .
+
+       Encode  ('big5'  'big5-eten'):
+
+           big5-eten   Big5  ()
+           big5-hkscs  Big5 + , 2001
+           cp950        950 (Big5 + )
+
+       ,  Big5  Unicode, :
+
+           perl -MEncode -pe '$_= encode( utf8 => decode( big5 => $_ ) )' \
+             < file.big5 > file.utf8
+
+       Perl  "piconv",  Perl , :
+
+           piconv -f big5 -t utf8 < file.big5 > file.utf8
+           piconv -f utf8 -t big5 < file.utf8 > file.big5
+
+        utf8  utf8
+
+           #!/usr/bin/env perl
+           use utf8;
+           print length("");      #  2 ( 6)
+           print index("", ""); #  2 ( 0  2 )
+
+       ,  CPAN (<http://www.cpan.org/>) Encode::HanExtra . :
+
+           cccii       1980
+           euc-tw      Unix ,  CNS11643  1-7
+           big5plus     Big5+
+           big5ext      Big5e
+
+       , Encode::HanConvert :
+
+           big5-simp   Big5  Unicode
+           gbk-trad    GBK  Unicode
+
+        GBK  Big5 ,  b2g.pl  g2b.pl , :
+
+           use Encode::HanConvert;
+           $euc_cn = big5_to_gb($big5); #  Big5  GBK
+           $big5 = gb_to_big5($euc_cn); #  GBK  Big5
+
+        Perl  (), Perl ,  Unicode . , :
+
+    Perl
+       <http://www.perl.com/>
+           Perl  ()
+
+       <http://www.cpan.org/>
+           Perl  (Comprehensive Perl Archive Network)
+
+       <http://lists.perl.org/>
+           Perl
+
+    Perl
+       <http://www.oreilly.com.tw/product_perl.php?id=index_perl>
+            Perl
+
+   Perl
+       <http://www.pm.org/groups/taiwan.html>
+            Perl
+
+       <irc://irc.freenode.org/#perl.tw>
+           Perl.tw
+
+   Unicode
+       <http://www.unicode.org/>
+           Unicode  (Unicode )
+
+       <http://www.cl.cam.ac.uk/%7Emgk25/unicode.html>
+           Unix/Linux  UTF-8  Unicode
+
+           <http://www.cpatch.org/>
+
+       Linux
+           <http://www.linux.org.tw/CLDP/>
+
+SEE ALSO
+       Encode, Encode::TW, perluniintro, perlunicode
+
+AUTHORS
+       Jarkko Hietaniemi <jhi@iki.fi>
+
+       Audrey Tang () <audreyt@audreyt.org>
+
+perl v5.30.0                      2023-11-23                         PERLTW(1)

@@ -1,0 +1,50 @@
+
+PTFTOPL(1)                  General Commands Manual                 PTFTOPL(1)
+
+NAME
+       ptftopl,  uptftopl  -  Convert Japanese pTeX font metric (JFM) files to
+       propery list
+
+SYNOPSIS
+       ptftopl [OPTIONS] tfm_name[.tfm] [pl_name[.pl]]
+
+DESCRIPTION
+       The ptftopl program translates a Japanese pTeX font metric  (JFM)  file
+       to  a  Japanese property list (JPL) file.  It also serves as a TFM/JFM-
+       file validating program.
+
+       The uptftopl program is a Unicode-enabled version of ptftopl.
+
+       In the following sections, we refer to these programs as (u)ptftopl.
+
+       (u)ptftopl is upper compatible with tftopl; if the input  TFM  file  is
+       for  roman fonts, it is translated into an ordinary property list file.
+       The difference between ptftopl and uptftopl lies in the internal encod-
+       ing:  when  the input is a JFM file, ptftopl always treats it as a JIS-
+       encoded JFM; on the other hand, uptftopl treats it as a Unicode-encoded
+       JFM by default.
+
+OPTIONS
+       Compared to tftopl, the following option is added to (u)ptftopl.
+
+       -kanji string
+              Sets  the  output Japanese Kanji code.  The string can be one of
+              the      followings:      euc (EUC-JP),       jis (ISO-2022-JP),
+              sjis (Shift_JIS), utf8 (UTF-8), uptex (UTF-8; uptftopl only).
+
+       When  one  of euc, jis, sjis or utf8 is specified, both ptftopl and up-
+       tftopl treats the input JFM as JIS-encoded.  When  uptex  is  specified
+       with uptftopl, it treats the input JFM as Unicode-encoded.
+
+SEE ALSO
+       ptex(1).
+
+AUTHORS
+       (u)ptftopl   is   maintained  by  Japanese  TeX  Development  Community
+       <https://texjp.org>.  For bug reports, open an issue at GitHub  reposi-
+       tory  <https://github.com/texjporg/tex-jp-build>,  or send an e-mail to
+       <issue@texjp.org>.
+
+       This manual page was written by Hironobu Yamashita.
+
+Web2C 2019                       15 March 2019                      PTFTOPL(1)

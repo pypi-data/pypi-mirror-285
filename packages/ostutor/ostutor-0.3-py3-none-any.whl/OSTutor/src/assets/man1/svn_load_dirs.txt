@@ -1,0 +1,124 @@
+
+SVN_LOAD_DIRS(1)            General Commands Manual           SVN_LOAD_DIRS(1)
+
+NAME
+       svn_load_dirs - Load directories into a Subversion repository
+
+SYNOPSIS
+       svn_load_dirs [options] svn_url svn_import_dir [directory ...]
+
+DESCRIPTION
+       This tool can be used for importing one or more directories into a Sub-
+       version  repository.  The  difference  from  "svn   import"   is   that
+       svn_load_dirs  can  update an existing directory tree, and tag it prop-
+       erly. Only changes from the previous version will be  recorded  in  the
+       revision, so that you can easily apply them on another branch.  For ex-
+       ample, this is very useful for managing the upstream source when  main-
+       taining Debian packages in Subversion.
+
+OPTIONS
+       svn_url
+              The base Subversion URL.
+
+       svn_import_dir
+              The path relative to svn_url where the directories are to be im-
+              ported.
+
+       directory ...
+              The directories to import. If they are not specified on the com-
+              mand line, they are read from standard input.
+
+       -no_user_input
+              Don't ask any questions. Assume that the answer is yes.
+
+       -p filename
+              Apply  the  properties specified in the configuration file file-
+              name to matching files. See below for a description of the  con-
+              figuration file format.
+
+       -svn_username username
+              Username to use when committing to the repository.
+
+       -svn_password password
+              Password to use when committing to the repository.
+
+       -t tag_dir
+              Create  a  tag copy in tag_dir, relative to svn_url. tag_dir may
+              contain a regular expression enclosed within '@' characters.  It
+              will  be  replaced by the matching part from the imported direc-
+              tory names.
+
+       -v     Be more verbose. Use multiple times for increased effect.
+
+       -wc path
+              Use the already checked out working  copy  at  path  instead  of
+              checking out a new working copy.
+
+PROPERTY CONFIGURATION FILE FORMAT
+       The  property  configuration file, which is specified by the -p option,
+       contains rules for applying properties to the imported files.  It  con-
+       sists of lines of the following format:
+
+       regular_expression  control   property_name  property_value
+
+       The meaning of the fields are:
+
+       regular_expression
+              A Perl-style regular expression matching the files to apply this
+              rule to.
+
+       control
+              Either "break" or "cont". If set to "break", processing  of  the
+              current  file  will stop if this rule matches. If set to "cont",
+              processing will continue. The latter can be used to set multiple
+              properties for one file.
+
+       property_name
+              (Optional) The name of the property to set.
+
+       property_value
+              (Optional) Set the property to this value.
+
+       The last two fields may be omitted, in which case the rule will not set
+       any properties. This is useful for excluding certain files from  subse-
+       quent rules.
+
+       You  need  to  quote  the  regular_expression,  property_name and prop-
+       erty_value fields with double quotes ('"') if you  have  whitespace  in
+       them. Single and double quotes can be escaped with backslash ('\').
+
+EXAMPLES
+       For  example,  to import the contents of the foo-1.3 directory into the
+       upstream/current directory of the foo repository:
+
+       svn_load_dirs    svn+ssh://svn.example.org/svn/foo     upstream/current
+              foo-1.3
+
+       A tag can also be added automatically using the -t option:
+
+       svn_load_dirs       svn+ssh://svn.example.org/svn/foo      -t      'up-
+              stream/@\d+\.\w+@' upstream/current foo-1.3
+
+       Here's an example of a property configuration file:
+
+       \.doc$              break     svn:mime-type  application/msword
+       \.ds(p|w)$          break     svn:eol-style  CRLF
+       \.dos2unix-eol\.sh$ break
+       .*                  break     svn:eol-style  native
+
+       This example specifies that .doc files are  to  be  treated  as  binary
+       files, that .dsp and .dsw files have their line ending characters kept,
+       and that all other files except dos2unix-eol.sh have their line endings
+       converted to the native style.
+
+SEE ALSO
+       /usr/share/doc/subversion-tools/svn_load_dirs.README.gz
+
+       svn(1)
+
+AUTHOR
+       This  manual page was written by Per Olofsson <pelle@dsv.su.se> for the
+       Debian distribution (but may be used by others). Some parts were  taken
+       from the README.
+
+                                                              SVN_LOAD_DIRS(1)

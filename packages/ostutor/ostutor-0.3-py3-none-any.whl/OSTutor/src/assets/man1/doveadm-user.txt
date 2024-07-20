@@ -1,0 +1,116 @@
+
+DOVEADM-USER(1)                     Dovecot                    DOVEADM-USER(1)
+
+NAME
+       doveadm-user - Perform a user lookup in Dovecot's userdbs
+
+SYNOPSIS
+       doveadm   [-Dv]  user  [-a  userdb_socket_path]  [-f  field]  [-u]  [-x
+       auth_info] user ...
+
+DESCRIPTION
+       The user command is used to perform a user lookup - to show what infor-
+       mation  Dovecot  sees  about the user(s), or if it exists at all in the
+       configured userdb(s).
+
+       The auth_info may be useful when the userdb is for example a SQL  data-
+       base  and  you  are  using %variables, like %s or %l, in the user_query
+       setting.  Or when you have configured the userdb in a way like this:
+
+       userdb {
+         driver = passwd-file
+         args = /etc/%s.passwd
+       }
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -a userdb_socket_path
+              This  option  is used to specify an absolute path to an alterna-
+              tive UNIX domain socket.
+
+              By  default  doveadm(1)  will  use  the  socket   /var/run/dove-
+              cot/auth-userdb.   The  socket  may be located in another direc-
+              tory, when  the  default  base_dir  setting  was  overridden  in
+              /etc/dovecot/dovecot.conf.
+
+       -f field
+              When  this  option  and  the  name  of  a userdb field is given,
+              doveadm(1) will show only the value of the specified field.
+
+       -u     When this option is given, doveadm(1) will only show values from
+              the  userdb.   Without -u parameter if any of the uid, gid, home
+              or mail fields are missing, their defaults are taken  from  con-
+              figuration file.
+
+       -x auth_info
+              auth_info  specifies additional conditions for the user command.
+              The auth_info option string has to be given as name=value  pair.
+              For multiple conditions the -x option could be supplied multiple
+              times.
+              Possible names for the auth_info are:
+
+              service
+                     The service for which the userdb lookup should be tested.
+                     The  value  may  be  the name of a service, commonly used
+                     with Dovecot.  For example: imap, pop3 or smtp.
+
+              lip    The local IP address (server) for the test.
+
+              rip    The remote IP address (client) for the test.
+
+              lport  The local port, e.g. 143
+
+              rport  The remote port, e.g. 24567
+
+ARGUMENTS
+       user   Is a user's login name.  Depending on the configuration, a login
+              name  may  be  for  example jane or john@example.com.  It's also
+              possible to use '*' and '?' wildcards (e.g. -u *@example.org).
+
+EXAMPLE
+       Perform a user lookup for the users jane and john@example.com.
+
+       doveadm user jane john@example.com
+       userdb: jane
+         uid       : 8001
+         gid       : 8001
+         home      : /home/jane
+         mail      : sdbox:~/sdbox
+         plugins   : sieve
+         quota_rule: *:storage=150M
+
+       userdb: john@example.com
+         home      : /srv/mail/8/70312/79832
+         uid       : 79832
+         gid       : 70312
+         mail      : mdbox:~/mdbox
+
+       The next example shows a user lookup, using wildcards.
+
+       doveadm user *.?oe@example.net
+       jane.doe@example.net
+       judy.roe@example.net
+       john.doe@example.net
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2013-11-23                   DOVEADM-USER(1)

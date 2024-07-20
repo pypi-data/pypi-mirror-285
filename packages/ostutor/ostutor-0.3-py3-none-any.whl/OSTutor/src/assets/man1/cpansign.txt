@@ -1,0 +1,42 @@
+
+CPANSIGN(1p)          User Contributed Perl Documentation         CPANSIGN(1p)
+
+NAME
+       cpansign - CPAN signature management utility
+
+SYNOPSIS
+           % cpansign              # verify an existing SIGNATURE, or
+                                   # make a new one if none exists
+
+           % cpansign file.par     # verify or sign a PAR file
+
+           % cpansign sign         # make signature; overwrites existing one
+           % cpansign -s           # same thing
+
+           % cpansign verify       # verify a signature
+           % cpansign -v           # same thing
+           % cpansign -v --skip    # ignore files in MANIFEST.SKIP
+
+           % cpansign help         # display this documentation
+           % cpansign -h           # same thing
+
+DESCRIPTION
+       This utility lets you create and verify SIGNATURE files.
+
+SEE ALSO
+       Module::Signature
+
+AUTHORS
+       Audrey Tang <autrijus@autrijus.org>
+
+LICENSE
+       This work is under the CC0 1.0 Universal license.
+
+       To the extent possible under law,  has waived all copyright and related
+       or neighboring rights to Module-Signature.
+
+       This work is published from Taiwan.
+
+       <http://creativecommons.org/publicdomain/zero/1.0>
+
+perl v5.28.0                      2018-09-21                      CPANSIGN(1p)

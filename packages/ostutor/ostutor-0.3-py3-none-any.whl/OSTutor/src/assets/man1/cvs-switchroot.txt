@@ -1,0 +1,49 @@
+
+CVS-SWITCHROOT(1)         BSD General Commands Manual        CVS-SWITCHROOT(1)
+
+NAME
+     cvs-switchroot -- change repository or tag in a cvs working copy
+
+SYNOPSIS
+     cvs-switchroot [-T] newroot [file ...]
+
+     cvs-switchroot [-T] - srcpath [file ...]
+
+DESCRIPTION
+     The cvs-switchroot utility manipulates a CVS working copy directly, modi-
+     fying the information stored in the administrative subdirectory and sav-
+     ing space by hardlinking if possible.
+
+     If the -T option is given, the sticky tag is operated on, otherwise, the
+     repository path (CVSROOT).
+
+     The information (Tag or Root) is set to the same as in srcpath if the
+     first non-option argument newroot is a sole dash ('-'), the literal value
+     newroot otherwise.
+
+EXAMPLES
+     Change all Root information in the current sandbox to /cvs:
+
+          $ cvs-switchroot /cvs .
+
+     Set all roots in the current working directory and all its subdirectories
+     to the Root of the parent directory:
+
+          $ cvs-switchroot - .. .
+
+     Hardlink the Tag information in the current working directory, for exam-
+     ple /usr/src, and /usr/ports with each other:
+
+          $ cvs-switchroot -T - . . /usr/ports
+
+SEE ALSO
+     cvs(1)
+
+HISTORY
+     cvs-switchroot has existed in the MirBSD source tree since 2005.  It was
+     added to Debian's cvs package in 2011.
+
+CAVEATS
+     cvs-switchroot depends on mksh.
+
+BSD                              June 10, 2011                             BSD

@@ -1,0 +1,434 @@
+
+INSTALL-TL(1)         User Contributed Perl Documentation        INSTALL-TL(1)
+
+NAME
+       install-tl - TeX Live cross-platform installer
+
+SYNOPSIS
+       install-tl [option]...
+
+       install-tl-windows.bat [option]...
+
+       install-tl-advanced.bat [option]...
+
+DESCRIPTION
+       This installer creates a runnable TeX Live installation from various
+       media, including over the network, from local hard disk, a DVD, etc.
+       The installer works on all platforms supported by TeX Live. For
+       information on initially downloading TeX Live, see
+       <https://tug.org/texlive/acquire.html>.
+
+       The basic idea of TeX Live installation is for you to choose one of the
+       top-level schemes, each of which is defined as a different set of
+       collections and packages, where a collection is a set of packages, and
+       a package is what contains actual files.
+
+       Within the installer, you can choose a scheme, and further customize
+       the set of collections to install, but not the set of the packages.  To
+       work at the package level, use "tlmgr" (reference just below) after the
+       initial installation is complete.
+
+       The default is "scheme-full", which installs everything, and this is
+       highly recommended.
+
+REFERENCES
+       Post-installation configuration, package updates, and more, are handled
+       through tlmgr(1), the TeX Live Manager
+       (<https://tug.org/texlive/tlmgr.html>).
+
+       The most up-to-date version of this installer documentation is on the
+       Internet at <https://tug.org/texlive/doc/install-tl.html>.
+
+       For the full documentation of TeX Live, see
+       <https://tug.org/texlive/doc>.
+
+OPTIONS
+       As usual, all options can be specified in any order, and with either a
+       leading "-" or "--".  An argument value can be separated from its
+       option by either a space or "=".
+
+       -gui [[=]module]
+           If no module is given, starts the Tcl/Tk (see below) GUI installer.
+
+           If module is given loads the given installer module. Currently the
+           following modules are supported:
+
+           "text"
+               The text mode user interface (default on Unix systems).  Same
+               as the "-no-gui" option.
+
+           "tcl"
+               The Tcl/Tk user interface (default on Macs and Windows).  It
+               starts with a small number of configuration options, roughly
+               equivalent to what the wizard option below offers, but a button
+               "Advanced" takes you to a screen with roughly the same options
+               as the "perltk" interface.
+
+           "wizard"
+               The wizard mode user interface, asking only minimal questions
+               before installing all of TeX Live.
+
+           "expert"
+               A generic name for, currently, "perltk"; it may select a
+               different GUI in the future.
+
+           "perltk"
+               The expert GUI installer, providing access to more options.
+
+           The "perltk" and "wizard" modules require the Perl/Tk module
+           (<https://tug.org/texlive/distro.html#perltk>). if Perl/Tk is not
+           available, installation continues in text mode, except on Windows,
+           where all gui options except "text" are diverted to the default
+           "tcl" GUI.
+
+           The "tcl" GUI requires Tcl/Tk. This is standard on Macs and is
+           often already installed on GNU/Linux. For Windows, TeX Live
+           provides a Tcl/Tk runtime.
+
+       -no-gui
+           Use the text mode installer (default except on Windows and Macs).
+
+       -lang llcode
+           By default, the GUI tries to deduce your language from the
+           environment. The Tcl GUI uses the language detection built into
+           Tcl/Tk; the Perl/Tk GUIs use the "LC_MESSAGES" environment
+           variable. If that fails you can select a different language by
+           giving this option with a language code (based on ISO 639-1).
+           Currently supported (but not necessarily completely translated)
+           are: English (en, default), Czech (cs), German (de), French (fr),
+           Italian (it), Japanese (ja), Dutch (nl), Polish (pl), Brazilian
+           Portuguese (pt_BR), Russian (ru), Slovak (sk), Slovenian (sl),
+           Serbian (sr), Ukrainian (uk), Vietnamese (vi), simplified Chinese
+           (zh_CN), and traditional Chinese (zh_TW).
+
+       -repository url|path
+           Specify the package repository to be used as the source of the
+           installation. In short, this can be a directory name or a url using
+           http(s), ftp, or scp. The documentation for "tlmgr" has the details
+           (<https://tug.org/texlive/doc/tlmgr.html#OPTIONS>).
+
+           For installation, the default is to pick a mirror automatically,
+           using <http://mirror.ctan.org/systems/texlive/tlnet>; the chosen
+           mirror is used for the entire download. You can use the special
+           argument "ctan" as an abbreviation for this. (See
+           <https://ctan.org> for more about CTAN and its mirrors.)
+
+           After installation is complete, you can use that installation as
+           the repository for another installation.  If you chose to install
+           less than the full scheme containing all packages, the list of
+           available schemes will be adjusted accordingly.
+
+       -select-repository
+           This option allows you to choose a particular mirror from the
+           current list of active CTAN mirrors. This option is supported in
+           the "text", "wizard" and "perltk" installer modes, and will also
+           offer to install from local media if available, or from a
+           repository specified on the command line. It's useful when the
+           (default) automatic redirection does not choose a good host for
+           you.
+
+       -all-options
+           Normally options not relevant to the current platform are not shown
+           (e.g., when running on Unix, Windows-specific options are omitted).
+           Giving this command line option allows configuring such "foreign"
+           settings.
+
+       -custom-bin path
+           If you have built your own set of TeX Live binaries (perhaps
+           because your platform was not supported by TeX Live out of the
+           box), this option allows you to specify the path to a directory
+           where the binaries for the current system are present.  The
+           installation will continue as usual, but at the end all files from
+           path are copied over to "bin/custom/" under your installation
+           directory and this "bin/custom/" directory is what will be added to
+           the path for the post-install actions.  To install multiple custom
+           binary sets, manually rename "custom" before doing each.
+
+           For more information on custom binaries, see
+           <https://tug.org/texlive/custom-bin.html>.  For general information
+           on building TeX Live, see <https://tug.org/texlive/build.html>.
+
+       -debug-translation
+           In the Perl/Tk GUI modes, this option reports any missing, or more
+           likely untranslated, messages to standard error. Helpful for
+           translators to see what remains to be done.
+
+       -force-platform platform
+           Instead of auto-detecting the current platform, use platform.
+           Binaries for this platform must be present and they must actually
+           be runnable, or installation will fail.  "-force-arch" is a
+           synonym.
+
+       -help, --help, -?
+           Display this help and exit. (This help is also on the web at
+           <https://tug.org/texlive/doc/install-tl.html>). Sometimes the
+           "perldoc" and/or "PAGER" programs on the system have problems,
+           possibly resulting in control characters being literally output.
+           This can't always be detected, but you can set the "NOPERLDOC"
+           environment variable and "perldoc" will not be used.
+
+       -in-place
+           This is a quick-and-dirty installation option in case you already
+           have an rsync or svn checkout of TeX Live.  It will use the
+           checkout as-is and will just do the necessary post-install.  Be
+           warned that the file "tlpkg/texlive.tlpdb" may be rewritten, that
+           removal has to be done manually, and that the only realistic way to
+           maintain this installation is to redo it from time to time.  This
+           option is not available via the installer interfaces.  USE AT YOUR
+           OWN RISK.
+
+       -init-from-profile profile_file
+           Similar to -profile (see "PROFILES" below), but only initializes
+           the installation configuration from profile_file and then starts a
+           normal interactive session. Environment variables are not ignored.
+
+       -logfile file
+           Write both all messages (informational, debugging, warnings) to
+           file, in addition to standard output or standard error.
+
+           If this option is not given, the installer will create a log file
+           in the root of the writable installation tree, for example,
+           "/usr/local/texlive/YYYY/install-tl.log" for the YYYY release.
+
+       -no-cls
+           For the text mode installer only: do not clear the screen when
+           entering a new menu (for debugging purposes).
+
+       -no-persistent-downloads
+       -persistent-downloads
+           For network installs, activating this option makes the installer
+           try to set up a persistent connection using the "Net::LWP" Perl
+           module.  This opens only one connection between your computer and
+           the server per session and reuses it, instead of initiating a new
+           download for each package, which typically yields a significant
+           speed-up.
+
+           This option is turned on by default, and the installation program
+           will fall back to using "wget" if this is not possible.  To disable
+           usage of LWP and persistent connections, use
+           "-no-persistent-downloads".
+
+       -no-verify-downloads
+           By default, if a GnuPG "gpg" binary is found in PATH, downloads are
+           verified against a cryptographic signature. This option disables
+           such verification.  The full description is in the Crytographic
+           Verification section of the "tlmgr" documentation, e.g.,
+           <https://tug.org/texlive/doc/tlmgr.html#CRYPTOGRAPHIC-VERIFICATION>
+
+       -non-admin
+           For Windows only: configure for the current user, not for all
+           users.
+
+       -portable
+           Install for portable use, e.g., on a USB stick.  Also selectable
+           from within the perltk and text installers.
+
+       -print-platform
+           Print the TeX Live identifier for the detected platform
+           (hardware/operating system) combination to standard output, and
+           exit.  "-print-arch" is a synonym.
+
+       -profile profile_file
+           Load profile_file and do the installation with no user interaction,
+           that is, a batch (unattended) install.  Environment variables are
+           ignored. See "PROFILES" below.
+
+       -q  Omit normal informational messages.
+
+       -scheme scheme
+           Schemes are the highest level of package grouping in TeX Live; the
+           default is to use the "full" scheme, which includes everything.
+           This option overrides that default.  You can change the scheme
+           again before the actual installation with the usual menu.  The
+           scheme argument may optionally have a prefix "scheme-".  The list
+           of supported scheme names depends on what your package repository
+           provides; see the interactive menu list.
+
+       -v  Include verbose debugging messages; repeat for maximum debugging:
+           "-v -v".  (Further repeats are accepted but ignored.)
+
+       -version, --version
+           Output version information and exit.  If "-v" is also given, the
+           versions of the TeX Live modules used are also reported.
+
+PROFILES
+       A profile file contains all the values needed to perform an
+       installation.  After a normal installation has finished, a profile for
+       that exact installation is written to the file "tlpkg/texlive.profile".
+       In addition, from the text menu one can select "P" to save the current
+       setup as a profile at any time.
+
+       Such a profile file can be given as the argument to "-profile", for
+       example to redo the exact same installation on a different system.
+       Alternatively, you can use a custom profile, most easily created by
+       starting from a generated one and changing values, or an empty file,
+       which will take all the defaults.
+
+       As mentioned above, the installer only supports selection by scheme and
+       collections, not individual packages, so packages cannot be specified
+       in profile files either. Use "tlmgr" to work at the package level.
+
+       Within a profile file, each line consists of
+
+       variable [value]
+
+       except for comment lines starting with "#".  The possible variable
+       names are listed below.  Values, when present, are either 0 or 1 for
+       booleans, or strings (which must be specified without any quote
+       characters).  Leading whitespace is ignored.
+
+       If the variable "selected_scheme" is defined and no collection
+       variables at all are defined, then the collections required by the
+       specified scheme (which might change over time) are installed, without
+       explicitly listing them.  This eases maintenance of profile files.  If
+       any collections are specified in a profile, though, then all desired
+       collections must be given explicitly.
+
+       For example, a line
+
+         selected_scheme scheme-small
+
+       along with definitions for the installation directories (given below
+       under "path options") suffices to install the "small" scheme with all
+       default options.  The schemes are described in the "S" menu in the text
+       installer, or equivalent.
+
+       Besides "selected_scheme", here is the list of variable names supported
+       in a profile:
+
+       collection options (prefix "collection-")
+
+       Collections are specified with a variable name with the prefix
+       "collection-" followed by a collection name; there is no value.  For
+       instance, "collection-basic".  The collections are described in the "C"
+       menu.
+
+       Schemes and collections (and packages) are ultimately defined by the
+       files in the "tlpkg/tlpsrc/" source directory.
+
+       path options
+
+       It is best to define all of these, even though they may not be used in
+       the installation, so as to avoid unintentionally getting a default
+       value that could cause problems later.
+
+         TEXDIR
+         TEXMFCONFIG
+         TEXMFVAR
+         TEXMFHOME
+         TEXMFLOCAL
+         TEXMFSYSCONFIG
+         TEXMFSYSVAR
+
+       installer options (prefix "instopt_")
+
+       "instopt_adjustpath" (default 0 on Unix, 1 on Windows)
+           Adjust "PATH" environment variable.
+
+       "instopt_adjustrepo" (default 1)
+           Set remote repository to a multiplexed CTAN mirror after
+           installation; see "-repository" above.
+
+       "instopt_letter" (default 0)
+           Set letter size paper as the default, instead of a4.
+
+       "instopt_portable" (default 0)
+           Install for portable use, e.g., on a USB stick.
+
+       "instopt_write18_restricted" (default 1)
+           Enable "\write18" for a restricted set of programs.
+
+       tlpdb options (prefix "tlpdbopt_")
+
+       The definitive list is given in "tlpkg/TeXLive/TLConfig.pm", in the
+       hash %TeXLive::TLConfig::TLPDBOptions, together with explanations.  All
+       items given there except for "tlpdbopt_location" can be specified.
+       Here is the current list:
+
+         tlpdbopt_autobackup
+         tlpdbopt_backupdir
+         tlpdbopt_create_formats
+         tlpdbopt_desktop_integration
+         tlpdbopt_file_assocs
+         tlpdbopt_generate_updmap
+         tlpdbopt_install_docfiles
+         tlpdbopt_install_srcfiles
+         tlpdbopt_post_code
+         tlpdbopt_sys_bin
+         tlpdbopt_sys_info
+         tlpdbopt_sys_man
+         tlpdbopt_w32_multi_user
+
+       platform options (prefix "binary_")
+
+       For each supported platform in TeX Live (directories under "bin/"), the
+       variable "binary_"PLATFORM can be set with value 1.  For example:
+
+         binary_x86_64-linux 1
+
+       If no "binary_" settings are made, the default is whatever the current
+       machine is running.
+
+       In releases before 2017, many profile variables had different names
+       (not documented here; see the "install-tl" source).  They are accepted
+       and transformed to the names given above.  When a profile is written,
+       the names above are always used.
+
+       For more details on all of the above options, consult the TeX Live
+       installation manual, linked from <https://tug.org/texlive/doc>.
+
+ENVIRONMENT VARIABLES
+       For ease in scripting and debugging, "install-tl" looks for the
+       following environment variables. They are not of interest for normal
+       user installations.
+
+       "TEXLIVE_DOWNLOADER"
+       "TL_DOWNLOAD_PROGRAM"
+       "TL_DOWNLOAD_ARGS"
+           These override the normal choice of a download program; see the
+           "tlmgr" documentation, e.g.,
+           <https://tug.org/texlive/doc/tlmgr.html#ENVIRONMENT-VARIABLES>.
+
+       "TEXLIVE_INSTALL_ENV_NOCHECK"
+           Omit the check for environment variables containing the string
+           "tex".  People developing TeX-related software are likely to have
+           many such variables.
+
+       "TEXLIVE_INSTALL_NO_CONTEXT_CACHE"
+           Omit creating the ConTeXt cache.  This is useful for
+           redistributors.
+
+       "TEXLIVE_INSTALL_NO_IMPORT"
+           Omit check for installing on top of a previous installation and
+           then asking about importing previous settings.
+
+       "TEXLIVE_INSTALL_NO_WELCOME"
+           Omit printing the welcome message after successful installation,
+           e.g., when testing.
+
+       "TEXLIVE_INSTALL_PREFIX"
+       "TEXLIVE_INSTALL_TEXDIR"
+       "TEXLIVE_INSTALL_TEXMFCONFIG"
+       "TEXLIVE_INSTALL_TEXMFVAR"
+       "TEXLIVE_INSTALL_TEXMFHOME"
+       "TEXLIVE_INSTALL_TEXMFLOCAL"
+       "TEXLIVE_INSTALL_TEXMFSYSCONFIG"
+       "TEXLIVE_INSTALL_TEXMFSYSVAR"
+           Specify the respective directories.  "TEXLIVE_INSTALL_PREFIX"
+           defaults to "/usr/local/texlive", while "TEXLIVE_INSTALL_TEXDIR"
+           defaults to the release directory within that prefix, e.g.,
+           "/usr/local/texlive/2016".  All the defaults can be seen by running
+           the installer interactively and then typing "D" for the directory
+           menu.
+
+       "NOPERLDOC"
+           Don't try to run the "--help" message through "perldoc".
+
+AUTHORS AND COPYRIGHT
+       This script and its documentation were written for the TeX Live
+       distribution (<https://tug.org/texlive>) and both are licensed under
+       the GNU General Public License Version 2 or later.
+
+       $Id: install-tl 53198 2019-12-20 23:55:46Z karl $
+
+perl v5.30.1                      2019-12-20                     INSTALL-TL(1)

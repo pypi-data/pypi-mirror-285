@@ -1,0 +1,44 @@
+
+SHTOOL-MKLN.TMP(1)          GNU Portable Shell Tool         SHTOOL-MKLN.TMP(1)
+
+NAME
+       shtool-mkln - GNU shtool enhanced ln(1) replacement
+
+SYNOPSIS
+       shtool mkln [-t|--trace] [-f|--force] [-s|--symbolic] src-path [src-
+       path ...]  dst-path
+
+DESCRIPTION
+       This is a ln(1) style command. It is enhanced to provide automatic
+       calculation and usage of relative links with the shortest possible
+       path, if possible. Usually if src-path and dst-path are not absolute
+       paths or at least they share a common prefix except the root directory
+       (``"/"''). When more than one src-path is specified, all of them are
+       linked into dst-path.
+
+OPTIONS
+       The following command line options are available.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -f, --force
+           Force the creation of the link even if it exists. Default is to
+           fail with error.
+
+       -s, --symbolic
+           Create a symbolic link instead of a hard-link.
+
+EXAMPLE
+        #   shell script
+        shtool mkln -s foo/bar baz/quux
+
+HISTORY
+       The GNU shtool fixperm command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1998 for ePerl.
+
+SEE ALSO
+       shtool(1), ln(1).
+
+18-Jul-2008                      shtool 2.0.8               SHTOOL-MKLN.TMP(1)

@@ -1,0 +1,131 @@
+
+DOVEADM-MOVE(1)                     Dovecot                    DOVEADM-MOVE(1)
+
+NAME
+       doveadm-move  -  Move messages matching the given search query into an-
+       other mailbox
+       doveadm-copy - Copy messages matching the given search query  into  an-
+       other mailbox
+
+SYNOPSIS
+       doveadm  [-Dv]  move  [-S  socket_path]  destination [user source_user]
+       search_query
+       doveadm [-Dv] move [-S socket_path] -A destination  [user  source_user]
+       search_query
+       doveadm   [-Dv]   move  [-S  socket_path]  -F  file  destination  [user
+       source_user] search_query
+       doveadm  [-Dv]  move  [-S  socket_path]  -u  user   destination   [user
+       source_user] search_query
+
+       doveadm  [-Dv]  copy  [-S  socket_path]  destination [user source_user]
+       search_query
+       doveadm [-Dv] copy [-S socket_path] -A destination  [user  source_user]
+       search_query
+       doveadm   [-Dv]   copy  [-S  socket_path]  -F  file  destination  [user
+       source_user] search_query
+       doveadm  [-Dv]  copy  [-S  socket_path]  -u  user   destination   [user
+       source_user] search_query
+
+DESCRIPTION
+       doveadm  move can be used for moving mails between mailboxes for one or
+       more users.  The search_query is used to restrict  which  messages  are
+       moved into the destination mailbox.
+       doveadm  copy behaves the same as doveadm move, except that copied mes-
+       sages will not be expunged after copying.
+
+       In the first form, doveadm(1) will execute the  move/copy  action  with
+       the environment of the logged in system user.
+
+       In  the  second  form, doveadm(1) will iterate over all users, found in
+       the configured user_db(s), and  move  or  copy  each  user's  messages,
+       matching the given search_query, into the user's destination mailbox.
+
+       In the third form, doveadm(1) will iterate over all users, found in the
+       given file, and move or copy each user's messages, matching  the  given
+       search_query, into the user's destination mailbox.
+
+       In  the  fourth  form,  matching mails will be moved or copied only for
+       given user(s).
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -A     If  the  -A option is present, the command will be performed for
+              all users.  Using this option in combination with  system  users
+              from  userdb  { driver = passwd } is not recommended, because it
+              contains also users with a lower UID  than  the  one  configured
+              with the first_valid_uid setting.
+
+              When  the  SQL  userdb  module  is used make sure that the iter-
+              ate_query setting in  /etc/dovecot/dovecot-sql.conf.ext  matches
+              your  database  layout.  When using the LDAP userdb module, make
+              sure that  the  iterate_attrs  and  iterate_filter  settings  in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -F file
+              Execute the command for all the users in the file.  This is sim-
+              ilar  to the -A option, but instead of getting the list of users
+              from the userdb, they are read from the given  file.   The  file
+              contains one username per line.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain socket, or a hostname and port (hostname:port), in  order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run the command only for the given user.  It's also possible  to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When  neither  the  -A  option,  nor the -F file option, nor the
+              -u user was specified, the command will be executed with the en-
+              vironment of the currently logged in user.
+
+ARGUMENTS
+       destination
+              The name of the destination mailbox, into which the mails should
+              be moved or copied.  The destination mailbox must exist,  other-
+              wise this command will fail.
+
+       search_query
+              Move/copy   messages  matching  the  given  search  query.   See
+              doveadm-search-query(7) for details.
+
+       user source_user
+              The keyword user followed by a valid user name.  When this argu-
+              ment  is  present, doveadm(1) will apply the search_query to the
+              source_user's mail_location.
+              Limitation: Currently the users, specified by -u user  and  user
+              source_user, must share the same UID and GID.
+
+EXAMPLE
+       Move jane's messages - received in September 2011 - from her INBOX into
+       her archive.
+
+       doveadm move -u jane Archive/2011/09 mailbox INBOX BEFORE \
+       2011-10-01 SINCE 01-Sep-2011
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1), doveadm-search-query(7)
+
+Dovecot v2.3                      2015-05-09                   DOVEADM-MOVE(1)

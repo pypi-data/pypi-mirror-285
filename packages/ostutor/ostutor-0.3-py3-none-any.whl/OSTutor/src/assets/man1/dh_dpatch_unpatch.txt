@@ -1,0 +1,40 @@
+
+DH_DPATCH_UNPATCH(1)               Debhelper              DH_DPATCH_UNPATCH(1)
+
+NAME
+       dh_dpatch_unpatch - unapply patches listed in debian/patched
+
+SYNOPSIS
+       dh_dpatch_unpatch [debhelper options]
+
+DESCRIPTION
+       dh_dpatch_unpatch simply calls dpatch deapply-all.  All patches listed
+       in debian/patched are then unapplied in the current directory. The
+       command does not fail if the patches have already been unapplied.
+
+EXAMPLES
+       dh_dpatch_unpatch is usually called indirectly in a rules file via the
+       dh command.
+
+               %:
+                       dh --with dpatch $@
+
+       It can also be direcly called in the clean rule.
+
+               clean:
+                       dh_testdir
+                       dh_testroot
+                       [ ! -f Makefile ] || $(MAKE) clean
+                       dh_dpatch_unpatch
+                       dh_clean
+
+SEE ALSO
+       debhelper(7), dh(1).
+
+       This program is meant to be used together with debhelper.
+
+AUTHOR
+       Hideki Yamane <henrich@debian.or.jp>, stolen from dh_quilt_unpatch
+       written by Raphael Hertzog <hertzog@debian.org>
+
+perl v5.30.0                      2019-09-02              DH_DPATCH_UNPATCH(1)

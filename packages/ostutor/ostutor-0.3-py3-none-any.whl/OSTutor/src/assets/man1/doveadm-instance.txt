@@ -1,0 +1,76 @@
+
+DOVEADM-INSTANCE(1)                 Dovecot                DOVEADM-INSTANCE(1)
+
+NAME
+       doveadm-instance - Manage the list of running Dovecot instances
+
+SYNOPSIS
+       doveadm [-Dv] [-f formatter] instance list
+       doveadm [-Dv] instance remove name | base_dir
+
+DESCRIPTION
+       The  doveadm  instance  commands are used to manage the list of Dovecot
+       instances running on the server.  In most installations there  is  only
+       one  Dovecot  instance, but in some cases is may be useful to have more
+       (e.g. running director proxy and backend in the same server).
+
+       Instances are added to the list automatically when Dovecot is  started.
+       Each  instance  is  uniquely  identified  by its base_dir setting.  In-
+       stances can be named by setting instance_name in each instance's  dove-
+       cot.conf.  When an instance is named, it can be accessed easily by giv-
+       ing -i instance_name command line parameter for Dovecot binaries  (e.g.
+       doveadm).
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies  the  formatter  for formatting the output.  Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints  a  table  header  followed by tab separated value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+ARGUMENTS
+       name   The value of an instance's instance_name setting.
+
+       base_dir
+              The base directory of a Dovecot instance.
+
+COMMANDS
+   instance list
+       doveadm instance list
+
+       This command lists the seen Dovecot instances.
+
+   instance remove
+       doveadm instance remove name | base_dir
+
+       This command removes the specified instance.
+
+REPORTING BUGS
+       Report  bugs, including doveconf -n output, to the Dovecot Mailing List
+       <dovecot@dovecot.org>.  Information about reporting bugs  is  available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2012-02-16               DOVEADM-INSTANCE(1)

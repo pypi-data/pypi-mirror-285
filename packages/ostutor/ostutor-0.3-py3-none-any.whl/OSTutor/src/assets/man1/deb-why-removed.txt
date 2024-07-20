@@ -1,0 +1,41 @@
+
+DEB-WHY-REMOVED(1)                                          DEB-WHY-REMOVED(1)
+
+NAME
+       deb-why-removed - shows the reason a package was removed from the
+       archive
+
+SYNOPSIS
+       deb-why-removed [option...] package...
+
+DESCRIPTION
+       This program will download the removals metadata from the archive,
+       search and print the entries within for a source or binary package name
+       match.
+
+OPTIONS
+       -u, --url URL
+           URL to the archive removals deb822-formatted file list.  This can
+           be either an actual URL (https://, http://, file://), an pathname
+           or an origin name.  Currently the only origin name known is debian.
+
+       --no-refresh
+           Do not refresh the cached removals file even if there is a newer
+           version in the archive.
+
+       -h, -?, --help
+           Show a help message and exit.
+
+       --version
+           Show the program version.
+
+FILES
+       cachedir/devscripts/deb-why-removed/
+           This directory contains the cached removal files downloaded from
+           the archive.  cachedir will be either $XDG_CACHE_HOME or if that is
+           not defined $HOME/.cache/.
+
+SEE ALSO
+       <https://ftp-master.debian.org/#removed>
+
+Debian Utilities                  2020-02-13                DEB-WHY-REMOVED(1)

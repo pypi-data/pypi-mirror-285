@@ -1,0 +1,65 @@
+
+BIBTEXU(1)                       User Commands                      BIBTEXU(1)
+
+NAME
+       bibtexu - UTF-8 Big BibTeX
+
+SYNOPSIS
+       bibtexu [options] aux-file
+
+DESCRIPTION
+       BibTeXu  is  the  Unicode-compliant  version  of BibTeX.  It is largely
+       based on Niel Kempson's BibTeX8, and it provides a better  support  for
+       UTF-8  by  integrating  ICU  library.  Therefore, BibTeXu no longer re-
+       quires the Codepage and Sort order ("CS") file; instead, the method  of
+       sorting and case-changing can be controled via command-line options.
+
+OPTIONS
+       -?  --help
+              display some brief help text.
+
+       -d  --debug TYPE
+              report  debugging information.  TYPE is one or more of all, csf,
+              io, mem, misc, search.
+
+       -s  --statistics
+              report internal statistics.
+
+       -t  --trace
+              report execution tracing.
+
+       -v  --version
+              report BibTeX version.
+
+       -l  --language LANG
+              use language LANG to convert strings to low case.  This argument
+              is passed to ICU library.
+
+       -o  --location LANG
+              use  language  LANG for sorting.  This argument is passed to ICU
+              library.
+
+       -B  --big
+              set large BibTeX capacity.
+
+       -H  --huge
+              set huge BibTeX capacity.
+
+       -W  --wolfgang
+              set really huge BibTeX capacity for Wolfgang.
+
+       -M  --min_crossrefs ##
+              set min_crossrefs to ##.
+
+       --mstrings ##
+              allow ## unique strings.
+
+SEE ALSO
+       More   detailed   description    of    BibTeXu    is    available    at
+       $TEXMFDIST/doc/bibtexu/README.
+
+AUTHORS
+       BibTeXu  was written by Yannis Haralambous and his students.  This man-
+       page was written for TeX Live.
+
+bibtexu 3.71                      March 2019                        BIBTEXU(1)

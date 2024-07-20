@@ -1,0 +1,27 @@
+
+MEWSTUNNEL(1)               General Commands Manual              MEWSTUNNEL(1)
+
+NAME
+       mewstunnel - stunnel wrapper for Mew
+
+SYNOPSIS
+       mewstunnel [options]
+
+DESCRIPTION
+       The  mewstunnel  utility  is  a wrapper script for using stunnel.  This
+       command is necessary for the mew-ssl feature to keep a process of stun-
+       nel.   The  options  are  for  stunnel4 or stunnel.  If stunnel4 is in-
+       stalled, it is executed.  If stunnel4 is not installed, stunnel is exe-
+       cuted.  If the MEW_PROG_STUNNEL environment variable is set, it is exe-
+       cuted instead.
+
+       Note that stunnel 5.x is provided by the stunnel4 package in Debian.
+
+BUGS
+       This command is provided by Debian.  This command is not integrated  in
+       the upstream source.
+
+SEE ALSO
+       stunnel4(8), stunnel(8)
+
+                               September 3, 2014                 MEWSTUNNEL(1)

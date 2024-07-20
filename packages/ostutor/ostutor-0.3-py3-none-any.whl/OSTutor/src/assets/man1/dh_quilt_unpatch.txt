@@ -1,0 +1,48 @@
+
+DH_QUILT_UNPATCH(1)                Debhelper               DH_QUILT_UNPATCH(1)
+
+NAME
+       dh_quilt_unpatch - unapply patches listed in debian/patches/series
+
+SYNOPSIS
+       dh_quilt_unpatch [debhelper options]
+
+DESCRIPTION
+       dh_quilt_unpatch simply calls quilt pop -a after having set the
+       environment variable QUILT_PATCHES to debian/patches.  All patches
+       listed in debian/patches/series are then unapplied in the current
+       directory. The command does not fail if the patches have already been
+       unapplied.
+
+       You can use another directory instead of debian/patches by setting (and
+       exporting) the environment variable QUILT_PATCH_DIR.
+
+EXAMPLES
+       dh_quilt_unpatch is usually called indirectly in a rules file via the
+       dh command.
+
+               %:
+                       dh $@ --with quilt
+
+       It can also be direcly called in the clean rule.
+
+               clean:
+                       dh_testdir
+                       dh_testroot
+                       [ ! -f Makefile ] || $(MAKE) clean
+                       dh_quilt_unpatch
+                       dh_clean
+
+NOTES
+       This tool is useless if you use the source package format 3.0 (quilt).
+       Consider switching to this source format if you haven't done it yet.
+
+SEE ALSO
+       debhelper(7), dh(1).
+
+       This program is meant to be used together with debhelper.
+
+AUTHOR
+       Raphael Hertzog <hertzog@debian.org>
+
+perl v5.28.0                      2018-11-08               DH_QUILT_UNPATCH(1)

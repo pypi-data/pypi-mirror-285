@@ -1,0 +1,68 @@
+
+GREP-EXCUSES(1)             General Commands Manual            GREP-EXCUSES(1)
+
+NAME
+       grep-excuses  -  search  the testing excuses files for a specific main-
+       tainer
+
+SYNOPSIS
+       grep-excuses [options] [maintainer|package]
+
+DESCRIPTION
+       grep-excuses downloads the autoremovals and  update_excuses.html  files
+       and  greps them for the specified maintainer or package name.  The wget
+       package is required for this script.  If no name is given on  the  com-
+       mand  line, first the environment variable DEBFULLNAME is used if it is
+       defined, and failing that, the configuration variable  described  below
+       is used.
+
+OPTIONS
+       --no-conf, --noconf
+              Do  not  read any configuration files.  This can only be used as
+              the first option given on the command-line.
+
+       --wipnity, -w
+              Get  information  from  <https://qa.debian.org/excuses.php>.   A
+              package name must be given when using this option.
+
+       --help Show a brief usage message.
+
+       --version
+              Show version and copyright information.
+
+       --autopkgtests
+              Investigate  and  show  autopkgtest  (ci.debian.net) failures in
+              your packages but apparently caused by  new  versions  of  other
+              packages  trying  to migrate.  (--no-autopkgtests can be used to
+              override GREP_EXCUSES_AUTOPKGTESTS.)
+
+       --no-autoremovals
+              Investigate and show only testing propagation excuses,  not  au-
+              toremovals.
+
+       --debug
+              Print debugging output to stderr (including url(s) fetched).
+
+CONFIGURATION VARIABLES
+       The  two configuration files /etc/devscripts.conf and ~/.devscripts are
+       sourced in that order to set configuration variables.  Command line op-
+       tions can be used to override configuration file settings.  Environment
+       variable settings are ignored for this purpose.  The  currently  recog-
+       nised variable is:
+
+       GREP_EXCUSES_MAINTAINER
+              The  default maintainer, email or package to grep for if none is
+              specified on the command line.
+
+       GREP_EXCUSES_AUTOPKGTESTS
+              Boolean: whether to show autopkgtest failures in other packages.
+              See --autopkgtests.
+
+SEE ALSO
+       devscripts.conf(5)
+
+AUTHOR
+       Joey  Hess  <joeyh@debian.org>; modifications by Julian Gilbey <jdg@de-
+       bian.org>.
+
+DEBIAN                         Debian Utilities                GREP-EXCUSES(1)

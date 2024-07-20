@@ -1,0 +1,50 @@
+
+ESTFILTER(1)                       Estraier                       ESTFILTER(1)
+
+NAME
+       estfxasis,  estfxmantotxt,  estfxmsotohtml,  estfxpdftohtml  -  hypere-
+       straier filter programs
+
+SYNOPSIS
+       estcmd gather -cl -fx  .1,.2,.3,.1.gz,.2.gz,.3.gz  T@estfxmantotxt  -fz
+       -sd -cm casket.
+
+       estcmd gather -cl -fx .doc,.xls,.ppt H@estfxmsotohtml -fz -ic UTF-8 -sd
+       -cm casket.
+
+       estcmd gather -cl -fx .pdf H@estfxpdftohtml -fz -ic UTF-8 -sd -cm  cas-
+       ket.
+
+DESCRIPTION
+       This manual page documents briefly the hyperestraier filter programs.
+
+       These  programs  are  called as filter programs when construting an in-
+       verted index. Their functions are to read data from  a  file  specified
+       with  the  first  argument,  and  convert the data to document draft or
+       html, and write the result to a file specified with  the  second  argu-
+       ment.
+
+       estfxasis just passes input contents to output.
+
+       estfxmantotxt  converts manual pages into plain text, so that it is ex-
+       pected to use "T@" prefix for estcmd filter spec. It depends man,  bsd-
+       mainutils and coreutils.
+
+       estfxmsotohtml  converts  MS-Word, MS-Excel or MS-PowerPoint into html,
+       so that it is expected to use "H@" prefix for estcmd  filter  spec.  It
+       depends on wvWare, xlhtml or ppthtml.
+
+       estfxpdftohtml  converts  PDF  into html, so that it is expected to use
+       "H@" prefix for estcmd filter spec. It depends on pdftotext.
+
+SEE ALSO
+       estcmd(1),
+
+AUTHOR
+       estraier was written  by  Mikio  Hirabayashi  <mikio  at  users.source-
+       forge.net>.
+
+       This manual page was written by Fumitoshi UKAI <ukai@debian.or.jp>, for
+       the Debian project (but may be used by others).
+
+Man Page                          2005-06-04                      ESTFILTER(1)

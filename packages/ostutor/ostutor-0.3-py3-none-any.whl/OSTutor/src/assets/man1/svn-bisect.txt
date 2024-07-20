@@ -1,0 +1,85 @@
+
+SVN-BISECT(1)               General Commands Manual              SVN-BISECT(1)
+
+NAME
+       svn-bisect - Bisect Subversion revisions to find a regression
+
+SYNOPSIS
+       svn-bisect start [good_rev [bad_rev]]
+
+       svn-bisect {good|bad} [rev]
+
+       svn-bisect run command
+
+       svn-bisect reset
+
+       svn-bisect status
+
+DESCRIPTION
+       svn-bisect helps to automate finding a bug or behavior change in a Sub-
+       version working copy.  Given an initial "good" revision, with  the  de-
+       sired  or original behavior, and a newer "bad" revision, with the unde-
+       sired or modified behavior, svn-bisect will do a binary search  through
+       the revision range to find which revision caused the change.
+
+       svn-bisect  must  be  initialized  in  a  working copy, with svn-bisect
+       start.  It also needs to be given at least one good revision (the base-
+       line) and one bad revision (known modified behavior) revision.
+
+       Sub-commands:
+
+       start  Initializes  or  reinitializes svn-bisect; optionally takes good
+              and bad revision parameters.
+
+       good rev
+
+       bad rev
+              Tells svn-bisect that a revision is good  or  bad,  defining  or
+              narrowing the search space.  If not specified, revision defaults
+              to the current revision in the working  copy.   svn-bisect  will
+              then  update  to a revision halfway between the new good and bad
+              boundaries.  If this update crosses a point where a  branch  was
+              created, it switches in or out of the branch.
+
+       reset  Resets the working copy to the revision and branch where svn-bi-
+              sect start was run.  In the simple case this is equivalent to rm
+              -r  .svn-bisect; svn update, but not if it has crossed branches,
+              and not if you did not start at the HEAD revision.  In any case,
+              svn-bisect  never  keeps track of mixed-revision working copies,
+              so do not use svn-bisect in a working copy that will need to  be
+              restored to mixed revisions.
+
+       status Prints a brief status message.
+
+       run command
+              Runs  the  bisection  in  a loop.  You must have already defined
+              initial  good  and  bad  boundary  conditions.   Each  iteration
+              through the loop runs command as a shell command (a single argu-
+              ment, quoted if necessary) on the chosen  revision,  then  marks
+              the  revision  as  good or bad, based on the exit status of com-
+              mand.
+
+EXAMPLES
+       Assume you are trying to find which  revision  between  1250  and  1400
+       caused the make check command to fail.
+
+           svn-bisect start 1250 1400
+           svn-bisect run 'make check'
+           svn-bisect reset
+
+ENVIRONMENT
+       SVN    The Subversion command-line program to call (default svn).
+
+FILES
+       .svn-bisect
+              The directory containing state information, removed after a suc-
+              cessful bisection.
+
+SEE ALSO
+       git-bisect(1).
+
+AUTHOR
+       Written by Robert Millan and Peter Samuelson, for  the  Debian  Project
+       (but may be used by others).
+
+                                  2009-10-22                     SVN-BISECT(1)

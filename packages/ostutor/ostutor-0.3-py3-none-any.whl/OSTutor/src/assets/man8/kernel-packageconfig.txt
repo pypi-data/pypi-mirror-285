@@ -1,0 +1,29 @@
+
+KERNEL-PACKAGECONFIG(8)     Debian GNU/Linux manual    KERNEL-PACKAGECONFIG(8)
+
+NAME
+       kernel-packageconfig - internal handler of /etc/kernel-pkg.conf
+
+SYNOPSIS
+       kernel-packageconfig
+
+DESCRIPTION
+       The  utility  kernel-packageconfig  is  called  internally  by the ker-
+       nel-package  postinst  script  to  set  up  the  conf  file   /etc/ker-
+       nel-pkg.conf.   It is idempotent, and only modifies the file if it con-
+       tains factory default values. It is not meant for general use.
+
+OPTIONS
+       This utility does not have any options.
+
+FILES
+       The file affected by this program is /etc/kernel-pkg.conf.
+
+SEE ALSO
+       kernel-pkg.conf(5)
+
+AUTHOR
+       This manual page was written by Manoj Srivastava <srivasta@debian.org>,
+       for the Debian GNU/Linux system.
+
+Debian                            Jan 7 1997           KERNEL-PACKAGECONFIG(8)

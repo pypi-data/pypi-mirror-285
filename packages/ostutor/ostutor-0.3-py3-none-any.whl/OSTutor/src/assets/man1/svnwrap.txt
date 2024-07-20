@@ -1,0 +1,55 @@
+
+SVNWRAP(1)                  General Commands Manual                 SVNWRAP(1)
+
+NAME
+       svnwrap - Umask wrapper for subversion client commands
+
+SYNOPSIS
+       svnwrap {program} [args...]
+
+DESCRIPTION
+       svnwrap  is  a  simple  shell script to work around permission problems
+       when sharing Subversion  repositories  between  multiple  local  users.
+       svnwrap can be used either by specifying a particular subversion client
+       command on the command line, or by invoking it by the same name as  the
+       desired client command, via a symlink.
+
+       svnwrap sets the umask to 002, then launches the appropriate subversion
+       client command.  For complicated reasons, this is needed when using the
+       clients with BDB-format repositories, but not for FSFS-format ones.
+
+EXAMPLES
+       To  create  a  new  BDB-format shared repository (note that FSFS-format
+       shared repositories should also be created this way):
+
+       svnwrap svnadmin create --fs-type=bdb /path/to/repo
+       chgrp -R shared_group /path/to/repo
+
+       The following line in /etc/inetd.conf can be used to serve svn:// URLs:
+
+       svn stream tcp nowait             my_svn_user             /usr/bin/svn-
+       wrap svnserve svnserve -i -r /srv/svn
+
+       The following commands enable use of svnwrap for local file:/// and re-
+       mote svn+ssh:// URLs:
+
+       ln -s /usr/bin/svnwrap /usr/local/bin/svn
+       ln -s /usr/bin/svnwrap /usr/local/bin/svnserve
+
+       svn is used for local file:/// URLs, and svnserve is invoked by  remote
+       users of svn+ssh:// URLs.
+
+BUGS
+       If  you symlink the svn binary to svnwrap, as shown in one of the exam-
+       ples, all local users' working copies will also use the new umask.   Be
+       sure  to  warn your users about this, as security-related surprises are
+       rarely pleasant.
+
+SEE ALSO
+       svnserve(8), svn(1), svnlook(1).
+
+AUTHOR
+       svnwrap and this manual were written by Peter Samuelson for the  Debian
+       Project (but may be used by others).
+
+                                  2006-04-21                        SVNWRAP(1)

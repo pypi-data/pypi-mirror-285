@@ -1,0 +1,214 @@
+
+DBLATEX(1)                    Dblatex Manual Page                   DBLATEX(1)
+
+NAME
+       dblatex - convert DocBook to LaTeX, DVI, PostScript, and PDF
+
+SYNOPSIS
+       dblatex [options] {file | -}
+
+DESCRIPTION
+       This manual page briefly documents the dblatex command. For more
+       details read the PDF manual; see below.
+
+       dblatex is a program that transforms your SGML/XML DocBook documents to
+       DVI, PostScript or PDF by translating them into pure LaTeX as a first
+       process.  MathML 2.0 markups are supported, too.  It started as a clone
+       of DB2LaTeX.
+
+OPTIONS
+       A summary of options is included below.  For a complete description,
+       see the PDF manual.
+
+       -h, --help
+           Show a help message and exit.
+
+       -b backend, --backend=backend
+           Backend driver to use: pdftex (default), dvips, or xetex.
+
+       -B, --no-batch
+           All the tex output is printed.
+
+       -c config, -S config, --config=config
+           Configuration file. A configuration file can be used to group all
+           the options and customizations to apply.
+
+       -d, --debug
+           Debug mode: Keep the temporary directory in which dblatex actually
+           works.
+
+       -D, --dump
+           Dump the error stack when an error occurs (debug purpose).
+
+       -e indexstyle, --indexstyle indexstyle
+           Index style file to pass to makeindex instead of the dblatex
+           default index style.
+
+       -f figure_format, --fig-format=figure_format
+           Input figure format: fig, eps. Used when not deduced from figure
+           file extension.
+
+       -F input_format, --input-format=input_format
+           Input file format: sgml, xml (default).
+
+       -i texinputs, --texinputs texinputs
+           Path added to TEXINPUTS
+
+       -I figure_path, --fig-path=figure_path
+           Additional lookup path of the figures.
+
+       -l bst_path, --bst-path=bst_path
+           Additional lookup path of the BibTeX styles.
+
+       -L bib_path, --bib-path=bib_path
+           Additional lookup path of the BibTeX databases.
+
+       -m xslt, --xslt=xslt
+           XSLT engine to use. The available engines are: xsltproc (default),
+           4xslt, saxon.
+
+       -o output, --output=output
+           Output filename. When not specified, the input filename is used,
+           with the suffix of the output format. The option is ignored if
+           several books are chunked from a set. In this case the -O option is
+           applied instead.
+
+       -O output_dir, --output-dir=output_dir
+           Output directory of the books built from a set. When not specified,
+           the current working directory is used instead. The option is
+           ignored if a single document is outputed, and the -o is taken into
+           account.
+
+       -p xsl_user, --xsl-user=xsl_user
+           An XSL user stylesheet to use. Several user stylesheets can be
+           specified, but the option order is meaningful: a user stylesheet
+           takes precedence over previously defined user stylesheets.
+
+       -P param=value, --param=param=value
+           Set an XSL parameter from command line.
+
+       -q, --quiet
+           Less verbose, showing only TeX output messages and error messages.
+
+       -r [plugin:]script, --texpost=[plugin:]script
+           Script called at the very end of the tex compilation. Its role is
+           to modify the tex file or one of the compilation files before the
+           last round. The script can be a python plugin. In this case add the
+           prefix term 'plugin:'.
+
+       -s latex_style, --texstyle=latex_style
+           Latex style to apply. It can be a package name, or directly a latex
+           package path. A package name must be without a directory path and
+           without the '.sty' extension. On the contrary, a full latex package
+           path can contain a directory path, but must ends with the '.sty'
+           extension.
+
+       -t format, --type=format
+           Output format. Available formats: tex, dvi, ps, pdf (default).
+
+       --dvi
+           DVI output. Equivalent to -tdvi.
+
+       --pdf
+           PDF output. Equivalent to -tpdf.
+
+       --ps
+           PostScript output. Equivalent to -tps.
+
+       -T style, --style=style
+           Output style, predefined are: db2latex, simple, native (default).
+
+       -v, --version
+           Display the dblatex version.
+
+       -V, --verbose
+           Verbose mode, showing the running commands
+
+       -x xslt_options, --xslt-opts=xslt_options
+           Arguments directly passed to the XSLT engine
+
+       -X, --no-external
+           Disable the external text file support. This support is needed for
+           callouts on external files referenced by textdata or imagedata, but
+           it can be disabled if the document does not contain such callouts.
+           Disabling this support can improve the processing performance for
+           big documents.
+
+FILES AND DIRECTORIES
+       $HOME/.dblatex/
+           User configuration directory.
+
+       /etc/dblatex/
+           System-wide configuration directory.
+
+       The predefined output styles are located in the installed package
+       directory.
+
+ENVIRONMENT VARIABLES
+       DBLATEX_CONFIG_FILES
+           Extra configuration directories that may contain some dblatex
+           configuration files.
+
+EXAMPLES
+       To produce myfile.pdf from myfile.xml:
+
+           dblatex myfile.xml
+
+       To set some XSL parameters from the command line:
+
+           dblatex -P latex.babel.language=de myfile.xml
+
+       To use your XSL stylesheet:
+
+           dblatex -p myconfig.xsl myfile.xml
+
+       To use the db2latex output style:
+
+           dblatex -T db2latex myfile.xml
+
+       To apply your own latex style:
+
+           dblatex -s mystyle myfile.xml
+           dblatex -s /path/to/mystyle.sty myfile.xml
+
+       To pass extra arguments to the XSLT engine:
+
+           dblatex -x "--path /path/to/load/entity" myfile.xml
+
+       To use dblatex and profiling:
+
+           xsltproc --param profile.attribute "'output'" \
+                    --param profile.value "'pdf'" \
+                    /path/to/profiling/profile.xsl \
+                    myfile.xml | dblatex -o myfile.pdf -
+
+       To build a set of books:
+
+           dblatex -O /path/to/chunk/dir -Pset.book.num=all myfile.xml
+
+SEE ALSO
+       The program is documented fully by "DocBook to LaTeX Publishing - User
+       Manual" available in the package's documentation directory.
+
+AUTHORS
+       Benoit Guillon
+           Upstream maintainer
+
+       Andreas Hoenen <andreas.hoenen@arcor.de>
+           Debian maintainer
+
+COPYRIGHT
+       Copyright (C) 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+       2014, 2015 Andreas Hoenen
+
+       This manual page was written for the Debian(TM) system (but it may be
+       used by others).
+
+       Permission is granted to copy, distribute and/or modify this document
+       under the terms of the GNU General Public License, Version 2 or any
+       later version published by the Free Software Foundation.
+
+       On Debian(TM) systems, the complete text of the GNU General Public
+       License can be found in /usr/share/common-licenses/GPL.
+
+dblatex 0.3.11py3                March 6, 2015                      DBLATEX(1)

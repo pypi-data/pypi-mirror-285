@@ -1,0 +1,44 @@
+
+DH_INSTALLTMPFILES(1)              Debhelper             DH_INSTALLTMPFILES(1)
+
+NAME
+       dh_installtmpfiles - install tmpfiles.d configuration files
+
+SYNOPSIS
+       dh_installtmpfiles [debhelperoptions][--name=name]
+
+DESCRIPTION
+       dh_installtmpfiles is a debhelper program that is responsible for
+       installing package maintainer supplied tmpfiles.d configuration files
+       (e.g. for systemd-tmpfiles).
+
+       It also finds the tmpfiles.d configuration files installed by a package
+       and generates postinst code blocks for activting the tmpfiles.d
+       configuration when the package is installed. These snippets are added
+       to the maintainer scripts by dh_installdeb(1).
+
+OPTIONS
+           This option controls both a prefix used for lookng up maintainer
+           provided tmpfiles.d configuration files (those mentioned in the
+           "FILES" section) and also the base name used for the installed
+           version of the file.
+
+FILES
+       debian/package.tmpfiles
+           If this exists, it is installed into usr/lib/tmpfiles.d/ in the
+           package build directory. Note that the "tmpfiles.d" mechanism is
+           currently only used by systemd.
+
+       debian/package.tmpfile
+           Deprecated name for debian/package.tmpfiles.
+
+NOTES
+       This command is not idempotent. dh_prep(1) should be called between
+       invocations of this command (with the same arguments). Otherwise, it
+       may cause multiple instances of the same text to be added to maintainer
+       scripts.
+
+SEE ALSO
+       debhelper(7)
+
+12.10ubuntu1                      2020-03-27             DH_INSTALLTMPFILES(1)

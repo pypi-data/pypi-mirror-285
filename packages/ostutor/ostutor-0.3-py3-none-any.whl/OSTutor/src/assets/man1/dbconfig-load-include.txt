@@ -1,0 +1,63 @@
+
+dbconfig-load-include(1)        dbconfig-common       dbconfig-load-include(1)
+
+NAME
+       dbconfig-load-include - parse custom format db config files
+
+SYNOPSIS
+       dbconfig-load-include  [-hv]  [-a] [-d[varname]] [-u[varname]] [-p[var-
+       name]] [-s[varname]] [-P[varname]] [-t[varname]] -f format infile
+
+DESCRIPTION
+       dbconfig-load-include is a program to parse custom format include files
+       containing the information necessary to connect a program to a database
+       resource.  This is primarily intended to be used by the dbconfig-common
+       package  to import database settings of packages with pre-existing con-
+       figurations that have migrated to dbconfig-common.  for  more  informa-
+       tion, please see /usr/share/doc/dbconfig-common.
+
+OPTIONS
+       infile use the given config file as input
+
+       -f|--format
+              use the given output format (default: sh)
+
+       -a|--all
+              include all information in output (default)
+
+       -d|--dbname
+              include the dbname in the output
+
+       -p|--dbpass
+              include the dbpass in the output
+
+       -s|--dbserver
+              include the dbserver in the output
+
+       -P|--dbport
+              include the dbport in the output
+
+       -u|--dbuser
+              include the dbuser in the output
+
+       -t|--dbtype
+              include the dbtype in the output
+
+       -h|--help
+              display this helpful message
+
+       -v|--version
+              output the version and exit
+
+       format  is one of a list of include-file style formats for various pro-
+       gramming languages.  the current list includes:
+
+       sh     /bin/sh style include file
+
+       perl   perl parseable include file
+
+       php    php parseable include file
+
+       exec   run the file as a script and interpret its output
+
+sean finney                       March 2005          dbconfig-load-include(1)

@@ -1,0 +1,52 @@
+
+SHTOOL-MOVE.TMP(1)          GNU Portable Shell Tool         SHTOOL-MOVE.TMP(1)
+
+NAME
+       shtool-move - GNU shtool enhanced mv(1) replacement
+
+SYNOPSIS
+       shtool move [-v|--verbose] [-t|--trace] [-e|--expand] [-p|--preserve]
+       src-file dst-file
+
+DESCRIPTION
+       This is a mv(1) style command enhanced with the ability to rename
+       multiple files in a single operation and the ability to detect and not
+       touch existing equal destinations files, thus preserving timestamps.
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -e, --expand
+           Expand asterisk in src to be used as ""%"n" (where n is 1,2,...) in
+           dst-file. This is useful for renaming multiple files at once.
+
+       -p, --preserve
+           Detect src-file and dst-file having equal content and not touch
+           existing destination files, thus perserving timestamps. This is
+           useful for applications that monitor timestamps, i.e. suppress
+           make(1L) repeating actions for unchanged files.
+
+EXAMPLE
+        #   shell script
+        shtool move -v -e '*.txt' %1.asc
+
+        #   Makefile
+        scanner.c: scanner.l
+            lex scanner.l
+            shtool move -t -p lex.yy.c scanner.c
+
+HISTORY
+       The GNU shtool move command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1999 for GNU shtool.
+
+SEE ALSO
+       shtool(1), mv(1), make(1).
+
+18-Jul-2008                      shtool 2.0.8               SHTOOL-MOVE.TMP(1)
