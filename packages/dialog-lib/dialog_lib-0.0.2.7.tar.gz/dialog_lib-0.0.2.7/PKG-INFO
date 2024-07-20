@@ -1,0 +1,65 @@
+Metadata-Version: 2.1
+Name: dialog-lib
+Version: 0.0.2.7
+Summary: 
+License: MIT
+Author: Talkd.AI
+Author-email: foss@talkd.ai
+Requires-Python: >=3.11,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: SQLAlchemy (==2.0.29)
+Requires-Dist: aioresponses (==0.7.6)
+Requires-Dist: bs4 (==0.0.2)
+Requires-Dist: click (==8.1.7)
+Requires-Dist: gspread (==6.1.2)
+Requires-Dist: langchain (==0.2.8)
+Requires-Dist: langchain-anthropic (==0.1.20)
+Requires-Dist: langchain-community (==0.2.5)
+Requires-Dist: langchain-openai (==0.1.8)
+Requires-Dist: langchain-postgres (==0.0.7)
+Requires-Dist: pgvector (==0.2.5)
+Requires-Dist: psycopg2 (==2.9.9)
+Requires-Dist: pytest-asyncio (==0.23.6)
+Requires-Dist: responses (==0.25.0)
+Description-Content-Type: text/markdown
+
+# Dialog Library
+
+Welcome to our project! Here is all the information you need for you to start using dialog-lib as you desire.
+
+Dialog-lib is the base library for the  project, it allows users to setup their own LLMs using a structured class, enabling coherent callings across all instances.
+The main purpose of this project is removing the main difficulties
+
+## Integrations
+
+This is a standalone project, you can use it as a wrapper for LLM instances, right now we have the following LLMs integrated:
+
+- [X] OpenAIs GPT Models (both 3.5 and 4) - available in the server's original repo, being migrated to this one
+- [ ] Azure OpenAI
+- [ ] Mistral
+- [ ] Bedrock
+- [ ] DataBricks  - In progress
+- [ ] MLFlow
+- [ ] Hugging Faces - In progress
+
+## How to use
+
+Right now, this repository offers just a single Abstract LLM class inside our agents module and some PostgreSQL memory helpers, we are moving our abstractions to make it easier to implement any LLM you want, giving you access to vector stores and memory instances.
+
+## Future structure
+
+The desired future of our abstraction is something in the lines of the code below:
+
+```python
+from dialog_lib.agents import OpenAIAgent
+
+agent_instance = OpenAIAgent(model="gpt3.5-turbo", temperature=0.1, prompt="Be a friendly AI", memory_type="ram")
+
+agent_instance.process("Hello There!")
+
+print(agent_instance.messages) # Get's all the messages saved
+```
+
