@@ -1,0 +1,33 @@
+{% extends "layout.jinja2" %}
+{% block head %}
+    {{ super() }}
+    <link rel="canonical" href="{{ request.route_url('home') }}" />
+{% endblock %}
+{% set app_package = app_package|default('atramhasis', true) %}
+
+{% block html_title %}Home{% endblock %}
+
+{% block header %}
+  {% include 'header-main.jinja2' %}
+{% endblock %}
+
+{% block content %}
+  <div class="bgcontainer">
+    <div class="row">
+      {% include 'welcome.jinja2' %}
+      {% include 'search_form.jinja2' %}
+    </div>
+  </div>
+{% endblock %}
+
+{% block subfooter %}
+  {% include 'conceptschemes_overview.jinja2' %}
+  {% include 'subfooter-main.jinja2' %}
+{% endblock %}
+
+{% block footer %}
+  {% include 'footer-main.jinja2' %}
+{% endblock %}
+
+{% block custom_js %}{% endblock %}
+

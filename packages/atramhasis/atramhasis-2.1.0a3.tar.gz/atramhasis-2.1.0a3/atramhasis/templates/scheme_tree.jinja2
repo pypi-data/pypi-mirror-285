@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ request.locale_name }}">
+
+{% set app_package = app_package|default('atramhasis', true) -%}
+{% set app_name = app_name|default('Atramhasis') %}
+{% set copyright_year = '2014-2023' %}
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{request.static_path(app_package + ':static/css/schemetree.css')}}" />
+  <title>{{ app_name }}</title>
+</head>
+
+{% block content %}
+<div class="tree">
+  <section class="page">
+    <article>
+      {%- for item in tree recursive %}
+        <span>{{ '-  ' * (loop.depth - 1) }} {{ item.label }}</span><br>
+        {%- if item.children -%}
+            {{ loop(item.children) }}
+        {%- endif %}
+      {%- endfor %}
+    </article>
+  </section>
+</div>
+{% endblock %}
