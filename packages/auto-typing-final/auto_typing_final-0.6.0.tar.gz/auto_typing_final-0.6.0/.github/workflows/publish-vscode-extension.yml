@@ -1,0 +1,17 @@
+name: Publish VS Code extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        required: true
+
+jobs:
+  publish-extension:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
+      - run: npm ci
+      - run: npx @vscode/vsce publish --pat ${{ secrets.VSCODE_MARKETPLACE_TOKEN }}
