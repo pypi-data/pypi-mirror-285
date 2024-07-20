@@ -1,0 +1,97 @@
+body {
+    margin: 0;
+    background-color: black;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#logview_controls {
+    background-color: blue;
+    /* width: 800px; */
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    overflow: auto;
+}
+
+#logview_controls h1 {
+    font-weight: 900;
+    font-family: monospace;
+    font-size: 1.2em;
+    margin: 0.2em 0;
+}
+
+.hide {
+    display: none;
+}
+
+/* distribute space */
+.logview td {
+    width: auto;
+    /*    text-wrap: nowrap;*/
+    white-space: nowrap;
+}
+
+.logview td:nth-child(7) {
+    width: 90%;
+}
+
+/* END distribute space */
+
+/* Colorpills on the second column (should propably just generate better markup */
+.logview td:nth-child(6) p {
+    border-radius: 0.5em;
+    border-spacing: 2px;
+    margin: 1px;
+    text-align: center;
+    font-weight: 900;
+    padding: 0.05em 0.5em;
+}
+
+.logview .loglevel-error td:nth-child(6) p {
+    color: rgb(240, 240, 240);
+    background-color: var(--error-color);
+}
+
+.logview .loglevel-warn td:nth-child(6) p {
+    color: rgb(240, 240, 240);
+    background-color: var(--warn-color);
+}
+
+.logview .loglevel-critical td:nth-child(6) p {
+    color: rgb(240, 240, 240);
+    background-color: var(--critical-color);
+}
+
+/* .logfilter-show {
+    background-color: green;
+}
+
+.logfilter-hide {
+    background-color: red;
+}
+
+.logfilter-hide_weak {
+    background-color: lightcoral;
+}
+
+.logfilter-show_weak {
+    background-color: rgb(153, 255, 153);
+} */
+
+.logfilter-controls-level {
+    padding-left: 15px;
+}
+
+.buttonbar {
+    display: inline-flex;
+    flex-wrap: nowrap;
+}
+
+.buttonbar > * {
+    margin: 0 4px;
+}

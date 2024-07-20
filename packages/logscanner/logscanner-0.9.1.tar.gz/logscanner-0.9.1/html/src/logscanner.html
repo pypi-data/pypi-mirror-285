@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>LogScanner</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="loglevels.css" id="loglevelstyle">
+    <link rel="stylesheet" href="logview.css">
+    <link rel="stylesheet" href="eyesymbols.css">
+    <link rel="stylesheet" href="DropDownButtonSymbolFonts.css">
+</head>
+
+<body>
+    <div id="logview"></div>
+    <div id="logview_controls"></div>
+    <p class="icon-down-arrow"></p>
+
+    <script src="logview.js" async defer></script>
+    <script>
+        const log_data = {
+    records: [
+        {{logdata}}
+    ]
+};
+
+logview(log_data);
+    </script>
+    <script src="DropDownButton.js" async defer></script>
+</body>
+
+</html>

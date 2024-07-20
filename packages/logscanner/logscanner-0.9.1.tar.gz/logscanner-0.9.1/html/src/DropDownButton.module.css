@@ -1,0 +1,152 @@
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+    font-family: "CaskaydiaMono NF";
+    font-style: normal;
+    font-weight: normal;
+    /* speak: never; */
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    /* margin-right: 0.2em; */
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    /* margin-left: 0.2em; */
+
+    /* you can be more comfortable with increased icons size */
+    /* font-size: 120%; */
+
+    /* Font smoothing. That was taken from TWBS */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Uncomment for 3D effect */
+    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+
+.icon-down-arrow:before {
+    content: "\f44b";
+}
+
+.button-box {
+    width: fit-content;
+    position: relative;
+}
+
+.button {
+    width: fit-content;
+    position: relative;
+    background-color: yellow;
+    display: flex;
+    align-items: stretch;
+    /* padding: 0 0.5em; */
+    border-radius: 1em;
+
+    /* TODO: move this*/
+    font-family: monospace;
+    font-weight: 900;
+}
+
+#dropdown-expander {
+    height: 100%;
+    padding-right: 0.5em;
+}
+
+#button-label {
+    padding-left: 0.5em;
+}
+
+.button span {
+    /* background-color: red; */
+}
+
+#dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    background-color: blue;
+    z-index: 999;
+}
+
+#dropdown div:hover {
+    box-shadow: inset 0em 0em 0em 10em rgba(0, 0, 0, 0.3) !important;
+}
+
+/* .button-box:hover #dropdown {
+    display: inline;
+} */
+
+.hide {
+    display: none;
+}
+
+/* break=====================================*/
+.logfilter-select-show {
+    background-color: rgb(0, 255, 0);
+}
+
+.logfilter-select-show::before {
+    content: "\f0208";
+}
+
+.logfilter-select-show_weak {
+    background-color: rgb(34, 150, 34);
+}
+
+.logfilter-select-show_weak:before {
+    content: "\f086c";
+}
+
+.logfilter-select-hide_weak {
+    background-color: rgb(124, 0, 0);
+}
+
+.logfilter-select-hide_weak:before {
+    content: "\f15e4";
+}
+
+.logfilter-select-hide {
+    background-color: rgb(255, 0, 0);
+}
+
+.logfilter-select-hide:before {
+    content: "\f0209";
+}
+
+.logfilter-select-hide:before,
+.logfilter-select-hide_weak:before,
+.logfilter-select-show::before,
+.logfilter-select-show_weak:before {
+    font-family: "CaskaydiaMono NF";
+    font-style: normal;
+    font-weight: normal;
+    /* speak: never; */
+
+    display: inline-block;
+    text-decoration: inherit;
+    width: 1em;
+    margin-right: 0.2em;
+    text-align: center;
+    /* opacity: .8; */
+
+    /* For safety - reset parent styles, that can break glyph codes*/
+    font-variant: normal;
+    text-transform: none;
+
+    /* fix buttons height, for twitter bootstrap */
+    line-height: 1em;
+
+    /* Animation center compensation - margins should be symmetric */
+    /* remove if not needed */
+    margin-left: 0.2em;
+}
