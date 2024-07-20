@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "fscherf-github-actions-test-package"
+description = "fscherf github actions test package"
+readme = "README.md"
+dynamic = ["version"]
+requires-python = ">=3.8"
+dependencies = []
+
+
+[project.optional-dependencies]
+dev = []
+test = []
+
+
+[tool.setuptools_scm]
+version_file = "fscherf_github_actions_test_package/_version.py"
+
+
+[tool.setuptools]
+include-package-data = true
+
+
+[tool.setuptools.packages.find]
+include = ["fscherf_github_actions_test_package*"]
+
+
+[tool.setuptools.package-data]
+"fscherf_github_actions_test_package" = ["**"]
+
+
+[tool.setuptools.exclude-package-data]
+"*" = [
+  ".*",
+  "~*",
+  "*.swp",
+  "*.pyc",
+]
