@@ -1,0 +1,83 @@
+# Copyright (C) 2023, Hadron Industries, Inc.
+# Carthage is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License version 3
+# as published by the Free Software Foundation. It is distributed
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the file
+# LICENSE for details.
+
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "carthage"
+version = "0.34"
+authors = [
+    { name = "Sam Hartman", email = "sam.hartman@hadronindustries.com" },
+]
+description = "A powerful Infrastructure as Code (IAC) framework"
+readme = "README.rst"
+requires-python = ">=3.11"
+license = { text = "LGPL-3" }
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "lmdb",
+    "hvac",
+    "mako",
+    "python-dateutil",
+    "pyVmomi",
+    "pyyaml",
+    "netifaces",
+    "requests",
+    "setuptools",
+    "sh ~= 1.14",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "black"]
+
+[project.urls]
+
+Homepage = "https://github.com/hadron/carthage"
+Documentation = "https://carthage.readthedocs.io"
+
+[tool.setuptools]
+
+script-files = ["bin/carthage-runner",
+    "bin/carthage-console",
+    "bin/carthage-vault-tool",
+    "bin/carthage",
+    "bin/btrfs-rmrf",
+]
+include-package-data = true
+
+
+[tool.setuptools.packages.find]
+include = ["carthage*"]
+
+[tool.setuptools.package-data]
+"carthage" = [
+    "carthage_plugin.yml",
+    "resources/*",
+    "resources/fai/**",
+    "resources/templates/**",
+    "extra_packages/resources/*",
+]
+
+"carthage.podman" = ["carthage_plugin.yml"]
+"carthage.vmware" = ["carthage_plugin.yml"]
+"carthage.vault" = ["carthage_plugin.yml"]
+
+[tool.pytest.ini_options]
+markers = [
+    'no_rootless: This test cannot run in a rootless container',
+    'requires_podman_pod: This test requires podman pod create to work',
+    ]
+    
