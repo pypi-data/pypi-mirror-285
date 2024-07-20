@@ -1,0 +1,45 @@
+[build-system]
+requires = ["flit_core >=3.7,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "pytest-import-check"
+authors = [{name = "Michał Górny", email = "mgorny@gentoo.org"}]
+readme = "README.rst"
+dynamic = ["version", "description"]
+license = {text = "GPL-2.0-or-later"}
+requires-python = ">=3.9"
+dependencies = [
+    "pytest >= 8.1",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Pytest",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Testing",
+]
+
+[tool.flit.sdist]
+include = [
+    "COPYING",
+    "test",
+    "tox.ini",
+]
+
+[project.optional-dependencies]
+test = [
+    "meson",
+    "ninja",
+    "setuptools",
+]
+
+[project.urls]
+Homepage = "https://github.com/projg2/pytest-import-check/"
+
+[project.entry-points.pytest11]
+import-check = "pytest_import_check.plugin"
+
+[tool.pytest.ini_options]
+xfail_strict = true
