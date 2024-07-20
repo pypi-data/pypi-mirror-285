@@ -1,0 +1,200 @@
+{
+    "performance": {
+        "accuracy": {
+            "description": "This test checks the Accuracy metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Accuracy has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Accuracy metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "precision": {
+            "description": "This test checks the Precision metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Precision has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Precision metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "recall": {
+            "description": "This test checks the Recall metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Recall has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Recall metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "f1": {
+            "description": "This test checks the F1 metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of F1 has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the F1 metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "balanced_accuracy_score": {
+            "description": "This test checks the Balanced Accuracy metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Balanced Accuracy has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, Balanced Accuracy Score is tested for all protected features."
+        },
+        "top_k_accuracy_score": {
+            "description": "This test checks the Top-K Accuracy metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Top-K Accuracy has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the Top-K Accuracy metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "log_loss": {
+            "description": "This test checks the Log Loss metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Log Loss has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, Log Loss is tested for all protected features."
+        },
+        "average_precision_score": {
+            "description": "This test checks the Average Precision metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Average Precision has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, Average Precision Score is tested for all protected features."
+        },
+        "roc_auc": {
+            "description": "This test checks the ROC AUC metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of ROC AUC has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, ROC AUC is tested for all protected features."
+        },
+        "brier_score_loss": {
+            "description": "This test checks the Brier Score Loss metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Brier Score Loss has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, Brier Score Loss is tested for all protected features."
+        },
+        "mean_absolute_error": {
+            "description": "This test checks the Mean Absolute Error (MAE) metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Mean Absolute Error (MAE) has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Mean Absolute Error (MAE) metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "mean_squared_error": {
+            "description": "This test checks the Mean Squared Error (MSE) metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Mean Squared Error (MSE) has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Mean Squared Error (MSE) metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "max_error": {
+            "description": "This test checks the Max Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Max Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the Max Error metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "r2_score": {
+            "description": "This test checks the R2 Score metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of R2 Score has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the R2 metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "mean_squared_log_error": {
+            "description": "This test checks the Mean Squared Logarithmic Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Mean Squared Logarithmic Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the Mean Sqaured Log Error metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "median_absolute_error": {
+            "description": "This test checks the Median Absolute Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Median Absolute Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the Median Absolute Error metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "mean_absolute_percentage_error": {
+            "description": "This test checks the Mean Absolute Percentage Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Mean Absolute Percentage Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :  "By default, this test runs over the Mean Absolute Percentage Error metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "d2_absolute_error_score": {
+            "description": "This test checks the D2 Absolute Error Score metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of D2 Absolute Error Score has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the D2 Absolute Error Score metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "d2_pinball_score": {
+            "description": "This test checks the D2 Pinball Score metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of D2 Pinball Score has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the D2 Pinball Score metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "d2_tweedie_score": {
+            "description": "This test checks the D2 Tweedie Score metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of D2 Tweedie Score has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the D2 Tweedie Score metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "explained_variance_score": {
+            "description": "This test checks the Explained Variance Score metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Explained Variance Score has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" :"By default, this test runs over the Explained Variance Score metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "mean_poisson_deviance": {
+            "description": "This test checks the Mean Poisson Deviance metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Mean Poisson Deviance has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, this test runs over the Mean Poission Deviance metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "mean_gamma_deviance": {
+            "description": "This test checks the Mean Gamma Deviance metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Mean Gamma Deviance has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, this test runs over the Mean Gamma Deviance metric with the below thresholds set for the absolute and degradation tests."
+        }
+    },
+    "fairness": {
+        "balanced_accuracy": {
+            "description": "This test checks the Balanced Accuracy metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Balanced Accuracy has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Balanced Accuracy metric with the below thresholds set for the absolute and degradation tests."
+        
+        },
+        "balanced_acc_error": {
+            "description": "This test checks the Balanced Accuracy Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Balanced Accuracy Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Balanced Accuracy Error metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "selection_rate": {
+            "description": "This test checks the Selection Rate metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Selection Rate has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the Selection Rate metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "false_positive_rate": {
+            "description": "This test checks the False Positive Rate metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of False Positive Rate has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the False Positive Rate metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "false_positive_error": {
+            "description": "This test checks the False Positive Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of False Positive Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the False Positive Error metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "false_negative_rate": {
+            "description": "This test checks the False Negative Rate metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of False Negative Rate has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the False Negative Rate metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "false_negative_error": {
+            "description": "This test checks the False Negative Error metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of False Negative Error has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration": "By default, this test runs over the False Negative Error metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "true_positive_rate": {
+            "description": "This test checks the True Positive Rate metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of True Positive Rate has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, this test runs over the True Positive Rate metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "true_negative_rate": {
+            "description": "This test checks the True Negative Rate metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of True Negative Rate has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters" : "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, this test runs over the True Negative Rate metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "demographic_parity_difference": {
+            "description": "This test checks the Demographic Parity Difference metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Demographic Parity Difference has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters" : "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, this test runs over the Demographic Parity Difference metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "demographic_parity_ratio": {
+            "description": "This test checks the Demographic Parity Ratio metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Demographic Parity Ratio has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration" : "By default, this test runs over the Demographic Parity Ratio metric with the below thresholds set for the absolute and degradation tests."
+        },
+        "equalized_odds_difference": {
+            "description": "This test checks the Equalized Odds Difference metric to see both if its performance on the evaluation set alone is satisfactory, as well as if performance in terms of Equalized Odds Difference has degraded from the reference to evaluation set. The key detail displays whether the given performance metric has degraded beyond a defined threshold.",
+            "why it matters": "During production, factors like distribution shift or a change in <span>p(y|x)</span> may cause model performance to decrease significantly.",
+            "configuration " : "By default, this test runs over the Equalized Odds Difference metric with the below thresholds set for the absolute and degradation tests."
+
+        },
+        "equalized_odds_ratio": {
+            "description": "This test checks for equal true positive and false positive rates over all subsets for each protected feature. The test first splits the dataset into various subset classes within the feature column. If the feature is categorical, the data is split based on the feature values. We then test whether the true positive and false positive rates of that subset significantly vary compared to the largest subset.",
+            "why it matters": "Equalized odds (or disparate mistreatment) is an important measure of fairness in machine learning. Subjects in protected groups may have different true positive rates or false positive rates, which imply that the model may be biased on those protected features. Fulfilling the condition of equalized odds may be a requirement in various legal/compliance settings.",
+            "configuration": "By default, equalized odds is tested for all protected features."
+        }
+    }
+}
