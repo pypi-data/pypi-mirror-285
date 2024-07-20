@@ -1,0 +1,850 @@
+#example:
+#  client:
+#  list:
+#    method:
+#    parameters:
+#      -
+#      -
+#      -
+#      -
+#    property:
+#    pagination_method_parameter:
+#    pagination_field:
+
+# EC2 Reservations
+
+ec2_instance:
+  client: ec2
+  list:
+    method: describe_instances
+    parameters:
+      - Filters
+      - InstanceIds
+      - DryRun
+      - MaxResults
+      - NextToken
+    property: Reservations.Instances
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+ec2_image:
+  client: ec2
+  list:
+    method: describe_images
+    parameters:
+      - ExecutableUsers
+      - Filters
+      - ImageIds
+      - Owners
+      - DryRun
+    property: Images
+
+ec2_security_group:
+  client: ec2
+  list:
+    method: describe_security_groups
+    parameters:
+      - Filters
+      - GroupIds
+      - GroupNames
+      - DryRun
+    property: SecurityGroups
+    key: GroupName
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+ec2_network_interface:
+  client: ec2
+  list:
+    method: describe_network_interfaces
+    parameters:
+      - Filters
+      - DryRun
+      - NetworkInterfaceIds
+    property: NetworkInterfaces
+    key: NetworkInterfaceId
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+ec2_route_table:
+  client: ec2
+  list:
+    method: describe_route_tables
+    parameters:
+      - Filters
+      - DryRun
+      - RouteTableIds
+      - NextToken
+      - MaxResults
+    property: RouteTables
+    key: RouteTableId
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+# RDS
+
+rds_instance:
+  client: rds
+  list:
+    method: describe_db_instances
+    property: DBInstances
+
+rds_tags:
+  client: rds
+  list:
+    method: list_tags_for_resource
+    property: TagList
+    parameters:
+      - ResourceName
+      - Filters
+
+rds_option_group_option:
+  client: rds
+  list:
+    method: describe_option_group_options
+    property: OptionGroupOptions
+    parameters:
+      - EngineName
+      - MajorEngineVersion
+      - Filters
+      - MaxRecords
+      - Marker
+    key: EngineName
+
+rds_option_groups:
+  client: rds
+  list:
+    method: describe_option_groups
+    property: OptionGroupsList
+    parameters:
+      - OptionGroupName
+      - Filters
+      - Marker
+      - MaxRecords
+      - EngineName
+      - MajorEngineVersion
+
+rds_db_parameter_groups:
+  client: rds
+  list:
+    method: describe_db_parameter_groups
+    property: DBParameterGroups
+    parameters:
+      - DBParameterGroupName
+      - Filters
+      - MaxRecords
+      - Marker
+
+rds_db_parameters:
+  client: rds
+  list:
+    method: describe_db_parameters
+    property: Parameters
+    parameters:
+      - DBParameterGroupName
+      - Source
+      - Filters
+      - MaxRecords
+      - Marker
+    key: DBParameterGroupName
+
+rds_db_clusters:
+  client: rds
+  list:
+    method: describe_db_clusters
+    property: DBClusters
+    parameters:
+      - DBClusterIdentifier
+      - Filters
+      - IncludeShared
+      - PaginationConfig
+
+rds_db_cluster_parameters:
+  client: rds
+  list:
+    method: describe_db_cluster_parameters
+    property: Parameters
+    parameters:
+      - DBClusterParameterGroupName
+      - Source
+      - Filters
+      - MaxRecords
+      - Marker
+    key: DBClusterParameterGroupName
+
+# RedShift
+
+redshift_cluster:
+  client: redshift
+  list:
+    method: describe_clusters
+    property: Clusters
+    parameters:
+      - ClusterIdentifier
+      - MaxRecords
+      - Marker
+      - TagKeys
+      - TagValues
+    key: ClusterIdentifier
+
+# Redis
+
+elasticache_clusters:
+  client: elasticache
+  list:
+    method: describe_cache_clusters
+    parameters:
+      - CacheClusterId
+      - MaxRecords
+      - Marker
+      - ShowCacheNodeInfo
+      - ShowCacheClustersNotInReplicationGroups
+    property: CacheClusters
+    key: CacheClusterId
+    pagination_field: Marker
+    pagination_method_parameter: Marker
+
+# ElasticSearch
+
+es_list_domains:
+  client: es
+  list:
+    method: list_domain_names
+    property: DomainNames
+
+es_domains:
+  client: es
+  list:
+    method: describe_elasticsearch_domains
+    parameters:
+      - DomainNames
+    property: DomainStatusList
+
+# Cloudwatch
+
+cloudwatch_metric_alarm:
+  client: cloudwatch
+  list:
+    method: describe_alarms
+    property: MetricAlarms
+    key: AlarmName
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+  resource:
+    method: Alarm
+  delete:
+    method: delete
+
+cloudwatch_alarms_history:
+  client: cloudwatch
+  list:
+    method: describe_alarm_history
+    parameters:
+      - AlarmName
+      - HistoryItemType
+      - StartDate
+      - EndDate
+    pagination_method_parameter: NextToken
+    pagination_field: NextToken
+    property: AlarmHistoryItems
+
+# Cloudwatch Logs
+
+cloudwatch_log_groups:
+  client: logs
+  list:
+    method: describe_log_groups
+    property: logGroups
+    pagination_field: nextToken
+    pagination_method_parameter: nextToken
+    parameters:
+      - logGroupNamePrefix
+
+cloudwatch_subscription_filter:
+  client: logs
+  list:
+    method: describe_subscription_filters
+    property: subscriptionFilters
+    pagination_field: nextToken
+    pagination_method_parameter: nextToken
+    parameters:
+      - logGroupName
+      - filterNamePrefix
+      - nextToken
+      - limit
+
+cloudwatch_log_streams:
+  client: logs
+  list:
+    method: describe_log_streams
+    parameters:
+      - logGroupName
+      - logStreamNamePrefix
+      - orderBy
+      - descending
+    pagination_method_parameter: nextToken
+    pagination_field: nextToken
+    property: logStreams
+
+cloudwatch_log_events:
+  client: logs
+  list:
+    method: get_log_events
+    parameters:
+      - logGroupName
+      - logStreamName
+      - startTime
+      - endTime
+      - startFromHead
+    pagination_method_parameter: nextToken
+    pagination_field: nextForwardToken
+    property: events
+
+cloudwatch_export_tasks:
+  client: logs
+  list:
+    method: describe_export_tasks
+    parameters:
+      - taskId
+      - statusCode
+      - limit
+    pagination_method_parameter: nextToken
+    pagination_field: nextToken
+    property: exportTasks
+
+cloudwatch_metric_statistics:
+  client: cloudwatch
+  list:
+    method: get_metric_statistics
+    parameters:
+      - Namespace
+      - MetricName
+      - Dimensions
+      - StartTime
+      - EndTime
+      - Period
+      - Statistics
+      - ExtendedStatistics
+      - Unit
+
+# Route 53
+
+route53_hosted_zones:
+  client: route53
+  list:
+    method: list_hosted_zones
+    property: HostedZones
+    parameters:
+      - Marker
+      - MaxItems
+      - DelegationSetId
+    pagination_field: NextMarker
+    pagination_method_parameter: Marker
+
+route53_record:
+  client: route53
+  list:
+    method: list_resource_record_sets
+    property: ResourceRecordSets
+    parameters:
+      - HostedZoneId
+      - StartRecordName
+      - StartRecordType
+      - StartRecordIdentifier
+      - MaxItems
+    pagination_field: NextRecordName
+    pagination_method_parameter: StartRecordName
+
+# Simple Queue Service
+
+sqs_queue:
+  client: sqs
+  list:
+    method: list_queues
+    parameters:
+      - QueueNamePrefix
+    property: QueueUrls
+
+sqs_queue_attributes:
+  client: sqs
+  list:
+    method: get_queue_attributes
+    parameters:
+      - QueueUrl
+      - AttributeNames
+    property: Attributes
+
+sqs_list_queue_tags:
+  client: sqs
+  list:
+    method: list_queue_tags
+    parameters:
+      - QueueUrl
+    property: Tags
+
+# IAM
+iam_user:
+  client: iam
+  list:
+    method: list_users
+    parameters:
+      - PathPrefix
+      - Marker
+      - MaxItems
+    property: Users
+
+iam_access_keys:
+  client: iam
+  list:
+    method: list_access_keys
+    parameters:
+      - UserName
+      - Marker
+      - MaxItems
+    property: AccessKeyMetadata
+
+iam_access_key_last_used:
+  client: iam
+  list:
+    method: get_access_key_last_used
+    parameters:
+      - AccessKeyId
+    property: AccessKeyLastUsed
+
+iam_list_role_policies:
+  client: iam
+  list:
+    method: list_role_policies
+    parameters:
+      - RoleName
+    property: PolicyNames
+
+iam_role:
+  client: iam
+  list:
+    method: get_role
+    parameters:
+      - RoleName
+      - Marker
+      - MaxItems
+    property: Role
+
+iam_attached_role_policies:
+  client: iam
+  list:
+    method: list_attached_role_policies
+    parameters:
+      - RoleName
+      - PathPrefix
+      - Marker
+      - MaxItems
+    property: AttachedPolicies
+
+iam_policy:
+  client: iam
+  list:
+    method: get_policy
+    parameters:
+      - PolicyArn
+    property: Policy
+
+iam_policy_version:
+  client: iam
+  list:
+    method: get_policy_version
+    parameters:
+      - PolicyArn
+      - VersionId
+    property: PolicyVersion
+
+# get_access_key_last_used
+# response = client.get_access_key_last_used(
+#     AccessKeyId='string'
+# )
+# {
+#     'UserName': 'string',
+#     'AccessKeyLastUsed': {
+#         'LastUsedDate': datetime(2015, 1, 1),
+#         'ServiceName': 'string',
+#         'Region': 'string'
+#     }
+# }
+
+# Secrets
+secretsmanager_secret:
+  client: secretsmanager
+  list:
+    method: list_secrets
+    parameters:
+      - MaxResults
+    pagination_method_parameter: NextToken
+    pagination_field: NextToken
+    property: SecretList
+
+secretsmanager_secret_value:
+  client: secretsmanager
+  list:
+    method: get_secret_value
+    parameters:
+      - SecretId
+      - VersionId
+      - VersionStage
+
+# ECS
+
+ecs_cluster:
+  client: ecs
+  list:
+    method: list_clusters
+    parameters:
+      - maxResults
+      - nextToken
+    property: clusterArns
+    pagination_field: nextToken
+    pagination_method_parameter: nextToken
+
+ecs_list_service:
+  client: ecs
+  list:
+    method: list_services
+    parameters:
+      - cluster
+      - launchType
+      - maxResults
+      - schedulingStrategy
+    property: serviceArns
+    pagination_field: nextToken
+    pagination_method_parameter: nextToken
+
+ecs_service:
+  client: ecs
+  list:
+    method: describe_services
+    parameters:
+      - cluster
+      - services
+      - include
+    property: services
+
+ecs_task_def:
+  client: ecs
+  list:
+    method: describe_task_definition
+    parameters:
+      - taskDefinition
+      - include
+    property: taskDefinition
+
+ecs_list_container_instance:
+  client: ecs
+  list:
+    method: list_container_instances
+    parameters:
+      - cluster
+      - filter
+      - maxResults
+      - status
+    property: containerInstanceArns
+    pagination_field: nextToken
+    pagination_method_parameter: nextToken
+
+ecs_container_instance:
+  client: ecs
+  list:
+    method: describe_container_instances
+    parameters:
+      - cluster
+      - containerInstances
+      - include
+    property: containerInstances
+
+events_rules:
+  client: events
+  list:
+    method: list_rules
+    parameters:
+      - NamePrefix
+      - EventBusName
+      - NextToken
+      - Limit
+    property: Rules
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+events_rule_targets:
+  client: events
+  list:
+    method: list_targets_by_rule
+    parameters:
+      - Rule
+      - EventBusName
+      - NextToken
+      - Limit
+    property: Targets
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+# S3 Buckets
+
+s3_buckets:
+  client: s3
+  list:
+    method: list_buckets
+    property: Buckets
+
+s3_acl:
+  client: s3
+  list:
+    method: get_bucket_acl
+    parameters:
+      - Bucket
+    property: Grants
+
+s3_logging:
+  client: s3
+  list:
+    method: get_bucket_logging
+    parameters:
+      - Bucket
+    property: LoggingEnabled
+
+s3_location:
+  client: s3
+  list:
+    method: get_bucket_location
+    parameters:
+      - Bucket
+    property: LocationConstraint
+
+s3_tags:
+  client: s3
+  list:
+    method: get_bucket_tagging
+    parameters:
+      - Bucket
+    property: TagSet
+
+# ELB ElasticLoadBalancing
+
+elb_load_balancers:
+  client: elb
+  list:
+    method: describe_load_balancers
+    parameters:
+      - LoadBalancerNames
+      - Marker
+      - PageSize
+    property: LoadBalancerDescriptions
+    pagination_method_parameter: Marker
+    pagination_field: NextMarker
+
+elb_load_balancer_attributes:
+  client: elb
+  list:
+    method: describe_load_balancer_attributes
+    parameters:
+      - LoadBalancerName
+    property: LoadBalancerAttributes
+
+elb_tags:
+  client: elb
+  list:
+    method: describe_tags
+    parameters:
+      - LoadBalancerNames
+    property: TagDescriptions.Tags
+
+elbv2_load_balancers:
+  client: elbv2
+  list:
+    method: describe_load_balancers
+    parameters:
+      - LoadBalancerArns
+      - Names
+      - Marker
+      - PageSize
+    property: LoadBalancers
+    pagination_method_parameter: Marker
+    pagination_field: NextMarker
+
+elbv2_load_balancer_attributes:
+  client: elbv2
+  list:
+    method: describe_load_balancer_attributes
+    parameters:
+      - LoadBalancerArn
+    property: Attributes
+
+elbv2_listeners:
+  client: elbv2
+  list:
+    method: describe_listeners
+    parameters:
+      - LoadBalancerArn
+      - ListenerArns
+      - Marker
+      - PageSize
+    property: Listeners
+    pagination_method_parameter: Marker
+    pagination_field: NextMarker
+
+elbv2_target_groups:
+  client: elbv2
+  list:
+    method: describe_target_groups
+    parameters:
+      - LoadBalancerArn
+      - TargetGroupArns
+      - Names
+      - Marker
+      - PageSize
+    property: TargetGroups
+    pagination_method_parameter: Marker
+    pagination_field: NextMarker
+
+elbv2_target_groups_attributes:
+  client: elbv2
+  list:
+    method: describe_target_group_attributes
+    parameters:
+      - TargetGroupArn
+    property: Attributes
+
+elbv2_listener_rules:
+  client: elbv2
+  list:
+    method: describe_rules
+    parameters:
+      - ListenerArn
+      - RuleArns
+      - Marker
+      - PageSize
+    property: Rules
+    pagination_method_parameter: Marker
+    pagination_field: NextMarker
+
+elbv2_tags:
+  client: elbv2
+  list:
+    method: describe_tags
+    parameters:
+      - ResourceArns
+    property: TagDescriptions.Tags
+
+ec2_nat_gateways:
+  client: ec2
+  list:
+    method: describe_nat_gateways
+    parameters:
+      - Name
+      - Values
+    property: NatGateways
+    pagination_field: NextToken
+    pagination_method_parameter: NextToken
+
+lambda:
+  client: lambda
+  list:
+    method: list_functions
+    parameters:
+      - MasterRegion
+      - FunctionVersion
+      - Marker
+      - MaxItems
+    property: Functions
+    pagination_field: NextMarker
+    pagination_method_parameter: Marker
+
+# EKS
+
+# o método list_cluster só traz o nome do cluster
+eks_cluster:
+  client: eks
+  list:
+    method: list_clusters
+    parameters:
+      - maxResults
+      - nextToken
+    property: clusters
+    pagination_field: nextToken
+    pagination_method_parameter: nextToken
+
+# CloudFront
+
+cloudfront_list_distributions:
+  client: cloudfront
+  list:
+    method: list_distributions
+    parameters:
+      - Marker
+      - PageSize
+    property: DistributionList.Items
+    pagination_method_parameter: Marker
+    pagination_field: DistributionList.NextMarker
+
+cloudfront_get_distribution:
+  client: cloudfront
+  list:
+    method: get_distribution
+    parameters:
+      - Id
+    property: Distribution
+
+cloudfront_list_tags_for_resource:
+  client: cloudfront
+  list:
+    method: list_tags_for_resource
+    parameters:
+      - Resource
+    property: Tags.Items
+
+# STS
+
+sts_caller_identity_account:
+  client: sts
+  list:
+    method: get_caller_identity
+    property: Account
+
+# Athena
+
+athena_start_query_execution:
+  client: athena
+  list:
+    method: start_query_execution
+    key: QueryString
+    parameters:
+      - QueryString
+      - ClientRequestToken
+      - QueryExecutionContext
+      - ResultConfiguration
+      - WorkGroup
+    property: QueryExecutionId
+
+athena_stop_query_execution:
+  client: athena
+  list:
+    method: stop_query_execution
+    key: QueryExecutionId
+    parameters:
+      - QueryExecutionId
+
+athena_get_query_results:
+  client: athena
+  list:
+    method: get_query_results
+    key: QueryExecutionId
+    parameters:
+      - QueryExecutionId
+      - NextToken
+      - MaxResults
+    property: ResultSet.Rows
+
+athena_get_query_execution:
+  client: athena
+  list:
+    method: get_query_execution
+    key: QueryExecutionId
+    parameters:
+      - QueryExecutionId
+    property: QueryExecution
