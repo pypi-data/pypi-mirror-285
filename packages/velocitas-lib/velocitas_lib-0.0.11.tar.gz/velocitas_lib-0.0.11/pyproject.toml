@@ -1,0 +1,15 @@
+[project]
+name = "velocitas-lib"
+dynamic = ["version"]
+readme = "README.md"
+dependencies = [
+    "requests >= 2.31.0",
+    "types-requests"
+]
+
+[build-system]
+requires = ["setuptools>=61.0", "setuptools-git-versioning"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools-git-versioning]
+enabled = true
