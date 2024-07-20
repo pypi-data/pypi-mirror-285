@@ -1,0 +1,146 @@
+import os
+from flask import Flask
+from flask import Blueprint
+from werkzeug.middleware.proxy_fix import ProxyFix
+# For simplicity, we'll read config file from 1st CLI param sys.argv[1]
+import sys
+import json
+import logging
+import requests
+import msal
+
+from mtlibs.az import webdeploy
+
+from azure.identity import ClientSecretCredential
+from azure.identity import EnvironmentCredential
+from azure.identity import InteractiveBrowserCredential
+from azure.identity import AzureCliCredential
+
+
+# "https://login.microsoftonline.com/2c08cf81-cac5-4330-b116-ab66666234b2"
+# config = {
+#   "authority": "https://login.microsoftonline.com/2c08cf81-cac5-4330-b116-ab66666234b2",
+#   "client_id": "6089f117-a64b-4e62-bd23-c5bf2c5dd32a",
+#   "scope": [ "https://graph.microsoft.com/.default" ],
+#   "secret": "Mt.7Q~aCN11NHAl7MEQKijZslNQ3ggodg0U0a",
+# #   "endpoint": "https://graph.microsoft.com/v1.0/users",
+#   "endpoint": "https://graph.microsoft.com/v1.0/users",
+# }
+
+config = {
+    "authority": "https://login.microsoftonline.com/2c08cf81-cac5-4330-b116-ab66666234b2",
+    "client_id": "b9b66ce4-de0e-437c-aeca-f3bbfae88dbd",
+    "scope": ["https://graph.microsoft.com/.default"],
+    "secret": "C7B7Q~zPW-nfEoKpeJnM6inQb9Ve0r3kTJVfM",
+    "endpoint": "https://graph.microsoft.com/v1.0/users",
+}
+
+config4 = {
+    "authority": "https://login.microsoftonline.com/2c08cf81-cac5-4330-b116-ab66666234b2",
+    "client_id": "60bc17f1-3335-4563-837e-3a5fe01c444c",
+    "scope": ["https://graph.microsoft.com/.default"],
+    "secret": "tuW7Q~UGNHtQoZI263V2g.S.8wA4xC1Nc5NND",
+    "endpoint": "https://graph.microsoft.com/v1.0/users",
+}
+
+
+page = Blueprint('innertoken_page', __name__,
+                 template_folder='templates', url_prefix='/az')
+
+
+@page.route("/graph_demo")
+def graph_demo():
+    # 以后台的方式访问graph范例
+    # Create a preferably long-lived app instance which maintains a token cache.
+    app = msal.ConfidentialClientApplication(
+        config["client_id"], authority=config["authority"],
+        client_credential=config["secret"],
+        # token_cache=...  # Default cache is in memory only.
+        # You can learn how to use SerializableTokenCache from
+        # https://msal-python.rtfd.io/en/latest/#msal.SerializableTokenCache
+    )
+
+    # The pattern to acquire a token looks like this.
+    result = None
+
+    # Firstly, looks up a token from cache
+    # Since we are looking for token for the current app, NOT for an end user,
+    # notice we give account parameter as None.
+    result = app.acquire_token_silent(config["scope"], account=None)
+
+    if not result:
+        logging.info(
+            "No suitable token exists in cache. Let's get a new one from AAD.")
+        result = app.acquire_token_for_client(scopes=config["scope"])
+
+    if "access_token" in result:
+        # Calling graph using the access token
+        graph_data = requests.get(  # Use token to call downstream service
+            config["endpoint"],
+            headers={'Authorization': 'Bearer ' + result['access_token']},
+        ).json()
+
+        # graph_data = requests.get(  # Use token to call downstream service
+        #     config["endpoint"],
+        #     headers={'Authorization': 'Bearer ' + result['access_token']}, ).json()
+        print("Graph API call result: ")
+        print(json.dumps(graph_data, indent=2))
+        return graph_data
+    else:
+        print("出错")
+        print(result.get("error"))
+        print(result.get("error_description"))
+        # You may need this when reporting a bug
+        print(result.get("correlation_id"))
+        return result.get("error_description")
+
+
+@page.route("/azuremng")
+def azuremng():
+    """试用，调用azure管理功能"""
+    # 以后台的方式访问graph范例
+    # Create a preferably long-lived app instance which maintains a token cache.
+    app = msal.ConfidentialClientApplication(
+        config["client_id"], authority=config["authority"],
+        client_credential=config["secret"],
+        # token_cache=...  # Default cache is in memory only.
+        # You can learn how to use SerializableTokenCache from
+        # https://msal-python.rtfd.io/en/latest/#msal.SerializableTokenCache
+    )
+    # The pattern to acquire a token looks like this.
+    result = None
+    result = app.acquire_token_silent(config["scope"], account=None)
+    if not result:
+        logging.info(
+            "No suitable token exists in cache. Let's get a new one from AAD.")
+        result = app.acquire_token_for_client(scopes=config["scope"])
+
+    if "access_token" in result:
+        print("token", result['access_token'])
+        subscriptionId  = "f6038766-7885-4773-974b-be0383525457"
+        resourceGroupName = "lajitest"
+        graph_data = requests.put(  # Use token to call downstream service
+            f"https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}?api-version=2021-04-01",
+            headers={'Authorization': 'Bearer ' + result['access_token']},
+        ).json()
+        return graph_data
+    return "1"
+
+
+@page.route("/groups")
+def groups():
+    # rec = InteractiveBrowserCredential()
+    webdeploy.deploy1()
+ 
+    return "2"
+
+@page.route("/groups2")
+def groups2():
+    # rec = InteractiveBrowserCredential()
+    credential = AzureCliCredential()
+    webdeploy.deploy1(credential)
+    return "2"
+
+@page.route("/deploy1")
+def deploy1():
+    webdeploy.deploy_python_helloword()
