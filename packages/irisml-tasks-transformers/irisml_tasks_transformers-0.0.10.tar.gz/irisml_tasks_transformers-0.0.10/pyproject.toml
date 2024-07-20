@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "irisml-tasks-transformers"
+version = "0.0.10"
+description = "IrisML Tasks for transformers library"
+readme = "README.md"
+license = {file = "LICENSE"}
+dependencies = [
+    "irisml",
+    "irisml-tasks-training",
+    "transformers>=4.31.0"
+]
+
+[project.urls]
+Repository = "https://github.com/microsoft/irisml-tasks-transformers"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["irisml.*"]
+
+[tool.ruff]
+line-length = 200
+exclude = [".eggs", ".git"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "UP", "TID252"]
