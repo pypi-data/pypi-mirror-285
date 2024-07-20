@@ -1,0 +1,94 @@
+Metadata-Version: 2.1
+Name: ratchada-utils
+Version: 1.0.5
+Summary: Ratchada Utils are Python package use with Ratchada Whisper model utilities.
+Home-page: https://github.com/thinkingmachines/ratchada-utils/
+Author: tm-zoon
+Author-email: zoon_p@thinkingmachin.es
+Maintainer: Thinking Machines Data Sciences Inc. Thailand Team
+Maintainer-email: hello@thinkingmachin.es
+License: MIT
+Project-URL: Documentation, https://huggingface.co/ThinkingMachinesDataScience/Ratchada-Fang-Thon-Whisper
+Project-URL: Source Code, https://github.com/thinkingmachines/ratchada-utils
+Project-URL: Issue Tracker, https://github.com/thinkingmachines/ratchada-utils/issues
+Keywords: model,Ratchada-Whisper,tokenizing,language,natural language,text analytics
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Text Processing
+Classifier: Topic :: Text Processing :: Filters
+Classifier: Topic :: Text Processing :: General
+Classifier: Topic :: Text Processing :: Indexing
+Classifier: Topic :: Text Processing :: Linguistic
+Requires-Python: >=3.10, <3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: deepcut ==0.7.0.0 ; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: ipython ==8.26.0 ; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: langdetect ==1.0.9 ; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: more-itertools ==10.1.0 ; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: regex ==2023.10.3 ; python_version >= "3.10" and python_version < "3.12"
+Provides-Extra: quality
+Requires-Dist: black ~=22.10.0 ; extra == 'quality'
+Requires-Dist: mypy ~=1.4.0 ; extra == 'quality'
+Requires-Dist: pre-commit ~=2.20.0 ; extra == 'quality'
+Requires-Dist: ruff ~=0.0.263 ; extra == 'quality'
+Provides-Extra: testing
+Requires-Dist: pytest ~=7.1.2 ; extra == 'testing'
+Requires-Dist: pytest-cov ~=4.1 ; extra == 'testing'
+
+# Ratchada_Util
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Python library for the Ratchada Whisper model.
+
+## Installation
+
+You can install `ratchada_util` using pip:
+
+```bash
+pip install ratchada_util
+```
+
+To install from source, clone the repository and run:
+
+```bash
+pip install .
+```
+
+## Usage
+
+### Tokenizing Text
+
+```bash
+
+from ratchada_utils.processor import tokenize_text
+
+text = "Your input text here."
+tokenized_text = tokenize_text(text, pred=True)
+print("Tokenized Text:", tokenized_text)
+# Tokenized Text: ['your', 'input', 'text', 'here']
+
+```
+
+## Requirements
+
+1. Python 3.10 or higher
+2. The Requirements are located in `requirements.txt`
+
+## License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+## Contact
+
+Please made contact on the [official repository](https://github.com/thinkingmachines/set-speechtotext-poc) of this project.
