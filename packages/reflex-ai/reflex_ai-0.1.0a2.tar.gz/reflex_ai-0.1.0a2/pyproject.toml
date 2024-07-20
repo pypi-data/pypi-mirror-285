@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "reflex-ai"
+version = "0.1.0a2"
+description = "A flexible agent framework."
+authors = ["Nikhil Rao <nikhil@reflex.dev>"]
+readme = "README.md"
+packages = [
+    { include = "flexai" },
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+anthropic = "^0.31.2"
+reflex = "^0.5.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
