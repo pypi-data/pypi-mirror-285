@@ -1,0 +1,55 @@
+Metadata-Version: 2.1
+Name: pytest-import-check
+Version: 0.0.4
+Summary: pytest plugin to check whether Python modules can be imported
+Author-email: Michał Górny <mgorny@gentoo.org>
+Requires-Python: >=3.9
+Description-Content-Type: text/x-rst
+Classifier: Development Status :: 3 - Alpha
+Classifier: Framework :: Pytest
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v2 or later (GPLv2+)
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Software Development :: Testing
+Requires-Dist: pytest >= 8.1
+Requires-Dist: meson ; extra == "test"
+Requires-Dist: ninja ; extra == "test"
+Requires-Dist: setuptools ; extra == "test"
+Project-URL: Homepage, https://github.com/projg2/pytest-import-check/
+Provides-Extra: test
+
+===================
+pytest-import-check
+===================
+
+Description
+===========
+pytest-import-check is a pytest plugin that enables checking whether
+Python modules installed by your package are importable.  This is mostly
+useful to quickly check packages that do not have tests at all or do not
+have all their modules covered by tests.
+
+To enable it, pass ``--import-check`` option to pytest, e.g.::
+
+    pytest --import-check foo
+
+Please note that pytest will still perform the default collection
+and run any tests that it can find.  Note that this may result in quite
+verbose tracebacks.  If this is undesirable, you can disable
+the built-in ``python`` plugin::
+
+    pytest -p no:python --import-check foo
+
+
+Thanks
+======
+While writing this plugin, I've looked at the following linter plugins
+for inspiration on how to use the API:
+
+- pytest-flakes_ by Florian Schulze, Holger Krekel and Ronny Pfannschmidt
+- pytest-mypy_ by Daniel Bader
+
+
+.. _pytest-flakes: https://pypi.org/project/pytest-flakes/
+.. _pytest-mypy: https://pypi.org/project/pytest-mypy/
+
