@@ -1,0 +1,54 @@
+Metadata-Version: 2.1
+Name: supabase-pydantic
+Version: 0.4.0
+Summary: A project to translate Supabase schemas into Pydantic models
+License: MIT
+Author: K Boehm
+Author-email: kmbhm1@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Development Status :: 1 - Planning
+Classifier: Environment :: Console
+Classifier: Framework :: FastAPI
+Classifier: Framework :: Pydantic
+Classifier: Framework :: Pydantic :: 2
+Classifier: Framework :: Pytest
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Natural Language :: English
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: click (>=8.1.7,<9.0.0)
+Requires-Dist: faker (>=24.11.0,<25.0.0)
+Requires-Dist: isort (>=5.13.2,<6.0.0)
+Requires-Dist: psycopg2-binary (>=2.9.9,<3.0.0)
+Requires-Dist: pydantic (>=2.6.3,<3.0.0)
+Requires-Dist: python-dotenv (>=1.0.1,<2.0.0)
+Requires-Dist: types-psycopg2 (>=2.9.21.20240417,<3.0.0.0)
+Description-Content-Type: text/markdown
+
+# Supabase Pydantic Schemas
+
+A project for digesting Supabase (or Postgres) table & view schemas into Pydantic models. Currently, this is ideal for projects that integrate [FastAPI](https://fastapi.tiangolo.com/) with [Supabase-Python](https://supabase.com/docs/reference/python/introduction), but more updates are coming soon ...
+
+## Installation
+
+```bash
+$ pip install supabase-pydantic                 # install
+$ touch .env                                    # create .env file
+$ echo "DB_NAME=<your_db_name>" >> .env         # add your postgres db name
+$ echo "DB_USER=<your_db_user>" >> .env         # add your postgres db user
+$ echo "DB_PASS=<your_db_password>" >> .env     # add your postgres db password
+$ echo "DB_HOST=<your_db_host>" >> .env         # add your postgres db host
+$ echo "DB_PORT=<your_db_port>" >> .env         # add your postgres db port
+```
+
+## Usage
+
+```bash
+$ sb-pydantic  # generate default schemas.py to ./entities/fastapi
+```
+
