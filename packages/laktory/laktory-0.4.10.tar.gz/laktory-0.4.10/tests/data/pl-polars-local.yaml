@@ -1,0 +1,72 @@
+name: pl-stock-prices-polars
+dataframe_type: POLARS
+nodes:
+- name: brz_stock_prices
+  layer: BRONZE
+  source:
+    format: PARQUET
+    path: ./data/brz_stock_prices/
+  sink:
+    format: PARQUET
+    path: ../tmp/pl_brz_sink.parquet
+
+- name: slv_stock_prices
+  layer: SILVER
+  source:
+    node_name: brz_stock_prices
+  sink:
+    format: PARQUET
+    path: ../tmp/pl_slv_sink.parquet
+  transformer:
+    nodes:
+    - with_column:
+        name: created_at
+        type: timestamp
+        expr: pl.expr.laktory.sql_expr('data._created_at')
+
+    - with_column:
+        name: symbol
+        sql_expr: data.symbol
+
+    - with_column:
+        name: close
+        type: double
+        sql_expr: data.close
+
+    - func_name: laktory.smart_join
+      func_kwargs:
+        'on':
+          - symbol
+        other:
+          node_name: slv_stock_meta
+          renames:
+            symbol2: symbol
+
+- name: gld_max_stock_prices
+  layer: GOLD
+  source:
+    node_name: slv_stock_prices
+  sink:
+    format: PARQUET
+    path: /tests/tmp/pl_gld_sink.parquet
+  transformer:
+    nodes:
+    - func_name: laktory.groupby_and_agg
+      func_kwargs:
+        agg_expressions:
+        - name: max_price
+          expr: F.max('close')
+        - name: min_price
+          expr: F.min('close')
+        groupby_columns:
+        - symbol
+
+- name: slv_stock_meta
+  layer: SILVER
+  source:
+    format: PARQUET
+    path: ./data/slv_stock_meta
+  sink:
+    format: PARQUET
+    path: /tests/tmp/pl_slv_meta_sink
+
