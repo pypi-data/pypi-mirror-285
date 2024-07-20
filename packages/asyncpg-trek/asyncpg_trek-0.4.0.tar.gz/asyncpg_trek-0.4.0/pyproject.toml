@@ -1,0 +1,88 @@
+[tool.poetry]
+name = "asyncpg-trek"
+version = "0.4.0"
+description = "A simple migrations system for asyncpg"
+authors = ["Adrian Garcia Badaracco <adrian@adriangb.com>"]
+readme = "README.md"
+repository = "https://github.com/adriangb/asyncpg-trek"
+documentation = "https://github.com/adriangb/asyncpg-trek"
+keywords = ["asyncpg", "postgres", "postgresql", "migrations"]
+license = "MIT"
+classifiers = [
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Typing :: Typed",
+    "Development Status :: 3 - Alpha",
+    "Environment :: Web Environment",
+    "Framework :: AsyncIO",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<4"
+asyncpg = { version = ">=0.26.0", optional = true }
+aiosqlite = { version = ">=0.20.0", optional = true }
+typing_extensions = { version = ">=4", python = "<3.8" }
+
+[tool.poetry.extras]
+asyncpg = ["asyncpg"]
+aiosqlite = ["aiosqlite"]
+
+[tool.poetry.dev-dependencies]
+# linting
+black = "*"
+flake8 = "*"
+isort = "*"
+mypy = "*"
+pre-commit = "*"
+# testing
+pytest = "*"
+pytest-cov = { version = "*" }
+pytest-sugar = "*"
+coverage = { extras = ["toml"], version = "*" }
+pytest-asyncio = "*"
+
+[tool.poetry.group.dev.dependencies]
+anyio = "^3.6.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.coverage.run]
+branch = true
+source = ["asyncpg_trek", "tests", "docs"]
+dynamic_context = "test_function"
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    '\.\.\.',
+    "raise NotImplementedError",
+    "TYPE_CHECKING",
+    "__repr__",
+    "import",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.black]
+exclude = 'docs\/.*\.py$'
+
+[tool.mypy]
+files = "asyncpg_trek/**/*.py,tests/**/*.py"
+strict = true
+warn_unused_ignores = false
