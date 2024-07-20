@@ -1,0 +1,2 @@
+class FigureError(Exception):
+    pass
