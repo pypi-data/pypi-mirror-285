@@ -1,0 +1,28 @@
+Metadata-Version: 2.3
+Name: mev-commit-sdk-py
+Version: 0.1.0
+Summary: mev-commit python sdk for on-chain data retrieval for mev-commit chain
+Author-email: Evan K <evan@primev.xyz>
+Requires-Python: >=3.8
+Requires-Dist: cryo>=0.3.2
+Requires-Dist: hvplot>=0.9.2
+Requires-Dist: polars>=1.0.0
+Requires-Dist: pyarrow>=16.0.0
+Requires-Dist: python-dotenv>=1.0.1
+Description-Content-Type: text/markdown
+
+# mev-commit-sdk-py
+
+## Introduction
+This is a python based SDK to grab data from mev-commit chain, specifically logs and events. You can use this endpoint to lookup data `mev-commit.rpc.hypersync.xyz`. There is currently support for both cryo and hypersync tools.
+
+## Installation
+This library uses `rye` as the project manager. First install [rye](https://rye.astral.sh/guide/installation/). Then clone the repository and run `rye sync` to install the dependencies and get setup. Current Python version is 3.10.12. Once installed, add a .env file with the variable `RPC='endpoint'` where endpoint is the url of the rpc server you want to connect to, this is for cryo. 
+
+The hypersync endpoint is `https://mev-commit.hypersync.xyz` and currently is not passed in as an .env variable
+
+## Usage
+There are various things you can do with the SDK.
+
+### Get Window Deposits
+`python examples/cryo/get_windows.py` gets all old windows that still have funds in them. Then take the list of windows generated and use the [`withdraw funds` command](https://docs.primev.xyz/get-started/bidders/bidder-node-commands#withdraw-funds) to withdraw from all of the windows.
