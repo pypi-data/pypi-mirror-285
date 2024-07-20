@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+import argparse
+import os
+import sys
+from distutils.spawn import find_executable
+
+from stem.util import term
+
+DESC="cli server "
+app_name = 'cliserver'
+
+def install(args):
+    print("安装(跳过) %s" % app_name, flush=True)    
+
+def start(args):
+    """
+        启动 基于notde js的管理后台 服务
+    """
+    print(term.format("启动 %s" % app_name, term.Color.RED), flush=True)
+    # 启动
+    os.system('node ./mtcli_web/main.js')
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="%s service" % app_name)
+    subparsers = parser.add_subparsers(help="%s service" % app_name)
+
+    parser_install = subparsers.add_parser('install', help='install')
+    parser_install.set_defaults(func=install)
+    
+    
+    parser_start = subparsers.add_parser('start', help='start the service')
+    parser_start.set_defaults(func=start)
+    if (len(sys.argv) < 2):
+        args = parser.parse_args(['start'])
+    else:
+        args = parser.parse_args(sys.argv[1:])
+    args.func(args)

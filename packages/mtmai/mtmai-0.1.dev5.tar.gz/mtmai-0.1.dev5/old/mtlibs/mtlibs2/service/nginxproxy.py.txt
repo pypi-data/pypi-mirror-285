@@ -1,0 +1,99 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
+
+import argparse
+## ##########################################################################
+# 用nginx本意是做后端代理
+# 1：重要的是复用80(433)端口，而避免容器大量的不同服务的端口配置。
+# 2：添加nginx的第三方模块，使之同时支持https正向代理。
+# 
+# 
+import os
+import sys
+from distutils.spawn import find_executable
+
+from stem.util import term
+
+app_name = 'nginx reverse proxy'
+# ENV NGINX_VERSION='1.19.2' 
+# RUN git clone https://github.com/chobits/ngx_http_proxy_connect_module.git /tmp/ngx_http_proxy_connect_module \
+#     && wget -q -O nginx-${NGINX_VERSION}.tar.gz http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+#     && tar -zxvf nginx-${NGINX_VERSION}.tar.gz && rm nginx-${NGINX_VERSION}.tar.gz \
+#     && cd nginx-${NGINX_VERSION} \
+#     && patch -p1 < /tmp/ngx_http_proxy_connect_module/patch/proxy_connect_rewrite_1018.patch\
+#     #/etc/nginx/modules/ngx_http_proxy_connect_module.so
+#     && ./configure \
+#         --prefix=/etc/nginx \
+#         --sbin-path=/usr/sbin/nginx \
+#         --modules-path=/usr/lib/nginx/modules \
+#         --conf-path=/etc/nginx/nginx.conf \
+#         --error-log-path=/var/log/nginx/error.log \
+#         --http-log-path=/var/log/nginx/access.log \
+#         --pid-path=/var/run/nginx.pid \
+#         --lock-path=/var/run/nginx.lock \
+#         --http-client-body-temp-path=/var/cache/nginx/client_temp \
+#         --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+#         --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+#         --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+#         --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
+#         --user=nginx \
+#         --group=nginx \
+#         --with-compat \
+#         --with-file-aio --with-threads \
+#         --with-http_addition_module \
+#         --with-http_auth_request_module \
+#         --with-http_dav_module \
+#         --with-http_flv_module \
+#         --with-http_gunzip_module \
+#         --with-http_gzip_static_module \
+#         --with-http_mp4_module \
+#         --with-http_random_index_module \
+#         --with-http_realip_module --with-http_secure_link_module \
+#         --with-http_slice_module --with-http_ssl_module \
+#         --with-http_stub_status_module --with-http_sub_module \
+#         --with-http_v2_module --with-mail --with-mail_ssl_module \
+#         --with-stream --with-stream_realip_module \
+#         --with-stream_ssl_module \
+#         --with-stream_ssl_preread_module \
+#         --add-dynamic-module=/tmp/ngx_http_proxy_connect_module \
+#     && make && make install \
+#     && cd .. && rm -rdf  nginx-${NGINX_VERSION}
+
+
+def install(args):
+    print("安装 %s" % app_name, flush=True)
+    os.system("""apt update && apt install nginx""")
+
+
+def start(args):
+    print(term.format("启动 %s" % app_name, term.Color.RED), flush=True)
+    # 先执行安装必要的包
+    if not find_executable('nginx'):
+        install()
+    # 启动
+    config_file = os.path.join(os.environ.get(
+        'APP_ROOT'), 'resources', 'nginx', 'nginx.conf')
+    
+    os.system('mkdir -p /var/cache/nginx')
+
+    # 认证密码在线生成：https://tool.oschina.net/htpasswd
+    # 注意要跟nginx.conf 里面的配置对应。
+    os.system('echo "abc:8rwGpBGyZt6jE" > /tmp/htpasswd')# abc:abc
+    os.system('nginx -c %s' % config_file)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="%s service" % app_name)
+    subparsers = parser.add_subparsers(help="%s service" % app_name)
+    # sub install
+    parser_help = subparsers.add_parser('install', help='install')
+    parser_help.set_defaults(func=install)
+    # sub start
+    parser_cmd = subparsers.add_parser('start', help='start the service')
+    parser_cmd.set_defaults(func=start)
+
+    if (len(sys.argv) < 2):
+        args = parser.parse_args(['start'])
+    else:
+        args = parser.parse_args(sys.argv[1:])
+    args.func(args)
