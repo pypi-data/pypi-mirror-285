@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- menu: /Cashbook/Cashbook/Category -->
+        <menuitem id="menu_category_tree" action="tree_category_view"
+            icon="tryton-tree"
+            parent="cashbook.menu_booktree" sequence="20"/>
+        <record model="ir.ui.menu-res.group"
+            id="menu_category_tree-group_cashbook">
+            <field name="menu" ref="menu_category_tree"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+        <record model="ir.ui.menu-res.group"
+            id="menu_category_tree-group_cashbook_admin">
+            <field name="menu" ref="menu_category_tree"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+        <!-- menu: /Cashbook/Cashbook/Category/Category (List) -->
+        <menuitem id="menu_category_list" action="list_category_view"
+            icon="tryton-list"
+            parent="menu_category_tree" sequence="10"/>
+        <record model="ir.ui.menu-res.group"
+            id="menu_category_list-group_cashbook">
+            <field name="menu" ref="menu_category_list"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+        <record model="ir.ui.menu-res.group"
+            id="menu_category_list-group_cashbook_admin">
+            <field name="menu" ref="menu_category_list"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+    </data>
+</tryton>

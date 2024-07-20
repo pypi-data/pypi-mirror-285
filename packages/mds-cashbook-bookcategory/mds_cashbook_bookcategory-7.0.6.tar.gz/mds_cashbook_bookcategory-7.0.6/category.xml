@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="category_view_list">
+            <field name="model">cashbook.bookcategory</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="10"/>
+            <field name="name">category_list</field>
+        </record>
+        <record model="ir.ui.view" id="category_view_tree">
+            <field name="model">cashbook.bookcategory</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="20"/>
+            <field name="field_childs">childs</field>
+            <field name="name">category_tree</field>
+        </record>
+        <record model="ir.ui.view" id="category_view_form">
+            <field name="model">cashbook.bookcategory</field>
+            <field name="type">form</field>
+            <field name="name">category_form</field>
+        </record>
+
+        <!-- tree view -->
+        <record model="ir.action.act_window" id="tree_category_view">
+            <field name="name">Cashbook Category</field>
+            <field name="res_model">cashbook.bookcategory</field>
+            <field name="domain" eval="[('parent', '=', None)]" pyson="1"/>
+        </record>
+        <record model="ir.action.act_window.view" id="tree_category_view-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="category_view_tree"/>
+            <field name="act_window" ref="tree_category_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="tree_category_view-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="category_view_form"/>
+            <field name="act_window" ref="tree_category_view"/>
+        </record>
+
+        <!-- list view -->
+        <record model="ir.action.act_window" id="list_category_view">
+            <field name="name">Cashbook Category (List)</field>
+            <field name="res_model">cashbook.bookcategory</field>
+        </record>
+        <record model="ir.action.act_window.view" id="list_category_view-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="category_view_list"/>
+            <field name="act_window" ref="list_category_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="list_category_view-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="category_view_form"/>
+            <field name="act_window" ref="list_category_view"/>
+        </record>
+
+        <!-- permissions -->
+        <record model="ir.model.access" id="access_category-anon">
+            <field name="model" search="[('model', '=', 'cashbook.bookcategory')]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+
+        <!-- group_cashbook_admin: read/write -->
+        <record model="ir.model.access" id="access_category-group_cashbook_admin">
+            <field name="model" search="[('model', '=', 'cashbook.bookcategory')]"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+
+        <!-- cashbook: read/write -->
+        <record model="ir.model.access" id="access_category-group_cashbook">
+            <field name="model" search="[('model', '=', 'cashbook.bookcategory')]"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+
+        <!-- permission by rule - admin -->
+        <record model="ir.rule.group" id="rg_category_write_adm">
+            <field name="model" search="[('model', '=', 'cashbook.bookcategory')]"/>
+            <field name="name">Administrators: Category read/write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_category_write_adm-1">
+            <field name="domain" eval="[]" pyson="1"/>
+            <field name="rule_group" ref="rg_category_write_adm"/>
+        </record>
+        <record model="ir.rule.group-res.group" id="rg_category_write_adm-group_cashbook_admin">
+            <field name="rule_group" ref="rg_category_write_adm"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+        <!-- permission by rule - read/write: owner -->
+        <record model="ir.rule.group" id="rg_category_rw_owner">
+            <field name="model" search="[('model', '=', 'cashbook.bookcategory')]"/>
+            <field name="name">Owners: Category read/write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_category_rw_owner-1">
+            <field name="domain" eval="[
+                ('create_uid.id', '=', Eval('user_id', -1)),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_category_rw_owner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_category_rw_owner-group_cashbook">
+            <field name="rule_group" ref="rg_category_rw_owner"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+
+        <!-- company user -->
+        <record model="ir.rule.group" id="rg_category_companies">
+            <field name="name">User in companies</field>
+            <field name="model"
+                search="[('model', '=', 'cashbook.bookcategory')]"/>
+            <field name="global_p" eval="True"/>
+        </record>
+        <record model="ir.rule" id="r_category_companies">
+            <field name="domain"
+                eval="[('company', 'in', Eval('companies', []))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rg_category_companies"/>
+        </record>
+
+    </data>
+</tryton>
