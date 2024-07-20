@@ -1,0 +1,31 @@
+Source: videomass
+Maintainer: Gianluca Pernigotto <jeanlucperni@gmail.com>
+Section: video
+Priority: optional
+Build-Depends: debhelper-compat (= 13),
+               dh-sequence-python3,
+               pybuild-plugin-pyproject,
+               python3-all,
+               python3-babel,
+               python3-hatchling
+Standards-Version: 4.1.4
+Homepage: https://github.com/jeanslack/Videomass
+X-Python3-Version: >= 3.8
+
+Package: videomass
+Architecture: all
+Depends: python3-pubsub,
+         python3-requests,
+         python3-wxgtk4.0,
+         ${misc:Depends},
+         ${python3:Depends}
+Recommends: ffmpeg
+Suggests: atomicparsley, yt-dlp
+Description: It is a cross-platform GUI for FFmpeg and yt-dlp
+ Videomass is a powerful, multitasking and cross-platform graphical user
+ interface (GUI) for FFmpeg and yt-dlp.
+ .
+ It offers a wide range of features and functions, making it a comprehensive
+ software solution.
+ .
+ Videomass is written in Python3 using the wxPython-Phoenix GUI toolkit.
