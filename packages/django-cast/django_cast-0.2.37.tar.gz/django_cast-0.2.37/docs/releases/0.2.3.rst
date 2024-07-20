@@ -1,0 +1,15 @@
+0.2.3 (2023-01-30)
+------------------
+
+Split up post in episodes and posts.
+
+* Fixed [codecov](https://codecov.io) badge
+* More information about the release process, so I don't have to guess every time I publish a new release
+* Added mypy to pre-commit hooks and fixed some issues
+* Fixed Post form in django admin (don't try to save body stream field)
+* Fixed a little issue raising an exception when an unknown language is set for a code block
+* Split up post page model in episodes and posts
+* Renamed test files to make the names easier searchable
+* Use a JSONField for the audio model to cache file sizes
+* Removed to warnings showing up running migrations
+* Added twitter player card metadata to episode detail page + single button player view
