@@ -1,0 +1,41 @@
+[project]
+name = "trame-remote-control"
+version = "0.1.1"
+description = "A trame extension to allow outside programs to send instructions to a trame app"
+readme = "README.md"
+authors = [
+    { name = "Jonathan Windgassen", email = "j.windgassen@fz-juelich.de" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+keywords = ["Python", "Interactive", "Web", "Application", "Framework", "ParaView", "trame"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+dependencies = [
+    "trame",
+    "trame-vuetify",
+    "aiohttp"
+]
+
+[project.urls]
+Repository = "https://github.com/jwindgassen/trame-remote-control"
+Issues = "https://github.com/jwindgassen/trame-remote-control/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
