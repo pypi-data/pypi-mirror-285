@@ -1,0 +1,135 @@
+[tool.poetry]
+name = "compreq"
+version = "0.3.1"
+description = "A library for dynamically computing Python requirements, to keep them up-to-date."
+authors = ["Jesper Nielsen <jespernielsen1982+compreq@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+homepage = "https://github.com/jesnie/compreq"
+repository = "https://github.com/jesnie/compreq"
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Typing :: Typed",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+[tool.poetry.dependencies]
+beautifulsoup4 = "<5,>=4.10.0"
+packaging = "<25,>=23.1"
+pip = "<25,>=23.2"
+python = "<4,>=3.10"
+python-dateutil = "<3,>=2.7.0"
+requests = "<3,>=2.30.0"
+tomlkit = "<0.14,>=0.11.0"
+typing-extensions = "<5,>=4.7.0"
+virtualenv = "<21,>=20.24.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "<24.5,>=24.4"
+isort = "<5.14,>=5.13"
+mypy = "<1.11,>=1.10"
+pylint = "<3.3,>=3.2"
+pytest = "<8.3,>=8.2"
+pytest-asyncio = "<0.23.8,>=0.23.7"
+taskipy = "<1.14,>=1.13"
+types-beautifulsoup4 = "<5,>=4.10"
+types-python-dateutil = "<3,>=0.1.0"
+types-requests = "<3,>=2.30"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+py_version = 310
+profile = "black"
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.mypy]
+python_version = "3.10"
+show_error_codes = true
+# First we turn on *all the checks*, and then we turn off those that are too annoying.
+strict = true
+disallow_untyped_decorators = false
+
+[[tool.mypy.overrides]]
+module = [
+    "_pytest.*",
+    "exceptiongroup.*",
+    "pytest.*",
+]
+ignore_missing_imports = true
+
+
+[tool.pylint.messages_control]
+max-line-length = 100
+disable = [
+  "duplicate-code",
+  "fixme",
+  "global-statement",
+  "invalid-name",
+  "invalid-str-returned",
+  "missing-class-docstring",
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "no-else-return",
+  "no-member",
+  "too-few-public-methods",
+  "too-many-arguments",
+  "too-many-branches",
+  "too-many-lines",
+  "too-many-locals",
+  "too-many-statements",
+  "unhashable-member",
+  "unused-argument",
+  "use-implicit-booleaness-not-comparison",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+
+[tool.taskipy.tasks]
+isort = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX isort XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    isort compreq tests set_version.py requirements.py
+"""
+isort_check = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX isort XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    isort --check-only compreq tests set_version.py requirements.py
+"""
+black = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX black XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    black compreq tests set_version.py requirements.py
+"""
+black_check = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX black XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    black --check compreq tests set_version.py requirements.py
+"""
+mypy = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX mypy XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    mypy compreq tests set_version.py requirements.py
+"""
+pylint = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX pylint XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    pylint compreq tests set_version.py requirements.py
+"""
+pytest = """
+    echo XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX pytest XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    pytest tests
+"""
+
+format = "task isort && task black"
+format_check = "task isort_check && task black_check"
+lint = "task format_check && task mypy && task pylint"
+test = "task lint && task pytest"
+format_and_lint = "task format && task lint"
+format_and_test = "task format && task test"
