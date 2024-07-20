@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: specsy
+Version: 0.5.0
+Summary: Model fitting package for the chemical analysis of astronomical spectra
+Author-email: Vital Fernández <vgf@umich.edu>
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Requires-Python: >=3.10
+Description-Content-Type: text/x-rst
+Requires-Dist: arviz ~=0.18
+Requires-Dist: astropy ~=6.0
+Requires-Dist: corner ~=2.2
+Requires-Dist: h5netcdf ~=1.3.0
+Requires-Dist: jax ~=0.4
+Requires-Dist: jaxlib ==0.4.26
+Requires-Dist: lime-stable ~=1.0
+Requires-Dist: lmfit ~=1.3
+Requires-Dist: matplotlib ~=3.8
+Requires-Dist: numpy ~=2.0
+Requires-Dist: pandas ~=2.2.2
+Requires-Dist: pymc ~=5.13
+Requires-Dist: scipy ~=1.13
+Requires-Dist: toml ~=0.10
+Requires-Dist: xarray ~=2024.3.0
+Requires-Dist: tomli >=2.0.0 ; python_version < "3.11"
+Provides-Extra: docs
+Requires-Dist: nbsphinx ~=0.9 ; extra == 'docs'
+Requires-Dist: ipympl ~=0.9 ; extra == 'docs'
+Requires-Dist: sphinx-rtd-theme ~=1.0 ; extra == 'docs'
+Provides-Extra: tensors
+Requires-Dist: pytensor ~=2.20 ; extra == 'tensors'
+Provides-Extra: tests
+Requires-Dist: pytest ~=7.4 ; extra == 'tests'
+Requires-Dist: pytest-cov ~=4.1 ; extra == 'tests'
+Requires-Dist: pytest-mpl ~=0.16 ; extra == 'tests'
+
+###################
+Spectra Synthesizer
+###################
+
+This library provides a set of tools for the analysis of astronomical spectra. The chemical model includes a sampler of
+the direct method parameter space. Moreover, this sampler can be used to fit photoionization model grids. Finally, the
+library includes tools for the analysis of the stellar and gas continua.
+
+This package is currently in an alpha estate. The preliminary documentation can be found at `readthedocs <https://specsy.readthedocs.io/>`_.
+
+Installation
+============
+
+The library can be installed directly from its pip_ project page running the command:
+
+``pip install specsy``
+
+Development
+===========
+
+SpecSy is currently in an alpha release. Please check its github_ for the latest version.
+
+.. _pip: https://pypi.org/project/specsy/
+.. _github: https://github.com/Vital-Fernandez/specy
+
