@@ -1,0 +1,20 @@
+# Cryptos
+ALGO = "ALGO"
+ADA = "ADA"
+ETH = "ETH"
+MATIC = "MATIC"
+
+# Tokens
+BEARD = "BEARD"
+BOOK = "BOOK"
+STUFF = "STUFF"
+
+# Fiat
+USD = "USD"
+
+
+CRYPTOS = [ALGO, ADA, ETH, MATIC, BEARD, BOOK, STUFF]
+
+FIATS = [
+    USD,
+]
