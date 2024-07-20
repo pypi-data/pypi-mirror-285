@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "easydatamodel"
+version = "0.3.2"
+description = "The easiest way to create type-safe dataclasses in Python."
+authors = ["J.I. Cruz <hello@jicruz.com>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/jicruz96/easydatamodel"
+keywords = [
+  "data validation",
+  "dataclasses",
+  "validation",
+  "models",
+  "meta-programming",
+]
+classifiers = [
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+]
+include = ["easydatamodel/**/*.pyi"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.1.0"
+flake8 = "^6.0.0"
+isort = "^5.12.0"
+pre-commit = "^3.0.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.black]
+line-length = 120
+target-version = ['py311']
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+)
+'''
+
+[tool.pyright]
+reportSelfClsParameterName = false
