@@ -1,0 +1,45 @@
+env:
+    ALLOWEDFLARE_EMAILS: "['person@emailprovider.example']"
+    ALLOWEDFLARE_PRIVATE_DOMAIN: organization.example
+    CLOUDFLARE_ACCOUNT_ID: 0123456789abcdef0123456789abcdef00
+    CLOUDFLARE_ZONE_ID: 0123456789abcdef0123456789abcdef01
+name: Check
+jobs:
+    check:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - run: source includes.sh summarize
+
+            - uses: actions/setup-node@v4
+              with:
+                  cache: yarn
+                  node-version-file: .nvmrc
+            - run: yarn install --frozen-lockfile
+
+            - uses: actions/setup-python@v5
+              with:
+                  python-version-file: .python-version
+
+            - run: pip install --upgrade pip setuptools uv
+              env:
+                  PIP_PROGRESS_BAR: 'off'
+
+            - run: uv venv && source includes.sh ups
+
+            - run: >
+                  source includes.sh
+                  && a
+                  && pcta
+                  && pctam mypy
+                  && pctam gitignore-node-python-terraform
+            - run: source includes.sh hti demo && terraform -chdir=deploys/demo/terraform validate
+            - run: source includes.sh a && python -m build
+
+on: # yamllint disable-line rule:truthy
+    pull_request:
+    push:
+        branches:
+            - main
+    workflow_dispatch:
+run-name: Checking on behalf of ${{ github.actor }}

@@ -1,0 +1,76 @@
+[build-system]
+requires = ['setuptools>=61.0', 'setuptools_scm[toml]>=6.2', 'wheel']
+build-backend = 'setuptools.build_meta'
+
+[project]
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
+    'Operating System :: OS Independent',
+    'Topic :: System :: Systems Administration',
+    'Topic :: System :: Installation/Setup',
+]
+description = 'Python Terraform JSON configuration generator'
+dependencies = ['cdktf', 'cdktf-cdktf-provider-null', 'typed-argument-parser']
+dynamic = ['version']
+name = 'helicopyter'
+readme = 'README.md'
+
+[project.urls]
+Homepage = 'https://github.com/covracer/helicopyter'
+
+[tool.ruff]
+line-length = 100
+target-version = 'py312'
+
+[tool.ruff.format]
+quote-style = 'single'
+skip-magic-trailing-comma = true
+
+[tool.ruff.lint]
+fixable = ['ALL']
+ignore = [
+    'ANN101',
+    'COM812', # Insists on join([],) over join([])
+    'D101',
+    'D103',
+    'D104',
+    'D107',
+    'EM101',
+    'EM102',
+    'INP001',
+    'ISC001',
+    'Q000',   # ruff format will single quote
+    'Q001',   # ruff format will single quote
+    'Q003',   # ruff format will single quote
+    # N806 tries to lowercase classes; currently ignored on a line-by-line basis
+    'TD002',  # The git log records who wrote a TODO line
+    'TD003',  # Don't require issue links
+    'TD004',  # A colon takes up space without really improving readability
+    'TD002',  # The git log records who wrote a TODO line
+    'TD003',  # Don't require issue links
+    'TD004',  # A colon takes up space without really improving readability
+    'TRY002',
+    'TRY003',
+    'Q001',   # Single quote
+]
+select = ['ALL']
+
+[tool.ruff.lint.per-file-ignores]
+'test_*' = [
+    'S101', # assert is good for tests
+]
+
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+
+[tool.ruff.lint.pydocstyle]
+convention = 'pep257'
+
+[tool.setuptools]
+py-modules = ['helicopyter']
+
+[tool.setuptools.packages.find]
+exclude = ['deploys*'] # Applies to wheel but not sdist
+
+[tool.setuptools_scm]
