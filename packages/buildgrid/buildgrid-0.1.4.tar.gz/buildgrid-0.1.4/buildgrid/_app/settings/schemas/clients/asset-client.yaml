@@ -1,0 +1,27 @@
+title: Client for Remote Asset service
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  url:
+    type: string
+  instance-name:
+    type: string
+  credentials:
+    type: object
+    properties:
+      tls-client-key:
+        type: string
+      tls-client-cert:
+        type: string
+      tls-server-cert:
+        type: string
+      auth-token:
+        type: string
+  request-timeout:
+    type: number
+  retries:
+    type: number
+
+required:
+  - url

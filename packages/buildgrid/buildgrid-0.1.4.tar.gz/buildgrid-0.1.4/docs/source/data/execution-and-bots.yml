@@ -1,0 +1,42 @@
+server:
+  - !channel
+    address: localhost:50051
+    insecure-mode: true
+
+instances:
+  - name: ''
+
+    storages:
+      - !remote-storage &remote-cas
+        url: http://storage:50052
+        instance-name: ''
+
+    caches:
+      - !remote-action-cache &remote-cache
+        url: http://storage:50052
+        instance-name: ''
+
+    data-stores:
+      - !sql-scheduler &state-database
+        storage: *remote-cas
+        connection-string: sqlite:///./example.db
+        automigrate: yes
+        connection-timeout: 15
+        poll-interval: 0.5
+
+    services:
+      - !execution
+        storage: *remote-cas
+        action-cache: *remote-cache
+        scheduler: *state-database
+        max-execution-timeout: 7200
+        endpoints:
+          - execution
+          - operations
+
+      - !bots
+        storage: *remote-cas
+        action-cache: *remote-cache
+        scheduler: *state-database
+
+thread-pool-size: 1000

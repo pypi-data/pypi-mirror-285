@@ -1,0 +1,32 @@
+title: S3 Storage backend
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  bucket:
+    type: string
+  endpoint:
+    type: string
+  access-key:
+    type: string
+  secret-key:
+    type: string
+  read-timeout-seconds-per-kilobyte:
+    type: number
+  write-timeout-seconds-per-kilobyte:
+    type: number
+  read-timeout-min-seconds:
+    type: number
+  write-timeout-min-seconds:
+    type: number
+  hash-prefix-size:
+    type: number
+  path-prefix-string:
+    type: string
+  versioned-deletes:
+    type: boolean
+required:
+  - bucket
+  - endpoint
+  - access-key
+  - secret-key

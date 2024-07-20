@@ -1,0 +1,25 @@
+server:
+  - !channel
+    address: localhost:50052
+    insecure_mode: true
+
+instances:
+  - name: ''
+
+    storages:
+      - !disk-storage &main-storage
+        path: !expand-path $HOME/cas
+
+    services:
+      - !action-cache &main-action
+        storage: *main-storage
+        max-cached-refs: 256
+        allow-updates: true
+
+      - !cas
+        storage: *main-storage
+
+      - !bytestream
+        storage: *main-storage
+
+thread-pool-size: 1000

@@ -1,0 +1,25 @@
+title: Sharded Storage backend
+type: object
+propertyNames:
+  pattern: "^[A-Za-z0-9-]*$"
+properties:
+  shards:
+    type: array
+    minItems: 1
+    items:
+      type: object
+      properties:
+        name:
+          type: string
+          pattern: "^[A-Za-z0-9-]*$"
+        storage:
+          type: storage
+        required:
+          - name
+          - storage
+  thread-pool-size:
+    type: integer
+    minimum: 0
+
+required:
+  - shards
