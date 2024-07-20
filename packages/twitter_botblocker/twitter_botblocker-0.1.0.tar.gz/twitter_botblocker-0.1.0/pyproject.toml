@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "twitter_botblocker"
+version = "0.1.0"
+description = ""
+authors = ["sweatrs"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+twikit = "^2.0.2"
+rich = "^13.7.1"
+asyncclick = "^8.1.7.2"
+
+[tool.poetry.scripts]
+twitter_botblocker = "twitter_botblocker.main:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
