@@ -1,0 +1,257 @@
+import pandas as pd 
+import matplotlib.pyplot as plt  
+import seaborn as sns   
+%matplotlib inline
+
+data = pd.read_excel('job.xlsx')  
+print(data.head())
+data.info()
+data.describe()
+data.dtypes
+data.isnull().sum()#查看缺失值
+# 使用bb填充a列缺失值
+data['a'] = data['a'].fillna('bb')  
+del data['b']#删除b列
+
+data['c'].value_counts() #统计c列分布
+#对mark列超过50个字符的数据，删去这一条 
+datas = data[data['mark'].str.len() <= 50]  
+
+plt.figure(figsize=(10, 6))  
+plt.hist(data['fraudulent'], alpha=0.7, color='skyblue', edgecolor='black')  #数值数据画图
+#plt.bar(data['fraudulent'].value_counts().index,data['fraudulent'].value_counts().values, color='skyblue')  #分类标签画图
+plt.title('Distribution of Marks')  
+plt.xlabel('Marks')  
+plt.ylabel('Frequency') 
+plt.xticks(rotation=45)  # 如果类别名称较长，可以旋转标签
+plt.grid(True)  
+plt.savefig("my_plot.png") #保存图片png图片
+plt.show()
+
+#删除有缺失值的行
+df=df.dropna()
+
+#编码
+#标签编码
+from sklearn.preprocessing import LabelEncoder
+labelencoder = LableEncoder()
+X[:, 0] = labelencoder.fit_transform(X[:, 0])
+
+df = pd.read_excel('path_to_your_excel_file.xlsx')#读取excel数据
+data = pd.read_csv('your_dataset.csv') #读取csv
+from sklearn.model_selection import train_test_split  
+# 分离出职位名称列  
+job_titles = data.iloc[:, 3]  # 假设第四列是职位名称  
+X = data.drop(columns=[data.columns[3]])  # 移除职位名称列，保留其他特征  
+y = data.iloc[:, -1]  # 假设最后一列是label  
+  
+# 使用OneHotEncoder对职位名称进行编码  
+onehot_encoder = OneHotEncoder(handle_unknown='ignore', sparse=False)  
+job_titles_encoded = onehot_encoder.fit_transform(job_titles.values.reshape(-1, 1))  
+  
+# 将编码后的职位名称添加到X中  
+# 注意：这里我们假设onehot_encoder.categories_[0]给出了职位名称的顺序  
+# 我们需要将这些one-hot编码的列放置在正确的位置，但在这个简单的例子中，我们直接追加它们  
+X_with_job_titles = pd.concat([X.reset_index(drop=True), pd.DataFrame(job_titles_encoded, columns=onehot_encoder.get_feature_names_out(['job_title']))], axis=1)  
+  
+# 划分训练集和测试集  
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+from sklearn.ensemble import RandomForestClassifier  
+# 初始化随机森林模型  
+rf = RandomForestClassifier(n_estimators=100, random_state=42)  
+rf.fit(X_train, y_train)
+
+from sklearn.model_selection import GridSearchCV  
+  
+# 定义参数网格  
+param_grid = {  
+    'n_estimators': [100, 200, 300],  
+    'max_depth': [None, 10, 20, 30],  
+    'min_samples_split': [2, 5, 10],  
+    'min_samples_leaf': [1, 2, 4]  
+}  
+  
+# 实例化GridSearchCV  
+grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, scoring='accuracy', verbose=2, n_jobs=-1)  
+grid_search.fit(X_train, y_train)  
+  
+# 选择最佳模型  
+best_rf = grid_search.best_estimator_
+import joblib  
+# 保存模型  
+joblib.dump(best_rf, 'best_random_forest_model.pkl')
+
+# 预测新数据，读取new.csv文件  
+new_data = pd.read_csv('new.csv', header=None)  
+new_data.columns = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5']  
+  
+# 使用模型进行预测  
+predictions = best_rf.predict(new_data)  
+  
+# 如果需要，可以将预测结果保存到CSV文件中  
+predictions_df = pd.DataFrame(predictions, columns=['predicted_label'])  
+predictions_df.to_csv('predictions.csv', index=False)
+
+#评价，准确率
+from sklearn.metrics import accuracy_score  
+# 假设y_pred是模型在测试集上的预测结果  
+accuracy = accuracy_score(y_test, y_pred)  
+print(f'Accuracy: {accuracy:.2f}')
+#评价，混淆矩阵
+from sklearn.metrics import confusion_matrix  
+  
+# 假设y_pred是模型在测试集上的预测结果  
+cm = confusion_matrix(y_test, y_pred)  
+print(cm)
+#混淆可视化
+import matplotlib.pyplot as plt  
+import seaborn as sns  
+  
+# 假设y_pred是模型在测试集上的预测结果，y_test是真实的标签  
+cm = confusion_matrix(y_test, y_pred)  
+  
+# 使用seaborn热图来可视化混淆矩阵  
+sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=classes, yticklabels=classes)  
+plt.xlabel('Predicted Label')  
+plt.ylabel('True Label')  
+plt.title('Confusion Matrix')  
+plt.show()  
+  
+# 注意：classes应该是你的类别标签列表，这里需要你根据实际情况替换  
+# 例如：classes = ['class0', 'class1', 'class2', 'class3', 'class4']
+
+from sklearn.metrics import precision_score, recall_score, f1_score  
+  
+# 计算每个类别的精确率、召回率和F1分数，或者平均（micro/macro）  
+precision = precision_score(y_test, y_pred, average='macro')  # 或 'micro', 'weighted'  
+recall = recall_score(y_test, y_pred, average='macro')  
+f1 = f1_score(y_test, y_pred, average='macro')  
+  
+print(f'Precision: {precision:.2f}')  
+print(f'Recall: {recall:.2f}')  
+print(f'F1 Score: {f1:.2f}')
+
+from sklearn.metrics import roc_auc_score  
+from sklearn.preprocessing import label_binarize  
+  
+# 假设是多分类问题，我们需要对每个类别计算ROC AUC  
+y_test_bin = label_binarize(y_test, classes=[0, 1, 2, 3, 4])  
+n_classes = y_test_bin.shape[1]  
+  
+# 假设y_score是模型预测的概率，对于随机森林，可以使用predict_proba  
+y_score = best_rf.predict_proba(X_test)  
+  
+# 计算每个类别的ROC AUC  
+roc_auc = roc_auc_score(y_test_bin, y_score, average='macro', multi_class='ovo')  
+print(f'ROC AUC Score: {roc_auc:.2f}')  
+  
+#ROC可视化
+from sklearn.metrics import roc_curve, auc  
+from itertools import cycle  
+  
+# 假设我们有一个二分类问题或只关注一个类别  
+# 这里我们需要二分类的y_test和y_score（模型预测为正类的概率）  
+# 由于是多类，我们将使用predict_proba来获取概率，并假设我们关注第一个类别  
+y_score = best_rf.predict_proba(X_test)[:, 0]  # 假设我们关注第一个类别  
+fpr, tpr, thresholds = roc_curve(y_test, y_score)  
+roc_auc = auc(fpr, tpr)  
+  
+# 绘制ROC曲线  
+plt.figure()  
+lw = 2  
+plt.plot(fpr, tpr, color='darkorange', lw=lw, label='ROC curve (area = %0.2f)' % roc_auc)  
+plt.plot([0, 1], [0, 1], color='navy', lw=lw, linestyle='--')  
+plt.xlim([0.0, 1.0])  
+plt.ylim([0.0, 1.05])  
+plt.xlabel('False Positive Rate')  
+plt.ylabel('True Positive Rate')  
+plt.title('Receiver Operating Characteristic Example')  
+plt.legend(loc="lower right")  
+plt.show()
+
+=========================================
+#回归模型
+import pandas as pd  
+from sklearn.model_selection import train_test_split  
+  
+# 加载数据  
+data = pd.read_csv('your_dataset.csv')  # 替换为你的文件名  
+  
+# 假设前5列是特征，第6列是目标值  
+X = data.iloc[:, :-1]  # 提取特征  
+y = data.iloc[:, -1]   # 提取目标值  
+  
+# 划分数据集  
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+from sklearn.ensemble import RandomForestRegressor  
+  
+# 初始化随机森林回归模型  
+rf = RandomForestRegressor(n_estimators=100, random_state=42)  
+  
+# 训练模型  
+rf.fit(X_train, y_train)
+
+from sklearn.model_selection import GridSearchCV  
+  
+# 定义要搜索的参数网格  
+param_grid = {  
+    'n_estimators': [100, 200, 300],  
+    'max_depth': [None, 10, 20, 30],  
+    'min_samples_split': [2, 5, 10],  
+    'min_samples_leaf': [1, 2, 4],  
+    'max_features': ['auto', 'sqrt', 'log2']  
+}  
+  
+# 初始化GridSearchCV对象  
+grid_search = GridSearchCV(estimator=rf, param_grid=param_grid, cv=5, scoring='neg_mean_squared_error', verbose=2, n_jobs=-1)  
+  
+# 执行网格搜索  
+grid_search.fit(X_train, y_train)  
+  
+# 获取最佳模型  
+best_rf = grid_search.best_estimator_
+# 保存模型  
+# 加载新数据  
+new_data = pd.read_csv('new.csv')  
+new_X = new_data.iloc[:, :-1]  # 提取特征  
+  
+# 加载模型  
+loaded_model = joblib.load('random_forest_regression_model.pkl')  
+  
+# 进行预测  
+predictions = loaded_model.predict(new_X)  
+  
+# 将预测结果保存到DataFrame  
+predictions_df = pd.DataFrame(predictions, columns=['Predicted_Value'])
+
+from sklearn.metrics import mean_squared_error  
+  
+# 使用测试集评估模型  
+y_pred = best_rf.predict(X_test)  
+mse = mean_squared_error(y_test, y_pred)  
+rmse = mse ** 0.5  
+print(f"模型的RMSE为: {rmse}")
+
+
+#导出模型为.pkl文件 
+import pickle
+with open('knn_model.pkl', 'wb') as file:  
+    pickle.dump(knn, file)
+#导入模型
+import pickle  
+from sklearn.neighbors import KNeighborsClassifier  
+
+with open('knn_model.pkl', 'rb') as file:  
+    loaded_knn = pickle.load(file)  
+  
+x = pd.get_dummies(x) #预处理大法
+预测新数据集
+new_data = pd.read_csv('77.csv')
+X_new = new_data.iloc[:, :3]
+X_new = pd.get_dummies(X_new)
+predictions = clf.predict(X_new)
+print(predictions)
+
+
