@@ -1,0 +1,155 @@
+- id: codespell
+  entry: codespell --check-filenames --ignore-words-list READYness
+  language: system
+  name: codespell
+  types:
+      - text
+
+- id: dot-yaml
+  description: Require four letter suffix http://www.yaml.org/faq.html
+  entry: dot-yaml
+  files: .*\.yml$
+  language: fail
+  name: dot-yaml
+
+- id: gitignore-node-python
+  entry: >
+      bash -c 'langs={Node,Python};
+      curl -s https://raw.githubusercontent.com/github/gitignore/main/$langs.gitignore >
+      .gitignore'
+  language: system
+  name: gitignore-node-python
+  pass_filenames: false
+  stages:
+      - manual
+
+- id: gitignore-node-python-terraform
+  entry: >
+      bash -c 'langs={Node,Python,Terraform};
+      curl -s https://raw.githubusercontent.com/github/gitignore/main/$langs.gitignore >
+      .gitignore'
+  language: system
+  name: gitignore-node-python-terraform
+  pass_filenames: false
+  stages:
+      - manual
+
+- id: hadolint
+  entry: hadolint
+  language: system
+  name: hadolint
+  types:
+      - dockerfile
+
+- id: includes-sh
+  entry: curl -Os https://raw.githubusercontent.com/biobuddies/helicopyter/main/includes.sh
+  language: system
+  name: includes-sh
+  pass_filenames: false
+  stages:
+      - manual
+
+- id: helicopyter
+  entry: python -m helicopyter
+  files: ^(helicopyter\.py|deploys/.+/terraform/main\.py)$
+  language: system
+  name: helicopyter
+  # Without this, there can be a useless run with specific deploys/*/terraform/main.py files,
+  # followed by the run for all deploys/*/terraform/main.py files (triggered by helicopyter.py)
+  require_serial: true
+
+- id: mailmap
+  entry: bash includes.sh check_mailmap
+  language: system
+  name: mailmap
+  pass_filenames: false
+
+- id: mypy
+  entry: mypy .
+  language: system
+  name: mypy
+  pass_filenames: false
+  stages:
+      - manual
+  types:
+      - python
+
+# uv-pip-check recommended instead
+- id: pip-check
+  entry: pip check
+  language: system
+  name: pip-check
+  pass_filenames: false
+
+- id: prettier-write
+  entry: node_modules/.bin/prettier --write
+  exclude: ^deploys/.+/terraform/main.tf.json$
+  language: system
+  name: prettier-write
+  types_or:
+      - json
+      - yaml
+      - toml
+      - ts
+
+- id: ruff-check-fix
+  args:
+      - --fix
+  entry: ruff check --force-exclude
+  language: system
+  name: ruff
+  require_serial: true
+  types_or:
+      - python
+      - pyi
+
+- id: ruff-format
+  entry: ruff format --force-exclude
+  language: system
+  name: ruff-format
+  require_serial: true
+  types_or:
+      - python
+      - pyi
+
+- id: shellcheck
+  entry: shellcheck
+  language: system
+  name: shellcheck
+  require_serial: true # shellcheck can detect sourcing this way
+  types:
+      - shell
+
+- id: shfmt
+  entry: >
+      shfmt --binary-next-line --case-indent --simplify --write --indent 4 --language-dialect bash
+  language: system
+  name: shfmt
+  types:
+      - shell
+
+- id: validate-pyproject
+  entry: validate-pyproject
+  files: ^pyproject.toml$
+  language: system
+  name: Validate pyproject.toml
+
+- id: uv-pip-check
+  entry: uv pip check
+  language: system
+  name: uv-pip-check
+  pass_filenames: false
+
+- id: uv-pip-compile
+  entry: uv pip compile -o requirements.txt --python-platform linux
+  files: requirements.in
+  language: system
+  name: uv-pip-compile
+
+- id: yamllint
+  entry: yamllint
+  language: system
+  name: yamllint
+  types:
+      - file
+      - yaml
