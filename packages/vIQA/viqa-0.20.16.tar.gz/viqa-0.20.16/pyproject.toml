@@ -1,0 +1,199 @@
+[project]
+name = "vIQA"
+dynamic = ["version"]
+description = "A Python package for volumetric image quality assessment."
+authors = [
+    { name = "Lukas Behammer", email = "lukas.behammer@fh-wels.at" },
+]
+readme = "README.md"
+#readme
+requires-python = ">=3.11"
+keywords = [
+    "IQA",
+    "image quality assessment",
+    "volumetric data",
+    "image comparison",
+    "CT",
+    "computed tomography",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: Unix",
+]
+#license = { file = "LICENSE.txt" }
+license = { text = "BSD-3-Clause" }
+dependencies = [
+    "scipy",
+    "numpy<2.0.0",
+    "torch",
+    "piq",
+    "scikit-image",
+    "nibabel",
+    "matplotlib",
+]
+
+[project.optional-dependencies]
+book = [
+    "jupyter",
+]
+
+tests = [
+    "pytest",
+    "pytest-cov",
+    "pytest-doctestplus",
+    "tox",
+]
+lint = [
+    "mypy",
+    "ruff",
+    "pre-commit",
+]
+docs = [
+    "sphinx",
+    "furo",
+    "sphinx_copybutton",
+]
+dev = [
+    "vIQA[tests, lint, docs]",
+    "meson-python",
+    "build",
+]
+
+[project.urls]
+Repository = "https://github.com/3dct/vIQA"
+#Homepage
+Documentation = "https://3dct.github.io/vIQA/"
+
+[build-system]
+requires = ["meson-python", "numpy"]
+build-backend = "mesonpy"
+
+######################################################################
+# Ruff
+[tool.ruff]
+extend-include = ["*.ipynb"]
+extend-exclude = [
+    ".git",
+    "data",
+    "docs",
+    "build",
+    "dist",
+    "_private_tests",
+    "tests",
+]
+target-version = "py311"
+per-file-ignores = { "__init__.py" = ["F403"] }
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "ARG",
+    "B",
+    "C4",
+    "CPY",
+    "D",
+    "E",
+    "F",
+    "I",
+    "N",
+    "W",
+    "C901",
+]
+exclude = [
+    "D205",
+    "D301",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"  # Accepts: "google", "numpy", or "pep257".
+
+[tool.ruff.isort]
+known-first-party = ["src/vIQA"]
+
+[tool.ruff.format]
+exclude = ["*.ipybn"]
+
+######################################################################
+# MyPy
+[tool.mypy]
+exclude = [
+    "tests",
+    "docs",
+    "build",
+    "dist",
+    "_private_tests",
+    "data",
+]
+strict = false
+pretty = true
+
+[[tool.mypy.overrides]]
+module = [
+    "scipy",
+    "scipy.ndimage",
+    "scipy.fft",
+    "piq",
+]
+ignore_missing_imports = true
+
+######################################################################
+# PyTest
+[tool.pytest.ini_options]
+addopts = "--doctest-plus --doctest-continue-on-failure --cov=viqa --cov-append --cov-report html --import-mode=importlib"
+
+######################################################################
+# Coverage
+[tool.coverage.run]
+omit = [
+    "src/viqa/_private_tests/*",
+    "src/viqa/tests/*",
+    "*/sphinxext/*",
+    "*/tmp/tmp*.py",
+    "docs/*",
+]
+
+######################################################################
+# cibuildwheel
+[tool.cibuildwheel]
+build = [
+    "cp311-manylinux_x86_64",
+    "cp312-manylinux_x86_64",
+    "cp313-manylinux_x86_64",
+    "cp311-musllinux_x86_64",
+    "cp312-musllinux_x86_64",
+    "cp313-musllinux_x86_64",
+    "cp311-win_*64",
+    "cp312-win_*64",
+#    "cp313-win_*64",
+    "cp311-macosx*",
+    "cp312-macosx*",
+#    "cp313-macosx_x86_64",
+    "cp313-macosx_arm64",
+
+]
+manylinux-x86_64-image = "manylinux_2_28"
+
+[[tool.cibuildwheel.overrides]]
+select = "*-manylinux_x86_64"
+before-all = [
+    "env",
+    "dnf install gcc-toolset-13 -y",
+    "source /opt/rh/gcc-toolset-13/enable",
+]
+environment = { DEVTOOLSET_ROOTPATH="/opt/rh/gcc-toolset-13/root", PATH="/opt/rh/gcc-toolset-13/root/usr/bin:$PATH", LD_LIBRARY_PATH="/opt/rh/gcc-toolset-13/root/usr/lib64:/opt/rh/gcc-toolset-13/root/usr/lib:/opt/rh/gcc-toolset-13/root/usr/lib64/dyninst:/opt/rh/gcc-toolset-13/root/usr/lib/dyninst" }
+
+[tool.cibuildwheel.windows.config-settings]
+setup-args = "--vsenv"
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64"]
+environment = { MACOSX_DEPLOYMENT_TARGET = "13.3" }
