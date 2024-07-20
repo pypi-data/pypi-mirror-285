@@ -1,0 +1,27 @@
+[build-system]
+requires  = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "capvalidator"
+authors = [
+    {name = "Rory Burke"}
+]
+maintainers = [
+    {name = "Rory Burke", email = "rburke@wmo.int"}
+]
+description = "Python module to validate a CAP message against the OASIS CAP 1.2 schema and verify the XML signature."
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["WIS2.0", "CAP", "XML", "validator"]
+license = {file = "LICENSE"}
+dependencies = [
+    "click>=8.1.7",
+    "lxml>=5.2.2",
+    "cryptography>=42.0.8",
+    "signxml>=3.2.2"
+]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = {attr = "capvalidator.__version__"}
