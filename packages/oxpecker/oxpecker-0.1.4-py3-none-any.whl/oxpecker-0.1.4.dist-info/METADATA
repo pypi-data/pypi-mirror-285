@@ -1,0 +1,84 @@
+Metadata-Version: 2.1
+Name: oxpecker
+Version: 0.1.4
+Summary: Oxpecker CLI.
+Author-email: Oxpecker team <oxpecker@example.com>
+Project-URL: Homepage, https://example.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: License :: Free for non-commercial use
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Security
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: Click ~=8.1.7
+Requires-Dist: click-spinner ~=0.1.10
+Requires-Dist: pathspec ~=0.12.1
+Requires-Dist: python-daemon ~=3.0.1
+Requires-Dist: python-dotenv ~=1.0.1
+Requires-Dist: pytz ~=2024.1
+Requires-Dist: rel ~=0.4.9.6
+Requires-Dist: requests ~=2.31.0
+Requires-Dist: rich-click ~=1.7.3
+Requires-Dist: tenacity ~=8.2.3
+Requires-Dist: websocket-client ~=1.7.0
+Provides-Extra: dev
+Requires-Dist: build ~=1.0.3 ; extra == 'dev'
+Requires-Dist: commitizen ~=3.20.0 ; extra == 'dev'
+Requires-Dist: pre-commit ~=3.7.0 ; extra == 'dev'
+Requires-Dist: twine ~=5.0.0 ; extra == 'dev'
+Requires-Dist: types-click-spinner ~=0.1.13.20240106 ; extra == 'dev'
+Requires-Dist: types-requests ~=2.31.0.20240218 ; extra == 'dev'
+
+# Name
+Oxpecker CLI.
+
+# Description
+CLI of Oxpecker service.
+
+# Installation
+开发/测试环境推荐：Editable模式（安装目录链接到源码目录）
+```sh
+pip install -e .
+```
+
+安装可选开发依赖：
+```sh
+pip install -e .[dev]
+```
+
+JSP precompiler:
+```sh
+cd oxpecker/jsp-compiler
+mvn clean package -DskipTests
+```
+
+生产环境推荐：
+```
+pip install oxpecker
+```
+
+如果想安装最新的，可以构建wheel包再安装：
+```sh
+pip install build
+python -m build --wheel
+pip install dist/oxpecker-<version>-py3-none-any.whl
+```
+
+# Usage
+```sh
+oxpecker --help
+```
+# Development
+
+
+# Roadmap
+None yet.
+
+# Project status
+Alpha.
