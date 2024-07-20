@@ -1,0 +1,18 @@
+[build-system]
+requires = ["maturin>=1.7,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "simple_fast_regex" # Ensure the name matches the import name
+version = "0.3.0" # Add version if you want to avoid dynamic versioning
+description = "A fast regular expression library for Python and Rust"
+authors = [{ name = "Pedro Ribeiro", email = "pedro.ribeiro@soliduslabs.com" }]
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+
+[tool.maturin]
+features = ["pyo3/extension-module"]
