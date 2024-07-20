@@ -1,0 +1,91 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm[toml]", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sqlelf"
+# Using the dynamic version
+# version = "0.0.1"
+dynamic = ["version"]
+authors = [{ name = "Farid Zakaria", email = "farid.m.zakaria@gmail.com" }]
+readme = "README.md"
+description = "Explore ELF objects through the power of SQL"
+license = { file = "LICENSE" }
+requires-python = ">=3.10,<4.0"
+keywords = []
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+    "capstone >= 5.0.1",
+    "lief >=0.14.1",
+    "apsw >= 3.43.1.0",
+    "sh >= 2.0.6",
+]
+
+[project.urls]
+Documentation = "https://github.com/fzakaria/sqlelf#readme"
+Issues = "https://github.com/fzakaria/sqlelf/issues"
+Source = "https://github.com/fzakaria/sqlelf"
+
+[project.optional-dependencies]
+dev = [
+    "black >= 23.7.0",
+    "isort >= 5.12.0",
+    "flake8 >= 6.1.0",
+    "flake8-print >= 5.0.0",
+    "pyright >= 1.1.350",
+    "pytest >= 7.4.0",
+    "mypy >= 1.8.0",
+    "coverage[toml] >= 7.3",
+]
+
+[tool.setuptools.package-data]
+sqlelf = ["py.typed"]
+
+[tool.setuptools_scm]
+write_to = "sqlelf/_version.py"
+
+[tool.setuptools]
+packages = ["sqlelf"]
+
+[project.scripts]
+sqlelf = "sqlelf.cli:start"
+sqlelf-merge = "sqlelf.tools.merge:start"
+
+[tool.isort]
+skip = [".git", "result"]
+skip_glob = ["sqlelf/_vendor/*"]
+profile = "black"
+
+[tool.black]
+extend-exclude = '''
+(
+    sqlelf/_vendor/
+    | sqlelf/_version.py
+)
+'''
+
+[tool.pytest.ini_options]
+addopts = "-m 'not slow' --strict-markers"
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
+
+[tool.pyright]
+exclude = ["**/__pycache__", "sqlelf/_version.py", "sqlelf/_vendor"]
+
+reportMissingImports = true
+reportMissingTypeStubs = true
+useLibraryCodeForTypes = true
+
+pythonVersion = "3.10"
+pythonPlatform = "Linux"
+include = ["sqlelf", "tests", "tools"]
+
+[tool.coverage.run]
+omit = ["sqlelf/_version.py", "sqlelf/**/__init__.py", "tests/**/__init__.py"]
+branch = true
