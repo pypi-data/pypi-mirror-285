@@ -1,0 +1,14 @@
+# bus-16
+A 16-bit data bus with memory bank support.
+
+## Introduction
+This bus was created loosely to support another project of mine to emulate a MOS 6502 microprocessor. I initially was building this as part of the emulator but decided to separate it out into its own project. This felt right as this is a generic bus emulator, which can be used with any other 8-bit processor from that period. The bus has been build with memory bank support upto 256 banks, which is plenty. 
+
+## Memory
+Memory has been designed as a nested list, with the row index querying the bank and column index querying the memory address. Lots of checks have been put in place to ensure that user errors are caught and highlighted. 
+
+## Logging
+`logging` module has been extensively used to log information through the program. This is meant not only for logging issues but also is an educational tool when trying to understand how a bus runs while the CPU executes a bunch of commands. 
+
+## Aspirations
+The goal of this bus is to be ubiquitous to be deployed as the standard data bus and VPU/audio bus in future projects where I intend to emulate popular gaming consoles from the 80s. Also, I hope that the bus layout is generic enough to ensure that it can be used to develop a general purpose 8-bit computer, where I intend to create an 8-bit OS. 

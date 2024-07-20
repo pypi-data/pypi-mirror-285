@@ -1,0 +1,34 @@
+[project]
+name = "bus_16_manjevas"
+version = "0.0.1"
+authors = [
+	{ name="Manju Srinivasa", email="manjevas@outlook.com" },
+	]
+description = "A 16-bit memory address, 8-bit data bus emulator."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+	    "Programming Language :: Python :: 3",
+	    "License :: OSI Approved :: MIT License",
+	    "Operating System :: OS Independent",
+	    ]
+
+[project.urls]
+Homepage = "https://github.com/mcsrinivasa/bus-16"
+Issues = "https://github.com/mcsrinivasa/bus-16/issues"
+
+# Build tools
+[build-system]
+requires = [
+	 "setuptools>=42",
+	 "wheel",
+	 "sdist",
+	 "bdist_wheel",
+	 ]
+build-backend = "setuptools.build_meta"
+
+# Enable tests to refer module
+[tool.pytest.ini_options]
+pythonpath = [
+	   ".", "src",
+	   ]
