@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gurobi-optimods"
+description = "Data-driven APIs for common optimization tasks"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "Apache-2.0"
+keywords = ["optimization", "gurobipy", "pandas", "scipy"]
+authors = [
+    { name = "Simon Bowly", email = "bowly@gurobi.com" },
+    { name = "Robert Luce", email = "luce@gurobi.com" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "gurobipy[matrixapi]>=10.0.3",
+    "gurobipy-pandas>=1.0.0",
+    "numpy<2",
+    "pandas",
+    "scipy>=1.8.0",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+examples = [
+    "matplotlib",
+    "networkx",
+    "plotly",
+    "scikit-learn"
+]
+
+[tool.hatch.version]
+path = "src/gurobi_optimods/__init__.py"
+
+[tool.isort]
+profile = "black"
