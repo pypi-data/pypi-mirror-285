@@ -1,0 +1,86 @@
+Metadata-Version: 2.3
+Name: msql-driver
+Version: 0.3.0
+Classifier: Development Status :: 4 - Beta
+Classifier: Environment :: Console
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: MacOS
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Rust
+Classifier: Topic :: Database
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Software Development
+Requires-Dist: numpy ; extra == 'numpy'
+Requires-Dist: pandas ; extra == 'pandas'
+Requires-Dist: msql-driver[numpy,pandas] ; extra == 'all'
+Provides-Extra: numpy
+Provides-Extra: pandas
+Provides-Extra: all
+License-File: LICENSE.txt
+Summary: Mireo SpaceTime MSQL connector
+Keywords: mireo,spacetime,msql,connector,sql,query,spatiotemporal,database
+Author: Mireo
+Maintainer-email: Hrvoje Stojanović <hrvoje.stojanovic@mireo.com>, Zvonimir Jurelinac <zvonimir.jurelinac@mireo.com>
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown; charset=UTF-8; variant=GFM
+Project-URL: Homepage, https://www.mireo.com/spacetime
+Project-URL: MSQL Reference, https://spacetime.mireo.com/msql/
+Project-URL: SpaceTime Live Demo, https://spacetime.mireo.com/
+
+# Mireo SpaceTime MSQL connector
+**msql-driver** is a Python module for querying [Mireo SpaceTime database](https://www.mireo.com/spacetime) using [MSQL query language](https://spacetime.mireo.com/msql/).
+
+## Features
+- Both **blocking** and **asynchronous** modes of operation are available.
+- Query results are convertible to **Python lists**, **NumPy arrays** and **Pandas dataframes**.
+
+## Installation
+`pip install msql-driver`\
+Conversions to NumPy and Pandas data types require those packages that can be installed as optional dependencies.
+
+## Example
+```
+import msql_driver
+
+# Connect
+session = msql_driver.SessionBuilder().host(<address>).user(<org>, <user>, <password>).build()
+print(session.status())  # SessionStatus.Connected
+
+# Run query
+res, = session.run_query("select * from st.segment limit 10")
+
+# Print column names and their MSQL data types
+print(res.fields)
+
+# Iterating over rows converts each lazily to a Python list of appropriate Python data types
+for row in res:
+	print(row)
+
+# Query result can be converted to:
+rows = res.to_list()  # Python list of lists of appropriate Python data types
+arr = res.to_numpy()  # NumPy array of appropriate NumPy data types (requires numpy)
+df = res.to_pandas()  # Pandas dataframe of appropriate NumPy/Pandas data types (requires pandas)
+
+# Disconnect
+session.stop()
+print(session.status())  # SessionStatus.Stopped
+```
+
+## License
+Licensed under [BSD 3-Clause “New” or “Revised” License](https://choosealicense.com/licenses/bsd-3-clause/).
+
+## Credits
+Authored and maintained by [Mireo](https://www.mireo.com).
+
