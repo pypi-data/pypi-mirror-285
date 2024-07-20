@@ -1,0 +1,17 @@
+piccolo>=1.7.0
+piccolo_api>=1.3.1
+uvicorn
+aiofiles>=0.5.0
+Hypercorn
+targ>=0.1.9
+fastapi>=0.100.0
+
+[all]
+faker==13.*
+piccolo_api[s3]
+
+[faker]
+faker==13.*
+
+[s3]
+piccolo_api[s3]
