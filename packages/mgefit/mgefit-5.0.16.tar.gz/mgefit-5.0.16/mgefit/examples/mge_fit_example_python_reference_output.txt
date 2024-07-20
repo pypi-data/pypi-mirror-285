@@ -1,0 +1,148 @@
+# Reference expected output of the MgeFit 5.0.15 examples (31 March 2023).
+# Python 3.11 using NumPy 1.24, SciPy 1.10, Matplotlib 3.7
+###############################################################################
+
+Running mge_fit_example.py
+
+Fitting 1-dim profile-----------------------------------
+
+Iteration: 1  chi2: 0.1107 Nonzero: 16/16
+Iteration: 11  chi2: 0.003198 Nonzero: 16/16
+Iteration: 21  chi2: 0.001319 Nonzero: 16/16
+Iteration: 27  chi2: 0.001279 Nonzero: 16/16
+############################################
+  Computation time: 0.30 seconds
+  Total Iterations:  27
+ Nonzero Gaussians:  16
+  Unused Gaussians:  0
+ Chi2: 0.001279 
+ STDEV: 0.002065
+ MEANABSDEV: 0.001845
+############################################
+  Total_Counts       Sigma
+############################################
+   4.5374e-03       0.02123
+   2.8072e-02       0.06294
+   9.3665e-02        0.1446
+   1.7075e-01        0.2842
+   1.7634e-01        0.5114
+   1.1405e-01        0.8782
+   5.2182e-02         1.471
+   1.8813e-02         2.431
+   5.7927e-03         3.987
+   1.6098e-03         6.512
+   4.1922e-04         10.61
+   1.0491e-04         17.24
+   2.5679e-05         28.00
+   6.2393e-06         45.65
+   1.5138e-06         76.86
+   3.1067e-07         152.5
+############################################
+
+Fitting M32---------------------------------------------
+
+Iteration:1  chi2: 14.81  Nonzero: 11/11
+Nonzero Gaussians: 11/11
+Eliminating not useful Gaussians...
+All Gaussians are needed!
+############################################
+  Computation time: 0.48 seconds
+  Total Iterations:  8
+ Nonzero Gaussians:  11
+  Unused Gaussians:  0
+ Sectors used in the fit:  19
+ Total number of points fitted:  1599
+ Chi2: 1.987 
+ STDEV: 0.03523 
+ MEANABSDEV: 0.0206 
+############################################
+  Total_Counts   sigma_Pixels     q_obs
+############################################
+   8.4953e+04       0.6000       0.7980
+   8.5544e+05        2.413       0.8247
+   9.6735e+05        3.856       0.7713
+   6.2710e+06        7.840       0.7822
+   1.4409e+07        16.41       0.7256
+   1.8031e+07        31.94       0.7337
+   3.1972e+07        64.73       0.7329
+   6.7765e+07        132.9       0.7169
+   1.2168e+08        272.3       0.7471
+   2.4310e+08        569.6       0.8213
+   2.7950e+08        1307.       0.8814
+++++++++++++++++++++++++++++++++++++++++++++
+
+Fitting NGC4342-----------------------------------------
+
+ Pixels used: 22608
+ Peak Img[j, k]: 356 366
+ Mean (j, k): 356.10 365.58
+ Theta (deg): 54.2
+ Astro PA (deg): 35.8
+ Eps: 0.579
+ Major axis (pix): 146.4
+Iteration:1  chi2: 32.32  Nonzero: 12/12
+Iteration:11  chi2: 0.9184  Nonzero: 10/12
+Iteration:21  chi2: 0.5219  Nonzero: 11/12
+Nonzero Gaussians: 11/12
+Eliminating not useful Gaussians...
+Starting nonlinear fit...
+Iteration:1  chi2: 0.5219  Nonzero: 11/11
+Nonzero Gaussians: 11/11
+Eliminating not useful Gaussians...
+All Gaussians are needed!
+############################################
+  Computation time: 1.19 seconds
+  Total Iterations:  22
+ Nonzero Gaussians:  11
+  Unused Gaussians:  1
+ Sectors used in the fit:  19
+ Total number of points fitted:  854
+ Chi2: 0.5219 
+ STDEV: 0.02471 
+ MEANABSDEV: 0.01673 
+############################################
+  Total_Counts   sigma_Pixels     q_obs
+############################################
+   9.6058e+03       0.6379       0.8008
+   3.2993e+04        2.314       0.8830
+   1.5196e+05        6.889       0.7185
+   5.0125e+04        7.376       0.1830
+   3.0737e+05        14.76       0.7749
+   2.8446e+05        29.96       0.9063
+   3.3911e+05        58.49       0.3586
+   1.5535e+05        72.95       1.0000
+   8.9510e+05        145.0       0.2627
+   7.8419e+05        260.7       0.2974
+   2.8406e+05        260.7       1.0000
+++++++++++++++++++++++++++++++++++++++++++++
+
+Fitting NGC5831 twist-----------------------------------
+
+Iteration: 1  chi2: 75.53  Nonzero: 11/11
+Iteration: 11  chi2: 1.879  Nonzero: 11/11
+Iteration: 21  chi2: 1.319  Nonzero: 11/11
+############################################
+  Computation time: 3.61 seconds
+  Total Iterations:  24
+ Nonzero Gaussians:  11
+  Unused Gaussians:  0
+ Sectors used in the fit:  36
+ Total number of points fitted:  1809
+ Chi2: 1.319 
+ STDEV: 0.027 
+ MEANABSDEV: 0.01378 
+#####################################################
+  Total_Counts   Sigma_Pixels     q_obs        PA
+#####################################################
+   1.5938e+04       0.7324       0.8312      14.48
+   7.6099e+04        1.818       0.8592       2.45
+   1.4451e+05        3.893       0.8194      -1.53
+   3.6892e+05        7.507       0.7918      -1.65
+   7.8982e+05        16.15       0.6825      -1.01
+   1.1881e+06        27.80       0.7050      -0.38
+   1.4235e+06        56.31       0.5693      -1.27
+   3.4656e+06        79.29       0.8517       5.12
+   5.8027e+06        162.2       0.9090      26.36
+   9.6985e+06        409.8       1.0000     -11.23
+   1.5473e+06        409.8       0.5227      31.39
++++++++++++++++++++++++++++++++++++++++++++++++++++++
