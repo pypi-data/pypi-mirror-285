@@ -1,0 +1,68 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # This is important for the versioning step
+          token: ${{ secrets.PAT }} # Use PAT for checkout
+
+      - name: Check for relevant changes
+        id: check_changes
+        run: |
+          if git diff --name-only HEAD^ HEAD | grep -qE '^(src/|tests/)'; then
+            echo "relevant_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "relevant_changes=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set up Python
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install .[dev]
+          pip install pytest build twine bumpversion
+
+      - name: Run tests
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        run: pytest
+
+      - name: Configure Git
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+      - name: Update version
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        run: |
+          bumpversion patch
+          git push --follow-tags https://${{ secrets.PAT }}@github.com/${{ github.repository }}.git HEAD:${{ github.ref }}
+
+      - name: Build package
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        run: python -m build
+
+      - name: Deploy to PyPI
+        if: steps.check_changes.outputs.relevant_changes == 'true'
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_API_TOKEN }}
+        run: twine upload dist/*
+
+      - name: Notify no changes
+        if: steps.check_changes.outputs.relevant_changes == 'false'
+        run: echo "No changes in src/ or tests/. Skipping build and deploy."
