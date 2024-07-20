@@ -1,0 +1,139 @@
+
+SHTOOL-ROTATE.TMP(1)        GNU Portable Shell Tool       SHTOOL-ROTATE.TMP(1)
+
+NAME
+       shtool-rotate - GNU shtool log file rotation
+
+SYNOPSIS
+       shtool rotate [-v|--verbose] [-t|--trace] [-f|--force] [-n|--num-files
+       count] [-s|--size size] [-c|--copy] [-r|--remove] [-a|--archive-dir
+       dir] [-z|--compress [tool:]level] [-b|--background] [-d|--delay]
+       [-p|--pad len] [-m|--mode mode] [-o|--owner owner] [-g|--group group]
+       [-M|--migrate cmd] [-P|--prolog cmd] [-E|--epilog cmd] file [file ...]
+
+DESCRIPTION
+       This command rotates a logfile file by subsequently creating up to
+       count (optionally compressed) archive files of it. Archive files are
+       named "file.number[compress-suffix]" where number is the version
+       number, 0 being the newest and "count-1" the oldest.
+
+       A rotation step consists of the following steps
+
+       1. remove last archive file 2. shift archive file numbers 3. create
+       archive file 0 from file 4. truncate/recreate file
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -f, --force
+           Force silent creation of archive directory if it does not exists.
+           Also skip missing intermediate logfiles in the rotation step.
+           Default is to exit with error in both cases. FIXME
+
+       -n, --num-files count
+           Create count archive files. Default is 10.
+
+       -s, --size size
+           Only rotate if logfile exceeds size. The argument size can be
+           specified also with the trailing units "K" (kilo), "M" (mega) or
+           "G" (giga). The "prolog" and "epilog" are only executed if rotation
+           actually takes place.
+
+       -c, --copy
+           Copy file to archive then truncate original. The default is to move
+           file to archive.
+
+           Unless an application reopens its logfile it will continue to write
+           to the same file. In the default move case the application will
+           write to the archive which it had previously opened as file. In the
+           copy case the application will write to the original file. The
+           drawback of the copy approach is that logfile entries are lost when
+           they are written to file between the execution of the copy and the
+           truncation operation. The drawback of the move approach is that the
+           application needs to detect the move or must be triggered to reopen
+           its log (i.e.  through epilog).
+
+       -r, --remove
+           Removes file after rotation instead of providing a new empty file.
+
+       -a, --archive-dir dir
+           Specify the archive directory. Default is to create archives in the
+           same directory as file is located.
+
+       -z, --compress [tool:]level
+           Enables compression of archive files with compression level level
+           By default, the tools bzip2(1), gzip(1) and compress(1) are
+           searched for in $PATH, but one also can override this by prefixing
+           the compression level with one of the three particular tool names.
+
+       -b, --background
+           Enable background compression.
+
+       -d, --delay
+           Delays the compression of archive file number 0. This is useful if
+           ``-c'' is not used, because an application might continue to write
+           to archive file 0 through an already open file handle.
+
+       -p, --pad len
+           Enables padding with leading zeros in the number part of the
+           filename "file.numbercompress-suffix". The default padding len is
+           1.  This is interesting if more than 10 archive files are used,
+           because it leads to still sorted directory listings.
+
+       -m, --mode mode
+           The file mode applied to the created files, see chmod(1). Setting
+           mode to "-" skips this step and leaves the operating system default
+           which is usually based on umask(1). Some file modes require
+           superuser privileges to be set. Default is 0755.
+
+       -o, --owner owner
+           The file owner name or id applied to the created files, see
+           chown(1). This option requires superuser privileges to execute.
+           Default is to skip this step and leave the operating system default
+           which is usually based on the executing uid or the parent setuid
+           directory.
+
+       -g, --group group
+           The file group name or id applied to the created files, see
+           chgrp(1). This option requires superuser privileges to execute to
+           the fullest extend, otherwise the choice of group is limited on
+           most operating systems.  Default is to skip this step and leave the
+           operating system default which is usually based on the executing
+           gid or the parent setgid directory.
+
+       -M, --migrate cmd
+           Execute a "migration" command just before the archive file number
+           count-1 is removed from the filesystem. The specified cmd receives
+           the archive filename as command line argument.
+
+       -P, --prolog cmd
+           Execute a "prolog" command before the rotation step. Useful in
+           conjunction with -s.
+
+       -E, --epilog cmd
+           Execute a "epilog" command after the rotation step. Useful in
+           conjunction with -s.
+
+EXAMPLE
+        #   shell script
+        shtool rotate -n10 -s1M -zbzip2:9 -d -r /var/log/ap.access.log
+        shtool rotate -n5 -s128K -zbzip2:9 -d -r /var/log/ap.error.log
+        apachectl graceful
+
+HISTORY
+       The GNU shtool rotate command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 2001 for GNU shtool.  Its
+       development was prompted by the need to have a flexible logfile
+       rotation facility in the OpenPKG project.
+
+SEE ALSO
+       shtool(1), BSD newsyslog(8).
+
+18-Jul-2008                      shtool 2.0.8             SHTOOL-ROTATE.TMP(1)

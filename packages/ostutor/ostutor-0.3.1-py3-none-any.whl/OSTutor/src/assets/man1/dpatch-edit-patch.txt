@@ -1,0 +1,274 @@
+
+DPATCH-EDIT-PATCH(1)          dpatch users manual         DPATCH-EDIT-PATCH(1)
+
+NAME
+       dpatch-edit-patch - maintain dpatch patches for a Debian source package
+
+SYNOPSIS
+       dpatch-edit-patch [options] command dpatchname [basepatch]
+
+DESCRIPTION
+       This  manual  documents  the  dpatch-edit-patch command which maintains
+       dpatch patches for a dpatch-using Debian source package.
+
+       dpatch-edit-patch will copy the full tree to a temporary directory  for
+       working.
+
+WARNING
+       dpatch  is deprecated, please switch to the `3.0 (quilt)' Debian source
+       package  format   instead.   See   http://wiki.debian.org/Projects/Deb-
+       Src3.0#FAQ for a short guide on how to do it.
+
+OPTIONS
+       dpatch-edit-patch  takes  two forms of arguments; options and commands.
+       Currently, the only command that exists is "patch", which allows you to
+       create/edit dpatches.  When no command is given, "patch" is assumed.
+
+   COMMANDS:
+       patch  This  command  requires  one mandatory argument, and accepts one
+              optional argument under certain  circumstances.   The  mandatory
+              argument is dpatchname.  This refers to a dpatch, as it would be
+              listed  in  debian/patches/00list.   It  is  not  necessary  for
+              dpatchname  to  exist  prior  to running dpatch-edit-patch patch
+              dpatchname.
+
+              When dpatchname exists, dpatch-edit-patch will set up a  working
+              source  tree, apply all dpatches listed in debian/patches/00list
+              up to and including dpatchname, and spawn an  interactive  shell
+              for  the developer. The developer then edits files in this work-
+              ing tree. When the developer  is  done,  they  exit  the  shell.
+              dpatch-edit-patch then updates dpatchname to reflect the changes
+              made.  Should the developer wish to abort the process  from  the
+              interactive  shell,  they need only cause the shell to exit with
+              an exit value of 230.  Typically, this is done  by  exiting  the
+              shell with the command exit 230.
+
+              Would  the developer wish to see the patch one's currently works
+              on without exiting the subshell, two environment  variables  are
+              exported into the subshell to help with this: DPEP_SHELL_REFDIR,
+              which is  set  to  the  reference  directory's  full  name,  and
+              DPEP_SHELL_WORKDIR,  which  is set to the subshell's working di-
+              rectory.
+
+              These two can be used to - for example - generate a diff between
+              the reference version and the current tree:
+
+                     diff -urNa $DPEP_SHELL_REFDIR $DPEP_SHELL_WORKDIR
+
+       When  dpatchname  does  not exist, dpatch-edit-patch will assume that a
+       new  dpatch  should  be  created.   As   with   the   above   scenario,
+       dpatch-edit-patch  first creates a working source tree. If the optional
+       argument basepatch is supplied, all dpatches  in  debian/patches/00list
+       up  to and including basepatch will be applied to the working tree.  If
+       basepatch is not supplied, no dpatches are applied to the working tree.
+       When  then  developer  exits  the  shell, dpatch-edit-patch will create
+       dpatchname.  If debian/patches/00template does not exist,  a  hardcoded
+       dpatch  header  and shell snippet will be used. If it exists and is not
+       executable, it will be copied verbatim as the header and shell snippet.
+
+       Its first parameter is  the  base  filename  of  the  to-be-updated  or
+       to-be-created  dpatch  (useful for adding titles to the dpatch header).
+       Its second parameter will be the description of the new patch.
+
+   OPTIONS
+       For the following options, command-line arguments take precedence  over
+       environment  variables,  which take precedence over configuration vari-
+       ables.    Configuration     variables     are     read     from     de-
+       bian/patches/00dpatch.conf and ~/.dpatch.conf.
+
+       -s, --sourcedir=value
+              Directory containing unpacked Debian source package.  Configura-
+              tion variable conf_sourcedir (settable only in  ~/.dpatch.conf),
+              environment  variable  DPEP_SOURCEDIR.   Defaults to the current
+              working directory.
+
+       -o, --outdir=value
+              Directory where the updated  or  newly-created  dpatch  will  be
+              placed.   Configuration  variable  conf_outdir (~/.dpatch.conf),
+              environment variable DPEP_OUTDIR. Defaults to ./debian/patches/
+
+       -c, --clean
+              Indicate to dpatch-edit-patch that the  current  work  directory
+              can  safely be cleaned. If not given, dpatch-edit-patch tries to
+              preserve partial or complete builds by first copying the current
+              work  directory  to  a  reference  directory before invoking de-
+              bian/rules clean on the reference directory. If given, the  cur-
+              rent  directory  is cleaned and then taken as a reference direc-
+              tory. Use this option if your source package is pretty large and
+              no  significant  work  is  destroyed  by cleaning. Configuration
+              variable  conf_clean  (~/.dpatch.conf),   Environment   variable
+              DPEP_CLEAN.
+
+       -b, --debianonly[=path]
+              Indicate  to  dpatch-edit-patch  that the current work directory
+              only contains a debian subdirectory and that an upstream tarball
+              is  to be unpacked in the reference directory before copying the
+              current work directory there. The optional argument is the  path
+              to  the  upstream  tarball  -  including the tarball name. If no
+              value is given,  dpatch-edit-patch  will  use  the  hook  script
+              pointed    to    by    conf_getorigtargz   (~/.dpatch.conf)   or
+              DPEP_GETORIGTARGZ to  obtain  the  upstream  tarball.  The  hook
+              script should take one argument: the destination directory where
+              the fetched archive  shall  be  put.   Configuration  variables:
+              conf_debianonly  (debian/patches/00dpatch.conf)  and  conf_orig-
+              targz (~/.dpatch.conf),  Environment  Variables  DPEP_DEBIANONLY
+              and DPEP_ORIGTARGZ.
+
+       -P, --origtargzpath=path
+              When  -b  is  in  use,  specify the path where upstream tarballs
+              should be looked for.  path is a colon-separated list of  direc-
+              tories.      Configuration     variables:     conf_origtargzpath
+              (~/.dpatch.conf), Environment Variables DPEP_ORIGTARGZPATH.
+
+       -r, --rootcmd=value
+              Command  used  to   gain   root   privileges   used   to   clean
+              DPEP_SOURCEDIR.   Configuration  variable conf_rootcmd, environ-
+              ment variable DPEP_ROOTCMD.  Defaults to fakeroot, if installed.
+              If  none  of  the  above  are specified, and fakeroot is not in-
+              stalled,  dpatch-edit-patch  will  abort.   The  dpatch  authors
+              strongly recommend the use of fakeroot for this purpose.
+
+       -d, --description=value
+              Description used for a newly-created patch.  Configuration vari-
+              able   conf_newdesc   (~/.dpatch.conf),   environment   variable
+              DPEP_NEWDESC, defaults to "No description."
+
+       -k, --keeptemp=value
+              Boolean   value,   either   0   or  1.   Configuration  variable
+              conf_keeptemp     (~/.dpatch.conf),     environment     variable
+              DPEP_KEEPTEMP.  When  set  to  1,  temporary working tree is not
+              deleted when dpatch-edit-patch is done.
+
+       -t, --tmpdir=value
+              Temporary directory within which dpatch-edit-patch  will  create
+              the  working  source  tree.   Configuration variable conf_tmpdir
+              (~/.dpatch.conf), environment variable DPEP_TMPDIR. Should  none
+              of the above be set, dpatch-edit-patch will first attempt to use
+              the environment variable TMPDIR, and will fall back to /tmp.
+
+       -p, --stampdir=value
+              The directory dpatch has used for creating patch  stamps.   Used
+              for  checking  if  patch  to be edited is already applied to the
+              working    tree.     Configuration    variable     conf_stampdir
+              (~/.dpatch.conf),  environment  variable  DPEP_STAMPDIR.  Should
+              none of the above be set, dpatch-edit-patch will  fall  back  to
+              debian/patched
+
+       -e, --exclude=valuelist
+              Space-separated   list   of   file-  and  directory  names  that
+              dpatch-edit-patch will exclude from  being  copied  and  diffed.
+              Configuration  variable  conf_exclude (~/.dpatch.conf), environ-
+              ment variable DPEP_EXCLUDE. Defaults to "CVS .svn .git .arch .hg
+              _darcs  .bzr",  which  might  cause you trouble if you use files
+              named like that in your package.
+
+       -O, --diffopts=valuelist
+              Extra options to directly pass  to  diff  as-is.   Configuration
+              variable  conf_diffopts  (~/.dpatch.conf),  environment variable
+              DPEP_DIFF_OPTIONS. It is empty by default.
+
+       -l, --shell=shell
+              Tell dpatch-edit-patch  which  shell  to  invoke.  Configuration
+              variable   conf_shell   (~/.dpatch.conf),  environment  variable
+              DPEP_SHELL, defaulting to $SHELL and the user's default shell.
+
+       -n, --notimestamp
+              Tell dpatch-edit-patch to remove timestamps from  the  diffs  it
+              generates. Can also be set in debian/patches/00options, with the
+              DPEP_OMIT_TIMESTAMPS variable.
+
+       -0, --add2list
+              add the new patch to 00list file.
+
+       -a, --applyall
+              apply all available patches.
+
+EXAMPLES
+   Create a new patch to be applied after an existing patch.
+       To create a new patch, to be applied after an  existing  patch  90_ctr-
+       lkeyfix:
+
+       $ dpatch-edit-patch patch 95_newupstreamfix 90_ctrlkeyfix
+       dpatch-edit-patch: * debian/patches/95_newupstreamfix.dpatch does not exist, it will be created as a new dpatch.
+       dpatch-edit-patch: * Cleaning /home/david/temp/sopwith-1.6.0
+        ...
+       dpatch-edit-patch: * Applying patches
+       dpatch-edit-patch: ** Applying patch 90_ctrlkeyfix ... applied cleanly.
+       dpatch-edit-patch: * Copying /home/david/temp/sopwith-1.6.0 to work directory.
+        ...
+       $ editor files
+       $ exit 0
+       dpatch-edit-patch: * Creating new patch debian/patches/95_newupstreamfix.dpatch
+       dpatch-edit-patch: Warning: debian/patches/00template does not exist, using hardcoded default.
+       dpatch-edit-patch: debian/patches/95_newupstreamfix.dpatch created.
+
+   Create a new patch not depending on existing patches
+       To  create a new patch, intended to be applied before any other patches
+       (or a new patch which doesn't  require  other  patches  to  be  applied
+       first):
+
+       $ dpatch-edit-patch 10_debianstrings
+       dpatch-edit-patch: * debian/patches/10_debianstrings.dpatch does not exist, it will be created as a new dpatch.
+       dpatch-edit-patch: * Cleaning /home/david/temp/sopwith-1.6.0
+        ...
+       dpatch-edit-patch: Warning: * No base-patch supplied, not applying any patches.
+       dpatch-edit-patch: * Copying /home/david/temp/sopwith-1.6.0 to work directory.
+        ...
+       $ editor files
+       $ exit 0
+        ...
+       dpatch-edit-patch: * Creating new patch debian/patches/10_debianstrings.dpatch
+       dpatch-edit-patch: Warning: debian/patches/00template does not exist, using hardcoded default.
+       dpatch-edit-patch: debian/patches/10_debianstrings.dpatch created.
+
+   Edit an existing patch:
+       $ dpatch-edit-patch 10_debianstrings
+       dpatch-edit-patch: * debian/patches/10_debianstrings.dpatch exists, this patch will be updated.
+       dpatch-edit-patch: * Cleaning /home/david/temp/sopwith-1.6.0
+        ...
+       dpatch-edit-patch: * Applying patches
+       dpatch-edit-patch: * Copying /home/david/temp/sopwith-1.6.0 to work directory.
+       dpatch-edit-patch: * Applying current 10_debianstrings for editing.
+        ...
+       $ editor files
+       $ exit 0
+       dpatch-edit-patch: Updating patch debian/patches/10_debianstrings.dpatch
+       dpatch-edit-patch: @DPATCH@ tag found, preserving dpatch header.
+       dpatch-edit-patch: debian/patches/10_debianstrings.dpatch updated.
+
+NOTES
+       dpatch-edit-patch  uses the DEBFULLNAME environment variable as the au-
+       thor's name. If it is unset, the author name will be left blank.
+
+       dpatch-edit-patch determines the author's email address for new patches
+       using the following algorithm:
+       1) Should the DEBEMAIL environment variable exist, it is always used.
+       2) If the EMAIL environment variable exists, it will be used when DEBE-
+       MAIL does not exist.
+       3) Should neither of the first two attempts succeed, the email will  be
+       constructed  using the login name of the user running dpatch-edit-patch
+       combined with the output of hostname -f.
+
+       When dpatch-edit-patch sets up a reference or a working  directory,  it
+       dereferences  all symlinks in the source. That allows relative links to
+       continue working, and allows changes only to a single file and  not  to
+       the  linked  file  and the link target. If you use dpatch-edit-patch on
+       source trees that have symbolic links, you might end up  with  a  patch
+       that is unapplyable to the original tree.
+
+FILES
+       debian/patches/00dpatch.conf, ~/.dpatch.conf.
+
+SEE ALSO
+       dpatch(1), dpatch(7), dpatch.make(7), dpatch-list-patch(1), dpatch-con-
+       vert-diffgz(1)
+
+       Files in /usr/share/doc/dpatch/
+
+AUTHOR
+       This manual page was written by David  B  Harris  <david@eelf.ddts.net>
+       and modified in the course of development by Gergely Nagy <algernon@de-
+       bian.org>, Marc Haber <mh+debian-packages@zugschlus.de>,  Stefano  Zac-
+       chiroli <zack@debian.org>, and Junichi Uekawa <dancer@debian.org>.
+
+DPATCH                            23 Oct 2011             DPATCH-EDIT-PATCH(1)

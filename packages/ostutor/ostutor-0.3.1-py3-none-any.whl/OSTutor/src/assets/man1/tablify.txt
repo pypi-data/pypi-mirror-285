@@ -1,0 +1,194 @@
+
+TABLIFY(1p)           User Contributed Perl Documentation          TABLIFY(1p)
+
+NAME
+       tablify - turn a delimited text file into a text table
+
+SYNOPSIS
+         tablify [options] file
+
+       Options:
+
+         -h|--help           Show help
+         -c|--comment        Define the beginning of a (single-line) comment
+         -n|--no-headers     Assume first line is data, not headers
+         --no-pager          Do not use $ENV{'PAGER'} even if defined
+         --strip-quotes      Strip " or ' around fields
+         -l|--list           List the fields in the file (for use with -f)
+         -f|--fields=f1[,f2] Show only fields in comma-separated list;
+                             when used in conjunction with "no-headers"
+                             the list should be field numbers (starting at 1);
+                             otherwise, should be field names
+         -w|where=f<cmp>v    Apply the "cmp" Perl operator to restrict output
+                             where field "f" matches the value "v";  acceptable
+                             operators include ==, eq, >, >=, <=, and =~
+         -v|--vertical       Show records vertically
+         -i|--limit=n        Limit to given number of records
+         --fs=x              Use "x" as the field separator
+                             (default is tab "\t")
+         --rs=x              Use "x" as the record separator
+                             (default is newline "\n")
+         --as-html           Create an HTML table instead of plain text
+         --headers           Comma-separated list of names matching
+                             the number of columns
+
+DESCRIPTION
+       This script is essentially a quick way to parse a delimited text file
+       and view it as a nice ASCII table.  By selecting only certain fields,
+       employing a where clause to only select records where a field matches
+       some value, and using the limit to only see some of the output, you
+       almost have a mini-database front-end for a simple text file.
+
+EXAMPLES
+       Given a data file like this:
+
+         name,rank,serial_no,is_living,age
+         George,General,190293,0,64
+         Dwight,General,908348,0,75
+         Attila,Hun,,0,56
+         Tojo,Emporor,,0,87
+         Tommy,General,998110,1,54
+
+       To find the fields you can reference, use the list option:
+
+         $ tablify --fs ',' -l people.dat
+         +-----------+-----------+
+         | Field No. | Field     |
+         +-----------+-----------+
+         | 1         | name      |
+         | 2         | rank      |
+         | 3         | serial_no |
+         | 4         | is_living |
+         | 5         | age       |
+         +-----------+-----------+
+
+       To extract just the name and serial numbers, use the fields option:
+
+         $ tablify --fs ',' -f name,serial_no people.dat
+         +--------+-----------+
+         | name   | serial_no |
+         +--------+-----------+
+         | George | 190293    |
+         | Dwight | 908348    |
+         | Attila |           |
+         | Tojo   |           |
+         | Tommy  | 998110    |
+         +--------+-----------+
+         5 records returned
+
+       To extract the first through third fields and the fifth field (where
+       field numbers start at "1" -- tip: use the list option to quickly
+       determine field numbers), use this syntax for fields:
+
+         $ tablify --fs ',' -f 1-3,5 people.dat
+         +--------+---------+-----------+------+
+         | name   | rank    | serial_no | age  |
+         +--------+---------+-----------+------+
+         | George | General | 190293    | 64   |
+         | Dwight | General | 908348    | 75   |
+         | Attila | Hun     |           | 56   |
+         | Tojo   | Emporor |           | 87   |
+         | Tommy  | General | 998110    | 54   |
+         +--------+---------+-----------+------+
+         5 records returned
+
+       To select only the ones with six serial numbers, use a where clause:
+
+         $ tablify --fs ',' -w 'serial_no=~/^\d{6}$/' people.dat
+         +--------+---------+-----------+-----------+------+
+         | name   | rank    | serial_no | is_living | age  |
+         +--------+---------+-----------+-----------+------+
+         | George | General | 190293    | 0         | 64   |
+         | Dwight | General | 908348    | 0         | 75   |
+         | Tommy  | General | 998110    | 1         | 54   |
+         +--------+---------+-----------+-----------+------+
+         3 records returned
+
+       To find Dwight's record, you would do this:
+
+         $ tablify --fs ',' -w 'name eq "Dwight"' people.dat
+         +--------+---------+-----------+-----------+------+
+         | name   | rank    | serial_no | is_living | age  |
+         +--------+---------+-----------+-----------+------+
+         | Dwight | General | 908348    | 0         | 75   |
+         +--------+---------+-----------+-----------+------+
+         1 record returned
+
+       To find the name of all the people with a serial number who are living:
+
+         $ tablify --fs ',' -f name -w 'is_living==1' -w 'serial_no>0' people.dat
+         +-------+
+         | name  |
+         +-------+
+         | Tommy |
+         +-------+
+         1 record returned
+
+       To filter outside of program and simply format the results, use "-" as
+       the last argument to force reading of STDIN (and probably assume no
+       headers):
+
+         $ grep General people.dat | tablify --fs ',' -f 1-3 --no-headers -
+         +---------+--------+--------+
+         | Field1  | Field2 | Field3 |
+         +---------+--------+--------+
+         | General | 190293 | 0      |
+         | General | 908348 | 0      |
+         | General | 998110 | 1      |
+         +---------+--------+--------+
+         3 records returned
+
+       When dealing with data lacking field names, you can specify "no-
+       headers" and then refer to fields by number (starting at one), e.g.:
+
+         $ tail -5 people.dat | tablify --fs ',' --no-headers -w '3 eq "General"' -
+         +--------+---------+--------+--------+--------+
+         | Field1 | Field2  | Field3 | Field4 | Field5 |
+         +--------+---------+--------+--------+--------+
+         | George | General | 190293 | 0      | 64     |
+         | Dwight | General | 908348 | 0      | 75     |
+         | Tommy  | General | 998110 | 1      | 54     |
+         +--------+---------+--------+--------+--------+
+         3 records returned
+
+       If your file has many fields which are hard to see across the screen,
+       consider using the vertical display with "-v" or "--vertical", e.g.:
+
+         $ tablify --fs ',' -v --limit 1 people.dat
+         ************ Record 1 ************
+              name: George
+              rank: General
+         serial_no: 190293
+         is_living: 0
+              age : 64
+
+         1 record returned
+
+SEE ALSO
+       o   Text::RecordParser
+
+       o   Text::TabularDisplay
+
+       o   DBD::CSV
+
+           Although I don't DBD::CSV this module, the idea was much the
+           inspiration for this.  I just didn't want to have to install DBI
+           and DBD::CSV to get this kind of functionality.  I think my
+           interface is simpler.
+
+AUTHOR
+       Ken Youens-Clark <kclark@cpan.org>.
+
+LICENSE AND COPYRIGHT
+       Copyright (C) 2006-10 Ken Youens-Clark.  All rights reserved.
+
+       This program is free software; you can redistribute it and/or modify it
+       under the terms of the GNU General Public License as published by the
+       Free Software Foundation; version 2.
+
+       This program is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+       General Public License for more details.
+
+perl v5.30.0                      2019-11-26                       TABLIFY(1p)

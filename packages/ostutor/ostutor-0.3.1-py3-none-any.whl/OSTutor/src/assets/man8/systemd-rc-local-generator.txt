@@ -1,0 +1,33 @@
+
+SYSTEMD-RC-LOCAL-GENERATORsystemd-rc-local-generaSYSTEMD-RC-LOCAL-GENERATOR(8)
+
+NAME
+       systemd-rc-local-generator - Compatibility generator for starting
+       /etc/rc.local during boot
+
+SYNOPSIS
+       /lib/systemd/system-generators/systemd-rc-local-generator
+
+DESCRIPTION
+       systemd-rc-local-generator is a generator that checks whether
+       /etc/rc.local exists and is executable, and if it is pulls the
+       rc-local.service unit into the boot process. This unit is responsible
+       for running this script during late boot. Note that the script will be
+       run with slightly different semantics than the original System V
+       version, which was run "last" in the boot process, which is a concept
+       that does not translate to systemd. The script is run after
+       network.target, but in parallel with most other regular system
+       services.
+
+       Support for /etc/rc.local is provided for compatibility with specific
+       System V systems only. However, it is strongly recommended to avoid
+       making use of this script today, and instead provide proper unit files
+       with appropriate dependencies for any scripts to run during the boot
+       process.
+
+       systemd-rc-local-generator implements systemd.generator(7).
+
+SEE ALSO
+       systemd(1), systemctl(1)
+
+systemd 245                                      SYSTEMD-RC-LOCAL-GENERATOR(8)

@@ -1,0 +1,68 @@
+
+SHTOOL-TARBALL.TMP(1)       GNU Portable Shell Tool      SHTOOL-TARBALL.TMP(1)
+
+NAME
+       shtool-tarball - GNU shtool command for rolling standardized tarballs
+
+SYNOPSIS
+       shtool tarball [-t|--trace] [-v|--verbose] [-o|--output tarball]
+       [-c|--compress prog] [-d|--directory directory] [-u|--user user]
+       [-g|--group group] [-e|--exclude pattern] path [path ...]
+
+DESCRIPTION
+       This command is for rolling input files under path into a distribution
+       tarballs which can be extracted by tar(1).
+
+       The four important aspects of good open source software tarballs are:
+       (1) unpack into a single top-level directory, (2) top-level directory
+       corresponds to the tarball filename, (3) tarball files should be sorted
+       and (4) arbitrary names for file owner and group.
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -o, --output tarball
+           Output tarball to file tarball.
+
+       -c, --compress prog
+           Pipe resulting tarball through compression program prog.
+
+       -d, --directory directory
+           Sets the top-level directory into which the tarball unpacks.  By
+           default it is tarball without the trailing ".tar.*" extension.
+
+       -u, --user user
+           The user (owner) of files and directories in the tarball to user.
+
+       -g, --group group
+           The group of files and directories in the tarball to group.
+
+       -e, --exclude pattern
+           Exclude files and directories matching comma-separated list of
+           regex pattern from the tarball. Directories are expanded before the
+           filtering takes place. The default filter pattern is
+           ""CVS,\\.cvsignore,\\.svn,\\.[oa]\$"".
+
+EXAMPLE
+        #   Makefile.in
+        dist:
+            ...
+            V=`shtool version -d short ...`; \
+            shtool tarball -o foobar-$$V.tar.gz -c 'gzip -9' \
+                           -u bar -g gnu -e 'CVS,\.cvsignore' .
+
+HISTORY
+       The GNU shtool tarball command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1999 for GNU shtool.
+
+SEE ALSO
+       shtool(1), tar(1), compress(1).
+
+18-Jul-2008                      shtool 2.0.8            SHTOOL-TARBALL.TMP(1)

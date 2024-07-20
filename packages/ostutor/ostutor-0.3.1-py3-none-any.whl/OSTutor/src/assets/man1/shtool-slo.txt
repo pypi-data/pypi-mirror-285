@@ -1,0 +1,60 @@
+
+SHTOOL-SLO.TMP(1)           GNU Portable Shell Tool          SHTOOL-SLO.TMP(1)
+
+NAME
+       shtool-slo - GNU shtool separate linker options by library class
+
+SYNOPSIS
+       shtool slo [-p|--prefix str] -- -Ldir -llib [-Ldir -llib ...]
+
+DESCRIPTION
+       This command separates the linker options ``-L'' and ``-l'' by library
+       class. It's argument line can actually be an arbitrary command line
+       where those options are contained. slo parses these two options only
+       and ignores the remaining contents. The result is a trivial shell
+       script on "stdout" which defines six variables containing the ``-L''
+       and ``-l'' options sorted by class:
+
+       ``"SLO_DIRS_OBJ"'' and ``"SLO_LIBS_OBJ"'' contains the ``-L'' and
+       ``-l'' options of static libraries,  ``"SLO_DIRS_PIC"'' and
+       ``"SLO_LIBS_PIC"'' contains the ``-L'' and ``-l'' options of static
+       libraries containing PIC ("Position Independent Code") and
+       ``"SLO_DIRS_DSO"'' and ``"SLO_LIBS_DSO"'' contains the ``-L'' and
+       ``-l'' options of shared libraries. The -p option can be used to change
+       the default variable prefix from ""SLO_"" to str.
+
+       The intent of this separation is to provide a way between static and
+       shared libraries which is important if one wants to link custom DSOs
+       against libraries, because not all platforms all one to link these DSOs
+       against shared libraries. So one first has to separate out the shared
+       libraries and link the DSO only against the static libraries.  One can
+       use this command also to just sort the options.
+
+OPTIONS
+       The following command line options are available.
+
+       -p, --prefix str
+               FIXME
+
+       -Ldir
+           Directory where libraries are searched in.
+
+       -llib
+           Library to search for.
+
+EXAMPLE
+        #   configure.in
+        LINK_STD="$LDFLAGS $LIBS"
+        eval `shtool slo $LINK_STD`
+        LINK_DSO="$SLO_DIRS_OBJ $SLO_LIBS_OBJ $SLO_DIRS_PIC $SLO_LIBS_PIC"
+          :
+
+HISTORY
+       The GNU shtool slo command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1998 for Apache.  It was later
+       taken over into GNU shtool.
+
+SEE ALSO
+       shtool(1), ld(1).
+
+18-Jul-2008                      shtool 2.0.8                SHTOOL-SLO.TMP(1)

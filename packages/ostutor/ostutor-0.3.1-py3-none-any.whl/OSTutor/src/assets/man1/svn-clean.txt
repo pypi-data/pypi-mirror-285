@@ -1,0 +1,68 @@
+
+SVN-CLEAN(1)                     User Commands                    SVN-CLEAN(1)
+
+NAME
+       svn-clean - Wipes out unversioned files from Subversion working copy
+
+SYNOPSIS
+       svn-clean [options] [directory or file ...]
+
+DESCRIPTION
+       svn-clean will scan the given files and directories recursively and
+       find unversioned files and directories (files and directories that are
+       not present in the Subversion repository). After the scan is done,
+       these files and directories will be deleted.
+
+       If no file or directory is given, svn-clean defaults to the current
+       directory (".").
+
+       svn-clean uses the SVN Perl modules if they are available. This is much
+       faster than parsing the output of the svn command-line client.
+
+OPTIONS
+       -e, --exclude
+               A regular expression for filenames to be exluded. For example,
+               the following command will skip files ending in ".zip":
+
+                       svn-clean --exclude '\.zip$'
+
+               Multiple exclude patterns can be specified. If at least one
+               matches, then the file is skipped. For example, the following
+               command will skip files ending in ".jpg" or ".png":
+
+                       svn-clean --exclude '\.jpg$' --exclude '\.png$'
+
+               The following command will skip the entire "build"
+               subdirectory:
+
+                       svn-clean --exclude '^build(/|$)'
+
+       -f, --force
+               Files to which you do not have delete access (if running under
+               VMS) or write access (if running under another OS) will not be
+               deleted unless you use this option.
+
+       -N, --non-recursive
+               Do not search recursively for unversioned files and
+               directories. Unversioned directories will still be deleted
+               along with all their contents.
+
+       -q, --quiet
+               Do not print progress info. In particular, do not print a
+               message each time a file is examined, giving the name of the
+               file, and indicating whether "rmdir" or "unlink" is used to
+               remove it, or that it's skipped.
+
+       -p, --print
+               Do not delete anything. Instead, print the name of every file
+               and directory that would have been deleted.
+
+       -?, -h, --help
+               Prints a brief help message and exits.
+
+       --man   Prints the manual page and exits.
+
+AUTHOR
+       Simon Perreault <nomis80@nomis80.org>
+
+                                  2022-05-12                      SVN-CLEAN(1)

@@ -1,0 +1,77 @@
+
+SHTOOL-SUBST.TMP(1)         GNU Portable Shell Tool        SHTOOL-SUBST.TMP(1)
+
+NAME
+       shtool-subst - GNU shtool sed(1) substitution operations
+
+SYNOPSIS
+       shtool subst [-v|--verbose] [-t|--trace] [-n|--nop] [-w|--warning]
+       [-q|--quiet] [-s|--stealth] [-i|--interactive] [-b|--backup ext]
+       [-e|--exec cmd] [-f|--file cmd-file] [file] [file ...]
+
+DESCRIPTION
+       This command applies one or more sed(1) substitution operations to
+       stdin or any number of files.
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -n, --nop
+           No operation mode. Actual execution of the essential shell commands
+           which would be executed is suppressed.
+
+       -w, --warning
+           Show warning on substitution operation resulting in no content
+           change on every file. The default is to show a warning on
+           substitution operations resulted in no content change on all files.
+
+       -q, --quiet
+           Suppress warning on substitution operation resulting in no content
+           change.
+
+       -s, --stealth
+           Stealth operation. Preserve timestamp on file.
+
+       -i, --interactive
+           Enter interactive mode where the user has to approve each
+           operation.
+
+       -b, --backup ext
+           Preserve backup of original file using file name extension ext.
+           Default is to overwrite the original file.
+
+       -e, --exec cmd
+           Specify sed(1) command directly.
+
+       -f, --file cmd-file
+           Read sed(1) command from file.
+
+EXAMPLE
+        #   shell script
+        shtool subst -i -e 's;(c) \([0-9]*\)-2000;(c) \1-2001;' *.[ch]
+
+        #    RPM spec-file
+        %install
+            shtool subst -v -n \
+                -e 's;^\(prefix=\).*;\1 $RPM_BUILD_ROOT%{_prefix};g' \
+                -e 's;^\(sysconfdir=\).*;\1 $RPM_BUILD_ROOT%{_prefix}/etc;g' \
+                `find . -name Makefile -print`
+            make install
+
+HISTORY
+       The GNU shtool subst command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 2001 for GNU shtool.  It was
+       prompted by the need to have a uniform and convenient patching frontend
+       to sed(1) operations in the OpenPKG package specifications.
+
+SEE ALSO
+       shtool(1), sed(1).
+
+18-Jul-2008                      shtool 2.0.8              SHTOOL-SUBST.TMP(1)

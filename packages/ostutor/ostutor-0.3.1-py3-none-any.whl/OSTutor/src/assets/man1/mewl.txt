@@ -1,0 +1,69 @@
+
+MEWL(1)                     General Commands Manual                    MEWL(1)
+
+NAME
+       mewl - Message scanner for Mew 4 or later
+
+SYNOPSIS
+       mewl [options] [folder [range]]
+
+DESCRIPTION
+       The  mewl  utility  extracts  necessary  fields from messages stored in
+       folders.  This command is necessary for Mew to implement the  asynchro-
+       nous feature.
+
+       The options are as follows:
+
+       -a      Print all necessary fields when picking.
+
+       -b dir  Set the Mail home to dir.
+
+       -c bodylen
+               Set the max body length to be extracted to bodylen.
+
+       -d field
+               Set the field to be extracted to field.
+
+       -e command
+               Specify an external command to fetch mailbox.
+
+       -m options
+               Specify options for command.
+
+       -f fields
+               Specify fields to display.
+
+       -h      Display this help message.
+
+       -i file Set the input stream to file.
+
+       -l length
+               Set  the  max  field length to be extracted to length.  The de-
+               fault value is 3. 0 means no limit.
+
+       -n      Don't use fstat().
+
+       -p pattern
+               Specify the pick pattern.
+
+       -s src  Set message source to src : '+folder range'.
+
+       -w      Wait for stdio input to synchronize.
+
+       -v      Display the version.
+
+       -x suffix
+               Use this suffix.
+
+               Definitions of the symbols above are as follows:
+
+       range   N | [start]-[end] | last:N
+
+       pattern 'key=val' | 'key!=val' | '!<pattern>' | '(<pattern>)' |  '<pat-
+               tern>&<pattern>' | '<pattern>|<pattern>'
+
+BUGS
+       If a field is long, only the beginning three lines are extracted by de-
+       fault.
+
+                                 March 5, 2003                         MEWL(1)

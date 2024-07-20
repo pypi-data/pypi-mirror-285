@@ -1,0 +1,144 @@
+
+PDFJADETEX(1)               General Commands Manual              PDFJADETEX(1)
+
+NAME
+       pdfjadetex - PDF output from JadeTeX
+
+SYNOPSIS
+       pdfjadetex [options] [commands]
+
+DESCRIPTION
+       This manual page was derived from the manual page for pdfTeX and is not
+       meant to be exhaustive.  The complete documentation for this version of
+       TeX  can  be  found in the info file or manual Web2C: A TeX implementa-
+       tion.
+
+       pdfjadeTeX is a version of TeX that can create PDF files as well as DVI
+       files.
+
+       The  typical use of pdfjadeTeX is with a pregenerated formats for which
+       PDF output has been enabled.  The pdfjadetex command uses  the  equiva-
+       lent of the plain JadeTeX format.
+
+       pdfjadeTeX's  handling of its command-line arguments is similar to that
+       of LaTeX.
+
+OPTIONS
+       This version of pdfjadeTeX understands the following command  line  op-
+       tions.
+
+       --fmt format
+              Use  format as the name of the format to be used, instead of the
+              name by which pdfjadeTeX was called or a %& line.
+
+       --help Print help message and exit.
+
+       --ini  Be pdfinitex, for dumping formats; this is  implicitly  true  if
+              the program is called as pdfinitex.
+
+       --interaction mode
+              Sets  the  interaction  mode.  The mode can be one of batchmode,
+              nonstopmode, scrollmode,  and  errorstopmode.   The  meaning  of
+              these modes is the same as that of the corresponding \commands.
+
+       --ipc  Send  DVI  or PDF output to a socket as well as the usual output
+              file.  Whether this option is available is the choice of the in-
+              staller.
+
+       --ipc-start
+              As  --ipc,  and  starts  the  server  at  the other end as well.
+              Whether this option is available is the choice of the installer.
+
+       --kpathsea-debug bitmask
+              Sets path searching debugging flags according  to  the  bitmask.
+              See the Kpathsea manual for details.
+
+       --maketex fmt
+              Enable mktexfmt, where fmt must be one of tex or tfm.
+
+       --no-maketex fmt
+              Disable mktexfmt, where fmt must be one of tex or tfm.
+
+       --output-comment string
+              Use string for the DVI file comment instead of the date.
+
+       --progname name
+              Pretend  to  be program name.  This affects both the format used
+              and the search paths.
+
+       --shell-escape
+              Enable the \write18{command} construct.  The command can be  any
+              Bourne shell command.  This construct is normally disallowed for
+              security reasons.
+
+       --version
+              Print version information and exit.
+
+ENVIRONMENT
+       See the Kpathsearch library documentation  (the  `Path  specifications'
+       node)  for  precise  details of how the environment variables are used.
+       The kpsewhich utility can be used to query the values of the variables.
+
+       One caveat: In most pdfjadeTeX formats, you cannot use ~ in a  filename
+       you  give directly to pdfjadeTeX, because ~ is an active character, and
+       hence is expanded, not taken as part of the filename.  Other  programs,
+       such as Metafont, do not have this problem.
+
+       TEXMFOUTPUT
+              Normally, pdfjadeTeX puts its output files in the current direc-
+              tory.  If any output file cannot be opened there,  it  tries  to
+              open  it  in the directory specified in the environment variable
+              TEXMFOUTPUT.  There is no default value for that variable.   For
+              example,  if  you say tex paper and the current directory is not
+              writable, if TEXMFOUTPUT has the value /tmp, pdfjadeTeX attempts
+              to  create  /tmp/paper.log (and /tmp/paper.pdf, if any output is
+              produced.)
+
+       TEXINPUTS
+              Search path for \input and \openin files.  This should  probably
+              start  with  ``.'',  so  that user files are found before system
+              files.
+
+       TEXFONTS
+              Search path for font metric (.tfm) files.
+
+       TEXFORMATS
+              Search path for format files.
+
+       TEXPOOL
+              search path for pdfinitex internal strings.
+
+       TEXEDIT
+              Command template for switching to editor.  The default,  usually
+              vi, is set when pdfjadeTeX is compiled.
+
+FILES
+       The location of the files mentioned below varies from system to system.
+       Use the kpsewhich utility to find their locations.
+
+       pdfjadetex.pool
+              Encoded text of pdfjadeTeX's messages.
+
+       texfonts.map
+              Filename mapping definitions.
+
+       *.tfm  Metric files for pdfjadeTeX's fonts.
+
+       *.fmt  Predigested pdfjadeTeX format (.fmt) files.
+
+BUGS
+       This version of pdfjadeTeX fails to trap arithmetic overflow  when  di-
+       mensions  are  added  or subtracted.  Cases where this occurs are rare,
+       but when it does the generated DVI file will be invalid.
+
+SEE ALSO
+       jadetex(1), tex(1), mf(1), undump(1).
+
+AUTHORS
+       The author of pdfjadeTeX is Sebastian Rahtz.
+
+       This manual page was derived by Marcus Brinkmann for the Debian distri-
+       bution  from  the  pdfTeX  manual  page  from the teTeX distribution by
+       Thomas Esser.
+
+Marcus Brinkmann                 12 July 1998                    PDFJADETEX(1)

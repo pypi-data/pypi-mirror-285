@@ -1,0 +1,87 @@
+
+DOVEADM-LOG(1)                      Dovecot                     DOVEADM-LOG(1)
+
+NAME
+       doveadm-log - Locate, test or reopen Dovecot's log files
+
+SYNOPSIS
+       doveadm [-Dv] log errors [-s min_timestamp]
+       doveadm [-Dv] log find [directory]
+       doveadm [-Dv] log reopen
+       doveadm [-Dv] log test
+
+DESCRIPTION
+       The doveadm log commands are used to locate and reopen the log files of
+       dovecot(1).  It's also possible to test the configured targets  of  the
+       *log_path settings.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+COMMANDS
+   log errors
+       doveadm log errors [-s min_timestamp]
+
+       The log errors command is used to show the last  - up to 1,000 - errors
+       and warnings.  If no output is generated, no errors have occurred since
+       the last start.
+
+       -s min_timestamp
+              An integer value, representing seconds since the  epoch  -  also
+              known  as  Unix  timestamp.   When  a  min_timestamp  was given,
+              doveadm(1) will only show errors occurred since  that  point  in
+              time.
+
+   log find
+       doveadm log find [directory]
+
+       The  log find command is used to show the location of the log files, to
+       which dovecot(1) sends its log messages.  If dovecot(1) logs  its  mes-
+       sages  through  syslogd(8) and doveadm(1) could not find any log files,
+       you can specify the directory where your syslogd writes its log files.
+
+   log reopen
+       doveadm log reopen
+
+       This command causes doveadm to reopen all log files, configured in  the
+       log_path,  info_log_path  and  debug_log_path settings.  These settings
+       are configured in /etc/dovecot/conf.d/10-logging.conf.
+       This is for example useful after manually rotating the log files.
+
+   log test
+       doveadm log test
+
+       This command causes doveadm to write the  message  "This  is  Dovecot's
+       priority log (timestamp)" to the configured log files.  The used prior-
+       ities are: debug, info, warning, error and fatal.
+
+EXAMPLE
+       This example shows how to locate the log files used by dovecot(1).
+
+       doveadm log find
+       Looking for log files from /var/log
+       Debug: /var/log/dovecot.debug
+       Info: /var/log/mail.log
+       Warning: /var/log/mail.log
+       Error: /var/log/mail.log
+       Fatal: /var/log/mail.log
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2013-11-24                    DOVEADM-LOG(1)

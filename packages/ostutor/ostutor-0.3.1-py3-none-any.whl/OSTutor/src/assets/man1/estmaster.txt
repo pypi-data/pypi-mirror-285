@@ -1,0 +1,67 @@
+
+ESTMASTER(1)                    Hyper Estraier                    ESTMASTER(1)
+
+NAME
+       estmaster - master process of node servers
+
+SYNOPSIS
+       estmaster init [-ex] rootdir
+
+       estmaster start [-bg] [-ro] [-st] rootdir
+
+       estmaster stop rootdir
+
+       estmaster unittest rootdir
+
+       estmaster crypt key [hash]
+
+DESCRIPTION
+       estmaster is an aggregation of sub commands.  The name of a sub command
+       is specified by the first argument.  Other arguments are parsed accord-
+       ing  to  each  sub  command.  The argument rootdir specifies the server
+       root directory which contains configuration file and so on.
+
+       estmaster init [-ex] rootdir
+              Create the server root directory.
+              If -ex is specified, some users and some nodes are set for exam-
+              ple.   By default, only a super user whose name and password are
+              both "admin" is set.
+
+       estmaster start [-bg] [-ro] [-st] rootdir
+              Start the node master.
+              If -bg is specified, the server runs in background as  a  daemon
+              process.
+              If  -ro  is specified, the server runs in read-only mode regard-
+              less of the configuration.
+              If -st is specified, the server runs in single thread mode.
+
+       estmaster stop rootdir
+              Stop the running node master.
+
+       estmaster unittest rootdir
+              Perform unit tests.
+
+       estmaster crypt key [hash]
+              Output an encrypted string of a string.
+              key specifies a target string.
+              If hash is specified, it checks whether the  key  and  the  hash
+              matches.
+
+       All  sub  commands return 0 if the operation is success, else return 1.
+       A running node master  finishes  with  closing  the  database  when  it
+       catches  the  signal  1  (SIGHUP),  2  (SIGINT),  3  (SIGQUIT),  or  15
+       (SIGTERM).  Moreover, when a node master running as  a  daemon  catches
+       the signal 1 (SIGHUP), the process is re-start and re-read the configu-
+       ration files.
+
+       A running node server should be finished by valid means by command line
+       or via network.  Otherwise, the index may be broken.
+
+SEE ALSO
+       estconfig(1),  estcmd(1),  estcall(1),  estwaver(1), estraier(3), estn-
+       ode(3)
+
+       Please see http://hyperestraier.sourceforge.net/nguide-en.html for  de-
+       tail.
+
+Man Page                          2007-03-06                      ESTMASTER(1)

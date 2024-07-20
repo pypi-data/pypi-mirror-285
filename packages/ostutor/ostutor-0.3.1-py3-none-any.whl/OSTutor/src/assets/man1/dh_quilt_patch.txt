@@ -1,0 +1,47 @@
+
+DH_QUILT_PATCH(1)                  Debhelper                 DH_QUILT_PATCH(1)
+
+NAME
+       dh_quilt_patch - apply patches listed in debian/patches/series
+
+SYNOPSIS
+       dh_quilt_patch [debhelper options]
+
+DESCRIPTION
+       dh_quilt_patch simply calls quilt push -a after having set the
+       environment variable QUILT_PATCHES to debian/patches.  All patches
+       listed in debian/patches/series are then applied in the current
+       directory. The command does not fail if the patches have already been
+       applied.
+
+       You can use another directory instead of debian/patches by setting (and
+       exporting) the environment variable QUILT_PATCH_DIR.
+
+EXAMPLES
+       dh_quilt_patch is usually called indirectly in a rules file via the dh
+       command.
+
+               %:
+                       dh $@ --with quilt
+
+       It can also be direcly called at the start of the build (or configure)
+       rule.
+
+               build:
+                       dh_quilt_patch
+                       ./configure
+                       $(MAKE)
+
+NOTES
+       This tool is useless if you use the source package format 3.0 (quilt).
+       Consider switching to this source format if you haven't done it yet.
+
+SEE ALSO
+       debhelper(7), dh(1).
+
+       This program is meant to be used together with debhelper.
+
+AUTHOR
+       Raphael Hertzog <hertzog@debian.org>
+
+perl v5.28.0                      2018-11-08                 DH_QUILT_PATCH(1)

@@ -1,0 +1,67 @@
+
+bbl2bib(1)                     CROSSREF LIBRARY                     bbl2bib(1)
+
+NAME
+       bbl2bib.pl - convert thebibliography environment to a bib file
+
+SYNOPSIS
+       bbl2bib.pl [-d] [-u] [-o output] file
+
+OPTIONS
+       [-d]
+           Send debugging output to stdout
+
+       -o output
+           Output file.  If this option is not used, the name for the output
+           file is formed by changing the extension to ".bib"
+
+       -u  Do not clean URL fields.
+
+           Normally "bbl2bib" recognizes URL fields of the kind
+           "http://dx.doi.org" and their variants and converts them to DOI
+           fields (see also biburl2doi(1) script).  The switch -u suppresses
+           this cleanup.
+
+DESCRIPTION
+       The script tries to reconstruct a "bib" file from the corresponding
+       "thebibliography" environment.  One can argue that this operation is
+       akin to reconstructing a cow from the steak.  The way the script does
+       it is searching for the entry in the MR database, and creating the
+       corresponding BibTeX fields.
+
+       The script reads a TeX or Bbl file and extracts from it the
+       "thebibliography" environment.  For each bibitem it creates a plain
+       text bibliography entry, and then  tries to match it in the database.
+
+INPUT FILE
+       We assume some structure of the input file:
+
+       1.  The bibliography is contained between the lines
+
+              \begin{thebibliography}...
+
+           and
+
+              \end{thebibliography}
+
+       2.  Each bibliography item starts from the line
+
+              \bibitem[...]{....}
+
+EXAMPLES
+          bbl2bib  -o - file.tex > result.bib
+          bbl2bib  -o result.bib file.bbl
+          bbl2bib  file.tex
+
+AUTHOR
+       Boris Veytsman
+
+COPYRIGHT AND LICENSE
+       Copyright (C) 2014-2017  Boris Veytsman
+
+       This is free software.  You may redistribute copies of it under the
+       terms of the GNU General Public License
+       <http://www.gnu.org/licenses/gpl.html>.  There is NO WARRANTY, to the
+       extent permitted by law.
+
+                                  2018-04-29                        bbl2bib(1)

@@ -1,0 +1,82 @@
+
+defoma-app(1)               General Commands Manual              defoma-app(1)
+
+NAME
+       defoma-app - configure a specific application about fonts registered in
+       Debian Font Manager.
+
+SYNOPSIS
+       defoma-app [options] clean application [category..]
+       defoma-app [options] update application [category..]
+       defoma-app [options] purge application
+       defoma-app [options] ignore application [category..]
+
+DESCRIPTION
+       defoma-app is a tool to configure the fonts registered in  Defoma,  De-
+       bian Font Manager, for a specific application. Defoma calls the Defoma-
+       configuration script of the specified application with register or  un-
+       register command for each of the fonts registered in the categories ac-
+       cepted  by  the  application.   It  is  supposed  to  be  invoked  from
+       postinst/prerm scripts of application packages, but may be invoked from
+       console.
+
+       application specifies the name of the application that is going  to  be
+       configured.    The   specified   application   must  have  application-
+       name.defoma perl script under /usr/share/defoma/scripts.   If  category
+       is specified, only the fonts in the specified categories get processed.
+       Otherwise all the fonts in all the categories accepted by the  applica-
+       tion get processed.
+
+COMMANDS
+       update Update  the configuration of the specified application about the
+              fonts registered in the specified  category.   category  can  be
+              omitted.  When it is specified and the specified category is set
+              ignored (to be mentioned later), ignore flag gets unset  so  the
+              category  gets  updated.   Internally  the  Defoma-configuration
+              script of the application gets called  with  unregister  command
+              first  and then with register command for each font of the cate-
+              gory. Some directories and symlinks specified in the  header  of
+              the script might be generated automatically.
+              This  command  should  be  invoked when the Defoma-configuration
+              script is newly installed or updated so that the script gets in-
+              stalled to Defoma data directory and the fonts get configured to
+              the application. It means it is supposed to be  invoked  on  the
+              postinst configure phase.
+
+       clean  Clean  up  the  configuration of the specified application about
+              the fonts registered in the specified category.  category can be
+              omitted.  Internally  the Defoma-configuration script of the ap-
+              plication gets called with unregister command for each  font  of
+              the category.
+
+       purge  This  command  is almost the same as clean command. It only dif-
+              fers on removing the script installed in the defoma data  direc-
+              tory  and  some directories and symlinks if any was generated in
+              the update command before.
+              This command should be  invoked  when  the  Defoma-configuration
+              script  is  going  to be removed so that the script gets removed
+              and the font configuration gets cleaned. It means it is supposed
+              to be invoked on the prerm remove phase.
+
+       ignore This  command  makes the specified application not use the fonts
+              registered in the specified category.  It removes the  fonts  in
+              the category out of the font configuration and sets the `ignore'
+              flag against the category in order to make the Defoma-configura-
+              tion script of the application not accept fonts in the category.
+              If category is omitted, all categories gets  ignored.  To  unset
+              the  `ignore'  flag,  run defoma-app with update command and the
+              category against which you want to unset the flag.
+
+OPTIONS
+       -t     Exit with true value (0) even if error occurs.
+
+       -v     Verbose output.
+
+       -d     Debug/Testing mode.
+
+       -q     Quiet output.
+
+SEE ALSO
+       defoma(1).
+
+                                March  4, 2001                   defoma-app(1)

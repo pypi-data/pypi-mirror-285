@@ -1,0 +1,208 @@
+
+PLACKUP(1p)           User Contributed Perl Documentation          PLACKUP(1p)
+
+NAME
+       plackup - Run PSGI application with Plack handlers
+
+SYNOPSIS
+         # read your app from app.psgi file
+         plackup
+
+         # choose .psgi file from ARGV[0] (or with -a option)
+         plackup hello.psgi
+
+         # switch server implementation with --server (or -s)
+         plackup --server HTTP::Server::Simple --port 9090 --host 127.0.0.1 test.psgi
+
+         # use UNIX socket to run FCGI daemon
+         plackup -s FCGI --listen /tmp/fcgi.sock myapp.psgi
+
+         # launch FCGI external server on port 9090
+         plackup -s FCGI --port 9090
+
+DESCRIPTION
+       plackup is a command line utility to run PSGI applications from the
+       command line.
+
+       plackup automatically figures out the environment it is run in, and
+       runs your application in that environment. FastCGI, CGI, AnyEvent and
+       others can all be detected. See Plack::Loader for the authoritative
+       list.
+
+       "plackup" assumes you have an "app.psgi" script in your current
+       directory.  The last statement of "app.psgi" should be a code reference
+       that is a PSGI application:
+
+         #!/usr/bin/perl
+         use MyApp;
+         my $application = MyApp->new;
+         my $app = sub { $application->run_psgi(@_) };
+
+ARGUMENTS
+       .psgi
+             plackup --host 127.0.0.1 --port 9090 /path/to/app.psgi
+
+           The first non-option argument is used as a ".psgi" file path. You
+           can also set this path with "-a" or "--app". If omitted, the
+           default file path is "app.psgi" in the current directory.
+
+OPTIONS
+       -a, --app
+           Specifies the full path to a ".psgi" script. You may alternately
+           provide this path as the first argument to "plackup".
+
+       -e  Evaluates the given perl code as a PSGI app, much like perl's "-e"
+           option:
+
+             plackup -e 'sub { my $env = shift; return [ ... ] }'
+
+           It is also handy when you want to run a custom application like
+           Plack::App::*.
+
+             plackup -MPlack::App::File -e 'Plack::App::File->new(...)->to_app'
+
+           You can also specify "-e" option with ".psgi" file path to wrap the
+           application with middleware configuration from the command line.
+           You can also use Plack::Builder DSL syntax inside "-e" code. For
+           example:
+
+             plackup -e 'enable "Auth::Basic", authenticator => ...;' myapp.psgi
+
+           is equivalent to the PSGI application:
+
+             use Plack::Builder;
+             use Plack::Util;
+
+             builder {
+                 enable "Auth::Basic", authenticator => ...;
+                 Plack::Util::load_psgi("myapp.psgi");
+             };
+
+           Note that when you use "-e" option to enable middleware, plackup
+           doesn't assume the implicit "app.psgi" path. You must either pass
+           the path to your ".psgi" file in the command line arguments or load
+           the application inside "-e" after the "enable".
+
+             plackup                                # Runs app.psgi
+             plackup -e 'enable "Foo"'              # Doesn't work!
+             plackup -e 'enable "Foo"' app.psgi     # Works
+             plackup -e 'enable "Foo"; sub { ... }' # Works
+
+       -o, --host
+           Binds to a TCP interface. Defaults to undef, which lets most server
+           backends bind to the any (*) interface. This option is only valid
+           for servers which support TCP sockets.
+
+       -p, --port
+           Binds to a TCP port. Defaults to 5000. This option is only valid
+           for servers which support TCP sockets.
+
+       -s, --server, the "PLACK_SERVER" environment variable
+           Selects a specific server implementation to run on. When provided,
+           the "-s" or "--server" flag will be preferred over the environment
+           variable.
+
+           If no option is given, plackup will try to detect the best server
+           implementation based on the environment variables as well as
+           modules loaded by your application in %INC. See Plack::Loader for
+           details.
+
+       -S, --socket
+           Listens on a UNIX domain socket path. Defaults to undef. This
+           option is only valid for servers which support UNIX sockets.
+
+       -l, --listen
+           Listens on one or more addresses, whether "HOST:PORT", ":PORT", or
+           "PATH" (without colons). You may use this option multiple times to
+           listen on multiple addresses, but the server will decide whether it
+           supports multiple interfaces.
+
+       -D, --daemonize
+           Makes the process run in the background. It's up to the backend
+           server/handler implementation whether this option is respected or
+           not.
+
+       -I  Specifies Perl library include paths, like "perl"'s -I option. You
+           may add multiple paths by using this option multiple times.
+
+       -M  Loads the named modules before loading the app's code. You may load
+           multiple modules by using this option multiple times.
+
+           In combination with "-r" or "-R" may not have the desired restart
+           effect when the loaded module is changed in the development
+           directory. To avoid this problem you need to load the module with
+           the app code using "-e".
+
+       -E, --env, the "PLACK_ENV" environment variable.
+           Specifies the environment option. Setting this value with "-E" or
+           "--env" also writes to the "PLACK_ENV" environment variable. This
+           allows applications or frameworks to tell which environment setting
+           the application is running on.
+
+             # These two are the same
+             plackup -E deployment
+             env PLACK_ENV=deployment plackup
+
+           Common values are "development", "deployment", and "test". The
+           default value is "development", which causes "plackup" to load the
+           middleware components: AccessLog, StackTrace, and Lint unless
+           "--no-default-middleware" is set.
+
+       --no-default-middleware
+           This prevents loading the default middleware stack even when Plack
+           environment (i.e. "-E" or "PLACK_ENV") is set to "development".
+
+       -r, --reload
+           Makes plackup restart the server whenever a file in your
+           development directory changes. This option by default watches the
+           "lib" directory and the base directory where .psgi file is located.
+           Use "-R" to watch other directories.
+
+           Reloading will delay the compilation of your application. Automatic
+           server detection (see "-s" above) may not behave as you expect, if
+           plackup needs to scan your application for the modules it uses.
+           Avoid problems by specifying "-s" explicitly when using "-r" or
+           "-R".
+
+           To avoid problems with changes to preloaded modules see
+           documentation for "-M".
+
+       -R, --Reload
+           Makes plackup restart the server whenever a file in any of the
+           given directories changes. "-R" and "--Reload" take a comma-
+           separated list of paths:
+
+             plackup -R /path/to/project/lib,/path/to/project/templates
+
+           To avoid problems with changes to preloaded modules see
+           documentation for "-M".
+
+       -L, --loader
+           Specifies the server loading subclass that implements how to run
+           the server.  Available options are Plack::Loader (default),
+           Restarter (automatically set when "-r" or "-R" is used), Delayed,
+           and Shotgun.
+
+           See Plack::Loader::Delayed and Plack::Loader::Shotgun for more
+           details.
+
+       --access-log
+           Specifies the pathname of a file where the access log should be
+           written.  By default, in the development environment access logs
+           will go to STDERR.
+
+       --path
+           Specify the root path of your app ("SCRIPT_NAME" in PSGI env) to
+           run. The following two commands are roughly the same.
+
+             plackup --path /foo app.psgi
+             plackup -e 'mount "/foo" => Plack::Util::load_psgi("app.psgi")'
+
+       Other options that starts with "--" are passed through to the backend
+       server.  See each Plack::Handler backend's documentation for more
+       details on their available options.
+
+SEE ALSO
+       Plack::Runner Plack::Loader
+
+perl v5.30.0                      2019-10-23                       PLACKUP(1p)

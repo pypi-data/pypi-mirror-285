@@ -1,0 +1,196 @@
+
+A2PING(1)                         Peter Szabo                        A2PING(1)
+
+NAME
+  a2ping.pl  --  convert  between  PS,  EPS  and PDF and other page description
+  formats
+
+SYNOPSIS
+   a2ping.pl [--]help
+   a2ping.pl [--]doc
+   a2ping.pl [options] <inputfile> [[outformat:] outputfile]
+
+DESCRIPTION
+  a2ping is a UNIX command line utility written  in  Perl  that  converts  many
+  raster  image  and  vector  graphics  formats  to  EPS  or PDF and other page
+  description formats. Accepted input file formats are: PS  (PostScript),  EPS,
+  PDF,  PNG,  JPEG,  TIFF,  PNM,  BMP, GIF, LBM, XPM, PCX, TGA. Accepted output
+  formats are: EPS, PCL5, PDF, PDF1, PBM, PGM, PPM,  PS,  markedEPS,  markedPS,
+  PNG,  XWD, BMP, TIFF, JPEG, GIF, XPM.  a2ping delegates the low-level work to
+  Ghostscript (GS), pdftops and sam2p. a2ping fixes many  glitches  during  the
+  EPS  to  EPS  conversion,  so  its output is often more compatible and better
+  embeddable than its input.
+
+  Without  the  "--below"  option,  it  is  guarenteed  to  start  at  the  0,0
+  coordinate. "--below", "--hires" and "-v" are recommended options.
+
+  The  page  size  is set exactly corresponding to the BoundingBox.  This means
+  that when Ghostscript renders it, the result needs no cropping, and  the  PDF
+  MediaBox is correct.
+
+  If  the  bounding box is not right, of course, you have problems. If you feed
+  crap in, you get crap. But you can supply the --bboxfrom=compute-gs option to
+  make GS recompute the bounding box.
+
+  The  name  of the input file doesn't matter -- a2ping detects the file format
+  based on the first few bytes of the file. The name of the output file matters
+  if  outformat  is  missing  from  the command line: then the extension of the
+  output file determines the FileFormat (outformat).
+
+EXTERNAL PROGRAMS
+  The internal file format of a2ping.pl is PS/EPS.  Everything  read  is  first
+  converted  to  PS  or EPS, then processed by a2ping.pl, then converted to the
+  output format.
+
+  To analyse the bounding box and other properties of non-EPS PS files (and EPS
+  files with option --bboxfrom other than =guess), GS is used. Converting PS to
+  EPS involves this analysis.
+
+  To write PDF files, GS is used.
+
+  To read PDF files, pdftops from the xpdf package is used.
+
+  Sampled input formats are PNG, JPEG, TIFF, PNM, BMP, GIF, LBM, XPM,  PCX  and
+  TGA.  To  read  sampled input formats, sam2p is used. sam2p is a raster image
+  converter written in C++ by the author of a2ping.pl.
+
+  Extra output formats are PNG, XWD, BMP, TIFF, JPEG, GIF  and  XPM.  To  write
+  extra output formats, sam2p and GS are used.
+
+  PNM  output  formats are PGM, PGM and PPM. To write PNM output formats, GS is
+  used.
+
+OPTIONS
+   General Options
+  -h, --help
+    Show a summary of the usage
+
+  --doc
+    Show the man page
+
+  -v, --(no)verbose
+    Show progress and debug messages (default: no)
+
+   Options for the Bounding box
+  --(no)hires
+    Use HiResBoundingBox in the input file, if present (default: yes)
+
+  --(no)exact
+    Use ExactBoundingBox in the input file, if present (default: no)
+
+  --(no)keepoldmediabox
+    keep only old, [0 0]-based MediaBox in PDF (default: no)
+
+  --bboxfrom=adsc|compute-gs|guess|pagesize
+    Method for determining the BoundingBox  (default: guess)
+
+  --(no)below
+    Allow page content below and left of the origin (default: no)
+
+   Options for graphics and fonts
+  --(no)compress
+    use compression                   (default: best)
+
+  --(no)antialias
+    render  shades  at  outlines.   Possible  values:  (=scale3yes  =no   =yes)
+    (default: scale3no)
+
+  --(no)lossy
+    allow lossy image filters (EPS->PDF) (default: yes)
+
+  --papersize=unchanged|force-unknown|600bpx5cm
+    (default: default) (bp)
+
+  --threshold=
+    min color for 1 in 8->1 bit conv  (default: 128)
+
+   Options for debugging and changing internals
+  --(no)tmpunlink
+    Unlink  temporary  files (default: yes).  Use --notmpunklink if you want to
+    inspect intermediate files.
+
+  --gs-cmd=path
+    path to Ghostscript program (default: gs or gswin32c)
+
+  --gs-ccmd=path
+    path to Ghostscript for BoundingBox calculation (default: gs or gswin32c)
+
+  --gsextra=GS_ARGS
+    Pass extra arguments to gs
+
+  --extra=
+    Pass extra arguments to external program (i.e pdftops)
+
+TIPS AND TRICKS
+  o If your EPS contains a wrong bounding  box,  you  can  fix  it  by  running
+    "a2ping.pl -v --bboxfrom=compute-gs thefile.eps --"
+
+  o You  can  specify  -  as  inputfile  to  get stdin and as outputfile to get
+    stdout. This works even for PDF files (which  must  be  seekable),  because
+    a2ping copies them to a temporary file automatically.
+
+  o If  inputfile and outputfile are the same, a2ping copies the inputfile to a
+    temporary location first. However, this usage is recommended only if  there
+    is  a  backup of the file to be restored in case a2ping doesn't produce the
+    desired result.
+
+  o If you specify -- as outputfile, it will be the same as inputfile.
+
+  o a2ping respects --Duplex for FileFormat PCL5, even though GS doesn't.
+
+  o If you have an incompatible PS that GS can read  but  your  printer  cannot
+    print, just run "a2ping.pl foo.ps PDF: - | a2ping.pl - PS: foo.ps"
+
+  o If  you  have  a PS coming from Win32 (often with extension ".prn"), run it
+    through a2ping. It will remove the resolution changes and the progress text
+    printed to the terminal (which confuses gv(1) and makes some filters in the
+    print queue emit incorrect output).
+
+  o a2ping does antialiasing (--antialias=scale3no) of glyphs and  curves  when
+    emitting  a sampled image (FileFormats such as PGM and PPM).  This improves
+    readability of the glyphs. =yes instructs GS to do  internal  antialiasing,
+    but  it  usually  doesn't  improve  much.  =scale3no  turns off GS internal
+    antialiasing, but makes it render everything 3x3 as big, and then scales it
+    back   down.   =scale3no   turns  on  both  3x3  scaling  and  GS  internal
+    antialiasing, which results in thicker lines and worse quality in general.
+
+  o When creating a PBM file, antialiasing usually doesn't improve the quality,
+    so  it  is  switched off by default. But if you set --antialias=scale3no or
+    --antialias=scale3yes, GS  will  render  a  PGM  file,  and  the  value  of
+    --threshold determines the minimum intensity for white in the final PBM.
+
+  o If  you  need  a bigger sampled output file, specify a larger --Resolution.
+    The default is --Resolution=72. If your sampled output file is going to  be
+    really  big,  you  should  specify  --AntiAlias=yes  instead of the default
+    --AntiAlias=scale3no to speed up conversion.
+
+  o To make sure fonts are included in a  PDF  file  generated  from  eps,  use
+    --gsextra='-dEmbedAllFonts=true -dPDFSETTINGS=/printer'.
+
+MISC
+  o Doesn't depend on the filename or extension of the input file.
+
+  o Conversion from EPS to PDF: fixes glitches etc., calls gs -sDEVICE=pdfwrite
+
+  o Conversion  from  EPS  to  EPS:  fixes various glitches, moves (llx,lly) to
+    (0,0), removes binary junk from the beginning of the EPS etc.
+
+  o Conversion from PDF to PDF: keeps the file intact
+
+  o Conversion from PDF to EPS: calls pdftops -eps (of the xpdf package)
+
+  o Conversion from PS to EPS: keeps 1st page only, removes setpagedevice etc.
+
+AUTHORS
+  The author of a2ping is Peter Szabo <pts@fazekas.hu>.
+
+  a2ping is inspired by and historically based  on  the  epstopdf  Perl  script
+  modified by Thomas Esser, Sept. 1998, but his modifications have been removed
+  from a2ping, and also a2ping and epstopdf do not share common  code  anymore.
+  epstopdf  is  written  by  Sebastian  Rahtz,  for  Elsevier Science. epstopdf
+  contained extra tricks from Hans Hagen's texutil.
+
+  a2ping contains contributions from several people, see the  file  HISTORY.txt
+  for details. Thank you all for contributing!
+
+a2ping                            2019-11-28                         A2PING(1)

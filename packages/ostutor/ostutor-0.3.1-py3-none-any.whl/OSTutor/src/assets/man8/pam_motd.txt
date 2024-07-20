@@ -1,0 +1,70 @@
+
+PAM_MOTD(8)                    Linux-PAM Manual                    PAM_MOTD(8)
+
+NAME
+       pam_motd - Display the motd file
+
+SYNOPSIS
+       pam_motd.so [motd=/path/filename]
+
+DESCRIPTION
+       pam_motd is a PAM module that can be used to display arbitrary motd
+       (message of the day) files after a successful login. By default the
+       /etc/motd file is shown. The message size is limited to 64KB.
+
+OPTIONS
+       motd=/path/filename
+           The /path/filename file is displayed as message of the day.
+
+       motd_dir=/path/dirname.d
+           The /path/dirname.d directory is scanned and each file contained
+           inside of it is displayed.
+
+       noupdate
+           Don't run the scripts in /etc/update-motd.d to refresh the motd
+           file.
+
+       When no options are given, the default is to display both /etc/motd and
+       the contents of /etc/motd.d. Specifying either option (or both) will
+       disable this default behavior.
+
+       The MOTD_SHOWN=pam environment variable is set after showing the motd
+       files, even when all of them were silenced using symbolic links.
+
+MODULE TYPES PROVIDED
+       Only the session module type is provided.
+
+RETURN VALUES
+       PAM_ABORT
+           Not all relevant data or options could be obtained.
+
+       PAM_BUF_ERR
+           Memory buffer error.
+
+       PAM_IGNORE
+           This is the default return value of this module.
+
+EXAMPLES
+       The suggested usage for /etc/pam.d/login is:
+
+           session  optional  pam_motd.so
+
+       To use a motd file from a different location:
+
+           session  optional  pam_motd.so motd=/elsewhere/motd
+
+       To use a motd file from elsewhere, along with a corresponding .d
+       directory:
+
+           session  optional  pam_motd.so motd=/elsewhere/motd motd_dir=/elsewhere/motd.d
+
+SEE ALSO
+       motd(5), pam.conf(5), pam.d(5), pam(7), update-motd(5)
+
+AUTHOR
+       pam_motd was written by Ben Collins <bcollins@debian.org>.
+
+       The motd_dir= option was added by Allison Karlitskaya
+       <allison.karlitskaya@redhat.com>.
+
+Linux-PAM Manual                  02/02/2023                       PAM_MOTD(8)

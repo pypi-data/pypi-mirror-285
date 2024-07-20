@@ -1,0 +1,47 @@
+
+PRIME(1SSL)                         OpenSSL                        PRIME(1SSL)
+
+NAME
+       openssl-prime, prime - compute prime numbers
+
+SYNOPSIS
+       openssl prime [-help] [-hex] [-generate] [-bits] [-safe] [-checks]
+       [number...]
+
+DESCRIPTION
+       The prime command checks if the specified numbers are prime.
+
+       If no numbers are given on the command line, the -generate flag should
+       be used to generate primes according to the requirements specified by
+       the rest of the flags.
+
+OPTIONS
+       [-help]
+           Display an option summary.
+
+       [-hex]
+           Generate hex output.
+
+       [-generate]
+           Generate a prime number.
+
+       [-bits num]
+           Generate a prime with num bits.
+
+       [-safe]
+           When used with -generate, generates a "safe" prime. If the number
+           generated is n, then check that (n-1)/2 is also prime.
+
+       [-checks num]
+           Perform the checks num times to see that the generated number is
+           prime.  The default is 20.
+
+COPYRIGHT
+       Copyright 2017 The OpenSSL Project Authors. All Rights Reserved.
+
+       Licensed under the OpenSSL license (the "License").  You may not use
+       this file except in compliance with the License.  You can obtain a copy
+       in the file LICENSE in the source distribution or at
+       <https://www.openssl.org/source/license.html>.
+
+1.1.1f                            2023-10-10                       PRIME(1SSL)

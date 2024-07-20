@@ -1,0 +1,30 @@
+
+SYSTEMD-HOSTNAMED.SERVICE(8systemd-hostnamed.serviSYSTEMD-HOSTNAMED.SERVICE(8)
+
+NAME
+       systemd-hostnamed.service, systemd-hostnamed - Host name bus mechanism
+
+SYNOPSIS
+       systemd-hostnamed.service
+
+       /lib/systemd/systemd-hostnamed
+
+DESCRIPTION
+       systemd-hostnamed is a system service that may be used as a mechanism
+       to change the system's hostname.  systemd-hostnamed is automatically
+       activated on request and terminates itself when it is unused.
+
+       The tool hostnamectl(1) is a command line client to this service.
+
+       See the developer documentation[1] for information about the APIs
+       systemd-hostnamed provides.
+
+SEE ALSO
+       systemd(1), hostname(5), machine-info(5), hostnamectl(1),
+       sethostname(2)
+
+NOTES
+        1. developer documentation
+           https://www.freedesktop.org/wiki/Software/systemd/hostnamed
+
+systemd 245                                       SYSTEMD-HOSTNAMED.SERVICE(8)

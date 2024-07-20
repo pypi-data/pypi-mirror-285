@@ -1,0 +1,100 @@
+
+DOVEADM-FTS(1)                      Dovecot                     DOVEADM-FTS(1)
+
+NAME
+       doveadm-fts - Manipulate the Full Text Search (FTS) index
+
+SYNOPSIS
+       doveadm [-Dv] fts command [OPTIONS] [ARGUMENTS]
+
+DESCRIPTION
+       The doveadm fts COMMANDS can be used to manipulate the Full Text Search
+       (FTS) index.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       This  command  uses  by  default the output formatter flow (without the
+       key= prefix).
+
+       Command specific options:
+
+       -A     If the -A option is present, the command will be  performed  for
+              all  users.   Using this option in combination with system users
+              from userdb { driver = passwd } is not recommended,  because  it
+              contains  also  users  with  a lower UID than the one configured
+              with the first_valid_uid setting.
+
+              When the SQL userdb module is used  make  sure  that  the  iter-
+              ate_query  setting  in /etc/dovecot/dovecot-sql.conf.ext matches
+              your database layout.  When using the LDAP userdb  module,  make
+              sure  that  the  iterate_attrs  and  iterate_filter  settings in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -F file
+              Execute the command for all the users in the file.  This is sim-
+              ilar to the -A option, but instead of getting the list of  users
+              from  the  userdb,  they are read from the given file.  The file
+              contains one username per line.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain  socket, or a hostname and port (hostname:port), in order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run  the command only for the given user.  It's also possible to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When neither the -A option, nor  the  -F file  option,  nor  the
+              -u user was specified, the command will be executed with the en-
+              vironment of the currently logged in user.
+
+ARGUMENTS
+       namespace
+              The name of a namespace, e.g. the name of the shared  namespace.
+              When  no  namespace was given, the user's private namespace will
+              be used.
+
+COMMANDS
+   fts optimize
+       doveadm fts optimize [-u user|-A|-F file] [-S socket_path] [namespace]
+
+       Optimize the full text search index.  This is also  done  automatically
+       by the full text search engines, but this enforces it to happen.
+
+   fts rescan
+       doveadm fts rescan [-u user|-A|-F file] [-S socket_path] [namespace]
+
+       Scan  what  mails exist in the full text search index and compare those
+       to what actually exist in mailboxes.  This removes mails from the index
+       that  have  already  been expunged and makes sure that the next doveadm
+       index will index all the missing mails (if any).
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1), doveadm-index(1)
+
+       Additional resources:
+
+       Full text search indexing
+              http://wiki2.dovecot.org/Plugins/FTS
+
+Dovecot v2.3                      2015-05-09                    DOVEADM-FTS(1)

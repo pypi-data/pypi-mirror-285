@@ -1,0 +1,82 @@
+
+PERROR(1)                    MySQL Database System                   PERROR(1)
+
+NAME
+       perror - display MySQL error message information
+
+SYNOPSIS
+       perror [options] errorcode ...
+
+DESCRIPTION
+       perror displays the error message for MySQL or operating system error
+       codes. Invoke perror like this:
+
+           perror [options] errorcode ...
+
+       perror attempts to be flexible in understanding its arguments. For
+       example, for the ER_WRONG_VALUE_FOR_VAR error, perror understands any
+       of these arguments: 1231, 001231, MY-1231, or MY-001231, or
+       ER_WRONG_VALUE_FOR_VAR.
+
+           $> perror 1231
+           MySQL error code MY-001231 (ER_WRONG_VALUE_FOR_VAR): Variable '%-.64s'
+           can't be set to the value of '%-.200s'
+
+       If an error number is in the range where MySQL and operating system
+       errors overlap, perror displays both error messages:
+
+           $> perror 1 13
+           OS error code   1:  Operation not permitted
+           MySQL error code MY-000001: Can't create/write to file '%s' (OS errno %d - %s)
+           OS error code  13:  Permission denied
+           MySQL error code MY-000013: Can't get stat of '%s' (OS errno %d - %s)
+
+       To obtain the error message for a MySQL Cluster error code, use the
+       ndb_perror utility.
+
+       The meaning of system error messages may be dependent on your operating
+       system. A given error code may mean different things on different
+       operating systems.
+
+       perror supports the following options.
+
+       o   --help, --info, -I, -?  Display a help message and exit.
+
+       o   --ndb Print the error message for a MySQL Cluster error code.
+
+           This option was removed in MySQL 8.0.13. Use the ndb_perror utility
+           instead.
+
+       o   --silent, -s Silent mode. Print only the error message.
+
+       o   --verbose, -v Verbose mode. Print error code and message. This is
+           the default behavior.
+
+       o   --version, -V Display version information and exit.
+
+COPYRIGHT
+       Copyright (C) 1997, 2023, Oracle and/or its affiliates.
+
+       This documentation is free software; you can redistribute it and/or
+       modify it only under the terms of the GNU General Public License as
+       published by the Free Software Foundation; version 2 of the License.
+
+       This documentation is distributed in the hope that it will be useful,
+       but WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+       General Public License for more details.
+
+       You should have received a copy of the GNU General Public License along
+       with the program; if not, write to the Free Software Foundation, Inc.,
+       51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA or see
+       http://www.gnu.org/licenses/.
+
+SEE ALSO
+       For more information, please refer to the MySQL Reference Manual, which
+       may already be installed locally and which is also available online at
+       http://dev.mysql.com/doc/.
+
+AUTHOR
+       Oracle Corporation (http://dev.mysql.com/).
+
+MySQL 8.0                         08/31/2023                         PERROR(1)

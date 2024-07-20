@@ -1,0 +1,489 @@
+
+ESTCMD(1)                       Hyper Estraier                       ESTCMD(1)
+
+NAME
+       estcmd - command line interface of the core API
+
+SYNOPSIS
+       estcmd  create  [-tr] [-apn|-acc] [-xs|-xl|-xh|-xh2|-xh3] [-sv|-si|-sa]
+       [-attr name type] db
+
+       estcmd  put  [-tr]  [-cl]  [-ws]  [-apn|-acc]  [-xs|-xl|-xh||-xh2|-xh3]
+       [-sv|-si|-sa] db [file]
+
+       estcmd out [-cl] [-pc enc] db expr
+
+       estcmd edit [-pc enc] db expr name [value]
+
+       estcmd get [-nl|-nb] [-pidx path] [-pc enc] db expr [attr]
+
+       estcmd list [-nl|-nb] [-lp] db
+
+       estcmd uriid [-nl|-nb] [-pidx path] [-pc enc] db expr
+
+       estcmd meta db [name [value]]
+
+       estcmd inform [-nl|-nb] db
+
+       estcmd optimize [-onp] [-ond] db
+
+       estcmd merge [-cl] db target
+
+       estcmd repair [-rst|-rsh] db
+
+       estcmd      search     [-nl|-nb]     [-pidx     path]     [-ic     enc]
+       [-vu|-va|-vf|-vs|-vh|-vx|-dd] [-sn wnum hnum anum] [-kn num] [-um] [-ec
+       rn]  [-gs|-gf|-ga]  [-cd] [-ni] [-sf|-sfr|-sfu|-sfi] [-hs] [-attr expr]
+       [-ord expr] [-max num] [-sk num] [-aux num] [-dis name]  [-sim  id]  db
+       [phrase]
+
+       estcmd  gather [-tr] [-cl] [-ws] [-no] [-fe|-ft|-fh|-fm] [-fx sufs cmd]
+       [-fz] [-fo] [-rm sufs] [-ic enc] [-il lang] [-bc] [-lt num]  [-lf  num]
+       [-pc     enc]    [-px    name]    [-aa    name    value]    [-apn|-acc]
+       [-xs|-xl|-xh|-xh2|-xh3] [-sv|-si|-sa] [-ss name] [-sd] [-cm] [-cs  num]
+       [-ncm] [-kn num] [-um] db [file|dir]
+
+       estcmd purge [-cl] [-no] [-fc] [-pc enc] [-attr expr] db [prefix]
+
+       estcmd  extkeys  [-no]  [-fc] [-dfdb file] [-ncm] [-ni] [-kn num] [-um]
+       [-attr expr] db [prefix]
+
+       estcmd words [-nl|-nb] [-dfdb file] [-kw|-kt] db
+
+       estcmd draft [-ft|-fh|-fm] [-ic enc] [-il lang] [-bc]  [-lt  num]  [-kn
+       num] [-um] [file]
+
+       estcmd break [-ic enc] [-il lang] [-apn|-acc] [-wt] [file]
+
+       estcmd iconv [-ic enc] [-il lang] [-oc enc] [file]
+
+       estcmd regex [-inv] [-repl str] expr [file]
+
+       estcmd scandir [-tf|-td] [-pa|-pu] [dir]
+
+       estcmd  multi  [-db  db]  [-nl|-nb] [-ic enc] [-gs|-gf|-ga] [-cd] [-ni]
+       [-sf|-sfr|-sfu|-sfi] [-hs] [-hu] [-attr expr] [-ord  expr]  [-max  num]
+       [-sk num] [-aux num] [-dis name] [phrase]
+
+       estcmd randput [-ren|-rla|-reu|-ror|-rjp|-rch] [-cs num] db dnum
+
+       estcmd wicked db dnum
+
+       estcmd regression db
+
+       estcmd version
+
+DESCRIPTION
+       estcmd is an aggregation of sub commands.  The name of a sub command is
+       specified by the first argument.  Other arguments are parsed  according
+       to each sub command.  The argument db specifies the path of an index.
+
+       estcmd  create  [-tr] [-apn|-acc] [-xs|-xl|-xh|-xh2|-xh3] [-sv|-si|-sa]
+       [-attr name type] db
+              Create an index.
+              If -tr is specified, a new index is created  regardless  if  one
+              exists.
+              If -apn is specified, N-gram analysis is performed against Euro-
+              pean text also.
+              If -acc is specified, character category analysis  is  performed
+              instead of N-gram analysis.
+              If  -xs  is  specified, the index is tuned to register less than
+              50000 documents.
+              If -xl is specified, the index is tuned to  register  more  than
+              300000 documents.
+              If  -xh  is  specified, the index is tuned to register more than
+              1000000 documents.
+              If -xh2 is specified, the index is tuned to register  more  than
+              5000000 documents.
+              If  -xh3  is specified, the index is tuned to register more than
+              10000000 documents.
+              If -sv is specified, scores are stored as void.
+              If -si is specified, scores are stored as 32-bit integer.
+              If -sa is specified, scores are stored as-is and marked  not  to
+              be tuned when search.
+              -attr  specifies an attribute index and its data type.  This op-
+              tion can be specified multiple times.
+
+       estcmd   put   [-tr]    [-cl]    [-apn|-acc]    [-xs|-xl|-xh|-xh2|-xh3]
+       [-sv|-si|-sa] db [file]
+              Register a document of document draft to an index.
+              file  specifies  a  target file.  If it is omitted, the standard
+              input is read.
+              If -tr is specified, a new index is created  regardless  if  one
+              exists.
+              If  -cl  is  specified,  regions  of  a overwritten document are
+              cleaned up.
+              If -ws is specified, scores are weighted statically  with  score
+              weighting attribute.
+              If -apn is specified, N-gram analysis is performed against Euro-
+              pean text also.
+              If -acc is specified, character category analysis  is  performed
+              instead of N-gram analysis.
+              If  -xs  is  specified, the index is tuned to register less than
+              50000 documents.
+              If -xl is specified, the index is tuned to  register  more  than
+              300000 documents.
+              If  -xh  is  specified, the index is tuned to register more than
+              1000000 documents.
+              If -xh2 is specified, the index is tuned to register  more  than
+              5000000 documents.
+              If  -xh3  is specified, the index is tuned to register more than
+              10000000 documents.
+              If -sv is specified, scores are stored as void.
+              If -si is specified, scores are stored as 32-bit integer.
+              If -sa is specified, scores are stored as-is and marked  not  to
+              be tuned when search.
+
+       estcmd out [-pc enc] [-cl] db expr
+              Remove information of a document from an index.
+              expr  specifies  the  ID number, the URI, or the local path of a
+              document.
+              If -cl is specified, regions of the document are cleaned up.
+              -pc specifies the encoding of file paths.   By  default,  it  is
+              ISO-8859-1.
+
+       estcmd edit [-pc enc] db expr name [value]
+              Edit an attribute of a document in an index.
+              expr  specifies  the  ID number, the URI, or the local path of a
+              document.
+              name specifies the name of an attribute.
+              value specifies the value of the attribute.  If it  is  omitted,
+              the attribute is removed.
+              -pc  specifies  the  encoding of the file path and the attribute
+              value.  By default, it is ISO-8859-1.
+
+       estcmd get [-nl|-nb] [-pidx path] [-pc enc] db expr [attr]
+              Output document draft of a document in an index.
+              expr specifies the ID number, the URI, or the local  path  of  a
+              document.
+              If attr is specified, only the value of the attribute is output.
+              If -nl is specified, the index is opened without file locking.
+              If -nb is specified, file locking is performed without blocking.
+              -pidx  specifies the path of a pseudo index.  This option can be
+              specified multiple times.
+              -pc specifies the encoding of file paths.   By  default,  it  is
+              ISO-8859-1.
+
+       estcmd list [-nl|-nb] [-lp] db
+              Output a list of all document in an index.
+              If -nl is specified, the index is opened without file locking.
+              If -nb is specified, file locking is performed without blocking.
+              If  -lp  is specified, local path equivalent to URL of "file://"
+              is output.
+
+       estcmd uriid [-nl|-nb] [-pidx path] [-pc enc] db expr
+              Output the ID number of a document specified by URI.
+              expr specifies the URI or the local path of a document.
+              If -nl is specified, the index is opened without file locking.
+              If -nb is specified, file locking is performed without blocking.
+              -pidx specifies the path of a pseudo index.  This option can  be
+              specified multiple times.
+              -pc  specifies  the  encoding  of file paths.  By default, it is
+              ISO-8859-1.
+
+       estcmd meta db [name [value]]
+              Handle meta data.
+              name specifies the name of a piece of meta data.  If it is omit-
+              ted, a list of all names is output.
+              value  specifies  the value of the meta data to be recorded.  If
+              it is omitted, the current value is output.  If it is  an  empty
+              string, the meta data is removed.
+
+       estcmd inform [-nl|-nb] db
+              Output the number of documents and the number of unique words in
+              an index.
+              If -nl is specified, the index is opened without file locking.
+              If -nb is specified, file locking is performed without blocking.
+
+       estcmd optimize [-onp] [-ond] db
+              Optimize an index and clean up dispensable regions.
+              If -onp is specified, it is omitted to clean up dispensable  re-
+              gions.
+              If  -ond  is  specified,  it is omitted to optimize the database
+              files.
+
+       estcmd merge [-cl] db target
+              Merge another index.
+              target specifies the path of another index.
+              If -cl  is  specified,  regions  of  overwritten  documents  are
+              cleaned up.
+
+       estcmd repair [-rst|-rsh] db
+              Repair a broken index.
+              If -rst is specified, strict consistency check is performed.
+              If -rsh is specified, consistency check is omitted.
+
+       estcmd      search     [-nl|-nb]     [-pidx     path]     [-ic     enc]
+       [-vu|-va|-vf|-vs|-vh|-vx|-dd] [-sn wnum hnum anum] [-kn num] [-um] [-ec
+       rn]  [-gs|-gf|-ga]  [-cd] [-ni] [-sf|-sfr|-sfu|-sfi] [-hs] [-attr expr]
+       [-ord expr] [-max num] [-sk num] [-aux num] [-dis name]  [-sim  id]  db
+       [phrase]
+              Search an index for documents.
+              phrase specifies the search phrase.
+              If -nl is specified, the index is opened without file locking.
+              If -nb is specified, file locking is performed without blocking.
+              -pidx  specifies the path of a pseudo index.  This option can be
+              specified multiple times.
+              -ic specifies the input encoding.  By default, it is UTF-8.
+              If -vu is specified, TSV of ID number and URI are output.
+              If -va is specified, multipart format  including  attributes  is
+              output.
+              If  -vf  is specified, multipart format including document draft
+              is output.
+              If -vs is specified, multipart format including  attributes  and
+              snippets is output.
+              If  -vh is specified, human readable format including attributes
+              and snippets is output.
+              If -vx is specified,  XML  including  including  attributes  and
+              snippets is output.
+              If  -dd  is  specified, document draft data are dumped and saved
+              into separated files.
+              -sn specifies the number of whole width of snippet and width  of
+              strings  picked  up  from the beginning of the text and width of
+              strings picked up around each highlighted word.
+              -kn specifies the number of keywords to be  extracted.   By  de-
+              fault, keyword extraction is not performed.
+              If  -um  is specified, morphological analyzers are used for key-
+              word extraction.
+              -ec specifies lower limit of similarity eclipse.
+              If -gs is specified, every key of N-gram  is  checked.   By  de-
+              fault, it is alternately.
+              If -gf is specified, keys of N-gram are checked every three.
+              If -ga is specified, keys of N-gram are checked every four.
+              If  -cd  is specified, whether documents match the search phrase
+              definitely is checked.
+              If -ni is specified, TF-IDF tuning is omitted.
+              If -sf is specified, the phrase is treated as a simplified form.
+              If -sfr is specified, the phrase is treated as a rough form.
+              If -sfu is specified, the phrase is treated as a union form.
+              If -sfi is specified, the phrase is treated as  an  intersection
+              form.
+              If  -hs  is  specified, score information is output as an attri-
+              bute.
+              -attr specifies an attribute search condition.  This option  can
+              be specified multiple times.
+              -ord specifies the order expression.  By default, it is descend-
+              ing by score.
+              -max specifies the maximum number of shown documents.   Negative
+              means unlimited.  By default, it is 10.
+              -sk  specifies  the  number  of documents to be skipped.  By de-
+              fault, it is 0.
+              -aux specifies permission to adopt result of the  auxiliary  in-
+              dex.  If it is not more than 0, the auxiliary index is not used.
+              By default, it is 32.
+              -dis specifies the name of the distinct attribute.
+              -sim specifies the ID number of the seed document for similarity
+              search.
+
+       estcmd  gather [-tr] [-cl] [-ws] [-no] [-fe|-ft|-fh|-fm] [-fx sufs cmd]
+       [-fz] [-fo] [-rm sufs] [-ic enc] [-il lang] [-bc] [-lt num]  [-lf  num]
+       [-pc     enc]    [-px    name]    [-aa    name    value]    [-apn|-acc]
+       [-xs|-xl|-xh|-xh2|-xh3] [-sv|-si|-sa] [-ss name] [-sd] [-cm] [-cs  num]
+       [-ncm] [-kn num] [-um] db [file|dir]
+              Scan the local file system and register documents into an index.
+              If  the third argument is the name of a file, a list of paths of
+              target documents are read from it.  If it is "-",  the  standard
+              input is specified.
+              If the third argument is the name of a directory.  All files un-
+              der the directory are treated as target documents.
+              If -tr is specified, a new index is created  regardless  if  one
+              exists.
+              If  -cl  is  specified,  regions  of  overwritten  documents are
+              cleaned up.
+              If -ws is specified, scores are weighted statically  with  score
+              weighting attribute.
+              If -no is specified, operations are printed but not executed ac-
+              tually.
+              If -fe is specified, target files are treated as document draft.
+              By  default,  the format is detected by the suffix of each docu-
+              ment.
+              If -ft is specified, target files are treated as plain text.
+              If -fh is specified, target files are treated as HTML.
+              If -fm is specified, target files are treated as MIME.
+              If -fx is specified, target files with  the  specified  suffixes
+              are  processed  by the specified outer command.  "*" matches any
+              file.  If the command is leaded by "T@", the output of the  com-
+              mand  is  treated  as  plain  text.  If the command is leaded by
+              "H@", the output of the command is treated as HTML.  If the com-
+              mand  is leaded by "M@", the output of the command is treated as
+              MIME.  Else, the output is treated as document draft.  This  op-
+              tion can be specified multiple times.
+              If -fz is specified, documents which do not corresponding to the
+              condition of -fx are ignored.
+              If -fo is specified, target files are not read.   It  is  useful
+              for efficient process of the outer command.
+              If  -rm  is  specified, target files with the specified suffixes
+              are removed.  "*" matches any file.  This option can  be  speci-
+              fied multiple times.
+              -ic  specifies  the  input encoding.  By default, it is detected
+              automatically.
+              -il specifies the preferred input language.  By default, English
+              is preferred.
+              If -bc is specified, binary files are detected and ignored.
+              -lt  specifies  the  text size limitation by kilo bytes.  By de-
+              fault, it is 128KB.  If it is negative, the size is unlimited.
+              -lf specifies the file size limitation by mega  bytes.   By  de-
+              fault, it is 32MB.  If it is negative, the size is unlimited.
+              -pc  specifies  the  encoding  of file paths.  By default, it is
+              ISO-8859-1.
+              -px specifies the name of an attribute read  from  the  list  of
+              paths.   As  the  list  of paths can be in TSV format, the first
+              field is treated as the path of a target  document,  the  second
+              field  and  the  followers  are definitions of attribute values.
+              -px specifies the name of each values of the  second  field  and
+              the followers.  This option can be specified multiple times.
+              -aa specifies the name and the value of an additional attribute.
+              This option can be specified multiple times.
+              If -apn is specified, N-gram analysis is performed against Euro-
+              pean text also.
+              If  -acc  is specified, character category analysis is performed
+              instead of N-gram analysis.
+              If -xs is specified, the index is tuned to  register  less  than
+              50000 documents.
+              If  -xl  is  specified, the index is tuned to register more than
+              300000 documents.
+              If -xh is specified, the index is tuned to  register  more  than
+              1000000 documents.
+              If  -xh2  is specified, the index is tuned to register more than
+              5000000 documents.
+              If -xh3 is specified, the index is tuned to register  more  than
+              10000000 documents.
+              If -sv is specified, scores are stored as void.
+              If -si is specified, scores are stored as 32-bit integer.
+              If  -sa  is specified, scores are stored as-is and marked not to
+              be tuned when search.
+              -ss specifies the name of an attribute for substitute score.
+              If -sd is specified, the  modification  date  of  each  file  is
+              recorded as an attribute.
+              If  -cm  is specified, documents whose modification date has not
+              changed are ignored.
+              -cs specifies the size of cache memory by mega  bytes.   By  de-
+              fault, it is 64MB.
+              If  -ncm is specified, checking availability of the virtual mem-
+              ory is omitted.
+              -kn specifies the number of keywords to be  extracted.   By  de-
+              fault, keyword extraction is not performed.
+              If  -um  is specified, morphological analyzers are used for key-
+              word extraction.
+
+       estcmd purge [-cl] [-no] [-fc] [-pc enc] [-attr expr] db [prefix]
+              Purge information of documents which do not exist  on  the  file
+              system.
+              If  prefix  is  specified,  only documents whose URIs are begins
+              with it.  It can be specified by the local path of a directory.
+              If -cl is  specified,  regions  of  the  deleted  documents  are
+              cleaned up.
+              If -no is specified, operations are printed but not executed ac-
+              tually.
+              If -fc is specified, information of  all  target  documents  are
+              deleted.
+              -pc  specifies  the  encoding  of file paths.  By default, it is
+              ISO-8859-1.
+              -attr specifies an attribute search condition.  This option  can
+              be specified multiple times.
+
+       estcmd  extkeys  [-no]  [-fc] [-dfdb file] [-ncm] [-ni] [-kn num] [-um]
+       [-attr expr] db [prefix]
+              Create a database of keywords extracted from documents.
+              If prefix is specified, only documents  whose  URIs  are  begins
+              with it.
+              If -no is specified, operations are printed but not executed ac-
+              tually.
+              If -fc is specified, all target documents are  processed  which-
+              ever they have existing records or not.
+              -dfdb  specifies  an  outher database of document frequency.  By
+              default, document frequency is calculated dynamically  according
+              to the index.
+              If  -ncm is specified, checking availability of the virtual mem-
+              ory is omitted.
+              If -ni is specified, TF-IDF tuning is omitted.
+              -kn specifies the number of keywords to be  extracted.   By  de-
+              fault, it is 32.
+              If  -um  is specified, morphological analyzers are used for key-
+              word extraction.
+              -attr specifies an attribute search condition.  This option  can
+              be specified multiple times.
+
+       estcmd words [-nl|-nb] [-dfdb file] [-kw|-kt] db
+              Output  a list of all unique words and each record size which is
+              treated as docuemnt frequency.
+              If -nl is specified, the index is opened without file locking.
+              If -nb is specified, file locking is performed without blocking.
+              -dfdb specifies an outer database where the  result  is  stored.
+              By  default, the result is output to the standard output as TSV.
+              If the outer database already exists, the value of  each  record
+              is incremented.
+              If -kw is specified, keywords and numbers of corresponding docu-
+              ments are output.
+              If -kt is specified, keywords and their related terms  are  out-
+              put.
+
+       estcmd  draft  [-ft|-fh|-fm]  [-ic enc] [-il lang] [-bc] [-lt num] [-kn
+       num] [-um] [file]
+              For test and debug.
+
+       estcmd break [-ic enc] [-il lang] [-apn|-acc] [-wt] [file]
+              For test and debug.
+
+       estcmd iconv [-ic enc] [-il lang] [-oc enc] [file]
+              For test and debug.
+
+       estcmd regex [-inv] [-repl str] expr [file]
+              For test and debug.
+
+       estcmd scandir [-tf|-td] [-pa|-pu] [dir]
+              For test and debug.
+
+       estcmd multi [-db db] [-nl|-nb] [-ic  enc]  [-gs|-gf|-ga]  [-cd]  [-ni]
+       [-sf|-sfr|-sfu|-sfi]  [-hs]  [-hu]  [-attr expr] [-ord expr] [-max num]
+       [-sk num] [-aux num] [-dis name] [phrase]
+              For test and debug.
+
+       estcmd randput [-ren|-rla|-reu|-ror|-rjp|-rch] [-cs num] db dnum
+              For test and debug.
+
+       estcmd wicked db dnum
+              For test and debug.
+
+       estcmd regression db
+              For test and debug.
+
+       estcmd version
+              Show the version information.
+
+       All sub commands return 0 if the operation is success, else  return  1.
+       As  for  put, out, gather, purge, randput, wicked, and regression, they
+       finish with closing the database when they catch the signal 1 (SIGHUP),
+       2 (SIGINT), 3 (SIGQUIT), 13 (SIGPIPE), or 15 (SIGTERM).
+
+       The  data type of attribute indexes specified by -attr option of create
+       sub command should be "seq" for sequential type, "str" for string type,
+       or "num" for number type.
+
+       Each  pseudo  index specified by -pidx option of search sub command and
+       so on is a directory containing files of document draft.  If you search
+       a  main  index  with  pseudo indexes, meta search of the main index and
+       pseudo indexes is performed.
+
+       The encoding name specified by -ic option should be  such  name  regis-
+       tered to IETF as UTF-8, ISO-8859-1, and so on.  The language name spec-
+       ified by -il option should be one of "en"  (English),  "ja"  (Japanese,
+       "zh" (Chinese), "ko" (Korean).
+
+       The  outer  command specified by -fx option of gather receives the path
+       of the target document by the first argument and the path for output by
+       the second argument.  The original path of the target document is given
+       as the value of the environment variable `ESTORIGFILE'.
+
+       Note that similarity search is very slow, by default.  To  improve  the
+       performance  of  similarity search, running "estcmd extkeys" beforehand
+       is strongly recommended.
+
+SEE ALSO
+       estconfig(1), estmaster(1), estcall(1), estwaver(1), estraier(3), estn-
+       ode(3)
+
+       Please  see http://hyperestraier.sourceforge.net/uguide-en.html for de-
+       tail.
+
+Man Page                          2007-03-06                         ESTCMD(1)

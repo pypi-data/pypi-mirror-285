@@ -1,0 +1,98 @@
+
+PERLCN(1)              Perl Programmers Reference Guide              PERLCN(1)
+
+, .   POD () ; , . ,  perlpod .
+
+NAME
+       perlcn -  Perl
+
+DESCRIPTION
+        Perl !
+
+        5.8.0 , Perl  Unicode () , ; CJK () .  Unicode , : , ,  (, , , , , ,
+       ).  ( PC ).
+
+       Perl  Unicode .  Perl  Unicode ; Perl  ()  Unicode .  ,  Unicode , Perl
+       Encode , .
+
+       Encode  ('gb2312'  'euc-cn'):
+
+           euc-cn      Unix ,
+           gb2312-raw   () GB2312
+           gb12345
+           iso-ir-165  GB2312 + GB6345 + GB8565 +
+           cp936        936,  'GBK' ()
+           hz          7  GB2312
+
+       ,  EUC-CN  Unicode, :
+
+           perl -Mencoding=euc-cn,STDOUT,utf8 -pe1 < file.euc-cn > file.utf8
+
+       Perl  "piconv",  Perl , :
+
+           piconv -f euc-cn -t utf8 < file.euc-cn > file.utf8
+           piconv -f utf8 -t euc-cn < file.utf8 > file.euc-cn
+
+       ,  encoding , , :
+
+           #!/usr/bin/env perl
+           #  euc-cn ;  euc-cn
+           use encoding 'euc-cn', STDIN => 'euc-cn', STDOUT => 'euc-cn';
+           print length("");      #  2 ()
+           print length('');      #  4 ()
+           print index("", ""); # -1 ()
+           print index('', ''); #  1 ()
+
+       , ""  ""  EUC-CN  ""; ""  ""  "".   EUC-CN .
+
+       ,  CPAN (<http://www.cpan.org/>) Encode::HanExtra . :
+
+           gb18030     ,
+
+       , Encode::HanConvert :
+
+           big5-simp   Big5  Unicode
+           gbk-trad    GBK  Unicode
+
+        GBK  Big5 ,  b2g.pl  g2b.pl , :
+
+           use Encode::HanConvert;
+           $euc_cn = big5_to_gb($big5); #  Big5  GBK
+           $big5 = gb_to_big5($euc_cn); #  GBK  Big5
+
+        Perl  (), Perl ,  Unicode . , :
+
+    Perl
+       <http://www.perl.com/>
+           Perl  ()
+
+       <http://www.cpan.org/>
+           Perl  (Comprehensive Perl Archive Network)
+
+       <http://lists.perl.org/>
+           Perl
+
+    Perl
+       <http://www.oreilly.com.cn/index.php?func=booklist&cat=68>
+            Perl
+
+   Perl
+       <http://www.pm.org/groups/asia.html>
+            Perl
+
+   Unicode
+       <http://www.unicode.org/>
+           Unicode  (Unicode )
+
+       <http://www.cl.cam.ac.uk/%7Emgk25/unicode.html>
+           Unix/Linux  UTF-8  Unicode
+
+SEE ALSO
+       Encode, Encode::CN, encoding, perluniintro, perlunicode
+
+AUTHORS
+       Jarkko Hietaniemi <jhi@iki.fi>
+
+       Audrey Tang () <audreyt@audreyt.org>
+
+perl v5.30.0                      2023-11-23                         PERLCN(1)

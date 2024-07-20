@@ -1,0 +1,155 @@
+
+html2text(1)                General Commands Manual               html2text(1)
+
+NAME
+       html2text - an advanced HTML-to-text converter
+
+SYNOPSIS
+       html2text -help
+       html2text -version
+       html2text  [ -unparse | -check ] [ -debug-scanner ] [ -debug-parser ] [
+       -rcfile path ] [ -style ( compact | pretty ) ] [ -width width  ]  [  -o
+       output-file ] [ -nobs ] [ -ascii | -utf8 ] [ -nometa ] [ input-file ...
+       ]
+
+DESCRIPTION
+       html2text reads HTML documents from the input-files,  formats  each  of
+       them  into  a stream of plain text characters, and writes the result to
+       standard output (or into output-file, if the -o command line option  is
+       used).
+
+       If  no  input-files  are specified on the command line, html2text reads
+       from standard input. A dash as the input-file is an  alternate  way  to
+       specify standard input.
+
+       html2text understands all HTML 3.2 constructs, but can render only part
+       of them due to the limitations of the text output format. However,  the
+       program attempts to provide good substitutes for the elements it cannot
+       render.  html2text parses HTML 4 input, too, but not always as success-
+       ful  as  other HTML processors. It also accepts syntactically incorrect
+       input, and attempts to interpret it "reasonably".
+
+       The way html2text formats the HTML documents is controlled  by  format-
+       ting  properties  read  from  an  RC  file.  html2text attempts to read
+       $HOME/.html2textrc (or the file specified by the -rcfile  command  line
+       option);  if  that  file  cannot  be  read,  html2text attempts to read
+       /etc/html2textrc.  If no RC file can be read (or if the  RC  file  does
+       not override all formatting properties), then "reasonable" defaults are
+       assumed. The RC file format is described in the  html2textrc(5)  manual
+       page.
+
+       Debian  version of html2text also can do input and output recoding (see
+       /usr/share/doc/html2text/README.Debian for more info).  html2text tries
+       to fetch encoding from HTML document. If encoding is not specified, you
+       can use -ascii and -utf8 options.  Output is converted to user's locale
+       charset (LC_CTYPE).
+
+OPTIONS
+       -nometa
+              By  default,  Debian  version of html2text use 'meta http-equiv'
+              tag for input recoding. This option cancels this behavior.
+
+       -ascii By default, when -nometa is supplied, html2text uses  UTF-8  for
+              the output. Specifying this option, plain ASCII is used instead.
+              To find out how non-ASCII characters are rendered, refer to  the
+              file "ascii.substitutes".
+
+       -utf8  By  default, when -nometa is supplied, html2text uses ISO 8859-1
+              for the input. Specifying this option,  UTF-8  is  used  instead
+              (both for input and output). This option implies -nobs.
+
+       -check This  option  is  for  diagnostic purposes: The HTML document is
+              only parsed and not processed otherwise. In this mode of  opera-
+              tion,  html2text  will  report  on parse errors and scan errors,
+              which it does not in other modes of operation. Note  that  parse
+              and  scan errors are not fatal for html2text, but may cause mis-
+              interpretation of the HTML code and/or portions of the  document
+              being swallowed.
+
+       -debug-parser
+              Let  html2text  report  on the tokens being shifted, rules being
+              applied, etc., while scanning the HTML document. This option  is
+              for diagnostic purposes.
+
+       -debug-scanner
+              Let  html2text report on each lexical token scanned, while scan-
+              ning the HTML document. This option is for diagnostic purposes.
+
+       -help  Print command line summary and exit.
+
+       -nobs  By default, original html2text renders underlined  letters  with
+              sequences  like  "underscore-backspace-character"  and  boldface
+              letters like "character-backspace-character". Because of  issues
+              with   UTF-8,   Debian  version  of  html2text  doesn't  produce
+              backspaces, so this option really does nothing.
+
+       -o output-file
+              Write the output to output-file instead of  standard  output.  A
+              dash as the output-file is an alternate way to specify the stan-
+              dard output.
+
+       -rcfile path
+              Attempt to read the file specified in path as RC file.
+
+       -style ( compact | pretty )
+              Style pretty changes some of the default values of  the  format-
+              ting parameters documented in html2textrc(5).  To find out which
+              and how the formatting parameter defaults are changed, check the
+              file "pretty.style". If this option is omitted, style compact is
+              assumed as default.
+
+       -unparse
+              This option is for diagnostic purposes:  Instead  of  formatting
+              the  parsed  document, generate HTML code, that is guaranteed to
+              be syntactically correct. If html2text has  problems  parsing  a
+              syntactically  incorrect HTML document, this option may help you
+              to understand what html2text thinks that the original HTML  code
+              means.
+
+       -version
+              Print program version and exit.
+
+       -width width
+              By  default,  html2text  formats the HTML documents for a screen
+              width of 79 characters. If redirecting the output into  a  file,
+              or  if your terminal has a width other than 80 characters, or if
+              you just want to get an idea how html2text deals with large  ta-
+              bles  and  different  terminal widths, you may want to specify a
+              different width.
+
+FILES
+       /etc/html2textrc
+              System wide parser configuration file.
+
+       $HOME/.html2textrc
+              Personal parser configuration file, overrides  the  system  wide
+              values.
+
+CONFORMING TO
+       HTML  3.2 (HTML 3.2 Reference Specification - http://www.w3.org/TR/REC-
+       html32),
+
+RESTRICTIONS
+       Debian version of html2text have no http support. Use html2text through
+       pipes  with  curl  or wget instead. See README.Debian for more informa-
+       tion.
+
+       html2text was written to convert HTML 3.2 documents. When using it with
+       HTML 4 or even XHTML 1 documents, some constructs present only in these
+       HTML versions might not be rendered.
+
+AUTHOR
+       html2text was written up to version  1.2.2  by  Arno  Unkrig  <arno@un-
+       krig.de> for GMRS Software GmbH, Unterschleissheim.
+
+       Current maintainer and primary download location is:
+       Martin Bayer <mail@mbayer.de>
+       http://www.mbayer.de/html2text/files.shtml
+
+       This   man  page  was  modified  for  Debian  by  Eugene  V.  Lyubimkin
+       <jackyf.devel@gmail.com> <>
+
+SEE ALSO
+       html2textrc(5), less(1), more(1)
+
+                                  2008-09-20                      html2text(1)

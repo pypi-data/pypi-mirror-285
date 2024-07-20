@@ -1,0 +1,85 @@
+
+SQLT-DIFF(1p)         User Contributed Perl Documentation        SQLT-DIFF(1p)
+
+NAME
+       sqlt-diff - find the differences b/w two schemas
+
+SYNOPSIS
+       For help:
+
+         sqlt-diff -h|--help
+
+       For a list of all valid parsers:
+
+         sqlt -l|--list
+
+       To diff two schemas:
+
+         sqlt-diff [options] file_name1=parser1 file_name2=parser2
+
+       Options:
+
+         -d|--debug   Show debugging info
+         -t|--trace   Turn on tracing for Parse::RecDescent
+         -c|--case-insensitive   Compare tables/columns case-insensitively
+         --ignore-index-names    Ignore index name differences
+         --ignore-constraint-names   Ignore constraint name differences
+         --mysql_parser_version=<#####> Specify a target MySQL parser version
+                                        for dealing with /*! comments
+         --output-db=<Producer>  This Producer will be used instead of one
+                                 corresponding to parser1 to format output
+                                 for new tables
+         --ignore-view-sql    Ignore view SQL differences
+         --ignore-proc-sql    Ignore procedure SQL differences
+         --no-batch-alters    Do not clump multile alters to the same table into a
+                              single ALTER TABLE statement where possible.
+         --quote=<character>  Use <character> to quote all table and field
+                              names in statements
+
+DESCRIPTION
+       sqlt-diff is a utility for creating a file of SQL commands necessary to
+       transform the first schema provided to the second.  While not yet
+       exhaustive in its ability to mutate the entire schema, it will report
+       the following
+
+       o   New tables
+
+           Using the Producer class of the target (second) schema, any tables
+           missing in the first schema will be generated in their entirety
+           (fields, constraints, indices).
+
+       o   Missing/altered fields
+
+           Any fields missing or altered between the two schemas will be
+           reported as:
+
+             ALTER TABLE <table_name>
+               [DROP <field_name>]
+               [CHANGE <field_name> <datatype> (<size>)] ;
+
+       o   Missing/altered indices
+
+           Any indices missing or of a different type or on different fields
+           will be indicated.  Indices that should be dropped will be reported
+           as such:
+
+             DROP INDEX <index_name> ON <table_name> ;
+
+           An index of a different type or on different fields will be
+           reported as a new index as such:
+
+             CREATE [<index_type>] INDEX [<index_name>] ON <table_name>
+               ( <field_name>[,<field_name>] ) ;
+
+       ALTER, CREATE, DROP statements are created by
+       SQL::Translator::Producer::*, see there for support/problems.
+
+       Currently (v0.0900), only MySQL is supported by this code.
+
+AUTHOR
+       Ken Youens-Clark <kclark@cpan.org>.
+
+SEE ALSO
+       SQL::Translator, <http://sqlfairy.sourceforge.net>.
+
+perl v5.30.0                      2019-11-14                     SQLT-DIFF(1p)

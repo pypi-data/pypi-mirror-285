@@ -1,0 +1,181 @@
+Metadata-Version: 2.1
+Name: ostutor
+Version: 0.3.1
+Summary: The goal of the App is to develop a new tool that, after receiving a few keywords given by the user, returns possibly relevant commands and other further relevant help information.
+Home-page: https://gitlab.eduxiji.net/T202414655993206/project2210132-239674
+Author: Zhenxin Liang,Zijian Chen,Qiyong Wu
+Author-email: t202414655993206@eduxiji.net
+License: Mulan PSL v1
+Description-Content-Type: text/markdown
+Requires-Dist: click (==8.1.7)
+Requires-Dist: colorama (==0.4.6)
+Requires-Dist: nltk (==3.8.1)
+Requires-Dist: npyscreen (==4.10.5)
+Requires-Dist: pandas (==2.2.2)
+Requires-Dist: prompt-toolkit (==3.0.43)
+Requires-Dist: rich (==13.7.1)
+Requires-Dist: scikit-learn (==1.5.1)
+Requires-Dist: tqdm (==4.66.4)
+Requires-Dist: wcwidth (==0.2.13)
+
+# ostutor 0.2
+
+## 版本概述：
+此版本目的仅为运行成功
+
+## 代码改动：
+- 导包全换成相对路径，例如"from src.data" -> "from ..data"
+
+- 文件大多数粗略替换为绝对路径（相对路径代码报错：找不到文件）
+
+- 注意：OStutor/\_\_main\_\_.py中，
+  - "from `.src` import cmd"打包后正常导包，但无法通过 “pyhton3 __main__.py”运行
+  - "from `src` import cmd"通过 “pyhton3 __main__.py”运行，但打包后不能正常导包，
+
+## 文件说明及改进方向
+```
+.
+├── build
+├── dist
+│   ├── ostutor-0.2-py3-none-any.whl   # 打包whl包含的数据
+│   └── ostutor-0.2.tar.gz             #生成源代码压缩包
+├── MANIFEST.in                        # 注明构建时需要的文件 todo* 根据实际情况改写
+├── OSTutor                            # 实际源代码 
+│   ├── __init__.py                    # todo*去除冗余__init__.py
+│   ├── __main__.py
+│   ├── requirements.txt
+│   ├── src                            # todo*统一绝对路径写法
+│   └── test.py
+├── ostutor.egg-info
+├── README.md
+└── setup.py                           # 构建配置 todo*完善setup文件：增加依赖信息、增加作者、长描述地址、发布地址、作者等
+```
+
+## 构建说明
+### 预下载
+运行‘训练模型模块’前提，有个py库函数需要下载数据源，仅需运行一次，在/OSTutor/src/data/process.py，但下载不稳定，所以请预先下载：
+
+```shell
+python3
+# 进入Python shell
+import nltk
+nltk.download('stopwords') # 停用词
+nltk.download('punkt') # 分割词语
+nltk.download('wordnet') #同义词
+# wordnet下载时间较长，特别在无代理的情况下，有几十兆，可下载离线版本
+
+# 手动下载
+import nltk
+print(nltk.data.path)
+# 一般是$HOME/nltk_data
+~/nltk_data$ tree
+.
+├── corpora
+│   ├── stopwords......
+│   ├── stopwords.zip
+│   └── wordnet.zip
+└── tokenizers
+    ├── punkt......
+    └── punkt.zip
+5 directories, 73 files
+
+# 下面是我的nltk_data，不知道是否能直接使用
+# https://www.123pan.com/s/6a99-Dwbi3.html
+# 下载后直接解压到 $HOME
+```
+### 构建命令
+```shell
+# 已在Openeuler测试，ubuntu需要用虚拟环境，全局安装方法尚不明确
+
+python setup.py sdist bdist_wheel # 生成打包的源代码 & whl （仅保存文件） （可重复同一版本构建自动替换）
+pip install . # 编译当下的setup并安装，本次测试使用就是这个 （可重复同一版本构建自动替换）
+pip install $file # 本地安装
+pip uninstall $name #卸载
+```
+
+### 运行
+```shell
+[sztu@openeuler tem]$ pip show ostutor # 包信息
+Name: ostutor
+Version: 0.2
+Summary:
+Home-page:
+Author:
+Author-email:
+License:
+Location: /home/sztu/.local/lib/python3.9/site-packages
+Requires:
+Required-by:
+
+[sztu@openeuler tem]$ ostutor # 输出提示信息
+Usage: ostutor [OPTIONS] COMMAND [ARGS]...
+
+  OSTutor - OpenEuler Application Assistant.
+
+Options:
+  --help  Show this message and exit.
+
+Commands:
+  cli       Command line retrieval.
+  dataexp
+  dataimp   Import the specified json file to the database.
+  install   Do not differentially download the rpm package from the...
+  lrefresh  Refresh the knowledge base locally.
+  nodata    Search for local instructions without data.
+  rpmsexp   Export the local RPM list to the current directory.
+  terminal  Open the terminal interface.
+  ui        Start user interface mode.
+```
+
+# ostutor 0.3
+## 版本概述：
+- 更新ostutor
+- 增加部分依赖及whl包描述信息
+- 修复bug: 不能使用内置数据库
+
+## 文件说明及改进方向
+```
+.
+├── build
+├── dist                               # 生成whl包的目录
+├── MANIFEST.in                        # 注明构建时需要的文件 todo* 根据实际情况改写
+├── OSTutor                            # 实际源代码 
+│   ├── __init__.py                    # todo*去除冗余__init__.py
+│   ├── __main__.py
+│   ├── requirements.txt
+│   ├── src                            # todo*统一绝对路径写法
+│   │                                  # "data/collection.py""data/sorage.py",本机扫描模块存在大量相对路径
+│   └── test.py
+├── ostutor.egg-info
+├── README.md
+└── setup.py                           # 构建配置 todo*完善setup文件：增加依赖信息、增加作者、长描述地址、发布地址、作者等
+```
+
+
+# ostutor 更新模板
+## 版本概述：
+## 代码改动：
+## 文件说明及改进方向
+```
+.
+├── build
+├── dist                               # 生成whl包的目录
+├── MANIFEST.in                        # 注明构建时需要的文件 todo* 根据实际情况改写
+├── OSTutor                            # 实际源代码 
+│   ├── __init__.py                    # todo*去除冗余__init__.py
+│   ├── __main__.py
+│   ├── requirements.txt
+│   ├── src                            # todo*统一绝对路径写法
+│   └── test.py
+├── ostutor.egg-info
+├── README.md
+└── setup.py                           # 构建配置 todo*完善setup文件：增加依赖信息、增加作者、长描述地址、发布地址、作者等
+```
+
+# 上传pypi
+```shell
+pip install twine
+python setup.py sdist bdist_wheel
+# twine upload dist/ostutor-0.x{-py3-none-any.whl,.tar.gz}
+twine upload dist/ostutor-0.3*
+```

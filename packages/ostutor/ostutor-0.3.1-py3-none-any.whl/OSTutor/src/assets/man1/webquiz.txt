@@ -1,0 +1,186 @@
+
+WEBQUIZ:(A)                           FOR                          WEBQUIZ:(A)
+
+NAME
+       WebQuiz: a LaTeX package for writing online quizzes -
+
+       WebQuiz  makes  it  possible  to  use LaTeX to write interactive online
+       quizzes.  The quizzes are first written in  LaTeX  and  then  converted
+       into  HTML  using  WebQuiz,  which is written in python. The conversion
+       from LaTeX to HTML is done behind the scenes using TeX4ht. The idea  is
+       that  you  should  be able to produce nice online quizzes using WebQuiz
+       and basic knowledge of LaTeX.
+
+       WebQuiz is designed to be used from the command-line.  For example,  if
+       quiz1.tex is a LaTeX file for a quiz then:
+
+       latex quiz1
+              produces a "readable" DVI file for the quiz
+
+       pdflatex quiz1
+              produces a "readable" PDF file for the quiz
+
+       webquiz quiz1
+              creates the web page quiz1.html
+
+       If  you prefer to use LaTeX from a GUI for LaTeX then it should be pos-
+       sible to configure it to use WebQuiz directly. As an example, the  man-
+       ual provides some details about how to do this for TeXShop.
+
+USAGE
+       usage: webquiz [-h] [-q] [-d] [-s] [--latex | -l | -x] [-r RCFILE]
+              [-i | -e | --settings [SETTINGS]] [quiz_file [quiz_file ...]]
+
+       A LaTeX package for writing online quizzes
+
+       positional arguments:
+              quiz_file             latex quiz files
+
+       optional arguments:
+
+              -h, --help
+                     show this help message and exit
+
+              -q, --quiet
+                     Suppress tex4ht messages (also -qq etc)
+
+              -d, --draft
+                     Use make4ht draft mode
+
+              -s, --shell-escape
+                     Shell escape for tex4ht/make4ht
+
+              --latex
+                     Use latex to compile document with make4ht (default)
+
+              -l, --lua
+                     Use lualatex to compile the quiz
+
+              -x, --xelatex
+                     Use xelatex to compile the quiz
+
+              -r RCFILE, --rcfile RCFILE
+                     Specify location of the webquiz rc-file
+
+              -i, --initialise, --initialize
+                     Install web components of webquiz
+
+              -e, --edit-settings
+                     Edit default settings for webquiz
+
+              --settings <SETTINGS>
+                     List default settings for webquiz
+
+INSTALLATION
+       To  use  WebQuiz  you  need  to  have a standard LaTeX distribution in-
+       stalled, such as TeXLive, that includes TeX4ht. In addition,  you  need
+       to  have  Python3  installed.  As WebQuiz uses scalable vector graphics
+       (SVG) you should check that all of the dependencies of dvisvgm are  in-
+       stalled on your system, especially if you plan on using graphics or im-
+       ages.
+
+       Once the TeX components of WebQuiz package have been installed you  can
+       install  the  web  components  of  WebQuiz using the following command,
+       which needs to be run  from the command line:
+
+       > webquiz --initialise
+
+       If you want to install the web components of WebQuiz into a system  di-
+       rectory  then  you  need to run this command from an administrators ac-
+       count, so using sudo on a unix-like system. For more details about  the
+       installation and configuration of WebQuiz please see Section 3.2 of the
+       WebQuiz manual.
+
+       Please see the manual for more details  about  initialising  and  using
+       WebQuiz.
+
+INSTALLATION FROM THE CTAN ZIPFILE
+       On  both unix-like systems (including macosx), and windows systems (us-
+       ing either TeXLive or MiKTeX), you can install WebQuiz  by  downloading
+       the WebQuiz zip file from:
+          http://mirrors.ctan.org/macros/latex/contrib/webquiz.zip
+
+       To install the package, unzip this file and change directory to the we-
+       bquiz/scripts subdirectory run:
+
+       > webquiz --tex-install
+
+       (or webquiz.bat --text-install on windows). This commands  unpacks  the
+       webquiz  files into their standard locations in the TeX install tree to
+       it should be run from an administrators account, or  using  sudo  on  a
+       unix-like system.  Roughly what this command does is the following:
+
+       o It  creates  a symbolic link, or equivalent, to the main WebQuiz exe-
+         cutable, which is the file webquiz.py in the scripts directory
+
+       o Copies the latex directory to somewhere in the TeX  search  path  and
+         then runs mktexlsr so that LaTeX and WebQuiz can find these files.
+
+       o Copies the python code into the TeX scripts subdirectory
+
+       o Copies  the WebQuiz doc subdirectory into the TeX doc/latex subdirec-
+         tory.
+
+       If you are using MiKTeX you may need to open the MiKTeX console, go  to
+       the Tasks menu and then rebuild the TeX filename database.
+
+       Once  the  files above are in place initialise WebQuiz by following the
+       installation instructions above.
+
+       Mainly for development purposes, there  is  another  undocumented  com-
+       mand-line option for removing these files from TEXMFMAIN:
+
+       > sudo webquiz/scripts/webquiz --tex-uninstall
+
+SYSTEM REQUIREMENTS
+       In  order  to work WebQuiz needs the following programs to be installed
+       on your system:
+
+       o An up-to-date LaTeX distribution, such as that provided  by  TeXLive.
+         In particular, you need to have TeX4ht and make4ht installed.  Unfor-
+         tunately, since TeXLive 2018 was released there have been a  signifi-
+         cat bunber of updates to a number of packahges that WebQuiz uses, in-
+         cluding updates to TeX4ht, make4ht, tikz and pstricks. For this  rea-
+         son,  it is strongly recommended that you all packages from ctan_ be-
+         fore using WebQuiz_.
+
+       o python3 As of writing python 3.7.2 is available.
+
+       o Javascript
+
+       o If you plan to use pstricks with WebQuiz, or if you want  to  compile
+         the  online  manual  for  WebQuiz,  then  you  need  to  ensure  that
+         ghostscript and dvisvgm are installed and properly configured on your
+         system. See the WebQuiz manual and the dvisvgm documentation for more
+         details
+
+       o A web server. To view online quizzes you of course need a web server.
+         As  described  in the Installation section you will also need to copy
+         of the WebQuiz components onto your web server using the command:
+
+         > webquiz --initialise
+
+AUTHORS
+       The LaTeX component of WebQuiz was written by  Andrew  Mathas  and  the
+       python,  css  and javascript code was written by Andrew Mathas (and Don
+       Taylor), based on an initial protype of Don Taylor's from  2001.  Since
+       2004  the  program  has been maintained and developed by Andrew Mathas.
+       Although the program has changed substantially since 2004 Don's idea of
+       using TeX4ht, and some of his code, is still very much in use.
+
+       Copyright (C) 2004-2019
+
+LICENSE
+       GNU General Public License, Version 3, 29 June 2007
+
+       This program is free software: you can redistribute it and/or modify it
+       under the terms of the GNU_General Public License (GPL) as published by
+       the  Free  Software Foundation, either version 3 of the License, or (at
+       your option) any later version.
+
+       This program is distributed in the hope that it  will  be  useful,  but
+       WITHOUT  ANY  WARRANTY;  without  even  the  implied  warranty  of MER-
+       CHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the  GNU  General
+       Public License for more details.
+
+PACKAGE                              LATEX                         WEBQUIZ:(A)

@@ -1,0 +1,60 @@
+
+NSS-SYSTEMD(8)                    nss-systemd                   NSS-SYSTEMD(8)
+
+NAME
+       nss-systemd, libnss_systemd.so.2 - Provide UNIX user and group name
+       resolution for user/group lookup via Varlink
+
+SYNOPSIS
+       libnss_systemd.so.2
+
+DESCRIPTION
+       nss-systemd is a plug-in module for the GNU Name Service Switch (NSS)
+       functionality of the GNU C Library (glibc), providing UNIX user and
+       group name resolution for services implementing the User/Group Record
+       Lookup API via Varlink[1], such as the system and service manager
+       systemd(1) (for its DynamicUser= feature, see systemd.exec(5) for
+       details) or systemd-homed.service(8).
+
+       This module also ensures that the root and nobody users and groups
+       (i.e. the users/groups with the UIDs/GIDs 0 and 65534) remain
+       resolvable at all times, even if they aren't listed in /etc/passwd or
+       /etc/group, or if these files are missing.
+
+       This module preferably utilizes systemd-userdbd.service(8) for
+       resolving users and groups, but also works without the service running.
+
+       To activate the NSS module, add "systemd" to the lines starting with
+       "passwd:" and "group:" in /etc/nsswitch.conf.
+
+       It is recommended to place "systemd" after the "files" or "compat"
+       entry of the /etc/nsswitch.conf lines so that /etc/passwd and
+       /etc/group based mappings take precedence.
+
+EXAMPLE
+       Here is an example /etc/nsswitch.conf file that enables nss-systemd
+       correctly:
+
+           passwd:         compat mymachines systemd
+           group:          compat [SUCCESS=merge] mymachines [SUCCESS=merge] systemd
+           shadow:         compat
+
+           hosts:          files mymachines resolve [!UNAVAIL=return] dns myhostname
+           networks:       files
+
+           protocols:      db files
+           services:       db files
+           ethers:         db files
+           rpc:            db files
+
+           netgroup:       nis
+
+SEE ALSO
+       systemd(1), systemd.exec(5), nss-resolve(8), nss-myhostname(8), nss-
+       mymachines(8), nsswitch.conf(5), getent(1)
+
+NOTES
+        1. User/Group Record Lookup API via Varlink
+           https://systemd.io/USER_GROUP_API
+
+systemd 245                                                     NSS-SYSTEMD(8)

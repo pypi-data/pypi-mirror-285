@@ -1,0 +1,63 @@
+
+CHKLREF(1)                       User Commands                      CHKLREF(1)
+
+NAME
+       chklref - manual page for chklref 3.1.2
+
+SYNOPSIS
+       chklref [options] texfile
+
+DESCRIPTION
+       Check unused labels and bibitems in a LaTeX file
+
+OPTIONS
+       --tex <compiler>, -t
+              Specify the TeX compiler to be used. Default is `pdflatex`.
+
+       --tex-options
+              List  of  options  to  pass  to the TeX compiler. It should be a
+              quoted string of white space delimited options. Note that we al-
+              ways add `-interaction nonstopmode` on top of these options.
+
+       --debug, -d
+              Run in debug mode. Do not clean the generated `.chk` file.
+
+       --quiet, -q
+              Run in quiet mode. Do not print the output of the TeX compiler.
+
+       --parse-only
+              Do  not  run  the  LaTeX  compiler  but use the already existing
+              `.chk` file.  When this option is passed,  the  following  other
+              options  are  meaningless:  `--tex`, `--tex-options`, `--quiet`,
+              `--debug`.
+
+       --version, -v
+              Print the version of this script.
+
+       --help,h
+              Print this help.
+
+AUTHOR
+       Written by Jerome Lelong <jerome.lelong@gmail.com>
+
+REPORTING BUGS
+       Report bugs to https://github.com/jlelong/chklref. `chklref`  is  known
+       not  to work with `cleveref`. If you would like to contribute to `chkl-
+       ref`, feel free to open a PR on https://github.com/jlelong/chklref.
+
+COPYRIGHT
+       Copyright 2005-2019 Jerome Lelong <jerome.lelong@gmail.com>.  This pro-
+       gram comes with ABSOLUTELY NO WARRANTY.
+       This  is  free  software,  and you are welcome to redistribute it under
+       GPLv3.
+
+SEE ALSO
+       The full documentation for chklref is maintained as a  Texinfo  manual.
+       If  the  info and chklref programs are properly installed at your site,
+       the command
+
+              info chklref
+
+       should give you access to the complete manual.
+
+chklref 3.1.2                    November 2019                      CHKLREF(1)

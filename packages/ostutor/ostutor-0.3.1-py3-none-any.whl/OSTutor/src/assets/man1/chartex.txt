@@ -1,0 +1,54 @@
+
+CHARTEX(1p)           User Contributed Perl Documentation          CHARTEX(1p)
+
+NAME
+       chartex - A utility to extract charts from an Excel file for insertion
+       into a Spreadsheet::WriteExcel file.
+
+DESCRIPTION
+       This program is used for extracting one or more charts from an Excel
+       file in binary format. The charts can then be included in a
+       "Spreadsheet::WriteExcel" file.
+
+       See the "add_chart_ext()" section of the  Spreadsheet::WriteExcel
+       documentation for more details.
+
+SYNOPSIS
+       chartex [--chartname --help --man] file.xls
+
+           Options:
+               --chartname -c  The root name for the extracted charts,
+                               defaults to "chart".
+
+OPTIONS
+       --chartname or -c
+           This sets the root name for the extracted charts, defaults to
+           "chart". For example:
+
+               $ chartex file.xls
+
+               Extracting "Chart1" to chart01.bin
+
+               $ chartex -c mychart file.xls
+
+               Extracting "Chart1" to mychart01.bin
+
+       --help or -h
+           Print a brief help message and exits.
+
+       --man or -m
+           Prints the manual page and exits.
+
+AUTHOR
+       John McNamara jmcnamara@cpan.org
+
+VERSION
+       Version 0.02.
+
+COPYRIGHT
+       X MMV, John McNamara.
+
+       All Rights Reserved. This program is free software. It may be used,
+       redistributed and/or modified under the same terms as Perl itself.
+
+perl v5.18.1                      2013-06-05                       CHARTEX(1p)

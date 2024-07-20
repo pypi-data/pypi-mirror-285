@@ -1,0 +1,70 @@
+
+ESTWAVER(1)                     Hyper Estraier                     ESTWAVER(1)
+
+NAME
+       estwaver - command line interface of web crawler
+
+SYNOPSIS
+       estwaver init [-apn|-acc] [-xs|-xl|-xh] [-sv|-si|-sa] rootdir
+
+       estwaver crawl [-restart|-revisit|-revcont] rootdir
+
+       estwaver unittest rootdir
+
+       estwaver fetch [-proxy hostr port] [-tout num] [-il lang] url
+
+DESCRIPTION
+       estwaver  is an aggregation of sub commands.  The name of a sub command
+       is specified by the first argument.  Other arguments are parsed accord-
+       ing  to  each  sub command.  The argument rootdir specifies the crawler
+       root directory which contains configuration file and so on.
+
+       estwaver init [-apn|-acc] [-xs|-xl|-xh] [-sv|-si|-sa] rootdir
+              Create the crawler root directory.
+              If -apn is specified, N-gram analysis is performed against Euro-
+              pean text also.
+              If  -acc  is specified, character category analysis is performed
+              instead of N-gram analysis.
+              If -xs is specified, the index is tuned to  register  less  than
+              50000 documents.
+              If  -xl  is  specified, the index is tuned to register more than
+              300000 documents.
+              If -xh is specified, the index is tuned to  register  more  than
+              1000000 documents.
+              If -sv is specified, scores are stored as void.
+              If -si is specified, scores are stored as 32-bit integer.
+              If  -sa  is specified, scores are stored as-is and marked not to
+              be tuned when search.
+
+       estwaver crawl [-restart|-revisit|-revcont] rootdir
+              Start crawling.
+              If -restart is specified, crawling is restarted  from  the  seed
+              documents.
+              If -revisit is specified, collected documents are revisited.
+              If  -revcont is specified, collected documents are revisited and
+              then crawling is continued.</dd>
+
+       estwaver unittest rootdir
+              Perform unit tests.
+
+       estwaver fetch [-proxy hostr port] [-tout num] [-il lang] url
+              Fetch a document.
+              url specifies the URL of a document.
+              -proxy specifies the host name and the port number of the  proxy
+              server.
+              -tout specifies timeout in seconds.
+              -il  specifies  the  preferred language.  By default, it is Eng-
+              lish.
+
+       All sub commands return 0 if the operation is success, else  return  1.
+       A  running  crawler  finishes with closing the database when it catches
+       the signal 1 (SIGHUP), 2 (SIGINT), 3 (SIGQUIT), or 15 (SIGTERM).
+
+       When crawling finishes, there is a directory _index in the crawler root
+       directory.  It is an index available by estcmd and so on.
+
+SEE ALSO
+       estconfig(1),  estcmd(1),  estmaster(1), estcall(1), estraier(3), estn-
+       ode(3)
+
+Man Page                          2007-03-06                       ESTWAVER(1)

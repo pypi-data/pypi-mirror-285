@@ -1,0 +1,71 @@
+
+proclint(1)                       2008-12-09                       proclint(1)
+
+NAME
+       proclint - Lint procmail rc files for proper syntax
+
+SYNOPSIS
+         proclint [options] <procmail *.rc files>
+
+OPTIONS
+       -h, --help
+           Display short help.
+
+       -i, --includerc
+           Scan and possibly list files included in code with INCLUDERC
+           statements.
+
+       -I, --noinclude
+           Do not scan INCLUDERC references (default).
+
+       -l, --list
+           List lines in the procmail recipe files.
+
+       -L, --nolist
+           Do not list lines, except for errors (default).
+
+       -p, --procmailrc
+           Check $HOME/.procmailrca
+
+DESCRIPTION
+       Check procmail rc files for proper syntax, recipe nesting, etc. The
+       output consists of: "LINE-NUMBER:FLAG:DEPTH: text". FLAG is one of:
+
+           R  recipe
+           C  condition
+           A  action (redirect, '!', or pipe, '|')
+           F  folder
+           =  assignment
+           +  continuation
+           E  *line may be erroneous*
+
+       DEPTH indicates the depth of the recipe nesting and is shown only when
+       greater than zero.
+
+BUGS
+       There are many bugs. E.g. multiline handling is not done (continued
+       strings).
+
+       Please regard the output as advisory only.x
+
+STATUS CODES
+       Program returns non-zero in case problem is found.
+
+ENVIRONMENT
+       None.
+
+FILES
+       None.
+
+SEE ALSO
+       procmail(1)
+
+AUTHORS
+       Program was written by Alan K. Stebbens <aks@sgi.com>.
+
+       This manual page was written by Jari Aalto <jari.aalto@cante.net>.
+       Released under license GNU GPL v2 or (at your option) any later
+       version. For more information about license, visit
+       <http://www.gnu.org/copyleft/gpl.html>.
+
+proclint                          2008-12-09                       proclint(1)

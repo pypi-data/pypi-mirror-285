@@ -1,0 +1,159 @@
+
+ESTCALL(1)                      Hyper Estraier                      ESTCALL(1)
+
+NAME
+       estcall - command line interface of the node API
+
+SYNOPSIS
+       estcall  put  [-proxy  host  port]  [-tout  num] [-auth user pass] nurl
+       [file]
+
+       estcall out [-proxy host port] [-tout num] [-auth user pass] nurl expr
+
+       estcall edit [-proxy host port] [-tout num] [-auth user pass] nurl expr
+       name [value]
+
+       estcall  get [-proxy host port] [-tout num] [-auth user pass] nurl expr
+       [attr]
+
+       estcall etch [-proxy host port] [-tout num] [-auth user pass] nurl expr
+
+       estcall uriid [-proxy host port] [-tout num] [-auth user pass] nurl uri
+
+       estcall inform  [-proxy  host  port]  [-tout  num]  [-auth  user  pass]
+       [-ia|-iu|-il] nurl
+
+       estcall sync [-proxy host port] [-tout num] [-auth user pass] nurl
+
+       estcall optimize [-proxy host port] [-tout num] [-auth user pass] nurl
+
+       estcall  search  [-proxy host port] [-tout num] [-auth user pass] [-vx]
+       [-kw] [-ec] [-sf] [-attr expr] [-ord expr] [-max num] [-sk  num]  [-aux
+       num] [-dis name] [-dpt num] [-mask num] nurl [phrase]
+
+       estcall  setuser  [-proxy host port] [-tout num] [-auth user pass] nurl
+       name mode
+
+       estcall setlink [-proxy host port] [-tout num] [-auth user  pass]  nurl
+       url label credit
+
+       estcall raw [-proxy host port] [-tout num] [-auth user pass] [-np] [-eh
+       expr] url [file]
+
+DESCRIPTION
+       estcall is an aggregation of sub commands.  The name of a  sub  command
+       is specified by the first argument.  Other arguments are parsed accord-
+       ing to each sub command.  The argument nurl  specifies  the  URL  of  a
+       node.  The option -proxy specifies the host name and the port number of
+       a proxy server.  The option -tout specifies timeout  in  seconds.   The
+       option -auth specifies the user name and the password of authentication
+       information.
+
+       estcall put [-proxy host port]  [-tout  num]  [-auth  user  pass]  nurl
+       [file]
+              Register a document of document draft to a node.
+              file  specifies  a  target file.  If it is omitted, the standard
+              input is read.
+
+       estcall out [-proxy host port] [-tout num] [-auth user pass] nurl expr
+              Remove information of a document from a node.
+              expr specifies the ID number or the URI of a document.
+
+       estcall edit [-proxy host port] [-tout num] [-auth user pass] nurl expr
+       name [value]
+              Edit an attribute of a document in a node.
+              expr specifies the ID number or the URI of a document.
+              name specifies the name of an attribute.
+              value  specifies  the value of the attribute.  If it is omitted,
+              the attribute is removed.
+
+       estcall get [-proxy host port] [-tout num] [-auth user pass] nurl  expr
+       [attr]
+              Output document draft of a document in a node.
+              expr specifies the ID number or the URI of a document.
+              If attr is specified, only the value of the attribute is output.
+
+       estcall etch [-proxy host port] [-tout num] [-auth user pass] nurl expr
+              Output TSV of keywords and their scores of a document in a node.
+              expr specifies the ID number or the URI of a document.
+
+       estcall uriid [-proxy host port] [-tout num] [-auth user pass] nurl uri
+              Output the ID number of a document specified by URI.
+              uri specifies the URI of a document.
+
+       estcall  inform  [-proxy  host  port]  [-tout  num]  [-auth  user pass]
+       [-ia|-iu|-il] nurl
+              Output the name, the label, the number of documents, the  number
+              of unique words, and the cache usage of a node.
+              If -ia is specified, names of administrators are output.
+              If -iu is specified, names of users are output.
+              If -il is specified, expressions of links are output.
+
+       estcall sync [-proxy host port] [-tout num] [-auth user pass] nurl
+              Synchronize updating contents of the database of a node.
+
+       estcall optimize [-proxy host port] [-tout num] [-auth user pass] nurl
+              Optimize the database of a node.
+
+       estcall  search  [-proxy host port] [-tout num] [-auth user pass] [-vx]
+       [-kw] [-ec] [-sf] [-attr expr] [-ord expr] [-max num] [-sk  num]  [-aux
+       num] [-dis name] [-dpt num] [-mask num] nurl [phrase]
+              Search a node for documents.
+              phrase specifies the search phrase.
+              If  -vx  is  specified,  XML  including including attributes and
+              snippets is output.
+              If -kw is specified, keyword vectors are retrieved.
+              -ec specifies lower limit of similarity eclipse.
+              If -sf is specified, the phrase is treated as a simplified form.
+              -attr specifies an attribute search condition.  This option  can
+              be specified multiple times.
+              -ord specifies the order expression.  By default, it is descend-
+              ing by score.
+              -max specifies the maximum number of show  documents.   Negative
+              means unlimited.  By default, it is 10.
+              -sk  specifies  the  number  of documents to be skipped.  By de-
+              fault, it is 0.
+              -aux specifies permission to adopt result of the  auxiliary  in-
+              dex.  If it is not more than 0, the auxiliary index is not used.
+              By default, it is 32.
+              -dis specifies the name of the distinct attribute.
+              -dpt specifies the depth of meta search.  by default it is 0.
+              -mask specifies the mask of meta search.  by default it is 0.
+
+       estcall setuser [-proxy host port] [-tout num] [-auth user  pass]  nurl
+       name mode
+              Set permission of a user.
+              name specifies the name of a user.
+              mode  specifies  operation  mode.  1 means to set the user as an
+              administrator, 2 means to set the user as a guest, and  0  means
+              to revoke the user account.
+
+       estcall  setlink  [-proxy host port] [-tout num] [-auth user pass] nurl
+       url label credit
+              Set a link to another node.
+              url specifies the URL of a destination node.
+              label specifies the label of the link.
+              credit specifies the credit of the link.  If the value is  nega-
+              tive, the link is removed.
+
+       estcall raw [-proxy host port] [-tout num] [-auth user pass] [-np] [-eh
+       expr] url [file]
+              Output response of an HTTP request.
+              url specifies the URL of a target.
+              If file is specified, the content is sent by  POST  method.   If
+              not,  GET method is used.  If "-" is specified, the standard in-
+              put is read.
+              If -np is specified, output response headers also.
+              -eh specifies an additional HTTP header.   By  default,  "Host",
+              "Connection", "User-Agent", and "Content-Length" is added.
+
+       All sub commands return 0 if the operation is success, else return 1.
+
+SEE ALSO
+       estconfig(1),  estcmd(1), estmaster(1), estwaver(1), estraier(3), estn-
+       ode(3)
+
+       Please see http://hyperestraier.sourceforge.net/nguide-en.html for  de-
+       tail.
+
+Man Page                          2007-03-06                        ESTCALL(1)

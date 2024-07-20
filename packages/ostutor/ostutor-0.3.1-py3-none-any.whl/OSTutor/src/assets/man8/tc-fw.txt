@@ -1,0 +1,42 @@
+
+Firewall mark classifier in tc(8)    Linux   Firewall mark classifier in tc(8)
+
+NAME
+       fw - fwmark traffic control filter
+
+SYNOPSIS
+       tc filter ... fw [ classid CLASSID ] [ action ACTION_SPEC ]
+
+DESCRIPTION
+       the  fw filter allows to classify packets based on a previously set fw-
+       mark by iptables.  If it is identical to the filter's handle, the  fil-
+       ter matches.  iptables allows to mark single packets with the MARK tar-
+       get, or whole connections using CONNMARK.  The benefit  of  using  this
+       filter instead of doing the heavy-lifting with tc itself is that on one
+       hand it might be convenient to keep packet filtering and classification
+       in  one  place, possibly having to match a packet just once, and on the
+       other users familiar with iptables but not tc will  have  a  less  hard
+       time adding QoS to their setups.
+
+OPTIONS
+       classid CLASSID
+              Push matching packets to the class identified by CLASSID.
+
+       action ACTION_SPEC
+              Apply  an  action from the generic actions framework on matching
+              packets.
+
+EXAMPLES
+       Take e.g. the following tc filter statement:
+
+              tc filter add ... handle 6 fw classid 1:1
+
+       will match if the packet's fwmark value is 6.  This is a  sample  ipta-
+       bles statement marking packets coming in on eth0:
+
+              iptables -t mangle -A PREROUTING -i eth0 -j MARK --set-mark 6
+
+SEE ALSO
+       tc(8), iptables(8), iptables-extensions(8)
+
+iproute2                          21 Oct 2015Firewall mark classifier in tc(8)

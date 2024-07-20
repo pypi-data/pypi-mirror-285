@@ -1,0 +1,39 @@
+
+DH_DPATCH_PATCH(1)                 Debhelper                DH_DPATCH_PATCH(1)
+
+NAME
+       dh_dpatch_patch - apply patches listed in debian/patches/00list
+
+SYNOPSIS
+       dh_dpatch_patch [debhelper options]
+
+DESCRIPTION
+       dh_dpatch_patch simply calls dpatch apply-all .  All patches listed in
+       debian/patches/00list are then applied in the current directory. The
+       command does not fail if the patches have already been applied.
+
+EXAMPLES
+       dh_dpatch_patch is usually called indirectly in a rules file via the dh
+       command.
+
+               %:
+                       dh --with dpatch $@
+
+       It can also be direcly called at the start of the build (or configure)
+       rule.
+
+               build:
+                       dh_dpatch_patch
+                       ./configure
+                       $(MAKE)
+
+SEE ALSO
+       debhelper(7), dh(1).
+
+       This program is meant to be used together with debhelper.
+
+AUTHOR
+       Hideki Yamane <henrich@debian.or.jp>, stolen from dh_dpatch_quilt
+       written by Raphael Hertzog <hertzog@debian.org>
+
+perl v5.30.0                      2019-09-02                DH_DPATCH_PATCH(1)

@@ -1,0 +1,59 @@
+
+SHTOOL-MDATE.TMP(1)         GNU Portable Shell Tool        SHTOOL-MDATE.TMP(1)
+
+NAME
+       shtool-mdate - GNU shtool pretty-print last modification time
+
+SYNOPSIS
+       shtool mdate [-n|--newline] [-z|--zero] [-s|--shorten] [-d|--digits]
+       [-f|--field-sep str] [-o|--order spec] path
+
+DESCRIPTION
+       This command pretty-prints the last modification time of a given file
+       or directory path, while still allowing one to specify the format of
+       the date to display.
+
+OPTIONS
+       The following command line options are available.
+
+       -n, --newline
+           By default, output is written to stdout followed by a "newline"
+           (ASCII character 0x0a). If option -n is used, this newline
+           character is omitted.
+
+       -z, --zero
+           Pads numeric day and numeric month with a leading zero. Default is
+           to have variable width.
+
+       -s, --shorten
+           Shortens the name of the month to a english three character
+           abbreviation. Default is full english name. This option is silently
+           ignored when combined with -d.
+
+       -d, --digits
+           Use digits for month. Default is to use a english name.
+
+       -f, --field-sep str
+           Field separator string between the day month year tripple. Default
+           is a single space character.
+
+       -o, --order spec
+           Specifies order of the day month year elements within the tripple.
+           Each element represented as a single character out of ``"d"'',
+           ``"m"'' and ``"y"''. The default for spec is ``"dmy"''.
+
+EXAMPLE
+        #   shell script
+        shtool mdate -n /
+        shtool mdate -f '/' -z -d -o ymd foo.txt
+        shtool mdate -f '-' -s foo.txt
+
+HISTORY
+       The GNU shtool mdate command was originally written by Ulrich Drepper
+       in 1995 and revised by Ralf S. Engelschall <rse@engelschall.com> in
+       1998 for inclusion into GNU shtool.
+
+SEE ALSO
+       shtool(1), date(1), ls(1).
+
+18-Jul-2008                      shtool 2.0.8              SHTOOL-MDATE.TMP(1)

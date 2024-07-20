@@ -1,0 +1,54 @@
+
+SHTOOL-ARX.TMP(1)           GNU Portable Shell Tool          SHTOOL-ARX.TMP(1)
+
+NAME
+       shtool-arx - GNU shtool ar(1) extensional command
+
+SYNOPSIS
+       shtool arx [-t|--trace] [-C|--command cmd] op archive file [file ...]
+
+DESCRIPTION
+       shtool arx is a wrapper around the archiving tool ar(1). It provides
+       the ability to create archives out of existing archives, i.e., if one
+       of file matches ""*.a"", the archive member files of file are used
+       instead of file itself.
+
+       The trick of this command is the automatic handling of archive members
+       which is especially interesting if one wants to construct a (usually
+       top-level) library archive out of pre-built sub-library archives
+       (usually staying inside subdirs) in a large source tree. For GNU
+       libtool based projects, a similar functionality is provided by GNU
+       libtool internally, too.
+
+OPTIONS
+       The following command line options are available.
+
+       -t, --trace
+           Shows the actually involved shell commands.
+
+       -C, --command cmd
+           Set the used ar(1) command to cmd instead of just "ar" (searched in
+           $PATH).
+
+EXAMPLE
+        #   Makefile
+        AR=ar
+        RANLIB=ranlib
+          :
+        OBJS=foo.o bar.o
+        LIBS=baz/libbaz.a quux/libquux.a
+          :
+        libfoo.a: $(OBJS) $(LIBS)
+            shtool arx -C $(AR) rc libfoo.a $(OBJS) $(LIBS)
+            $(RANLIB) libfoo.a
+
+HISTORY
+       The GNU shtool arx command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1999 for GNU shtool. It was
+       prompted by need to build libraries out of sub-libraries inside the
+       OSSP project.
+
+SEE ALSO
+       shtool(1), ar(1).
+
+18-Jul-2008                      shtool 2.0.8                SHTOOL-ARX.TMP(1)

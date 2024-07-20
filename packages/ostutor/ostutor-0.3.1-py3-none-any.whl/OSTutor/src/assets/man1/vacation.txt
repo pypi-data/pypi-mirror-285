@@ -1,0 +1,124 @@
+
+VACATION(1)               BSD General Commands Manual              VACATION(1)
+
+NAME
+     vacation -- return "I am not here" indication
+
+SYNOPSIS
+     vacation -i [-r interval]
+     vacation -l
+     vacation -x
+     vacation [-a alias] [-c ccaddr] [-d] [-f db] [-m msg] [-j] [-z] login
+
+DESCRIPTION
+     vacation returns a message to the sender of a message telling them that
+     you are currently not reading your mail.  The intended use is in a
+     .forward file.  For example, your .forward file might have:
+
+           \eric, "|/usr/bin/vacation -a allman eric"
+
+     which would send messages to you (assuming your login name was eric) and
+     reply to any messages for "eric" or "allman".
+
+     Available options:
+
+     -a alias
+             Handle messages for alias in the same manner as those received
+             for the user's login name. Using -a alias multiple times is pos-
+             sible.
+
+     -c ccaddr
+             Copy the vacation messages to ccaddr.
+
+     -d      Print messages to stderr instead of syslog.
+
+     -f db   Uses db as the database file.
+
+     -m msg  Uses msg as the message file.
+
+     -j      Reply to the message even if our address cannot be found in the
+             "To:" or "Cc:" headers.  This option is very dangerous and should
+             be used with extreme care.
+
+     -z      Set the envelope sender of the reply message to "<>".
+
+     -i      Initialize the vacation database files.  It should be used before
+             you modify your .forward file.
+
+     -r      Set the reply interval to interval days.  The default is one
+             week.  An interval of "0" means that a reply is sent to each mes-
+             sage, and an interval of "infinite" (actually, any non-numeric
+             character) will never send more than one reply.  It should be
+             noted that intervals of "0" are quite dangerous, as it allows
+             mailers to get into "I am on vacation" loops.
+
+     -x      Reads a list of addresses from standard input, one per line, and
+             adds them to the vacation database.  Mail coming from these ex-
+             cluded addresses will not get a reply.  Whole domains can be ex-
+             cluded using the syntax "@domain".
+
+     -l      Print the contents of the vacation database files.  For each en-
+             try, the address the reply has been sent to and the associated
+             time will be printed to standard output.
+
+     When started without arguments, vacation will guide the user through the
+     configuration process.
+
+     No message will be sent unless login (or an alias supplied using the -a
+     option) is part of either the "To:" or "Cc:" headers of the mail.  No
+     messages from "???-REQUEST", "Postmaster", "UUCP", "MAILER", or
+     "MAILER-DAEMON" will be replied to (where these strings are case insensi-
+     tive) nor is a notification sent if a "Precedence: bulk", "Precedence:
+     list", "Precedence: junk", "X-Spam-Flag: yes" or "Auto-submitted:
+     (something other than no)" line is included in the mail headers.  The
+     people who have sent you messages are maintained as a db(3) database in
+     the file .vacation.db in your home directory.
+
+     vacation expects a file .vacation.msg, in your home directory, containing
+     a message to be sent back to each sender.  It should be an entire message
+     (including headers).  For example, it might contain:
+
+           From: eric@CS.Berkeley.EDU (Eric Allman)
+           Subject: I am on vacation
+           Delivered-By-The-Graces-Of: The Vacation program
+           Precedence: bulk
+
+           I am on vacation until July 22.  If you have something urgent,
+           please contact Keith Bostic <bostic@CS.Berkeley.EDU>.
+           --eric
+
+     Any occurrence of the string $SUBJECT in .vacation.msg will be replaced
+     by the subject of the message that triggered the vacation program.
+
+     vacation reads the incoming message from standard input, checking the
+     message headers for either the UNIX "From" line or a "Return-Path" header
+     to determine the sender.  If both are present the sender from the
+     "Return-Path" header is used.  Sendmail(8) includes this "From" line au-
+     tomatically.
+
+     Fatal errors, such as calling vacation with incorrect arguments, or with
+     non-existent logins, are logged on the standard error output and in the
+     system log file, using syslog(3).
+
+DIAGNOSTICS
+     The vacation utility exits 0 on success, and >0 if an error occurs.
+
+FILES
+     ~/.vacation.db   database file
+     ~/.vacation.msg  message to send
+     ~/.forward
+
+SEE ALSO
+     aliases(5), sendmail(8), syslogd(8)
+
+HISTORY
+     The vacation command appeared in 4.3BSD.
+
+AUTHOR
+     vacation was developed by Eric Allman and the University of California,
+     Berkeley in 1983.
+     This version is maintained by Marco d'Itri <md@linux.it> and contains
+     code taken from the three free BSD and some patches applied to a linux
+     port.
+
+Linux                            June 15, 2003                           Linux

@@ -1,0 +1,54 @@
+
+SHTOOL-PATH.TMP(1)          GNU Portable Shell Tool         SHTOOL-PATH.TMP(1)
+
+NAME
+       shtool-path - GNU shtool command dealing with shell path variables
+
+SYNOPSIS
+       shtool path [-s|--suppress] [-r|--reverse] [-d|--dirname]
+       [-b|--basename] [-m|--magic] [-p|--path path] str [str ...]
+
+DESCRIPTION
+       This command deals with shell $PATH variables. It can find a program
+       through one or more filenames given by one or more str arguments.  It
+       prints the absolute filesystem path to the program displayed on
+       "stdout" plus an exit code of 0 if it was really found.
+
+OPTIONS
+       The following command line options are available.
+
+       -s, --suppress
+           Suppress output. Useful to only test whether a program exists with
+           the help of the return code.
+
+       -r, --reverse
+           Transform a forward path to a subdirectory into a reverse path.
+
+       -d, --dirname
+           Output the directory name of str.
+
+       -b, --basename
+           Output the base name of str.
+
+       -m, --magic
+           Enable advanced magic search for ""perl"" and ""cpp"".
+
+       -p, --path path
+           Search in path. Default is to search in $PATH.
+
+EXAMPLE
+        #   shell script
+        awk=`shtool path -p "${PATH}:." gawk nawk awk`
+        perl=`shtool path -m perl`
+        cpp=`shtool path -m cpp`
+        revpath=`shtool path -r path/to/subdir`
+
+HISTORY
+       The GNU shtool path command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1998 for Apache. It was later
+       taken over into GNU shtool.
+
+SEE ALSO
+       shtool(1), which(1).
+
+18-Jul-2008                      shtool 2.0.8               SHTOOL-PATH.TMP(1)

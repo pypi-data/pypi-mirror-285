@@ -1,0 +1,73 @@
+
+POD2MARKDOWN(1p)      User Contributed Perl Documentation     POD2MARKDOWN(1p)
+
+NAME
+       pod2markdown - Convert POD text to Markdown
+
+VERSION
+       version 3.200
+
+SYNOPSIS
+           # parse STDIN, print to STDOUT
+           $ pod2markdown < POD_File > Markdown_File
+
+           # parse file, print to STDOUT
+           $ pod2markdown input.pod
+
+           # parse file, print to file
+           $ pod2markdown input.pod output.mkdn
+
+           # parse STDIN, print to file
+           $ pod2markdown - output.mkdn
+
+DESCRIPTION
+       This program uses Pod::Markdown to convert POD into Markdown sources.
+
+       UTF-8 is the default output encoding if no encoding options are
+       specified (see "OPTIONS").
+
+       It accepts two optional arguments:
+
+       o   input pod file (defaults to "STDIN")
+
+       o   output markdown file (defaults to "STDOUT")
+
+OPTIONS
+       --html-encode-chars
+           A list of characters to encode as HTML entities.  Pass a regexp
+           character class, or 1 to mean control chars, high-bit chars, and
+           "<&>"'".
+
+           See "html_encode_chars" in Pod::Markdown for more information.
+
+       --match-encoding (-m)
+           Use the same "=encoding" as the input pod for the output file.
+
+       --output-encoding (-e)
+           Specify the encoding for the output file.
+
+       --utf8 (-u)
+           Alias for "-e UTF-8".
+
+SEE ALSO
+       This program is strongly based on "pod2mdwn" from
+       Module::Build::IkiWiki.
+
+AUTHORS
+       o   Marcel Gruenauer <marcel@cpan.org>
+
+       o   Victor Moral <victor@taquiones.net>
+
+       o   Ryan C. Thompson <rct at thompsonclan d0t org>
+
+       o   Aristotle Pagaltzis <pagaltzis@gmx.de>
+
+       o   Randy Stauner <rwstauner@cpan.org>
+
+COPYRIGHT AND LICENSE
+       This software is copyright (c) 2011 by Randy Stauner.
+
+       This is free software; you can redistribute it and/or modify it under
+       the same terms as the Perl 5 programming language system itself.
+
+perl v5.30.0                      2019-12-05                  POD2MARKDOWN(1p)

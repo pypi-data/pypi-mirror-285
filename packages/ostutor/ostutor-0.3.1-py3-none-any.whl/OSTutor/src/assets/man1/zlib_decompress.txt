@@ -1,0 +1,63 @@
+
+ZLIB_DECOMPRESS(1)           MySQL Database System          ZLIB_DECOMPRESS(1)
+
+NAME
+       zlib_decompress - decompress mysqlpump ZLIB-compressed output
+
+SYNOPSIS
+       zlib_decompress input_file output_file
+
+DESCRIPTION
+       The zlib_decompress utility decompresses mysqlpump output that was
+       created using ZLIB compression.
+
+           Note
+           zlib_decompress is deprecated as of MySQL 8.0.34; expect it to be
+           removed in a future version of MySQL. This is because the
+           associated mysqlpump utility is deprecated as of MySQL 8.0.34.
+
+           Note
+           If MySQL was configured with the -DWITH_ZLIB=system option,
+           zlib_decompress is not built. In this case, the system openssl zlib
+           command can be used instead.
+
+       Invoke zlib_decompress like this:
+
+           zlib_decompress input_file output_file
+
+       Example:
+
+           mysqlpump --compress-output=ZLIB > dump.zlib
+           zlib_decompress dump.zlib dump.txt
+
+       To see a help message, invoke zlib_decompress with no arguments.
+
+       To decompress mysqlpump LZ4-compressed output, use lz4_decompress. See
+       lz4_decompress(1).
+
+COPYRIGHT
+       Copyright (C) 1997, 2023, Oracle and/or its affiliates.
+
+       This documentation is free software; you can redistribute it and/or
+       modify it only under the terms of the GNU General Public License as
+       published by the Free Software Foundation; version 2 of the License.
+
+       This documentation is distributed in the hope that it will be useful,
+       but WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+       General Public License for more details.
+
+       You should have received a copy of the GNU General Public License along
+       with the program; if not, write to the Free Software Foundation, Inc.,
+       51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA or see
+       http://www.gnu.org/licenses/.
+
+SEE ALSO
+       For more information, please refer to the MySQL Reference Manual, which
+       may already be installed locally and which is also available online at
+       http://dev.mysql.com/doc/.
+
+AUTHOR
+       Oracle Corporation (http://dev.mysql.com/).
+
+MySQL 8.0                         08/31/2023                ZLIB_DECOMPRESS(1)

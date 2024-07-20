@@ -1,0 +1,329 @@
+
+alpine(1)                   General Commands Manual                  alpine(1)
+
+NAME
+       alpine - an Alternatively Licensed Program for Internet News and Email
+
+SYNTAX
+       alpine [ options ] [ address , address ]
+
+       alpinef [ options ] [ address , address ]
+
+DESCRIPTION
+       Alpine is a screen-oriented message-handling tool.  In its default con-
+       figuration, Alpine offers an intentionally  limited  set  of  functions
+       geared toward the novice user, but it also has a large list of optional
+       "power-user" and personal-preference features.  alpinef is a variant of
+       Alpine  that uses function keys rather than mnemonic single-letter com-
+       mands.  Alpine's basic feature set includes:
+
+              View, Save, Export, Delete, Print, Reply and Forward messages.
+
+              Compose messages in a simple editor (Pico) with word-wrap and  a
+              spelling  checker.   Messages may be postponed for later comple-
+              tion.
+
+              Full-screen selection and management of message folders.
+
+              Address book to keep a  list  of  long  or  frequently-used  ad-
+              dresses.  Personal distribution lists may be defined.  Addresses
+              may be taken into the address book from  incoming  mail  without
+              retyping them.
+
+              New  mail  checking  and notification occurs automatically every
+              2.5 minutes and  after  certain  commands,  e.g.  refresh-screen
+              (Ctrl-L).
+
+              On-line, context-sensitive help screens.
+
+       Alpine supports MIME (Multipurpose Internet Mail Extensions), an Inter-
+       net Standard for representing multipart and multimedia data  in  email.
+       Alpine allows you to save MIME objects to files, and in some cases, can
+       also initiate the correct program for viewing the object.  It uses  the
+       system's  mailcap  configuration  file  to  determine  what program can
+       process a particular MIME object type.  Alpine's message composer  does
+       not  have  integral  multimedia  capability,  but any type of data file
+       --including multimedia-- can be attached to a text message and sent us-
+       ing  MIME's  encoding rules.  This allows any group of individuals with
+       MIME-capable mail software (e.g. Alpine, PC-Alpine, or many other  pro-
+       grams)  to  exchange  formatted  documents, spread-sheets, image files,
+       etc, via Internet email.
+
+       Alpine uses the c-client messaging API to access local and remote  mail
+       folders.  This library provides a variety of low-level message-handling
+       functions, including drivers for a variety of different mail file  for-
+       mats, as well as routines to access remote mail and news servers, using
+       IMAP (Internet Message Access Protocol) and NNTP (Network  News  Trans-
+       port  Protocol).   Outgoing  mail  is  usually posted directly via SMTP
+       (Simple Mail Transfer Protocol).
+
+OPTIONS
+       The command line options/arguments are:
+
+       address             Send mail to address.  This will cause Alpine to go
+                           directly into the message composer.
+
+       -attach file        Send mail with the listed file as an attachment.
+
+       -attachlist file-list
+                           Send  mail  with the listed file-list as an attach-
+                           ments.
+
+       -attach_and_delete file
+                           Send mail with the listed file  as  an  attachment,
+                           and remove the file after the message is sent.
+
+       -aux local_directory
+                           PC-Alpine  only.  When using a remote configuration
+                           (-p <remote_config>) this tells PC-Alpine the local
+                           directory  to use for storing auxiliary files, like
+                           debug files, address books, and signature files.
+
+       -bail               Exit if the pinerc file does not exist. This  might
+                           be useful if the config file is accessed using some
+                           remote filesystem protocol. If the remote mount  is
+                           missing  this  will cause Alpine to quit instead of
+                           creating a new pinerc.
+
+       -c context-number   context-number is the number corresponding  to  the
+                           folder-collection  to which the -f command line ar-
+                           gument should be applied.  By default the -f  argu-
+                           ment is applied to the first defined folder-collec-
+                           tion.
+
+       -conf               Produce a sample/fresh copy of the system-wide con-
+                           figuration file, pine.conf, on the standard output.
+                           This is distinct from the per-user .pinerc file.
+
+       -convert_sigs -p pinerc
+                           Convert signature files into literal signatures.
+
+       -copy_abook <local_abook> <remote_abook>
+                           Copy the local address book file to  a  remote  ad-
+                           dress book folder.
+
+       -copy_pinerc <local_pinerc> <remote_pinerc>
+                           Copy  the  local  pinerc  file  to  a remote pinerc
+                           folder.
+
+       -d debug-level      Output diagnostic info at debug-level (0-9) to  the
+                           current  .pine-debug[1-4] file.  A value of 0 turns
+                           debugging off and suppresses the .pine-debug file.
+
+       -d key[=val]        Fine tuned  output  of  diagnostic  messages  where
+                           "flush"  causes  debug file writing without buffer-
+                           ing, "timestamp" appends each message with a  time-
+                           stamp,  "imap=n"  where n is between 0 and 4 repre-
+                           senting none to verbose IMAP  telemetry  reporting,
+                           "numfiles=n"  where  n  is  between 0 and 31 corre-
+                           sponding to the number of debug files to  maintain,
+                           and "verbose=n" where n is between 0 and 9 indicat-
+                           ing an inverse threshold for message output.
+
+       -f folder           Open folder (in first  defined  folder  collection,
+                           use  -c n to specify another collection) instead of
+                           INBOX.
+
+       -F file             Open  named  text  file  and  view  with   Alpine's
+                           browser.
+
+       -h                  Help: list valid command-line options.
+
+       -i                  Start up in the FOLDER INDEX screen.
+
+       -I keystrokes       Initial  (comma separated list of) keystrokes which
+                           Alpine should execute on startup.
+
+       -install            For PC-Alpine only, this option causes PC-Alpine to
+                           prompt  for  some basic setup information, then ex-
+                           its.
+
+       -k                  Use function keys for commands. This is the same as
+                           running the command alpinef.
+
+       -n number           Start up with current message-number set to number.
+
+       -nowrite_password_cache
+                           Read  from  a  password  cache if there is one, but
+                           never offer to write a password to the cache
+
+       -o                  Open first folder read-only.
+
+       -p config-file      Use config-file as the personal configuration  file
+                           instead of the default .pinerc.
+
+       -P config-file      Use  config-file  as the configuration file instead
+                           of   default   system-wide    configuration    file
+                           pine.conf.
+
+       -passfile <fully-qualified-path>
+                           When  password file support is compiled in, use the
+                           file specified in <fully-qualified-path> instead of
+                           the default.
+
+       -pinerc file        Output fresh pinerc configuration to file, preserv-
+                           ing the settings of variables  that  the  user  has
+                           made.   Use  file set to ``-'' to make output go to
+                           standard out.
+
+       -pwdcertdir <fully-qualified-path>
+                           When SMIME and password file support  are  compiled
+                           in,  this variable sets the directory to store your
+                           personal key and certificate to encrypt and decrypt
+                           your password file.
+
+       -r                  Use  restricted/demo  mode.   Alpine will only send
+                           mail to itself and functions like save  and  export
+                           are restricted.
+
+       -registry cmd       For  PC-Alpine only, this option affects the values
+                           of Alpine's registry entries.  Possible values  for
+                           cmd  are set, clear, and dump.  Set will always re-
+                           set Alpine's registry entries according to its cur-
+                           rent  settings.  Clear will clear the registry val-
+                           ues.  Clearsilent will silently clear the  registry
+                           values.   Dump  will  display the values of current
+                           registry settings.  Note that the dump  command  is
+                           currently  disabled.  Without the -registry option,
+                           PC-Alpine will write values into the registry  only
+                           if there currently aren't any values set.
+
+       -smimedir <fully-qualified-path>
+                           If SMIME is compiled in, this argument sets the di-
+                           rectory where the public, private, and  certificate
+                           authorities  certificates  and  keys are stored. If
+                           not  set  by  the  command  line  the  default   is
+                           ~/.alpine-smime
+
+       -sort order         Sort the FOLDER INDEX display in one of the follow-
+                           ing orders: arrival,  date,  subject,  orderedsubj,
+                           thread,  from, size, score, to, cc, or reverse. Ar-
+                           rival order is the default.  The OrderedSubj choice
+                           simulates  a  threaded  sort.   Any sort may be re-
+                           versed by adding /reverse to it.  Reverse by itself
+                           is the same as arrival/reverse.
+
+       -supported          Some  options may or may not be supported depending
+                           on how Alpine was compiled.  This is a way  to  de-
+                           termine which options are supported in the particu-
+                           lar copy of Alpine you are using.
+
+       -uninstall          For PC-Alpine only, this option causes PC-Alpine to
+                           remove references to Alpine in Windows settings.
+
+       -url url            Open  the  given url.  Cannot be used with -f or -F
+                           options.
+
+       -v                  Version: Print version information.
+
+       -version            Version: Print version information.
+
+       -x config           Use configuration exceptions in config.  Exceptions
+                           are  used  to override your default pinerc settings
+                           for a particular platform, can be a local file or a
+                           remote folder.
+
+       -xoauth2-server ServerName
+                           Name  of  the  service  that XOAUTH2 authentication
+                           will be attempted.  The only service  supported  as
+                           of  this writing is Gmail. Note that all of the op-
+                           tions   -xoauth2-server,   -xoauth2-client-id   and
+                           -xoauth2-client-secret must be used simultaneously.
+                           Example: -xoauth2-server Gmail.
+
+       -xoauth2-client-id Client-Id
+                           String that  identifies  Alpine  with  the  service
+                           provider that provides XOAUTH2 authentication. Note
+                           that   all   of   the   options    -xoauth2-server,
+                           -xoauth2-client-id  and -xoauth2-client-secret must
+                           be used simultaneously.
+
+       -xoauth2-client-secret Client-Secret
+                           Secret string that identifies the Alpine  with  the
+                           service  provider that provides XOAUTH2 authentica-
+                           tion.    Note   that    all    of    the    options
+                           -xoauth2-server,       -xoauth2-client-id       and
+                           -xoauth2-client-secret must be used simultaneously.
+
+       -z                  Enable ^Z and SIGTSTP so alpine may be suspended.
+
+       -option=value       Assign value to the config option option e.g. -sig-
+                           nature-file=sig1 or -feature-list=signature-at-bot-
+                           tom (Note: feature-list values are additive)
+
+CONFIGURATION
+       There are several levels of Alpine configuration.  Configuration values
+       at  a  given  level over-ride corresponding values at lower levels.  In
+       order of increasing precedence:
+
+        o built-in defaults.
+        o system-wide pine.conf file.
+        o personal .pinerc file (may be set via built-in Setup/Config menu.)
+        o command-line options.
+        o system-wide pine.conf.fixed file.
+
+       There is one exception to the rule that configuration  values  are  re-
+       placed by the value of the same option in a higher-precedence file: the
+       feature-list variable has values that are additive, but can be  negated
+       by prepending "no-" in front of an individual feature name. Unix Alpine
+       also uses the following environment variables:
+
+         TERM
+         DISPLAY     (determines if Alpine can display IMAGE attachments.)
+         SHELL       (if not set, default is /bin/sh )
+         MAILCAPS    (semicolon delimited list of path names to mailcap files)
+
+FILES
+       /var/spool/mail/xxxx        Default folder for incoming mail.
+       ~/mail                      Default directory for mail folders.
+       ~/.addressbook              Default address book file.
+       ~/.signature                File used for signature, appended to  every
+       message.
+       ~/.pine-debug[1-4]          Diagnostic log for debugging.
+       ~/.pinerc                   Personal alpine config file.
+       ~/.pine-crash               Debug information useful to debug a crash.
+       ~/.newsrc                   News subscription/state file.
+       ~/.mailcap                  Personal mail capabilities file.
+       ~/.mime.types               Personal  file  extension to MIME type map-
+       ping
+       /etc/mailcap                System-wide mail capabilities file.
+       /etc/mime.types             System-wide file ext. to MIME type mapping
+       /etc/pine.info              Local pointer to system administrator.
+       /etc/pine.conf              System-wide configuration file.
+       /etc/pine.conf.fixed         Non-overridable configuration file.
+       ~/.alpine-smime/ca          Directory that contains Certificate Author-
+       ity files.
+       ~/.alpine-smime/private     Directory that contains private key(s).
+       ~/.alpine-smime/public      Directory that contains public key(s).
+       /tmp/.\usr\spool\mail\xxxx  Per-folder mailbox lock files.
+       ~/.pine-interrupted-mail    Message which was interrupted.
+       ~/mail/postponed-msgs       For postponed messages (drafts)
+       ~/mail/sent-mail            Outgoing message archive (FCC).
+       ~/mail/saved-messages       Default destination for Saving messages.
+
+SEE ALSO
+       pico(1),  binmail(1),  aliases(5),  mailaddr(7), sendmail(8), spell(1),
+       imapd(8)
+
+       Newsgroup:  comp.mail.pine
+
+       Mailing List:
+       Alpine-info, at https://www.washington.edu/alpine/alpine-info/
+
+       Main Alpine distribution site:
+       http://repo.or.cz/alpine.git
+
+       Alpine Technical Notes, included in the source distribution.
+
+       C-Client messaging API library, included in the source distribution.
+
+ACKNOWLEDGMENTS
+       This software is the result of the contribution of many individuals
+       who have dedicated their time to support, improve and suggest ways
+       to improve Alpine through the years. This software would not be
+       possible without the support of the University of Washington in
+       Seattle, Washington. The Alpine community extends its most sincere
+       thanks to all contributors and invites everyone to join in and
+       contribute to this project.
+
+                                 Version 2.22                        alpine(1)

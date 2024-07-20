@@ -1,0 +1,122 @@
+
+SHTOOL-SCPP.TMP(1)          GNU Portable Shell Tool         SHTOOL-SCPP.TMP(1)
+
+NAME
+       shtool-scpp - GNU shtool C source file pre-processor
+
+SYNOPSIS
+       shtool scpp [-v|--verbose] [-p|--preserve] [-f|--filter filter]
+       [-o|--output ofile] [-t|--template tfile] [-M|--mark mark] [-D|--define
+       dname] [-C|--class cname] file [file ...]
+
+DESCRIPTION
+       This command is an additional ANSI C source file pre-processor for
+       sharing cpp(1) code segments, internal variables and internal
+       functions. The intention for this comes from writing libraries in ANSI
+       C. Here a common shared internal header file is usually used for
+       sharing information between the library source files.
+
+       The operation is to parse special constructs in files, generate a few
+       things out of these constructs and insert them at position mark in
+       tfile by writing the output to ofile. Additionally the files are never
+       touched or modified. Instead the constructs are removed later by the
+       cpp(1) phase of the build process. The only prerequisite is that every
+       file has a ``"#include ""ofile"""'' at the top.
+
+       This command provides the following features: First it avoids namespace
+       pollution and reduces prototyping efforts for internal symbols by
+       recognizing functions and variables which are defined with the storage
+       class identifier ``cname''.  For instance if cname is ``intern'', a
+       function ``"intern void *foobar(int quux)"'' in one of the files is
+       translated into both a ``"#define foobar __foobar"'' and a ``"extern
+       void *foobar(int quux);"'' in ofile. Additionally a global ``"#define"
+       cname "/**/"'' is also created in ofile to let the compiler silently
+       ignore this additional storage class identifier.
+
+       Second, the library source files usually want to share "typedef"s,
+       "#define"s, etc.  over the source file boundaries. To achieve this one
+       can either place this stuff manually into tfile or use the second
+       feature of scpp: All code in files encapsulated with ``"#if "dname ...
+       "#endif"'' is automatically copied to ofile. Additionally a global
+       ``"#define" dname 0'' is also created in ofile to let the compiler
+       silently skip this parts (because it was already found in the header).
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -p, --preserve
+           Preserves ofile independent of the generated ``#line'' lines. This
+           is useful for Makefiles if the real contents of ofile will not
+           change, just line numbers. Default is to overwrite.
+
+       -f, --filter filter
+           Apply one or more pre-processing sed(1) filter commands (usually of
+           type ``"s/.../.../"'') to each input file before their input is
+           parsed.  This option can occur multiple times.
+
+       -o, --output ofile
+           Output file name. Default is "lib.h".
+
+       -t, --template tfile
+           Template file name. Default is "lib.h.in".
+
+       -M, --mark mark
+           Mark to be replaced by generated constructs. Default is "%%MARK%%".
+
+       -D, --define dname
+           FIXME. Default is "cpp".
+
+       -C, --class cname
+           FIXME. Default is "intern".
+
+EXAMPLE
+        #   Makefile
+        SRCS=foo_bar.c foo_quux.c
+        foo_p.h: foo_p.h.in
+             shtool scpp -o foo_p.h -t foo_p.h.in \
+                         -M %%MARK%% -D cpp -C intern $(SRCS)
+
+        /* foo_p.h.in */
+        #ifndef FOO_P_H
+        #define FOO_P_H
+        %%MARK%%
+        #endif /* FOO_P_H */
+
+        /* foo_bar.c */
+        #include "foo_p.h"
+        #if cpp
+        #define OURS_INIT 4711
+        #endif
+        intern int ours;
+        static int myone = 0815;
+        intern int bar(void)
+        {
+            ours += myone;
+        }
+
+        /* foo_quux.c */
+        #include "foo_p.h"
+        int main(int argc, char *argv[])
+        {
+            int i;
+            ours = OURS_INIT
+            for (i = 0; i < 10; i++) {
+                bar();
+                printf("ours now %d\n", ours);
+            }
+            return 0;
+        }
+
+HISTORY
+       The GNU shtool scpp command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1999 for GNU shtool.  Its was
+       prompted by the need to have a pre-processing facility in the GNU pth
+       project.
+
+SEE ALSO
+       shtool(1), cpp(1).
+
+18-Jul-2008                      shtool 2.0.8               SHTOOL-SCPP.TMP(1)

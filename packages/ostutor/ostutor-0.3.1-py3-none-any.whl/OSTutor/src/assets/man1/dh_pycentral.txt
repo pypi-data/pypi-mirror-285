@@ -1,0 +1,93 @@
+
+DH_PYCENTRAL(1)                    Debhelper                   DH_PYCENTRAL(1)
+
+NAME
+       dh_pycentral - use the python-central framework to handle Python
+       modules and extensions
+
+SYNOPSIS
+       dh_pycentral [debhelper options] [-n] [-Xitem] [-V version]
+       [module dirs ...]
+
+DESCRIPTION
+       dh_pycentral is a debhelper program that will scan your package, detect
+       public Python modules and move them in /usr/share/pycentral so that
+       python-central can byte-compile those for all supported Python
+       versions.  Extensions are kept into the original installation location.
+
+       Moving the files to the pycentral location and adding symbolic links to
+       /usr/lib/pythonX.Y/*-packages can be done by setting the environment
+       varibale DH_PYCENTRAL to a string containing the string include-links.
+
+       Moving the files to the pycentral location can be disabled by setting
+       the environment varibale DH_PYCENTRAL to a string containing the string
+       nomove.
+
+       The functionality to shorten the time of unavailabilty of files during
+       unpack and configure has been removed (symlinking files in the preinst
+       and not removing the symlinked files on upgrade) in version 0.6.9.
+
+       You must have filled the XS-Python-Version header to indicate the set
+       of python versions that are going to be supported. dh_pycentral expects
+       the XB-Python-Version for each binary package it is supposed to work
+       on.
+
+       dh_pycentral will also generate substitution variables: the
+       ${python:Provides} variable will contain versioned provides of the
+       package (if the package's name starts with "python-"). A python-foo
+       package could provide "python2.3-foo" and "python2.4-foo" at the same
+       time. Python extensions have to provide those whereas it's only option
+       for pure python modules.
+
+       The ${python:Versions} variable should be used to provide the required
+       XB-Python-Version field listing the python versions supported by the
+       package.
+
+OPTIONS
+       module dirs
+           If your package installs python modules in non-standard
+           directories, you can make dh_pycentral check those directories by
+           passing their names on the command line. By default, it will check
+           /usr/lib/$PACKAGE, /usr/share/$PACKAGE, /usr/lib/games/$PACKAGE,
+           /usr/share/games/$PACKAGE, /usr/lib/python?.?/site-packages and
+           /usr/lib/python?.?/dist-packages.
+
+           Note: only /usr/lib/python?.?/site-packages and the extra names on
+           the command line are searched for binary (.so) modules.
+
+       -V version
+           If the .py files your package ships are meant to be used by a
+           specific pythonX.Y version, you can use this option to specify the
+           desired version, such as 2.3. Do not use if you ship modules in
+           /usr/lib/site-python.
+
+           With the new policy, this option is mostly deprecated. Use the XS-
+           Python-Field to indicate that you're using a specific python
+           version.
+
+       -n, --noscripts
+           Do not modify postinst/postrm scripts.
+
+       -Xitem, --exclude=item
+           Exclude files that contain "item" anywhere in their filename from
+           being taken into account to generate the python dependency. You may
+           use this option multiple times to build up a list of things to
+           exclude.
+
+CONFORMS TO
+       Python policy, version 0.4.1 (2006-06-20)
+
+SEE ALSO
+       debhelper(7)
+
+       This program is a part of python-central but is made to work with
+       debhelper.
+
+AUTHORS
+       Raphael Hertzog <hertzog@debian.org>
+
+       Also includes bits of the old dh_python written by Josselin Mouette
+       <joss@debian.org> who used many ideas from Brendan O'Dea
+       <bod@debian.org>.
+
+                                  2011-04-14                   DH_PYCENTRAL(1)

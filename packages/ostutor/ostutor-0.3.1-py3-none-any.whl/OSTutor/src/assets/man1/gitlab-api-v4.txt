@@ -1,0 +1,114 @@
+
+GITLAB-API-V4(1p)     User Contributed Perl Documentation    GITLAB-API-V4(1p)
+
+NAME
+       gitlab-api-v4 - Command line interface to the GitLab API v4.
+
+SYNOPSIS
+           # Generally:
+           gitlab-api-v4 [<options>] <method> [<arg> ...] [<param>:<value> ...]
+
+           # List all groups:
+           gitlab-api-v4 groups
+
+           # List information about a project:
+           gitlab-api-v4 project <project_id>
+
+           # Create an admin user:
+           gitlab-api-v4 create-user \
+               username:foo \
+               password:xxxxxxxx \
+               email:user@example.com \
+               "name:Foo Smith" \
+               admin:1
+
+CONFIGURING
+       You may configure this module with environment variables, command line
+       options, and a configuration file.  To setup the configuration file
+       run:
+
+           gitlab-api-v4 configure
+
+       This will ask several interactive questions to help you configure this
+       script.  The information, which may include GitLab authentication
+       tokens, is stored in "~/.gitlab-api-v4.json".
+
+       Read more at GitLab::API::v4::Config.
+
+OPTIONS
+   url
+           --url=<url>
+
+       Sets "url" in GitLab::API::v4.
+
+   access-token
+           --access-token=<token>
+
+       Sets "access_token" in GitLab::API::v4.
+
+   private-token
+           --private-token=<token>
+
+       Sets "private_token" in GitLab::API::v4.
+
+   retries
+           --retries=<count>
+
+       Sets "retries" in GitLab::API::v4.
+
+   all
+           --all
+           -a
+
+       Retrieves all results when the results would normally be paged.  See
+       "all" in GitLab::API::v4::Paginator for details.
+
+   pretty
+           --pretty
+           -p
+
+       Enables the "pretty" in JSON feature.
+
+   canonical
+           --canonical
+           -c
+
+       Enables the "canonical" in JSON feature.
+
+API METHOD
+           <method>
+
+       The API method to call - one of the methods documented in "API METHODS"
+       in GitLab::API::v4.
+
+API ARGUMENTS
+           <arg> ...
+
+       Any arguments that the "API METHOD" requires.
+
+API PARAMETERS
+           <param>:<value> ...
+
+       Any parameters that the "API METHOD" accepts.
+
+   access-level
+           access-level:guest
+           access-level:reporter
+           access-level:developer
+           access-level:master
+           access-level:owner
+
+       There are mappings setup for the various "access-level" parameters so
+       that you can, for example, specify "access-level:guest" and it will be
+       automatically converted to "access-level:10".
+
+SUPPORT
+       See "SUPPORT" in GitLab::API::v4.
+
+AUTHORS
+       See "AUTHORS" in GitLab::API::v4.
+
+COPYRIGHT AND LICENSE
+       See "COPYRIGHT AND LICENSE" in GitLab::API::v4.
+
+perl v5.30.0                      2020-02-13                 GITLAB-API-V4(1p)

@@ -1,0 +1,87 @@
+
+IMGSIZE(1p)           User Contributed Perl Documentation          IMGSIZE(1p)
+
+NAME
+       imgsize - read the dimensions of an image in several popular formats
+
+USAGE
+        imgsize [ -r | -a | -f fmt ] file [ file ... ]
+
+DESCRIPTION
+       No-brainer to size an image supplied on the command-line. All the real
+       work is done in Image::Size.
+
+REQUIRED ARGUMENTS
+       imgsize expects file names on the command-line. If more than one file
+       is provided, the file name will be included in the output:
+
+           % imgsize dot.gif
+           width="16" height="16"
+           % imgsize dot.gif dash.gif
+           dot.gif: width="16" height="16"
+           dash.gif: width="32" height="8"
+
+OPTIONS
+       By default, the width and height are returned as attributes for an IMG
+       tag in HTML, essentially "width="40" height="30"" or similar. The
+       following options may be used to return alternate formats (all report
+       width first, then height):
+
+       "-r"
+           Return "raw" format data. Just the numbers separated by a single
+           space.
+
+       "-a"
+           Return a Perl-style list of attributes suitable for passing to the
+           "img()" method of the CGI module (see CGI).
+
+       "-f" fmt
+           Pass the string specified in fmt to "sprintf" and thus use it to
+           format the results to your taste. "sprintf" will be passed two
+           numbers, so any other formatting directives will be lost. The
+           numbers are passed as width first, then height.
+
+EXIT STATUS
+       imgsize always exits
+
+BUGS
+       Please report any bugs or feature requests to "bug-image-size at
+       rt.cpan.org", or through the web interface at
+       <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Image-Size>. I will be
+       notified, and then you'll automatically be notified of progress on your
+       bug as I make changes.
+
+SUPPORT
+       o   RT: CPAN's request tracker
+
+           <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Image-Size>
+
+       o   AnnoCPAN: Annotated CPAN documentation
+
+           <http://annocpan.org/dist/Image-Size>
+
+       o   CPAN Ratings
+
+           <http://cpanratings.perl.org/d/Image-Size>
+
+       o   Search CPAN
+
+           <http://search.cpan.org/dist/Image-Size>
+
+       o   Project page on GitHub
+
+           <http://github.com/rjray/image-size>
+
+LICENSE AND COPYRIGHT
+       Copying and distribution are permitted under the terms of the Artistic
+       License 2.0
+       (<http://www.opensource.org/licenses/artistic-license-2.0.php>) or the
+       GNU LGPL 2.1 (<http://www.opensource.org/licenses/lgpl-2.1.php>).
+
+SEE ALSO
+       Image::Size
+
+AUTHOR
+       Randy J. Ray "<rjray@blackperl.com>".
+
+perl v5.20.2                      2015-06-19                       IMGSIZE(1p)

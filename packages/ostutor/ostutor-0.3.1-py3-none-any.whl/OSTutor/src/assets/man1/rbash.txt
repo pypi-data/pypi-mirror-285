@@ -1,0 +1,56 @@
+
+RBASH(1)                    General Commands Manual                   RBASH(1)
+
+NAME
+       rbash - restricted bash, see bash(1)
+
+RESTRICTED SHELL
+       If bash is started with the name rbash, or the -r option is supplied at
+       invocation, the shell becomes restricted.  A restricted shell  is  used
+       to  set  up an environment more controlled than the standard shell.  It
+       behaves identically to bash with the exception that the  following  are
+       disallowed or not performed:
+
+       o      changing directories with cd
+
+       o      setting or unsetting the values of SHELL, PATH, ENV, or BASH_ENV
+
+       o      specifying command names containing /
+
+       o      specifying  a  filename  containing  a / as an argument to the .
+              builtin command
+
+       o      specifying a filename containing a slash as an argument  to  the
+              -p option to the hash builtin command
+
+       o      importing  function  definitions  from  the shell environment at
+              startup
+
+       o      parsing the value of SHELLOPTS from  the  shell  environment  at
+              startup
+
+       o      redirecting output using the >, >|, <>, >&, &>, and >> redirect-
+              ion operators
+
+       o      using the exec builtin command to replace the shell with another
+              command
+
+       o      adding  or  deleting builtin commands with the -f and -d options
+              to the enable builtin command
+
+       o      using the  enable  builtin  command  to  enable  disabled  shell
+              builtins
+
+       o      specifying the -p option to the command builtin command
+
+       o      turning off restricted mode with set +r or set +o restricted.
+
+       These restrictions are enforced after any startup files are read.
+
+       When  a  command  that is found to be a shell script is executed, rbash
+       turns off any restrictions in the shell spawned to execute the script.
+
+SEE ALSO
+       bash(1)
+
+GNU Bash-4.0                      2004 Apr 20                         RBASH(1)

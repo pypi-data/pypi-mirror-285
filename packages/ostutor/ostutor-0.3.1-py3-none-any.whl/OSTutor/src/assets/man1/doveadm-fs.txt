@@ -1,0 +1,90 @@
+
+DOVEADM-PROXY(1)                    Dovecot                   DOVEADM-PROXY(1)
+
+NAME
+       doveadm-fs - Interact with the abstract mail storage filesystem
+
+SYNOPSIS
+       doveadm [-Dv] [-f formatter] fs command [ARGUMENTS]
+
+DESCRIPTION
+       The  doveadm fs commands are used to abstractly interact with the stor-
+       age backend defined in the Dovecot configuration. It allows  access  to
+       the  mailbox structure without needing to know details of how the stor-
+       age backend is architected.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies the formatter for formatting  the  output.   Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints a table header followed  by  tab  separated  value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       This command uses by default the table output formatter.
+
+COMMANDS
+   fs copy
+       doveadm fs copy fs-driver fs-args source-path dest-path
+
+       Copy source path to the destination path.
+
+   fs delete
+       doveadm fs delete [-R] [-n count] fs-driver fs-args path [path ...]
+
+       Delete all data associated with the path provided.
+
+   fs get
+       doveadm fs get fs-driver fs-args path
+
+       Retrieve data associated with the path provided.
+
+   fs iter
+       doveadm fs iter fs-driver fs-args path
+
+       Iterate through all data files in the path provided.
+
+   fs iter-dirs
+       doveadm fs iter-dirs fs-driver fs-args path
+
+       Iterate through all directories in the path provided.
+
+   fs put
+       doveadm fs put [-h hash] fs-driver fs-args input_path path
+
+       Store data at the path provided.
+
+   fs stat
+       doveadm fs stat fs-driver fs-args path
+
+       Retrieve files status for the path provided. Currently, only the  total
+       size (in bytes) of the item is returned.
+
+REPORTING BUGS
+       Report  bugs, including doveconf -n output, to the Dovecot Mailing List
+       <dovecot@dovecot.org>.  Information about reporting bugs  is  available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2016-04-26                  DOVEADM-PROXY(1)

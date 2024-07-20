@@ -1,0 +1,32 @@
+
+biburl2doi(1)                  CROSSREF LIBRARY                  biburl2doi(1)
+
+NAME
+       biburl2doi.pl - convert URLs pointing to doi.org to DOIs
+
+SYNOPSIS
+       biburl2doi  [-D] [-o output] bib_file
+
+OPTIONS
+       -D  Do not delete URLs converted to DOIs
+
+       -o output
+           Output file.  If this option is not used, the name for the output
+           file is formed by adding "_cleaned" to the input file
+
+DESCRIPTION
+       The script recognizes URL fields of the kind "http://dx.doi.org" and
+       their variants and converts them to DOI fields.
+
+AUTHOR
+       Boris Veytsman
+
+COPYRIGHT AND LICENSE
+       Copyright (C) 2017  Boris Veytsman
+
+       This is free software.  You may redistribute copies of it under the
+       terms of the GNU General Public License
+       <http://www.gnu.org/licenses/gpl.html>.  There is NO WARRANTY, to the
+       extent permitted by law.
+
+                                  2017-11-26                     biburl2doi(1)

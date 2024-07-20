@@ -1,0 +1,112 @@
+
+DEVLINK-HEALTH(8)                    Linux                   DEVLINK-HEALTH(8)
+
+NAME
+       devlink-health - devlink health reporting and recovery
+
+SYNOPSIS
+       devlink [ OPTIONS ] health  { COMMAND | help }
+
+       OPTIONS := { -V[ersion] }
+
+       devlink health show [ DEV reporter REPORTER ]
+
+       devlink health recover DEV reporter REPORTER
+
+       devlink health diagnose DEV reporter REPORTER
+
+       devlink health dump show DEV reporter REPORTER
+
+       devlink health dump clear DEV reporter REPORTER
+
+       devlink health set DEV reporter REPORTER  { grace_period | auto_recover
+                } { msec | boolean  }
+       devlink health help
+
+DESCRIPTION
+   devlink health show - Show status and configuration on all supported re-
+       porters on all devlink devices.
+       DEV - specifies the devlink device.
+
+       REPORTER - specifies the reporter's name registered on the devlink de-
+       vice.
+
+   devlink health recover - Initiate a recovery operation on a reporter.
+       This action performs a recovery and increases the recoveries counter on
+       success.
+
+       DEV - specifies the devlink device.
+
+       REPORTER - specifies the reporter's name registered on the devlink de-
+       vice.
+
+   devlink health diagnose - Retrieve diagnostics data on a reporter.
+       DEV - specifies the devlink device.
+
+       REPORTER - specifies the reporter's name registered on the devlink de-
+       vice.
+
+   devlink health dump show - Display the last saved dump.
+       devlink health saves a single dump per reporter. If an dump is
+       not already stored by the Devlink, this command will generate a new
+       dump. The dump can be generated either automatically when a
+       reporter reports on an error or manually at the user's request.
+
+       DEV - specifies the devlink device.
+
+       REPORTER - specifies the reporter's name registered on the devlink de-
+       vice.
+
+   devlink health dump clear - Delete the saved dump.
+       Deleting the saved dump enables a generation of a new dump on
+       the next "devlink health dump show" command.
+
+       DEV - specifies the devlink device.
+
+       REPORTER - specifies the reporter's name registered on the devlink de-
+       vice.
+
+   devlink health set - Enable the user to configure:
+       1) grace_period [msec] - Time interval between consecutive auto recov-
+       eries.
+       2) auto_recover [true/false] - Indicates whether the devlink should ex-
+       ecute automatic recover on error.
+       Please note that this command is not supported on a reporter which
+       doesn't support a recovery method.
+
+       DEV - specifies the devlink device.
+
+       REPORTER - specifies the reporter's name registered on the devlink de-
+       vice.
+
+EXAMPLES
+       devlink health show
+           List status and configuration of available reporters on devices.
+
+       devlink health recover pci/0000:00:09.0 reporter tx
+           Initiate recovery on tx reporter registered on pci/0000:00:09.0.
+
+       devlink health diagnose pci/0000:00:09.0 reporter tx
+           List diagnostics data on the specified device and reporter.
+
+       devlink health dump show pci/0000:00:09.0 reporter tx
+           Display the last saved dump on the specified device and reporter.
+
+       devlink health dump clear pci/0000:00:09.0 reporter tx
+           Delete saved dump on the specified device and reporter.
+
+       devlink health set pci/0000:00:09.0 reporter tx grace_period 3500
+           Set time interval between auto recoveries to minimum of 3500 msec
+           on the specified device and reporter.
+
+       devlink health set pci/0000:00:09.0 reporter tx auto_recover false
+           Turn off auto recovery on the specified device and reporter.
+
+SEE ALSO
+       devlink(8), devlink-dev(8), devlink-port(8), devlink-param(8), devlink-
+       region(8),
+
+AUTHOR
+       Aya Levin <ayal@mellanox.com>
+
+iproute2                          20 Feb 2019                DEVLINK-HEALTH(8)

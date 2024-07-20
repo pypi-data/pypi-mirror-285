@@ -1,0 +1,56 @@
+
+happrox(1)              GNU Triangulated Surface utils              happrox(1)
+
+NAME
+       happrox  -  returns a simplified triangulation of a set of points using
+       algorithm III of Garland and Heckbert (1995).
+
+SYNOPSIS
+       happrox [OPTIONS] < [input.pgm|input] > output.gts
+
+DESCRIPTION
+       This manual page documents briefly the happrox command.
+
+OPTIONS
+       This program follow the usual GNU command line syntax,  with  long  op-
+       tions starting with two dashes (`-').  A summary of options is included
+       below.
+
+       -n N, --number=N
+              Stop the refinement process if the number of vertices is  larger
+              than N.
+
+       -c C, --cost=C
+              Stop the refinement process if the cost of insertion of a vertex
+              is smaller than C.
+
+       -f, --flat
+              Input is a flat file with three x,y,z columns  (default  is  PGM
+              file).
+
+       -r Z, --relative=Z
+              Use relative height cost for all heights larger than Z.
+
+       -k, --keep
+              Keep enclosing triangle.
+
+       -C, --closed
+              Close the surface.
+
+       -l, --log
+              Log evolution of cost.
+
+       -v, --verbose
+              Display surface statistics.
+
+       -h, --help
+              Display the help and exit.
+
+AUTHOR
+       happrox   was   written   by  Stephane  Popinet  <popinet@users.source-
+       forge.net>.
+
+       This manual page was written by Ruben Molina <rmolina@udea.edu.co>, for
+       the Debian project (but may be used by others).
+
+                                 June 2, 2008                       happrox(1)

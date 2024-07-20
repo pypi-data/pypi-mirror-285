@@ -1,0 +1,2331 @@
+
+RE2C(1)                                                                RE2C(1)
+
+NAME
+       re2c - convert regular expressions to C/C++ code
+
+SYNOPSIS
+       re2c [OPTIONS] INPUT_FILE [-o OUTPUT_FILE]
+
+DESCRIPTION
+       Re2c is a lexer generator for C/C++. It finds regular expression speci-
+       fications inside of C/C++ comments and compiles them to a deterministic
+       finite  state machine. The user should write some interface code in or-
+       der to bind the generated lexer to the program  environment.   Sections
+       EOF  handling  and  buffer  refilling  explain  how the generated lexer
+       checks for the end of input and (if necessary)  asks  for  more  input.
+       Various  re2c  features are described in sections include files, header
+       files, submatch extraction, storable state, reusable  blocks,  encoding
+       support,  start conditions, skeleton programs and visualization and de-
+       bug.  Re2c provides a lot of  options,  configurations  and  directives
+       that allow one to customize the generated code.
+
+OPTIONS
+       -? -h --help
+              Show help message.
+
+       -1 --single-pass
+              Deprecated. Does nothing (single pass is the default now).
+
+       -8 --utf-8
+              Generate  a  lexer that reads input in UTF-8 encoding.  re2c as-
+              sumes that character range is 0 -- 0x10FFFF and  character  size
+              is 1 byte.
+
+       -b --bit-vectors
+              Optimize conditional jumps using bit masks. Implies -s.
+
+       -c --conditions --start-conditions
+              Enable  support of Flex-like "conditions": multiple interrelated
+              lexers within one block. Option --start-conditions is  a  legacy
+              alias; use --conditions instead.
+
+       --case-insensitive
+              Treat  single-quoted  and double-quoted strings as case-insensi-
+              tive.
+
+       --case-inverted
+              Invert the meaning of single-quoted and  double-quoted  strings:
+              treat  single-quoted strings as case-sensitive and double-quoted
+              strings as case-insensitive.
+
+       -D --emit-dot
+              Instead of normal output generate lexer graph  in  .dot  format.
+              The  output  can  be  converted  to  an  image  with the help of
+              Graphviz (e.g. something like dot -Tpng -odfa.png dfa.dot).
+
+       -d --debug-output
+              Emit YYDEBUG in the generated code.  YYDEBUG should  be  defined
+              by  the user in the form of a void function with two parameters:
+              state (lexer state or -1) and symbol (current  input  symbol  of
+              type YYCTYPE).
+
+       --dfa-minimization <moore | table>
+              The  internal  algorithm used by re2c to minimize the DFA: moore
+              (the default) is Moore algorithm, and table is the "table  fill-
+              ing"  algorithm.  Both algorithms should produce the same DFA up
+              to states relabeling; table filling is simpler and  much  slower
+              and serves as a reference implementation.
+
+       --dump-adfa
+              Debug option: output DFA after tunneling (in .dot format).
+
+       --dump-cfg
+              Debug  option:  output  control  flow graph of tag variables (in
+              .dot format).
+
+       --dump-closure-stats
+              Debug option: output statistics on the number of states in  clo-
+              sure.
+
+       --dump-dfa-det
+              Debug  option:  output DFA immediately after determinization (in
+              .dot format).
+
+       --dump-dfa-min
+              Debug option: output DFA after minimization (in .dot format).
+
+       --dump-dfa-tagopt
+              Debug option: output DFA after tag optimizations (in  .dot  for-
+              mat).
+
+       --dump-dfa-raw
+              Debug  option:  output  DFA  under  construction  with  expanded
+              state-sets (in .dot format).
+
+       --dump-interf
+              Debug option: output interference  table  produced  by  liveness
+              analysis of tag variables.
+
+       --dump-nfa
+              Debug option: output NFA (in .dot format).
+
+       -e --ecb
+              Generate  a lexer that reads input in EBCDIC encoding.  re2c as-
+              sumes that character range is 0 -- 0xFF an character size  is  1
+              byte.
+
+       --eager-skip
+              Make  the  generated lexer advance the input position "eagerly":
+              immediately after reading input symbol.  By default this happens
+              after transition to the next state.  Implied by --no-lookahead.
+
+       --empty-class <match-empty | match-none | error>
+              Define  the  way  re2c  treats  empty  character  classes.  With
+              match-empty (the default) empty class matches empty input (which
+              is   illogical,  but  backwards-compatible).  With``match-none``
+              empty class always fails  to  match.   With  error  empty  class
+              raises a compilation error.
+
+       --encoding-policy <fail | substitute | ignore>
+              Define  the  way re2c treats Unicode surrogates.  With fail re2c
+              aborts with an error when a surrogate is encountered.  With sub-
+              stitute  re2c  silently  replaces surrogates with the error code
+              point 0xFFFD. With ignore (the default) re2c  treats  surrogates
+              as normal code points. The Unicode standard says that standalone
+              surrogates are invalid, but real-world  libraries  and  programs
+              behave in different ways.
+
+       -f --storable-state
+              Generate  a lexer which can store its inner state.  This is use-
+              ful in push-model lexers which are stopped by an  outer  program
+              when there is not enough input, and then resumed when more input
+              becomes available. In this mode users should additionally define
+              YYGETSTATE()  and  YYSETSTATE(state)  macros and variables yych,
+              yyaccept and state as part of the lexer state.
+
+       -F --flex-syntax
+              Partial support for Flex syntax: in this mode named  definitions
+              don't  need  the  equal  sign and the terminating semicolon, and
+              when used they must be surrounded by curly braces. Names without
+              curly braces are treated as double-quoted strings.
+
+       -g --computed-gotos
+              Optimize  conditional  jumps  using non-standard "computed goto"
+              extension (which must be supported by the C/C++ compiler).  re2c
+              generates jump tables only in complex cases with a lot of condi-
+              tional branches. Complexity threshold  can  be  configured  with
+              cgoto:threshold configuration. This option implies -b.
+
+       -I PATH
+              Add  PATH to the list of locations which are used when searching
+              for include files. This option is  useful  in  combination  with
+              /*!include:re2c ... */ directive. Re2c looks for FILE in the di-
+              rectory of including file and in the list of include paths spec-
+              ified by -I option.
+
+       -i --no-debug-info
+              Do  not output #line information. This is useful when the gener-
+              ated code is tracked by some version control system or IDE.
+
+       --input <default | custom>
+              Specify re2c input API.  Option default is the default API  com-
+              posed  of  pointer-like  primitives  YYCURSOR, YYMARKER, YYLIMIT
+              etc.  Option custom is the generic API composed of function-like
+              primitives YYPEEK(), YYSKIP(), YYBACKUP(), YYRESTORE() etc.
+
+       --input-encoding <ascii | utf8>
+              Specify  the  way  re2c  parses regular expressions.  With ascii
+              (the default) re2c handles input as ASCII-encoded: any  sequence
+              of  code  units  is  a sequence of standalone 1-byte characters.
+              With utf8 re2c handles  input  as  UTF8-encoded  and  recognizes
+              multibyte characters.
+
+       --location-format <gnu | msvc>
+              Specify  location  format  in  messages.  With gnu locations are
+              printed as 'filename:line:column: ...'.  With msvc locations are
+              printed as 'filename(line,column) ...'.  Default is gnu.
+
+       --no-generation-date
+              Suppress date output in the generated file.
+
+       --no-lookahead
+              Use  TDFA(0)  instead  of  TDFA(1).  This option has effect only
+              with --tags or --posix-captures options.
+
+       --no-optimize-tags
+              Suppress optimization of tag variables (useful for debugging).
+
+       --no-version
+              Suppress version output in the generated file.
+
+       -o OUTPUT --output=OUTPUT
+              Specify the OUTPUT file.
+
+       -P --posix-captures
+              Enable submatch extraction with POSIX-style capturing groups.
+
+       --posix-closure <gor1 | gtop>
+              Specify shortest-path algorithm used  for  construction  of  ep-
+              silon-closure with POSIX disambiguation semantics: gor1 (the de-
+              fault) stands for Goldberg-Radzik algorithm, and gtop stands for
+              "global topological order" algorithm.
+
+       -r --reusable
+              Allows reuse of re2c rules with /*!rules:re2c */ and /*!use:re2c
+              */ blocks. Exactly one rules-block must be  present.  The  rules
+              are  saved  and  used by every use-block that follows, which may
+              add its own rules and configurations.
+
+       -S --skeleton
+              Ignore user-defined interface code and generate a self-contained
+              "skeleton"  program.  Additionally,  generate  input  files with
+              strings derived from the regular grammar  and  compressed  match
+              results  that  are used to verify "skeleton" behavior on all in-
+              puts. This option is useful for finding  bugs  in  optimizations
+              and code generation.
+
+       -s --nested-ifs
+              Use  nested if statements instead of switch statements in condi-
+              tional jumps. This usually results in more efficient  code  with
+              non-optimizing C/C++ compilers.
+
+       --stadfa
+              Use  staDFA  algorithm for submatch extraction. The main differ-
+              ence with TDFA is that tag operations in staDFA  are  placed  in
+              states, not on transitions.
+
+       -T --tags
+              Enable submatch extraction with tags.
+
+       -t HEADER --type-header=HEADER
+              Generate  a HEADER file that contains enum with condition names.
+              Requires -c option.
+
+       -u --unicode
+              Generate a lexer that reads UTF32-encoded  input.  Re2c  assumes
+              that  character  range  is 0 -- 0x10FFFF and character size is 4
+              bytes. This option implies -s.
+
+       -V --vernum
+              Show version information in MMmmpp format (major, minor, patch).
+
+       --verbose
+              Output a short message in case of success.
+
+       -v --version
+              Show version information.
+
+       -w --wide-chars
+              Generate a lexer that reads  UCS2-encoded  input.  Re2c  assumes
+              that  character  range  is  0  -- 0xFFFF and character size is 2
+              bytes. This option implies -s.
+
+       -x --utf-16
+              Generate a lexer that reads UTF16-encoded  input.  Re2c  assumes
+              that  character  range  is 0 -- 0x10FFFF and character size is 2
+              bytes. This option implies -s.
+
+WARNINGS
+       -W     Turn on all warnings.
+
+       -Werror
+              Turn warnings into errors. Note that this option  alone  doesn't
+              turn  on  any warnings; it only affects those warnings that have
+              been turned on so far or will be turned on later.
+
+       -W<warning>
+              Turn on warning.
+
+       -Wno-<warning>
+              Turn off warning.
+
+       -Werror-<warning>
+              Turn on warning and treat it as an error (this implies  -W<warn-
+              ing>).
+
+       -Wno-error-<warning>
+              Don't  treat  this  particular warning as an error. This doesn't
+              turn off the warning itself.
+
+       -Wcondition-order
+              Warn if the generated program makes implicit  assumptions  about
+              condition numbering. One should use either the -t, --type-header
+              option or the /*!types:re2c*/ directive to generate a mapping of
+              condition names to numbers and then use the autogenerated condi-
+              tion names.
+
+       -Wempty-character-class
+              Warn if a regular expression contains an empty character  class.
+              Trying  to  match  an  empty  character class makes no sense: it
+              should always fail.  However, for backwards  compatibility  rea-
+              sons  re2c  allows  empty  character  classes and treats them as
+              empty strings. Use the --empty-class option to  change  the  de-
+              fault behavior.
+
+       -Wmatch-empty-string
+              Warn  if  a  rule is nullable (matches an empty string).  If the
+              lexer runs in a loop and the empty match is  unintentional,  the
+              lexer may unexpectedly hang in an infinite loop.
+
+       -Wswapped-range
+              Warn  if  the  lower  bound of a range is greater than its upper
+              bound. The default  behavior  is  to  silently  swap  the  range
+              bounds.
+
+       -Wundefined-control-flow
+              Warn  if  some input strings cause undefined control flow in the
+              lexer (the faulty patterns are reported). This is the most  dan-
+              gerous and most common mistake. It can be easily fixed by adding
+              the default rule * which has the lowest  priority,  matches  any
+              code unit, and consumes exactly one code unit.
+
+       -Wunreachable-rules
+              Warn about rules that are shadowed by other rules and will never
+              match.
+
+       -Wuseless-escape
+              Warn if a symbol is escaped when it shouldn't be.   By  default,
+              re2c  silently  ignores such escapes, but this may as well indi-
+              cate a typo or an error in the escape sequence.
+
+       -Wnondeterministic-tags
+              Warn if a tag has n-th degree  of  nondeterminism,  where  n  is
+              greater than 1.
+
+       -Wsentinel-in-midrule
+              Warn  if  the sentinel symbol occurs in the middle of a rule ---
+              this may cause reads past the end of buffer, crashes  or  memory
+              corruption in the generated lexer. This warning is only applica-
+              ble if the sentinel method of checking for the end of  input  is
+              used.   It  is set to an error if re2c:sentinel configuration is
+              used.
+
+SYNTAX
+       A re2c program consists of a number of re2c blocks and  directives  in-
+       termixed with normal C/C++ code. Each re2c block consists of a sequence
+       of named definitions, configurations and rules that contain regular ex-
+       pressions. The generated lexer communicates with the outer world by the
+       means of user interface.  Rules consist of a  regular  expression  fol-
+       lowed by a user-defined action (semantic action): a block of C/C++ code
+       that is executed in case of successful match. Semantic  action  can  be
+       either  an arbitrary block of code enclosed in curly braces { and }, or
+       a block of code without curly braces preceded with := and ended with  a
+       newline that is not followed by a whitespace.  If multiple rules match,
+       longest match takes  precedence.  If  multiple  rules  match  the  same
+       string,  the  earlier rule takes priority. If -c --conditions option is
+       used, then rules have more complex form described in the section  about
+       conditions.  There are two special kinds of rules:
+
+       o Default  rule * which has the lowest priority reagrdless of its place
+         in the source code, matches any code unit and  consumes  exactly  one
+         code unit.  This rule should always be defined.
+
+       o EOF  rule  $  which matches the end of input. This rule should be de-
+         fined if the simplified EOF handling method is used.
+
+       Named definitions are of the form name = regexp  ;  where  name  is  an
+       identifier that consists of letters, digits and underscores, and regexp
+       is a regular expression. With -F --flex-syntax option named definitions
+       are also of the form name regexp. Each name should be defined before it
+       is used.
+
+REGULAR EXPRESSIONS
+       re2c uses the following syntax for regular expressions:
+
+       o "foo" case-sensitive string literal
+
+       o 'foo' case-insensitive string literal
+
+       o [a-xyz], [^a-xyz] character class (possibly negated)
+
+       o . any character except newline
+
+       o R \ S difference of character classes R and S
+
+       o R* zero or more occurrences of R
+
+       o R+ one or more occurrences of R
+
+       o R? optional R
+
+       o R{n} repetition of R exactly n times
+
+       o R{n,} repetition of R at least n times
+
+       o R{n,m} repetition of R from n to m times
+
+       o (R) just R; parentheses  are  used  to  override  precedence  or  for
+         POSIX-style submatch
+
+       o R S concatenation: R followed by S
+
+       o R | S alternative: R or S
+
+       o R / S lookahead: R followed by S, but S is not consumed
+
+       o name the regular expression defined as name (or literal string "name"
+         in Flex compatibility mode)
+
+       o {name} the regular expression defined as name in  Flex  compatibility
+         mode
+
+       o @stag  an s-tag: saves the last input position at which @stag matches
+         in a variable named stag
+
+       o #mtag an m-tag: saves all input positions at which #mtag matches in a
+         variable named mtag
+
+       Character  classes and string literals may contain the following escape
+       sequences: \a, \b, \f, \n, \r, \t, \v, \\, octal escapes \ooo and hexa-
+       decimal escapes \xhh, \uhhhh and \Uhhhhhhhh.
+
+INTERFACE CODE
+       Below  is the list of all symbols which may be used by the lexer in or-
+       der to interact with the outer world.  These symbols should be  defined
+       by  the user, either in the form of inplace configurations, or as C/C++
+       variables, functions, macros  and  other  language  constructs.   Which
+       primitives are necessary depends on the particular use case.
+
+       yyaccept
+              L-value  of unsigned integral type that is used to hold the num-
+              ber of the last matched rule.  Explicit definition by  the  user
+              is necessary only with -f --storable-state option.
+
+       YYBACKUP ()
+              Backup current input position (used only with --input custom op-
+              tion).
+
+       YYBACKUPCTX ()
+              Backup current input position for trailing  context  (used  only
+              with  --input custom option).
+
+       yych   L-value of type YYCTYPE that is used to hold current input char-
+              acter.  Explicit definition by the user is necessary  only  with
+              -f --storable-state option.
+
+       YYCONDTYPE
+              The  type  of  condition identifiers (used only with -c --condi-
+              tions option).  Should be generated either with  /*!types:re2c*/
+              directive, or with -t --type-header option.
+
+       YYCTXMARKER
+              L-value  of type YYCTYPE * that is used to backup input position
+              of trailing context.  It is needed only if  regular  expressions
+              use the lookahead operator /.
+
+       YYCTYPE
+              The  type  of  the  input  characters  (code units).  Usually it
+              should be unsigned char for ASCII, EBCDIC and  UTF-8  encodings,
+              unsigned  short  for UTF-16 or UCS-2 encodings, and unsigned int
+              for UTF-32 encoding.
+
+       YYCURSOR
+              L-value of type YYCTYPE * that is used as a pointer to the  cur-
+              rent input symbol.  Initially YYCURSOR points to the first char-
+              acter and is advanced by the lexer during matching.  When a rule
+              matches,  YYCURSOR points past the last character of the matched
+              string.
+
+       YYDEBUG (state, symbol)
+              A function-like primitive that is used to dump debug information
+              (only  used  with -d --debug-output option).  YYDEBUG should re-
+              turn no value and accept  two  arguments:  state  (either  lexer
+              state or -1) and symbol (current input symbol).
+
+       YYFILL (n)
+              A function-like primitive that is called by the lexer when there
+              is not enough input.  YYFILL should return no value  and  supply
+              at least n additional characters.  Maximal value of n equals YY-
+              MAXFILL, which can be obtained with the /*!max:re2c*/ directive.
+
+       YYGETCONDITION ()
+              R-value of type YYCONDTYPE  that  represents  current  condition
+              identifier (used only with -c --conditions option).
+
+       YYGETSTATE ()
+              R-value  of  signed  integral type that represents current lexer
+              state (used only  with  -f  --storable-state  option).   Initial
+              value of lexer state should be -1.
+
+       YYLESSTHAN (n)
+              R-value  of  boolean  type  that is true if and only if there is
+              less than n input characters left (used only with  --input  cus-
+              tom option).
+
+       YYLIMIT
+              R-value   of  type  YYCTYPE  *  that  marks  the  end  of  input
+              (YYLIMIT[-1] should be the last input  character).   Lexer  com-
+              pares  YYCURSOR  and  YYLIMIT  in order to determine if there is
+              enough input characters left.
+
+       YYMARKER
+              L-value of type YYCTYPE * used to backup input position of  suc-
+              cessful  match.  This might be necessary if there is an overlap-
+              ping longer rule that might also match.
+
+       YYMTAGP (t)
+              Append current input position to the history of  m-tag  t  (used
+              only with -T --tags option).
+
+       YYMTAGPD (t)
+              Same  as YYMTAGP, except that instead of the current position it
+              should save the one before it. This is used for staDFA  "delayed
+              store" actions.
+
+       YYMTAGN (t)
+              Append  default  value to the history of m-tag t (used only with
+              -T --tags option).
+
+       YYMAXFILL
+              Integral constant that denotes maximal value of YYFILL  argument
+              and is autogenerated by /*!max:re2c*/ directive.
+
+       YYMAXNMATCH
+              Integral  constant  that  denotes  maximal  number  of capturing
+              groups in a rule and is autogenerated by /*!maxnmatch:re2c*/ di-
+              rective (used only with --posix-captures option).
+
+       yynmatch
+              L-value  of unsigned integral type that is used to hold the num-
+              ber of capturing groups in the matching rule.  Used only with -P
+              --posix-captures option.
+
+       YYPEEK ()
+              R-value  of  type  YYCTYPE  that denotes current input character
+              (used only with --input custom option).
+
+       yypmatch
+              An array of l-values that are used to hold the values of  s-tags
+              corresponding to the capturing parentheses in the matching rule.
+              The length of array must be at least yynmatch * 2  (ideally  YY-
+              MAXNMATCH * 2).  Used only with -P --posix-captures option.
+
+       YYRESTORE ()
+              Restore input position (used only with --input custom option).
+
+       YYRESTORECTX ()
+              Restore  input position from the value of trailing context (used
+              only with --input custom option).
+
+       YYRESTORETAG (t)
+              Restore input position from the value of s-tag t (used only with
+              --input custom option).
+
+       YYSETCONDITION (condition)
+              Set current condition identifier to condition (used only with -c
+              --conditions option).
+
+       YYSETSTATE (state)
+              Set  current  lexer  state  to  state   (used   only   with   -f
+              --storable-state option).  Parameter state is of signed integral
+              type.
+
+       YYSKIP ()
+              Advance input position to the next  character  (used  only  with
+              generic API).
+
+       YYSTAGP (t)
+              Save current input position to s-tag t (used only with -T --tags
+              and --input custom option).
+
+       YYSTAGPD (t)
+              Same as YYSTAGP, except that instead of the current position  it
+              should  save the one before it. This is used for staDFA "delayed
+              store" actions.
+
+       YYSTAGN (t)
+              Save default value to s-tag t (used  only  with  -T  --tags  and
+              --input custom options).
+
+   Default API
+       By  default re2c operates on input using pointer-like primitives YYCUR-
+       SOR, YYMARKER, YYCTXMARKER, and YYLIMIT.  Normally pointer-like  primi-
+       tives  are defined as variables of type YYCTYPE*, but it is possible to
+       use STL iterators or any other abstraction as long as it  syntactically
+       fits into the following use cases:
+
+       o ++YYCURSOR;
+
+       o yych = *YYCURSOR;
+
+       o yych = *++YYCURSOR;
+
+       o yych = *(YYMARKER = YYCURSOR);
+
+       o yych = *(YYMARKER = ++YCURSOR);
+
+       o YYMARKER = YYCURSOR;
+
+       o YYMARKER = ++YYCURSOR;
+
+       o YYCURSOR = YYMARKER;
+
+       o YYCTXMARKER = YYCURSOR + 1;
+
+       o YYCURSOR = YYCTXMARKER;
+
+       o if (YYLIMIT <= YYCURSOR) ...
+
+       o if ((YYLIMIT - YYCURSOR) < n) ...
+
+       o YYDEBUG (label, *YYCURSOR);
+
+   Generic API
+       If  the  default input model is too restrictive, then it is possible to
+       use generic input API enabled with --input custom option.  In this mode
+       all  input  operations  are expressed in terms of the primitives below.
+       These primitives can be defined in any suitable way; one  doesn't  have
+       to stick to the pointer semantics.  For example, it is possible to read
+       input directly from file without any buffering, or  to  disable  YYFILL
+       mechanism  and  perform  end-of-input  checking on each input character
+       from inside of YYPEEK or YYSKIP.
+
+       o YYPEEK ()
+
+       o YYSKIP ()
+
+       o YYBACKUP ()
+
+       o YYBACKUPCTX ()
+
+       o YYSTAGP (t)
+
+       o YYSTAGPD (t)
+
+       o YYSTAGN (t)
+
+       o YYMTAGP (t)
+
+       o YYMTAGPD (t)
+
+       o YYMTAGN (t)
+
+       o YYRESTORE ()
+
+       o YYRESTORECTX ()
+
+       o YYRESTORETAG (t)
+
+       o YYLESSTHAN (n)
+
+       Default input model can be expressed in terms of generic API as follows
+       (except  for YMTAGP, YYMTAGPD and YYMTAGN, which have no default imple-
+       mentation):
+
+       System Message: WARNING/2 (doc/manual/api/api.rst_:, line 51)
+              Cannot analyze code. Pygments package not found.
+
+          .. code-block:: cpp
+
+              #define  YYPEEK ()         *YYCURSOR
+              #define  YYSKIP ()         ++YYCURSOR
+              #define  YYBACKUP ()       YYMARKER = YYCURSOR
+              #define  YYBACKUPCTX ()    YYCTXMARKER = YYCURSOR
+              #define  YYRESTORE ()      YYCURSOR = YYMARKER
+              #define  YYRESTORECTX ()   YYCURSOR = YYCTXMARKER
+              #define  YYRESTORERAG (t)  YYCURSOR = t
+              #define  YYLESSTHAN (n)    YYLIMIT - YYCURSOR < n
+              #define  YYSTAGP (t)       t = YYCURSOR
+              #define  YYSTAGPD (t)      t = YYCURSOR - 1
+              #define  YYSTAGN (t)       t = NULL
+
+DIRECTIVES
+       Below is the list of all directives provided by re2c (in no  particular
+       order).  More information on each directive can be found in the related
+       sections.
+
+       /*!re2c ... */
+              A standard re2c block.
+
+       %{ ... %}
+              A standard re2c block in -F --flex-support mode.
+
+       /*!rules:re2c ... */
+              A reusable re2c block (requires -r --reuse option).
+
+       /*!use:re2c ... */
+              A  block  that  reuses  previous  rules-block   specified   with
+              /*!rules:re2c ... */ (requires -r --reuse option).
+
+       /*!ignore:re2c ... */
+              A  block  which contents are ignored and cut off from the output
+              file.
+
+       /*!max:re2c*/
+              This directive is substituted with the macro-definition  of  YY-
+              MAXFILL.
+
+       /*!maxnmatch:re2c*/
+              This  directive  is substituted with the macro-definition of YY-
+              MAXNMATCH (requires -P --posix-captures option).
+
+       /*!getstate:re2c*/
+              This directive is substituted with conditional dispatch on lexer
+              state (requires -f --storable-state option).
+
+       /*!types:re2c ... */
+              This  directive  is substituted with the definition of condition
+              enum (requires -c --conditions option).
+
+       /*!stags:re2c ... */, /*!mtags:re2c ... */
+              These directives allow one to specify a template piece  of  code
+              that  is  expanded  for  each  s-tag/m-tag variable generated by
+              re2c. This block has two optional configurations: format = "@@";
+              (specifies the template where @@ is substituted with the name of
+              each tag variable), and separator = ""; (specifies the piece  of
+              code  used  to join the generated pieces for different tag vari-
+              ables).
+
+       /*!include:re2c FILE */
+              This directive allows one to include FILE (in the same sense  as
+              #include directive in C/C++).
+
+       /*!header:re2c:on*/
+              This  directive marks the start of header file. Everything after
+              it and up to the  following  /*!header:re2c:off*/  directive  is
+              processed  by re2c and written to the header file specified with
+              -t --type-header option.
+
+       /*!header:re2c:off*/
+              This directive  marks  the  end  of  header  file  started  with
+              /*!header:re2c:on*/.
+
+CONFIGURATIONS
+       re2c:cgoto:threshold = 9;
+              With  -g  --computed-gotos  option this value specifies the com-
+              plexity threshold that triggers the generation  of  jump  tables
+              rather than nested if statements and bit masks.
+
+       re2c:cond:divider = '/* *********************************** */';
+              Allows  one  to  customize the divider for condition blocks. One
+              can use @@ to insert condition name.
+
+       re2c:cond:divider@cond = @@;
+              Specifies the placeholder that will be replaced  with  condition
+              name in re2c:cond:divider.
+
+       re2c:condenumprefix = yyc;
+              Specifies the prefix used for condition identifiers.
+
+       re2c:cond:goto@cond = @@;
+              Specifies  the  placeholder that will be replaced with condition
+              label in re2c:cond:goto.
+
+       re2c:cond:goto = 'goto @@;';
+              Allows one to customize goto  statements  used  with  :=>  style
+              rules.  One can use @@ to insert the condition name.
+
+       re2c:condprefix = yyc;
+              Specifies the prefix used for condition labels.
+
+       re2c:define:YYBACKUPCTX = 'YYBACKUPCTX';
+              Replaces YYBACKUPCTX identifier with the specified string.
+
+       re2c:define:YYBACKUP = 'YYBACKUP';
+              Replaces YYBACKUP identifier with the specified string.
+
+       re2c:define:YYCONDTYPE = 'YYCONDTYPE';
+              Enumeration type used for condition identifiers.
+
+       re2c:define:YYCTXMARKER = 'YYCTXMARKER';
+              Replaces  the YYCTXMARKER placeholder with the specified identi-
+              fier.
+
+       re2c:define:YYCTYPE = 'YYCTYPE';
+              Replaces the YYCTYPE placeholder with the specified type.
+
+       re2c:define:YYCURSOR = 'YYCURSOR';
+              Replaces the YYCURSOR placeholder with the specified identifier.
+
+       re2c:define:YYDEBUG = 'YYDEBUG';
+              Replaces the YYDEBUG placeholder with the specified identifier.
+
+       re2c:define:YYFILL@len = '@@';
+              Any occurrence of this text inside of a YYFILL will be  replaced
+              with the actual argument.
+
+       re2c:define:YYFILL:naked = 0;
+              Allows   to  customize  YYFILL  invocation.   If  the  value  is
+              non-zero, re2c outputs the value of re2c:define:YYFILL  configu-
+              ration  (YYFILL by default) without any decoration: no parenthe-
+              ses and no semicolon (or comparison against zero in the case  of
+              EOF  rule).  Otherwise the semicolon (or the comparison) is gen-
+              erated, and parentheses are controlled by the re2c:yyfill:param-
+              eter configuration.
+
+       re2c:define:YYFILL = 'YYFILL';
+              Define  a substitution for YYFILL.  By default re2c generates an
+              argument in parentheses and a semicolon after  YYFILL.   If  you
+              need  to  make YYFILL an arbitrary statement rather than a call,
+              set re2c:define:YYFILL:naked to a non-zero value.
+
+       re2c:define:YYGETCONDITION:naked = 0;
+              Controls the parentheses after YYGETCONDITION.  If non-zero, the
+              parentheses are omitted. If zero, they are generated.
+
+       re2c:define:YYGETCONDITION = 'YYGETCONDITION';
+              Substitution  for  YYGETCONDITION.   By  default  re2c generates
+              parentheses after YYGETCONDITION.   Set  re2c:define:YYGETCONDI-
+              TION:naked to non-zero in order to omit the parentheses.
+
+       re2c:define:YYGETSTATE:naked = 0;
+              Controls  the  parentheses that follow YYGETSTATE.  If non-zero,
+              the parentheses are omitted. If zero, they are generated.
+
+       re2c:define:YYGETSTATE = 'YYGETSTATE';
+              Substitution for YYGETSTATE.  By default re2c  generates  paren-
+              theses  after  YYGETSTATE.   Set re2c:define:YYGETSTATE:naked to
+              non-zero to omit the parentheses.
+
+       re2c:define:YYLESSTHAN = 'YYLESSTHAN';
+              Replaces YYLESSTHAN identifier with the specified string.
+
+       re2c:define:YYLIMIT = 'YYLIMIT';
+              Replaces the YYLIMIT placeholder with the specified identifier.
+
+       re2c:define:YYMARKER = 'YYMARKER';
+              Replaces the YYMARKER placeholder with the specified identifier.
+
+       re2c:define:YYMTAGN = 'YYMTAGN';
+              Replaces YYMTAGN identifier with the specified string.
+
+       re2c:define:YYMTAGP = 'YYMTAGP';
+              Replaces YYMTAGP identifier with the specified string.
+
+       re2c:define:YYMTAGPD = 'YYMTAGPD';
+              Replaces YYMTAGPD identifier with the specified string.
+
+       re2c:define:YYPEEK = 'YYPEEK';
+              Replaces YYPEEK identifier with the specified string.
+
+       re2c:define:YYRESTORECTX = 'YYRESTORECTX';
+              Replaces YYRESTORECTX identifier with the specified string.
+
+       re2c:define:YYRESTORE = 'YYRESTORE';
+              Replaces YYRESTORE identifier with the specified string.
+
+       re2c:define:YYRESTORETAG = 'YYRESTORETAG';
+              Replaces YYRESTORETAG identifier with the specified string.
+
+       re2c:define:YYSETCONDITION@cond = '@@';
+              Any occurrence of this text inside of YYSETCONDITION will be re-
+              placed with the actual argument.
+
+       re2c:define:YYSETCONDITION:naked = 0;
+              Controls the argument in parentheses and the semicolon after YY-
+              SETCONDITION. If non-zero, both the argument and  the  semicolon
+              are  omitted.  If  zero, both the argument and the semicolon are
+              generated.
+
+       re2c:define:YYSETCONDITION = 'YYSETCONDITION';
+              Substitution for YYSETCONDITION. By default  re2c  generates  an
+              argument  in parentheses followed by semicolon after YYSETCONDI-
+              TION. If you need to make YYSETCONDITION an arbitrary  statement
+              rather  than  a  call,  set  re2c:define:YYSETCONDITION:naked to
+              non-zero.
+
+       re2c:define:YYSETSTATE:naked = 0;
+              Controls the argument in parentheses and the semicolon after YY-
+              SETSTATE. If non-zero, both argument and the semicolon are omit-
+              ted. If zero, both the argument and the semicolon are generated.
+
+       re2c:define:YYSETSTATE@state = '@@';
+              Any occurrence of this text inside of  YYSETSTATE  will  be  re-
+              placed with the actual argument.
+
+       re2c:define:YYSETSTATE = 'YYSETSTATE';
+              Substitution  for YYSETSTATE. By default re2c generates an argu-
+              ment in parentheses followed by a semicolon after YYSETSTATE. If
+              you need to make YYSETSTATE an arbitrary statement rather than a
+              call, set re2c:define:YYSETSTATE:naked to non-zero.
+
+       re2c:define:YYSKIP = 'YYSKIP';
+              Replaces YYSKIP identifier with the specified string.
+
+       re2c:define:YYSTAGN = 'YYSTAGN';
+              Replaces YYSTAGN identifier with the specified string.
+
+       re2c:define:YYSTAGP = 'YYSTAGP';
+              Replaces YYSTAGP identifier with the specified string.
+
+       re2c:define:YYSTAGPD = 'YYSTAGPD';
+              Replaces YYSTAGPD identifier with the specified string.
+
+       re2c:eof = -1;
+              Specifies the sentinel symbol used with EOF rule $ to check  for
+              the  end  of  input  in the generated lexer. Default value is -1
+              (EOF rule is not used). Other possible values include all  valid
+              code units. Only decimal numbers are recognized.
+
+       re2c:sentinel = -1;
+              Specifies  the  sentinel symbol used with the sentinel method of
+              checking for the end of input in the generated lexer  (the  case
+              when  when bounds checking is disabled with re2c:yyfill:enable =
+              0; and EOF rule $ is not used). This configuration does not  af-
+              fect code generation. It is used by re2c to verify that the sen-
+              tinel symbol is not allowed in the middle of the rule, and  thus
+              prevent possible reads past the end of buffer and crashes in the
+              generated lexer. Default value is -1: in this case re2c  assumes
+              that  the  sentinel symbol is 0 (which is by far the most common
+              case). Other possible values include all valid code units.  Only
+              decimal numbers are recognized.
+
+       re2c:flags:8 or re2c:flags:utf-8
+              Same as -8 --utf-8 command-line option.
+
+       re2c:flags:b or re2c:flags:bit-vectors
+              Same as -b --bit-vectors command-line option.
+
+       re2c:flags:case-insensitive = 0;
+              Same as --case-insensitive command-line option.
+
+       re2c:flags:case-inverted = 0;
+              Same as --case-inverted command-line option.
+
+       re2c:flags:d or re2c:flags:debug-output
+              Same as -d --debug-output command-line option.
+
+       re2c:flags:dfa-minimization = 'moore';
+              Same as --dfa-minimization command-line option.
+
+       re2c:flags:eager-skip = 0;
+              Same as --eager-skip command-line option.
+
+       re2c:flags:e or re2c:flags:ecb
+              Same as -e --ecb command-line option.
+
+       re2c:flags:empty-class = 'match-empty';
+              Same as --empty-class command-line option.
+
+       re2c:flags:encoding-policy = 'ignore';
+              Same as --encoding-policy command-line option.
+
+       re2c:flags:g or re2c:flags:computed-gotos
+              Same as -g --computed-gotos command-line option.
+
+       re2c:flags:i or re2c:flags:no-debug-info
+              Same as -i --no-debug-info command-line option.
+
+       re2c:flags:input = 'default';
+              Same as --input command-line option.
+
+       re2c:flags:lookahead = 1;
+              Same as inverted --no-lookahead command-line option.
+
+       re2c:flags:optimize-tags = 1;
+              Same as inverted --no-optimize-tags command-line option.
+
+       re2c:flags:P or re2c:flags:posix-captures
+              Same as -P --posix-captures command-line option.
+
+       re2c:flags:s or re2c:flags:nested-ifs
+              Same as -s --nested-ifs command-line option.
+
+       re2c:flags:T or re2c:flags:tags
+              Same as -T --tags command-line option.
+
+       re2c:flags:u or re2c:flags:unicode
+              Same as -u --unicode command-line option.
+
+       re2c:flags:w or re2c:flags:wide-chars
+              Same as -w --wide-chars command-line option.
+
+       re2c:flags:x or re2c:flags:utf-16
+              Same as -x --utf-16 command-line option.
+
+       re2c:indent:string = '\t';
+              Specifies  the  string to use for indentation. Requires a string
+              that contains only whitespace (unless you  need  something  else
+              for external tools). The easiest way to specify spaces is to en-
+              close them in single or double quotes.  If you do  not want  any
+              indentation at all, you can set this to ''.
+
+       re2c:indent:top = 0;
+              Specifies  the  minimum amount of indentation to use. Requires a
+              numeric value greater than or equal to zero.
+
+       re2c:labelprefix = 'yy';
+              Allows one to change the prefix of numbered labels. The  default
+              is yy. Can be set any string that is valid in a label name.
+
+       re2c:label:yyFillLabel = 'yyFillLabel';
+              Overrides the name of the yyFillLabel label.
+
+       re2c:label:yyNext = 'yyNext';
+              Overrides the name of the yyNext label.
+
+       re2c:startlabel = 0;
+              If  set  to a non zero integer, then the start label of the next
+              scanner block will be generated even if it  isn't  used  by  the
+              scanner  itself.  Otherwise,  the normal yy0-like start label is
+              only generated if needed. If set to a text value, then  a  label
+              with  that text will be generated regardless of whether the nor-
+              mal start label is used or not. This setting is reset to 0 after
+              a start label has been generated.
+
+       re2c:state:abort = 0;
+              When not zero and the -f --storable-state switch is active, then
+              the YYGETSTATE block will contain a default case that aborts and
+              a -1 case will be used for initialization.
+
+       re2c:state:nextlabel = 0;
+              Used  when  -f --storable-state is active to control whether the
+              YYGETSTATE block is followed by a yyNext: label  line.   Instead
+              of using yyNext, you can usually also use configuration startla-
+              bel to force a specific start label or default to yy0 as a start
+              label. Instead of using a dedicated label, it is often better to
+              separate the YYGETSTATE code from the  actual  scanner  code  by
+              placing a /*!getstate:re2c*/ comment.
+
+       re2c:tags:expression = '@@';
+              Allows one to customize the way re2c addresses tag variables: by
+              default it emits expressions of the form yyt<N>, but this  might
+              be  inconvenient  if  tag  variables  are defined as fields in a
+              struct, or for any other reason require special accessors.   For
+              example,  setting  re2c:tags:expression  =  p->@@ will result in
+              p->yyt<N>.
+
+       re2c:tags:prefix = 'yyt';
+              Allows one to override prefix of tag variables.
+
+       re2c:variable:yyaccept = yyaccept;
+              Overrides the name of the yyaccept variable.
+
+       re2c:variable:yybm = 'yybm';
+              Overrides the name of the yybm variable.
+
+       re2c:variable:yych = 'yych';
+              Overrides the name of the yych variable.
+
+       re2c:variable:yyctable = 'yyctable';
+              When both -c --conditions and -g  --computed-gotos  are  active,
+              re2c  will use this variable to generate a static jump table for
+              YYGETCONDITION.
+
+       re2c:variable:yystable = 'yystable';
+              Deprecated.
+
+       re2c:variable:yytarget = 'yytarget';
+              Overrides the name of the yytarget variable.
+
+       re2c:yybm:hex = 0;
+              If set to zero, a decimal table will be used. Otherwise, a hexa-
+              decimal table will be generated.
+
+       re2c:yych:conversion = 0;
+              When this setting is non zero, re2c automatically generates con-
+              version code whenever yych gets read. In  this  case,  the  type
+              must be defined using re2c:define:YYCTYPE.
+
+       re2c:yych:emit = 1;
+              Set this to zero to suppress the generation of yych.
+
+       re2c:yyfill:check = 1;
+              This can be set to 0 to suppress the generations of YYCURSOR and
+              YYLIMIT based precondition checks. This option  is  useful  when
+              YYLIMIT + YYMAXFILL is always accessible.
+
+       re2c:yyfill:enable = 1;
+              Set  this to zero to suppress the generation of YYFILL (n). When
+              using this, be sure to verify that the  generated  scanner  does
+              not  read  beyond the available input, as allowing such behavior
+              might introduce severe security issues to your programs.
+
+       re2c:yyfill:parameter = 1;
+              Controls the argument in the parentheses that follow YYFILL.  If
+              zero,  the  argument  is  omitted.  If non-zero, the argument is
+              generated unless re2c:define:YYFILL:naked is set to non-zero.
+
+EOF HANDLING
+       Re2c provides a number of ways to handle end-of-input situation.  Which
+       way  to  use  depends on the complexity of regular expressions, perfor-
+       mance considerations, the need for input buffering  and  various  other
+       factors.  EOF  handling  is probably the most complex part of re2c user
+       interface --- it definitely requires a bit of understanding of how  the
+       generated  lexer  works.  But in return is allows the user to customize
+       lexer for a particular environment and avoid the  unnecessary  overhead
+       of  generic methods when a simpler method is sufficient. Roughly speak-
+       ing, there are four main methods:
+
+       o using sentinel symbol (simple and efficient, but limited)
+
+       o bounds checking with padding (generic, but complex)
+
+       o EOF rule: a  combination  of  sentinel  symbol  and  bounds  checking
+         (generic and simple, can be more or less efficient than bounds check-
+         ing with padding depending on the grammar)
+
+       o using generic API (user-defined, so may be incorrect ;])
+
+   Using sentinel symbol
+       This is the simplest and the most efficient method. It is applicable in
+       cases  when  the  input is small enough to fit into a continuous memory
+       buffer and there is a natural "sentinel" symbol --- a code unit that is
+       not allowed by any of the regular expressions in grammar (except possi-
+       bly as a terminating character).   Sentinel  symbol  never  appears  in
+       well-formed input, therefore it can be appended at the end of input and
+       used as a stop signal by the lexer. A good example of such input  is  a
+       null-terminated C-string, provided that the grammar does not allow NULL
+       in the middle of lexemes. Sentinel method is  very  efficient,  because
+       the lexer does not need to perform any additional checks for the end of
+       input --- it comes naturally as a part of processing the  next  charac-
+       ter.   It  is very important that the sentinel symbol is not allowed in
+       the middle of the rule --- otherwise on some inputs the lexer may  read
+       past the end of buffer and crash or cause memory corruption. Re2c veri-
+       fies this automatically.  Use re2c:sentinel  configuration  to  specify
+       which sentinel symbol is used.
+
+       Below  is  an  example of using sentinel method. Configuration re2c:yy-
+       fill:enable = 0; suppresses generation of end-of-input checks  and  YY-
+       FILL calls.
+
+          #include <assert.h>
+
+          static int lex(const char *YYCURSOR)
+          {
+              int count = 0;
+          loop:
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:yyfill:enable = 0;
+
+              *      { return -1; }
+              [\x00] { return count; }
+              [a-z]+ { ++count; goto loop; }
+              [ ]+   { goto loop; }
+
+              */
+          }
+
+          int main()
+          {
+              assert(lex("") == 0);
+              assert(lex("one two three") == 3);
+              assert(lex("one two 123?") == -1);
+              return 0;
+          }
+
+   Bounds checking with padding
+       Bounds  checking  is  a  generic  method: it can be used with any input
+       grammar.  The basic idea is simple: we need to check for the end of in-
+       put before reading the next input character. However, if implemented in
+       a straightforward way, this would be  quite  inefficient:  checking  on
+       each input character would cause a major slowdown. Re2c avoids slowdown
+       by generating checks only in certain key states of the lexer, and  let-
+       ting  it run without checks in-between the key states.  More precisely,
+       re2c computes strongly connected components (SCCs)  of  the  underlying
+       DFA  (which  roughly  correspond  to  loops),  and generates only a few
+       checks per each SCC (usually just one, but in general  enough  to  make
+       the  SCC  acyclic).  The check is of the form (YYLIMIT - YYCURSOR) < n,
+       where n is the maximal length of a simple  path  in  the  corresponding
+       SCC.  If  this condiiton is true, the lexer calls YYFILL(n), which must
+       either supply at least n input characters, or do not return.  When  the
+       lexer  continues after the check, it is certain that the next n charac-
+       ters can be read safely without checks.
+
+       This approach reduces the number of checks significantly (and makes the
+       lexer  much faster as a result), but it has a downside. Since the lexer
+       checks for multiple characters at once, it may end up  in  a  situation
+       when  there  are  a few remaining input characters (less than n) corre-
+       sponding to a short path in the SCC, but the lexer cannot  proceed  be-
+       cause  of the check, and YYFILL cannot supply more character because it
+       is the end of input. To solve this problem, re2c  requires  that  addi-
+       tional  padding consisting of fake characters is appended at the end of
+       input. The length of padding should be YYMAXFILL, which equals  to  the
+       maximum  n  parameter  to  YYFILL  and  must be generated by re2c using
+       /*!max:re2c*/ directive. The fake characters should not  form  a  valid
+       lexeme  suffix,  otherwise the lexer may be fooled into matching a fake
+       lexeme. Usually it's a good idea to use NULL characters for padding.
+
+       Below is an example of using bounds checking with  padding.  Note  that
+       the  grammar rule for single-quoted strings allows arbitrary symbols in
+       the middle of lexeme, so there is no natural sentinel in  the  grammar.
+       Strings like "aha\0ha" are perfectly valid, but ill-formed strings like
+       "aha\0 are also possible and shouldn't crash the lexer. In this example
+       we  do not use buffer refilling, therefore YYFILL definition simply re-
+       turns an error. Note that YYFILL will only be called  after  the  lexer
+       reaches  padding,  because only then will the check condition be satis-
+       fied.
+
+          #include <assert.h>
+          #include <stdlib.h>
+          #include <string.h>
+
+          /*!max:re2c*/
+
+          static int lex(const char *str)
+          {
+              const size_t len = strlen(str);
+              char *buf = malloc(len + YYMAXFILL);
+              memcpy(buf, str, len);
+              memset(buf + len, 0, YYMAXFILL);
+
+              const char *YYCURSOR = buf;
+              const char *YYLIMIT = buf + len + YYMAXFILL;
+              int count = 0;
+
+          loop:
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:define:YYFILL:naked = 1;
+              re2c:define:YYFILL = "goto error;";
+
+              *                         { goto error; }
+              [\x00]                    { if (YYCURSOR == YYLIMIT) goto end; else goto error; }
+              [a-z]+                    { ++count; goto loop; }
+              ['] ([^'] | [\\]['])* ['] { ++count; goto loop; }
+              [ ]+                      { goto loop; }
+
+              */
+          error:
+              count = -1;
+          end:
+              free(buf);
+              return count;
+          }
+
+          int main()
+          {
+              assert(lex("") == 0);
+              assert(lex("one two three") == 3);
+              assert(lex("one two 123?") == -1);
+              assert(lex("one 'two' 'th\\'ree' '123?' ''") == 5);
+              assert(lex("one 'two' 'three") == -1);
+              return 0;
+          }
+
+   EOF rule
+       EOF rule $ was introduced in version 1.2. It is a hybrid approach  that
+       tries to take the best of both worlds: simplicity and efficiency of the
+       sentinel method combined with the generality of bounds-checking method.
+       The idea is to appoint an arbitrary symbol to be the sentinel, and only
+       perform further bounds checking if the sentinel  symbol  matches  (more
+       precisely,  if the symbol class that contains it matches). The check is
+       of the form YYLIMIT <= YYCURSOR.  If this condition is  not  satisfied,
+       then  the  sentinel  is  just an ordinary input character and the lexer
+       continues. Otherwise this is a real sentinel, and the lexer  calls  YY-
+       FILL().  If YYFILL returns zero, the lexer assumes that it has more in-
+       put and tries to re-match. Otherwise YYFILL returns  non-zero  and  the
+       lexer  knows  that it has reached the end of input. At this point there
+       are three possibilities. First, it might have already matched a shorter
+       lexeme --- in this case it just rolls back to the last accepting state.
+       Second, it might have consumed some characters, but failed to match ---
+       in  this  case it falls back to default rule *. Finally, it might be in
+       the initial state --- in this (and only this!) case it matches EOF rule
+       $.
+
+       Below is an example of using EOF rule. Configuration re2c:yyfill:enable
+       = 0; suppresses generation of YYFILL calls (but not the bounds checks).
+
+          #include <assert.h>
+          #include <string.h>
+
+          static int lex(const char *str)
+          {
+              const char *YYCURSOR = str;
+              const char *YYLIMIT = str + strlen(str);
+              int count = 0;
+
+          loop:
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:yyfill:enable = 0;
+              re2c:eof = 0;
+
+              *                         { return -1; }
+              $                         { return count; }
+              [a-z]+                    { ++count; goto loop; }
+              ['] ([^'] | [\\]['])* ['] { ++count; goto loop; }
+              [ ]+                      { goto loop; }
+
+              */
+          }
+
+          int main()
+          {
+              assert(lex("") == 0);
+              assert(lex("one two three") == 3);
+              assert(lex("one two 123?") == -1);
+              assert(lex("one 'two' 'th\\'ree' '123?' ''") == 5);
+              assert(lex("one 'two' 'three") == -1);
+              return 0;
+          }
+
+   Using generic API
+       Generic API can be used with any of the above methods. It  also  allows
+       one  to  use  a user-defined method by placing EOF checks in one of the
+       basic primitives.  Usually this is either YYSKIP  (the  check  is  per-
+       formed  when  advancing  to  the  next input character), or YYPEEK (the
+       check is performed when reading the next input character). The  result-
+       ing  methods  are  inefficient,  as they check on each input character.
+       However, they can be useful in cases when the input cannot be  buffered
+       or  padded  and  does  not contain a sentinel character at the end. One
+       should be cautious when using such ad-hoc methods, as  it  is  easy  to
+       overlook  some  corner  cases  and come up with a method that only par-
+       tially works. Also it should be noted that not everything  can  be  ex-
+       pressed  via  generic API: for example, it is impossible to reimplement
+       the way EOF rule works (in particular, it is impossible to re-match the
+       character after successful YYFILL).
+
+       Below  is an example of using YYSKIP to perform bounds checking without
+       padding. YYFILL generation is suppressed using re2c:yyfill:enable =  0;
+       configuration.  Note  that if the grammar was more complex, this method
+       might not work in case when two rules overlap and EOF check fails after
+       a  shorter  lexeme has already been matched (as it happens in our exam-
+       ple, there are no overlapping rules).
+
+          #include <assert.h>
+          #include <string.h>
+
+          #define YYPEEK() *cur
+          #define YYSKIP() if (++cur > lim) return -1
+          static int lex(const char *str)
+          {
+              const char *cur = str;
+              const char *lim = str + strlen(str) + 1;
+              int count = 0;
+
+          loop:
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:yyfill:enable = 0;
+              re2c:flags:input = custom;
+
+              *                         { return -1; }
+              [\x00]                    { return cur == lim ? count : -1; }
+              [a-z]+                    { ++count; goto loop; }
+              ['] ([^'] | [\\]['])* ['] { ++count; goto loop; }
+              [ ]+                      { goto loop; }
+
+              */
+          }
+
+          int main()
+          {
+              assert(lex("") == 0);
+              assert(lex("one two three") == 3);
+              assert(lex("one two 123?") == -1);
+              assert(lex("one 'two' 'th\\'ree' '123?' ''") == 5);
+              assert(lex("one 'two' 'three") == -1);
+              return 0;
+          }
+
+BUFFER REFILLING
+       The need for buffering arises when the input cannot be mapped in memory
+       all at once: either it is too large, or it comes in a streaming fashion
+       (like reading from a socket). The usual technique in such cases  is  to
+       allocate  a  fixed-sized memory buffer and process input in chunks that
+       fit into the buffer. When the current chunk is processed, it  is  moved
+       out  and new data is moved in. In practice it is somewhat more complex,
+       because lexer state consists not of a single input position, but a  set
+       of interrelated posiitons:
+
+       o cursor:  the next input character to be read (YYCURSOR in default API
+         or YYSKIP/YYPEEK in generic API)
+
+       o limit: the position after the last available input character (YYLIMIT
+         in default API, implicitly handled by YYLESSTHAN in generic API)
+
+       o marker:  the  position  of the most recent match, if any (YYMARKER in
+         default API or YYBACKUP/YYRESTORE in generic API)
+
+       o token: the start of the current lexeme (implicit in re2c API,  as  it
+         is  not  needed for the normal lexer operation and can be defined and
+         updated by the user)
+
+       o context marker: the position of the trailing context (YYCTXMARKER  in
+         default API or YYBACKUPCTX/YYRESTORECTX in generic API)
+
+       o tag  variables:  submatch positions (defined with /*!stags:re2c*/ and
+         /*!mtags:re2c*/  directives  and  YYSTAGP/YYSTAGN/YYMTAGP/YYMTAGN  in
+         generic API)
+
+       Not all these are used in every case, but if used, they must be updated
+       by YYFILL. All active positions are contained in  the  segment  between
+       token  and  cursor, therefore everything between buffer start and token
+       can be discarded, the segment from token and  up  to  limit  should  be
+       moved to the beginning of buffer, and the free space at the end of buf-
+       fer should be filled with new data.  In order to avoid frequent  YYFILL
+       calls  it is best to fill in as many input characters as possible (even
+       though fewer characters might suffice to resume the lexer). The details
+       of  YYFILL implementation are slightly different depending on which EOF
+       handling method is used: the case of EOF rule is somewhat simpler  than
+       the  case  of  bounds-checking  with  padding.  Also  note  that  if -f
+       --storable-state option is used, YYFILL has slightly  different  seman-
+       tics (desrbed in the section about storable state).
+
+   YYFILL with EOF rule
+       If  EOF  rule is used, YYFILL is a function-like primitive that accepts
+       no arguments and returns a value which is checked against zero.  YYFILL
+       invocation is triggered by condition YYLIMIT <= YYCURSOR in default API
+       and YYLESSTHAN() in generic API. A non-zero return value means that YY-
+       FILL  has  failed.  A  successful  YYFILL call must supply at least one
+       character and adjust input positions accordingly. Limit must always  be
+       set  to  one after the last input position in buffer, and the character
+       at the limit position must be the sentinel symbol specified by re2c:eof
+       configuration.  The pictures below show the relative locations of input
+       positions in buffer before and after YYFILL call  (sentinel  symbol  is
+       marked  with #, and the second picture shows the case when there is not
+       enough input to fill the whole buffer).
+
+                         <-- shift -->
+                       >-A------------B---------C-------------D#-----------E->
+                       buffer       token    marker         limit,
+                                                            cursor
+          >-A------------B---------C-------------D------------E#->
+                       buffer,  marker        cursor        limit
+                       token
+
+                         <-- shift -->
+                       >-A------------B---------C-------------D#--E (EOF)
+                       buffer       token    marker         limit,
+                                                            cursor
+          >-A------------B---------C-------------D---E#........
+                       buffer,  marker       cursor limit
+                       token
+
+       Here is an example of a program that  reads  input  file  input.txt  in
+       chunks of 4096 bytes and uses EOF rule.
+
+          #include <stdio.h>
+          #include <string.h>
+
+          #define SIZE 4096
+
+          typedef struct {
+              FILE *file;
+              char buf[SIZE + 1], *lim, *cur, *tok;
+              int eof;
+          } Input;
+
+          static int fill(Input *in)
+          {
+              if (in->eof) {
+                  return 1;
+              }
+              const size_t free = in->tok - in->buf;
+              if (free < 1) {
+                  return 2;
+              }
+              memmove(in->buf, in->tok, in->lim - in->tok);
+              in->lim -= free;
+              in->cur -= free;
+              in->tok -= free;
+              in->lim += fread(in->lim, 1, free, in->file);
+              in->lim[0] = 0;
+              in->eof |= in->lim < in->buf + SIZE;
+              return 0;
+          }
+
+          static void init(Input *in, FILE *file)
+          {
+              in->file = file;
+              in->cur = in->tok = in->lim = in->buf + SIZE;
+              in->eof = 0;
+              fill(in);
+          }
+
+          #define YYFILL() fill(in)
+          static int lex(Input *in)
+          {
+              int count = 0;
+          loop:
+              in->tok = in->cur;
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:define:YYCURSOR = in->cur;
+              re2c:define:YYLIMIT = in->lim;
+              re2c:eof = 0;
+
+              *                         { return -1; }
+              $                         { return count; }
+              [a-z]+                    { ++count; goto loop; }
+              ['] ([^'] | [\\]['])* ['] { ++count; goto loop; }
+              [ ]+                      { goto loop; }
+
+              */
+          }
+
+          int main()
+          {
+              FILE *f = fopen("input.txt", "rb");
+              if (!f) return 1;
+
+              Input in;
+              init(&in, f);
+              printf("count: %d\n", lex(&in));
+
+              fclose(f);
+              return 0;
+          }
+
+   YYFILL with padding
+       In  the  default  case  (when  EOF  rule is not used) YYFILL is a func-
+       tion-like primitive that accepts a single argument and does not  return
+       any  value.  YYFILL invocation is triggered by condition (YYLIMIT - YY-
+       CURSOR) < n in default API and YYLESSTHAN(n) in generic API. The  argu-
+       ment  passed to YYFILL is the minimal number of characters that must be
+       supplied. If it fails to do so, YYFILL must not  return  to  the  lexer
+       (for  that  reason  it is best implemented as a macro that returns from
+       the calling function on failure).  In case of a successful YYFILL invo-
+       cation  the limit position must be set either to one after the last in-
+       put position in buffer, or to the end of YYMAXFILL padding (in case YY-
+       FILL  has  successfully  read  at least n characters, but not enough to
+       fill the entire buffer). The pictures below show the relative locations
+       of input positions in buffer before and after YYFILL invocation (YYMAX-
+       FILL padding on the second picture is marked with # symbols).
+
+                         <-- shift -->                 <-- need -->
+                       >-A------------B---------C-----D-------E---F--------G->
+                       buffer       token    marker cursor  limit
+
+          >-A------------B---------C-----D-------E---F--------G->
+                       buffer,  marker cursor               limit
+                       token
+
+                         <-- shift -->                 <-- need -->
+                       >-A------------B---------C-----D-------E-F        (EOF)
+                       buffer       token    marker cursor  limit
+
+          >-A------------B---------C-----D-------E-F###############
+                       buffer,  marker cursor                   limit
+                       token                        <- YYMAXFILL ->
+
+       Here is an example of a program that  reads  input  file  input.txt  in
+       chunks of 4096 bytes and uses bounds-checking with padding.
+
+          #include <stdio.h>
+          #include <string.h>
+
+          /*!max:re2c*/
+          #define SIZE 4096
+
+          typedef struct {
+              FILE *file;
+              char buf[SIZE + YYMAXFILL], *lim, *cur, *tok;
+              int eof;
+          } Input;
+
+          static int fill(Input *in, size_t need)
+          {
+              if (in->eof) {
+                  return 1;
+              }
+              const size_t free = in->tok - in->buf;
+              if (free < need) {
+                  return 2;
+              }
+              memmove(in->buf, in->tok, in->lim - in->tok);
+              in->lim -= free;
+              in->cur -= free;
+              in->tok -= free;
+              in->lim += fread(in->lim, 1, free, in->file);
+              if (in->lim < in->buf + SIZE) {
+                  in->eof = 1;
+                  memset(in->lim, 0, YYMAXFILL);
+                  in->lim += YYMAXFILL;
+              }
+              return 0;
+          }
+
+          static void init(Input *in, FILE *file)
+          {
+              in->file = file;
+              in->cur = in->tok = in->lim = in->buf + SIZE;
+              in->eof = 0;
+              fill(in, 1);
+          }
+
+          #define YYFILL(n) if (fill(in, n) != 0) return -1
+          static int lex(Input *in)
+          {
+              int count = 0;
+          loop:
+              in->tok = in->cur;
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:define:YYCURSOR = in->cur;
+              re2c:define:YYLIMIT = in->lim;
+
+              *                         { return -1; }
+              [\x00]                    { return (YYMAXFILL == in->lim - in->tok) ? count : -1; }
+              [a-z]+                    { ++count; goto loop; }
+              ['] ([^'] | [\\]['])* ['] { ++count; goto loop; }
+              [ ]+                      { goto loop; }
+
+              */
+          }
+
+          int main()
+          {
+              FILE *f = fopen("input.txt", "rb");
+              if (!f) return 1;
+
+              Input in;
+              init(&in, f);
+              printf("count: %d\n", lex(&in));
+
+              fclose(f);
+              return 0;
+          }
+
+INCLUDE FILES
+       Re2c  allows one to include other files using directive /*!include:re2c
+       FILE */, where FILE is the name of file to be included. Re2c looks  for
+       included  files  in  the directory of the including file and in include
+       locations, which can be specified with -I option.  Re2c include  direc-
+       tive  works in the same way as C/C++ #include: the contents of FILE are
+       copy-pasted verbatim in place of the directive. Include files may  have
+       further  includes  of their own.  Re2c provides some predefined include
+       files that can be found in the include/ subdirectory  of  the  project.
+       These  files  contain  definitions that can be useful to other projects
+       (such as Unicode categories) and form something like a standard library
+       for re2c.
+
+       Here is an example of using include files:
+
+       System Message: WARNING/2 (doc/manual/includes/includes.rst_:, line 15)
+              Cannot analyze code. Pygments package not found.
+
+          .. code-block:: cpp
+
+              // definitions.re
+              /*!re2c
+                  alpha = [a-zA-Z];
+                  digit = [0-9];
+              */
+
+              // main.re
+              /*!include:re2c "definitions.re" */
+              int lex(const char *YYCURSOR)
+              {
+                  const char *YYMARKER;
+                  /*!re2c
+                      alpha { return 1; }
+                      digit { return 2; }
+                      *     { return 0; }
+                  */
+              }
+
+HEADER FILES
+       Re2c  allows  one to generate header file from the input .re file using
+       option -t --type-header (or the corresponding configurations)  and  di-
+       rectives /*!header:re2c:on*/ and /*!header:re2c:off*/. The first direc-
+       tive marks the beginning of header file, and the second directive marks
+       the  end  of  it.  Everything  between these directives is processed by
+       re2c, and the generated code is written to the file specified by the -t
+       --type-header  option (or stdout if this option was not used). Autogen-
+       erated header file may be needed in cases when re2c is used to generate
+       definitions  of  constants,  variables and structs that must be visible
+       from other translation units.
+
+       Here is an example of generating a header that contains definitions  of
+       YYMAXFILL  and  lexer state with tag variables. Note that YYMAXFILL and
+       tag variables depend on the grammar in  the  .re  file  and  cannot  be
+       hard-coded.
+
+       System Message: WARNING/2 (doc/manual/headers/headers.rst_:, line 16)
+              Cannot analyze code. Pygments package not found.
+
+          .. code-block:: cpp
+
+              /*!header:re2c:on*/
+              /*!max:re2c*/
+              struct State {
+                  char buffer[4096 + YYMAXFILL], *cursor, *marker, *limit;
+                  /*!stags:re2c format = "char *@@; "; */
+              };
+              /*!header:re2c:off*/
+
+              #include "lex.h"
+              #define YYCTYPE   char
+              #define YYCURSOR  state->cursor
+              #define YYMARKER  state->marker
+              #define YYLIMIT   state->limit
+              #define YYFILL(n) return 2
+              int lex(State *state)
+              {
+                  char *x, *y;
+                  /*!re2c
+                      re2c:tags:expression = state->@@;
+                      re2c:flags:t         = lex.h;
+
+                      "a"* @x "b"* @y "c"* { return 0; }
+                      *                    { return 1; }
+                  */
+              }
+
+       The generated header looks like this:
+
+       System Message: WARNING/2 (doc/manual/headers/headers.rst_:, line 46)
+              Cannot analyze code. Pygments package not found.
+
+          .. code-block:: cpp
+
+              #define YYMAXFILL 1
+
+              struct State {
+                  char buffer[4096 + YYMAXFILL], *cursor, *marker, *limit;
+                  char *yyt1; char *yyt2;
+              };
+
+SUBMATCH EXTRACTION
+       Re2c has two options for submatch extraction.
+
+       The  first option is -T --tags. With this option one can use standalone
+       tags of the form @stag and #mtag, where stag  and  mtag  are  arbitrary
+       used-defined  names.  Tags can be used anywhere inside of a regular ex-
+       pression; semantically they are just position markers. Tags of the form
+       @stag  are called s-tags: they denote a single submatch value (the last
+       input position where this tag matched). Tags  of  the  form  #mtag  are
+       called  m-tags: they denote multiple submatch values (the whole history
+       of repetitions of this tag).  All tags should be defined by the user as
+       variables  with the corresponding names. With standalone tags re2c uses
+       leftmost greedy disambiguation: submatch positions  correspond  to  the
+       leftmost matching path through the regular expression.
+
+       The  second  option  is -P --posix-captures: it enables POSIX-compliant
+       capturing groups. In this mode parentheses in regular  expressions  de-
+       note  the  beginning and the end of capturing groups; the whole regular
+       expression is group number zero. The number of groups for the  matching
+       rule  is stored in a variable yynmatch, and submatch results are stored
+       in yypmatch array. Both yynmatch and yypmatch should be defined by  the
+       user,  and yypmatch size must be at least [yynmatch * 2]. Re2c provides
+       a directive /*!maxnmatch:re2c*/ that defines  YYMAXNMATCH:  a  constant
+       equal  to the maximal value of yynmatch among all rules. Note that re2c
+       implements POSIX-compliant disambiguation: each  subexpression  matches
+       as  long  as possible, and subexpressions that start earlier in regular
+       expression have priority over those starting  later.  Capturing  groups
+       are  translated  into  s-tags under the hood, therefore we use the word
+       "tag" to describe them as well.
+
+       With both -P --posix-captures and T --tags options re2c uses  efficient
+       submatch extraction algorithm described in the Tagged Deterministic Fi-
+       nite Automata with Lookahead paper. The overhead on submatch extraction
+       in the generated lexer grows with the number of tags --- if this number
+       is moderate, the overhead is barely noticeable. In the lexer  tags  are
+       implemented using a number of tag variables generated by re2c. There is
+       no one-to-one correspondence between tag variables and tags:  a  single
+       variable may be reused for different tags, and one tag may require mul-
+       tiple variables to hold all its ambiguous values. Eventually  ambiguity
+       is  resolved, and only one final variable per tag survives. When a rule
+       matches, all its tags are set to the values of  the  corresponding  tag
+       variables.   The  exact number of tag variables is unknown to the user;
+       this number is determined by re2c. However, tag variables should be de-
+       fined  by  the user as a part of the lexer state and updated by YYFILL,
+       therefore re2c provides directives /*!stags:re2c*/ and  /*!mtags:re2c*/
+       that  can  be used to declare, initialize and manipulate tag variables.
+       These directives have  two  optional  configurations:  format  =  "@@";
+       (specifies  the  template where @@ is substituted with the name of each
+       tag variable), and separator = ""; (specifies the piece of code used to
+       join the generated pieces for different tag variables).
+
+       S-tags support the following operations:
+
+       o save  input  position to an s-tag: t = YYCURSOR with default API or a
+         user-defined operation YYSTAGP(t) with generic API
+
+       o save default value to an s-tag: t  =  NULL  with  default  API  or  a
+         user-defined operation YYSTAGN(t) with generic API
+
+       o copy one s-tag to another: t1 = t2
+
+       M-tags support the following operations:
+
+       o append  input  position  to  an  m-tag: a user-defined operation YYM-
+         TAGP(t) with both default and generic API
+
+       o append default value to an m-tag: a user-defined operation YYMTAGN(t)
+         with both default and generic API
+
+       o copy one m-tag to another: t1 = t2
+
+       S-tags  can  be  implemented  as  scalar  values (pointers or offsets).
+       M-tags need a more complex representation, as they need to store a  se-
+       quence  of tag values. The most naive and inefficient representation of
+       an m-tag is a list (array, vector) of tag values; a more efficient rep-
+       resentation  is to store all m-tags in a prefix-tree represented as ar-
+       ray of nodes (v, p), where v is tag value and p is a pointer to  parent
+       node.
+
+       Here is an example of using s-tags to parse an IPv4 address.
+
+          #include <assert.h>
+          #include <stdint.h>
+
+          static uint32_t num(const char *s, const char *e)
+          {
+              uint32_t n = 0;
+              for (; s < e; ++s) n = n * 10 + (*s - '0');
+              return n;
+          }
+
+          static uint32_t lex(const char *YYCURSOR)
+          {
+              const char *YYMARKER, *o1, *o2, *o3, *o4;
+              /*!stags:re2c format = 'const char *@@;'; */
+
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:yyfill:enable = 0;
+              re2c:flags:tags = 1;
+
+              oct = [0-9]{1,3};
+              dot = [.];
+
+              @o1 oct dot @o2 oct dot @o3 oct dot @o4 oct {
+                  return num(o4, YYCURSOR)
+                      + (num(o3, o4 - 1) << 8)
+                      + (num(o2, o3 - 1) << 16)
+                      + (num(o1, o2 - 1) << 24);
+              }
+              * { return 0; }
+
+              */
+          }
+
+          int main()
+          {
+              assert(lex("1.2.3.4") == 0x01020304);
+              assert(lex("127.0.0.1") == 0x7f000001);
+              assert(lex("255.255.255.255") == 0xffffffff);
+              return 0;
+          }
+
+       Here is an example of using POSIX capturing groups to parse an IPv4 ad-
+       dress.
+
+          #include <assert.h>
+          #include <stdint.h>
+
+          static uint32_t num(const char *s, const char *e)
+          {
+              uint32_t n = 0;
+              for (; s < e; ++s) n = n * 10 + (*s - '0');
+              return n;
+          }
+
+          /*!maxnmatch:re2c*/
+
+          static uint32_t lex(const char *YYCURSOR)
+          {
+              const char *YYMARKER;
+              const char *yypmatch[YYMAXNMATCH];
+              uint32_t yynmatch;
+              /*!stags:re2c format = 'const char *@@;'; */
+
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:yyfill:enable = 0;
+              re2c:flags:posix-captures = 1;
+
+              oct = [0-9]{1,3};
+              dot = [.];
+
+              (oct) dot (oct) dot (oct) dot (oct) {
+                  return num(yypmatch[8], yypmatch[9])
+                      + (num(yypmatch[6], yypmatch[7]) << 8)
+                      + (num(yypmatch[4], yypmatch[5]) << 16)
+                      + (num(yypmatch[2], yypmatch[3]) << 24);
+              }
+              * { return 0; }
+
+              */
+          }
+
+          int main()
+          {
+              assert(lex("1.2.3.4") == 0x01020304);
+              assert(lex("127.0.0.1") == 0x7f000001);
+              assert(lex("255.255.255.255") == 0xffffffff);
+              return 0;
+          }
+
+       Here is an example of using m-tags to parse a  semicolon-separated  se-
+       quence  of  words  (C++).  Tag  variables  are stored in a tree that is
+       packed in a vector.
+
+          #include <assert.h>
+          #include <vector>
+          #include <string>
+
+          static const int ROOT = -1;
+
+          struct Mtag {
+              int pred;
+              const char *tag;
+          };
+
+          typedef std::vector<Mtag> MtagTree;
+          typedef std::vector<std::string> Words;
+
+          static void mtag(int *pt, const char *t, MtagTree *tree)
+          {
+              Mtag m = {*pt, t};
+              *pt = (int)tree->size();
+              tree->push_back(m);
+          }
+
+          static void unfold(const MtagTree &tree, int x, int y, Words &words)
+          {
+              if (x == ROOT) return;
+              unfold(tree, tree[x].pred, tree[y].pred, words);
+              const char *px = tree[x].tag, *py = tree[y].tag;
+              words.push_back(std::string(px, py - px));
+          }
+
+          #define YYMTAGP(t) mtag(&t, YYCURSOR, &tree)
+          #define YYMTAGN(t) mtag(&t, NULL,     &tree)
+          static bool lex(const char *YYCURSOR, Words &words)
+          {
+              const char *YYMARKER;
+              /*!mtags:re2c format = "int @@ = ROOT;"; */
+              MtagTree tree;
+              int x, y;
+
+              /*!re2c
+              re2c:define:YYCTYPE = char;
+              re2c:yyfill:enable = 0;
+              re2c:flags:tags = 1;
+
+              (#x [a-zA-Z0-9_]+ #y [;])+ {
+                  words.clear();
+                  unfold(tree, x, y, words);
+                  return true;
+              }
+              * { return false; }
+
+              */
+          }
+
+          int main()
+          {
+              Words w;
+              assert(lex("one;tw0;three;", w) && w == Words({"one", "tw0", "three"}));
+              return 0;
+          }
+
+STORABLE STATE
+       With -f --storable-state option re2c generates a lexer that  can  store
+       its  current  state,  return to the caller, and later resume operations
+       exactly where it left off. The default mode of operation in re2c  is  a
+       "pull"  model,  in which the lexer "pulls" more input whenever it needs
+       it. This may be unacceptable in cases when the input becomes  available
+       piece  by piece (for example, if the lexer is invoked by the parser, or
+       if the lexer program communicates via a socket protocol with some other
+       program  that  must wait for a reply from the lexer before it transmits
+       the next message). Storable state feature is intended exactly for  such
+       cases:  it  allows  one to generate lexers that work in a "push" model.
+       When the lexer needs more input, it stores its state and returns to the
+       caller.  Later,  when  more input becomes available, the caller resumes
+       the lexer exactly where it stopped. There are a few  changes  necessary
+       compared to the "pull" model:
+
+       o Define YYSETSTATE() and YYGETSTATE(state) promitives.
+
+       o Define  yych,  yyaccept  and  state variables as a part of persistent
+         lexer state. The state variable should be initialized to -1.
+
+       o YYFILL should return to the outer program instead of trying to supply
+         more input. Return code should indicate that lexer needs more input.
+
+       o The  outer  program should recognize situations when lexer needs more
+         input and respond appropriately.
+
+       o Use /*!getstate:re2c*/ directive if it is necessary  to  execute  any
+         code before entering the lexer.
+
+       o Use  configurations  state:abort and state:nextlabel to further tweak
+         the generated code.
+
+       Here is an example of a "push"-model lexer that reads input from  stdin
+       and  expects  a sequence of words separated by spaces and newlines. The
+       lexer loops forever, waiting for more input. It can  be  terminated  by
+       sending  a special EOF token --- a word "stop", in which case the lexer
+       terminates successfully and prints the number of words it has seen. Ab-
+       normal  termination happens in case of a syntax error, premature end of
+       input (without the "stop" word) or in case the buffer is too  small  to
+       hold  a  lexeme (for example, if one of the words exceeds buffer size).
+       Premature end of input happens in case the lexer fails to read any  in-
+       put while being in the initial state --- this is the only case when EOF
+       rule matches. Note that the lexer may call YYFILL twice  before  termi-
+       nating (and thus require hitting Ctrl+D a few times). First time YYFILL
+       is called when the lexer expects continuation  of  the  current  greedy
+       lexeme  (either  a word or a whitespace sequence). If YYFILL fails, the
+       lexer knows that it has reached the end of the current lexeme and  exe-
+       cutes the corresponding semantic action. The action jumps to the begin-
+       ning of the loop, the lexer enters the initial state and  calls  YYFILL
+       once  more. If it fails, the lexer matches EOF rule. (Alternatively EOF
+       rule can be used for termination instead of a special EOF lexeme.)
+
+          #include <assert.h>
+          #include <stdio.h>
+          #include <string.h>
+
+          #define SIZE 4096
+
+          typedef struct {
+              char buf[SIZE + 1], *lim, *cur, *tok, yych;
+              unsigned yyaccept;
+              int state;
+          } Input;
+
+          static void init(Input *in)
+          {
+              in->cur = in->tok = in->lim = in->buf + SIZE;
+              in->lim[0] = 0; // append sentinel symbol
+              in->yych = 0;
+              in->yyaccept = 0;
+              in->state = -1;
+          }
+
+          static int fill(Input *in)
+          {
+              const size_t shift = in->tok - in->buf;
+              const size_t free = SIZE - (in->lim - in->tok);
+
+              if (free < 1) return 1; // not enough space in buffer
+
+              memmove(in->buf, in->tok, SIZE - shift);
+              in->lim -= shift;
+              in->cur -= shift;
+              in->tok -= shift;
+
+              const size_t read = fread(in->lim, 1, free, stdin);
+              in->lim += read;
+              in->lim[0] = 0; // append sentinel symbol
+
+              return 0;
+          }
+
+          typedef enum {OK, SYNTAX_ERROR, UNEXPECTED_EOF, NEED_MORE_INPUT} Status;
+
+          #define YYGETSTATE()  in->state
+          #define YYSETSTATE(s) in->state = s
+          #define YYFILL()      return NEED_MORE_INPUT
+          static Status lex(Input *in, unsigned *words)
+          {
+              /*!getstate:re2c*/
+          loop:
+              in->tok = in->cur;
+              /*!re2c
+                  re2c:define:YYCTYPE = char;
+                  re2c:define:YYCURSOR = in->cur;
+                  re2c:define:YYLIMIT = in->lim;
+                  re2c:variable:yych = in->yych;
+                  re2c:eof = 0;
+
+                  *         { return SYNTAX_ERROR; }
+                  $         { return UNEXPECTED_EOF; }
+                  "stop"    { return OK; }
+                  [\n ]+    { goto loop; }
+                  [a-zA-Z]+ { *words = *words + 1; goto loop; }
+              */
+          }
+
+          int main()
+          {
+              unsigned words = 0;
+              Input in;
+              init(&in);
+
+              for (;;) {
+                  const Status st = lex(&in, &words);
+                  if (st == OK) {
+                      printf("word count: %u\n", words);
+                      break;
+                  }
+                  else if (st == SYNTAX_ERROR) {
+                      printf("error: unexpected symbol\n");
+                      return 1;
+                  }
+                  else if (st == UNEXPECTED_EOF) {
+                      printf("error: unexpected end of input\n");
+                      return 2;
+                  }
+                  else if (fill(&in) != 0) {
+                      printf("error: not enough space in buffer\n");
+                      return 3;
+                  }
+              }
+
+              return 0;
+          }
+
+REUSABLE BLOCKS
+       Reuse mode is enabled with the -r --reusable option. In this mode  re2c
+       allows  one to reuse definitions, configurations and rules specified by
+       a /*!rules:re2c*/ block  in  subsequent  /*!use:re2c*/  blocks.  As  of
+       re2c-1.2  it  is  possible  to  mix  such  blocks with normal /*!re2c*/
+       blocks; prior to that re2c expects a  single  rules-block  followed  by
+       use-blocks  (normal  blocks  are disallowed). Use-blocks can have addi-
+       tional definitions, configurations and rules: they are merged to  those
+       specified by the rules-block.  A very common use case for -r --reusable
+       option is a lexer that supports multiple input encodings:  lexer  rules
+       are  defined once and reused multiple times with encoding-specific con-
+       figurations, such as re2c:flags:utf-8.
+
+       Below is an example of a multi-encoding lexer: it reads a  phrase  with
+       Unicode  math symbols and accepts input either in UTF8 or in UT32. Note
+       that the --input-encoding utf8 option allows us to  write  UTF8-encoded
+       symbols  in  the  regular  expressions;  without this option re2c would
+       parse them as a plain ASCII byte sequnce (and  we  would  have  to  use
+       hexadecimal escape sequences).
+
+          #include <assert.h>
+          #include <stdint.h>
+
+          /*!rules:re2c
+              re2c:yyfill:enable = 0;
+
+              "<for all>x <there exists>y: p(x, y)" { return 0; }
+              *                { return 1; }
+
+          */
+
+          static int lex_utf8(const uint8_t *YYCURSOR)
+          {
+              const uint8_t *YYMARKER;
+              /*!use:re2c
+              re2c:define:YYCTYPE = uint8_t;
+              re2c:flags:8 = 1;
+              */
+          }
+
+          static int lex_utf32(const uint32_t *YYCURSOR)
+          {
+              const uint32_t *YYMARKER;
+              /*!use:re2c
+              re2c:define:YYCTYPE = uint32_t;
+              re2c:flags:8 = 0;
+              re2c:flags:u = 1;
+              */
+          }
+
+          int main()
+          {
+              static const uint8_t s8[] = // UTF-8
+                  { 0xe2, 0x88, 0x80, 0x78, 0x20, 0xe2, 0x88, 0x83, 0x79
+                  , 0x3a, 0x20, 0x70, 0x28, 0x78, 0x2c, 0x20, 0x79, 0x29 };
+
+              static const uint32_t s32[] = // UTF32
+                  { 0x00002200, 0x00000078, 0x00000020, 0x00002203
+                  , 0x00000079, 0x0000003a, 0x00000020, 0x00000070
+                  , 0x00000028, 0x00000078, 0x0000002c, 0x00000020
+                  , 0x00000079, 0x00000029 };
+
+              assert(lex_utf8(s8) == 0);
+              assert(lex_utf32(s32) == 0);
+              return 0;
+          }
+
+ENCODING SUPPORT
+       re2c  supports  the  following encodings: ASCII (default), EBCDIC (-e),
+       UCS-2 (-w), UTF-16 (-x), UTF-32 (-u) and UTF-8 (-8).  See also  inplace
+       configuration re2c:flags.
+
+       The  following  concepts  should be clarified when talking about encod-
+       ings.  A code point is an abstract number that represents a single sym-
+       bol.   A code unit is the smallest unit of memory, which is used in the
+       encoded text (it corresponds to one character in the input stream). One
+       or  more code units may be needed to represent a single code point, de-
+       pending on the encoding. In a fixed-length encoding, each code point is
+       represented  with an equal number of code units. In variable-length en-
+       codings, different code points can be represented with different number
+       of code units.
+
+       o ASCII  is a fixed-length encoding. Its code space includes 0x100 code
+         points, from 0 to 0xFF. A code point is represented with exactly  one
+         1-byte  code  unit,  which  has the same value as the code point. The
+         size of YYCTYPE must be 1 byte.
+
+       o EBCDIC is a fixed-length encoding. Its code space includes 0x100 code
+         points,  from 0 to 0xFF. A code point is represented with exactly one
+         1-byte code unit, which has the same value as  the  code  point.  The
+         size of YYCTYPE must be 1 byte.
+
+       o UCS-2  is  a  fixed-length  encoding. Its code space includes 0x10000
+         code points, from 0 to 0xFFFF. One code point is represented with ex-
+         actly  one  2-byte  code  unit,  which has the same value as the code
+         point. The size of YYCTYPE must be 2 bytes.
+
+       o UTF-16 is a variable-length encoding. Its  code  space  includes  all
+         Unicode  code  points,  from 0 to 0xD7FF and from 0xE000 to 0x10FFFF.
+         One code point is represented with one or two 2-byte code units.  The
+         size of YYCTYPE must be 2 bytes.
+
+       o UTF-32  is  a fixed-length encoding. Its code space includes all Uni-
+         code code points, from 0 to 0xD7FF and from 0xE000 to  0x10FFFF.  One
+         code point is represented with exactly one 4-byte code unit. The size
+         of YYCTYPE must be 4 bytes.
+
+       o UTF-8 is a variable-length encoding. Its code space includes all Uni-
+         code  code  points, from 0 to 0xD7FF and from 0xE000 to 0x10FFFF. One
+         code point is represented with a sequence of one, two, three, or four
+         1-byte code units. The size of YYCTYPE must be 1 byte.
+
+       In  Unicode,  values  from  range 0xD800 to 0xDFFF (surrogates) are not
+       valid Unicode code points. Any encoded  sequence  of  code  units  that
+       would  map  to  Unicode  code  points  in  the  range 0xD800-0xDFFF, is
+       ill-formed. The user can control how re2c treats  such  ill-formed  se-
+       quences with the --encoding-policy <policy> switch.
+
+       For  some  encodings,  there are code units that never occur in a valid
+       encoded stream (e.g., 0xFF byte in UTF-8).  If  the  generated  scanner
+       must  check  for invalid input, the only correct way to do so is to use
+       the default rule (*). Note that the full range rule ([^])  won't  catch
+       invalid  code  units when a variable-length encoding is used ([^] means
+       "any valid code point", whereas the default rule (*) means "any  possi-
+       ble code unit").
+
+START CONDITIONS
+       Conditions are enabled with -c --conditions.  This option allows one to
+       encode multiple interrelated lexers within the same re2c block.
+
+       Each lexer corresponds to a single condition.  It starts with  a  label
+       of  the  form yyc_name, where name is condition name and yyc prefix can
+       be adjusted with configuration re2c:condprefix.  Different  lexers  are
+       separated  with  a  comment  /*  *********************************** */
+       which can be adjusted with configuration re2c:cond:divider.
+
+       Furthermore, each condition has a unique identifier of  the  form  yyc-
+       name,  where name is condition name and yyc prefix can be adjusted with
+       configuration re2c:condenumprefix.  Identifiers have the  type  YYCOND-
+       TYPE  and  should  be  generated  with  /*!types:re2c*/ directive or -t
+       --type-header option.  Users shouldn't define these  identifiers  manu-
+       ally, as the order of conditions is not specified.
+
+       Before all conditions re2c generates entry code that checks the current
+       condition identifier and transfers control flow to the start  label  of
+       the  active  condition.   After  matching  some rule of this condition,
+       lexer may either transfer control flow back to the  entry  code  (after
+       executing  the  associated action and optionally setting another condi-
+       tion with =>), or use :=> shortcut and transition directly to the start
+       label  of  another  condition (skipping the action and the entry code).
+       Configuration re2c:cond:goto allows one to change the default behavior.
+
+       Syntactically each rule must be preceded with a list of comma-separated
+       condition  names  or  a  wildcard * enclosed in angle brackets < and >.
+       Wildcard means "any condition" and is semantically equivalent to  list-
+       ing  all condition names.  Here regexp is a regular expression, default
+       refers to the default rule *, and action is a block of C/C++ code.
+
+       o <conditions-or-wildcard>  regexp-or-default                 action
+
+       o <conditions-or-wildcard>  regexp-or-default  =>  condition  action
+
+       o <conditions-or-wildcard>  regexp-or-default  :=> condition
+
+       Rules with an exclamation mark ! in front of condition list have a spe-
+       cial  meaning:  they have no regular expression, and the associated ac-
+       tion is merged as an entry code to actions of normal rules.  This might
+       be  a  convenient  place to peform a routine task that is common to all
+       rules.
+
+       o <!conditions-or-wildcard>  action
+
+       Another special form of rules with an empty condition list  <>  and  no
+       regular  expression allows one to specify an "entry condition" that can
+       be used to execute code before entering the lexer.  It is  semantically
+       equivalent to a condition with number zero, name 0 and an empty regular
+       expression.
+
+       o <>                 action
+
+       o <>  =>  condition  action
+
+       o <>  :=> condition
+
+SKELETON PROGRAMS
+       With the -S, --skeleton option, re2c ignores all non-re2c code and gen-
+       erates a self-contained C program that can be further compiled and exe-
+       cuted. The program consists of lexer code and input data. For each con-
+       structed DFA (block or condition) re2c generates a standalone lexer and
+       two files: an .input file with strings derived from the DFA and a .keys
+       file  with  expected  match results. The program runs each lexer on the
+       corresponding .input file and compares results with  the  expectations.
+       Skeleton programs are very useful for a number of reasons:
+
+       o They can check correctness of various re2c optimizations (the data is
+         generated early in the process, before any DFA  transformations  have
+         taken place).
+
+       o Generating  a  set of input data with good coverage may be useful for
+         both testing and benchmarking.
+
+       o Generating self-contained executable programs allows one to get mini-
+         mized test cases (the original code may be large or have a lot of de-
+         pendencies).
+
+       The difficulty with generating input data is that for all but the  most
+       trivial  cases  the number of possible input strings is too large (even
+       if the string length is limited). Re2c solves this difficulty by gener-
+       ating sufficiently many strings to cover almost all DFA transitions. It
+       uses the following algorithm. First, it constructs a  skeleton  of  the
+       DFA. For encodings with 1-byte code unit size (such as ASCII, UTF-8 and
+       EBCDIC) skeleton is just an exact copy of the original DFA. For  encod-
+       ings  with  multibyte code units skeleton is a copy of DFA with certain
+       transitions omitted: namely, re2c takes at most 256 code units for each
+       disjoint  continuous  range  that corresponds to a DFA transition.  The
+       chosen values are evenly distributed and include range bounds.  Instead
+       of  trying to cover all possible paths in the skeleton (which is infea-
+       sible) re2c generates sufficiently many paths  to  cover  all  skeleton
+       transitions,  and  thus  trigger the corresponding conditional jumps in
+       the lexer.  The algorithm implementation is limited by ~1Gb of  transi-
+       tions  and consumes constant amount of memory (re2c writes data to file
+       as soon as it is generated).
+
+VISUALIZATION AND DEBUG
+       With the -D, --emit-dot option, re2c does not generate C/C++ code.  In-
+       stead,  it  dumps the generated DFA in the DOT format.  One can convert
+       this dump to an image of the DFA using  graphviz  or  another  library.
+       Note  that  this option shows the final DFA after it has gone through a
+       number of optimizations and  transformations.  Earlier  stages  can  be
+       dumped  with  various debug options, such as --dump-nfa, --dump-dfa-raw
+       etc. (see the full list of options).
+
+SEE ALSO
+       You can find more information  about  re2c  at  the  official  website:
+       http://re2c.org.    Similar   programs   are  flex(1),  lex(1),  quex(-
+       http://quex.sourceforge.net).
+
+AUTHORS
+       Re2c was originaly written by Peter Bumbulis in 1993.   Since  then  it
+       has been developed and maintained by multiple volunteers; mots notably,
+       Brain Young, Marcus Boerger, Dan Nuffer and Ulya Trofimovich.
+
+VERSION INFORMATION
+       This manpage describes re2c version 1.3.
+
+                                                                       RE2C(1)

@@ -1,0 +1,39 @@
+
+SGMLSPL(1)                          SGMLSPL                         SGMLSPL(1)
+
+NAME
+       sgmlspl - a simple post-processor for onsgmls/nsgmls
+
+SYNOPSIS
+       sgmlspl spec file
+
+DESCRIPTION
+       sgmlspl is a sample application to convert SGML documents to other for-
+       mats by providing a specification file detailing exactly how to  handle
+       each  element,  external data entity, subdocument entity, CDATA string,
+       record end, SDATA string, and processing instruction.
+
+       To use sgmlspl, prepare a specification file containing  regular  perl5
+       code.  If the SGML document were named doc.sgml, the sgmlspl specifica-
+       tion file were named, spec.pl, and  the  name  of  the  new  file  were
+       doc.latex,  then  use  the following command in a Unix shell to convert
+       the SGML document:
+
+       onsgmls doc.sgml | sgmlspl spec.pl > doc.latex
+
+       sgmlspl will pass any additional  arguments  on  to  the  specification
+       file, which can then process them in the regular perl5 fashion.
+
+SEE ALSO
+       /usr/share/doc/sgmls-doc/sgmlspl/sgmlspl.html
+              sgmlspl documentation in HTML format
+
+       /usr/share/doc/sgmls-doc/SGMLSpm/sgmls.html
+              SGMLS documentation in HTML format
+
+       onsgmls(1)
+
+AUTHOR
+       Ardo van Rangelrooij <ardo@debian.org>
+
+SGMLSPL                        October 26, 1999                     SGMLSPL(1)

@@ -1,0 +1,90 @@
+
+LICENSECHECK(1p)      User Contributed Perl Documentation     LICENSECHECK(1p)
+
+NAME
+       licensecheck - simple license checker for source files
+
+VERSION
+       Version v3.0.45
+
+SYNOPSIS
+       licensecheck --help|--version
+
+       licensecheck [options...] path [path...]
+
+DESCRIPTION
+       licensecheck attempts to determine the license that applies to each
+       file passed to it, by searching the start of the file for text
+       belonging to various licenses.
+
+       If any of the arguments passed are directories, licensecheck will add
+       the files contained within to the list of files to process.
+
+DEBUGGING
+       If either of environment variables INFO, DEBUG or TRACE is set to true,
+       varying details about discoveries are emitted to STDERR.
+
+SEE ALSO
+       Other similar tools exist.
+
+       Here is a list of known tools also command-line based and general-
+       purpose:
+
+       copyright-update <https://github.com/jaalto/project--copyright-update>
+                       Written in Perl.
+
+       debmake <http://anonscm.debian.org/git/collab-maint/debmake.git>
+                       Written in Python.
+
+                       Specific to Debian packages.
+
+       decopy <https://anonscm.debian.org/git/collab-maint/decopy.git>
+                       Written in Python.
+
+                       )item Licensee <http://ben.balter.com/licensee/>
+
+                       Written in Ruby.
+
+       LicenseFinder <https://github.com/pivotal/LicenseFinder>
+                       Written in Ruby.
+
+       ninka <http://ninka.turingmachine.org/>
+                       Written in C++.
+
+                       Used in FOSSology <http://fossology.org/> (along with
+                       Monk and Nomos apparently unavailable as standalone
+                       command-line tools).
+
+       ripper <https://github.com/odeke-em/ripper>
+                       Written in Go.
+
+       scancode-toolkit <https://github.com/nexB/scancode-toolkit>
+                       Written in Python.
+
+AUTHOR
+       Jonas Smedegaard "<dr@jones.dk>"
+
+COPYRIGHT AND LICENSE
+       This program is based on the script "licensecheck" from the KDE SDK,
+       originally introduced by Stefan Westerfeld "<stefan@space.twc.de>".
+
+         Copyright (C) 2007, 2008 Adam D. Barratt
+
+         Copyright (C) 2012 Francesco Poli
+
+         Copyright (C) 2016 Jonas Smedegaard
+
+       This program is free software; you can redistribute it and/or modify it
+       under the terms of the GNU General Public License as published by the
+       Free Software Foundation; either version 3, or (at your option) any
+       later version.
+
+       This program is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+       General Public License for more details.
+
+       You should have received a copy of the GNU General Public License along
+       with this program. If not, see <https://www.gnu.org/licenses/>.
+
+perl v5.30.0                      2020-02-21                  LICENSECHECK(1p)

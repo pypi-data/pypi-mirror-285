@@ -1,0 +1,36 @@
+
+update-xpdfrc(8)            System Manager's Manual           update-xpdfrc(8)
+
+NAME
+       update-xpdfrc - program to generate xpdf's configuration file
+
+SYNOPSIS
+       update-xdfrc
+
+DESCRIPTION
+       update-xpdfrc  is a program used to generate part of the xpdfrc(5) file
+       used by xpdf. The generated configuration file contains a list  of  the
+       configuration snippets provided by the xpdf-* language packages.
+
+       You  may  edit the file /etc/xpdfrc to configure xpdf.  However, do not
+       edit the generated file /etc/xpdf/includes.  It is updated  whenever  a
+       language  package  is  added  or  removed.   You  must include the file
+       /etc/xpdf/includes in your xpdfrc to make use of this functionality.
+
+       The language support packages (xpdf-japanese  etc)  provide  additional
+       configuration  files  such  as /etc/xpdf/xpdfrc-japanese, which will be
+       listed in the generated /etc/xpdf/includes.
+
+FILES
+       /etc/xpdf/xpdfrc    main configuration file
+       /etc/xpdf/xpdf-*    additional configuration files
+
+SEE ALSO
+       xpdfrc(5), xpdf(1).
+
+AUTHOR
+       This manual page and the update-xpdfrc utility was  written  by  Hamish
+       Moffatt <hamish@debian.org> for the Debian GNU/Linux system (but may be
+       used by others).
+
+Hamish Moffatt                 October 22, 2002               update-xpdfrc(8)

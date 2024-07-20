@@ -1,0 +1,40 @@
+
+DPATCH-LIST-PATCH(1)        General Commands Manual       DPATCH-LIST-PATCH(1)
+
+NAME
+       dpatch-list-patch - List available patches
+
+SYNOPSIS
+       dpatch-list-patch [options]
+
+DESCRIPTION
+       This  manual page documents briefly the dpatch-list-patch command which
+       simply lists the available patches in a dpatch-based  source  tree  to-
+       gether with their accompanying comments.
+
+WARNING
+       dpatch  is deprecated, please switch to the `3.0 (quilt)' Debian source
+       package  format   instead.   See   http://wiki.debian.org/Projects/Deb-
+       Src3.0#FAQ for a short guide on how to do it.
+
+OPTIONS
+       Without any options dpatch-list-patch will list the patches in the cur-
+       rent source tree.
+
+       -s, --sourcedir
+              Source directory. Defaults to .
+
+       -h, --help
+              Show summary of options.
+
+SEE ALSO
+       dpatch(1), dpatch(7), dpatch.make(7), dpatch-edit-patch(1), dpatch-con-
+       vert-diffgz(1)
+
+       Files in /usr/share/doc/dpatch/
+
+AUTHOR
+       dpatch-list-patch was written by Junichi Uekawa <dancer@debian.org>.
+       This manual page was written by Gergely Nagy <algernon@debian.org>.
+
+DPATCH                           Dec 13, 2011             DPATCH-LIST-PATCH(1)

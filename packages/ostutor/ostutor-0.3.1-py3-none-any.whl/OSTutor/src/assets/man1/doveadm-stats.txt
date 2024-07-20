@@ -1,0 +1,63 @@
+
+DOVEADM-DUMP(1)                     Dovecot                    DOVEADM-DUMP(1)
+
+NAME
+       doveadm-stats - Inspect or reset stats
+
+SYNOPSIS
+       doveadm stats dump [ -s <stats socket path> ] <type> [ <filter> ]
+
+       doveadm stats top [ -s <stats socket path> ] [ -b ] [ sortfield> ]
+
+       doveadm stats reset [ -s <stats socket path> ]
+
+DESCRIPTION
+       doveadm stats dump is used to output statistics
+
+       doveadm stats top is used to monitor statistics
+
+       doveadm stats reset is used to reset statistics
+
+OPTIONS
+       Command specific options:
+
+       -ssocketpath
+              Sets stats socket path
+
+       -b     Show disk input/output bytes
+
+ARGUMENTS
+       dump  accepts  following  types: command, session, user, domain, ip and
+       global.
+
+       Filter can be
+
+       user=<wildcard>
+              Match given user.
+
+       domain=<wildcard>
+              Match given DNS domain name
+
+       session=<str>
+              Match session identifier
+
+       ip=<ip>"["/<mask>"]"
+              Match local or remote IP
+
+       since=<timestamp>
+              Match session start time
+
+       connected
+              Show only connected sessions
+
+       top accepts any valid field name to sort along with.
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2016-01-12                   DOVEADM-DUMP(1)

@@ -1,0 +1,86 @@
+
+DOVEADM-FORCE-RESYNC(1)             Dovecot            DOVEADM-FORCE-RESYNC(1)
+
+NAME
+       doveadm-force-resync - Repair broken mailboxes
+
+SYNOPSIS
+       doveadm [-Dv] force-resync [-S socket_path] mailbox
+       doveadm [-Dv] force-resync [-S socket_path] -A mailbox
+       doveadm [-Dv] force-resync [-S socket_path] -F file mailbox
+       doveadm [-Dv] force-resync [-S socket_path] -u user mailbox
+
+DESCRIPTION
+       Under certain circumstances it may happen, that dovecot(1) is unable to
+       automatically solve problems with mailboxes.  In  such  situations  the
+       force-resync  command  may  be  helpful.  It tries to fix all problems.
+       For sdbox and mdbox mailboxes the storage files will be also checked.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -A     If  the  -A option is present, the command will be performed for
+              all users.  Using this option in combination with  system  users
+              from  userdb  { driver = passwd } is not recommended, because it
+              contains also users with a lower UID  than  the  one  configured
+              with the first_valid_uid setting.
+
+              When  the  SQL  userdb  module  is used make sure that the iter-
+              ate_query setting in  /etc/dovecot/dovecot-sql.conf.ext  matches
+              your  database  layout.  When using the LDAP userdb module, make
+              sure that  the  iterate_attrs  and  iterate_filter  settings  in
+              /etc/dovecot/dovecot-ldap.conf.ext match your LDAP schema.  Oth-
+              erwise doveadm(1) will be unable to iterate over all users.
+
+       -F file
+              Execute the command for all the users in the file.  This is sim-
+              ilar  to the -A option, but instead of getting the list of users
+              from the userdb, they are read from the given  file.   The  file
+              contains one username per line.
+
+       -S socket_path
+              The option's argument is either an absolute path to a local UNIX
+              domain socket, or a hostname and port (hostname:port), in  order
+              to connect a remote host via a TCP socket.
+
+              This allows an administrator to execute doveadm(1) mail commands
+              through the given socket.
+
+       -u user/mask
+              Run the command only for the given user.  It's also possible  to
+              use '*' and '?' wildcards (e.g. -u *@example.org).
+              When  neither  the  -A  option,  nor the -F file option, nor the
+              -u user was specified, the command will be executed with the en-
+              vironment of the currently logged in user.
+
+ARGUMENTS
+       mailbox
+              The  name of the mailbox to fix. With mdbox all of the mailboxes
+              are fixed, so you can use for example INBOX as the name.
+
+EXAMPLE
+       Fix bob's INBOX:
+
+       doveadm force-resync -u bob INBOX
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2015-05-09           DOVEADM-FORCE-RESYNC(1)

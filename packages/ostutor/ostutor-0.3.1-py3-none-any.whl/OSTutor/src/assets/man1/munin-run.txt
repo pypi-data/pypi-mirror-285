@@ -1,0 +1,111 @@
+
+MUNIN-RUN(1p)         User Contributed Perl Documentation        MUNIN-RUN(1p)
+
+NAME
+       munin-run - A program to run Munin plugins from the command line
+
+SYNOPSIS
+       munin-run [options] <plugin> [ config | autoconf | snmpconf | suggest ]
+
+DESCRIPTION
+       munin-run is a script to run Munin plugins from the command-line.  It's
+       useful when debugging plugins, as they are run in the same conditions
+       as they are under munin-node.
+
+OPTIONS
+       --config <configfile>
+            Use <file> as configuration file. [/etc/munin/munin-node.conf]
+
+       --servicedir <dir>
+            Use <dir> as plugin dir. [/etc/munin/plugins/]
+
+       --sconfdir <dir>
+            Use <dir> as plugin configuration dir. [/etc/munin/plugin-conf.d/]
+
+       --sconffile <file>
+            Use <file> as plugin configuration. Overrides sconfdir.
+            [undefined]
+
+       --paranoia
+            Only run plugins owned by root and check permissions.  [disabled]
+
+       --ignore-systemd-properties
+            Do not try to detect and enforce the locally configured hardening
+            flags of the "munin-node" service unit. This detection is skipped,
+            if systemd is not enabled.  The hardening flags may cause subtile
+            surprises.  For example "ProtectHome=yes" prevents the "df" plugin
+            from determining the state of the "home" partition.  [disabled]
+
+       --help
+            View this help message.
+
+       --debug
+            Print debug messages.  Debug messages are sent to STDOUT and are
+            prefixed with "#" (this makes it easier for other parts of munin
+            to use munin-run and still have --debug on).  Only errors go to
+            STDERR.
+
+       --pidebug
+            Plugin debug.  Sets the environment variable MUNIN_DEBUG to 1 so
+            that plugins may enable debugging.  [disabled]
+
+       --version
+            Show version information.
+
+NOTES FOR SYSTEMD USERS
+       The "munin-node" service is usually started by systemd via a
+       "munin-node.service" definition.  Some distributions enable hardening
+       settings in this service file in order to restrict the allowed set of
+       activities for the "munin-node" process.  This may cause surprising
+       differences between the result of "munin-run" and the real "munin-node"
+       service.
+
+       A popular example of such a surprising restriction is "ProtectHome=yes"
+       combined with the "df" plugin.  The restriction silently prevents the
+       plugin from determining the status of mountpoints below /home.
+
+       "munin-run" tries to mimic this behavior of "munin-node" automatically.
+       Thus the execution of "munin-run df" should provide the same output as
+       "echo fetch df | nc localhost munin".
+
+       If you want to debug potential issues of systemd restrictions, then you
+       may want to use the parameters "--ignore-systemd-properties" and
+       "--debug".  Permanent overrides of systemd properties can be configured
+       locally via "systemctl edit munin-node".  See "man systemd.exec" for
+       the documentation of systemd's properties.
+
+FILES
+           /etc/munin/munin-node.conf
+           /etc/munin/plugins/*
+           /etc/munin/plugin-conf.d/*
+           /var/run/munin/munin-node.pid
+           /var/log/munin/munin-node.log
+
+VERSION
+       This is munin-run (munin-node) v2.0.56
+
+AUTHORS
+       Audun Ytterdal, Jimmy Olsen, Tore Anderson, Nicolai Langfeldt, Lars
+       Kruse.
+
+BUGS
+       Please see <http://munin-monitoring.org/report/1>.
+
+COPYRIGHT
+       Copyright (C) 2002-2009 Audun Ytterdal, Jimmy Olsen, Tore Anderson,
+       Nicolai Langfeldt / Linpro AS.  Copyright (C) 2020 Lars Kruse
+
+       This program is free software; you can redistribute it and/or modify it
+       under the terms of the GNU General Public License as published by the
+       Free Software Foundation; version 2 dated June, 1991.
+
+       This program is distributed in the hope that it will be useful, but
+       WITHOUT ANY WARRANTY; without even the implied warranty of
+       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+       General Public License for more details.
+
+       You should have received a copy of the GNU General Public License along
+       with this program; if not, write to the Free Software Foundation, Inc.,
+       51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+perl v5.30.0                      2020-02-14                     MUNIN-RUN(1p)

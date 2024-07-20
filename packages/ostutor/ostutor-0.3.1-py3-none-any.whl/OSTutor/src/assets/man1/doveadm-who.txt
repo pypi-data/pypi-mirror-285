@@ -1,0 +1,97 @@
+
+DOVEADM-WHO(1)                      Dovecot                     DOVEADM-WHO(1)
+
+NAME
+       doveadm-who - Show who is logged in to the Dovecot server
+
+SYNOPSIS
+       doveadm  [-Dv]  [-f  formatter]  who [-1] [-a anvil_socket_path] [user]
+       [ip[/mask]]
+
+DESCRIPTION
+       The who command is used to show which users from which hosts  are  cur-
+       rently connected to which service.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies  the  formatter  for formatting the output.  Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints  a  table  header  followed by tab separated value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       This command uses by default the output formatter table.
+
+       Command specific options:
+
+       -1     Print  one  line per user and connection.  Otherwise the connec-
+              tions are grouped by the username.
+
+       -a anvil_socket_path
+              This option is used to specify an alternative socket.   The  op-
+              tion's  argument  is either an absolute path to a local UNIX do-
+              main socket, or a hostname and port (hostname:port), in order to
+              connect a remote host via a TCP socket.
+
+              By   default  doveadm(1)  will  use  the  socket  /var/run/dove-
+              cot/anvil.  The socket may be located in another directory, when
+              the  default  base_dir  setting  was  overridden  in  /etc/dove-
+              cot/dovecot.conf.
+
+ARGUMENTS
+       ip[/mask]
+              Specify an ip address or network range, in CIDR notation, to re-
+              duce the result to matching connections.
+
+       user   List  only  users, whose name match user.  It's also possible to
+              use wildcards in the user name.
+
+EXAMPLE
+       Show authenticated sessions, filtered by the client's IP address.
+
+       doveadm who ::1
+       username                       # proto (pids)        (ips)
+       jane                           2 imap  (30155 30412) (::1)
+       doveadm who 192.0.2.0/24
+       username                        # proto (pids)  (ips)
+       john@example.com                1 imap  (30257) (192.0.2.34)
+
+       Show authenticated sessions, filtered by username.
+
+       doveadm who pvo
+       username         # proto (pids)                    (ips)
+       pvo              1 sieve (30343)                   (fd95:4eed:38ba::25)
+       pvo              4 imap  (25693 25686 25679 25669) (fd95:4eed:38ba::25)
+       doveadm who ja*
+       username                    # proto (pids)        (ips)
+       james                       1 imap  (30091)       (127.0.0.1)
+       jane                        2 imap  (30155 30412) (::1)
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1), doveadm-kick(1)
+
+Dovecot v2.3                      2010-07-12                    DOVEADM-WHO(1)

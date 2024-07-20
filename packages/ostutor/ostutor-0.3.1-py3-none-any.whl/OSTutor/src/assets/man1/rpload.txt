@@ -1,0 +1,56 @@
+
+rpload(1)                   General Commands Manual                  rpload(1)
+
+NAME
+       rpload - alpine remote data utility
+
+SYNTAX
+       rpload [ -f ] [ -s trimSize ] -t Type -l Local_file -r Remote_folder
+
+DESCRIPTION
+       Rpload  may  be used to convert local Alpine configuration files or ad-
+       dress books into remote configurations or address  books.   It  is  in-
+       tended  to be used by system administrators.  Regular users should nor-
+       mally use the facilities provided within Alpine.
+
+       Local_file will usually be a user's alpine configuration file, and  Re-
+       mote_folder  is  the  IMAP  folder which will be used (with the help of
+       Alpine's -p, -P, and -x commands or PINECONF, PINERC, and PINERCEX  en-
+       vironment variables) as the user's remote configuration folder.  A copy
+       of Local_file will be placed in the  folder  with  the  correct  header
+       lines to satisfy Alpine.
+
+       -f                  Force  the load even if the remote folder is in the
+                           wrong format.  This will delete the contents of the
+                           folder so use it carefully.
+
+       -s trimSize         If  the  number of messages in the remote folder is
+                           more than one plus trimsize (one is for the  header
+                           message),  then  messages  2,  3, and so on will be
+                           deleted until there are only one plus trimsize mes-
+                           sages  left.  If this option is not set no trimming
+                           will be done.
+
+       -t Type             The possible Types  are  pinerc,  abook,  and  sig.
+                           (Sig  is  mostly  obsolete. Literal signatures con-
+                           tained within the remote pinerc should be used  in-
+                           stead.)
+
+       -l Local_file       The file on this system that is to be copied.
+
+       -r Remote_folder    A  remote  folder  name  to  be copied to.  See the
+                           Alpine documentation for the  syntax  of  a  remote
+                           folder name.  One example is
+                           {my.imap.server}remote_pinerc.
+
+DIAGNOSTICS
+       Exit status is zero if all goes well, -1 otherwise.
+
+SEE ALSO
+       Rpdump(1).
+
+       Copyright 1989-2007 by the University of Washington.
+
+       $Date: 2005/01/14 20:40:14 $
+
+                                                                     rpload(1)

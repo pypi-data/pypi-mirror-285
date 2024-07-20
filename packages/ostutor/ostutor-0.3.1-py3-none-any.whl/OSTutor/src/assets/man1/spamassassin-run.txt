@@ -1,0 +1,283 @@
+
+SPAMASSASSIN-RUN(1p)  User Contributed Perl Documentation SPAMASSASSIN-RUN(1p)
+
+NAME
+       spamassassin - simple front-end filtering script for SpamAssassin
+
+SYNOPSIS
+       spamassassin [options] [ < mailmessage | path ... ]
+
+       spamassassin -d [ < mailmessage | path ... ]
+
+       spamassassin -r [ < mailmessage | path ... ]
+
+       spamassassin -k [ < mailmessage | path ... ]
+
+       spamassassin -W|-R [ < mailmessage | path ... ]
+
+       Options:
+
+        -L, --local                       Local tests only (no online tests)
+        -r, --report                      Report message as spam
+        -k, --revoke                      Revoke message as spam
+        -d, --remove-markup               Remove spam reports from a message
+        -C path, --configpath=path, --config-file=path
+                                          Path to standard configuration dir
+        -p prefs, --prefspath=file, --prefs-file=file
+                                          Set user preferences file
+        --siteconfigpath=path             Path for site configs
+                                          (def: /etc/spamassassin)
+        --cf='config line'                Additional line of configuration
+        -x, --nocreate-prefs              Don't create user preferences file
+        -e, --exit-code                   Exit with a non-zero exit code if the
+                                          tested message was spam
+        --mbox                            read in messages in mbox format
+        --mbx                             read in messages in UW mbx format
+        -t, --test-mode                   Pipe message through and add extra
+                                          report to the bottom
+        --lint                            Lint the rule set: report syntax errors
+        -W, --add-to-whitelist            Add addresses in mail to persistent address whitelist
+        --add-to-blacklist                Add addresses in mail to persistent address blacklist
+        -R, --remove-from-whitelist       Remove all addresses found in mail from
+                                          persistent address list
+        --add-addr-to-whitelist=addr      Add addr to persistent address whitelist
+        --add-addr-to-blacklist=addr      Add addr to persistent address blacklist
+        --remove-addr-from-whitelist=addr Remove addr from persistent address list
+        -4 --ipv4only, --ipv4-only, --ipv4 Use IPv4, disable use of IPv6 for DNS etc.
+        -6                                Use IPv6, disable use of IPv4 where possible
+        --progress                        Print progress bar
+        -D, --debug [area=n,...]          Print debugging messages
+        -V, --version                     Print version
+        -h, --help                        Print usage message
+
+DESCRIPTION
+       spamassassin is a simple front-end filter for SpamAssassin.
+
+       Using the SpamAssassin rule base, it uses a wide range of heuristic
+       tests on mail headers and body text to identify "spam", also known as
+       unsolicited bulk email.  Once identified, the mail is then tagged as
+       spam for later filtering using the user's own mail user-agent
+       application.
+
+       The default tagging operations that take place are detailed in
+       "TAGGING" in spamassassin.
+
+       By default, message(s) are read in from STDIN (< mailmessage), or from
+       specified files and directories (path ...)  STDIN and files are assumed
+       to be in file format, with a single message per file.  Directories are
+       assumed to be in a format where each file in the directory contains
+       only one message (directories are not recursed and filenames containing
+       whitespace or beginning with "." or "," are skipped).  The options
+       --mbox and --mbx can override the assumed format, see the appropriate
+       OPTION information below.
+
+       Please note that SpamAssassin is not designed to scan large messages.
+       Don't feed messages larger than about 500 KB to SpamAssassin, as this
+       will consume a huge amount of memory.
+
+OPTIONS
+       -e, --error-code, --exit-code
+           Exit with a non-zero error code, if the message is determined to be
+           spam.
+
+       -h, --help
+           Print help message and exit.
+
+       -V, --version
+           Print version and exit.
+
+       -t, --test-mode
+           Test mode.  Pipe message through and add extra report.  Note that
+           the report text assumes that the message is spam, since in normal
+           use it is only visible in this case.  Pay attention to the score
+           instead.
+
+           If you run this with -d, the message will first have SpamAssassin
+           markup removed before being tested.
+
+       -r, --report
+           Report this message as manually-verified spam.  This will submit
+           the mail message read from STDIN to various spam-blocker databases.
+           Currently, these are the Distributed Checksum Clearinghouse
+           "https://www.dcc-servers.net/dcc/", Pyzor "http://pyzor.org/",
+           Vipul's Razor "http://razor.sourceforge.net/", and SpamCop
+           "http://www.spamcop.net/".
+
+           If the message contains SpamAssassin markup, the markup will be
+           stripped out automatically before submission.  The support modules
+           for DCC, Pyzor, and Razor must be installed for spam to be reported
+           to each service.  SpamCop reports will have greater effect if you
+           register and set the "spamcop_to_address" option.
+
+           The message will also be submitted to SpamAssassin's learning
+           systems; currently this is the internal Bayesian statistical-
+           filtering system (the BAYES rules).  (Note that if you only want to
+           perform statistical learning, and do not want to report mail to
+           third-parties, you should use the "sa-learn" command directly
+           instead.)
+
+       -k, --revoke
+           Revoke this message.  This will revoke the mail message read from
+           STDIN from various spam-blocker databases.  Currently, these are
+           Vipul's Razor.
+
+           Revocation support for the Distributed Checksum Clearinghouse,
+           Pyzor, and SpamCop is not currently available.
+
+           If the message contains SpamAssassin markup, the markup will be
+           stripped out automatically before submission.  The support modules
+           for Razor must be installed for spam to be revoked from the
+           service.
+
+           The message will also be submitted as 'ham' (non-spam) to
+           SpamAssassin's learning systems; currently this is the internal
+           Bayesian statistical-filtering system (the BAYES rules).  (Note
+           that if you only want to perform statistical learning, and do not
+           want to report mail to third-parties, you should use the "sa-learn"
+           command directly instead.)
+
+       --lint
+           Syntax check (lint) the rule set and configuration files, reporting
+           typos and rules that do not compile correctly.  Exits with 0 if
+           there are no errors, or greater than 0 if any errors are found.
+
+       -W, --add-to-whitelist
+           Add all email addresses, in the headers and body of the mail
+           message read from STDIN, to a persistent address whitelist.  Note
+           that you must be running "spamassassin" or "spamd" with a
+           persistent address list plugin enabled for this to work.
+
+       --add-to-blacklist
+           Add all email addresses, in the headers and body of the mail
+           message read from STDIN, to the persistent address blacklist.  Note
+           that you must be running "spamassassin" or "spamd" with a
+           persistent address list plugin enabled for this to work.
+
+       -R, --remove-from-whitelist
+           Remove all email addresses, in the headers and body of the mail
+           message read from STDIN, from a persistent address list. STDIN must
+           contain a full email message, so to remove a single address you
+           should use --remove-addr-from-whitelist instead.
+
+           Note that you must be running "spamassassin" or "spamd" with a
+           persistent address list plugin enabled for this to work.
+
+       --add-addr-to-whitelist
+           Add the named email address to a persistent address whitelist.
+           Note that you must be running "spamassassin" or "spamd" with a
+           persistent address list plugin enabled for this to work.
+
+       --add-addr-to-blacklist
+           Add the named email address to a persistent address blacklist.
+           Note that you must be running "spamassassin" or "spamd" with a
+           persistent address list plugin enabled for this to work.
+
+       --remove-addr-from-whitelist
+           Remove the named email address from a persistent address whitelist.
+           Note that you must be running "spamassassin" or "spamd" with a
+           persistent address list plugin enabled for this to work.
+
+        --ipv4only, --ipv4-only, --ipv4
+           Do not use IPv6 for DNS tests. Normally, SpamAssassin will try to
+           detect if IPv6 is available, using only IPv4 if it is not. Use if
+           the existing tests for IPv6 availability produce incorrect results
+           or crashes.
+
+       -L, --local
+           Do only the ''local'' tests, ones that do not require an internet
+           connection to operate.  Normally, SpamAssassin will try to detect
+           whether you are connected to the net before doing these tests
+           anyway, but for faster checks you may wish to use this.
+
+           Note that SpamAssassin's network rules are run in parallel.  This
+           can cause overhead in terms of the number of file descriptors
+           required if --local is not used; it is recommended that the minimum
+           limit on fds be raised to at least 256 for safety.
+
+       -d, --remove-markup
+           Remove SpamAssassin markup (the "SpamAssassin results" report,
+           X-Spam-Status headers, etc.) from the mail message.  The resulting
+           message, which will be more or less identical to the original, pre-
+           SpamAssassin input, will be output to STDOUT.
+
+           (Note: the message will not be exactly identical; some headers will
+           be reformatted due to some features of the Mail::Internet package,
+           but the body text will be.)
+
+       -C path, --configpath=path, --config-file=path
+           Use the specified path for locating the distributed configuration
+           files.  Ignore the default directories (usually
+           "/usr/share/spamassassin" or similar).
+
+       --siteconfigpath=path
+           Use the specified path for locating site-specific configuration
+           files.  Ignore the default directories (usually "/etc/spamassassin"
+           or similar).
+
+       --cf='config line'
+           Add additional lines of configuration directly from the command-
+           line, parsed after the configuration files are read.   Multiple
+           --cf arguments can be used, and each will be considered a separate
+           line of configuration.  For example:
+
+                   spamassassin -t --cf="body NEWRULE /text/" --cf="score NEWRULE 3.0"
+
+       -p prefs, --prefspath=prefs, --prefs-file=prefs
+           Read user score preferences from prefs (usually
+           "$HOME/.spamassassin/user_prefs").
+
+       --progress
+           Prints a progress bar (to STDERR) showing the current progress.
+           This option will only be useful if you are redirecting STDOUT (and
+           not STDERR).  In the case where no valid terminal is found this
+           option will behave very much like the --showdots option in other
+           SpamAssassin programs.
+
+       -D [area,...], --debug [area,...]
+           Produce debugging output. If no areas are listed, all debugging
+           information is printed. Diagnostic output can also be enabled for
+           each area individually; area is the area of the code to instrument.
+           For example, to produce diagnostic output on bayes, learn, and dns,
+           use:
+
+                   spamassassin -D bayes,learn,dns
+
+           Higher priority informational messages that are suitable for
+           logging in normal circumstances are available with an area of
+           "info".
+
+           For more information about which areas (also known as channels) are
+           available, please see the documentation at:
+
+                   L<http://wiki.apache.org/spamassassin/DebugChannels>
+
+       -x, --nocreate-prefs
+           Disable creation of user preferences file.
+
+       --mbox
+           Specify that the input message(s) are in mbox format.  mbox is a
+           standard Unix message folder format.
+
+       --mbx
+           Specify that the input message(s) are in UW .mbx format.  mbx is
+           the mailbox format used within the University of Washington's IMAP
+           implementation; see "http://www.washington.edu/imap/".
+
+SEE ALSO
+       sa-learn(1) spamd(1) spamc(1) Mail::SpamAssassin::Conf(3)
+       Mail::SpamAssassin(3)
+
+PREREQUISITES
+       "Mail::SpamAssassin"
+
+BUGS
+       See <http://issues.apache.org/SpamAssassin/>
+
+AUTHORS
+       The SpamAssassin(tm) Project <https://spamassassin.apache.org/>
+
+COPYRIGHT
+       SpamAssassin is distributed under the Apache License, Version 2.0, as
+       described in the file "LICENSE" included with the distribution.
+
+perl v5.30.0                      2023-03-24              SPAMASSASSIN-RUN(1p)

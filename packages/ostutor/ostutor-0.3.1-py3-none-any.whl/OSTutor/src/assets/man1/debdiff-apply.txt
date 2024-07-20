@@ -1,0 +1,91 @@
+
+DEBDIFF-APPLY(1)            General Commands Manual           DEBDIFF-APPLY(1)
+
+NAME
+       debdiff-apply - apply a debdiff to a Debian source package
+
+SYNOPSIS
+       debdiff-apply [options] [orig_dsc_or_dir] [patch_file]
+       debdiff-apply [options] < [patch_file]
+
+DESCRIPTION
+       debdiff-apply  takes a patchfile that describes the differences between
+       two Debian source packages old and new, and applies it to a target  De-
+       bian source package orig.
+
+       orig  could either be the same as old or it could be different.  patch-
+       file is expected to be a unified diff between two Debian source  trees,
+       as what debdiff(1) normally generates.
+
+       Any  changes to debian/changelog are dealt with specially, to avoid the
+       conflicts that changelog diffs typically produce when applied  naively.
+       The  exact  behaviour  may  be tweaked in the future, so one should not
+       rely on it.
+
+       If patchfile does not apply to orig, even after the  special-casing  of
+       debian/changelog,  no  changes  are made and debdiff-apply(1) will exit
+       with a non-zero error code.
+
+ARGUMENTS
+       orig_dsc_or_dir
+              Target to apply the patch to. This can  either  be  an  unpacked
+              source  tree,  or a .dsc file. In the former case, the directory
+              is modified in-place; in the latter case, a second .dsc is  cre-
+              ated. Default: .
+
+       patch_file
+              Patch  file  to  apply, in the format output by debdiff(1).  De-
+              fault: /dev/stdin
+
+OPTIONS
+       -h, --help
+              show this help message and exit
+
+       -v, --verbose
+              Output more information
+
+       -c CHANGELOG, --changelog CHANGELOG
+              Path to debian/changelog; default: debian/changelog
+
+       -D DISTRIBUTION, --distribution DISTRIBUTION
+              Distribution to use, if the  patch  doesn't  already  contain  a
+              changelog; default: experimental
+
+       --repl Run the python REPL after processing.
+
+       --source-version
+              Don't  apply  the  patch;  instead  print out the version of the
+              package that it is supposed to be applied to, or nothing if  the
+              patch does not specify a source version.
+
+       --target-version
+              Don't  apply the patch; instead print out the new version of the
+              package debdiff-apply(1) would generate, when the patch  is  ap-
+              plied to the the given target package, as specified by the other
+              arguments.
+
+   For .dsc patch targets:
+       --no-clean
+              Don't clean temporary directories after a failure,  so  you  can
+              examine what failed.
+
+       --quilt-refresh
+              If  the building of the new source package fails, try to refresh
+              patches using quilt(1) then try building it again.
+
+       -d DIRECTORY, --directory DIRECTORY
+              Extract the .dsc into this directory, which won't be cleaned  up
+              after  debdiff-apply(1) exits. If not given, then it will be ex-
+              tracted to a temporary directory.
+
+AUTHORS
+       debdiff-apply and this manual page were written by  Ximin  Luo  <infin-
+       ity0@debian.org>
+
+       Both  are  released  under the GNU General Public License, version 3 or
+       later.
+
+SEE ALSO
+       debdiff(1)
+
+DEBIAN                         Debian Utilities               DEBDIFF-APPLY(1)

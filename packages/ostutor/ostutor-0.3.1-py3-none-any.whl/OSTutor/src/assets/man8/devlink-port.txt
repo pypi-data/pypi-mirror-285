@@ -1,0 +1,75 @@
+
+DEVLINK-PORT(8)                      Linux                     DEVLINK-PORT(8)
+
+NAME
+       devlink-port - devlink port configuration
+
+SYNOPSIS
+       devlink [ OPTIONS ] port  { COMMAND | help }
+
+       OPTIONS := { -V[ersion] | -n[no-nice-names] }
+
+       devlink port set DEV/PORT_INDEX [ type { eth | ib | auto } ]
+
+       devlink port split DEV/PORT_INDEX count COUNT
+
+       devlink port unsplit DEV/PORT_INDEX
+
+       devlink port show [ DEV/PORT_INDEX ]
+
+       devlink port help
+
+DESCRIPTION
+   devlink port set - change devlink port attributes
+       DEV/PORT_INDEX - specifies the devlink port to operate on.
+
+           Format is:
+             BUS_NAME/BUS_ADDRESS/PORT_INDEX
+
+       type { eth | ib | auto }
+              set port type
+
+              eth - Ethernet
+
+              ib - Infiniband
+
+              auto - autoselect
+
+   devlink port split - split devlink port into more
+       DEV/PORT_INDEX - specifies the devlink port to operate on.
+
+       count COUNT
+              number of ports to split to.
+
+   devlink port unsplit - unsplit previously split devlink port
+       Could be performed on any split port of the same split group.
+
+       DEV/PORT_INDEX - specifies the devlink port to operate on.
+
+   devlink port show - display devlink port attributes
+       DEV/PORT_INDEX - specifies the devlink port to show.  If this argument
+       is omitted all ports are listed.
+
+EXAMPLES
+       devlink port show
+           Shows the state of all devlink ports on the system.
+
+       devlink port show pci/0000:01:00.0/1
+           Shows the state of specified devlink port.
+
+       devlink port set pci/0000:01:00.0/1 type eth
+           Set type of specified devlink port to Ethernet.
+
+       devlink port split pci/0000:01:00.0/1 count 4
+           Split the specified devlink port into four ports.
+
+       devlink port unsplit pci/0000:01:00.0/1
+           Unplit the specified previously split devlink port.
+
+SEE ALSO
+       devlink(8), devlink-dev(8), devlink-sb(8), devlink-monitor(8),
+
+AUTHOR
+       Jiri Pirko <jiri@mellanox.com>
+
+iproute2                          14 Mar 2016                  DEVLINK-PORT(8)

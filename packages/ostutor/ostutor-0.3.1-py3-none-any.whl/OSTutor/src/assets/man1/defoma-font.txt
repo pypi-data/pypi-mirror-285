@@ -1,0 +1,88 @@
+
+defoma-font(1)              General Commands Manual             defoma-font(1)
+
+NAME
+       defoma-font - register/unregister font(s) to Debian Font Manager
+
+SYNOPSIS
+       defoma-font [options] register category font hints...
+       defoma-font [options] unregister category font
+       defoma-font [options] reregister category font hints...
+       defoma-font [options] purge category font
+       defoma-font [options] register-all hintfile
+       defoma-font [options] unregister-all hintfile
+       defoma-font [options] reregister-all hintfile
+       defoma-font [options] purge-all hintfile
+
+DESCRIPTION
+       defoma-font  is a tool to register or unregister font(s) to Defoma, De-
+       bian Font Manager. Defoma then calls Defoma-configuration-scripts  pro-
+       vided  by  applications to make the font(s) configured for the applica-
+       tions which can make use of them. It is  supposed  to  be  called  from
+       postinst  and  prerm  scripts,  but may be called from console for not-
+       packaged addon fonts.
+
+       There are two methods of registering/unregistering font(s): by specify-
+       ing  one  font  with its hints, or through a hintfile , which describes
+       several fonts with their hints.  Font packages  may  possibly  use  the
+       latter  method,  installing a hintfile under /etc/defoma/hints as conf-
+       file.  The latter method has '-all' added in the commands.
+
+       category specifies the category of a font like type1, truetype  and  so
+       on.   font  specifies  the font itself and is either a full path to the
+       font, or a logical font name.  hints specify the  hints  of  the  font,
+       which  contain essential information of the font like FontName, Charset
+       and Encoding, appearance information of the font representing its  face
+       like Weight, Shape, GeneralFamily and Width, and additional information
+       of the font like Alias and Priority.
+
+COMMANDS
+       register
+              Register the specified font with the specified  hints  into  the
+              specified category unless the font is already registered.
+
+       unregister
+              Unregister  the  specified font which must be already registered
+              in the specified category.  If the font is marked as use or  ex-
+              clude  in  an  Id  cache of a certain application, the marks are
+              left intact.
+
+       reregister
+              If the specified font  is  already  registered,  the  registered
+              hints  and the specified hints are compared. If these hints dif-
+              fers, the font first gets unregistered and then newly registered
+              with  the  specified  new hints.  If the font is not registered,
+              following process is the same as register command.
+
+       purge  This command is almost the same as  unregister  command,  except
+              that this command removes the marks in an Id cache.
+
+       register-all
+
+       unregister-all
+
+       reregister-all
+
+       purge-all
+              These  commands  operate  all the fonts written in the specified
+              hintfile.
+
+OPTIONS
+       -t     Exit with true value (0) even if error occurs.
+
+       -v     Verbose output.
+
+       -d     More verbose output.
+
+       -q     Quiet output.
+
+EXAMPLES
+       defoma-font -vt register type1 /usr/share/fonts/type1/foo.pfa \
+         --FontName Helvetica --Charset ISO8859-1 --Weight Medium \
+         --Shape Upright NoSerif --GeneralFamily SansSerif
+       defoma-font reregister-all /etc/defoma/hints/microsoft.hints
+
+SEE ALSO
+       defoma(1).
+
+                                March  4, 2001                  defoma-font(1)

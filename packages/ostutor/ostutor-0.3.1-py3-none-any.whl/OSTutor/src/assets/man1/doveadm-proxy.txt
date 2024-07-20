@@ -1,0 +1,85 @@
+
+DOVEADM-PROXY(1)                    Dovecot                   DOVEADM-PROXY(1)
+
+NAME
+       doveadm-proxy - Handle Dovecot proxy connections
+
+SYNOPSIS
+       doveadm [-Dv] [-f formatter] proxy command [OPTIONS] [ARGUMENTS]
+
+DESCRIPTION
+       The  doveadm  proxy  commands  are  used to list or kick active Dovecot
+       proxy connections.
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -f formatter
+              Specifies the formatter for formatting  the  output.   Supported
+              formatters are:
+
+              flow   prints each line with key=value pairs.
+
+              pager  prints each key: value pair on its own line and separates
+                     records with form feed character (^L).
+
+              tab    prints a table header followed  by  tab  separated  value
+                     lines.
+
+              table  prints a table header followed by adjusted value lines.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf and from the userdb with the given value.  In order  to
+              override  multiple settings, the -o option may be specified mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       This command uses by default the table output formatter.
+
+       Command specific options:
+
+       -a ipc_socket_path
+              This option is used to specify an alternative socket.   The  op-
+              tion's  argument  is either an absolute path to a local UNIX do-
+              main socket.
+
+              By default doveadm(1) will use the socket  /var/run/dovecot/ipc.
+              The socket may be located in another directory, when the default
+              base_dir setting was overridden in /etc/dovecot/dovecot.conf.
+
+ARGUMENTS
+       user   Is a user's login name.  Depending on the configuration, a login
+              name  may  be  for  example jane or john@example.com.  It's also
+              possible to use "*" and "?" wildcards (e.g. *@example.org).
+
+COMMANDS
+   proxy kick
+       doveadm proxy kick [-a ipc_socket_path] user
+
+       Kick all the connections being proxied for the given user.
+
+   proxy list
+       doveadm proxy list [-a ipc_socket_path]
+
+       List all the users currently being proxied.
+
+EXAMPLE
+       List all currently active proxy connections:
+
+       doveadm proxy list
+       username                    proto src ip          dest ip     port
+       jane@example.net            imap  192.168.0.100   192.168.0.5 143
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2014-11-09                  DOVEADM-PROXY(1)

@@ -1,0 +1,88 @@
+
+defoma-subst(1)             General Commands Manual            defoma-subst(1)
+
+NAME
+       defoma-subst - Modify a rulefile of Defoma font substitution system.
+
+SYNOPSIS
+       defoma-subst [options] new-rule rulename [additional-lines...]
+       defoma-subst [options] edit-rule rulename
+       defoma-subst [options] add-rule rulename rules...
+       defoma-subst [options] remove-rule rulename rules...
+       defoma-subst check-rule rulename
+
+DESCRIPTION
+       defoma-subst is a tool to create/edit a rulefile of Defoma font substi-
+       tution system.  This system makes a certain font provide an user-speci-
+       fied id. Rulefile exists in order not only to specify such ids but also
+       to have more similar fonts containing same  characters  substitute  for
+       the id.
+
+       Following is the form of rulefile.
+
+       # comment..
+       # comment..
+       Helvetica --GeneralFamily SansSerif --Shape NoSerif \
+         Upright --Weight Medium --Charset,* ISO8859-1
+       Helvetica-Bold --GeneralFamily SansSerif --Shape NoSerif \
+         Upright --Weight Medium --Charset,* ISO8859-1
+
+       In this example Helvetica and Helvetica-Bold are need-to-be-substituted
+       ids, and following hints represent information of these two fonts.  The
+       asterisk added to Charset hinttype with comma means Charset is required
+       to match.
+
+COMMANDS
+       new-rule
+              Create a new  rulefile  rulename.subst-rule  under  /etc/defoma.
+              additional-lines  are  added  to the file as comments or default
+              rules. Quote each rule or comment with single or  double  quota-
+              tions.
+
+       edit-rule
+              Edit the rulefile specified by rulename.  After editing, modifi-
+              cation is reflected to the related Id cache. In other words, new
+              ids  would  be  added  provided  by substitutive fonts to the Id
+              cache if a rule is added, and registered ids  would  be  removed
+              from the Id cache if a rule is removed.
+
+       add-rule
+              Add  one or more rules specified by rules to the specified rule-
+              name.  Quote each rule with single or double quotations.
+
+       remove-rule
+              Remove one or more rules specified by rules from  the  specified
+              rulename.  Quote each rule with single or double quotations.
+
+       check-rule
+              Check  if  the rulefile specified by rulename exists. It returns
+              zero when the rulefile exists, and non-zero (actually one)  when
+              the rulefile doesn't exist.
+
+OPTIONS
+       -t     Exit with true value (0) even if error occurs.
+
+       -v     Verbose output.
+
+       -d     More verbose output.
+
+       -q     Quiet output.
+
+EXAMPLES
+       1. Create foo.subst-rule with some comments and default rules.
+
+       defoma-subst new-rule foo '# This is a comment. ' \
+         '# Run defoma-subst edit-rule foo to edit this file.' \
+         'Times-Roman --GeneralFamily Roman --Charset,* ISO8859-1' \
+         'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208'
+
+       2. Add some rules to foo.subst-rule.
+
+       defoma-subst add-rule foo \
+         'Times-Roman --GeneralFamily Roman --Charset,* ISO8859-1' \
+         'Kanji-H --GeneralFamily Mincho --Charset,* JISX0208' \
+
+SEE ALSO
+       defoma(1).
+
+                                March  4, 2001                 defoma-subst(1)

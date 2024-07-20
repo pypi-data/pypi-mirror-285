@@ -1,0 +1,61 @@
+
+DOVEADM-PENALTY(1)                  Dovecot                 DOVEADM-PENALTY(1)
+
+NAME
+       doveadm-penalty - Show current penalties
+
+SYNOPSIS
+       doveadm [-Dv] penalty [-a anvil_socket_path] [ip[/mask]]
+
+DESCRIPTION
+       The  doveadm  penalty command can be used to see the current penalties.
+       (Extend me!/explain it)
+
+OPTIONS
+       Global doveadm(1) options:
+
+       -D     Enables verbosity and debug messages.
+
+       -o setting=value
+              Overrides  the  configuration  setting  from  /etc/dovecot/dove-
+              cot.conf  and from the userdb with the given value.  In order to
+              override multiple settings, the -o option may be specified  mul-
+              tiple times.
+
+       -v     Enables verbosity, including progress counter.
+
+       Command specific options:
+
+       -a anvil_socket_path
+              This  option  is used to specify an alternative socket.  The op-
+              tion's argument is either an absolute path to a local  UNIX  do-
+              main socket, or a hostname and port (hostname:port), in order to
+              connect a remote host via a TCP socket.
+
+              By  default  doveadm(1)  will  use  the  socket   /var/run/dove-
+              cot/anvil.  The socket may be located in another directory, when
+              the  default  base_dir  setting  was  overridden  in  /etc/dove-
+              cot/dovecot.conf.
+
+ARGUMENTS
+       ip[/mask]
+              To  reduce/filter  the  output supply an IP address or a network
+              range in CIDR notation (ip/mask).
+
+EXAMPLE
+       Show current penalties
+
+       doveadm penalty
+       IP               penalty last_penalty        last_update
+       192.0.2.222            3 2010-06-15 15:19:27 15:19:27
+       192.0.2.53             3 2010-06-15 15:19:34 15:19:34
+
+REPORTING BUGS
+       Report bugs, including doveconf -n output, to the Dovecot Mailing  List
+       <dovecot@dovecot.org>.   Information  about reporting bugs is available
+       at: http://dovecot.org/bugreport.html
+
+SEE ALSO
+       doveadm(1)
+
+Dovecot v2.3                      2010-07-12                DOVEADM-PENALTY(1)

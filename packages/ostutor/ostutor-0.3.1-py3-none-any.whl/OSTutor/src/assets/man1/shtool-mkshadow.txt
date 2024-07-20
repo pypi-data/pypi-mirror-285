@@ -1,0 +1,46 @@
+
+SHTOOL-MKSHADOW.TMP(1)      GNU Portable Shell Tool     SHTOOL-MKSHADOW.TMP(1)
+
+NAME
+       shtool-mkshadow - GNU shtool create shadow tree using symlinks
+
+SYNOPSIS
+       shtool mkshadow [-v|--verbose] [-t|--trace] [-a|--all] src-dir dst-dir
+
+DESCRIPTION
+       This command creates a shadow tree of src-dir under dst-dir by
+       recreating the directory hierarchy of src-dir under dst-dir and by
+       creating the files of src-dir by linking them into the corresponding
+       directories under dst-dir via symbolic links. When src-dir can be
+       reached via relative paths from dst-dir, relative symbolic links are
+       used, too. This high-level functionality is originally designed for
+       developers to create copies of source trees.
+
+OPTIONS
+       The following command line options are available.
+
+       -v, --verbose
+           Display some processing information.
+
+       -t, --trace
+           Enable the output of the essential shell commands which are
+           executed.
+
+       -a, --all
+           Really shadow all files and directories in src-dir. Default is to
+           skip CVS related files and directories, backup files, object files,
+           etc.
+
+EXAMPLE
+        #   shell script
+        shtool mkshadow -v -a . /tmp/shadow
+
+HISTORY
+       The GNU shtool mkshadow command was originally written by Ralf S.
+       Engelschall <rse@engelschall.com> in 1998 for Apache. It was later
+       revised and taken over into GNU shtool.
+
+SEE ALSO
+       shtool(1), ln(1).
+
+18-Jul-2008                      shtool 2.0.8           SHTOOL-MKSHADOW.TMP(1)
