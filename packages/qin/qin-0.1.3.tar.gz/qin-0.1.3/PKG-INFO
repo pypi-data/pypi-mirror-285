@@ -1,0 +1,179 @@
+Metadata-Version: 2.1
+Name: qin
+Version: 0.1.3
+Summary: Interesting toolset
+Home-page: https://github.com/Alndaly/qin-cli
+Author: Kinda Hall
+Author-email: 1142704468@qq.com
+Maintainer: Kinda Hall
+Maintainer-email: 1142704468@qq.com
+License: Copyright (c) 2023 Kinda Hall
+        
+        What you can do:
+        
+        - improve the code and send the improvements back to the community
+        - use the code to help you study the subject
+        - use the code as a starting point for your own project
+        
+        What you can't do:
+        
+        - use the code, or any derivative of the code, for any commercial purpose
+        - hold the copyright to the modifications you make to the code
+        - sell the code or any derivative of the code
+        - remove this license information from the code
+        - claim that the code is your original work
+        
+        you may not use the code for any illegal purpose.
+        
+        **NOTE**: You **can not** do any other thing without my permission.
+Keywords: pip,tools
+Platform: macOS
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: typer
+Requires-Dist: ffmpeg-python
+Requires-Dist: oss2
+Requires-Dist: gradio
+Requires-Dist: yt-dlp
+Requires-Dist: fastapi
+Requires-Dist: moviepy
+Requires-Dist: httpx
+Requires-Dist: urllib3>=2.0
+
+# Interesting Toolset Script
+
+[中文说明文档](./README/zh-CN.md)
+
+Given the frequent need for various small tools, I plan to create a script library. Currently, it only supports CLI.
+
+> [!warning]
+> Since I use a Mac, this project is currently only usable on Mac. Other platforms have not been tested yet. If you encounter any issues, please submit an issue.
+
+> [!note]
+> This project relies on ffmpeg. Please ensure ffmpeg is installed locally.
+
+## Some Project Configurations
+
+- The default configuration file is `~/.qin/config.json`.
+- The default temporary trash folder is `~/.qin/trash`.
+
+If you need the image upload function of this project, please make sure to configure the `oss` related fields in the `config.json` file.
+
+## Download
+
+### Method1: Download from pip (Recommended)
+
+```shell
+pip install qin
+```
+
+### Method2: Clone the Project
+
+```shell
+git clone git@github.com:Alndaly/qin-cli.git
+cd qin-cli
+python setup.py sdist
+pip install .
+```
+
+## Media File Conversion
+
+```shell
+qin media convert -i /usr/test.flac -o /usr/test.mp3
+```
+
+- `-i` Source file
+- `-o` Converted file
+
+## Download Some Media Files
+
+```shell
+qin media download -u https://www.bilibili.com/video/BV117411J719 -f mp3
+```
+
+- `-u` Video URL
+- `-f` Video format supports mp3/mp4
+
+> If the media file is a video, it will be automatically converted to mp3 format.
+
+## Video to Gif
+
+```shell
+qin media 2gif -i /usr/test.mp4 -o /usr/test.gif
+```
+
+- `-i` path of the source video file
+- `-o` the path to the gif
+
+## Media Cutting
+
+```shell
+qin media cut -i /usr/test.mp4 -s 10 -e 20 -o /output.mp4
+```
+
+- `-i` The path to the file you want to cut 
+- `-s` The start time of the clip (in seconds)
+- `-e` The end time of the clip (in seconds)
+- `-o` The path of the cutted file
+
+## File Deletion
+
+```shell
+qin file delete -p path/to/dir -i test -r
+```
+
+- `-p` Parent root directory of the files to be deleted
+- `-r` Whether to recursively delete subfolders
+- `-i` The character that must be included in the name of the file to be deleted
+- `-f` Whether to delete files directly (default is False, files will be moved to the trash folder)
+
+## Upload Files to Aliyun OSS
+
+```shell
+qin file upload -p path/to/your/file
+```
+
+- `-p` Path of the file to be uploaded
+
+## Convert PDF to PNG
+
+```shell
+qin file pdf2png -p path/to/your/file
+```
+
+- `-p` Path to the PDF file to be converted
+
+## Get Model Information from Model File (CivitAI)
+
+```shell
+qin ai model -p path/to/your/file
+```
+
+- `-p`: The path to the file for which you want to retrieve information
+
+## Get Hash of Model File
+
+```shell
+qin ai hash -p path/to/your/file
+```
+
+- `-p`: The path to the file for which you want to retrieve the hash
+
+## Get preview images of all model files in the current directory and save them by name in the current directory
+
+```shell
+qin ai preview -p path/to/the/dir -r
+```
+
+- `-p` The path to the folder from which you want to get preview images
+- `-r` Whether to recursively include subfolders
+
+## Update all git repositories in a directory
+
+```shell
+qin git pull -p path/to/the/dir -r
+```
+
+- `-p` The root directory of the git repositories to be updated (if `-p path/to/the/dir` is not specified, the default is the current directory)
+- `-r` Whether to recursively update subfolders, default is `False`
