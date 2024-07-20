@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "xlpkg"
+version = "1.0.0.45"
+description = "include x.py q.py pub.py"
+#authors = ["'xiaolong' <'longx888@126.com'>"]
+
+authors = ["xiaolong", "longx888@126.com"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.32.3"
+#requests = { git = 'https://gitee.com/dellcell/xlpkg.git'}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.source]]
+#清华源
+name = 'qh'
+url = 'https://pypi.tuna.tsinghua.edu.cn/simple/'
+
+#阿里源
+#name = "ali"
+#url = " http://mirrors.aliyun.com/pypi/simple/"
+
+#pypi源
+#name = "pypi"
+#url = " https://www.pypi.org/simple/"
+default = true
+
+
