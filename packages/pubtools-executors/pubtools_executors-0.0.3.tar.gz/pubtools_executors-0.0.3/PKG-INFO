@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: pubtools-executors
+Version: 0.0.3
+Summary: Pubtools-executors
+Home-page: https://github.com/release-engineering/pubtools-executors
+Author: Lubomir Gallovic
+Author-email: lgallovi@redhat.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Programming Language :: Python :: Implementation :: PyPy
+Requires-Python: >=3.6
+Description-Content-Type: text/x-rst
+License-File: LICENSE
+Requires-Dist: setuptools
+Requires-Dist: paramiko
+Requires-Dist: requests
+Requires-Dist: docker
+Requires-Dist: pubtools>=0.3.0
+Provides-Extra: rest
+Requires-Dist: Sphinx; extra == "rest"
+
+pubtools-executors
+====================
+
+Collection of executors classes which can be used to run commands in different environments
+
+ChangeLog
+=========
+0.0.3
+-----
+- Fix source code structure
+- Drop py2 support
+
+0.0.2
+-----
+- Retry tagging images
+
+0.0.1
+-----
+- First pre-production release
+
