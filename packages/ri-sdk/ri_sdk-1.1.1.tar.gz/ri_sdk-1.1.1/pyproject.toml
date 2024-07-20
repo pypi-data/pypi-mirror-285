@@ -1,0 +1,338 @@
+[project]
+name = "ri-sdk"
+description = "RI SDK Pythonic Wrapper"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "MIT"
+dynamic = ["version"]
+authors = [
+    { name = "Suren Khorenyan", email = "surenkhorenyan@gmail.com" },
+]
+maintainers = [
+    { name = "Suren Khorenyan", email = "surenkhorenyan@gmail.com" },
+]
+keywords = [
+    "RI SDK",
+    "RoboIntellect",
+    "RoboHand",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Environment :: Other Environment",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Manufacturing",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Natural Language :: Russian",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Education",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Human Machine Interfaces",
+    "Topic :: Software Development",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: System :: Hardware",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+dependencies = [
+]
+
+[project.urls]
+Homepage = "https://github.com/mahenzon/ri-sdk-python-wrapper"
+Documentation = "https://github.com/mahenzon/ri-sdk-python-wrapper"
+"Source code" = "https://github.com/mahenzon/ri-sdk-python-wrapper"
+
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+ruff = "^0.5.3"
+pre-commit = "^3.7.1"
+beautifulsoup4 = "^4.12.3"
+requests = "^2.32.3"
+mako = "^1.3.5"
+pydantic = "^2.8.2"
+pyyaml = "^6.0.1"
+hatch = "^1.12.0"
+
+[tool.poetry.group.types.dependencies]
+mypy = "^1.11.0"
+types-pyyaml = "^6.0.12.20240311"
+types-requests = "^2.32.0.20240712"
+types-beautifulsoup4 = "^4.12.0.20240511"
+
+
+[tool.poetry.group.tests.dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.14.0"
+coverage = { extras = ["toml"], version = "^7.6.0" }
+
+[tool.coverage.run]
+branch = false
+parallel = true
+omit = [
+    "ri_sdk/__about__.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "if __name__ == .__main__.:",
+    "pragma: no cover",
+    "if TYPE_CHECKING:",
+]
+
+[tool.hatch]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "ri_sdk/__about__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/ri_sdk",
+    "/examples",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "ri_sdk",
+]
+
+
+[tool.hatch.envs.test]
+dependencies = [
+    "coverage[toml]",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+]
+[tool.hatch.envs.test.scripts]
+cov = "pytest --cov-config=pyproject.toml --cov=ri_sdk --cov=testing {args}"
+cov-xml = "cov --cov-report=xml:coverage/{matrix:python}/coverage.xml"
+cov-html = [
+    "cov",
+    "coverage html -d coverage/{matrix:python}",
+]
+run = "pytest {args}"
+
+[[tool.hatch.envs.test.matrix]]
+python = [
+    "py37",
+    "py38",
+    "py39",
+    "py310",
+    "py311",
+    "py312",
+]
+
+[tool.black]
+line-length = 89
+target-version = [
+    "py37",
+    "py38",
+    "py39",
+    "py310",
+    "py311",
+    "py312",
+]
+
+[tool.ruff]
+line-length = 89
+target-version = "py39"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "S",
+    # "D",
+    "D201",
+    "D202",
+    "A",
+    "C4",
+    "COM",
+    "DTZ",
+    "T10",
+    "EM",
+    "ISC",
+    "ICN",
+    "G",
+    "T20",
+    "PT",
+    "SIM",
+    "TID",
+    "ARG",
+    "PTH",
+    "ERA",
+    "PL",
+    "PLE",
+    "PLR",
+    "PLW",
+    "RUF",
+    "ASYNC",
+    "UP",
+    "ANN",
+]
+
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+    "docs/*",
+    "examples/api_for_tortoise_orm/*",
+]
+
+# Avoid trying to fix flake8-bugbear (`B`) violations.
+unfixable = ["B"]
+
+extend-ignore = [
+    "S702", # not relevant, Mako templates allow HTML
+    #    and JavaScript rendering by default and are inherently open to XSS attacks
+
+    #    "D401",
+    #    "D403",
+    #    "D400",
+    #    "D415",
+    #    "D100",  # Missing docstring in public module
+    #    "D101",  # Missing docstring in public class
+    #    "D102",  # Missing docstring in public method
+    #    "D103",  # Missing docstring in public function
+    #    "D104",  # Missing docstring in public package
+    #    "D105",  # Missing docstring in magic method
+    #    "D106",  # Missing docstring in public nested class
+    #    "D107",  # Missing docstring in `__init__`
+    #    "D200",  # One-line docstring should fit on one line
+    #    "D203",  # 1 blank line required before class docstring
+    #    "D210",  # No whitespaces allowed surrounding docstring text
+    #    "D212",  # Multi-line docstring summary should start at the first line
+    #    "D301",  # Use r""" if any backslashes in a docstring
+    #    "D404",  #  First word of the docstring should not be "This"
+    "PLR0913", # Too many arguments to function call
+    "ANN101", #  Missing type annotation for `self` in method
+    "ANN102", #  Missing type annotation for `cls` in classmethod
+    #    "A003",  # Class attribute `type` is shadowing a Python builtin
+    #    "ARG001",  # Unused function argument: `{name}`
+    #    "ARG002",  # Unused method argument: `{name}`
+    #    "ARG003",  # Unused class method argument: `{name}`
+    #    "RUF001",  # String contains ambiguous unicode character {confusable} (did you mean {representant}?)
+    #    "RUF002",  # Docstring contains ambiguous unicode character {confusable} (did you mean {representant}?)
+    #    "RUF003",  # Comment contains ambiguous unicode character {confusable} (did you mean {representant}?)
+    #    "PT006",  # pytest parametrize tuple args
+     "UP037",  # quoted-annotation (UP037)
+
+    # warning: The following rules may cause conflicts when used with the formatter:
+    #    `COM812`, `ISC001`. To avoid unexpected behavior,
+    #    we recommend disabling these rules,
+    #    either by removing them from the `select`
+    #    or `extend-select` configuration,
+    #    or adding them to the `ignore` configuration.
+    #    16 files already formatted
+    # "ISC001",
+    # "COM812",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"ri_sdk/sdk_wrapper/robointellect_sdk.py" = [
+    "E501",
+    "ERA001",
+    "RUF002",
+]
+"ri_sdk/types/*.py" = [
+    "ERA001",
+    "RUF002",
+]
+"ri_sdk/contrib/lib_finder.py" = [
+    "RUF002",
+]
+"examples/*.py" = [
+    "RUF002",
+    "RUF003",
+]
+# tests:
+"testing/**/*.py" = [
+    "ANN001",
+    "ANN201",
+    "S101",
+]
+
+[tool.ruff.lint.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10
+
+[tool.mypy]
+plugins = "pydantic.mypy"
+python_version = "3.11"
+pretty = true
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+show_error_codes = true
+show_error_context = true
+ignore_missing_imports = false
+disallow_subclassing_any = true
+disallow_any_generics = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+follow_imports_for_stubs = true
+namespace_packages = true
+
+exclude = [
+    "testing",
+]
+
+[[tool.mypy.overrides]]
+module = [
+    "mako.template",
+    "pre_commit.main",
+]
+ignore_missing_imports = true
