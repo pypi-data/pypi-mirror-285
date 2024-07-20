@@ -1,0 +1,94 @@
+[build-system]
+requires = ["hatchling>=1.17.1"]
+build-backend = "hatchling.build"
+
+[project]
+name = "esbonio"
+dynamic = ["version"]
+description = "A language server for sphinx/docutils based documentation projects."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "Alex Carney", email = "alcarneyme@gmail.com" }]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Documentation",
+    "Topic :: Documentation :: Sphinx",
+]
+dependencies = [
+    "aiosqlite",
+    "platformdirs",
+    "docutils",
+    "pygls>=1.1.0",
+    "tomli ; python_version<'3.11'",
+    "websockets",
+]
+
+[project.urls]
+"Bug Tracker" = "https://github.com/swyddfa/esbonio/issues"
+"Documentation" = "https://swyddfa.github.io/esbonio/"
+"Source Code" = "https://github.com/swyddfa/esbonio"
+
+[project.scripts]
+esbonio = "esbonio.server.cli:main"
+
+[project.optional-dependencies]
+typecheck = ["mypy", "pytest-lsp>=0.3.1", "types-docutils", "types-pygments"]
+dev = ["black", "flake8", "pre-commit", "tox"]
+
+[tool.coverage.run]
+parallel = true
+source_pkgs = ["esbonio"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+sort = "Cover"
+exclude_also = [
+    # Typing imports will never be executed
+    "if typing.TYPE_CHECKING:",
+]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-glob='*.txt'"
+asyncio_mode = "auto"
+
+[tool.mypy]
+mypy_path = "$MYPY_CONFIG_FILE_DIR"
+explicit_package_bases = true
+check_untyped_defs = true
+
+[tool.pyright]
+venv = ".env"
+include = ["esbonio"]
+
+pythonVersion = "3.8"
+pythonPlatform = "All"
+
+[tool.towncrier]
+filename = "CHANGES.md"
+directory = "changes/"
+title_format = "## v{version} - {project_date}"
+issue_format = "[#{issue}](https://github.com/swyddfa/esbonio/issues/{issue})"
+underlines = ["", "", ""]
+
+type = [
+    { name = "Breaking Changes", directory = "breaking", showcontent = true },
+    { name = "Features", directory = "feature", showcontent = true },
+    { name = "Enhancements", directory = "enhancement", showcontent = true },
+    { name = "API Changes", directory = "api", showcontent = true },
+    { name = "Fixes", directory = "fix", showcontent = true },
+    { name = "Docs", directory = "doc", showcontent = true },
+    { name = "Deprecated", directory = "deprecated", showcontent = true },
+    { name = "Misc", directory = "misc", showcontent = true },
+    { name = "Removed", directory = "removed", showcontent = true },
+]
