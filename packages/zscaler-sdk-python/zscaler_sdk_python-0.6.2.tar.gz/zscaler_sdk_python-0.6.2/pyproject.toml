@@ -1,0 +1,96 @@
+[tool.poetry]
+name = "zscaler-sdk-python"
+version = "0.6.2"
+description = "Official Python SDK for the Zscaler Products (Beta)"
+authors = ["Zscaler, Inc. <devrel@zscaler.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/zscaler/zscaler-sdk-python"
+repository = "https://github.com/zscaler/zscaler-sdk-python"
+documentation = "https://zscaler-sdk-python.readthedocs.io"
+keywords = ["zscaler", "sdk", "zpa", "zia", "zdx", "zcc", "zcon"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Topic :: Security",
+    "Topic :: Software Development :: Libraries :: Python Modules", ]
+packages = [
+    { include = "zscaler" }
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/zscaler/zscaler-sdk-python/issues"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+arrow = "*"
+certifi = ">=2024.2.2"
+charset-normalizer = "*"
+idna = "*"
+python-box = "^7.2.0"
+python-dateutil = "*"
+requests = ">=2.32.3"
+responses = ">=0.25.3"
+restfly = "*"
+six = "*"
+flatdict = "*"
+pyyaml = "*"
+xmltodict = "*"
+yarl = "*"
+pycryptodomex = "*"
+aenum = "*"
+pydash = "*"
+flake8 = "*"
+pytz = "*"
+black = ">=24.3.0"
+# cryptography = ">=3.4,<43.0"
+cryptography = ">=42.0.7"
+okta = ">=2.9.7"
+
+[tool.poetry.dev-dependencies]
+black = ">=24.3.0"
+pytest = ">=8.2.2"
+pytest-asyncio = "^0.23.8"
+pytest-mock = "*"
+pytest-recording = "^0.13.2"
+pytest-cov = "*"
+pyfakefs = "^5.6.0"
+isort = "*"
+wheel = "*"
+sphinx = "^7.4.6"
+sphinx-autobuild = "*"
+sphinx_rtd_theme = "*"
+
+[tool.poetry.extras]
+dev = ["black", "pytest", "pytest-asyncio", "pytest-mock", "pytest-recording", "pytest-cov", "pyfakefs", "aenum", "isort", "wheel", "pydash"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 127
+
+[tool.pylint.'MESSAGES CONTROL']
+disable=[
+    "format",
+    "missing-module-docstring",
+    "missing-class-docstring",
+    "missing-function-docstring",
+    "too-many-public-methods",
+    "anomalous-backslash-in-string",
+    "import-error",
+    "redefined-outer-name",
+]
+
+[tool.pylint.'FORMAT']
+max-line-length = 127
+
+[tool.isort]
+profile = "black"
