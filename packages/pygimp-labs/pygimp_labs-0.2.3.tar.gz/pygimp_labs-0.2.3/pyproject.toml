@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "poetry-core>=1.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pygimp-labs"
+version = "0.2.3"
+description = "PythonでGIMPスクリプトを操作するためのパッケージ"
+authors = [{name = "Maki", email = "sunwood.ai.labs@gmail.com"}]
+readme = "README.md"
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12"
+]
+requires-python = ">=3.8"
+dependencies = [
+    "loguru>=0.7.2,<0.8.0",
+    "art>=6.2,<7.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/Sunwood-ai-labs/PyGIMP"
+Repository = "https://github.com/Sunwood-ai-labs/PyGIMP"
+"Bug Tracker" = "https://github.com/Sunwood-ai-labs/PyGIMP/issues"
+
+[project.scripts]
+pygimp-labs = "pygimp.cli:main"
+
+[tool.poetry]
+packages = [{include = "pygimp"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+loguru = "^0.7.2"
+art = "^6.2"
+
+[tool.setuptools.packages.find]
+include = ["pygimp*"]
