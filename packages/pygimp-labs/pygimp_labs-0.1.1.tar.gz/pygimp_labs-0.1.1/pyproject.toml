@@ -1,0 +1,33 @@
+[tool.poetry]
+name = "pygimp-labs"
+version = "0.1.1"
+description = "PythonでGIMPスクリプトを操作するためのパッケージ"
+authors = ["Maki <sunwood.ai.labs@gmail.com>"]
+readme = "README.md"
+packages = [{include = "pygimp"}]  # この行を追加
+license = "MIT"
+homepage = "https://github.com/Sunwood-ai-labs/PyGIMP-Labs"
+repository = "https://github.com/Sunwood-ai-labs/PyGIMP-Labs"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12"
+]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+loguru = "^0.7.2"
+art = "^6.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pygimp-labs = "pygimp.cli:main"
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/Sunwood-ai-labs/PyGIMP-Labs/issues"
