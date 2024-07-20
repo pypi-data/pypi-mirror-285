@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: visceng
+Version: 0.1.0
+Summary: A fast 2D game engine for Python focused on normal-mapped lighting, optimized rendering, a simple API, and easy modding.
+Home-page: https://github.com/N3rdL0rd/visceng
+Author: N3rdL0rd
+Author-email: n3rdl0rd@proton.me
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pyglet
+Requires-Dist: pdoc3
+Requires-Dist: black
+Requires-Dist: pyinstaller
+Requires-Dist: setuptools
+Requires-Dist: wheel
+Requires-Dist: twine
+
+![ViscEng](assets/visceng_dark.png)
+
+Custom 2D game engine adapted from my previous, cancelled game, known in development as "Visceral Velocity". This version of the engine has been rewritten from scratch to be more efficient, and more user-friendly.
+
+## Features
+
+- Comparatively fast rendering in pure Python using Pyglet (~2000 FPS on a large tilemap on a Ryzen 9 7900X, where a similar scene in Pygame would be ~90 FPS)
+- Simple and easy-to-use API for quickly getting repetitive things done
+- Built-in support for tilemaps using a custom format (and level editor)
+- 2D lighting, shadow-casting, normal mapping, and more
+- Easy modding support with everything exposed as pure Python to a modder
+- Simple multiplayer synchronization using a custom P2P protocol, with a broker server for NAT traversal
+
+## Installation
+
+1. Clone the repository
+2. Create a venv
+    - Python 3.11 is required. If you have pyenv already, it will default to 3.11 for this directory.
+3. Install requirements
+4. Run `python main.pyw` to start the engine. Look at the `scenes` folder for some example scenes, and look at `assets` for the resources used in those scenes.
+
+## License
+
+None yet.
+<!-- TODO license -->
+
+## Contributing
+
+Feel free to contribute! Just fork the repository and make a pull request. If you have any questions, feel free to ask in the issues tab.
