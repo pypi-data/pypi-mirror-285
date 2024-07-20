@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package strique.model.db.platform;
+
+import "db/platform/platform.proto";
+
+option java_package = "com.strique.model.db.platform";
+option java_outer_classname = "PlatformResponseProto";
+
+// Next Id: 2
+// Proto definition of Platform response.
+message PlatformResponse {
+    repeated Platform platforms = 1;
+}
+
