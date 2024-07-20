@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-planner from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<form col="6">
+    <label name="cashbook"/>
+    <field name="cashbook" colspan="3"/>
+    <newline/>
+
+    <label name="name"/>
+    <field name="name" colspan="3"/>
+    <label name="active"/>
+    <field name="active"/>
+
+    <label name="nextrun_date" colspan="5"/>
+    <field name="nextrun_date"/>
+
+    <notebook colspan="6">
+        <page id="rrule" col="6" string="Recurrence Rule">
+            <label name="start_date"/>
+            <field name="start_date"/>
+            <label name="end_date"/>
+            <field name="end_date"/>
+            <newline/>
+
+            <label name="frequ"/>
+            <field name="frequ"/>
+            <label name="interval"/>
+            <field name="interval"/>
+            <label name="setpos"/>
+            <field name="setpos"/>
+
+            <label name="weekday"/>
+            <field name="weekday"/>
+            <label name="monthday"/>
+            <field name="monthday"/>
+
+            <label name="move_event"/>
+            <field name="move_event"/>
+            <newline/>
+
+            <separator id="sep2" colspan="6" string="Result of the recurrence rule"/>
+            <field name="nextdates" colspan="6"/>
+        </page>
+        <page id="booking" col="4" string="Booking">
+            <label name="bookingtype"/>
+            <field name="bookingtype"/>
+            <label name="amount"/>
+            <field name="amount"/>
+
+            <label name="category"/>
+            <field name="category"/>
+            <label name="party"/>
+            <field name="party"/>
+
+            <label name="booktransf"/>
+            <field name="booktransf" colspan="3"/>
+
+            <label name="wfcheck"/>
+            <field name="wfcheck"/>
+            <newline/>
+
+            <separator name="subject" colspan="4" string="Booking text"/>
+            <field name="subject" colspan="4"/>
+            <label id="lab1" colspan="4" xalign="0.0"
+                string="Available placeholders: ${date} ${month} ${year} ${amount} ${quantity} ${rate}"/>
+        </page>
+        <page name="description" col="1" string="Description">
+            <field name="description"/>
+        </page>
+        <page name="cashbook_lines" col="1" string="Cashbook lines">
+            <field name="cashbook_lines"/>
+        </page>
+    </notebook>
+
+
+</form>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-planner from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- menu: /Cashbook/Scheduled Bookings -->
+        <menuitem id="menu_planner" action="act_planner_view"
+            icon="tryton-list"
+            parent="cashbook.menu_cashbook" sequence="50"/>
+        <record model="ir.ui.menu-res.group" id="menu_planner-group_planner">
+            <field name="menu" ref="menu_planner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+        <record model="ir.ui.menu-res.group" id="menu_planner-group_cashbook_admin">
+            <field name="menu" ref="menu_planner"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+    </data>
+</tryton>

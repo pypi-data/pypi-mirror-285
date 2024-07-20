@@ -1,0 +1,161 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-planner from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- views -->
+        <record model="ir.ui.view" id="planner_view_list">
+            <field name="model">cashbook.planner</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="10"/>
+            <field name="name">planner_list</field>
+        </record>
+        <record model="ir.ui.view" id="planner_view_form">
+            <field name="model">cashbook.planner</field>
+            <field name="type">form</field>
+            <field name="priority" eval="20"/>
+            <field name="name">planner_form</field>
+        </record>
+
+        <!-- action view - list -->
+        <record model="ir.action.act_window" id="act_planner_view">
+            <field name="name">Scheduled Bookings</field>
+            <field name="res_model">cashbook.planner</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_planner_view-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="planner_view_list"/>
+            <field name="act_window" ref="act_planner_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_planner_view-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="planner_view_form"/>
+            <field name="act_window" ref="act_planner_view"/>
+        </record>
+
+        <!-- permission -->
+        <!-- anon: deny all -->
+        <record model="ir.model.access" id="access_planner-anon">
+            <field name="model" search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- group_planner_write: read/write -->
+        <record model="ir.model.access" id="access_planner-group_planner">
+            <field name="model" search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="group" ref="group_planner"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+
+        <!-- permission by rule - admin-write -->
+        <record model="ir.rule.group" id="rg_planner_admin">
+            <field name="model" search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="name">Administrators: scheduled bookings read/write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_planner_admin-1">
+            <field name="domain" eval="[]" pyson="1"/>
+            <field name="rule_group" ref="rg_planner_admin"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_planner_admin-group_cashbook_admin">
+            <field name="rule_group" ref="rg_planner_admin"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+        <!-- permission by rule - read/write: owner -->
+        <record model="ir.rule.group" id="rg_planner_owner">
+            <field name="model" search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="name">Owners: scheduled bookings</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_planner_owner-1">
+            <field name="domain" eval="[
+                ('cashbook.owner.id', '=', Eval('user_id', -1)),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_planner_owner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_planner_owner-group_planner">
+            <field name="rule_group" ref="rg_planner_owner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+        <!-- permission by rule - read: observer -->
+        <record model="ir.rule.group" id="rg_planner_read_nonowner">
+            <field name="model" search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="name">Observers: scheduled bookings read</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <record model="ir.rule" id="rg_planner_read_nonowner-1">
+            <field name="domain" eval="[
+                    ('cashbook.observer.id', 'in', Eval('groups', [])),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_planner_read_nonowner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_planner_read_nonowner-group_planner">
+            <field name="rule_group" ref="rg_planner_read_nonowner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+        <!-- permission by rule - write: reviewer -->
+        <record model="ir.rule.group" id="rg_planner_write_nonowner">
+            <field name="model" search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="name">Reviewer: scheduled bookings write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_planner_write_nonowner-1">
+            <field name="domain" eval="[
+                    ('cashbook.reviewer.id', 'in', Eval('groups', [])),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_planner_write_nonowner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_planner_write_nonowner-group_planner">
+            <field name="rule_group" ref="rg_planner_write_nonowner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+        <record model="ir.rule.group" id="rg_planner_companies">
+            <field name="name">User in companies</field>
+            <field name="model"
+                search="[('model', '=', 'cashbook.planner')]"/>
+            <field name="global_p" eval="True"/>
+        </record>
+        <record model="ir.rule" id="r_planner_companies">
+            <field name="domain"
+                eval="[('company', 'in', Eval('companies', []))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rg_planner_companies"/>
+        </record>
+
+    </data>
+</tryton>

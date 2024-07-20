@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-planner from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- views -->
+        <record model="ir.ui.view" id="nextrun_view_list">
+            <field name="model">cashbook.planner.nextrun</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="10"/>
+            <field name="name">nextrun_list</field>
+        </record>
+        <record model="ir.ui.view" id="nextrun_view_form">
+            <field name="model">cashbook.planner.nextrun</field>
+            <field name="type">form</field>
+            <field name="priority" eval="20"/>
+            <field name="name">nextrun_form</field>
+        </record>
+
+        <!-- permission -->
+        <!-- anon: deny all -->
+        <record model="ir.model.access" id="access_nextrun-anon">
+            <field name="model" search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- group_planner_write: read/write -->
+        <record model="ir.model.access" id="access_nextrun-group_planner">
+            <field name="model" search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="group" ref="group_planner"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+
+        <!-- permission by rule - admin-write -->
+        <record model="ir.rule.group" id="rg_nextrun_admin">
+            <field name="model" search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="name">Administrators: scheduled bookings read/write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_nextrun_admin-1">
+            <field name="domain" eval="[]" pyson="1"/>
+            <field name="rule_group" ref="rg_nextrun_admin"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_nextrun_admin-group_cashbook_admin">
+            <field name="rule_group" ref="rg_nextrun_admin"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+        <!-- permission by rule - read/write: owner -->
+        <record model="ir.rule.group" id="rg_nextrun_owner">
+            <field name="model" search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="name">Owners: scheduled bookings</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_nextrun_owner-1">
+            <field name="domain" eval="[
+                ('planner.cashbook.owner.id', '=', Eval('user_id', -1)),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_nextrun_owner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_nextrun_owner-group_planner">
+            <field name="rule_group" ref="rg_nextrun_owner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+        <!-- permission by rule - read: observer -->
+        <record model="ir.rule.group" id="rg_nextrun_read_nonowner">
+            <field name="model" search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="name">Observers: scheduled bookings read</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <record model="ir.rule" id="rg_nextrun_read_nonowner-1">
+            <field name="domain" eval="[
+                    ('planner.cashbook.observer.id', 'in', Eval('groups', [])),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_nextrun_read_nonowner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_nextrun_read_nonowner-group_planner">
+            <field name="rule_group" ref="rg_nextrun_read_nonowner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+        <!-- permission by rule - write: reviewer -->
+        <record model="ir.rule.group" id="rg_nextrun_write_nonowner">
+            <field name="model" search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="name">Reviewer: scheduled bookings write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_nextrun_write_nonowner-1">
+            <field name="domain" eval="[
+                    ('planner.cashbook.reviewer.id', 'in', Eval('groups', [])),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_nextrun_write_nonowner"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_nextrun_write_nonowner-group_planner">
+            <field name="rule_group" ref="rg_nextrun_write_nonowner"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+        <record model="ir.rule.group" id="rg_nextrun_companies">
+            <field name="name">User in companies</field>
+            <field name="model"
+                search="[('model', '=', 'cashbook.planner.nextrun')]"/>
+            <field name="global_p" eval="True"/>
+        </record>
+        <record model="ir.rule" id="r_nextrun_companies">
+            <field name="domain"
+                eval="[('planner.company', 'in', Eval('companies', []))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rg_nextrun_companies"/>
+        </record>
+
+    </data>
+</tryton>
