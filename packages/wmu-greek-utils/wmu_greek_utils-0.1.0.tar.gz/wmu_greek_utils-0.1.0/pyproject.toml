@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "wmu-greek-utils"
+version = "0.1.0"
+description = "A collection of utilities for working with Greek text"
+authors = ["Will Fitzgerald <willf@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8.1"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+flake8 = "^7.1.0"
+pytest = "^8.2.2"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
