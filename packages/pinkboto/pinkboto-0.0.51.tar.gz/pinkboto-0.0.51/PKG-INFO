@@ -1,0 +1,105 @@
+Metadata-Version: 2.1
+Name: pinkboto
+Version: 0.0.51
+Summary: A Colorful AWS SDK wrapper for Python
+Home-page: https://github.com/Hotmart-Org/pinkboto
+Author: Jônatas Renan Camilo Alves
+Author-email: jonatas.alves@hotmart.com
+Keywords: aws sdk api pinkboto boto
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Utilities
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: boto3>=1.18.50
+Requires-Dist: pyyaml>=5.1
+Requires-Dist: Jinja2<3.2.0,>=2.10.1
+Requires-Dist: python-json-logger==2.0.4
+
+# pinkboto
+
+A Colorful AWS SDK wrapper for Python
+
+[![Current version at PyPI](https://img.shields.io/pypi/v/pinkboto.svg)](https://pypi.python.org/pypi/pinkboto)
+![Supported Python Versions](https://img.shields.io/pypi/pyversions/pinkboto.svg)
+![Software status](https://img.shields.io/pypi/status/pinkboto.svg)
+![PyPI - Downloads](https://img.shields.io/pypi/dd/pinkboto)
+
+## Install
+
+```bash
+pip install pinkboto
+```
+
+### Usage
+
+```python
+import pinkboto
+aws = pinkboto.aws(profile='production', region='us-east-1') 
+selector = {'resource': 'aws_db_instance'}
+projection = ['DBInstanceIdentifier', 'Endpoint']
+rds = aws.find(selector, projection)
+```
+
+### Caching
+
+By default, pinkboto caching all requests with 120 seconds lifespan.
+
+To disable:
+
+```python
+aws = pinkboto.aws(profile='production', region='us-east-1', cache=False)
+```
+
+To modify lifespan to 1 hour:
+
+```python
+aws = pinkboto.aws(profile='production', region='us-east-1', cache=3600)
+```
+
+### AWS Lambda usage
+When using pinkboto in an AWS Lambda it is important to change the cache folder
+to the /tmp writable folder.
+
+```python
+aws = pinkboto.aws(profile='production', region='us-east-1', cache=3600, cache_folder='/tmp/pinkboto')
+```
+
+### Subfield projection
+
+You can access a subfield in projection. For example 'Endpoint.Address' in rds
+
+```python
+rds = aws.find({'resource': 'aws_db_instance'}, ['Endpoint.Address', 'AvailabilityZone'])
+```
+
+### CSV output
+
+```python
+pinkboto.to_csv(rds, 'result.csv')
+```
+
+### pypi package publish
+
+```bash
+update setup.py version.
+python3 setup.py sdist
+twine upload dist/pinkboto-${new-version}.tar.gz
+```
+
+### Contributing
+
+Pull requests for new features, bug fixes, and suggestions are welcome!
+
+### License
+
+GNU General Public License v3 (GPLv3)
+
+### Developer install requirements
+
+```bash
+pre-commit install
+```
