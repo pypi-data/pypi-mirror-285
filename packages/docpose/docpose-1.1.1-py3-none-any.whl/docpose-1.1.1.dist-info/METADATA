@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: docpose
+Version: 1.1.1
+Summary: A small templating engine using a .docpose.yml file for generating documents
+License: MIT
+Author: Eugen Hildt
+Author-email: eugen.hildt@litlbyte.com
+Requires-Python: >=3.12,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: jinja2 (>=3.1.4,<4.0.0)
+Requires-Dist: pyyaml (>=6.0.1,<7.0.0)
+Description-Content-Type: text/markdown
+
+# DOCPOSE
+A templating engine build on top of python and jinja2.
+
+By executing `docpose -i` a sample config.yml will be generated.
+This config.yml might look similar to this:
+
+```yaml
+source:
+  template_dir: .templates
+  outputs:
+    - compose.yml
+    - &DATABASES databases.yml
+  env_files:
+    - env/.env
+    - env/.env.local
+  environment:
+    - NODE_ENV: local
+    - TARGET: local
+
+compose:
+  - &APP my_app.j2
+  - template: web_ui.j2
+    depends_on:
+      - *APP
+  - template: &POSTGRES postgresql.j2
+    depends_on:
+      - *APP
+    environment:
+      - PASSWORD: super_secret
+      - USERNAME: super_admin 
+  - template: mongodb.j2
+    environment:
+      - SOME_STR: VAR_ONE
+      - SOME_BOOL: false
+      - SOME_NUM: 1234
+    output: *DATABASES
+    depends_on:
+      - *APP
+  - redis.j2
+  - volumes.j2
+  - networks.j2
+
+command: docker compose
+
+```
+
+With `docpose -c config.yml` the files which are declared under outputs will be generated, with the first one as the default file. This means that if in the compose section a template has no output defined, it will automatically go into the file which is in first place under outputs.
