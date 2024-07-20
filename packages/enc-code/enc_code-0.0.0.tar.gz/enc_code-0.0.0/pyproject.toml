@@ -1,0 +1,105 @@
+# https://github.com/pypa/sampleproject/blob/main/pyproject.toml
+# Choosing a build backend:
+# https://packaging.python.org/en/latest/tutorials/packaging-projects/#choosing-a-build-backend
+[build-system]
+# A list of packages that are needed to build your package:
+requires = ["setuptools", "wheel"]  # REQUIRED if [build-system] table is used
+# The name of the Python object that frontends will use to perform the build:
+build-backend = "setuptools.build_meta"  # If not defined, then legacy behavior can happen.
+
+
+[project]
+name = "enc-code"
+version = "0.0.0"
+description = """This is an installer for the enc command.
+    enc command is a wrapper around your regular version control system (git, svn, mercurial etc.).
+	This command enables encryption and scrambling of repository files, commit messages, author info and
+	commit date-time encryption as well as scrambling so that the code stays decrypted in your local but is pushed
+	in encrypted state in the remote repo.
+	An enc repo organises code into:
+	1) working tree stage: the stage where your code stays pure, unencrypted and/or unscrambled. This is the
+		stage where user is supposed to make changes and perform usual git operations by using the 'enc' command instead
+		of the 'git' command. Users can set a trusted repository location to push this pure code into, this is not
+		required though.
+	2) process stage: the stage where everything in the code is processed, encrypted and/or scrambled. This stage is
+		configured so that processed code can be pushed to the remote untrusted repository."""
+readme = "README.md"
+authors = [
+    {name = "Suhas Krishna Srivastava", email = "suhas.srivastava@vaastav.tech"}
+]
+maintainers = [
+    {name = "Suhas Krishna Srivastava", email = "suhas.srivastava@vaastav.tech"}
+]
+requires-python = ">=3.8"
+# For a list of valid classifiers, see https://pypi.org/classifiers/
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Environment :: Console",
+
+  "Intended Audience :: Developers",
+  "Intended Audience :: Education",
+  "Intended Audience :: End Users/Desktop",
+
+  "Topic :: Education",
+  "Topic :: Software Development :: Version Control",
+  "Topic :: Software Development :: Version Control :: Git",
+
+  "License :: Free For Educational Use",
+
+  # Specify the Python versions you support here. In particular, ensure
+  # that you indicate you support Python 3. These classifiers are *not*
+  # checked by "pip install". See instead "requires-python" key in this file.
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3 :: Only",
+]
+dependencies = [
+  # TODO: check how to move pytest and tox to optional dependencies.
+  "typing-extensions",
+  "tox",
+  "pytest",
+  "pytest-mock"
+]
+
+[project.urls]
+Homepage = "https://www.vaastav.tech/products/enc-code"
+Issues = "https://www.vaastav.tech/issues/enc-code"
+
+# List additional groups of dependencies here (e.g. development
+# dependencies). Users will be able to install these using the "extras"
+# syntax, for example:
+#
+#   $ pip install sampleproject[dev]
+#
+# Optional dependencies the project provides. These are commonly
+# referred to as "extras". For a more extensive definition see:
+# https://packaging.python.org/en/latest/specifications/dependency-specifiers/#extras
+[project.optional-dependencies]
+dev = ["check-manifest"]
+test = ["pytest", "coverage", "tox"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"tests" = ["**/*.py"]
+
+[tool.tox]
+legacy_tox_ini = """
+    [tox]
+    env_list =
+        py38
+        py39
+        py310
+        py311
+        py312
+
+    [testenv]
+    deps =  pytest
+            typing-extensions
+    commands = python -m pytest . --basetemp='{envtmpdir}'
+"""
