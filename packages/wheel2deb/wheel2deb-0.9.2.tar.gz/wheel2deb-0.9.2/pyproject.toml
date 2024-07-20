@@ -1,0 +1,95 @@
+[tool.poetry]
+name = "wheel2deb"
+version = "0.9.2"
+description = "Python wheel to debian package converter"
+repository = "https://github.com/upciti/wheel2deb"
+license = "MIT"
+keywords=["Debian", "DevOps", "Automation", "converter", "package"]
+authors = ["Upciti <support@upciti.com>"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Code Generators",
+]
+readme = "README.md"
+packages = [
+    {include = "wheel2deb", from  = "src"},
+]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.12"
+typer = ">=0.6.1"
+wheel = "*"
+pkginfo = "*"
+colorama = "*"
+attrs = ">=20.1"
+packaging = "*"
+dirsync = "*"
+PyYAML = "*"
+Jinja2 = "^3"
+pyinstaller = { version = "*", optional = true }
+rich = "*"
+
+[tool.poetry.extras]
+pyinstaller = ["pyinstaller"]
+
+[tool.poetry.scripts]
+wheel2deb = "wheel2deb.cli:main"
+
+[tool.poetry.dev-dependencies]
+pytest = "*"
+taskipy = "*"
+pytest-cov = "*"
+ruff = "*"
+types-PyYAML = "*"
+poetry-dynamic-versioning = ">=0.13.0"
+setuptools = "!=71.0.0,!=71.0.1"
+
+[tool.taskipy.tasks]
+check = """
+ruff format\
+ && ruff check --fix\
+ && pytest --cov src tests\
+"""
+single_binary_application = """
+pyinstaller --onefile src/wheel2deb/__main__.py --name wheel2deb -s
+"""
+
+[tool.ruff]
+exclude = [".venv", "src/wheel2deb/templates.py"]
+line-length = 90
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes checks
+    "W",  # pycodestyle warnings
+    "I001",  # Imports sorting
+    "C4",  # Rules related to comprehensions
+    "RUF100",  # Unused noqa
+    "PGH004", # Ensure there is a reason for a noqa
+    "G010", # Checks for usage of deprecated logging.warn
+    "PGH005", # Protects from fogetting parenthesis on a mock method
+    "PIE807", # Checks if lambda has been used instead of collection constructor
+    "T20", # Ensures no prints are left in the code
+    # Performance lints
+    "PERF101", # Avoids casting to list to use as iterators
+    "PERF102", # Avoids looping over keys xor values using for dict.items()
+    "PERF402", # Checks if a for loop has been used to copy a list
+    "RUF015",  # Checks for the usage of a list to get a single element from an iterator
+    "PIE810",  # Checks if startswith or endswith calls could be combined in a single call
+]
+
+[build-system]
+requires = ["poetry>=1.0.2", "poetry-dynamic-versioning"]
+build-backend = "poetry.masonry.api"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+pattern = "(?x)^(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
+
+[tool.poetry-dynamic-versioning.substitution]
+files = ["src/wheel2deb/version.py"]
