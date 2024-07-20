@@ -1,0 +1,228 @@
+Metadata-Version: 2.1
+Name: ratchada-utils
+Version: 1.0.4
+Summary: Ratchada Utils are Python package use with Ratchada Whisper model utilities.
+Home-page: https://github.com/thinkingmachines/ratchada-utils/
+Author: tm-zoon
+Author-email: zoon_p@thinkingmachin.es
+Maintainer: Thinking Machines Data Sciences Inc. Thailand Team
+Maintainer-email: hello@thinkingmachin.es
+License: MIT
+Project-URL: Documentation, https://huggingface.co/ThinkingMachinesDataScience/Ratchada-Fang-Thon-Whisper
+Project-URL: Source Code, https://github.com/thinkingmachines/ratchada-utils
+Project-URL: Issue Tracker, https://github.com/thinkingmachines/ratchada-utils/issues
+Keywords: model,Ratchada-Whisper,tokenizing,language,natural language,text analytics
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Information Technology
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Scientific/Engineering
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Scientific/Engineering :: Information Analysis
+Classifier: Topic :: Text Processing
+Classifier: Topic :: Text Processing :: Filters
+Classifier: Topic :: Text Processing :: General
+Classifier: Topic :: Text Processing :: Indexing
+Classifier: Topic :: Text Processing :: Linguistic
+Requires-Python: >=3.10, <3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: absl-py==2.0.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: accelerate==0.24.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: aiohttp==3.9.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: aiosignal==1.3.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: astunparse==1.6.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: async-timeout==4.0.3; python_version >= "3.10" and python_version < "3.11"
+Requires-Dist: attrs==23.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: audioread==3.0.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: beautifulsoup4==4.12.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: bitsandbytes==0.41.2.post2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: bleach==6.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: cachetools==5.3.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: certifi==2023.11.17; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: cffi==1.16.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: chardet==5.2.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: charset-normalizer==3.3.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: click==8.1.7; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: colorama==0.4.6; python_version >= "3.10" and python_version < "3.12" and platform_system == "Windows"
+Requires-Dist: datasets==2.15.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: decorator==4.4.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: deepcut==0.7.0.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: defusedxml==0.7.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: dill==0.3.7; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: fastjsonschema==2.19.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: filelock==3.13.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: flatbuffers==23.5.26; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: frozenlist==1.4.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: fsspec==2023.10.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: fsspec[http]==2023.10.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: gast==0.5.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: gdown==4.7.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: google-auth-oauthlib==1.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: google-auth==2.23.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: google-pasta==0.2.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: grpcio==1.59.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: h5py==3.10.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: huggingface-hub==0.19.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: idna==3.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: imageio-ffmpeg==0.4.9; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: imageio==2.33.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jinja2==3.1.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jiwer==3.0.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: joblib==1.3.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jsonschema-specifications==2023.11.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jsonschema==4.20.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jupyter-client==8.6.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jupyter-core==5.5.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: jupyterlab-pygments==0.3.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: keras==2.15.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: lazy-loader==0.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: libclang==16.0.6; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: librosa==0.10.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: llvmlite==0.41.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: markdown==3.5.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: markupsafe==2.1.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: mistune==3.0.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: ml-dtypes==0.2.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: more-itertools==10.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: moviepy==1.0.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: mpmath==1.3.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: msgpack==1.0.7; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: multidict==6.0.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: multiprocess==0.70.15; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: nbclient==0.9.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: nbconvert==7.11.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: nbformat==5.9.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: networkx==3.2.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: nltk==3.8.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: numba==0.58.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: numpy==1.26.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: oauthlib==3.2.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: opt-einsum==3.3.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: packaging==23.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pandas==2.1.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pandocfilters==1.5.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: peft==0.6.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pillow==10.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: platformdirs==4.0.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pooch==1.8.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: proglog==0.1.10; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: protobuf==4.23.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: psutil==5.9.6; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pyarrow-hotfix==0.6; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pyarrow==14.0.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pyasn1-modules==0.3.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pyasn1==0.5.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pycparser==2.21; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pygments==2.17.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pysocks==1.7.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pysrt==1.1.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pythainlp==4.0.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: python-dateutil==2.8.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pytz==2023.3.post1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pywin32==306; sys_platform == "win32" and platform_python_implementation != "PyPy" and python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pyyaml==6.0.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: pyzmq==25.1.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: rapidfuzz==3.5.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: referencing==0.31.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: regex==2023.10.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: requests-oauthlib==1.3.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: requests==2.31.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: requests[socks]==2.31.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: rpds-py==0.13.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: rsa==4.9; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: safetensors==0.4.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: scikit-learn==1.3.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: scipy==1.11.4; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: setuptools==69.0.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: setuptools-scm==8.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: six==1.16.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: soundfile==0.12.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: soupsieve==2.5; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: soxr==0.3.7; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: sympy==1.12; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tensorboard-data-server==0.7.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tensorboard==2.15.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tensorflow-estimator==2.15.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tensorflow-io-gcs-filesystem==0.34.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tensorflow==2.15.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: termcolor==2.3.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: threadpoolctl==3.2.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tinycss2==1.2.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tokenizers==0.15.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: torch==2.0.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: torchaudio==2.0.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tornado==6.3.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tqdm==4.66.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: traitlets==5.13.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: transformers==4.35.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: transformers[torch]==4.35.2; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: typing-extensions==4.8.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: tzdata==2023.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: urllib3==2.1.0; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: webencodings==0.5.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: werkzeug==3.0.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: wheel==0.41.3; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: wrapt==1.14.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: xxhash==3.4.1; python_version >= "3.10" and python_version < "3.12"
+Requires-Dist: yarl==1.9.3; python_version >= "3.10" and python_version < "3.12"
+Provides-Extra: testing
+Requires-Dist: pytest~=7.1.2; extra == "testing"
+Requires-Dist: pytest-cov~=4.1; extra == "testing"
+Provides-Extra: quality
+Requires-Dist: black~=22.10.0; extra == "quality"
+Requires-Dist: mypy~=1.4.0; extra == "quality"
+Requires-Dist: pre-commit~=2.20.0; extra == "quality"
+Requires-Dist: ruff~=0.0.263; extra == "quality"
+
+# Ratchada_Util
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+A Python library for the Ratchada Whisper model.
+
+## Installation
+
+You can install `ratchada_util` using pip:
+
+```bash
+pip install ratchada_util
+```
+
+To install from source, clone the repository and run:
+
+```bash
+pip install .
+```
+
+## Usage
+
+### Tokenizing Text
+
+```bash
+
+from ratchada_utils.processor import tokenize_text
+
+text = "Your input text here."
+tokenized_text = tokenize_text(text, pred=True)
+print("Tokenized Text:", tokenized_text)
+# Tokenized Text: ['your', 'input', 'text', 'here']
+
+```
+
+## Requirements
+
+1. Python 3.10 or higher
+2. The Requirements are located in `requirements.txt`
+
+## License
+
+This project is licensed under the MIT License - see the `LICENSE` file for details.
+
+## Contact
+
+Please made contact on the [official repository](https://github.com/thinkingmachines/set-speechtotext-poc) of this project.
