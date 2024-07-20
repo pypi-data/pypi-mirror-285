@@ -1,0 +1,68 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Service is already configured",
+            "reauth_successful": "Re-authentication was successful"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "timeout_connect": "Timeout establishing connection",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "API key",
+                    "password": "Password",
+                    "username": "Username"
+                },
+                "description": "Please provide the username and password for your Hydrawise cloud account:",
+                "title": "Hydrawise Login"
+            }
+        }
+    },
+    "entity": {
+        "binary_sensor": {
+            "rain_sensor": {
+                "name": "Rain sensor"
+            },
+            "watering": {
+                "name": "Watering"
+            }
+        },
+        "sensor": {
+            "daily_active_water_time": {
+                "name": "Daily active watering time"
+            },
+            "daily_active_water_use": {
+                "name": "Daily active water use"
+            },
+            "daily_inactive_water_use": {
+                "name": "Daily inactive water use"
+            },
+            "daily_total_water_use": {
+                "name": "Daily total water use"
+            },
+            "next_cycle": {
+                "name": "Next cycle"
+            },
+            "watering_time": {
+                "name": "Remaining watering time"
+            }
+        },
+        "switch": {
+            "auto_watering": {
+                "name": "Automatic watering"
+            },
+            "manual_watering": {
+                "name": "Manual watering"
+            }
+        }
+    },
+    "issues": {
+        "deprecated_yaml_import_issue": {
+            "description": "Configuring Hydrawise using YAML is being removed but there was an {error_type} error importing your YAML configuration.\n\nEnsure connection to Hydrawise works and restart Home Assistant to try again or remove the Hydrawise YAML configuration from your configuration.yaml file and continue to [set up the integration]({url}) manually.",
+            "title": "The Hydrawise YAML configuration import failed"
+        }
+    }
+}

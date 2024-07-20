@@ -1,0 +1,70 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Paslauga jau sukonfig\u016bruota"
+        },
+        "error": {
+            "cannot_connect": "Nepavyko prisijungti",
+            "invalid_auth": "Neteisingas autentifikavimas",
+            "unknown": "Netik\u0117ta klaida"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_token": "API prieigos raktas",
+                    "host": "URL"
+                },
+                "data_description": {
+                    "host": "J\u016bs\u0173 Mealie egzemplioriaus URL."
+                }
+            }
+        }
+    },
+    "entity": {
+        "calendar": {
+            "breakfast": {
+                "name": "Pusry\u010diai"
+            },
+            "dinner": {
+                "name": "Vakarien\u0117"
+            },
+            "lunch": {
+                "name": "Piet\u016bs"
+            },
+            "side": {
+                "name": "\u0160onin\u0117"
+            }
+        }
+    },
+    "exceptions": {
+        "end_date_before_start_date": {
+            "message": "Pabaigos data turi b\u016bti v\u0117lesn\u0117 nei prad\u017eios data."
+        },
+        "integration_not_found": {
+            "message": "Integracija \u201e {target} \u201c nerasta registre."
+        },
+        "not_loaded": {
+            "message": "{target} ne\u012fkeltas."
+        }
+    },
+    "services": {
+        "get_mealplan": {
+            "description": "Gaukite maisto plan\u0105 i\u0161 Mealie",
+            "fields": {
+                "config_entry_id": {
+                    "description": "Pasirinkite \u201eMealie\u201c egzempliori\u0173, i\u0161 kurio norite gauti maitinimo plan\u0105",
+                    "name": "Mealie pavyzdys"
+                },
+                "end_date": {
+                    "description": "Duomen\u0173, kuriuos reikia gauti, pabaigos data (numatytasis nustatymas: \u0161iandien).",
+                    "name": "Pabaigos data"
+                },
+                "start_date": {
+                    "description": "Duomen\u0173, kuriuos reikia gauti, prad\u017eios data (numatytasis: \u0161iandien).",
+                    "name": "Prad\u017eios data"
+                }
+            },
+            "name": "Gaukite maitinimo plan\u0105"
+        }
+    }
+}

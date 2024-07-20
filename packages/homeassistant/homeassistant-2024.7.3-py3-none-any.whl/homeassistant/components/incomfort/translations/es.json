@@ -1,0 +1,45 @@
+{
+    "config": {
+        "abort": {
+            "auth_error": "Credenciales no v\u00e1lidas.",
+            "no_heaters": "No se encontraron calentadores.",
+            "not_found": "No se encontr\u00f3 ninguna puerta de enlace Lan2RF.",
+            "timeout_error": "Tiempo de espera agotado al conectar con la puerta de enlace Lan2RF.",
+            "unknown": "Error desconocido al conectarse a la puerta de enlace Lan2RF."
+        },
+        "error": {
+            "auth_error": "Credenciales no v\u00e1lidas.",
+            "no_heaters": "No se encontraron calentadores.",
+            "not_found": "No se encontr\u00f3 ninguna puerta de enlace Lan2RF.",
+            "timeout_error": "Tiempo de espera agotado al conectar con la puerta de enlace Lan2RF.",
+            "unknown": "Error desconocido al conectarse a la puerta de enlace Lan2RF."
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "host": "Host",
+                    "password": "Contrase\u00f1a",
+                    "username": "Nombre de usuario"
+                }
+            }
+        }
+    },
+    "issues": {
+        "deprecated_yaml_import_issue_no_heaters": {
+            "description": "Se va a eliminar la configuraci\u00f3n de {integration_title} mediante YAML, pero no se encontraron calentadores al importar tu configuraci\u00f3n existente.\nLa configuraci\u00f3n no continuar\u00e1.\n\nVerifica que tu {integration_title} est\u00e9 funcionando correctamente y reinicia Home Assistant para intentar la importaci\u00f3n nuevamente. \n\nAlternativamente, puedes eliminar por completo la configuraci\u00f3n `{domain}` de tu configuraci\u00f3n.yaml, reiniciar Home Assistant y a\u00f1adir la integraci\u00f3n {integration_title} manualmente.",
+            "title": "La importaci\u00f3n de YAML fall\u00f3 porque no se encontraron calentadores"
+        },
+        "deprecated_yaml_import_issue_not_found": {
+            "description": "Se va a eliminar la configuraci\u00f3n de {integration_title} mediante YAML, pero no se encontr\u00f3 ninguna puerta de enlace Lan2RF al importar tu configuraci\u00f3n existente.\nLa configuraci\u00f3n no continuar\u00e1. \n\nVerifica que tu {integration_title} est\u00e9 funcionando correctamente y reinicia Home Assistant para intentar la importaci\u00f3n nuevamente. \n\nAlternativamente, puedes eliminar por completo la configuraci\u00f3n ` {domain}` de tu configuraci\u00f3n.yaml, reiniciar Home Assistant y a\u00f1adir la integraci\u00f3n {integration_title} manualmente.",
+            "title": "La importaci\u00f3n de YAML fall\u00f3 porque no se encontr\u00f3 ninguna puerta de enlace"
+        },
+        "deprecated_yaml_import_issue_timeout_error": {
+            "description": "Se va a eliminar la configuraci\u00f3n de {integration_title} mediante YAML, pero se cumpli\u00f3 el tiempo de espera conectando con tu {integration_title} al importar tu configuraci\u00f3n existente.\nLa configuraci\u00f3n no continuar\u00e1. \n\nVerifica que tu {integration_title} est\u00e9 funcionando correctamente y reinicia Home Assistant para intentar la importaci\u00f3n nuevamente. \n\nAlternativamente, puedes eliminar por completo la configuraci\u00f3n `{domain}` de tu configuraci\u00f3n.yaml, reiniciar Home Assistant y a\u00f1adir la integraci\u00f3n {integration_title} manualmente.",
+            "title": "La importaci\u00f3n de YAML fall\u00f3 debido a problemas de tiempo de espera"
+        },
+        "deprecated_yaml_import_issue_unknown": {
+            "description": "Se va a eliminar la configuraci\u00f3n de {integration_title} mediante YAML, pero hubo un error desconocido al importar tu configuraci\u00f3n existente.\nLa configuraci\u00f3n no continuar\u00e1. \n\nVerifica que tu {integration_title} est\u00e9 funcionando correctamente y reinicia Home Assistant para intentar la importaci\u00f3n de nuevo. \n\nAlternativamente, puedes eliminar por completo la configuraci\u00f3n `{domain}` de tu configuraci\u00f3n.yaml, reiniciar Home Assistant y a\u00f1adir la integraci\u00f3n {integration_title} manualmente.",
+            "title": "La importaci\u00f3n de YAML fall\u00f3 con un error desconocido"
+        }
+    }
+}

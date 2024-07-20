@@ -1,0 +1,110 @@
+{
+    "entity_component": {
+        "_": {
+            "name": "Calendari",
+            "state": {
+                "off": "OFF",
+                "on": "ON"
+            },
+            "state_attributes": {
+                "all_day": {
+                    "name": "Tot el dia",
+                    "state": {
+                        "false": "No",
+                        "true": "S\u00ed"
+                    }
+                },
+                "description": {
+                    "name": "Descripci\u00f3"
+                },
+                "end_time": {
+                    "name": "Hora final"
+                },
+                "location": {
+                    "name": "Ubicaci\u00f3"
+                },
+                "message": {
+                    "name": "Missatge"
+                },
+                "messages": {
+                    "name": "Missatge"
+                },
+                "start_time": {
+                    "name": "Hora d'inici"
+                }
+            }
+        }
+    },
+    "issues": {
+        "platform_integration_no_support": {
+            "description": "La plataforma {platform} de la integraci\u00f3 {domain} no \u00e9s compatible amb la configuraci\u00f3 de la plataforma.\n\nElimina-la de la teva configuraci\u00f3 i reinicia Home Assistant per solucionar aquest problema.",
+            "title": "Suport de la plataforma no compatible"
+        }
+    },
+    "services": {
+        "create_event": {
+            "description": "Afegeix un nou esdeveniment al calendari.",
+            "fields": {
+                "description": {
+                    "name": "Descripci\u00f3"
+                },
+                "end_date": {
+                    "description": "Data en qu\u00e8 ha de finalitzar l'esdeveniment de tot el dia (excloent).",
+                    "name": "Data final"
+                },
+                "end_date_time": {
+                    "description": "Data i hora en qu\u00e8 ha de finalitzar l'esdeveniment.",
+                    "name": "Data i hora final"
+                },
+                "in": {
+                    "description": "Dies o setmanes que falten per l'esdeveniment.",
+                    "name": "D'aqu\u00ed a"
+                },
+                "location": {
+                    "description": "Ubicaci\u00f3 de l'esdeveniment.",
+                    "name": "Ubicaci\u00f3"
+                },
+                "start_date": {
+                    "description": "Data en qu\u00e8 ha de comen\u00e7ar l'esdeveniment de tot el dia.",
+                    "name": "Data inici"
+                },
+                "start_date_time": {
+                    "description": "Data i hora en qu\u00e8 ha de comen\u00e7ar l'esdeveniment.",
+                    "name": "Data i hora d'inici"
+                },
+                "summary": {
+                    "name": "Resum"
+                }
+            },
+            "name": "Crea esdeveniment"
+        },
+        "get_events": {
+            "description": "Obt\u00e9 els esdeveniments d'un calendari dins un interval de temps.",
+            "fields": {
+                "duration": {
+                    "name": "Durada"
+                },
+                "end_date_time": {
+                    "name": "Data i hora final"
+                },
+                "start_date_time": {
+                    "name": "Data i hora d'inici"
+                }
+            }
+        },
+        "list_events": {
+            "fields": {
+                "duration": {
+                    "name": "Durada"
+                },
+                "end_date_time": {
+                    "name": "Data i hora final"
+                },
+                "start_date_time": {
+                    "name": "Data i hora d'inici"
+                }
+            }
+        }
+    },
+    "title": "Calendari"
+}
