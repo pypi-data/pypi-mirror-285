@@ -1,0 +1,481 @@
+Changes made between Gamera File Releases
+=========================================
+
+Version 4.1.0, Feb 14, 2023
+---------------------------
+
+ - Update install instructions to use pip
+
+ - ported from deprected distutils to setuptools
+
+ - replaced old buffer protocol
+
+
+Version 4.0.1, Jan 09, 2023
+---------------------------
+
+ - fixed comparison operator for CCs (broke grouping algorithm)
+
+ - fixed endianness issue when writing GREY16 images
+
+ - fixed segfault with gcc 9.4.0 in color_ccs() (call to is_white())
+
+ - replaced py.test with pytest
+
+ - added empty tests/tmp directory so that unit tests work
+ 
+
+Version 4.0.0, Feb 18, 2022
+---------------------------
+
+ - ported to python 3.x
+
+
+Version 3.4.4, Jan 17, 2020
+---------------------------
+
+ - support for wxPython 4.x, while still compatible with wxPython < 4.0
+
+ - updated installation instructions for OS-X
+
+ - fix of Lab color conversion plugins
+
+ - fix of possible crash in resize (debian bug #874797)
+
+
+Version 3.4.3, Mar 08, 2017
+---------------------------
+
+ - support for gcc7 (thanks to VincentS)
+
+ - removed overflow of zernike_moments on 32bit systems
+
+ - zernike_moments now also implemented for greyscale image
+   (image is inverted so that dark objects get high weights)
+   As features do not support greyscale images, the plugin is
+   called "zernike_moments_plugin"
+
+ - new plugin hough_lines in category geometry
+
+ - handled errors in arguments of type PointVector more gracefully
+
+ - workaround for crash of progress bar on OSX with wxPython 3.0
+
+ - workaround for GetChildren in wxPython 3.0 returning deleted items
+
+ - icons in gamera_gui now immediately shown without resize
+   on OSX with wxpython 3.0
+
+ - photometric tag of TIFF files no longer ignored for onebit TIFFs,
+   which could lead to color inversion when reading TIFF images
+
+ - fixed error in reading/writing 16bit greyscale PNG images
+
+ - 16bit RGB PNG images now supported via downscaling
+   (fixes Debian bug #785548)
+
+ - reading of tiff images more error robust
+   (fixes Debian bug #784795)
+
+ - get() method corrected for Cc's with storage format RLE
+   (fixes Debian bug #763440)
+
+
+Version 3.4.2, Apr 23, 2015
+---------------------------
+
+ - updated zlib to version 1.2.8 (only used under Windows)
+
+ - fixed classifier crash on Windows
+
+ - fixed hang with wxpython 3.0 after quitting gamera_gui
+
+ - fixed crash in min_max_location for FLOAT images
+
+ - false_color now defaults to diverging colormap after Moreland, 2009
+
+
+Version 3.4.1, May 28, 2014
+---------------------------
+
+ - ported to Windows again with MS VC and included compile instructions
+
+ - new plugins:
+    o kise_block_extraction in pagesegmentation
+    o kernel_density, argmax, argmin in listutilities
+    o soft_threshold in binarization
+
+ - new features and feature improvements:
+    o Fourier descriptors implemented based on EURASIP JASP 2013 paper
+    o moments, zernike_moments, and diagonal_projection no longer
+      produce division by zero error on empty images
+    o bug fixed in zernike_moments that made the feature less useful
+
+ - fixed a memory leak when image positions are given as sequence
+   (Debian Bug report #747548 from 2014-05-09)
+
+ - new option "iterations" for bbox_merging and significant speedup
+
+ - new options for outline() and contour_samplepoints()
+
+ - graph_color_ccs did not work when only one Cc given
+
+ - export/import to/from OpenCV images
+
+ - interactive classifier: "Unckeck all" button in
+   "Change feature set" dialogue
+
+ - args dialogue sizes now dynamically computed
+
+ - all user provided filenames (training XML files etc) converted
+   to unicode to allow for arbitrary filenames
+
+ - new argument 'unique' for graph_color_ccs based on IVAPP 2013 paper
+
+ - node.nodes() in graph API now works
+
+ - option --nowx for setup.py to install without wxPython
+
+
+Version 3.4.0, Nov 20, 2012
+---------------------------
+
+ - GA optimization module rewritten from scratch
+     o evolutionary optimization now for selection and weighting implemented
+     o replacement of used library (GALib was replaced by EO)
+     o optimization process is now highly configurable
+     o fitness evaluation is now parallelizable
+   (thanks to Tobias Bolten)
+
+ - knncoremodule splitted in header and implementation file
+
+ - feature normalization for noninteractive classifier now works
+
+ - feature selection supported as a better alternative to feature weighting
+
+ - components of individual features can be switsched on or off with
+   knn.kNN[Non]Interactive.set_selections_by_feature[s]
+
+ - Point-types can be added
+
+ - new plugins brink_threshold and diagonal_projections (feature)
+   (thanks to Andrew Hankinson)
+
+ - new C++ operators in dimension type Point:
+   o addition with operator+
+   o comparison with operator<
+     (this makes no reals sense, but allows Points to be keys in maps)
+
+ - convex_hull could return doublets in the point list
+
+
+Version 3.3.3, May 15, 2012
+---------------------------
+
+ - new plugins min_max_location() and max_empty_rect()
+
+ - Rect can now be a return type of a plugin function
+
+ - ImageType arguments can be optional with "default=NoneDefault"
+
+ - C++ graph API also usable from toolkits
+
+ - fixed a type mismatch in graph API on 64bit bigendian architectures
+
+ - changing feature set in Biollante now works
+
+ - changes in rank() and mean():
+    o significantly faster
+    o default border_treatment changed to 'reflect',
+      because that leads to more expected results than 'padwhite'
+    o extended to grey16 images
+
+ - min_max_filter for computing minimum and maximum filter in
+   a runtime that is independent from the window size (thanks to
+   David Kolanus). This method is now used by shading_subtraction
+   to speed up the binarization considerably.
+
+ - convex_hull did not work in some cases
+
+ - option "--version" added to gamera_gui
+
+
+Version 3.3.2, Sep 19, 2011
+---------------------------
+
+ - FSF address in all files corrected
+
+ - sub_cc_analysis did not work on images with offset
+
+ - fixed memory leaks in segmentation_error
+
+
+Version 3.3.1, Aug 25, 2011
+---------------------------
+
+ - plugins for convex hull computation added in category Geometry
+
+ - Int args can now have default NoneDefault;
+   required use of TextControl instead of SpinControl for Int in GUI
+
+ - new binarization plugin shading_subtraction for images
+   with shaded backgrounds
+
+ - conversion from FLOAT to GREYSCALE/GREY16/RGB now works when
+   FLOAT image contains negative values. The range [min,max] is
+   now linearly scaled to grey range.
+
+ - runlength_smearing no longer returns empty segments
+
+ - RGBPixel.value now returns V in [0.0,1.0] as documented, not in [0,255]
+
+
+Version 3.3.0, Mai 02, 2011
+---------------------------
+
+ - graph API completely rewritten from scratch (thanks to Christian Brandt)
+   Changes from a user's perspective:
+    o colorize() for coloring a (planar) graph in linear time
+    o new flag CHECK_ON_INSERT
+    o is_*_connected now actually tests connectedness
+    o is_cyclic now actually tests for cycles
+    o has_path() for path existence check between nodes
+    o add_edge no longer crashes after edges had been removed
+    o now also usable directly from C++ (see documentation)
+
+ - geostructs/colorgraph.* have been removed (now available in graph API)
+
+ - rubber band selection in image display improved
+
+ - image_copy() did not work for 1x1 images
+
+ - new plugin contour_pavlidis (category Analysis/Contour)
+
+
+Version 3.2.7, Mar 11, 2011
+---------------------------
+
+ - _group._part glyphs no longer saved in classifier training data:
+   when saved as "Page glyphs", they are still saved, but no longer
+   when saved as "Classifier glyphs"
+
+ - interactive view selection with rubber bands now also works
+   when rubber band touches the image border
+
+ - toolkits now compile out-of-the box again on Ubuntu
+
+ - the following classifier menu entries now work:
+    o "Image/Save glyphs into separate files"
+    o "File/Symbol names/Import"
+
+ - new plugin segmentation_error (category "PageSegmentation")
+
+ - ProgressFactory now has optional constructor argument
+   "numsteps" for doing the update only in *numsteps* discrete steps
+   (used for significantly speeding up loading/saving XML files)
+
+ - group_[and_update]_list_automatic() now has an optional
+   argument "criterion" for chosing the way how the best
+   grouping is chosen. The old method was "avg", while the new
+   default is "min", because we have found this to be better in our tests.
+
+
+Version 3.2.6, Jun 08, 2010
+---------------------------
+
+ - plugin args Class, ImageList, and Pixel now support
+   default value NoneDefault
+
+ - new plugin graph_color_ccs (category "Color")
+
+ - new plugin contour_samplepoints (category "Analysis/Contour")
+
+ - new plugin delaunay_from_points (category "Geometry")
+   for Delaunay triangulation
+
+ - fixed bug in runlength smearing that could split smeared lines
+
+
+Version 3.2.5, Apr 14, 2010
+---------------------------
+
+ - CIE L*a*b* values can be queried from RGBPixels
+
+ - new plugin trim_image (category "Utilities")
+
+ - new plugins kfill and kfill_modified (category "Filter")
+
+ - rank and mean now allow larger window sizes than 3x3
+   and an optional border treatment (clip or reflect)
+
+ - runlength_smearing and projection_cutting now also work
+   on views with non zero offset
+
+ - computation of some features corrected:
+    o nholes (white rows/cols made whole count negative)
+    o nholes_extended (normalization for scale invariance was missing)
+    o compactness (border pixels were formerly ignored in computation)
+    o skeleton_features (crossings through x/y-axis was erronously computed)
+    o volume[16|64]regions (zones occasionally not covered entire images)
+    o moments (no longer overflow errors on larger glyphs)
+    o Zernike moments now have the desired invariance properties
+
+ - new Python image methods white() and black() for obtaining
+   these colors in the pixel type representation of the image
+
+ - should now also compile on MacOS X 10.6 out-of-the-box
+
+ - changes for 64bit architecture:
+    o default range of Int, Real, Point made smaller than sys.maxint
+    o writing TIFFs corrected
+
+ - necessary changes for libpng 1.4.0 with #if's on PNG_LIBPNG_VER
+
+
+Version 3.2.4, Feb 12, 2010
+---------------------------
+
+ - new deformation plugins degrade_kanungo and white_speckles
+
+ - new plugins colors_to_labels (category "Color") and
+   ccs_from_labeled_image (category "Utility") for reading
+   manually labeled ground truth data (thanks to Hasan Yilidz)
+
+ - corrected border treatment in neighbor.hpp (affected mean
+   and rank) and fixed another error in the rank filter
+
+ - plugin category cleanup:
+    o "Convolution" moved to "Filter"
+    o new category "Thinning"
+    o new category "Transformation" for rotate, scale etc.
+    o category "Threshold" moved to "Binarization"
+
+ - new plugins for area Voronoi tesselation (category "Geometry")
+
+ - new plugin labeled_region_edges (category "Edge")
+
+ - display of classifier glyphs corrected when adding
+   glyphs to the classifier (can be slow for large databases)
+
+ - new image type MultiLabelCC (C++) resp. MlCc (Python)
+
+ - the set() method now works for connected components
+
+
+Version 3.2.3, Oct 08, 2009
+---------------------------
+
+ - documentation licensed under CC-BY-SA
+   see the bottom of doc/src/index.txt for details
+
+ - newer VIGRA version 1.6 included with some backports
+   (see the file include/vigra/README for a list of modifications)
+
+ - warnings about unavailable optional packages only printed
+   when config.set("verbosity_level",1) has been set
+
+
+Version 3.2.2, Oct 01, 2009
+---------------------------
+
+ - plugin loading message no longer printed in non-GUI scripts;
+   in case these messages are needed, they can optionally be 
+   enabled by config.set("verbosity_level",1)
+
+ - bugfix in graph API: node values are now compared by value,
+   not by PyObject pointer => nodes with labels greater than 256
+   are now reliably found
+
+ - plugin projection_cutting now works as expected
+
+
+Version 3.2.1, Sep 17, 2009
+---------------------------
+
+ - sourceforge logo can optionally be suppressed in gendoc by
+   passing sourceforge_logo=False to gendoc.gendoc
+
+ - draw_text works again (thanks to S\oren Bjerregaard Vrist)
+
+ - new page segmentation plugin bbox_merging
+
+ - plugin projection_cutting no longer crashes, but still 
+   needs further improvement in the presence of noise
+
+ - extensions in kdtree:
+    o new method set_distance for dimension weighting
+    o k_nearest_neighbors now supports an optional search predicate
+
+ - classifier display can be closed and opened again
+
+ - corrected slider display in Biollante
+
+ - fixed errors in draw_hollow_rect and knn_editing
+
+
+Version 3.2.0, Jun 17, 2009
+---------------------------
+
+ - plugins to_numpy and from_numpy added for support of numpy;
+   the deprecated numeric and numarry modules have been replaced with numpy
+
+ - highlight also works with GREYSCALE and ONEBIT images
+
+ - corrected resize function in VIGRA
+
+ - the knn classifier can now return different confidence
+   measures for the main id that are selectable by the
+   user. See the classifier API documentation for details.
+
+ - knn classifier now works as expected when k > 1;
+   up to now, id_name was sorted by confidence, which meant
+   that always the farthest among the k nearest neighbors
+   was returned as main_id
+
+ - now compiles with Python 2.6 (thanks to Prapat Suriyaphol)
+
+
+Version 3.1.2, Apr 14, 2009
+---------------------------
+
+ - fixed an infinite loop in classifier dialog on Windows
+
+ - new module KdTree for fast two dimensional searches
+
+ - now also builds out-of-the box on FreeBSD (thanks to David Blewett)
+
+ - new plugin median() in category "List"
+   also available on the C++ side as a template in listutilities.hpp
+
+ - new C++ wrapper class canonicPyObject in gameramodule.hpp to make
+   PyObject* usable in STL container classes, e.g. vector<canonicPyObject>
+
+ - fixed problem with weak image references in classifier dialog
+
+ - Don't show right-click menu when there is no shell
+
+
+Version 3.1.1, Jun 09, 2008
+---------------------------
+
+ - new plugin textline_reading_order() in category "Page Segmentation"
+
+ - corrected the moments() feature to actually return
+   the normalized central moments
+
+ - fixed a severe bug in the rotate() function
+
+
+Version 3.1.0, Apr 14, 2008
+---------------------------
+
+ - added automatic editing algorithms for removing outliers and superfluos
+   samples to kNN classifiers
+   see the classifier API documentation for details
+   (thanks to Colin Baumgarten)
+
+ - new plugin category "Page Segmentation"
+   with two basic algorithms based on runlength smearing and projections
+   see the plugin documentation for details
+
+ - ported to wxPython 2.8

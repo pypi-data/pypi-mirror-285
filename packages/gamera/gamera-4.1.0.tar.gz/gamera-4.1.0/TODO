@@ -1,0 +1,23 @@
+ToDo list for Gamera
+====================
+
+ - replace old buffer protocol (PyObject_CheckReadBuffer etc.)
+   with new buffer protocol (old protocol is phased out with Python 3.10)
+ - Biollante crashes on starting optimization
+ - More documentation of wrapped Vigra functions
+ - More page layout analysis resp. page segmentation methods.
+   E.g. text/graphics separation and more text line finding
+   algorithms. Maybe some parts of Leptonica could be useful?
+ - Add multilevel thresholding.
+ - Support FFT on Gamera images by wrapping FFT from VIGRA
+ - A new menu function in the interactive classifier dialog for
+   highlighting outliers, i.e. possible manual misclassifications.
+   Can be based on MNN editing.
+ - Add automatic clustering algorithms for training data.
+ - Adding more classifiers like Gaussian mixture models, support
+   vector machines, or hidden Markov models.
+ - Add support for the hOCR exchange format in the form of a general
+   writing and parsing library.
+ - Write wrappers for external OCR engines like Tesseract OCR as
+   optional plugins.
+ - Add more image formats: JPEG (reading/writing), PDF (writing)

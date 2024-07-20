@@ -1,0 +1,488 @@
+=====================
+Gamera classifier API
+=====================
+
+Introduction
+------------
+
+For manual training of a classifier, you will generally want to use
+the `interactive classifier GUI`__.  This document describes the
+programming API that is used by scripts that make use of a classifier.
+
+.. __: gui.html#interactive-classifier-window
+
+At present, Gamera supports segmentation-based image classification.
+This means that the page image is first segmented into individual
+connected components (or glyphs).  Each of these glyphs has a number
+of features generated from it.  These features (collectively called a
+"feature vector") are then used inside a classifier which, using a
+database of training data, identifies the glyph.
+
+Interactive vs. Noninteractive classifiers
+''''''''''''''''''''''''''''''''''''''''''
+
+All classifiers in Gamera support the same core Classifier API (interface), so
+they are interchangeable.  There is an important
+distinction between two families of classifiers, however:
+
+Interactive classifier
+  An interactive classifier can have training examples added to it in
+  real time, and the results used immediately to classify glyphs.
+  Interactive classifiers are useful during the training process since
+  the classifier can be "boot strapped" with a few examples and refined
+  interactively. 
+
+Noninteractive classifier
+  Noninteractive classifiers take a complete database of
+  training data and then create an optimised data structure for
+  classification.  Because building that data structure can take a
+  considerable amount of time, new training examples cannot be added
+  on the fly.  In addition, noninteractive classifiers are
+  serializable to binary classifier-specific file formats, which save
+  and load much faster than the Gamera XML format.
+
+Types of classifiers
+''''''''''''''''''''
+
+Within each of these families, different classifiers are available.
+These "concrete" classifiers have additional methods specific to the
+particular classifier type.  The currently implemented classifiers
+are all *k* - nearest-neighbor, but we plan to add other classifiers
+as needed.
+
+ - kNNInteractive_
+     Interactive *k* nearest neighbor classifier.
+
+ - kNNNonInteractive_
+     Noninteractive *k* nearest neighbor classifier.  The weights of
+     the dimensions can be optimised using a genetic algorithm.
+     To learn more about applying genetic algorithms for feature selection,
+     see the `Evolutionary Optimization Module documentation`__.
+
+.. __: ga_optimization.html
+
+Image properties related to classification
+------------------------------------------
+
+Classification result are stored with the image. Some interface functions
+for storing and querying the classification result are described
+in the `classification plugin documentation`__.
+
+.. __: plugins.html#classification
+
+
+``id_name``
+'''''''''''
+
+The class name of a glyph is stored in the member variable
+``id_name``.  This variable is actually a list of possible
+classifications, so that a classifier can return a number of different
+possibilities with different confidences. Each classification entry
+is a tuple of the form (float *confidence*, string *name*), where
+the "confidence" measure is of the type CONFIDENCE_DEFAULT
+(see the `confidence property`__ below).
+
+.. __: #confidence
+
+For example, if among the k nearest neighbor of the image
+there are training samples both from class 'lower.b' and
+'lower.d', its ``id_name`` variable might be:
+
+.. code:: Python
+  
+  [(0.0879, 'lower.b'), (0.0012, 'lower.d')]
+
+The first entry in ``id_name`` is always the class decision made
+by the classifier, so the other entries can (and should) generally
+be ignored. Due to the simplistic definition of the 
+CONFIDENCE_DEFAULT measure, the decision made by the classifier
+must not necessarily have the highest "confidence", nor do
+the values of all "confidences" add to one.
+
+
+``classification_state``
+''''''''''''''''''''''''
+
+How a glyph was classified is managed by the ``classification_state``
+member variable.  It can be one of the following values:
+
+  +----------+--------------+-----------------------------------------------------+
+  | Color    | Constant     | Description                                         |
+  +==========+==============+=====================================================+
+  | |UColor| | UNCLASSIFIED | The connected component is completely unclassified. |
+  | (white)  |              |                                                     |
+  +----------+--------------+-----------------------------------------------------+
+  | |AColor| | AUTOMATIC    | The connected component was classified by the       | 
+  | (red)    |              | automatic classifier using training data.           |
+  +----------+--------------+-----------------------------------------------------+
+  | |HColor| | HEURISTIC    | The connected component was classified by some      |
+  | (yellow) |              | heuristic (non-exemplar-based) process.             |
+  +----------+--------------+-----------------------------------------------------+
+  | |MColor| | MANUAL       | The connected component was classified by a human.  |
+  | (green)  |              |                                                     |
+  +----------+--------------+-----------------------------------------------------+
+
+.. |UColor| image:: images/unclassified_color.png
+.. |AColor| image:: images/autoclassified_color.png
+.. |HColor| image:: images/heuristicclassified_color.png
+.. |MColor| image:: images/manualclassified_color.png
+
+
+``confidence``
+''''''''''''''
+
+Different confidence measures for the main class id are stored
+in the member variable ``confidence``. This is a map ('dictionary' in
+python lingo) with a confidence type as key. The possible confidence
+type constants are defined in ``gamera.gameracore`` and have the 
+following meaning:
+
+  ``CONFIDENCE_DEFAULT``
+
+     (1-*dist*/*max_dist*)^10, where *dist* is the distance to 
+     the closest prototype of the main class, and *max_dist* is
+     the distance to the farthest prototype of the entire training
+     population. This "confidence" is always between 0.0 and 1.0,
+     where 1.0 only occurs for feature values that exactly match a
+     training sample.
+
+  ``CONFIDENCE_KNNFRACTION``
+
+     Fraction of samples belonging to main class among the k
+     nearest neighbors. Makes only sense for k > 1.
+
+  ``CONFIDENCE_INVERSEWEIGHT``
+
+     Dudani's weighted average distance to the main class with
+     each distance weighted inversely. Makes only sense for k > 1.
+
+  ``CONFIDENCE_LINEARWEIGHT``
+
+     Dudani's weighted average distance to the main class with
+     each distance weighted linearly between the closest neighbor
+     (weight one) and the k-th nearest neighbor (weight zero).
+     Makes only sense for k > 1.
+
+  ``CONFIDENCE_NUN``
+
+     Dasarathy's "nearest unlike neighbor" measure. Let *dnn* denote
+     the distance to the closest prototype of the
+     main class (nearest neighbor) and *dnun* the distance to
+     the closest prototype of the remaining classes (nearest unlike
+     neighbor). Then the NUN confidence measure is (1-*dnn*/*dnun*).
+
+  ``CONFIDENCE_NNDISTANCE``
+
+     Absolute distance to the nearest neighbor. This can take
+     arbitrary values and is in itself meaningless, but can be useful
+     for distance rejection.
+
+  ``CONFIDENCE_AVGDISTANCE``
+
+     Average distance to the k nearest neighbors. This can take
+     arbitrary values and is in itself meaningless, but can be useful
+     for distance rejection. For k = 1, this is identical to
+     ``CONFIDENCE_NNDISTANCE``.
+
+The ``confidence`` map is only filled for automatically classified
+glyphs. Which confidence types are actually written to the confidence
+map depends on the ``confidence_types`` property of the classifier.
+So when the list ``Classifier.confidence_types`` is empty, no
+confidence values will be written to ``Image.confidence``.
+
+Reference:
+
+    C. Dalitz:
+    `Reject Options and Confidence Measures for kNN Classifiers.`__
+    In C. Dalitz (Ed.): "Document Image Analysis with the Gamera Framework."
+    Schriftenreihe des Fachbereichs Elektrotechnik und Informatik,
+    Hochschule Niederrhein, vol. 8, pp. 16-38, Shaker Verlag (2009) 
+
+.. __: http://lionel.kr.hsnr.de/~dalitz/data/publications/sr09-knn-rejection.pdf
+
+Methods
+'''''''
+
+Images have a number of methods for managing their classification
+state.  Use of these methods is highly recommended over changing the
+``id_name`` variable directly.  These methods are documented in the
+`classification section of the plugin documentation`__.
+
+.. __: plugins.html#classification
+
+The classifier interface
+------------------------
+
+This section describes each method of the classifier interface.
+The base class for all classifiers is ``Classifier``, from which
+two classes ``NonInteractiveClassifier`` and ``InteractiveClassifier``
+are derived. As noninteractive classifiers are more limited
+in their interface, this divides the methods into two categories:
+
+Core
+  Methods available to all classifiers
+
+Interactive
+  Methods available only to interactive classifiers
+
+Core
+''''
+
+The following methods and properties are available to all classifiers.
+
+Properties
+``````````
+
+Each classifier has the following member variables:
+
+  ``_database``
+    List of glyphs used as training data. This is a private property
+    that can only be accessed through the methods ``get_glyphs`` 
+    and ``set_glyphs``, or it is set in the constructor or with
+    ``from_xml_filename``. Note that the return value of ``get_glyphs``
+    must be converted to a list with ``list(classifier.get_glyphs())``.
+
+  ``confidence_types``
+    List of confidence types that are to be computed during 
+    classification. The confidence types must be from the
+    predefined `confidence constants`__.
+    
+.. __: #confidence
+
+
+Initialization
+``````````````
+
+As the base class ``Classifier`` does not have an explicit constructor,
+the constructor of ``NonInteractiveClassifier`` is described here.
+
+.. docstring:: gamera.classify NonInteractiveClassifier __init__ 
+
+Classification
+``````````````
+
+The following methods deal with classifying glyphs on an individual level.
+
+.. docstring:: gamera.classify NonInteractiveClassifier classify_glyph_automatic classify_list_automatic classify_and_update_list_automatic guess_glyph_automatic
+.. docstring:: gamera.knn _kNNBase classify_with_images
+
+Grouping
+````````
+
+Often, characters do not cleanly correspond to connected components.
+For instance, broken or degraded printing may disconnect parts of a
+character, or characters, such as *i* may always be made up of two
+connected components.  The grouping algorithm is designed to deal with
+those cases.  It attempts to group connected components with others
+nearby in order to create groupings that are more like glyphs in the
+database.  Needless to say, this approach is much slower than the
+"one-connected-component-at-a-time" approach, but can produce
+considerably better results on certain images.
+
+To train for grouping, images corresponding to the entire character
+must exist in the database.  For instance, in the Gamera GUI, one
+would select both the dot and stem of a lower-case *i* and train it as
+``_group.lower.i``.  This will join the two connected components into
+a single image and then add it to the database.
+
+The algorithm is described in more detail in our paper on `correcting
+broken characters`__ (PDF).
+
+.. __: http://gamera.informatik.hsnr.de/publications/droettboom_broken_03.pdf
+
+.. docstring:: gamera.classify NonInteractiveClassifier group_list_automatic group_and_update_list_automatic
+
+Saving and loading
+``````````````````
+
+These functions deal with saving and loading the training data of the
+classifier to/from the `Gamera XML format`__.
+
+.. __: xml_format.html
+
+.. note:: UNCLASSIFIED glyphs in the training data are ignored
+   (neither saved or loaded).
+
+.. docstring:: gamera.classify NonInteractiveClassifier to_xml to_xml_filename from_xml from_xml_filename merge_from_xml merge_from_xml_filename
+
+
+Miscellaneous
+`````````````
+
+.. docstring:: gamera.classify NonInteractiveClassifier is_interactive get_glyphs set_glyphs merge_glyphs clear_glyphs
+
+Interactive classifiers
+'''''''''''''''''''''''
+
+Classification
+``````````````
+
+.. docstring:: gamera.classify InteractiveClassifier classify_glyph_manual classify_list_manual classify_and_update_list_manual add_to_database remove_from_database
+
+Display
+```````
+
+.. docstring:: gamera.classify InteractiveClassifier display
+
+*k* Nearest Neighbor classifier
+-------------------------------
+
+The *k* Nearest Neighbor classifier is a concrete example of the
+classifier API.  It adds some methods of its own.
+
+``kNNNonInteractive`` has a number of advantages over
+``kNNInteractive``:
+
+- Each feature can optionally be normalized independently to zero mean and
+  unit variance. This reduces the bias toward features that generate large
+  values, such as ``area``.  This normalization may change the classifications
+  that the classifier makes, however.
+
+- The selections and weights of the features can be optimized using a genetic
+  algorithm (See here_).
+
+- The training data can be serialized to a classifier-specific binary file
+  format.  This format saves and loads much faster than the Gamera XML
+  file format.
+
+.. note:: 
+   It is good practice to retain the XML
+   file, since it is portable across platforms and to future versions of
+   Gamera.  The binary format is not guaranteed to be portable.
+
+.. _here: ga_optimization.html
+
+Feature management
+''''''''''''''''''
+
+The classifier automatically manages the generation of feature vectors
+from glyphs.  When a feature vector is needed because it is being
+automatically classified or added to the training set, it is
+automatically generated on-the-fly.
+
+By default, the feature generation method in kNN is quite simple.  The
+user of the classifier provides a list of feature function names
+(either in the constructor or through the ``change_feature_set``
+method), and for each glyph, the results of each feature function in
+the set are appended together to produce a feature vector.
+
+This basic feature generation method can be overridden and replaced
+with something more appropriate to other problem domains.  See the
+`overriding kNN's feature generation`__ appendix for more information.
+
+.. __: overriding_knn_features.html
+
+Methods on all ``kNN`` classes
+''''''''''''''''''''''''''''''
+
+.. _kNNNonInteractive:
+
+kNN Initialization
+``````````````````
+
+.. docstring:: gamera.knn kNNNonInteractive __init__
+
+Settings
+````````
+
+Settings are various parameters that control the behavior of the
+classifier. While some are only accessible through the methods given below,
+the following settings are plain properties of all kNN classifier classes:
+
+*num_k*
+    the number *k* of neighbors to be considered
+
+*distance_type*
+    the distance measure for neighborhood. Can be one of
+    ``CITY_BLOCK`` (default), ``EUCLIDEAN`` or ``FAST_EUCLIDEAN``
+
+
+.. docstring:: gamera.knn kNNInteractive change_feature_set
+
+.. docstring:: gamera.knn _kNNBase get_selections_by_features get_selections_by_feature
+.. docstring:: gamera.knn _kNNBase get_weights_by_features get_weights_by_feature
+.. docstring:: gamera.knn _kNNBase set_selections_by_features set_selections_by_feature
+.. docstring:: gamera.knn _kNNBase set_weights_by_features set_weights_by_feature
+
+.. docstring:: gamera.knn _kNNBase save_settings load_settings
+
+Serialization
+`````````````
+.. docstring:: gamera.knn _kNNBase serialize unserialize
+
+Evaluation
+''''''''''
+
+.. docstring:: gamera.knn _kNNBase evaluate knndistance_statistics distance_from_images distance_between_images distance_matrix unique_distances
+
+.. _kNNInteractive:
+
+``kNNInteractive``
+''''''''''''''''''
+
+.. docstring:: gamera.knn kNNInteractive __init__
+
+.. docstring:: gamera.knn kNNInteractive noninteractive_copy
+
+Improving kNN Classifiers using Editing
+'''''''''''''''''''''''''''''''''''''''
+
+Gamera provides a way to improve kNN classifiers by modifying the underlying
+set of glyphs (training-set). This class of algorithms either removes bad or 
+redundant glyphs or even creates new *optimal* glyphs from the training-set.
+
+Besides the graphical user interface in the `Classifier Display`__, it is also
+possible to invoke the algorithms from your script.
+
+.. __: gui.html#classifier-menu
+
+Each editing algorithm is a function, that takes at least one parameter, a 
+*kNNInteractive* classifier - and returns a new edited *kNNInteractive* 
+classifier. Any additional parameters depend on the effective algorithm, but are
+optional by convention.
+
+Currently the following editing algorithms are included with Gamera:
+
+.. docstring:: gamera.knn_editing edit_mnn
+ 
+.. docstring:: gamera.knn_editing edit_cnn 
+
+.. docstring:: gamera.knn_editing edit_mnn_cnn
+
+
+Usage Example
+`````````````
+
+The algorithms are located in the *gamera.knn_editing* package. So a typical 
+usage example employing Wilson's *Modified Nearest Neighbour* (edit_mnn) would 
+look like this:
+
+.. code:: Python
+
+  from gamera.core import init_gamera
+  init_gamera()
+  
+  from gamera.knn import kNNInteractive
+  classifier = kNNInteractive()
+  classifier.from_xml_filename("training-set.xml")
+  
+  from gamera.knn_editing import edit_mnn
+  editedClassifier = edit_mnn(classifier)
+
+To display the glyphs removed by the editing algorithm, you can use
+the following code in the Gamera GUI:
+
+.. code:: Python
+
+   set1 = classifier.get_glyphs()
+   set2 = editedClassifier.get_glyphs()
+   imagelist = list(set1.difference(set2))
+   display_multi(imagelist)
+
+
+Integrating your own editing algorithm
+``````````````````````````````````````
+
+If you have written your own editing algorithm and want to make it available in
+the Classifier GUI, refer to the documentation of the class 
+**gamera.knn_editing.AlgoRegistry**.  

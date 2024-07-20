@@ -1,0 +1,56 @@
+Readme for VIGRA inclusion in Gamera
+====================================
+
+These header files are taken from VIGRA
+
+	version 1.6.0
+
+avaliable from 
+
+http://kogs-www.informatik.uni-hamburg.de/~koethe/vigra/
+
+Due to some shortcomings in VIGRA 1.6.0, the following
+files are modified:
+
+ - basicgeometry.hxx
+     has been taken from the development branch of VIGRA
+     to make the Gamera plugin "resize" work
+
+ - stdconvolution.hxx
+     a compiler warning about uninitialized variables is
+     suppressed. This change is already included in the
+     development branch of VIGRA
+
+ - rational.hxx
+     has been taken from the development branch of VIGRA
+     to suppress a compiler warning about an "ambiguous else"
+
+ - resizeimage.hxx
+     has been taken from the development branch of VIGRA,
+     even though this version still does not work correctly
+     for an image resize without interpolation.
+     Therefore never use resizeImageNoInterpolation(), but
+     instead resampleImage()
+
+ - inspectimage.hxx
+     removed #pragma warning
+
+ - affinegeometry.hxx
+     has been taken from the development branch of VIGRA,
+     to avoid rounding errors for exact rotations in rotateImage()
+
+ - sized_int.hxx
+     fix for gcc 4.7. This change is already included in the
+     development branch of VIGRA
+
+ - functortraits.hxx
+     remove deprecated std::binder1st and std::binder2nd. This
+     change has been backported from the development branch of
+     VIGRA
+
+ - static_assert.hxx
+     remove unnecessary parentheses (warning in gcc 9). This
+     change has been backported from the development branch of
+     VIGRA
+
+Christoph Dalitz

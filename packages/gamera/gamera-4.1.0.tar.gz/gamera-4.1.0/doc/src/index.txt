@@ -1,0 +1,175 @@
+========================
+Gamera 3.x documentation
+========================
+
+:Editors: Michael Droettboom, Christoph Dalitz
+
+Introduction
+============
+
+This documentation consists of some HOW TO documentation and some
+reference documentation.  In addition, there are some more formal
+published papers and a tutorial available from the `Gamera website`__.
+
+.. __: http://gamera.informatik.hsnr.de/
+
+Overview
+========
+
+- `Gentle overview of Gamera`__: For a less-detailed idea of what Gamera
+  is and does.
+
+.. __: overview.html
+
+How To
+======
+
+How to *use* Gamera:
+
+- `Building and installing Gamera`__: The basics to get you started
+  with running Gamera.
+
+.. __: install.html
+
+- `Training tutorial`__: A step-by-step tutorial about how to build 
+  training sets.
+
+.. __: training_tutorial.html
+
+- `Getting started writing Gamera scripts`__: How to start writing a
+  Gamera-based application.
+
+.. __: script.html
+
+- `The Gamera GUI`__: How to use the integrated GUI.  Additionally,
+  this describes how to train images.
+
+.. __: gui.html
+
+- `matplotlib support`__: Using Gamera support for the popular matplotlib_ plotting library.
+
+.. __: matplotlib_support.html
+.. _matplotlib: http://matplotlib.sourceforge.net/
+
+- `Classifier API`__: How to use image classifiers from Python.
+
+.. __: classify.html
+
+- `GA Optimization`__: How to use the kNN-classifier optimization through genetic algorithms.
+
+.. __: ga_optimization.html
+
+
+How to *extend* Gamera:
+
+- `Writing Gamera plugins`__: Learn how to write new image methods.
+
+.. __: writing_plugins.html
+
+- `Specifying arguments for plugin generation and dialog boxes`__
+
+.. __: args.html
+
+- `The Gamera C++ Image API`__: How to work with Gamera's images from C++.
+
+.. __: image_api.html
+
+- `Custom data types in plugins`__: How to pass, access and return
+  custom data types between C++ and Python.
+
+.. __: plugins_custom_types.html
+
+- `Writing Gamera toolkits`__: How to package your code in a
+  redistributable package that is easier to build and lets you keep
+  your own code separate from the Gamera core.
+
+.. __: writing_toolkits.html
+
+- `Unit testing`__: How to write and run unit-tests with Gamera.
+
+.. __: unit_testing.html
+
+Reference
+=========
+
+- `Plugins`__: Documentation of all the included plugins.
+
+.. __: plugins.html
+
+- `Directory hierarchy`__: Where the files are.
+
+.. __: directory_hierarchy.html
+
+- `Image types`__: The different types of images available in Gamera
+
+.. __: image_types.html
+
+  + `RGBPixel`__: properties of color values in Gamera
+
+.. __: gamera.core.RGBPixel.html
+
+- `Dimension types`__: The various classes to manage bounding boxes and geometry.
+   
+.. __: dimension_types.html
+
+- `ImageData`__: Manages the underlying image data viewed by ``Image`` objects.
+
+.. __: gamera.core.ImageData.html
+
+- `ImageInfo objects`__: Used to examine on-disk image files without loading them
+
+.. __: gamera.core.ImageInfo.html
+
+- `XML format`__: The XML files that Gamera uses to store training data.
+
+.. __: xml_format.html
+
+Optional libraries that can be useful for some tasks:
+
+- `Graph objects`__: A simple library for dealing with graph
+  structures.
+
+.. __: graph.html
+
+- `KdTree objects`__: A simple library for speeding up two (or higher) 
+  dimensional search operations.
+
+.. __: kdtree.html
+
+
+Migration from Gamera 2.x to Gamera 3.x
+=======================================
+
+- `Major changes`__ from Gamera 2.x to Gamera 3.x
+
+.. __: major_changes_3x.html
+
+- `Migration guide`__: Describes how to migrate existing Gamera scripts
+  to Gamera 3.x
+
+.. __: migration_guide.html
+
+Acknowledgements
+================
+
+Many thanks to Teal Anderson for finding numerous typos among the
+hideous jargon of these documents.
+
+Some of the material presented here is based on documentation or
+papers by Karl MacMillan and Ichiro Fujinaga.
+
+Gamera was initially funded through the National
+Science Foundation's Digital Library Initiative 2 (Award \#9817430),
+an Institute of Museum and Library Services National Leadership Grant,
+and support from the Lester S. Levy Estate.
+
+These documents were produced using reStructuredText_.
+
+.. _reStructuredText: http://docutils.sourceforge.net/rst.html
+
+The documentation was written by Michael Droettboom and Christoph Dalitz.
+Permission is granted to copy, distribute and/or modify this documentation
+under the terms of the `Creative Commons Attribution Share-Alike License (CC-BY-SA) v3.0`__. In addition, permission is granted to use and/or
+modify the code snippets from the documentation without restrictions.
+
+.. __: http://creativecommons.org/licenses/by-sa/3.0/
