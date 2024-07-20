@@ -1,0 +1,236 @@
+Metadata-Version: 2.1
+Name: cda.ai-modular-framework
+Version: 0.1.0
+Summary: A modular AI framework
+Home-page: https://github.com/Cdaprod/cda.ai-modular-framework
+Author: Cdaprod
+Author-email: Cdaprod@Cdaprod.dev
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE.md
+
+<div style="text-align: center;">
+  <img src="/public/photo.webp" style="width: 100%; height: auto;" alt="cda.ai-modular-framework">
+</div>
+
+<div style="text-align: center;">
+  <h1>cda.AI-Modular-Framework</h1>
+</div>
+
+**cda.ai-modular-framework** is a highly modular and extensible AI development framework designed to facilitate seamless integration and management of various AI components and services. This framework is ideal for developers looking to build robust, adaptable AI solutions with ease. By leveraging a structured, plug-and-play architecture, this framework ensures maintainability, scalability, and flexibility.
+
+## Key Features
+
+### Modular Architecture
+- **Unified Control Engine**: Manages core infrastructure tasks, including provisioning, logging, monitoring, and policy enforcement.
+- **Feature Service**: Allows for the addition and management of various AI features and custom components.
+- **Operational Layer**: Handles essential operational tasks such as input/output management, logging, and temporary storage.
+
+### Seamless Integration
+- **OpenAI Service**: Integrates with OpenAI's GPT models and other AI services, providing functionalities for generating and summarizing content.
+- **Custom Components**: Supports the addition of user-defined components to extend the framework’s capabilities.
+- **Frontend Chatbot Interface**: Includes a WebSocket-based interface for real-time user interactions and AI-driven responses.
+
+### Flexibility and Extensibility
+- **Custom Functions**: Easily add and manage custom functions for specific AI tasks.
+- **Nested Modularity**: Each part of the system is modular, allowing for components to be extended or replaced without disrupting the overall system.
+
+## Discussing the Application/Repo: `cda.ai-modular-framework`
+
+**Purpose**: The `cda.ai-modular-framework` is designed to provide a flexible, modular system for building AI-powered applications. It incorporates various components such as OpenAI services, LangChain, and other libraries to facilitate a wide range of functionalities from natural language processing to data retrieval and processing.
+
+**Core Features**:
+1. **Unified Control Engine**: Manages the deployment, scaling, and monitoring of various components.
+2. **Feature Services**: Houses different AI services and tools such as OpenAI and LangChain functionalities.
+3. **Operational Layer**: Manages input/output operations, logging, and temporary storage.
+4. **API Endpoints**: Provides RESTful API interfaces using FastAPI for interacting with the system.
+
+## Directory Structure
+
+The repository follows a clear and consistent directory structure:
+
+```
+cda.ai-modular-framework/
+│
+├── app/
+│   ├── unified_control_engine/
+│   │   ├── __init__.py
+│   │   ├── unified_control_engine.py
+│   │   └── frontend_chatbot_interface.py
+│   ├── feature_service/
+│   │   ├── __init__.py
+│   │   ├── feature_service.py
+│   │   ├── openai_service/
+│   │   │   ├── __init__.py
+│   │   │   ├── openai_service.py
+│   │   │   └── functions/
+│   │   │       ├── __init__.py
+│   │   │       ├── function1.py
+│   │   │       └── function2.py
+│   │   └── custom_components/
+│   │       ├── __init__.py
+│   │       ├── component1.py
+│   │       ├── component2.py
+│   ├── operational_layer/
+│   │   ├── __init__.py
+│   │   ├── operational_layer.py
+│   │   ├── message_handler/
+│   │   │   ├── __init__.py
+│   │   │   └── message_handler.py
+│   │   └── tool_manager/
+│   │       ├── __init__.py
+│   │       └── tool_manager.py
+│   ├── request_handler/
+│   │   ├── __init__.py
+│   │   └── request_handler.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── api.py
+│   ├── main.py
+│   └── .env
+│
+├── .github/
+│   └── workflows/
+│       └── docker-build-test-push-and-package.yml
+│
+├── docker-compose.yaml
+├── Dockerfile
+├── setup.py
+├── README.md
+├── requirements.txt
+└── LICENSE.md
+```
+
+Here is the optimized and formatted README.md content:
+
+## Getting Started
+
+### Prerequisites
+- Python 3.8+
+- FastAPI
+- Uvicorn
+- OpenAI API key
+- Kubernetes (for infrastructure management)
+
+### Installation
+
+1. Clone the repository:
+ 
+   ```bash
+   git clone https://github.com/Cdaprod/cda.ai-modular-framework.git
+   cd cda.ai-modular-framework
+   ```
+
+2. Install the required packages:
+ 
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Set up environment variables by creating a `.env` file in the root directory:
+ 
+   ```plaintext
+   OPENAI_API_KEY=your-openai-api-key
+   ```
+
+4. Run the application:
+ 
+   ```bash
+   uvicorn app.main:app --reload
+   ```
+
+## Running and Interacting with the Application
+
+To ensure the application remains up and allows you to `docker exec` into it for live work, you should run the Docker container in detached mode. Here’s how you can achieve this:
+
+### Docker Compose
+
+**docker-compose.yml**:
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cdaprod/cda.ai-modular-framework:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+```
+
+**Running the Container**:
+
+```sh
+docker-compose up -d
+```
+
+### Docker Run
+
+**Running the Container in Detached Mode**:
+
+```sh
+docker run -d --name cda_modular_framework -p 8000:8000 cdaprod/cda.ai-modular-framework:latest
+```
+
+### Interacting with the Running Container
+
+Once the container is running, you can exec into it to perform live work:
+
+```sh
+docker exec -it cda_modular_framework /bin/bash
+```
+
+## Development and Debugging Workflow
+
+1. **Running in Detached Mode**: This keeps the container running in the background, allowing you to attach to it as needed.
+2. **Persistent Data and Configuration**:
+   - Ensure any configuration or data changes are persistent across container restarts by using Docker volumes or bind mounts.
+   - For example, to mount a local directory to the container:
+ 
+     ```sh
+     docker run -d --name cda_modular_framework -p 8000:8000 -v /local/path/to/config:/container/path/to/config cdaprod/cda.ai-modular-framework:latest
+     ```
+
+## CI/CD Integration
+
+The GitHub Actions workflow ensures that every push or pull request is built, tested, and pushed to Docker Hub. Additionally, it can handle different Python versions, ensuring compatibility and robustness.
+
+### Summary
+
+- **Keep Container Running**: Use `docker-compose up -d` or `docker run -d` to keep the container running in the background.
+- **Live Interaction**: Use `docker exec -it` to interact with the running container.
+- **Persistent Changes**: Use volumes or bind mounts to ensure changes are persistent.
+- **CI/CD Pipeline**: Automated workflows ensure that your application is continuously integrated and deployed, supporting multiple Python versions and architectures.
+
+This setup allows you to develop, debug, and deploy your modular AI framework efficiently, ensuring it remains flexible and extensible for future components and functionalities.
+
+## Usage
+
+- **Adding Features**: Extend the `FeatureService` by adding new features in the `app/feature_service` directory.
+- **Custom Functions**: Add custom functions in the `app/feature_service/openai_service/functions` directory.
+- **Real-time Interaction**: Use the WebSocket-based frontend chatbot interface for real-time user interactions.
+
+## Contribution
+
+We welcome contributions to enhance the capabilities and features of the **cda.ai-modular-framework**. Please follow the guidelines outlined in `CONTRIBUTING.md` to submit issues and pull requests.
+
+## License
+
+This project is licensed under Private License. See the [LICENSE](/LICENSE.md) file for details.
+
+## Contact
+
+For further information, questions, or suggestions, please contact [David Cannan](https://github.com/cdaprod) at [cdaprod@cdaprod.dev](mailto:cdaprod@cdaprod.dev).
