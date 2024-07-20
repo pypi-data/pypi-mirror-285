@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-planner from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <record model="res.group" id="group_planner">
+            <field name="name">Cashbook - Scheduled Bookings</field>
+            <field name="parent" ref="cashbook.group_cashbook"/>
+        </record>
+
+        <record model="res.user-res.group" id="user_admin-group_planner">
+            <field name="user" ref="res.user_admin"/>
+            <field name="group" ref="group_planner"/>
+        </record>
+
+    </data>
+</tryton>

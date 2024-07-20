@@ -1,0 +1,423 @@
+#
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+
+###########
+# ir.cron #
+###########
+msgctxt "selection:ir.cron,method:"
+msgid "Execute scheduled bookings"
+msgstr "geplante Buchungen ausführen"
+
+
+#############
+# res.group #
+#############
+msgctxt "model:res.group,name:group_planner"
+msgid "Cashbook - Scheduled Bookings"
+msgstr "Kassenbuch - geplante Buchungen"
+
+
+##############
+# ir.ui.menu #
+##############
+msgctxt "model:ir.ui.menu,name:menu_planner"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
+
+
+#############
+# ir.action #
+#############
+msgctxt "model:ir.action,name:act_planner_view"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
+
+
+#################
+# ir.rule.group #
+#################
+msgctxt "model:ir.rule.group,name:rg_planner_admin"
+msgid "Administrators: scheduled bookings read/write"
+msgstr "Administratoren: geplante Buchungen schreiben"
+
+msgctxt "model:ir.rule.group,name:rg_planner_owner"
+msgid "Owners: scheduled bookings"
+msgstr "Eigentümer: geplante Buchungen"
+
+msgctxt "model:ir.rule.group,name:rg_planner_read_nonowner"
+msgid "Observers: scheduled bookings read"
+msgstr "Beobachter: geplante Buchungen lesen"
+
+msgctxt "model:ir.rule.group,name:rg_planner_write_nonowner"
+msgid "Reviewer: scheduled bookings write"
+msgstr "Bearbeiter: geplante Buchungen schreiben"
+
+msgctxt "model:ir.rule.group,name:rg_planner_companies"
+msgid "User in companies"
+msgstr "Benutzer im Unternehmen"
+
+msgctxt "model:ir.rule.group,name:rg_nextrun_admin"
+msgid "Administrators: scheduled bookings read/write"
+msgstr "Administratoren: geplante Buchungen schreiben"
+
+msgctxt "model:ir.rule.group,name:rg_planner_owner"
+msgid "Owners: scheduled bookings"
+msgstr "Eigentümer: geplante Buchungen"
+
+msgctxt "model:ir.rule.group,name:rg_planner_read_nonowner"
+msgid "Observers: scheduled bookings read"
+msgstr "Beobachter: geplante Buchungen lesen"
+
+msgctxt "model:ir.rule.group,name:rg_planner_write_nonowner"
+msgid "Reviewer: scheduled bookings write"
+msgstr "Bearbeiter: geplante Buchungen schreiben"
+
+msgctxt "model:ir.rule.group,name:rg_nextrun_companies"
+msgid "User in companies"
+msgstr "Benutzer im Unternehmen"
+
+
+##########################
+# cashbook.configuration #
+##########################
+msgctxt "view:cashbook.configuration:"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
+
+msgctxt "field:cashbook.configuration,holidays:"
+msgid "Holidays"
+msgstr "Feiertage"
+
+msgctxt "help:cashbook.configuration,holidays:"
+msgid "Semicolon separate list of dates: yyyy-mm-dd = single date, mm-dd = annual repetition, easter[greg|jul|orth] = Easter Sunday, ascension = Ascension Day, whitsun = Whitsunday, offset with :+/-n e.g.: easter:+1 = Easter Monday"
+msgstr "Semikolon getrennte Liste von Datumswerten: yyyy-mm-dd = Einzeldatum, mm-dd = jährliche Wiederholung, easter[greg|jul|orth] = Ostersonntag, ascension = Christi Himmelfahrt, whitsun = Pfingstsonntag, Offset mit :+/-n z.B: easter:+1 = Ostermontag"
+
+msgctxt "field:cashbook.configuration,holidays_info:"
+msgid "Holidays"
+msgstr "Feiertage"
+
+msgctxt "help:cashbook.configuration,holidays_info:"
+msgid "Holidays in the current year."
+msgstr "Feiertage im aktuellen Jahr."
+
+
+####################
+# cashbook.planner #
+####################
+msgctxt "model:cashbook.planner,name:"
+msgid "Scheduled Booking"
+msgstr "geplante Buchung"
+
+msgctxt "view:cashbook.planner:"
+msgid "Recurrence Rule"
+msgstr "Wiederholregel"
+
+msgctxt "view:cashbook.planner:"
+msgid "Result of the recurrence rule"
+msgstr "Ergebnis der Wiederholregel"
+
+msgctxt "view:cashbook.planner:"
+msgid "Description"
+msgstr "Beschreibung"
+
+msgctxt "view:cashbook.planner:"
+msgid "Booking"
+msgstr "Buchung"
+
+msgctxt "view:cashbook.planner:"
+msgid "Booking text"
+msgstr "Buchungstext"
+
+msgctxt "view:cashbook.planner:"
+msgid "Available placeholders: ${date} ${month} ${year} ${amount} ${quantity} ${rate}"
+msgstr "verfügbare Platzhalter: ${date} ${month} ${year} ${amount} ${quantity} ${rate}"
+
+msgctxt "view:cashbook.planner:"
+msgid "Cashbook lines"
+msgstr "Kassenbuchzeilen"
+
+msgctxt "field:cashbook.planner,company:"
+msgid "Company"
+msgstr "Unternehmen"
+
+msgctxt "field:cashbook.planner,cashbook:"
+msgid "Cashbook"
+msgstr "Kassenbuch"
+
+msgctxt "help:cashbook.planner,cashbook:"
+msgid "Cash book for which the planned posting is to be executed."
+msgstr "Kassenbuch für welches die geplante Buchung ausgeführt werden soll."
+
+msgctxt "field:cashbook.planner,name:"
+msgid "Name"
+msgstr "Name"
+
+msgctxt "field:cashbook.planner,description:"
+msgid "Description"
+msgstr "Beschreibung"
+
+msgctxt "field:cashbook.planner,start_date:"
+msgid "Start Date"
+msgstr "Startdatum"
+
+msgctxt "field:cashbook.planner,end_date:"
+msgid "End Date"
+msgstr "Endedatum"
+
+msgctxt "field:cashbook.planner,frequ:"
+msgid "Frequency"
+msgstr "Frequenz"
+
+msgctxt "selection:cashbook.planner,frequ:"
+msgid "Yearly"
+msgstr "Jährlich"
+
+msgctxt "selection:cashbook.planner,frequ:"
+msgid "Monthly"
+msgstr "Monatlich"
+
+msgctxt "selection:cashbook.planner,frequ:"
+msgid "Weekly"
+msgstr "Wöchentlich"
+
+msgctxt "selection:cashbook.planner,frequ:"
+msgid "Daily"
+msgstr "Täglich"
+
+msgctxt "field:cashbook.planner,weekday:"
+msgid "Weekday"
+msgstr "Wochentag"
+
+msgctxt "help:cashbook.planner,weekday:"
+msgid "Select a day of the week if you want the rule to run on that day."
+msgstr "Wählen Sie einen Wochentag aus, wenn die Regel an diesem Tag ausgeführt werden soll."
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Monday"
+msgstr "Montag"
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Tuesday"
+msgstr "Dienstag"
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Wednesday"
+msgstr "Mittwoch"
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Thursday"
+msgstr "Donnerstag"
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Friday"
+msgstr "Freitag"
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Saturday"
+msgstr "Samstag"
+
+msgctxt "selection:cashbook.planner,weekday:"
+msgid "Sunday"
+msgstr "Sonntag"
+
+msgctxt "field:cashbook.planner,monthday:"
+msgid "Day of month"
+msgstr "Tag des Monats"
+
+msgctxt "help:cashbook.planner,monthday:"
+msgid "If you want the rule to run on a specific day of the month, select the day here."
+msgstr "Wenn die Regel an einem bestimmten Tag im Monat ausgeführt soll, wählen Sie hier den Tag."
+
+msgctxt "field:cashbook.planner,interval:"
+msgid "Interval"
+msgstr "Intervall"
+
+msgctxt "help:cashbook.planner,interval:"
+msgid "Select an interval to run the rule on every n-th date."
+msgstr "Wählen Sie einen Intervall um die Regel an jedem n-ten Datum auszuführen."
+
+msgctxt "field:cashbook.planner,nextdates:"
+msgid "Next Dates"
+msgstr "nächste Termine"
+
+msgctxt "help:cashbook.planner,nextdates:"
+msgid "the next 5 appointments based on the configured rule"
+msgstr "die nächsten 5 Termine anhand der konfigurierten Regel"
+
+msgctxt "field:cashbook.planner,setpos:"
+msgid "Occurrence"
+msgstr "Ereignis"
+
+msgctxt "help:cashbook.planner,setpos:"
+msgid "For example, if you want to run the rule on the second Wednesday of the month, enter 2 here."
+msgstr "Wenn Sie die Regel z.B. am zweiten Mittwoch im Monat ausführen möchten, tragen Sie hier 2 ein."
+
+msgctxt "field:cashbook.planner,nextrun:"
+msgid "Next Execution Date"
+msgstr "Nächster Ausführungstermin"
+
+msgctxt "field:cashbook.planner,nextrun_date:"
+msgid "Next Execution Date"
+msgstr "Nächster Ausführungstermin"
+
+msgctxt "field:cashbook.planner,bookingtype:"
+msgid "Type"
+msgstr "Typ"
+
+msgctxt "help:cashbook.planner,bookingtype:"
+msgid "Type of Booking"
+msgstr "Buchungstyp"
+
+msgctxt "selection:cashbook.planner,bookingtype:"
+msgid "Revenue"
+msgstr "Einnahme"
+
+msgctxt "selection:cashbook.planner,bookingtype:"
+msgid "Expense"
+msgstr "Ausgabe"
+
+msgctxt "selection:cashbook.planner,bookingtype:"
+msgid "Transfer from"
+msgstr "Umbuchung von"
+
+msgctxt "selection:cashbook.planner,bookingtype:"
+msgid "Transfer to"
+msgstr "Umbuchung nach"
+
+msgctxt "field:cashbook.planner,currency_cashbook:"
+msgid "Currency"
+msgstr "Währung"
+
+msgctxt "help:cashbook.planner,currency_cashbook:"
+msgid "Currency of Cashbook"
+msgstr "Währung des Kassenbuchs"
+
+msgctxt "field:cashbook.planner,amount:"
+msgid "Amount"
+msgstr "Betrag"
+
+msgctxt "field:cashbook.planner,category:"
+msgid "Category"
+msgstr "Kategorie"
+
+msgctxt "help:cashbook.planner,category:"
+msgid "Category for the planned booking"
+msgstr "Kategorie für die geplante Buchung"
+
+msgctxt "field:cashbook.planner,booktransf:"
+msgid "Source/Dest"
+msgstr "Quelle/Ziel"
+
+msgctxt "field:cashbook.planner,owner_cashbook:"
+msgid "Owner"
+msgstr "Eigentümer"
+
+msgctxt "field:cashbook.planner,state_cashbook:"
+msgid "State of Cashbook"
+msgstr "Status des Kassenbuchs"
+
+msgctxt "field:cashbook.planner,subject:"
+msgid "Booking text"
+msgstr "Buchungstext"
+
+msgctxt "field:cashbook.planner,wfcheck:"
+msgid "Set to 'Checked'"
+msgstr "auf 'Geprüft' setzen"
+
+msgctxt "help:cashbook.planner,wfcheck:"
+msgid "Switches the booking to the 'Verified' state."
+msgstr "Schaltet die Buchung in den Zustand 'Geprüft'"
+
+msgctxt "field:cashbook.planner,booking_target:"
+msgid "Target"
+msgstr "Ziel"
+
+msgctxt "field:cashbook.planner,cashbook_lines:"
+msgid "Cashbook lines"
+msgstr "Kassenbuchzeilen"
+
+msgctxt "help:cashbook.planner,cashbook_lines:"
+msgid "This cash book lines was generated by the current scheduled booking."
+msgstr "Diese Kassenbuchzeilen wurden durch die aktuelle geplante Buchung generiert."
+
+msgctxt "field:cashbook.planner,party:"
+msgid "Party"
+msgstr "Partei"
+
+msgctxt "field:cashbook.planner,move_event:"
+msgid "If no business day"
+msgstr "Wenn kein Werktag"
+
+msgctxt "selection:cashbook.planner,move_event:"
+msgid "unchanged"
+msgstr "unverändert"
+
+msgctxt "selection:cashbook.planner,move_event:"
+msgid "Business day before original date"
+msgstr "Geschäftstag vor ursprünglichem Datum"
+
+msgctxt "selection:cashbook.planner,move_event:"
+msgid "Business day after original date"
+msgstr "Geschäftstag nach ursprünglichem Datum"
+
+msgctxt "help:cashbook.planner,move_event:"
+msgid "If the date of execution falls on a weekend or holiday, it can be moved to a business day."
+msgstr "Wenn das Datum der Ausführung auf ein Wochenende oder Feiertag fällt, kann es auf einen Geschäftstag verschoben werden."
+
+
+############################
+# cashbook.planner.nextrun #
+############################
+msgctxt "model:cashbook.planner.nextrun,name:"
+msgid "Next Execution Date"
+msgstr "Nächster Ausführungstermin"
+
+msgctxt "field:cashbook.planner.nextrun,planner:"
+msgid "Planner"
+msgstr "geplante Buchung"
+
+msgctxt "field:cashbook.planner.nextrun,date:"
+msgid "Date"
+msgstr "Datum"
+
+
+########################
+# cashbook.planner_rel #
+########################
+msgctxt "model:cashbook.planner_rel,name:"
+msgid "Scheduled Booking - Cashbook - Relation"
+msgstr "geplante Buchung - Kassenbuch - Verknüpfung"
+
+msgctxt "field:cashbook.planner_rel,planner:"
+msgid "Planner"
+msgstr "geplante Buchung"
+
+msgctxt "field:cashbook.planner_rel,line:"
+msgid "Cashbook Line"
+msgstr "Kassenbuchzeile"
+
+
+#################
+# cashbook.book #
+#################
+msgctxt "view:cashbook.book:"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
+
+msgctxt "field:cashbook.book,planner:"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
+
+
+#################
+# cashbook.line #
+#################
+msgctxt "view:cashbook.line:"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
+
+msgctxt "field:cashbook.line,planners:"
+msgid "Scheduled Bookings"
+msgstr "geplante Buchungen"
