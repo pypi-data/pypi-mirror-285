@@ -1,0 +1,1 @@
+from setuptools import setup; setup(packages=['vytal'], install_requires=open("requirements.txt").read().split("\n"), include_package_data=True, package_data={"vytal": ["*.png", "*.ttf"]})
