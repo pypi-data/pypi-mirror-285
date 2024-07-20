@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: phoenixia
+Version: 0.0.2
+Summary: a repository for Phoenix-IA models
+Home-page: https://github.com/not-lain/phoenixia
+License: Apache 2.0 License
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: setuptools>=42
+Requires-Dist: wheel>=0.37
+Requires-Dist: torch>=2.2.1
+Requires-Dist: huggingface_hub>=0.22
+
+# phoenixia
+A repository for phoenix-ia models 
+This repository is using Hugging Face's PyTorchModelHubMixin classes
+
+## How to use
+
+```
+pip install phoenixia
+```
+
+```python
+from phoenixia import Hannibal
+model = Hannibal(a=2,b=1)
+model.push_to_hub("phoenix-ia/Hannibal")
+
+pretrained_model = Hannibal.from_pretrained("phoenix-ia/Hannibal")
+```
+
+
+![pheonixia](https://github.com/not-lain/phoenixia/blob/main/logo.png?raw=true)
