@@ -1,0 +1,141 @@
+# CHANGELOG
+
+## v0.88.0 (2024-07-19)
+
+### Feature
+
+* feat(waveform_widget): designer plugin added ([`1f8ef52`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/1f8ef52b606283038052640849094f515a463403))
+
+* feat(waveform_widget): switch between drag and rectangle mode ([`2be009c`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/2be009c6477ba26c5cfb4d827534c5d5eb428999))
+
+* feat(waveform_widget): autorange button ([`8df6b00`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8df6b003e5c6a942fa2e875d9790e492c087bf26))
+
+* feat(waveform_widget): dap parameter window ([`1e551d6`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/1e551d6e9696f79ea2e0a179d13a4fc6c2a128b2))
+
+* feat(waveform): export to matplotlib window of current scene ([`8d93405`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8d9340539967b06b1e15f21a2106a39d5c740f31))
+
+* feat(figure): export dialog can be launched from CLI and from toolbar ([`6ff6111`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/6ff611109153b9412dce37c527b19e839d99bba7))
+
+* feat(waveform_widget): added error handle utility ([`a8ff1d4`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/a8ff1d4cd09cae5eaeb4bd0ea90fdd102e32f3a3))
+
+* feat(curve_dialog): add DAP functionality ([`e830565`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/e8305652fde384da037242cf8f7e3606f22bcfb6))
+
+* feat(curve_dialog): curves can be added ([`c926a75`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/c926a75a7927d672c044ea8f68771209ae5accc6))
+
+* feat(waveform_widget): BECWaveformWidget toolbar added import/export config ([`fa9b171`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/fa9b17191ddbb4043a658dae9aa0801e1dc22b84))
+
+* feat(waveform_widget): BECWaveformWidget added with toolbar ([`755b394`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/755b394c1c4d7c443c442d89c630d08ce5415554))
+
+### Fix
+
+* fix(waveform_widget): plot API unified with BECFigure ([`2c8764a`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/2c8764a27de89b39b717032b58465e120ec57fbc))
+
+* fix(colormap_selector): compatibility for PyQt6 when using designer fixed ([`50135b5`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/50135b5fe90a88618291e9357f180cb19251dace))
+
+* fix(waveform_widget): adapted for BECWidget base class ([`6eb313f`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/6eb313fa76e559d62ecd8fa8849142b83817e47c))
+
+* fix(waveform_widget): temporary disabled save/load config ([`7089cf3`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/7089cf356a43d805241d5621952e544d690e65e0))
+
+* fix(waveform_widget): use @SafeSlot decorator for automatic error message ([`8e588d7`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8e588d79c86e950f6915e89c08fa9415c4bd8033))
+
+* fix(waveform): colormaps of curves can be changed and normalised
+
+feat(waveform): colormap can be changed from curve dialog
+
+fix(curve_dialog): default dialog parameters fixed
+
+curve Dialog colormap WIP ([`33495cf`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/33495cfe03b363f18db61d8af2983f49027b7a43))
+
+* fix(waveform_widget): adapted for changes from improved scan logic from waveform widget ([`8ac35d7`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8ac35d7280b1ff007c10612228d163cc0c5d1a99))
+
+### Refactor
+
+* refactor(icons): icons moved to the assets directory ([`a8b6ef2`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/a8b6ef20cccae87515b10f054d0ed5b10e152769))
+
+* refactor(waveform_widget): removed PYSIDE6 check ([`47fcb9e`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/47fcb9ebfe35ae600cced95a1edc68f6f6e37a04))
+
+### Test
+
+* test(waveform_widget): test added ([`8d764e2`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8d764e2d46a1e017dadc3c4630648c1ca708afc2))
+
+## v0.87.1 (2024-07-18)
+
+### Fix
+
+* fix(dock): added hasattr to cleanup method for widgets ([`d75c55b`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/d75c55b2b1ccf156fb789c7813f1c5bdf256f860))
+
+* fix: add missing close() call, ensure jupyter console client.shutdown() is called in closeEvent ([`e52ee26`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/e52ee2604cb35096f1bd833ca9516d8a34197d35))
+
+* fix: BECWidget checks if it is a widget, and implements closeEvent and cleanup ([`d64758f`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/d64758f268cad69e6a17bd52dc9913a6367d3cde))
+
+* fix: add exit handlers for BECConnection objects ([`6202d22`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/6202d224fe85c103a4c33bd8c255f18cfd027303))
+
+### Refactor
+
+* refactor: BECWidget is a mixin based on BECConnector, for each QWidget in BEC
+
+Handles closeEvent() and RPC registering/unregistering ([`c7feb69`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/c7feb6952d590b569f7b0cba3b019a9af0ce0c93))
+
+## v0.87.0 (2024-07-17)
+
+### Feature
+
+* feat(qt_utils): added warning utility with simple API to setup warning message ([`787f749`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/787f74949bac27aaa51cbb43911919071481707c))
+
+* feat(qt_utils): added error handle utility with popup messageBoxes ([`196ef7a`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/196ef7afe11a1b5dcc536f8859dc3b6044ea628e))
+
+### Unknown
+
+* tests: add unit tests for error and warning message boxes ([`8f104cf`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8f104cf4024d3a4516e6aba5daa8fb78c85e2bfd))
+
+## v0.86.0 (2024-07-17)
+
+### Feature
+
+* feat(toolbar): added separator action ([`ba69e79`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/ba69e7957cd20df1557ac0c3a9ca43a54493c34d))
+
+## v0.85.1 (2024-07-17)
+
+### Fix
+
+* fix(waveform): readout_priority dict fixed, not overwritten to &#39;baseline&#39; key ([`b5b0aa4`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/b5b0aa4f82a998bb0162dc319591e854204a7354))
+
+## v0.85.0 (2024-07-16)
+
+### Feature
+
+* feat(color_map_selector): added colormap selector with plugin ([`b98fd00`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/b98fd00adef97adf57f49b60ade99972b9f5a6bc))
+
+## v0.84.0 (2024-07-15)
+
+### Feature
+
+* feat(waveform): async readback update implemented for async devices ([`0c6a9f2`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/0c6a9f2310df31ddcd68050a17cfbf52c3e2e226))
+
+* feat(waveform): data are taken directly from ScanItem which is defined from scan_status endpoint; scan update is triggered from scan_segment; plots can be added just specifying y_name -&gt; best effort for setting x reported device ([`b8717f1`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/b8717f13276734dd655ab03cd6005985ad5af9fb))
+
+### Fix
+
+* fix(waveform): timestamp are not converted to human readable format ([`e495fd3`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/e495fd30c4c16474689943c7263e3060cb09ffb4))
+
+* fix(waveform): set_x method various bugs fixed ([`8516a1d`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/8516a1d639925a877f174fa13f427a71131cc918))
+
+* fix(waveform): x axis switching logic fixed when axis are not compatible ([`e4e1a90`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/e4e1a905d19def22f970b364c18c953f00e10389))
+
+* fix(waveform): dap leaked RID for all daps in current process; dap RID is now f&#34;{scan_id}-{gui_id}&#34; to distinguish for each plot instance ([`d23fd8b`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/d23fd8bd074ede6e14eb8e85e025cbced4bd45ef))
+
+* fix(waveform): only one type of x axis allowed; x mode validated ([`9d6ae87`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/9d6ae87d0f03ca227570fcca8af2d8190828d271))
+
+* fix(waveform): data for axis are taken by separate method; validation consolidated ([`fc5a8bd`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/fc5a8bdd8b260f5e9b59ec71a4610c57442e43fe))
+
+* fix(bec_dispatcher): connect_slot can accept kwargs ([`0aa317a`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/0aa317aae58d3612d46f05b85f8b0db3d12bbe14))
+
+### Refactor
+
+* refactor(waveform): plot can be prompted without specifying kwargs ([`48911e9`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/48911e934815923c94edb5ced6042058a11a97f5))
+
+* refactor(jupyter_console_window): added more examples of waveforms ([`fc935d9`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/fc935d9fc81067c3a67389ff88ea97da2e0c903e))
+
+### Test
+
+* test(waveform): tests extended ([`006992e`](https://gitlab.psi.ch/bec/bec_widgets/-/commit/006992e43cc56d56261bc4fd3e9cae9abcab2153))
