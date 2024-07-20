@@ -1,0 +1,143 @@
+Metadata-Version: 2.3
+Name: cosapp_lab
+Version: 0.17.0
+Dynamic: Keywords
+Summary: Toolbox for managing and deploying CoSApp powered dashboards.
+Project-URL: Homepage, https://gitlab.com/cosapp/cosapp_lab
+Project-URL: Bug Tracker, https://gitlab.com/cosapp/cosapp_lab/issues
+Project-URL: Repository, https://gitlab.com/cosapp/cosapp_lab.git
+Author-email: CoSApp Team <etienne.lac@safrangroup.com>
+License: Copyright (C) 2017-2021 Safran SA - All Rights Reserved
+        
+        CoSApp Lab Open Source License:
+        
+        Licensed under the Apache License, Version 2.0 (the "License");
+        you may not use this software except in compliance with the License.
+        You may obtain a copy of the License at
+        
+            http://www.apache.org/licenses/LICENSE-2.0
+        
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+License-File: AUTHORS.rst
+License-File: LICENSE
+Classifier: Framework :: Jupyter
+Classifier: Framework :: Jupyter :: JupyterLab
+Classifier: Framework :: Jupyter :: JupyterLab :: 4
+Classifier: Framework :: Jupyter :: JupyterLab :: Extensions
+Classifier: Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Requires-Dist: click
+Requires-Dist: cookiecutter
+Requires-Dist: cosapp>=0.13
+Requires-Dist: ipywidgets>=8
+Requires-Dist: jinja2
+Requires-Dist: jupyter-client>=8
+Requires-Dist: jupyter-server>=2
+Requires-Dist: markdown
+Requires-Dist: requests
+Requires-Dist: tornado>=6.1.0
+Provides-Extra: test
+Requires-Dist: ipykernel; extra == 'test'
+Requires-Dist: nbconvert; extra == 'test'
+Requires-Dist: pytest; extra == 'test'
+Description-Content-Type: text/markdown
+
+# CosApp Lab - Toolbox for managing and deploying CoSApp powered dashboards.
+
+[![Readthedocs](https://readthedocs.org/projects/cosapp-lab/badge/?version=latest)](https://cosapp-lab.readthedocs.io/en/latest/)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gl/cosapp%2Fcosapp_lab/master?urlpath=lab/tree/examples/SysExplorer.ipynb)
+
+## Introduction
+
+The primary goal of **CoSApp Lab** is to help users transform existing CoSApp
+modules into interactive dashboards, with almost no additional development or
+configuration.
+
+### Examples
+
+#### Using CosApp Lab in JupyterLab
+
+CoSApp Lab provides a JupyterLab extension named **SysExplorer** for creating interactive dashboards. This extension allows users to dynamically customize the layout and fill their dashboard with multiple predefined widgets, such as charts, controllers (sliders, _etc._), 3D visualization panels...
+
+![CosApp Lab in JupyterLab](./docs/img/cosapp_lab.gif)
+
+#### Using CosApp Lab standalone mode
+
+Dashboards defined with **SysExplorer** in JupyterLab can also be exported into libraries and served by CoSApp Lab as web applications.
+
+![CoSApp Lab standalone](./docs/img/cosapp_lab_all.gif)
+
+## Documentation
+
+A more detailed **CoSApp Lab** documentation is available at:
+
+https://cosapp-lab.readthedocs.io/
+
+## Installation
+
+### Stable release
+
+The easiest way to obtain `cosapp_lab` is to install the conda package:
+
+```shell
+conda install -c conda-forge cosapp_lab
+```
+
+`cosapp_lab` is also available on PyPI. However, since `pythonocc-core` is not, users can install `cosapp_lab` with _pip_, but the 3D viewer widget will not work.
+
+```shell
+pip install cosapp-lab
+```
+
+`JupyterLab` is not a direct dependency of `cosapp_lab`, but users need to have JupyterLab (>3.0) in order to create CoSApp dashboard in notebooks.
+
+### Development
+
+#### Setup development environment
+
+```shell
+    # create a new conda environment
+    conda create -n cosapplab -c conda-forge python jupyterlab nodejs
+    conda activate cosapplab
+
+    # download cosapp_lab from gitlab
+    git clone --recursive https://gitlab.com/cosapp/cosapp_lab.git
+
+    # install JS dependencies, build and install JupyterLab extension in development mode
+    cd cosapp_lab
+    npm run install
+    npm run build:all
+    npm run install:extension
+
+    # install cosapp_lab in editable mode
+    python -m pip install -e .
+```
+
+#### Testing
+
+```shell
+    # Test python code
+    python -m pytest
+
+    # Test typescript code
+    npm run test
+```
+
+#### Build documents
+
+```shell
+cd docs
+sphinx-build -b html -d _build/doctrees . _build
+```
