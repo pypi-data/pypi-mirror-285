@@ -1,0 +1,53 @@
+#:kivy 2.3.0
+
+<ItemWidget>:
+  orientation: 'horizontal'
+  _width: dp(UBO_GUI_SHORT_WIDTH) if self.is_short else self.width - dp(6)
+  _progress: 0 if self.progress is None else int(self._width * self.progress)
+  height: dp(UBO_GUI_MENU_ITEM_HEIGHT)
+  opacity: root.opacity if root.is_set else 0
+
+  canvas.before:
+    Color:
+      rgb: root.background_color[0] + (-0.2 if root.background_color[0] > 0.5 else 0.2), root.background_color[1] + (-0.2 if root.background_color[1] > 0.5 else 0.2), root.background_color[2] + (-0.2 if root.background_color[2] > 0.5 else 0.2)
+
+    RoundedRectangle:
+      pos: self.pos
+      size: (self._width, self.height) if root.is_set else (0, 0)
+      radius: (0, 0), (dp(26), dp(26)), (dp(26), dp(26)), (0, 0)
+
+    Color:
+      rgba: root.background_color if root.is_set else (0, 0, 0, 0)
+
+    RoundedRectangle:
+      pos: self.pos[0], self.pos[1]
+      size: self._progress, self.height
+      radius: (0, 0), (dp(26), dp(26)), (dp(26), dp(26)), (0, 0)
+
+  orientation: 'horizontal'
+  spacing: dp(4) if root.is_short else dp(6)
+
+  Widget:
+    width: dp(2)
+    size_hint: None, 1
+
+  Label:
+    color: root.color
+    font_size: dp(26)
+    text: root.icon if root.icon is not None else ''
+    size_hint: None, 1
+    width: self.parent.height - dp(25)
+    valign: 'middle'
+    markup: True
+
+  Label:
+    color: root.color
+    font_size: dp(18)
+    text: '' if root.is_short else root.label
+    text_size: self.size
+    size_hint: 1, 1
+    halign: 'left'
+    valign: 'middle'
+    shorten: True
+    shorten_from: 'right'
+    markup: True
