@@ -1,0 +1,71 @@
+###############################################################################
+#
+# (C) Copyright 2024 EVERYSK TECHNOLOGIES
+#
+# This is an unpublished work containing confidential and proprietary
+# information of EVERYSK TECHNOLOGIES. Disclosure, use, or reproduction
+# without authorization of EVERYSK TECHNOLOGIES is prohibited.
+#
+###############################################################################
+
+###############################################################################
+#   Imports
+###############################################################################
+from everysk.config import settings
+from everysk.core.compress import compress
+from everysk.core.datetime import Date
+from everysk.core.http import HttpSDKPOSTConnection
+from everysk.core.unittests import TestCase, mock
+
+from everysk.sdk.engines.market_data import MarketData
+
+
+###############################################################################
+#   Market Data Test Case Implementation
+###############################################################################
+class MarketDataTestCase(TestCase):
+
+    def setUp(self) -> None:
+        self.headers = HttpSDKPOSTConnection().get_headers()
+        self.api_url = HttpSDKPOSTConnection().get_url()
+        return super().setUp()
+
+    ###############################################################################
+    #  Get Security Test Case Implementation
+    ###############################################################################
+    def test_get_security_is_called(self):
+        expected_data = compress({'class_name': 'MarketData', 'method_name': 'get_security', 'self_obj': {'date': {'__date__': '2023-07-31'}, '__class_path__': 'everysk.sdk.engines.market_data.MarketData'}, 'params': {'date': '123', 'ticker_list': ['test'], 'ticker_type': ['choice1', 'choice2'], 'projection': 'test_projection', 'nearest': True}}, protocol='gzip', serialize='json')
+        market_date = MarketData(date=Date(2023, 7, 31))
+
+        with mock.patch('requests.post') as mock_post:
+            mock_post.return_value.content = '{}'
+            mock_post.return_value.status_code = 200
+            market_date.get_security(date='123', ticker_list=['test'], ticker_type=['choice1', 'choice2'], projection='test_projection', nearest=True)
+
+        mock_post.assert_called_with(
+            url=self.api_url,
+            headers=self.headers,
+            verify=settings.HTTP_DEFAULT_SSL_VERIFY,
+            timeout=settings.EVERYSK_SDK_HTTP_DEFAULT_TIMEOUT,
+            data=expected_data
+        )
+
+    ###############################################################################
+    #  Get Historical Test Case Implementation
+    ###############################################################################
+    def test_get_historical_is_called(self):
+        expected_data = compress({'class_name': 'MarketData', 'method_name': 'get_historical', 'self_obj': {'date': {'__date__': '2023-07-31'}, '__class_path__': 'everysk.sdk.engines.market_data.MarketData'}, 'params': {'date': '2023-08-14', 'start_date': '2022-05-14', 'end_date': '2024-07-17', 'ticker_list': ['test'], 'ticker_type': ['choice1', 'choice2'], 'projection': 'test_projection', 'nearest': True, 'real_time': True}}, protocol='gzip', serialize='json')
+        market_date = MarketData(date=Date(2023, 7, 31))
+
+        with mock.patch('requests.post') as mock_post:
+            mock_post.return_value.content = '{}'
+            mock_post.return_value.status_code = 200
+            market_date.get_historical(date='2023-08-14', start_date='2022-05-14', end_date='2024-07-17', ticker_list=['test'], ticker_type=['choice1', 'choice2'], projection='test_projection', nearest=True, real_time=True)
+
+        mock_post.assert_called_with(
+            url=self.api_url,
+            headers=self.headers,
+            verify=settings.HTTP_DEFAULT_SSL_VERIFY,
+            timeout=settings.EVERYSK_SDK_HTTP_DEFAULT_TIMEOUT,
+            data=expected_data
+        )
