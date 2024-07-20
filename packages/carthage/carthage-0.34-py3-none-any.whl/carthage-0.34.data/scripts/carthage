@@ -1,0 +1,76 @@
+#!python
+# Copyright (C) 2023, Hadron Industries, Inc.
+# Carthage is free software; you can redistribute it and/or modify
+# it under the terms of the GNU Lesser General Public License version 3
+# as published by the Free Software Foundation. It is distributed
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the file
+# LICENSE for details.
+
+import argparse
+import shutil
+import sh #We do not want carthage.sh
+import sys
+from pathlib import Path
+
+if Path(__file__).parents[1].joinpath('carthage').exists():
+    sys.path.insert(0, str(Path(__file__).parents[1].absolute()))
+
+from carthage.skeleton import *
+from carthage.utils import carthage_main_setup, carthage_main_argparser, carthage_main_run
+from carthage import carthage_deployment
+
+
+def new(args):
+    dir = Path(args.name)
+    if dir.is_absolute():
+        raise ValueError('Specify a plugin name, not a directory path')
+    if dir.exists():
+        raise OSError(f'{dir} exists')
+    try:
+        render_skeleton(args.skel, dir, args)
+        if args.git:
+            git = sh.git.bake('-C', str(dir))
+            git.init()
+            git.add('.')
+            git.commit(m='Initial commit')
+    except Exception:
+        try: shutil.rmtree(dir)
+        except OSError: pass
+        raise
+    print('Output in '+str(dir))
+
+def main():
+    parser = carthage_main_argparser()
+    command_action = parser.add_subparsers(title='command', dest='cmd', )
+    new_parser = command_action.add_parser('new',
+                                           help='Create a new Carthage project')
+
+    skeleton_subparser_setup(new_parser)
+    new_parser.add_argument('--name', required=True, metavar='output_name')
+    new_parser.add_argument('--copyright',
+    help='Who is the copyright holder',
+                        default='Hadron Industries',
+                        )
+    new_parser.add_argument('--proprietary',
+                        help='Do not include LGPL-3 license block',
+                        action='store_true',
+                        )
+    new_parser.add_argument('--git',
+                        help='Create a git repository for the output',
+                        action='store_true',
+                        )
+    carthage_deployment.setup_deployment_commands(command_action)
+    args = carthage_main_setup(parser, ignore_import_errors=True)
+    match args.cmd:
+        case 'generate_requirements':
+            carthage_main_run(carthage_deployment.gen_requirements_command, args)
+        case 'install_dependencies':
+            carthage_main_run(carthage_deployment.install_carthage_dependencies_command, args)
+        case 'new':
+            new(args)
+    
+
+if __name__ == '__main__':
+    main()
+    
