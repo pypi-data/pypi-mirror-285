@@ -1,0 +1,154 @@
+Metadata-Version: 2.1
+Name: discogs-tag
+Version: 1.2.1
+Summary: An audio tagger based on Discogs metadata.
+Home-page: https://github.com/infojunkie/discogs-tag.py
+Author: infojunkie
+Author-email: karim.ratib@gmail.com
+Requires-Python: >=3.10,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Dist: fire (>=0.6.0,<0.7.0)
+Requires-Dist: importlib-metadata (>=6.8.0,<7.0.0)
+Requires-Dist: mutagen (>=1.46.0,<2.0.0)
+Requires-Dist: pathvalidate (>=3.2.0,<4.0.0)
+Requires-Dist: regex (>=2024.5.15,<2025.0.0)
+Project-URL: Repository, https://github.com/infojunkie/discogs-tag.py
+Description-Content-Type: text/markdown
+
+discogs-tag
+===========
+
+An audio tagger based on Discogs metadata.
+
+[![PyPI Version](https://img.shields.io/pypi/v/discogs-tag.svg)](https://pypi.org/project/discogs-tag/)
+
+# Usage
+```shell
+NAME
+    discogs-tag
+
+SYNOPSIS
+    discogs-tag COMMAND
+
+COMMANDS
+    COMMAND is one of the following:
+
+     tag
+       Tag the audio files with the given Discogs release.
+
+     copy
+       Copy the audio tags from source to destination folders.
+
+     rename
+       Rename the audio files based on the given format string.
+```
+## tag
+```shell
+NAME
+    discogs-tag tag - Tag the audio files with the given Discogs release.
+
+SYNOPSIS
+    discogs-tag tag RELEASE <flags>
+
+DESCRIPTION
+    The RELEASE can be one of the following:
+        - A full Discogs release URL, e.g. https://www.discogs.com/release/16215626-Pink-Floyd-Wish-You-Were-Here
+        - The numeric portion of the above, e.g. 16215626
+        - A local file URI pointing to a release JSON file
+
+    The SKIP flag can take one or more of the following values, comma-separated:
+        artist, composer, title, position, date, subtrack, album, genre, albumartist
+
+        If subtracks are skipped, subtrack titles get appended to their parent track.
+
+POSITIONAL ARGUMENTS
+    RELEASE
+
+FLAGS
+    --dir=DIR
+        Default: './'
+    --dry=DRY
+        Default: False
+    -i, --ignore=IGNORE
+        Default: False
+    -s, --skip=SKIP
+        Type: Optional[]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+## copy
+```shell
+NAME
+    discogs-tag copy - Copy the audio tags from source to destination folders.
+
+SYNOPSIS
+    discogs-tag copy SRC <flags>
+
+DESCRIPTION
+    The SKIP flag can take one or more of the following values, comma-separated:
+        artist, composer, title, position, date, subtrack, album, genre, albumartist
+
+        If subtracks are skipped, subtrack titles get appended to their parent track.
+
+POSITIONAL ARGUMENTS
+    SRC
+
+FLAGS
+    --dir=DIR
+        Default: './'
+    --dry=DRY
+        Default: False
+    -i, --ignore=IGNORE
+        Default: False
+    -s, --skip=SKIP
+        Type: Optional[]
+        Default: None
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+## rename
+```shell
+NAME
+    discogs-tag rename - Rename the audio files based on the given format string.
+
+SYNOPSIS
+    discogs-tag rename FORMAT <flags>
+
+DESCRIPTION
+    The FORMAT string specifies how to rename the audio files and/or directories according to the following tags:
+        %a Artist
+        %z Album artist
+        %b Album title
+        %p Composer
+        %d Disc nummber
+        %g Genre
+        %n Track number
+        %t Track title
+        %y Year
+        /  Directory separator: Specifies subdirectories to be created starting from the given directory.
+           Non-audio files will be moved to their existing subdirectories within the destination root which is assumed to be unique.
+
+POSITIONAL ARGUMENTS
+    FORMAT
+
+FLAGS
+    --dir=DIR
+        Default: './'
+    --dry=DRY
+        Default: False
+    -i, --ignore=IGNORE
+        Default: False
+
+NOTES
+    You can also use flags syntax for POSITIONAL ARGUMENTS
+```
+# Development
+- Install [`poetry`](https://python-poetry.org/docs/#installation)
+- `poetry install && poetry build && pip install .`
+
+
