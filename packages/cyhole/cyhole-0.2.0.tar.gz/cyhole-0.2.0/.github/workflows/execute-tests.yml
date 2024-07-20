@@ -1,0 +1,105 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'tests/**'
+  release:
+    types: [created]
+
+jobs:
+  lint:
+    name: execute the lint on cyhole code and tests code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # setup python
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      # manage caches
+      - name: create cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-py-${{ env.pythonLocation }}-${{ hashFiles('tests/requirements.txt') }}-test
+
+      # install dependencies
+      - name: install pip and dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install --upgrade pip
+          pip install -r tests/requirements.txt
+
+      # execute lint
+      - name: execute lint
+        run: ruff check src/cyhole tests
+
+  test:
+    name: execute the tests on the library code
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version:
+          - 3.12
+    steps:
+      - uses: actions/checkout@v4
+
+      # setup test configuration
+      - name: rename file
+        run: mv tests/test.default.ini tests/test.ini
+
+      # update library version to install it locally
+      - name: update version in pyproject.toml
+        run: sed -i "s/{{PROJECT_VERSION}}/0.0.1/g" pyproject.toml
+
+      # setup environment
+      - name: setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # manage caches
+      - name: create cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: ${{ env.pythonLocation }}
+          key: ${{ runner.os }}-py-${{ env.pythonLocation }}-${{ hashFiles('tests/requirements.txt') }}-test
+
+      # install dependencies
+      - name: install pip and dependencies
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          pip install --upgrade pip
+          pip install -r tests/requirements.txt
+          pip install -r src/requirements.txt
+          pip install -e .
+
+      # execute tests
+      - name: execute pytest coverage
+        run: coverage run -m pytest -v -s tests
+        env:
+          CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
+      - name: generate coverage report
+        run: coverage report -m
+
+      # generate/upload coverage HTML
+      - name: generate coverage html
+        run: coverage html --show-contexts --title "Coverage Report - cyhole (${{ github.sha }})"
+      - name: upload coverage html
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: htmlcov

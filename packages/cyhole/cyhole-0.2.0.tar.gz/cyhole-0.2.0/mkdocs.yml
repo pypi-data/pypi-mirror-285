@@ -1,0 +1,116 @@
+site_name: cyhole
+
+repo_url: https://github.com/zazza123/cyhole
+repo_name: zazza123/cyhole
+
+theme:
+  name: material
+  custom_dir: docs/config/overrides
+  language: en
+  icon:
+    logo: material/star-four-points-outline
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.top
+    - navigation.indexes
+    - toc.follow
+    - search.suggest
+    - content.code.copy
+  palette:
+    # Light Mode Palette
+    - media: "(prefers-color-scheme: light)"
+      primary: black
+      scheme: default
+      toggle:
+        icon: octicons/moon-24
+        name: Switch to Dark Mode
+    # Dark Mode Palette
+    - media: "(prefers-color-scheme: dark)"
+      primary: white
+      scheme: slate
+      toggle:
+        icon: octicons/sun-24
+        name: Switch to Light Mode
+
+plugins:
+  - search
+  - offline
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            show_inheritance_diagram: true
+            show_root_heading: true
+            merge_init_into_class: true
+            annotations_path: source
+            separate_signature: true
+            show_signature_annotations: true
+            members_order: source
+            #signature_crossrefs: true
+
+markdown_extensions:
+
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+  # Python Markdown Extensions
+  - pymdownx.snippets
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.mark
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Navigation
+nav:
+  - Home: index.md
+  - Interactions:
+    - interactions/index.md
+    - Birdeye:
+      - interactions/birdeye/index.md
+      - Interaction: interactions/birdeye/interaction.md
+      - Client: interactions/birdeye/client.md
+      - Parameters: interactions/birdeye/param.md
+      - Response Schema: interactions/birdeye/schema.md
+      - Exceptions: interactions/birdeye/exception.md
+    - Jupiter:
+      - interactions/jupiter/index.md
+      - Interaction: interactions/jupiter/interaction.md
+      - Client: interactions/jupiter/client.md
+      - Parameters: interactions/jupiter/param.md
+      - Response Schema: interactions/jupiter/schema.md
+      - Exceptions: interactions/jupiter/exception.md
+  - Development:
+    - development/index.md
+    - Core:
+      - development/core/index.md
+      - Interaction: development/core/interaction.md
+      - Client: development/core/client.md
+      - Parameters: development/core/param.md
+      - Exceptions: development/core/exception.md
+
+extra_css:
+  - config/css/mkdocstrings.css
