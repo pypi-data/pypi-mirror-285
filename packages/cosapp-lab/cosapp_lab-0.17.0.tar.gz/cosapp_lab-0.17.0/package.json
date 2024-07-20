@@ -1,0 +1,299 @@
+{
+    "name": "cosapp_lab",
+    "version": "0.17.0",
+    "description": "Toolbox for managing and deploying CoSApp powered dashboards.",
+    "keywords": [
+        "jupyter",
+        "jupyterlab",
+        "jupyterlab-extension",
+        "widgets"
+    ],
+    "homepage": "https://gitlab.com/cosapp/cosapp_lab",
+    "bugs": {
+        "url": "https://gitlab.com/cosapp/cosapp_lab/issues"
+    },
+    "license": "Proprietary License",
+    "author": {
+        "name": "CoSApp Team",
+        "email": "etienne.lac@safrangroup.com"
+    },
+    "files": [
+        "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+        "style/**/*.{css,js,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+        "src/**/*.{ts,tsx}"
+    ],
+    "main": "lib/index.js",
+    "types": "lib/index.d.ts",
+    "style": "style/index.css",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/cosapp/cosapp_lab.git"
+    },
+    "scripts": {
+        "build": "tsc  && webpack && npm run build:labextension:dev",
+        "build:prod": "tsc  && webpack --env MODE=prod && npm run build:labextension",
+        "build:labextension": "jupyter labextension build .",
+        "build:labextension:dev": "jupyter labextension build --development True .",
+        "build:app": "tsc  && webpack --env TARGET=app",
+        "build:lab": "tsc  && webpack --env TARGET=lab && npm build:labextension:dev",
+        "build:all": "tsc  && webpack && npm build:labextension:dev",
+        "build:webpack": "webpack --env TARGET=lab && npm build:labextension:dev",
+        "build:docs": "sphinx-build -b html -d ./docs/_build/doctrees ./docs ./docs/_build",
+        "clean:all": "rimraf buildjs/* && rimraf lib/* && rimraf cosapp_lab/lab_static/*  && rimraf cosapp_lab/app_static/static/dist/* &&  copyfiles ./package.json ./buildjs",
+        "clean:lib": "rimraf buildjs/* && rimraf lib/* && rimraf cosapp_lab/lab_static/*",
+        "clean:labextension": "rimraf cosapp_lab/lab_static/static/lib_index_* && rimraf cosapp_lab/lab_static/static/remoteEntry*",
+        "eslint": "eslint . --ext .ts,.tsx --fix",
+        "lint": "npm run prettier && npm run eslint",
+        "lint:check": "npm run prettier:check && npm run eslint:check",
+        "eslint:check": "eslint . --ext .ts,.tsx",
+        "prettier": "npm run prettier:base --write --list-different",
+        "prettier:base": "prettier \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
+        "prettier:check": "npm run prettier:base --check",
+        "install:extension": "npm run build",
+        "copy:extension": "python ./cosapp_lab/utils/copy_extension.py",
+        "watch": "run-p watch:webpack watch:lab",
+        "watch:src": "tsc -w",
+        "watch:webpack": "webpack --env TARGET=lab --watch --progress",
+        "watch:webpack:app": "webpack --env TARGET=app --watch --progress",
+        "watch:app": "run-p watch:src watch:webpack:app",
+        "watch:lab": "jupyter labextension watch .",
+        "test": "jest src --silent "
+    },
+    "dependencies": {
+        "@antv/g6": "^3.5.7",
+        "@emotion/core": "^10.0.27",
+        "@emotion/react": "^11.11.4",
+        "@emotion/styled": "^10.0.27",
+        "@jupyter-widgets/base": "^6.0.0",
+        "@jupyter-widgets/controls": "^5.0.0",
+        "@jupyter-widgets/html-manager": "^1.0.0",
+        "@jupyterlab/application": "^4.0.0",
+        "@jupyterlab/apputils": "^4.0.0",
+        "@jupyterlab/coreutils": "^6.0.0",
+        "@jupyterlab/mathjax2": "^3.6.7",
+        "@jupyterlab/notebook": "^4.0.0",
+        "@jupyterlab/services": "^7.0.0",
+        "@lumino/widgets": "^2.0.0",
+        "@material-ui/core": "^4.9.3",
+        "@material-ui/icons": "^4.5.1",
+        "@material-ui/lab": "^4.0.0-alpha.33",
+        "@projectstorm/react-diagrams": "6.3.0",
+        "@types/enzyme-adapter-react-16": "^1.0.6",
+        "@typescript-eslint/eslint-plugin": "^4.14.2",
+        "@typescript-eslint/parser": "^4.14.2",
+        "@uiw/react-codemirror": "^4.22.1",
+        "closest": "^0.0.1",
+        "codemirror": "^6",
+        "dagre": "^0.8.4",
+        "flexlayout-react": "0.5.4",
+        "global": "^4.4.0",
+        "ify-loader": "^1.1.0",
+        "lodash": "4.17.15",
+        "marked": "^1.2.9",
+        "material-table": "1.62.0",
+        "mathjs": "^6.2.5",
+        "ml-matrix": "^6.5.0",
+        "pathfinding": "^0.4.18",
+        "paths-js": "^0.4.10",
+        "plotly.js": "^1.57.1",
+        "react-plotly.js": "^2.5.0",
+        "react-redux": "^7.1.3",
+        "react-scripts": "3.2.0",
+        "react-select": "^3.0.8",
+        "react-table": "^7.6.0",
+        "redux": "^4.0.4",
+        "redux-thunk": "^2.3.0",
+        "resize-observer-polyfill": "^1.5.1",
+        "three": "^0.117.0",
+        "vis": "^4.21.0-EOL"
+    },
+    "overrides": {
+        "lodash": "4.17.15",
+        "@types/react": "17.0.36"
+    },
+    "resolutions": {
+        "lodash": "4.17.15",
+        "@types/react": "17.0.30"
+    },
+    "devDependencies": {
+        "@babel/core": "7",
+        "@babel/preset-env": "7",
+        "@jupyterlab/builder": "^4.0.0",
+        "@jupyterlab/testutils": "^4.0.0",
+        "@testing-library/react": "^9.4.1",
+        "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+        "@types/enzyme": "^3.10.5",
+        "@types/jest": "^29.2.0",
+        "@types/marked": "^6.0.0",
+        "@types/node": "^10.11.6",
+        "@types/plotly.js": "^2.29.4",
+        "@types/react": "17.0.36",
+        "@types/react-addons-linked-state-mixin": "^0.14.22",
+        "@types/react-dom": "^17.0.2",
+        "@types/react-plotly.js": "^2.6.3",
+        "@types/react-redux": "^7.1.5",
+        "@types/react-sortable-tree": "^0.3.6",
+        "@typescript-eslint/eslint-plugin": "^6.1.0",
+        "@typescript-eslint/parser": "^6.1.0",
+        "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
+        "copyfiles": "^2.4.0",
+        "css-loader": "^5.2.7",
+        "enzyme": "^3.11.0",
+        "eslint": "^8.36.0",
+        "eslint-config-prettier": "^8.8.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "fs-extra": "^7.0.0",
+        "jest": "^29.2.0",
+        "jest-canvas-mock": "^2.3.1",
+        "mkdirp": "^0.5.1",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^3.0.0",
+        "prettier-eslint": "^12.0.0",
+        "re-resizable": "^6.3.2",
+        "redux-mock-store": "^1.5.4",
+        "rimraf": "^5.0.1",
+        "source-map-loader": "^1.0.2",
+        "style-loader": "^2.0.0",
+        "stylelint": "^15.10.1",
+        "stylelint-config-recommended": "^13.0.0",
+        "stylelint-config-standard": "^34.0.0",
+        "stylelint-csstree-validator": "^3.0.0",
+        "stylelint-prettier": "^4.0.0",
+        "ts-jest": "^29",
+        "ts-loader": "^5.2.1",
+        "typescript": "~5.0.2",
+        "url-loader": "^4.1.0",
+        "webpack": "^5",
+        "webpack-cli": "^5",
+        "yjs": "^13.5.0"
+    },
+    "sideEffects": [
+        "style/*.css",
+        "style/index.js"
+    ],
+    "styleModule": "style/index.js",
+    "publishConfig": {
+        "access": "public"
+    },
+    "jupyterlab": {
+        "extension": true,
+        "outputDir": "cosapp_lab/lab_static",
+        "sharedPackages": {
+            "@jupyter-widgets/base": {
+                "bundled": false,
+                "singleton": true
+            },
+            "react": {
+                "bundled": false,
+                "singleton": true
+            },
+            "react-dom": {
+                "bundled": false,
+                "singleton": true
+            },
+            "codemirror": {
+                "bundled": false,
+                "singleton": true
+            }
+        },
+        "discovery": {
+            "server": {
+                "base": {
+                    "name": "cosapp_lab"
+                },
+                "managers": [
+                    "conda"
+                ]
+            }
+        }
+    },
+    "eslintIgnore": [
+        "node_modules",
+        "dist",
+        "coverage",
+        "**/*.d.ts",
+        "**/tests/*"
+    ],
+    "eslintConfig": {
+        "extends": [
+            "eslint:recommended",
+            "plugin:@typescript-eslint/eslint-recommended",
+            "plugin:@typescript-eslint/recommended",
+            "plugin:prettier/recommended"
+        ],
+        "parser": "@typescript-eslint/parser",
+        "parserOptions": {
+            "project": "tsconfig.json",
+            "sourceType": "module"
+        },
+        "plugins": [
+            "@typescript-eslint"
+        ],
+        "rules": {
+            "@typescript-eslint/no-unused-vars": [
+                "warn",
+                {
+                    "argsIgnorePattern": "^_",
+                    "varsIgnorePattern": "^_",
+                    "caughtErrorsIgnorePattern": "^_"
+                }
+            ],
+            "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/no-namespace": "off",
+            "@typescript-eslint/no-use-before-define": "off",
+            "@typescript-eslint/quotes": [
+                "error",
+                "single",
+                {
+                    "avoidEscape": true,
+                    "allowTemplateLiterals": false
+                }
+            ],
+            "curly": [
+                "error",
+                "all"
+            ],
+            "eqeqeq": "error",
+            "prefer-arrow-callback": "error"
+        }
+    },
+    "prettier": {
+        "singleQuote": true,
+        "trailingComma": "none",
+        "arrowParens": "avoid",
+        "endOfLine": "auto",
+        "overrides": [
+            {
+                "files": "package.json",
+                "options": {
+                    "tabWidth": 4
+                }
+            }
+        ],
+        "plugins": [
+            "@trivago/prettier-plugin-sort-imports"
+        ],
+        "importOrderSeparation": true,
+        "importOrderGroupNamespaceSpecifiers": true,
+        "importOrder": [
+            "^[./]"
+        ]
+    },
+    "stylelint": {
+        "extends": [
+            "stylelint-config-recommended",
+            "stylelint-config-standard",
+            "stylelint-prettier/recommended"
+        ],
+        "plugins": [
+            "stylelint-csstree-validator"
+        ],
+        "rules": {
+            "csstree/validator": true,
+            "property-no-vendor-prefix": null,
+            "selector-class-pattern": "^([a-z][A-z\\d]*)(-[A-z\\d]+)*$",
+            "selector-no-vendor-prefix": null,
+            "value-no-vendor-prefix": null
+        }
+    }
+}

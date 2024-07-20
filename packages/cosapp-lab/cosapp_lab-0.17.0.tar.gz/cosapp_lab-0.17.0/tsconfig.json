@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmitOnError": true,
+    "noUnusedLocals": false,
+    "outDir": "buildjs",
+    "resolveJsonModule": true,
+    "rootDir": "src",
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "target": "ES2018",
+    "types": ["node", "jest"],
+    "jsx": "react",
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "incremental": true,
+    "preserveWatchOutput": true,
+    "paths": { "react": ["./node_modules/@types/react"] }
+    // "strict": true,
+    // "strictNullChecks": true,
+  },
+  "include": ["src/**/*", "src/cosapp_app/*"],
+  "exclude": ["**/tests/*"]
+}

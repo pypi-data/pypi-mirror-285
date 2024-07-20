@@ -1,0 +1,53 @@
+{% set name = "cosapp_lab" %}
+{% set version = "0.17.0" %}
+
+package:
+  name: {{ name }}
+  version: {{ version }}
+
+source:
+  url: ../dist/{{ name }}-{{ version }}.tar.gz
+  
+build:
+  noarch: python
+  number: 0
+  skip_compile_pyc:
+    - "*/utils/templates/**/*.py" 
+  entry_points:
+    - cosapp = cosapp_lab.main:cosapp
+
+requirements:
+  host:
+    - python >=3.8
+    - pip
+    - hatchling
+    - jupyterlab >=4,<5
+    - hatch-jupyter-builder
+    - hatch-nodejs-version >=0.3.2
+  run:
+    - python >=3.8
+    - cosapp >=0.13
+    - ipywidgets >=8,<9
+    - pythonocc-core >=7.6
+    - click
+    - requests
+    - jupyter_client >=8
+    - jupyter_server >=2
+    - nb_conda_kernels
+    - tornado >=6.1.0
+    - jinja2
+    - cookiecutter
+    - markdown
+
+about:
+  home: https://gitlab.com/cosapp/cosapp_lab
+  summary: Toolbox for managing and deploying CoSApp powered dashboards.
+  description: |
+    "# CosApp Lab - Toolbox for managing and deploying CoSApp powered dashboards.
+
+    The primary goal of CoSApp Lab is to help users transform theirs existing CoSApp
+    library into a interactive dashboard with almost no additional development or
+    configuration."
+  license: Apache-2.0
+  copyright: Copyright Safran SA
+  license_file: LICENSE
