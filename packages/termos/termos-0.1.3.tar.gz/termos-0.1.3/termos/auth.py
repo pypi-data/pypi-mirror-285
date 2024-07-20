@@ -1,0 +1,110 @@
+import requests
+import json
+import os
+from pathlib import Path
+
+# URL of your Django application
+BASE_URL = 'https://termosai.vercel.app'
+TOKEN_URL = f'{BASE_URL}/api/token/'
+REFRESH_URL = f'{BASE_URL}/api/token/refresh/'
+API_URL = f'{BASE_URL}/api/threads/'
+
+# Path to store the token file
+TOKEN_FILE = Path.home() / '.termos_token'
+
+def save_tokens(access_token, refresh_token):
+    with open(TOKEN_FILE, 'w') as f:
+        json.dump({'access': access_token, 'refresh': refresh_token}, f)
+
+def load_tokens():
+    if TOKEN_FILE.exists():
+        with open(TOKEN_FILE, 'r') as f:
+            return json.load(f)
+    return None
+
+def get_new_access_token(refresh_token):
+    try:
+        print(f"Attempting to refresh token at URL: {REFRESH_URL}")
+        response = requests.post(REFRESH_URL, data={'refresh': refresh_token})
+        response.raise_for_status()
+        tokens = response.json()
+        save_tokens(tokens['access'], tokens.get('refresh', refresh_token))
+        return tokens['access']
+    except requests.RequestException as e:
+        print(f"Token refresh failed: {e}")
+        print(f"Response content: {e.response.content if hasattr(e, 'response') else 'No response content'}")
+        return None
+
+def ensure_auth():
+    tokens = load_tokens()
+    if not tokens:
+        username = input("Enter your username: ")
+        password = input("Enter your password: ")
+        try:
+            print(f"Attempting to authenticate at URL: {TOKEN_URL}")
+            response = requests.post(TOKEN_URL, data={'username': username, 'password': password})
+            response.raise_for_status()
+            tokens = response.json()
+            save_tokens(tokens['access'], tokens['refresh'])
+            print("Authentication successful!")
+        except requests.RequestException as e:
+            print(f"Authentication failed: {e}")
+            print(f"Response content: {e.response.content if hasattr(e, 'response') else 'No response content'}")
+            return None
+    
+    access_token = tokens['access']
+    
+    # Attempt to use the access token
+    headers = {'Authorization': f'Bearer {access_token}'}
+    try:
+        print(f"Attempting to access API at URL: {API_URL}")
+        response = requests.get(API_URL, headers=headers)
+        response.raise_for_status()
+    except requests.HTTPError as e:
+        if e.response.status_code == 401:  # Unauthorized
+            print("Access token expired. Refreshing...")
+            new_access_token = get_new_access_token(tokens['refresh'])
+            if new_access_token:
+                return new_access_token
+            else:
+                print("Refresh failed. Please log in again.")
+                os.remove(TOKEN_FILE)
+                return ensure_auth()
+        else:
+            print(f"Unexpected error: {e}")
+            print(f"Response content: {e.response.content if hasattr(e, 'response') else 'No response content'}")
+            return None
+    except requests.RequestException as e:
+        print(f"Request failed: {e}")
+        print(f"Response content: {e.response.content if hasattr(e, 'response') else 'No response content'}")
+        return None
+    
+    return access_token
+
+def get_authenticated_headers():
+    access_token = ensure_auth()
+    if not access_token:
+        raise Exception("Authentication failed")
+    return {'Authorization': f'Bearer {access_token}'}
+
+def logout():
+    if TOKEN_FILE.exists():
+        os.remove(TOKEN_FILE)
+        print("Logged out successfully. Tokens removed.")
+    else:
+        print("No active session found.")
+
+# Debug function to check environment
+def debug_environment():
+    print("Debugging environment:")
+    print(f"BASE_URL: {BASE_URL}")
+    print(f"TOKEN_URL: {TOKEN_URL}")
+    print(f"REFRESH_URL: {REFRESH_URL}")
+    print(f"API_URL: {API_URL}")
+    print(f"Proxy settings:")
+    print(f"  HTTP_PROXY: {os.environ.get('HTTP_PROXY')}")
+    print(f"  HTTPS_PROXY: {os.environ.get('HTTPS_PROXY')}")
+    print(f"Requests library version: {requests.__version__}")
+
+# Call this function at the beginning of your script
+debug_environment()
