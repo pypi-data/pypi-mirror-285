@@ -1,0 +1,79 @@
+// Entrypoint
+?start: line_item
+
+// Non-terminal symbols
+?line_item: (fee | expense | invoice_level_adjustment_to_fees | invoice_level_adjustment_to_expenses)
+
+fee: invoice_date _PIPE invoice_number _PIPE client_id _PIPE law_firm_matter_id _PIPE invoice_total _PIPE billing_start_date _PIPE billing_end_date _PIPE invoice_description _PIPE line_item_number _PIPE F _PIPE line_item_number_of_units _PIPE line_item_adjustment_amount _PIPE line_item_total _PIPE line_item_date _PIPE line_item_task_code _PIPE line_item_expense_code _PIPE line_item_activity_code _PIPE timekeeper_id _PIPE line_item_description _PIPE law_firm_id _PIPE line_item_unit_cost _PIPE timekeeper_name _PIPE timekeeper_classification _PIPE client_matter_id _LINE_ENDING
+expense: invoice_date _PIPE invoice_number _PIPE client_id _PIPE law_firm_matter_id _PIPE invoice_total _PIPE billing_start_date _PIPE billing_end_date _PIPE invoice_description _PIPE line_item_number _PIPE E _PIPE line_item_number_of_units _PIPE line_item_adjustment_amount _PIPE line_item_total _PIPE line_item_date _PIPE line_item_task_code _PIPE line_item_expense_code _PIPE line_item_activity_code _PIPE timekeeper_id _PIPE line_item_description _PIPE law_firm_id _PIPE line_item_unit_cost _PIPE timekeeper_name _PIPE timekeeper_classification _PIPE client_matter_id _LINE_ENDING
+invoice_level_adjustment_to_fees: invoice_date _PIPE invoice_number _PIPE client_id _PIPE law_firm_matter_id _PIPE invoice_total _PIPE billing_start_date _PIPE billing_end_date _PIPE invoice_description _PIPE line_item_number _PIPE IF _PIPE line_item_number_of_units _PIPE line_item_adjustment_amount _PIPE line_item_total _PIPE line_item_date _PIPE line_item_task_code _PIPE line_item_expense_code _PIPE line_item_activity_code _PIPE timekeeper_id _PIPE line_item_description _PIPE law_firm_id _PIPE line_item_unit_cost _PIPE timekeeper_name _PIPE timekeeper_classification _PIPE client_matter_id _LINE_ENDING
+invoice_level_adjustment_to_expenses: invoice_date _PIPE invoice_number _PIPE client_id _PIPE law_firm_matter_id _PIPE invoice_total _PIPE billing_start_date _PIPE billing_end_date _PIPE invoice_description _PIPE line_item_number _PIPE IE _PIPE line_item_number_of_units _PIPE line_item_adjustment_amount _PIPE line_item_total _PIPE line_item_date _PIPE line_item_task_code _PIPE line_item_expense_code _PIPE line_item_activity_code _PIPE timekeeper_id _PIPE line_item_description _PIPE law_firm_id _PIPE line_item_unit_cost _PIPE timekeeper_name _PIPE timekeeper_classification _PIPE client_matter_id _LINE_ENDING
+
+invoice_date: INVOICE_DATE
+invoice_number: INVOICE_NUMBER
+client_id: CLIENT_ID
+law_firm_matter_id: LAW_FIRM_MATTER_ID
+invoice_total: INVOICE_TOTAL
+billing_start_date: BILLING_START_DATE
+billing_end_date: BILLING_END_DATE
+invoice_description: INVOICE_DESCRIPTION?
+line_item_number: LINE_ITEM_NUMBER
+exp_fee_inv_adj_type: EXP_FEE_INV_ADJ_TYPE
+line_item_number_of_units: LINE_ITEM_NUMBER_OF_UNITS
+line_item_adjustment_amount: LINE_ITEM_ADJUSTMENT_AMOUNT
+line_item_total: LINE_ITEM_TOTAL
+line_item_date: LINE_ITEM_DATE
+line_item_task_code: LINE_ITEM_TASK_CODE?
+line_item_expense_code: LINE_ITEM_EXPENSE_CODE?
+line_item_activity_code: LINE_ITEM_ACTIVITY_CODE?
+timekeeper_id: TIMEKEEPER_ID?
+line_item_description: LINE_ITEM_DESCRIPTION?
+law_firm_id: LAW_FIRM_ID
+line_item_unit_cost: LINE_ITEM_UNIT_COST?
+timekeeper_name: TIMEKEEPER_NAME?
+timekeeper_classification: TIMEKEEPER_CLASSIFICATION?
+client_matter_id: CLIENT_MATTER_ID?
+
+// Terminal symbols
+YYYYMMDD: /\d{4}\d{2}\d{2}/  // Matches YYYYMMDD format, e.g., 20240409
+ALPHANUMERIC: /[a-zA-Z0-9]{1,20}/
+INVOICE_DATE: YYYYMMDD
+INVOICE_NUMBER: /[a-zA-Z0-9\-]+/
+CLIENT_ID: /[a-zA-Z0-9\-]+/
+LAW_FIRM_MATTER_ID: /[a-zA-Z0-9\-]+/
+INVOICE_TOTAL: /\d+(\.\d{2})?/
+LINE_ITEM_NUMBER: /\d+/
+E: "E" // Expense
+F: "F" // Fee
+IF: "IF" // Invoice-level adjustment to fees
+IE: "IE" // Invoice-level adjustment to expenses
+EXP_FEE_INV_ADJ_TYPE: E | F | IF | IE
+LINE_ITEM_NUMBER_OF_UNITS: /\d{1,10}(\.\d{0,4})?/ // 22, 55.6275, 0, 1.5
+LINE_ITEM_DESCRIPTION: /[a-zA-Z0-9 _\-'\,]+/
+LINE_ITEM_AMOUNT: /\d+(\.\d{2})?/
+LINE_ITEM_TASK_CODE: /[A-Z0-9]+/
+LINE_ITEM_EXPENSE_CODE: /[A-Z0-9\-]+/
+LINE_ITEM_ACTIVITY_CODE: /[A-Z0-9\-]+/
+TIMEKEEPER_ID: /[a-zA-Z0-9 _\-]+/
+TIMEKEEPER_LEVEL: /[a-zA-Z0-9 _\-]+/
+LINE_ITEM_UNIT_COST: /\d{1,10}(\.\d{0,4})?/
+LINE_ITEM_QUANTITY: /\d+/
+LINE_ITEM_ADJUSTMENT_AMOUNT: /(\+|\-)?\d{1,10}(\.\d{0,4})?/
+LINE_ITEM_TOTAL: /\d{1,10}(\.\d{0,4})?/
+LINE_ITEM_DATE: YYYYMMDD
+LAW_FIRM_ID: /[A-Z0-9\-]+/
+BILLING_START_DATE: YYYYMMDD
+BILLING_END_DATE: YYYYMMDD
+INVOICE_DESCRIPTION: /[a-zA-Z0-9 _\-']+/
+BILLING_CONTACT: /[a-zA-Z0-9 _\-]+/
+CLIENT_MATTER_ID: /[A-Z0-9\-]+/
+TIMEKEEPER_NAME: /[a-zA-Z0-9 _\-\,']+/
+TIMEKEEPER_CLASSIFICATION: /[a-zA-Z0-9 _\-]+/
+TIMEKEEPER_HOURLY_RATE: /\d+(\.\d{2})?/
+
+_PIPE: "|"
+_LINE_ENDING: "[]" // Every line has to end with []
+
+
+%import common.WS
+%ignore WS
