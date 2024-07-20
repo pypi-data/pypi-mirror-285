@@ -1,0 +1,71 @@
+[project]
+name = "metapensiero.tool.tinject"
+description = "Automate creation of sources"
+version = "1.7"
+authors = [
+    { name = "Lele Gaifax", email = "lele@metapensiero.it" },
+]
+readme = "README.rst"
+classifiers = [
+    "Environment :: Console",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Topic :: Software Development",
+    "Topic :: Utilities",
+]
+keywords = [
+    "YAML",
+    "Jinja2",
+    "scaffolding",
+    "skeleton",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "jinja2",
+    "jinja2-time",
+    "questionary",
+    "ruamel.yaml",
+]
+
+[project.license]
+text = "GPL-3.0-or-later"
+
+[project.urls]
+Changelog = "https://gitlab.com/metapensiero/metapensiero.tool.tinject/-/blob/master/CHANGES.rst"
+Source = "https://gitlab.com/metapensiero/metapensiero.tool.tinject"
+
+[project.optional-dependencies]
+dev = [
+    "build",
+    "bump2version",
+    "tomli",
+    "twine",
+]
+
+[project.scripts]
+tinject = "metapensiero.tool.tinject.__main__:main"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"
+
+[tool.pdm.build]
+package-dir = "src"
+includes = [
+    "src/metapensiero",
+]
+source-includes = [
+    "flake.*",
+    "*.rst",
+    "Justfile",
+    "examples/",
+]
+excludes = [
+    "doc/_build",
+]
