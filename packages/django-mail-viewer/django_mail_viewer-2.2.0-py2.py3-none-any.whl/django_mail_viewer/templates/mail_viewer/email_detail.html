@@ -1,0 +1,7 @@
+{% extends 'mail_viewer/base.html' %}
+
+{% load mail_viewer_tags %}
+{% block 'title' %}Django Mail Viewer - Email Detail{% endblock 'title' %}
+{% block 'main_content' %}
+  {% include 'mail_viewer/email_detail_content_fragment.html' %}
+{% endblock 'main_content' %}
