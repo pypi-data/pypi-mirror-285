@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: open-stage-zeroconf
+Version: 0.132.2.dev0
+Summary: Custom wheel for BlenderDMX Extension
+Home-page: https://github.com/open-stage/blender-dmx
+License: LGPL
+Author: Paul Scott-Murphy
+Requires-Python: >=3.8,<4.0
+Classifier: License :: Other/Proprietary License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: async-timeout (>=3.0.0) ; python_version < "3.11"
+Requires-Dist: ifaddr (>=0.1.7)
+Project-URL: Repository, https://github.com/open-stage/blender-dmx
+Description-Content-Type: text/x-rst
+
+All credits to the zeroconf team: https://github.com/python-zeroconf/python-zeroconf
+
+Do not use this wheel. It is a custom multiplatform version without cython
+optimisations, in order to remove size and platform specific libraries. Use the
+official library: https://github.com/python-zeroconf/python-zeroconf
+
