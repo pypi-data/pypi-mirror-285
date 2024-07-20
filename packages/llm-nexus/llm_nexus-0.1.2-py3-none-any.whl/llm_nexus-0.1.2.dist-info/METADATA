@@ -1,0 +1,105 @@
+Metadata-Version: 2.1
+Name: llm-nexus
+Version: 0.1.2
+Summary: A unified interface for multiple LLM providers
+Home-page: https://github.com/dtedesco1/llm_nexus
+Author: Daniel Tedesco
+Author-email: dtedesco1@gmail.com
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pydantic
+Requires-Dist: anthropic
+Requires-Dist: google-generativeai
+Requires-Dist: openai
+Provides-Extra: dev
+Requires-Dist: pytest ; extra == 'dev'
+Requires-Dist: black ; extra == 'dev'
+Requires-Dist: isort ; extra == 'dev'
+Requires-Dist: pylint ; extra == 'dev'
+
+# LLM Nexus
+
+LLM Nexus is a Python package that provides a unified interface for interacting with multiple Language Model providers, including OpenAI, Anthropic, and Google AI.
+
+## Features
+
+- Unified API for multiple LLM providers
+- Support for text completions and function calls
+- Easy integration with OpenAI, Anthropic, and Google AI models
+
+## Installation
+
+You can install LLM Nexus using pip:
+
+```
+pip install llm-nexus
+```
+
+## Usage
+
+Here's a quick example of how to use LLM Nexus:
+
+```python
+from llm_nexus import ModelProvider
+
+provider = ModelProvider(openai_api_key="your-openai-key", anthropic_api_key="your-anthropic-key", googleai_api_key="your-googleai-key")
+
+result = provider.completion(
+    instructions="Return a rhyme.",
+    user_prompt="Would a rose by any other name smell as sweet?",
+    provider_name="openai",
+    model_name="gpt-3.5-turbo"
+)
+
+print(result)
+```
+
+For function calls:
+
+```python
+from llm_nexus import ModelProvider, Function, Argument, ParamType
+
+provider = ModelProvider(openai_api_key="your-openai-key", anthropic_api_key="your-anthropic-key", googleai_api_key="your-googleai-key")
+
+function = Function(
+    name="underrated_historical_events",
+    description="Name up to 3 underrated historical events based on the user's request",
+    arguments=[
+        Argument(name="event", param_type=ParamType.STRING, description="The name of the event."),
+        Argument(name="year", param_type=ParamType.INTEGER, description="The year the event began."),
+        Argument(name="reasoning", param_type=ParamType.STRING, description="A brief description of why you feel this event is underrated.")
+    ],
+)
+
+result = provider.function_call(
+    user_prompt="What are some underrated A.D. events in African history?",
+    function=function,
+    provider_name="openai",
+    model_name="gpt-3.5-turbo",
+    return_array=True
+)
+
+print(result)
+```
+
+## Supported Python Versions
+
+LLM Nexus supports Python 3.7 and above.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
