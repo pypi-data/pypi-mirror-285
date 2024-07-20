@@ -1,0 +1,1 @@
+class DatabaseLoadError(Exception): pass
