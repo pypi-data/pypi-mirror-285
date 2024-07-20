@@ -1,0 +1,58 @@
+[build-system]
+requires = [
+    "setuptools>=43.0.0",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+
+[project]
+name = "nixt"
+description = "you have been nixt."
+version = "13"
+authors = [
+    {name = "xobjectz", email = "objx@proton.me"},
+]
+readme = "README.rst"
+license = {text="Public Domain"}
+classifiers = [ 
+    'Development Status :: 3 - Alpha',
+    'License :: Public Domain',
+    'Operating System :: Unix',
+    'Programming Language :: Python',
+    'Topic :: Utilities'
+]
+
+
+[project.urls]
+"home" = "https://pypi.org/project/nixt"
+"bugs" = "https://github.com/xobjectz/nixt/issues"
+"source" = "https://github.com/xobjectz/nixt"
+
+
+[tool.setuptools]
+script-files = [
+    'bin/nixt',
+    'bin/nixtc',
+    'bin/nixtd'
+]
+packages = [
+    'nixt',
+    'nixt.modules',
+    'nixt.user'
+]
+zip-safe=true
+
+
+[tool.setuptools.data-files]
+"share/doc/nixt" = [
+    "README.rst",
+]
+
+
+[tool.setuptools.exclude-package-data]
+"*" = [
+       "env*",
+       "html*",
+       "test*"
+      ]
