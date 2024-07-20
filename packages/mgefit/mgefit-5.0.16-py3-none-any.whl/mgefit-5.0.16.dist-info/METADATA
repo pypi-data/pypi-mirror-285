@@ -1,0 +1,676 @@
+Metadata-Version: 2.1
+Name: mgefit
+Version: 5.0.16
+Summary: MgeFit: Multi-Gaussian Expansion Fitting of Galactic Images
+Home-page: https://purl.org/cappellari/software
+Author: Michele Cappellari
+Author-email: michele.cappellari@physics.ox.ac.uk
+License: Other/Proprietary License
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/x-rst
+Requires-Dist: capfit
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: matplotlib
+Requires-Dist: astropy
+
+The MgeFit Package
+==================
+
+**MgeFit: Multi-Gaussian Expansion Fitting of Galactic Images**
+
+.. image:: https://img.shields.io/pypi/v/mgefit.svg
+        :target: https://pypi.org/project/mgefit/
+.. image:: https://img.shields.io/badge/arXiv-astroph:0201430-orange.svg
+        :target: https://arxiv.org/abs/astro-ph/0201430
+.. image:: https://img.shields.io/badge/DOI-10.1046/...-green.svg
+        :target: https://doi.org/10.1046/j.1365-8711.2002.05412.x
+
+MgeFit is a Python implementation of the robust and efficient Multi-Gaussian
+Expansion (MGE) fitting algorithm for galactic images of `Cappellari (2002)
+<https://ui.adsabs.harvard.edu/abs/2002MNRAS.333..400C>`_.
+
+The MGE parameterization is useful in the construction of realistic dynamical 
+models of galaxies (see `JAM modelling <https://pypi.org/project/jampy/>`_), 
+for PSF deconvolution of images, for the correction and estimation of dust 
+absorption effects, or for galaxy photometry.
+
+.. contents:: :depth: 2
+
+Attribution
+-----------
+
+If you use this software for your research, please cite
+`Cappellari (2002) <https://ui.adsabs.harvard.edu/abs/2002MNRAS.333..400C>`_.
+The BibTeX entry for the paper is::
+
+    @Article{Cappellari2002,
+        author = {{Cappellari}, M.},
+        title = {Efficient multi-Gaussian expansion of galaxies},
+        journal = {MNRAS},
+        eprint = {arXiv:astro-ph/0201430}
+        year = {2002},
+        volume = {333},
+        pages = {400-410},
+        doi = {10.1046/j.1365-8711.2002.05412.x}
+    }
+
+
+Installation
+------------
+
+install with::
+
+    pip install mgefit
+
+Without writing access to the global ``site-packages`` directory, use::
+
+    pip install --user mgefit
+    
+To upgrade MgeFit to the latest version use::
+
+    pip install --upgrade mgefit    
+
+Usage Examples
+--------------
+
+To learn how to use the ``MgeFit`` package, copy, modify and run 
+the example programs in the ``mgefit/examples`` directory. 
+It can be found within the main ``MgeFit`` package installation folder 
+inside `site-packages <https://stackoverflow.com/a/46071447>`_. 
+The detailed documentation is contained in the docstring of each file, 
+or for the main procedure on `PyPi <https://pypi.org/project/mgefit/>`_.
+
+###########################################################################
+
+mge_fit_sectors
+===============
+
+Purpose
+-------
+
+Approximates the surface brightness of a galaxy with a Multi-Gaussian Expansion
+(MGE) model, using the robust and automated fitting method of
+`Cappellari (2002) <https://ui.adsabs.harvard.edu/abs/2002MNRAS.333..400C>`_.
+
+The measurements are taken along sectors with a previous call to the
+procedure ``sectors_photometry`` in the ``MgeFit`` package .
+All measurements within this program are in the instrumental units of ``pixels``
+and ``counts``. This routine fits MGE models with constant position angle and
+common center.
+
+Calling Sequence
+----------------
+
+.. code-block:: python
+
+    from mgefit.mge_fit_sectors import mge_fit_sectors
+
+    m = mge_fit_sectors(radius, angle, counts, eps,
+             bulge_disk=False, fignum=1, linear=False, negative=False,
+             ngauss=None, normpsf=1., outer_slope=4, plot=False, qbounds=None,
+             quiet=False, rbounds=None, scale=1., sigmapsf=0., sol=0)
+
+    total_counts, sigma, q_obs = m.sol  # assign the solution to variables
+    print(m.sol.T)  # Print a table of best-fitting MGE parameters
+
+Example programs are in the ``mgefit/examples`` directory.
+It can be found within the main ``MgeFit`` package installation folder
+inside `site-packages <https://stackoverflow.com/a/46071447>`_.
+
+A PDF manual ``readme_mge_fit_sectors.pdf`` is contained in the main
+installation directory ``mgefit`` of the package inside
+`site-packages <https://stackoverflow.com/a/46071447>`_.
+
+Input Parameters
+----------------
+
+radius: array_like with shape (n,)
+    Vector containing the radius of the surface brightness
+    measurements, taken from the galaxy center. This is given
+    in units of PIXELS (!) of the image. When fitting multiple images
+    simultaneously this is in pixels units of the high-resolution image.
+angle: array_like with shape (n,)
+    Vector containing the polar angle of the surface brightness
+    measurements, measured from the galaxy major axis (in degrees).
+counts: array_like with shape (n,)
+    Vector containing the surface brightness measurements in COUNTS/PIXEL (!) at
+    the polar coordinates specified by the vectors ``radius`` and ``angle``.
+    When fitting multiple images simultaneously this is in counts/pixels units
+    of the high-resolution image.
+eps:
+    Crude estimate for the galaxy characteristic ellipticity
+    ``eps = 1 - b/a = 1 - q'``
+
+Optional Keywords
+-----------------
+
+bulge_disk:
+    Set ``bulge_disk=True`` to perform a non-parametric bulge/disk
+    decomposition using MGE. When ``bulge_disk=True`` the Gaussians
+    are divided into two sets, each with a unique axial ratio. The two
+    sets are meant to describe and model the contribution of bulge and
+    disks in spiral or lenticular galaxies, or nuclear disk in ellipticals.
+
+    When this keyword is set one should increase ``ngauss``.
+    One should also either set ``qbounds=None`` or specify four
+    elements in ``qbounds`` for the even/odd Gaussians.
+fignum:
+    Optional number to assign to the plotting window.
+linear:
+    Set this keyword to start with the fully linear algorithm
+    and then optimize the fit with the nonlinear method
+    [see Section 3.4 of `Cappellari (2002)`_ for details].
+    Nowadays using this keyword introduces a small speed penalty but
+    produces more robust fits and is always recommended.
+negative:
+    Set this keyword to allow for negative Gaussians in the fit.
+    Use this only if everything else didn't work or if there is clear
+    evidence that negative Gaussians are actually needed.
+    Negative Gaussians are needed e.g. when fitting a boxy bulge.
+ngauss:
+    Maximum number of Gaussians allowed in the MGE fit.
+    Typical values are in the range 10-20 when ``linear=False``
+    (default: ``ngauss=12``) and ``20**2-40**2`` when ``linear=True``
+    (default: ``ngauss=30**2=900``).
+normpsf: array_like with shape (p,)
+    This is optional if only a scalar is given for ``sigmapsf``, otherwise it
+    must contain the normalization of each MGE component of the PSF, whose
+    sigma is given by ``sigmapsf``. The vector needs to have the same number of
+    elements as ``sigmapsf`` and it must be normalized as ``normpsf.sum() = 1``
+    (default: ``normpsf=1``).
+outer_slope:
+    This scalar forces the surface brightness profile of
+    the MGE model to decrease at least as fast as ``R**(-outer_slope)``
+    at the largest measured radius (Default: ``outer_slope=2``).
+plot:
+    Set ``plot=True`` to plot the best-fitting MGE profiles.
+qbounds:
+    This can be either a two or a four elements vector.
+
+    If ``qbounds`` has two elements, it gives the minimum and maximum
+    axial ratio ``q`` allowed in the MGE fit.
+
+    If ``qbounds`` has four elements ``[[qMin1, qMax1], [qMin2, qMax2]]``,
+    then the first two elements give the limits on ``q`` for the even
+    Gaussians, while the last two elements give the limits on ``q`` for the
+    odd Gaussians. In this way ``qbounds`` can be used to perform disk/bulges
+    decompositions in a way similar to the ``bulge_disk`` keyword.
+quiet:
+    Set ``quiet = True`` to suppress printed output.
+rbounds:
+    Two elements vector giving the minimum and maximum ``sigma``
+    allowed in the MGE fit. This is in the same PIXELS units as ``radius``.
+scale:
+    The pixel scale in arcsec/pixels. This is *only* used for the scale on
+    the plots. It has no influence on the output. (default: 1)
+sigmapsf: array_like with shape (p,)
+    Scalar giving the ``sigma`` of the PSF, or vector with the ``sigma`` of an
+    MGE model for the circular PSF. This is in the same PIXELS units as ``radius``.
+    When fitting multiple images simultaneously this is the PSF of the
+    high-resolution image [see pg. 406 of `Cappellari (2002)`_ for details].
+    (Default: no convolution)
+sol:
+    If this keyword has at least 6 elements in input, the sigma
+    and q_obs will be used as starting point for the optimization.
+    This is useful for testing but is never needed otherwise.
+    The format is described in the Output Parameters below.
+
+Output Parameters
+-----------------
+
+Stored as attributes of the ``MgeFit`` class:
+
+.sol: array_like with shape (3, ngauss)
+    Array with the best-fitting MGE solution. If the PSF parameters are
+    given in input, this model is deconvolved for the PSF and pixels
+    effects:
+
+    .sol[0]: array_like with shape (ngauss)
+        ``total_counts`` of the Gaussian components;
+    .sol[1]: array_like with shape (ngauss)
+        ``sigma`` is the dispersion of the best-fitting Gaussians in pixels;
+    .sol[2]: array_like with shape (ngauss)
+        ``q_obs`` is the observed axial ratio of the best-fitting
+        Gaussian components [q' in the notation of `Cappellari (2002)`_].
+
+    The relation below gives the Gaussians peak surface brightness ``surf``::
+
+        total_counts, q_obs, sigma = m.sol  # Assign MGE solution to variables
+        surf = total_counts/(2*np.pi*q_obs*sigma**2)
+
+absdev:
+    Mean absolute deviation between the fitted MGE and the
+    data expressed as a fraction. Good fits to high S/N images
+    can reach values of ``absdev < 0.02 = 2%``.
+
+###########################################################################
+
+mge_fit_1d
+==========
+
+Purpose
+-------
+
+Approximates the 1-dim radial profile of the density or surface-brightness 
+of a galaxy with a Multi-Gaussian Expansion (MGE) model, using the robust 
+and automated fitting method of
+`Cappellari (2002) <https://ui.adsabs.harvard.edu/abs/2002MNRAS.333..400C>`_.
+
+Calling Sequence
+----------------
+.. code-block:: python
+
+    p = mge_fit_1d(x, y, negative=False, ngauss=12, rbounds=None,
+                   inner_slope=2, outer_slope=3, quiet=False, fignum=1)
+    
+    total_counts, sigma = p.sol  # Assign the solution to variables
+    print(p.sol.T)  # Print a table of best-fitting MGE parameters
+
+See usage example at the end of this file.
+
+Parameters
+----------
+x: array_like with shape (n,)
+    Vector of the logarithmically sampled (Important!)
+    abscissa for the profile that has to be fitted.
+y: array_like with shape (n,)
+    Ordinate of the profile evaluated at the abscissa `x`.
+
+More Parameters
+---------------
+ngauss :
+    Number of Gaussian one wants to fit. Typical values are 10-20.
+
+negative :
+    Set ``negative=True`` to allow for negative Gaussians in the fit.
+    Use this only if there is clear evidence that negative Gaussians
+    are actually needed e.g. to fit a radially increasing profile.
+
+inner_slope :
+    This scalar forces the surface brightness profile of the MGE model to
+    decrease as ``R**(-inner_slope)`` at the smallest measured radius
+    (Default: ``inner_slope=2``). The default is generally ok, but it can
+    be changed e.g. to allow for steeper inner profiles.
+
+outer_slope :
+    This scalar forces the surface brightness profile of the MGE model to
+    decrease as ``R**(-outer_slope)`` at the largest measured radius
+    (Default: ``outer_slope=3``). The default is generally ok, but it can
+    be changed e.g. to allow for a sharper outer truncation.
+
+rbounds :
+    Two elements vector giving the minimum and maximum sigma allowed in the
+    MGE fit. This is in the same units of ``x``. With this keyword,
+    ``inner_slope`` and ``outer_slope`` are ignored.
+
+quiet :
+    Set ``quiet=True`` to suppress plots and printed output.
+
+Returns
+-------
+Stored as attributes of the ``mge_fit_1d`` class:
+
+.sol : array_like with shape (2, ngauss)
+    Contains an array with the best-fitting solution:
+
+    .sol[0] : array_like with shape (ngauss)
+        ``total_counts`` (area under the 1-dim curve) of the Gaussians.
+
+    .sol[1] : array_like with shape (ngauss)
+        ``sigma``, is the dispersion of the Gaussians in units of ``x``.
+
+    IMPORTANT: Given the ``total_counts`` definition:
+
+    - If the fit was done to the projected surface density profile
+      ``(Msun/pc^2)`` the Gaussians peak surface densities in the same
+      units are given by::
+
+        surf = total_counts/(np.sqrt(2*np.pi)*sigma)
+
+    - If the fit was done to the intrinsic density profile ``(Msun/pc^3)``
+      the Gaussians peak densities in the same units are still given by::
+
+        dens = total_counts/(np.sqrt(2*np.pi)*sigma)
+
+    - In either case, one can convert between the MGE describing the
+      intrinsic density in ``(Msun/pc^3)`` to the MGE parametrizing the
+      projected surface density in ``(Msun/pc^2)`` using equation (38) of
+      `Cappellari (2020) <https://ui.adsabs.harvard.edu/abs/2020MNRAS.494.4819C>`_::
+
+        dens = surf/(np.sqrt(2*np.pi)*sigma)
+        
+      EXAMPLE: If one fits an intrinsic density profile in ``(Msun/pc^3)``,
+      the output attribute .sol[0] already contains the peak surface
+      brightness ``surf`` of the *projected* MGE in ``(Msun/pc^2)``.
+
+Example
+-------
+The sequence of commands below was used to generate the
+one-dimensional MGE fit of Fig.3 in `Cappellari (2002)`_
+
+.. code-block:: python
+
+    import numpy as np
+    from mgefit.mge_fit_1d import mge_fit_1d
+
+    n = 300 # Number of sampled points
+    R = np.geomspace(0.01, 300, n)  # radii must be logarithmically sampled
+    rho = (1 + R)**(-4)
+    p = mge_fit_1d(R, rho, ngauss=16)
+
+###########################################################################
+
+find_galaxy
+===========
+
+Purpose
+-------
+
+Find the largest region of connected pixels (after smoothing)
+lying above a given intensity level of the image.
+This is useful to automatically identify the location and orientation of
+a galaxy in an image, assuming it is the largest positive fluctuation.
+The conventions used by this routine are the same as for the rest
+of the ``MgeFit```` package.
+
+This procedure uses the weighted first and second moments of the intensity
+distribution for the computation of the galaxy center and position angle.
+
+Calling Sequence
+----------------
+
+.. code-block:: python
+
+    from mgefit.find_galaxy import find_galaxy
+
+    f = find_galaxy(img, binning=5, fraction=0.1, level=None,
+                    nblob=1, plot=False, quiet=False)
+    print('Ellipticity: %.3f' % f.eps)
+
+Input Parameters
+----------------
+
+Img: array_like with shape (nr, nc)
+    The galaxy images as a 2-dim array.
+
+Optional Keywords
+-----------------
+
+binning: float, optional
+    pixel scale for the image smoothing applied before selection.
+fraction: float, optional
+    This corresponds (approximately) to the fraction
+    ``[0 < fraction < 1]`` of the image pixels that one wants to consider
+    to estimate galaxy parameters (default ``fraction = 0.1 = 10%``)
+level: float, optional
+    Level above which to select pixels to consider in the
+    estimate of the galaxy parameters. This is an alternative
+    to the use of the ``fraction`` keyword.
+nblob: int, optional
+    If ``nblob=1`` (default) the procedure selects the largest feature
+    in the image, if ``nblob=2`` the second largest is selected, and so
+    on for increasing values of ``nblob``. This is useful when the
+    galaxy is not the largest feature in the image.
+plot: boolean, optional
+    set ``plot=True`` to display an image in the current graphic window
+    showing the pixels used in the computation of the moments.
+quiet: boolean, optional
+    Set ``quiet = True`` to suppress printed output.
+
+Output Parameters
+-----------------
+
+Stored as attributes of the ``find_galaxy`` class:
+
+.eps:
+    The galaxy "average" ellipticity ``Eps = 1 - b/a = 1 - q'``.
+.pa:
+    Standard astronomical PA measured counter-clockwise from the image ``Y``
+    axis (assumed to coincide with North). Note: ``f.pa = 270 - f.theta``.
+.theta:
+    Position angle measured clock-wise from the image ``X`` axis.
+.majoraxis:
+    Maximum distance of any of the the selected pixels from ``(xmed, ymed)``.
+    For a standar galaxy surface brightness this corresponds to the
+    major axis of the selected isophote.
+.xpeak:
+    First index (row) in ``Img``, of the pixel containing the galaxy center.
+    To be precise this coordinate represents the first index of the brightest
+    pixels within a 40x40 pixels box centered on the galaxy average center.
+
+    IMPORTANT: The brightest galaxy pixel is the element ``Img[xpeak, ypeak]``.
+    In the plot produced by ``find_galaxy``, the brightest pixel has
+    coordinates ``(Ypeak, Xpeak)``, with the two coordinates swapped!
+.ypeak:
+    Second index (column) in Img, of the brightest galaxy pixel.
+.xmed:
+    ``X`` coordinate of luminosity weighted galaxy center.
+.ymed:
+    ``Y`` coordinate of luminosity weighted galaxy center.
+
+Example
+-------
+
+The command below locates the position and orientation of a galaxy
+in the image ``img`` and produces a plot showing the obtained results
+and the region of the image used in the computation:
+
+.. code-block:: python
+
+    f = find_galaxy(img, plot=True)
+    print(f'Ellipticity: {f.eps:.3f}')
+
+The command below only uses 2% of the image pixels to estimate
+the intensity weighted moments and show the results:
+
+.. code-block:: python
+
+    f = find_galaxy(img, fraction=0.02, plot=True)
+    print(f'Coordinates of the peak intensity: {f.xpeak} {f.xpeak}')
+
+###########################################################################
+
+
+License
+=======
+
+Other/Proprietary License
+
+Copyright (c) 1999-2024 Michele Cappellari
+
+This software is provided as is with no warranty. You may use it for
+non-commercial purposes and modify it for personal or internal use, as long
+as you include this copyright and disclaimer in all copies. You may not
+redistribute the code.
+
+###########################################################################
+
+Changelog
+=========
+
+V5.0.16: MC, Oxford, 19 July 2024
+    - `find_galaxy`: replaced `signal.medfilt` with `ndimage.median_filter` to
+      avoid a bug introduced in SciPy v1.14.
+    - Removed dependency on `scipy.optimize.nnls` after the original F77
+      procedure was replaced by an unreliable new function in v1.12 which broke
+      my code. Use my robust `capfit.lsq_box` instead.
+
+V5.0.15: MC, Oxford, 31 March 2023
+    - `mge_print_contours`, `mge_print_contours_twist`: New keyword `minlevel`.
+    - `mge_print_contours`, `mge_print_contours_twist`: Analytic integral of the central pixel.
+    - `mge_fit_examples`: Updated to demonstrate `minlevel` keyword.
+    - Included documentation of more functions on PyPi.
+
+V5.0.14: MC, Oxford, 24 June 2021
+    - Formatted documentation as reStructuredText.
+
+V5.0.13: MC, Oxford, 1 October 2020
+    - With ``negative=True`` use Numpy linalg.lstsq instead of Scipy
+      for a better default in the criterion for rank deficiency.
+      Fixed ignoring negative weights in output with ``negative=True``.  
+
+V5.0.12: MC, Oxford, 1 October 2018
+    - Fixed clock DeprecationWarning in Python 3.7.
+      Use SciPy 1.1 `maxiter` keyword in `nnls`. 
+
+V5.0.11: MC, Oxford, 12 May 2018
+    - Dropped legacy Python 2.7 support. 
+
+V5.0.10: MC, Oxford, 17 April 2018
+    - Changed imports for mgefit package. 
+
+V5.0.9: MC, Oxford, 21 November 2017
+    - changed `sigmapsf` and `normpsf` keywords to lowercase.  
+
+V5.0.8: MC, Oxford, 25 May 2017
+    - _fitfunc() does not return unused status any more, for consistency 
+      with the corresponding change to cap_mpfit. 
+
+V5.0.7: MC, Oxford, 14 February 2017
+    - Make plot() callable after the program terminates.
+      Included `fignum` keyword and removed obsolete `debug` keyword.
+      Use line colors from current color cycle. 
+
+V5.0.6: MC, Oxford, 24 January 2017
+    - Improved labelling for Matplotlib 2.0. 
+
+V5.0.5: MC, Oxford, 18 June 2015
+    - Fixed plotting issue when combining profiles from multiple images.
+      Thanks to Arianna Picotti (MPIA) for the bug report with examples.
+      Only plot profiles for the best-fitting MGE. 
+
+V5.0.4: MC, Atlantic Ocean, 6 June 2015
+    - Fully broadcast _fitfunc. 
+
+V5.0.3: MC, Atlantic Ocean, 28 March 2015
+    - Make sure qbounds is a Numpy array. Include absdev in the class attributes.
+      Nicely format printed solution. 
+
+V5.0.2: MC, Oxford, 24 September 2014
+    - Improved plotting. 
+
+V5.0.1: MC, Oxford, 25 May 2014
+    - Support both Python 2.7 and Python 3. 
+
+V5.0.0: MC, Aspen Airport, 8 February 2014
+    - Translated from IDL into Python. 
+
+V4.1.3: MC, Oxford, 23 January 2013
+    - Explained optional usage of SOL in input.
+      Removed stop when MPFIT reports over/underflow.  
+
+V4.1.2: MC, Oxford, 24 April 2012
+    - Small change to the treatment of the innermost unresolved Gaussians. 
+
+V4.1.1: MC, Oxford, 12 November 2010
+    - Added keyword /QUIET. 
+
+V4.1.0: MC, Oxford, 22 April 2010
+    - Allow QBOUNDS to have four elements, to perform bulge/disk
+      decompositions similarly to the /BULGE_DISK option.  
+
+V4.0.1: MC, Oxford, 6 June 2009
+    - Added output keyword ABSDEV. Fixed display not being updated
+      while iterating under Windows. 
+
+V4.0.0: MC, Windhoek, 5 October 2008
+    - Added /BULGE_DISK keyword to perform non-parametric bulge/disks
+      decompositions using MGE. Updated MPFIT to version v1.52 2008/05/04,
+      to fix a bug with the required parinfo.tied mechanism. In the new
+      version of MPFIT, which I again renamed MGE_MPFIT, I implemented
+      my previous important modification to improve convergence with
+      MGE_FIT_SECTORS. 
+
+V3.9.5: MC, Oxford, 24 September 2008
+    - Force Gaussians smaller than the PSF, which have a degenerate
+      axial ratio, to have the same axial ratio as the mean of the first
+      two well determined Gaussians. 
+
+V3.9.4: MC, Oxford, 16 May 2008
+    - Use more robust la_least_squares (IDL 5.6) instead of SVDC with
+      /NEGATIVE keyword. 
+
+V3.9.3: MC, Leiden, 18 October 2005
+    - Changed axes labels in plots. 
+
+V3.9.2: MC, Leiden, 11 October 2005
+    - Print iterations of the longer part at the end, not of the
+      short "Gaussian cleaning" part. 
+
+V3.9.1: MC, Leiden, 1 May 2005
+    - Replaced LOGRANGE keyword in example with the new MAGRANGE.
+
+V3.9.0: MC, Leiden, 23 October 2004
+    - Allow forcing the outer slope of the surface brightness profile of
+      the MGE model to decrease at least as R**-n at the largest measured
+      radius (cfr. version 3.8).
+      Clean the solution at the end of the nonlinear fit as already done in
+      the /LINEAR implementation. It's almost always redundant, but quick.  
+
+V3.8.1: MC, Vicenza, 23 August 2004
+    - Make sure this routine uses the Nov/2000 version of Craig Markwardt
+      MPFIT which was renamed MGE_MPFIT to prevent potential conflicts with
+      more recent versions of the same routine. 
+
+V3.8.0: MC, Leiden, 8 May 2004
+    - Force the surface brightness of the MGE model to decrease at
+      least as R**-2 at the largest measured radius. 
+
+V3.7.6: MC, Leiden, 20 March 2004
+    - Use updated calling sequence for BVLS. 
+
+V3.7.5: MC, Leiden 23 July 2003
+    - Corrected small bug introduced in V3.73. Thanks to Arend Sluis. 
+
+V3.7.4: MC, Leiden, 9 May 2003
+    - Use N_ELEMENTS instead of KEYWORD_SET to test
+      non-logical keywords. 
+
+V3.7.3: MC, Leiden, 7 March 2003
+    - Force the input parameters to the given bounds if they
+      fall outside the required range before starting the fit.
+      After feedback from Remco van den Bosch.
+
+V3.7.2: MC, Leiden, 13 October 2002
+    - Added ERRMSG keyword to MPFIT call.
+
+V3.7.1: MC, Leiden 20 May 2002
+    - Added compilation options.
+
+V3.7.0: MC, Leiden, 23 February 2002
+    - Added explicit stepsize (STEP) of numerical derivative in
+      parinfo structure, after suggestion by Craig B. Markwardt.
+
+V3.6.0: MC, Leiden, 23 October 2001
+    - Modified implementation of /NEGATIVE keyword.
+          
+V3.5.0: MC, Leiden, 8 October 2001
+    - Updated documentation.
+
+V3.4.0: MC, Leiden, 20 September 2001
+    - Added /FASTNORM keyword
+
+V3.3.0: MC, Leiden, 26 July 2001
+    - Added MGE PSF convolution, central pixel integration and changed
+      program input parameters to make it independent from SECTORS_PHOTOMETRY
+
+V3.2.0: MC, Leiden, 8 July 2001
+    - Graphical changes: always show about 7 sectors on the screen, 
+      and print plots with shared axes. 
+
+V3.1.0: MC, Leiden, 27 April 2001
+    - More robust definition of err in FITFUNC_MGE_SECTORS.
+
+V3.0.0: MC, Padova, July 2000
+    - Significant changes.
+
+V2.0.0: MC, Leiden, January 2000
+    - Major revisions.
+
+V1.0.0: Padova, February 1999
+    - First implementation by Michele Cappellari.
