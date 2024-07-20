@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: btpy
+Version: 2.0.4
+Summary: bluetooth library for beacons, classic and low-energy devices
+Home-page: https://github.com/nbdy/btpy
+Author: Pascal Eberlein
+Author-email: pascal@eberlein.io
+Keywords: bluetooth library
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: PyBluez==0.22
+Requires-Dist: bleak
+Requires-Dist: beacontools[scan]
+
+## btpy
+this is a wrapper around
+- [bleak](https://github.com/hbldh/bleak) for low-energy support
+- [beacontools](https://github.com/citruz/beacontools) for beacon support
+- [bluez](http://www.bluez.org/) for classic support
+
+### how to ...
+#### .. install
+```shell
+pip3 install btpy
+# or (this is not guaranteed to be stable)
+pip3 install git+https://github.com/nbdy/btpy
+```
+
+#### ... to use it
+```python
+from btpy import LEDevice, Beacon, ClassicDevice
+
+le_results = LEDevice.scan(4)
+
+beacon_results = Beacon.scan(5)
+
+classic_results = ClassicDevice.scan(6)
+```
+
+##### TODO
+- [ ] Tests
