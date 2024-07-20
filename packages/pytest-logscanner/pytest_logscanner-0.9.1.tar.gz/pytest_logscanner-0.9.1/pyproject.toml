@@ -1,0 +1,94 @@
+[tool.pdm]
+distribution = true
+
+[tool.pdm.build]
+custom-hook = "pdm_build.py"
+source-includes = [
+    "html/",
+]
+excludes = [
+    "html/node_modules",
+    "html/dist",
+]
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ruff>=0.1.3",
+    "pdm>=2.16.1",
+    "pdm-backend>=2.3.1",
+    "pytest>=8.2.2",
+    "devtools>=0.12.2",
+    "twine>=5.1.1",
+]
+
+[tool.ruff]
+select = [
+    "ALL",
+]
+ignore = [
+    "ANN101",
+    "TD002",
+    "TD003",
+    "FIX002",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101",
+    "N802",
+]
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra --tb=short  --durations=10 --durations-min=1.0"
+testpaths = [
+    "tests",
+]
+junit_logging = "all"
+pythonpath = "tests"
+
+[project]
+name = "pytest-logscanner"
+version = "0.9.1"
+description = "Pytest plugin for logscanner (A logger for python logging outputting to easily viewable (and filterable) html files. Good for people not grep savey, and color higlighting and quickly changing filters might even bye useful for commandline wizards.)"
+authors = [
+    { name = "Malte Vesper", email = "malte.vesper@gmx.net" },
+]
+dependencies = [
+    "logscanner>=0.9",
+]
+requires-python = ">=3.12"
+readme = "README.md"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Typing :: Typed",
+    "Framework :: Pytest",
+]
+keywords = [
+    "logging",
+    "viewer",
+]
+
+[project.license]
+text = "MIT"
+
+[project.urls]
+Documentation = "https://maltevesper.github.io/logscanner/"
+Repository = "https://github.com/maltevesper/logscanner"
+Changelog = "https://github.com/maltevesper/logscanner/blob/main/CHANGELOG.md"
+
+[project.entry-points.pytest11]
+pytest-logscanner = "pytest_logscanner.pytest_logscanner"
+
+[build-system]
+requires = [
+    "pdm-backend",
+]
+build-backend = "pdm.backend"

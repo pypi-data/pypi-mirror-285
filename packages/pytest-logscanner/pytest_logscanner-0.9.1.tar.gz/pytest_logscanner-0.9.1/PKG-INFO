@@ -1,0 +1,36 @@
+Metadata-Version: 2.1
+Name: pytest-logscanner
+Version: 0.9.1
+Summary: Pytest plugin for logscanner (A logger for python logging outputting to easily viewable (and filterable) html files. Good for people not grep savey, and color higlighting and quickly changing filters might even bye useful for commandline wizards.)
+Keywords: logging,viewer
+Author-Email: Malte Vesper <malte.vesper@gmx.net>
+License: MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Typing :: Typed
+Classifier: Framework :: Pytest
+Project-URL: Documentation, https://maltevesper.github.io/logscanner/
+Project-URL: Repository, https://github.com/maltevesper/logscanner
+Project-URL: Changelog, https://github.com/maltevesper/logscanner/blob/main/CHANGELOG.md
+Requires-Python: >=3.12
+Requires-Dist: logscanner>=0.9
+Description-Content-Type: text/markdown
+
+# pytest-logscanner
+
+Adds html log files for each test.
+
+To delete logfiles before running the tests add the `--logscanner-clear` option to the pytest call:
+
+```
+pytest --logscanner-clear
+```
+
+To only clear the log files without running the tests use:
+
+```
+pytest --logscanner-clear --collect-only
+```
