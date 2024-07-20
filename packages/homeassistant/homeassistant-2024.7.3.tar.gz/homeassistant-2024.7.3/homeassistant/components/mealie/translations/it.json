@@ -1,0 +1,40 @@
+{
+    "config": {
+        "abort": {
+            "wrong_account": "Devi usare lo stesso account che hai usato per configurare l'integrazione."
+        },
+        "step": {
+            "reauth_confirm": {
+                "data": {
+                    "api_token": "Token API"
+                }
+            },
+            "reconfigure_confirm": {
+                "data": {
+                    "api_token": "token API",
+                    "host": "URL"
+                },
+                "description": "Per favore, riconfigura con Mealie."
+            },
+            "user": {
+                "data_description": {
+                    "host": "L'URL della tua istanza Mealie."
+                }
+            }
+        }
+    },
+    "exceptions": {
+        "item_not_found_error": {
+            "message": "Oggetto {shopping_list_item} non trovato."
+        }
+    },
+    "services": {
+        "get_mealplan": {
+            "fields": {
+                "config_entry_id": {
+                    "name": "Istanza Mealie"
+                }
+            }
+        }
+    }
+}

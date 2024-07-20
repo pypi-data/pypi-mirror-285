@@ -1,0 +1,33 @@
+{
+    "services": {
+        "create": {
+            "fields": {
+                "message": {
+                    "description": "Corps du message de la notification.",
+                    "name": "Message"
+                },
+                "notification_id": {
+                    "description": "ID de la notification. Cette nouvelle notification \u00e9crasera une notification existante avec le m\u00eame ID.",
+                    "name": "ID de notification"
+                },
+                "title": {
+                    "description": "Titre facultatif de la notification.",
+                    "name": "Titre"
+                }
+            },
+            "name": "Cr\u00e9er"
+        },
+        "dismiss": {
+            "fields": {
+                "notification_id": {
+                    "description": "ID de la notification \u00e0 supprimer."
+                }
+            },
+            "name": "Ignorer"
+        },
+        "dismiss_all": {
+            "name": "Tout ignorer"
+        }
+    },
+    "title": "Notification persistante"
+}

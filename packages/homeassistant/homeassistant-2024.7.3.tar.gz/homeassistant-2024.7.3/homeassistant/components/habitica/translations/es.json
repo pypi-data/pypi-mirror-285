@@ -1,0 +1,86 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "La cuenta ya est\u00e1 configurada"
+        },
+        "error": {
+            "invalid_credentials": "Autenticaci\u00f3n no v\u00e1lida",
+            "unknown": "Error inesperado"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "Clave API",
+                    "api_user": "ID de usuario de la API de Habitica",
+                    "url": "URL"
+                },
+                "description": "Conecta tu perfil de Habitica para permitir la supervisi\u00f3n del perfil y las tareas de tu usuario. Ten en cuenta que api_id y api_key deben obtenerse de https://habitica.com/user/settings/api"
+            }
+        }
+    },
+    "entity": {
+        "sensor": {
+            "class": {
+                "name": "Clase",
+                "state": {
+                    "healer": "Sanador",
+                    "rogue": "P\u00edcaro",
+                    "warrior": "Guerrero",
+                    "wizard": "Mago"
+                }
+            },
+            "display_name": {
+                "name": "Nombre para mostrar"
+            },
+            "experience": {
+                "name": "Experiencia"
+            },
+            "experience_max": {
+                "name": "Siguiente nivel"
+            },
+            "gold": {
+                "name": "Oro"
+            },
+            "health": {
+                "name": "Salud"
+            },
+            "health_max": {
+                "name": "M\u00e1x. salud"
+            },
+            "level": {
+                "name": "Nivel"
+            },
+            "mana": {
+                "name": "Man\u00e1"
+            },
+            "mana_max": {
+                "name": "M\u00e1x. man\u00e1"
+            }
+        }
+    },
+    "exceptions": {
+        "setup_rate_limit_exception": {
+            "message": "Actualmente tiene una tasa limitada, int\u00e9ntalo de nuevo m\u00e1s tarde"
+        }
+    },
+    "services": {
+        "api_call": {
+            "description": "Llama a la API de Habitica.",
+            "fields": {
+                "args": {
+                    "description": "Cualquier argumento de par\u00e1metro JSON o URL adicional. Ver apidoc mencionado para la ruta. El ejemplo utiliza el mismo extremo de la API.",
+                    "name": "Args"
+                },
+                "name": {
+                    "description": "Nombre de usuario de Habitica para llamar.",
+                    "name": "Nombre"
+                },
+                "path": {
+                    "description": "Elementos de la URL de la API en forma de matriz con un m\u00e9todo adjunto al final. Consulta https://habitica.com/apidoc/. El ejemplo utiliza https://habitica.com/apidoc/#api-Task-CreateUserTasks.",
+                    "name": "Ruta"
+                }
+            },
+            "name": "Nombre de la API"
+        }
+    }
+}
