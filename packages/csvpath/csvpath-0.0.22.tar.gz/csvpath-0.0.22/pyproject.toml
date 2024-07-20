@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "csvpath"
+version = "0.0.022"
+description = ""
+authors = ["David Kershaw <dk107dk@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.2.2"
+ply = "^3.11"
+python-dateutil = "^2.9.0.post0"
+polars = "^1.1.0"
+pandas = "^2.2.2"
+
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+black = "^24.4.2"
+pre-commit = "^3.7.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
