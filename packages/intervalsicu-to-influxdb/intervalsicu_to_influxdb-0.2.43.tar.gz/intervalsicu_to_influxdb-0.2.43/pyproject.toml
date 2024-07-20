@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version", "dependencies"]
+name = "intervalsicu-to-influxdb"
+authors = [{ name = "Toni Miquel Llull", email = "tonimiquel.llull@gmail.com" }]
+description = "A package to extract data from intervals.icu to influxDB"
+readme = "README.md"
+requires-python = ">=3.6"
+keywords = ["intervalsicu", "influxdb", "sport"]
+classifiers = [
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3",
+]
+
+[project.urls]
+"Homepage" = "https://gitlab.com/tmllull/intervalsicu-to-influxdb"
+"Bug Tracker" = "https://gitlab.com/tmllull/intervalsicu-to-influxdb/issues"
+"Documentation" = "https://intervalsicu-to-influxdb.readthedocs.io"
