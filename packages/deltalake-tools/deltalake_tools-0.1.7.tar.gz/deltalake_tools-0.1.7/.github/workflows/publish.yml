@@ -1,0 +1,52 @@
+name: Publish Python Package
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      
+      - name: Install Rye
+        run: curl -sSf https://rye.astral.sh/get | RYE_INSTALL_OPTION="--yes" bash
+
+      - name: Add Rye to PATH
+        shell: bash
+        run: echo "$HOME/.rye/shims" >> $GITHUB_PATH
+      
+      - name: Install dependencies
+        run: make install
+      
+      # need to skip moto_server, too slow
+      # - name: Run tests
+      #   run: |
+      #     source .venv/bin/activate
+      #     make coverage
+
+
+      - name: Build package
+        run: make build
+
+      - name: Publish package
+        if: matrix.python-version == '3.10'
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          REPOSITORY_URL: ${{ vars.REPOSITORY_URL }}
+        run: make publish-ci
