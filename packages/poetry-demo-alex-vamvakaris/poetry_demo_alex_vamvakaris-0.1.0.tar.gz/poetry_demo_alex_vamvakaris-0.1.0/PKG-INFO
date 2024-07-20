@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: poetry-demo-alex-vamvakaris
+Version: 0.1.0
+Summary: 
+Author: Your Name
+Author-email: you@example.com
+Requires-Python: >=3.11,<4.0
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: pandas (>=2.2.2,<3.0.0)
+Requires-Dist: pendulum (>=3.0.0,<4.0.0)
+Requires-Dist: seaborn (>=0.11.1,<0.12.0)
+Description-Content-Type: text/markdown
+
+# Project Dependencies
+
+- Downloading the project to your repository
+
+- You should have both the poetry.lock and the pyproject.toml files
+
+- Use `poetry show --tree` to look at the dependencies graph
+
+<br>
+
+# Specifying dependencies
+`poetry add <package-name>`
+- This command updates your pyproject.toml and poetry.lock files with the new dependency and its version.
+
+<br>
+
+# Installing Dependencies
+`poetry install`
+
+### Installing without poetry.lock
+
+- If you have never run the command before and there is also no poetry.lock file present, Poetry simply resolves all dependencies listed in your pyproject.toml file and downloads the latest version of their files.
+
+- When Poetry has finished installing, it writes all the packages and their exact versions that it downloaded to the poetry.lock file, 
+
+### Installing with poetry.lock
+- If there is already a poetry.lock file as well as a pyproject.toml file when you run poetry install, it means either you ran the install command before, or someone else on the project ran the install command and committed the poetry.lock file to the project (which is good).
+
+- Either way, running install when a poetry.lock file is present resolves and installs all dependencies that you listed in pyproject.toml, but Poetry uses the exact versions listed in poetry.lock to ensure that the package versions are consistent for everyone working on your project. 
+
+- As a result you will have all dependencies requested by your pyproject.toml file, but they may not all be at the very latest available versions (some dependencies listed in the poetry.lock file may have released newer versions since the file was created). This is by design, it ensures that your project does not break because of unexpected changes in dependencies.
+
+<br>
+
+# Updating dependencies to their latest versions
+`poetry update`
+- the poetry.lock file prevents you from automatically getting the latest versions of your dependencies. To update to the latest versions, use the `poetry update` command. This will fetch the latest matching versions (according to your pyproject.toml file) and update the lock file with the new versions. (This is equivalent to deleting the poetry.lock file and running install again.)
+
+
+# Build your package
+
+`poetry config pypi-token.pypi <your-pypi-token>`
+
+`poetry build`
+
+`poetry publish --build`
+
+
