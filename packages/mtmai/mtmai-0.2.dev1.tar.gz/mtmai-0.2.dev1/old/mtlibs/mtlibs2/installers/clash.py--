@@ -1,0 +1,25 @@
+import os
+# from mtlibs.process_helper import exec
+
+
+
+# # 参考：https://github.com/Dreamacro/clash/blob/master/Dockerfile
+# RUN wget -q -O /tmp/clash-linux-amd64-v1.6.5.gz https://github.com/Dreamacro/clash/releases/download/v1.6.5/clash-linux-amd64-v1.6.5.gz \
+#     && gunzip -c /tmp/clash-linux-amd64-v1.6.5.gz > /bin/clash \
+#     && chmod +x /bin/clash \
+#     && mkdir -p /root/.config/clash && wget -q -O /root/.config/clash/Country.mmdb https://github.com/Dreamacro/maxmind-geoip/releases/latest/download/Country.mmdb \
+#     && rm -rf /tmp/*
+
+
+def install():
+    """install clash"""
+    print("安装 clash ", flush=True)
+    os.system(""" wget -q -O /tmp/clash-linux-amd64-v1.6.5.gz https://github.com/Dreamacro/clash/releases/download/v1.6.5/clash-linux-amd64-v1.6.5.gz \
+    && gunzip -c /tmp/clash-linux-amd64-v1.6.5.gz > /bin/clash \
+    && chmod +x /bin/clash \
+    && mkdir -p /root/.config/clash && wget -q -O /root/.config/clash/Country.mmdb https://github.com/Dreamacro/maxmind-geoip/releases/latest/download/Country.mmdb \
+    && rm -rf /tmp/*
+""")
+
+if __name__ == "__main__":
+    install()
