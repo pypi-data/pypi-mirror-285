@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: qnexus
+Version: 0.1.1
+Summary: Quantinuum Nexus python client.
+License: Apache-2.0
+Author: Vanya Eccles
+Author-email: vanya.eccles@quantinuum.com
+Requires-Python: >=3.10,<3.13
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Provides-Extra: qiskit
+Requires-Dist: click (>=8.1.7,<9.0.0)
+Requires-Dist: colorama (>=0.4.6,<0.5.0)
+Requires-Dist: halo (>=0.0.31,<0.0.32)
+Requires-Dist: httpx (>=0.25.0,<0.26.0)
+Requires-Dist: jinja2 (>=3.1.2,<4.0.0)
+Requires-Dist: nest-asyncio (>=1.6.0,<2.0.0)
+Requires-Dist: pandas (>=2,<3)
+Requires-Dist: pendulum (>=2.1.2,<3.0.0)
+Requires-Dist: pydantic (>=2.4.2,<3.0.0)
+Requires-Dist: pytket (>=1.21.0,<2.0.0)
+Requires-Dist: pytket-qiskit (>=0.50) ; extra == "qiskit"
+Requires-Dist: rich (>=13.6.0,<14.0.0)
+Requires-Dist: uuid (>=1.30,<2.0)
+Requires-Dist: websockets (>=11.0,<12.0)
+Project-URL: Documentation, https://nexus.quantinuum.com/docs
+Description-Content-Type: text/markdown
+
+# qnexus
+
+[Quantinuum Nexus](https://nexus.quantinuum.com) python client.
+
+
+```python
+import qnexus as qnx
+
+# Will open a browser window to login with Nexus credentials
+qnx.login()
+
+# Dataframe representation of all your pending jobs in Nexus
+qnx.jobs.get_all(job_status=["SUBMITTED", "QUEUED", "RUNNING"]).df()
+```
+
+Full documentation available at https://docs.quantinuum.com/nexus
+
+Copyright 2024 Quantinuum Ltd.
+
