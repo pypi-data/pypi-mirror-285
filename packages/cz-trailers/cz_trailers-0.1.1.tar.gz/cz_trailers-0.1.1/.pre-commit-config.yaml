@@ -1,0 +1,16 @@
+default_install_hook_types:
+- pre-commit
+- pre-push
+- commit-msg
+repos:
+- hooks:
+  - id: commitizen
+    stages:
+    - commit-msg
+ #   additional_dependencies:
+#    - cz-trailers
+#  - id: commitizen-branch
+#    stages:
+#    - push
+  repo: https://github.com/commitizen-tools/commitizen
+  rev: v3.27.0
