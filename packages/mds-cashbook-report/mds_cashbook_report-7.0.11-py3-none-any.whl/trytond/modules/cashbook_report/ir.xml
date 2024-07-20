@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!-- This file is part of the diagram-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- limit visibility to owner - read for owner-->
+        <record model="ir.rule.group" id="rg_iractwin_group_cashbook_read">
+            <field name="model" search="[('model', '=', 'ir.action.act_window')]"/>
+            <field name="name">Owner: IR Act Window read</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <record model="ir.rule" id="rg_iractwin_group_cashbook_read-2">
+            <field name="domain" eval="[
+                ('res_model', '=', 'cashbook_report.eval_line'),
+                ['OR',
+                    ('create_uid', '=', Eval('user_id', -1)),
+                    ('create_uid', '=', 0),
+                ],
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_iractwin_group_cashbook_read"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_iractwin_group_cashbook_read-group_cashbook">
+            <field name="rule_group" ref="rg_iractwin_group_cashbook_read"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+
+        <!-- allow read for created by root -->
+        <record model="ir.rule.group" id="rg_iractwin_anon">
+            <field name="model" search="[('model', '=', 'ir.action.act_window')]"/>
+            <field name="name">Anon: IR Act Window read</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="True"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <record model="ir.rule" id="rg_iractwin_anon-1">
+            <field name="domain" eval="[
+                    ('res_model', '!=', 'cashbook_report.eval_line'),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_iractwin_anon"/>
+        </record>
+
+        <!-- allow write for admin -->
+        <record model="ir.rule.group" id="rg_iractwin_group_admin">
+            <field name="model" search="[('model', '=', 'ir.action.act_window')]"/>
+            <field name="name">Admin: IR Act Window write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_iractwin_group_admin-1">
+            <field name="domain" eval="[]" pyson="1"/>
+            <field name="rule_group" ref="rg_iractwin_group_admin"/>
+        </record>
+        <record model="ir.rule.group-res.group"
+            id="rg_iractwin_group_admin-group_admin">
+            <field name="rule_group" ref="rg_iractwin_group_admin"/>
+            <field name="group" ref="res.group_admin"/>
+        </record>
+
+    </data>
+</tryton>

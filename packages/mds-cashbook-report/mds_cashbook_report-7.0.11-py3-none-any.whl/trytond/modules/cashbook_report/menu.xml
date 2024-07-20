@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- menu: /Cashbook/Evaluation -->
+        <menuitem id="menu_evaluation" action="act_evaluation_view"
+            icon="mds-pie-chart"
+            parent="cashbook.menu_cashbook" sequence="50"/>
+
+        <record model="ir.ui.menu-res.group" id="menu_evaluation-group_cashbook">
+            <field name="menu" ref="menu_evaluation"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+        <record model="ir.ui.menu-res.group" id="menu_evaluation-group_cashbook_admin">
+            <field name="menu" ref="menu_evaluation"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+    </data>
+</tryton>

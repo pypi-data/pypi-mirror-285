@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<tryton>
+    <data>
+
+        <!-- views -->
+        <record model="ir.ui.view" id="evaluation_view_list">
+            <field name="model">cashbook_report.evaluation</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="10"/>
+            <field name="name">evaluation_list</field>
+        </record>
+        <record model="ir.ui.view" id="evaluation_view_form">
+            <field name="model">cashbook_report.evaluation</field>
+            <field name="type">form</field>
+            <field name="priority" eval="20"/>
+            <field name="name">evaluation_form</field>
+        </record>
+
+        <!-- action view - list -->
+        <record model="ir.action.act_window" id="act_evaluation_view">
+            <field name="name">Evaluation</field>
+            <field name="res_model">cashbook_report.evaluation</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_evaluation_view-1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="evaluation_view_list"/>
+            <field name="act_window" ref="act_evaluation_view"/>
+        </record>
+        <record model="ir.action.act_window.view" id="act_evaluation_view-2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="evaluation_view_form"/>
+            <field name="act_window" ref="act_evaluation_view"/>
+        </record>
+
+        <!-- permission -->
+        <!-- anon: deny all -->
+        <record model="ir.model.access" id="access_eval-anon">
+            <field name="model" search="[('model', '=', 'cashbook_report.evaluation')]"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_delete" eval="False"/>
+        </record>
+        <!-- group_cashbook_admin: read/write -->
+        <record model="ir.model.access" id="access_eval-group_cashbook_admin">
+            <field name="model" search="[('model', '=', 'cashbook_report.evaluation')]"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <!-- cashbook: read/write -->
+        <record model="ir.model.access" id="access_eval-group_cashbook">
+            <field name="model" search="[('model', '=', 'cashbook_report.evaluation')]"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+
+        <!-- permission by rule - admin -->
+        <record model="ir.rule.group" id="rg_eval_write_adm">
+            <field name="model" search="[('model', '=', 'cashbook_report.evaluation')]"/>
+            <field name="name">Administrators: Evaluation read/write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_eval_write_adm-1">
+            <field name="domain" eval="[]" pyson="1"/>
+            <field name="rule_group" ref="rg_eval_write_adm"/>
+        </record>
+        <record model="ir.rule.group-res.group" id="rg_eval_write_adm-group_cashbook_admin">
+            <field name="rule_group" ref="rg_eval_write_adm"/>
+            <field name="group" ref="cashbook.group_cashbook_admin"/>
+        </record>
+
+        <!-- permission by rule - read/write: owner -->
+        <record model="ir.rule.group" id="rg_eval_rw_owner">
+            <field name="model" search="[('model', '=', 'cashbook_report.evaluation')]"/>
+            <field name="name">Owners: Evaluation read/write</field>
+            <field name="global_p" eval="False"/>
+            <field name="default_p" eval="False"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_delete" eval="True"/>
+        </record>
+        <record model="ir.rule" id="rg_eval_rw_owner-1">
+            <field name="domain" eval="[
+                ('create_uid', '=', Eval('user_id', -1)),
+                ]" pyson="1"/>
+            <field name="rule_group" ref="rg_eval_rw_owner"/>
+        </record>
+        <record model="ir.rule.group-res.group" id="rg_eval_rw_owner-group_cashbook">
+            <field name="rule_group" ref="rg_eval_rw_owner"/>
+            <field name="group" ref="cashbook.group_cashbook"/>
+        </record>
+
+        <record model="ir.rule.group" id="rg_eval_companies">
+            <field name="name">User in companies</field>
+            <field name="model"
+                search="[('model', '=', 'cashbook_report.evaluation')]"/>
+            <field name="global_p" eval="True"/>
+        </record>
+        <record model="ir.rule" id="r_eval_companies">
+            <field name="domain"
+                eval="[('company', 'in', Eval('companies', []))]"
+                pyson="1"/>
+            <field name="rule_group" ref="rg_eval_companies"/>
+        </record>
+
+    </data>
+</tryton>
