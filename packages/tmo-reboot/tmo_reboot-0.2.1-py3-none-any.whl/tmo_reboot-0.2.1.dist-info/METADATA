@@ -1,0 +1,42 @@
+Metadata-Version: 2.1
+Name: tmo-reboot
+Version: 0.2.1
+Summary: A script to reboot the T-Mobile Home Internet 5G Gateways
+Home-page: https://github.com/hugoh/tmo-reboot
+License: MIT
+Author: Hugo Haas
+Author-email: hugoh@hugoh.net
+Requires-Python: >=3.8,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: requests (>=2.32.3,<3.0.0)
+Project-URL: Repository, https://github.com/hugoh/tmo-reboot
+Description-Content-Type: text/markdown
+
+# tmo-reboot
+
+A lightweight, cross-platform Python 3 script that can reboot the T-Mobile Home Internet Arcadyan and Nokia 5G Gateways.
+
+It's based on [highvolt-dev/tmo-monitor](https://github.com/highvolt-dev/tmo-monitor): it's a stripped-down version of the code, with minimal dependencies.
+
+## Usage
+
+Simply run `tmo-reboot.py`.
+
+All the configuration is done via environment variables:
+
+- `TMHI_MODEL`: one of `NOK5G21` for the Nokia router or `ARCKVD21` for the
+  Arcadyan router (required)
+- `TMHI_USER`: name of the router's admin user; defaults to "admin"
+- `TMHI_PASSWORD`: password for the router's admin user
+
+## Motivation
+
+The reason for stripping down to the minimum is for installing this software on
+the least capable OpenWRT devices.
+
