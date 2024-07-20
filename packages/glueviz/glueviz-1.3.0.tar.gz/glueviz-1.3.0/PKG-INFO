@@ -1,0 +1,43 @@
+Metadata-Version: 2.1
+Name: glueviz
+Version: 1.3.0
+Summary: Multidimensional data visualization across files
+Home-page: http://glueviz.org
+Author: Glue developers
+Author-email: glueviz@gmail.com
+Classifier: Intended Audience :: Science/Research
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: License :: OSI Approved :: BSD License
+License-File: LICENSE
+Requires-Dist: glue-core>=1.1.0
+Requires-Dist: glue-qt>=0.1.0
+Requires-Dist: glue-vispy-viewers>=1.0.3
+
+The glueviz meta-package
+========================
+
+This package does not contain any code, but instead is a meta-package that 
+depends on the core glue code as well as stable plugins that we want to 
+provide to users by default. 
+
+It can be installed with::
+
+    pip install glueviz
+
+This currently installs:
+
+* `glue-core <https://github.com/glue-viz/glue>`_, the main glue package
+* `glue-vispy-viewers <https://github.com/glue-viz/glue-vispy-viewers>`_,
+  which adds 3D viewers
+
+In future, as more plugin packages become stable, we will include them
+in this meta-package.
+
+Issues should be opened `in the repository for the main glue package
+<https://github.com/glue-viz/glue>`_.
