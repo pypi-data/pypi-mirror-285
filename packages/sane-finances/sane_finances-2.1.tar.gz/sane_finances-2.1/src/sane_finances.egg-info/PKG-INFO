@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: sane-finances
+Version: 2.1
+Summary: A library for download and parse financial data from different sources
+Home-page: https://github.com/StanleySane/sane-finances
+Author: Sane Development
+Author-email: sane.development.org@gmail.com
+License: BSD 3-Clause License
+Project-URL: Bug Tracker, https://github.com/StanleySane/sane-finances/issues
+Project-URL: Source, https://github.com/StanleySane/sane-finances
+Keywords: MSCI,MOEX,Moscow Exchange,Solactive,CBR,Bank of Russia,Yahoo Finance,S&P,Dow Jones,iShares,LBMA,Bloomberg,Stocks,Bonds,ETF
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Intended Audience :: Information Technology
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Sane Finances 
+
+[pypi_project]: https://pypi.org/project/sane-finances/
+[pypi_badge]: https://img.shields.io/pypi/v/sane-finances.svg
+[![pypi badge][pypi_badge]][pypi_project]
+![tests](https://github.com/StanleySane/sane-finances/actions/workflows/tests.yml/badge.svg)
+
+A library for download and parse financial data from various sources.
+
+Library provides unified interface for access to various sources of financial data.
+Such as stocks or bonds historical values.
+
+## Disclaimer
+
+This library acts like some sort of "middleware" between financial source API and user.
+It does not store or analyze data.
+So in many (or most) cases you may need legal permission for access to source API and usage of downloaded data.
+This library does not provide any of such permission by design.
+
+Before use of this library you have to examine user agreement of each source independently.
+If you have no special permission or breach user agreement then use library on your own responsibility.
