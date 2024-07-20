@@ -1,0 +1,5 @@
+""" check_json """
+__author__ = "Christopher Peterson"
+__version__ = "0.6.3"
+__title__ = "check_json"
+__license__ = "MIT"
