@@ -1,0 +1,90 @@
+# Installation
+`pip install test2va`
+Requires Python 3.10 or later: https://www.python.org/downloads/
+
+# External Dependencies
+
+## Appium
+Appium is required to act as a bridge between the tool and an Android device/emulator.
+
+[Appium Server GUI](https://github.com/appium/appium-desktop/releases/tag/v1.22.3-4) is the recommended tool for this.
+
+Potential issues installing Appium Server (https://github.com/appium/appium-desktop):
+
+**macOS**
+"If you're using the desktop app on macOS, when you run it you may be greeted with some error about
+the app not being able to be opened, or not verified by Apple, or something similar. The easiest
+way to get around this is to run `xattr -cr` on the file you downloaded. So let's say you
+downloaded `Appium-Server-GUI-mac-<version>.dmg` and copy `Appium Server GUI.app` in
+`/Applications` inside the disk image. Then you would run `xattr -cr "/Applications/Appium Server
+GUI.app"` before opening it. The same goes for the zip version (or the .app itself)."
+
+**Windows**
+"Some Windows 10 Users experience a `PathTooLongException` when installing the EXE. The workaround for this is to update the setting on Windows to [enable long paths](https://superuser.com/questions/1119883/windows-10-enable-ntfs-long-paths-policy-option-missing)."
+
+After Appium Server GUI is installed, make sure it is running before starting the Test2VA tool.
+
+The "simple" Appium server preset should be used. The default host and port should be `localhost` and `4723` respectively.
+
+## Android Emulator
+The minimum SDK version required for running the example tests is 21 (Android 5.0 Lollipop).
+
+If a physical device is not available, an emulator can be used. The Android Emulator can be installed through [Android Studio](https://developer.android.com/studio).
+
+To create a new emulator, open Android Studio and navigate to `Tools > Device Manager`. Click `Create Virtual Device` (or the "+" button) and follow the instructions to create a new emulator. Testing emulator configuration will be listed at the bottom of this description.
+
+Make sure the device is running before starting the Test2VA tool. This can be done by returning to Device Manager and starting the emulator.
+
+## SRCML
+SRCML is required to convert the test script from Java to XML. The SRCML tool can be downloaded from [here](https://www.srcml.org/#download).
+
+Make sure SRCML is added to PATH.
+
+# Usage
+
+Run the following command in the terminal:
+```bash
+test2va
+```
+The tool GUI interface will start immediately.
+
+## Example Dropdown
+The example dropdown contains a list of example tests that can be run. These tests are pre-configured and can be run without needing to configure an APK file, test script, and activity. The dropdown is marked with the text: "Select an example".
+
+## App APK Path
+The path to the APK file that will be used for testing. This is a full local path. This will be automatically filled in when selecting a testing example.
+
+## Test Script Path
+The path to the JAVA test source code file containing the test script. This is a full local path. This will be automatically filled in when selecting a testing example.
+
+## Appium Server URL
+This is the local URL to your Appium server. If Appium Server GUI was used with the default "simple" preset, this should be `http://localhost:4723/wd/hub`.
+
+## Device UDID
+The UDID of the device/emulator that will be used for testing. This can be found by running the command `adb devices` in the terminal. Typically, the UDID will be in the format `emulator-<port>` for an emulator.
+
+## App Activity
+The activity that will be launched when the APK is installed. This will be automatically filled in when selecting a testing example.
+
+## Auto Grant Permissions
+If this is checked, the tool will automatically grant all permissions to the app when it is installed. This is useful for testing apps that require permissions to be granted before they can be used. This should remain in the default state for most apps.
+
+## No Reset
+If this is checked, the tool will not reset the app state between tests. This is useful for testing apps that require a specific state to be set up before running tests. This should remain in the default state for most apps.
+
+## Full Reset
+If this is checked, the tool will perform a full reset of the app between tests. This is useful for testing apps that require a clean state to be set up before running tests. This should remain in the default state for most apps.
+
+## Exit After Parse
+This is a debug option that will cause the tool to exit after parsing the test script. This is useful for checking the parsed test script before running it. This should remain unchecked for normal use.
+
+## Run Tool
+When everything is configured, click the start button to run the tool. Watch the output frame for information during testing as well as where the results will be saved.
+
+# Test2VA Team Testing Device Configuration
+
+## Physical Device
+Pixel 5, running Android 11 with 64-Bit Octa-CoreProcessor, 8 GB of RAM, and 128 GB of internal storage.
+
+## Emulator
+Resizable API 33, Running Android 13.0 with a 64-Bit Quad-Core Processor, 1.5 GB RAM.
