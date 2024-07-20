@@ -1,0 +1,196 @@
+Metadata-Version: 2.3
+Name: smartenough
+Version: 0.21
+Summary: Convert cheap LLMs into efficient, validated API calls.
+Project-URL: Homepage, https://codeberg.org/Medusa-Intelligence-Corp/smartenough
+Project-URL: Issues, https://codeberg.org/Medusa-Intelligence-Corp/smartenough/issues
+Author-email: Medusa Intelligence Corporation <info@medusaintel.co>
+License-File: LICENSE
+Classifier: License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 3
+Requires-Python: >=3.7
+Requires-Dist: anthropic>=0.31.2
+Requires-Dist: beautifulsoup4>=4.12.3
+Requires-Dist: google-generativeai>=0.7.2
+Requires-Dist: mistralai>=0.4.2
+Requires-Dist: openai>=1.36.0
+Requires-Dist: requests>=2.32.3
+Requires-Dist: urlextract>=1.9.0
+Requires-Dist: validators>=0.33.0
+Description-Content-Type: text/markdown
+
+# smartenough
+
+Effortlessly convert inexpensive (and sometimes free) Large Language Models (LLMs) into efficient, validated API calls. Designed for speed, stability, and simplicity, making it ideal for routing individual calls to low-cost LLMs and ensuring validated outputs.
+
+![](https://codeberg.org/Medusa-Intelligence-Corp/smartenough/media/branch/main/smartenough.png)
+
+*I'm good enough, I'm smart enough, and doggone it, people like me!*
+
+## Project Goals
+
+- Be lightweight and easy to use
+- Be very fast in implementing the latest models
+- Don't lock ourselves into any one model provider
+- Save money by using the cheapest models available
+
+## Opinionated
+
+Smartenough is 'opinionated' in that it chooses the newest, cheapest, and best models for you from each provider (see details in code [here](https://codeberg.org/Medusa-Intelligence-Corp/smartenough/src/branch/main/src/smartenough/llm.py#L215)). This saves you from having to think about the details. Smartenough is designed to be simple and easy to use, and to provide the best results for the lowest cost. It is used in production in a number of Medusa Intelligence Corp applications. See [medusaintel.co](medusaintel.co) for more information.
+
+Note that if you are installing ```openai```, ```anthropic```, ```mistralai```, or ```google-generativeai``` packages yourself by hand, and hard-coding version numbers, then things might break. Smartenough will only support the latest versions of the packages. Use old versions at your own risk.
+
+## Cheap
+
+Smartenough is designed to be cheap to use. It will automatically select the cheapest model from the available providers that gets the job done. This means that you can use the best model for your needs without having to worry about the cost.
+
+### Note on OpenRouter and free model roulette
+
+When ```OpenRouter``` is selected as the provider (this is the default if you don't select any provider), smartenough will pick a **random free model** from the list of free models available. The list changes daily but see the latest here [openrouter.io/models](https://openrouter.ai/models?order=top-weekly&max_price=0).
+
+## Installation
+
+You can install the package using pip:
+
+```sh
+pip install smartenough
+```
+
+### API Keys
+
+Smartenough requires a valid API key for each provider you plan on using. To set up the API keys, follow these steps:
+
+1. Obtain the necessary API keys from the following platforms:
+   - **OpenAI**: Sign up at [OpenAI](https://platform.openai.com/signup) and create an API key.
+   - **Anthropic**: Sign up at [Anthropic](https://console.anthropic.com/) and create an API key.
+   - **Mistral**: Sign up at [Mistral AI](https://mistral.ai/news/la-plateforme/) and create an API key.
+   - **Google**: Sign up at [Google Cloud AI](https://ai.google.dev/gemini-api/docs/api-key) and create an API key.
+   - **OpenRouter**: Sign up at [OpenRouter](https://www.openrouter.ai/) and create an API key.
+
+   **Note that you only need to obtain API keys for the services you plan to use.**
+
+2. Set the API keys as environment variables. You can do this by running the following commands in your terminal:
+
+   ```sh
+   export OPENAI_API_KEY="your_openai_api_key"
+   export ANTHROPIC_API_KEY="your_anthropic_api_key"
+   export MISTRAL_API_KEY="your_mistral_api_key"
+   export GOOGLE_API_KEY="your_google_api_key"
+   export OPENROUTER_API_KEY="your_openrouter_api_key"
+   ```
+
+   Replace ```your_openai_api_key```, ```your_anthropic_api_key```, ```your_mistral_api_key```, ```your_google_api_key```, and ```your_openrouter_api_key``` with your actual API keys.
+
+For more information on setting up API keys, refer to the [OpenAI Platform Quickstart](https://platform.openai.com/docs/quickstart/step-2-set-up-your-api-key) guide. The process is similar for all the mentioned services.
+
+
+### Importing
+
+```python
+from smartenough import get_smart_answer 
+```
+
+### ```get_smart_answer```
+
+smartenough has one main function, ```get_smart_answer``` that takes a question and returns an answer. The function has the following signature:
+
+```python
+get_smart_answer(instructions, additional_context="", model_provider="OpenRouter", validation=None):
+```
+
+The function takes the following arguments:
+- ```instructions```: a string containing the question you want to ask
+- ```additional_context```: a string containing additional context for the question (optional)
+- ```model_provider```: a string specifying the model provider to use (default is "OpenRouter") you can also import the ```get_supported_providers``` function that'll return a list of supproted providers. As of this writing they are ```['Anthropic', 'OpenAI', 'Mistral', 'Google', 'OpenRouter', 'Random']``` where ```Random``` will randomly select a provider for you. (optional)
+- ```validation```: if you are asking for output in a specific format, we'll validate ```json```, ```url``` (for a list of valid URLs), and ```html``` (for valid html) (optional)
+
+## Example Usage
+
+### Example 1: Ask a question and get an answer
+
+Use the defaults and just ask a question, OpenRouter is the default provider
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("In your opinion what are the most important news sources in the world?")
+" As an AI, I don't have personal opinions, but based on relevance, reach, and credibility, important news sources in the world often include:\n\n1. BBC News - Recognized globally for comprehensive news coverage.\n2. CNN - Known for breaking news coverage, especially in the United States.\n3. Al Jazeera - Offers extensive news coverage, with a focus on Middle East and international news.\n4. The New York Times - Respected for in-depth reporting and analysis of domestic and international news.\n5. The Guardian - Known for in-depth investigative reporting, particularly on social issues and human rights.\n6. Reuters - Highly regarded for fast and accurate business and financial news.\n7. The Economist - Provides global economic and political analysis and commentary.\n\nThese are just a few among countless sources. For local news, consider sources relevant to your specific region such as your national or local newspapers, public broadcasters, and regional news outlets. Always remember to cross-verify information for accuracy."
+```
+
+### Example 2: Ask a question and get an answer in a format you like
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("In your opinion what are the most important news sources in the world? Return only valid urls", validation="url")
+['https://www.bbc.com/news', 'https://www.cnn.com/', 'https://www.nytimes.com/', 'https://www.theguardian.com/international', 'https://www.reuters.com/topics/world', 'https://apnews.com', 'https://www.washingtonpost.com/world/', 'https://www.nbcnews.com/news/world', 'https://www.wsj.com/worldnews']
+```
+
+### Example 3: Ask a question and get an answer from a specific provider
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("write me a kid-friendly joke in Japanese", model_provider="Google")
+'なんでパンダは白黒なの？ \n\n> なんで？\n\nだって、パンダは「パン」ダから「ダ」を取ると「パン」になるから！ \n\n(Why is a panda black and white? \n\n> Why?\n\nBecause if you take the "da" from "panda" you get "pan"!) \n'
+```
+
+### Example 4: Ask a question and add some additonal context for the model
+
+```python
+>>> from smartenough import get_smart_answer
+>>> writing_sample = """ Welcome to the HYPE THREAD, a place to share your excitement about in-game achievements, brag about success, and get hyped for upcoming events. CAPS LOCK IS OPTIONAL IF IT HELPS YOU GET YOUR HYPE ON!
+... 
+... This is a chance to post about your successes. Our rules against self-promotion and most low-quality content, including shiny Pokemon pics, are relaxed in these threads--please talk all you like about your luck and accomplishments!
+... 
+... This thread is meant to be pretty positive, so please think twice before downvoting someone! Rude and negative comments will be removed -- please report them if you see them :D """
+>>> 
+>>> get_smart_answer("How old do you think the person was that wrote this?  Writing Sample:",additional_context=writing_sample)
+' Based on the casual and enthusiastic tone of the writing sample, as well as the use of gaming terms like "achievements," "brag about success," and "in-game achievements," it\'s likely that the person who wrote this is a young person, possibly in their late teens or early 20s, who is passionate about gaming and enjoys engaging with a community of like-minded individuals.'
+```
+
+### Example 5: Everything all at once
+
+```python
+>>> from smartenough import get_smart_answer
+>>> get_smart_answer("Translate this sentence to Hungarian and put it in a basic webpage, return only vaild html", additional_context="Hello World, welcome to Brad's Website!",model_provider="Anthropic",validation="html")
+"""<html>
+  <head>
+  <title>Brad's Website</title>
+  </head>
+  <body>
+    <h1>Szia Világ, üdvözlünk Brad weboldalán!</h1>
+  </body>
+</html>"""
+```
+
+## Contributing
+
+Feel free! Submit a PR! We are always looking for ways to improve the package.
+
+## Frequently Asked Questions
+
+**What about function calling?**
+
+Some models allow for function calling, but not all, especially not all cheap ones. Check [this leaderboard](https://gorilla.cs.berkeley.edu/leaderboard.html) for more detailed information on model capabilities.
+
+**What about the latest cheap models?**
+
+Smartenough should have the latest cheap models available within a day or so of their release. If a new model is missing, just ask and it will likely be added quickly!
+
+**I want more features! I want to chat and write lots of code!**
+
+This project is probably not the right fit for you then. You could try [LangChain](https://www.langchain.com/) for more advanced functionality, though we don't necessarily recommend it.
+
+**I really need more control and customization**
+
+We suggest reading through the smartenough source code, it's concise and won't take long. [View it on Codeberg](https://codeberg.org/Medusa-Intelligence-Corp/smartenough/src/branch/main/src/smartenough/llm.py). From there you can either fork and extend it, or use the underlying provider libraries directly:
+- [OpenAI docs](https://platform.openai.com/docs/guides/text-generation)  
+- [Anthropic docs](https://docs.anthropic.com/en/api/messages)
+- [Mistral docs](https://docs.mistral.ai/)
+- [Google docs](https://ai.google.dev/gemini-api/docs/text-generation?lang=python)
+- [OpenRouter docs](https://openrouter.ai/docs/quick-start)
+
+**I need to use an old version of a smartenough dependency and am getting errors. What should I do?**
+
+You can try installing the old package version you need, but be aware that smartenough only officially supports the latest versions. Our focus is on integrating good cheap models quickly. To use old dependency versions, install smartenough with ```pip install --no-dependencies smartenough```, then separately install the old package version you need, e.g. ```pip install openai==1.8.0```. Use this workaround at your own risk.
+
+
