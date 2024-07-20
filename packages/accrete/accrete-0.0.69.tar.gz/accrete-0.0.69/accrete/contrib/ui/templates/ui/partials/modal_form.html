@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<div id="modal-{{ form_id }}" class="modal {% block modal_form_class %}is-active{% endblock %}">
+    <div class="modal-background" onclick="removeModal('modal-{{ form_id }}')"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">
+                {% block modal_title %}{% endblock %}
+            </p>
+            <button class="delete filter-modal-close" aria-label="close" onclick="removeModal('modal-{{ form_id }}')"></button>
+        </header>
+        <section id="modal-content" class="modal-card-body">
+            {% if form.is_saved is False %}
+                {% include 'ui/partials/form_errors.html' %}
+            {% endif %}
+            {% block modal_content %}{% endblock %}
+        </section>
+        <footer class="modal-card-foot">
+            {% block modal_footer %}
+                <div class="buttons" style="width: 100%">
+                    {% block modal_buttons %}
+                        <button class="button is-success" type="submit" form="{{ form_id }}">
+                            {% translate 'Save' %}
+                        </button>
+                        <button class="button" onclick="removeModal('modal-{{ form_id }}')">
+                            {% translate 'Discard' %}
+                        </button>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </footer>
+    </div>
+</div>
