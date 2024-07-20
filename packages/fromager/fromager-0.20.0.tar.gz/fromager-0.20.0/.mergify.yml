@@ -1,0 +1,88 @@
+pull_request_rules:
+  - name: Add CI label
+    conditions:
+      - or:
+          - 'title~=^tox:'
+          - 'title~=^ci:'
+          - 'title~=^e2e:'
+          - files~=tox.ini
+          - files~=.github/
+          - files~=.markdownlint-config.yaml
+          - files~=tests/
+          - files~=e2e/
+    actions:
+      label:
+        add:
+          - ci
+  - name: Add Mergify label
+    conditions:
+      - or:
+          - 'title~=^mergify:'
+          - files~=.mergify.yml$
+    actions:
+      label:
+        add:
+          - mergify
+  - name: Automatic merge on approval
+    conditions:
+      - and:
+          - check-success=linter
+          - check-success=pkglint
+          - check-success=markdownlint
+
+          - check-success=unit (3.10, 1.75)
+          - check-success=unit (3.11, 1.75)
+          - check-success=unit (3.12, 1.75)
+
+          - check-success=e2e (3.10, 1.75, bootstrap)
+          - check-success=e2e (3.11, 1.75, bootstrap)
+          - check-success=e2e (3.12, 1.75, bootstrap)
+
+          - check-success=e2e (3.10, 1.75, bootstrap_constraint)
+          - check-success=e2e (3.11, 1.75, bootstrap_constraint)
+          - check-success=e2e (3.12, 1.75, bootstrap_constraint)
+
+          - check-success=e2e (3.10, 1.75, bootstrap_extras)
+          - check-success=e2e (3.11, 1.75, bootstrap_extras)
+          - check-success=e2e (3.12, 1.75, bootstrap_extras)
+
+          - check-success=e2e (3.10, 1.75, build)
+          - check-success=e2e (3.11, 1.75, build)
+          - check-success=e2e (3.12, 1.75, build)
+
+          - check-success=e2e (3.10, 1.75, build_order)
+          - check-success=e2e (3.11, 1.75, build_order)
+          - check-success=e2e (3.12, 1.75, build_order)
+
+          - check-success=e2e (3.10, 1.75, build_steps)
+          - check-success=e2e (3.11, 1.75, build_steps)
+          - check-success=e2e (3.12, 1.75, build_steps)
+
+          - check-success=e2e (3.10, 1.75, override)
+          - check-success=e2e (3.11, 1.75, override)
+          - check-success=e2e (3.12, 1.75, override)
+
+          - check-success=e2e (3.10, 1.75, prebuilt_wheels_alt_server)
+          - check-success=e2e (3.11, 1.75, prebuilt_wheels_alt_server)
+          - check-success=e2e (3.12, 1.75, prebuilt_wheels_alt_server)
+
+          - check-success=e2e (3.10, 1.75, report_missing_dependency)
+          - check-success=e2e (3.11, 1.75, report_missing_dependency)
+          - check-success=e2e (3.12, 1.75, report_missing_dependency)
+
+          - check-success=e2e (3.10, 1.75, rust_vendor)
+          - check-success=e2e (3.11, 1.75, rust_vendor)
+          - check-success=e2e (3.12, 1.75, rust_vendor)
+
+          - check-success=e2e (3.10, 1.75, download_sequence)
+          - check-success=e2e (3.11, 1.75, download_sequence)
+          - check-success=e2e (3.12, 1.75, download_sequence)
+
+          - '-draft'
+
+          # At least 1 reviewer
+          - "#approved-reviews-by>=1"
+
+    actions:
+      merge:
+        method: merge

@@ -1,0 +1,96 @@
+# Based on https://fedoramagazine.org/github-actions-use-podman-to-run-fedora-linux/
+
+name: CI
+on:
+  pull_request:
+
+jobs:
+  unit:
+    name: unit
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+        rust-version:
+          # RHEL 9.4 has rustc 1.75
+          - "1.75"
+
+    steps:
+      - name: Get source
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Rust ${{ matrix.rust-version }}
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust-version }}
+          default: true
+          override: true
+
+      - name: Install dependencies
+        run: python -m pip install tox
+
+      - name: Run tests
+        run: tox -e py
+
+      - name: Run tests for pyo3_test
+        working-directory: ./e2e/pyo3_test/
+        run: tox -e py
+
+  e2e:
+    name: e2e
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.10"
+          - "3.11"
+          - "3.12"
+        rust-version:
+          # RHEL 9.4 has rustc 1.75
+          - "1.75"
+        test-script:
+          - bootstrap
+          - bootstrap_constraint
+          - bootstrap_extras
+          - build
+          - build_order
+          - build_steps
+          - override
+          - prebuilt_wheels_alt_server
+          - report_missing_dependency
+          - rust_vendor
+          - download_sequence
+
+    steps:
+      - name: Get source
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Set up Rust ${{ matrix.rust-version }}
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: ${{ matrix.rust-version }}
+          default: true
+          override: true
+
+      - name: Install dependencies
+        run: python -m pip install tox
+
+      - name: Run tests
+        run: ./e2e/test_${{ matrix.test-script }}.sh
