@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "databank"
+version = "0.8.0"
+description = "Databank is an easy-to-use Python library for making raw SQL queries in a multi-threaded environment."
+readme = "README.md"
+authors = ["snapADDY GmbH <info@snapaddy.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^2.0.4"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+pre-commit = "^3.3.3"
+ruff = "^0.5.3"
+
+[tool.ruff]
+line-length = 99
+
+[tool.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
