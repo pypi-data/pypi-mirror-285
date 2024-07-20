@@ -1,0 +1,116 @@
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "aiida-workgraph"
+dynamic = ["version"]  # read from aiida_workgraph/__init__.py
+description = "Design flexible node-based workflow for AiiDA calculation."
+authors = [{name = "Xing Wang", email = "xingwang1991@gmail.com"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = [
+    "Development Status :: 1 - Planning",
+    "Framework :: AiiDA",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering"
+]
+keywords = ["aiida", "workflows"]
+requires-python = ">=3.9"
+dependencies = [
+    "numpy~=1.21",
+    "scipy",
+    "ase",
+    "node-graph>=0.0.11",
+    "aiida-core>=2.3",
+    "cloudpickle",
+    "aiida-shell",
+    "fastapi",
+    "uvicorn",
+]
+
+[project.urls]
+Documentation = "https://aiida-workgraph.readthedocs.io"
+Source = "https://github.com/aiidateam/aiida-workgraph"
+
+[project.optional-dependencies]
+widget = [
+    "anywidget>=0.9.11",
+]
+docs = [
+    "sphinx_rtd_theme",
+    "sphinx~=7.2",
+    "sphinx-copybutton~=0.5.0",
+    "sphinx-design~=0.5.0",
+    "sphinx-notfound-page~=1.0",
+    "sphinxext-rediraffe~=0.2.4",
+    "sphinx-intl~=2.1.0",
+    "myst-nb~=1.0.0",
+    "nbsphinx",
+]
+pre-commit = [
+    "pre-commit~=2.2",
+    "pylint~=2.17.4",
+]
+tests = [
+    'pgtest~=1.3',
+    "pytest~=7.0",
+    "pytest-cov~=2.7,<2.11",
+    "playwright",
+    "httpx",
+]
+
+[project.scripts]
+workgraph = "aiida_workgraph.cli.cmd_workgraph:workgraph"
+
+[project.entry-points."aiida.cmdline"]
+"workgraph" = "aiida_workgraph.cli.cmd_workgraph:workgraph"
+
+[project.entry-points."aiida.calculations"]
+"workgraph.python" = "aiida_workgraph.calculations.python:PythonJob"
+
+[project.entry-points."aiida.parsers"]
+"workgraph.python" = "aiida_workgraph.calculations.python_parser:PythonParser"
+
+[project.entry-points."aiida.data"]
+"workgraph.general" = "aiida_workgraph.orm.general_data:GeneralData"
+"workgraph.ase.atoms.Atoms" = "aiida_workgraph.orm.atoms:AtomsData"
+"workgraph.builtins.int" = "aiida.orm.nodes.data.int:Int"
+"workgraph.builtins.float" = "aiida.orm.nodes.data.float:Float"
+"workgraph.builtins.str" = "aiida.orm.nodes.data.str:Str"
+"workgraph.builtins.bool" = "aiida.orm.nodes.data.bool:Bool"
+"workgraph.builtins.list"="aiida_workgraph.orm.general_data:List"
+"workgraph.builtins.dict"="aiida_workgraph.orm.general_data:Dict"
+
+
+[project.entry-points."aiida.node"]
+"process.workflow.workgraph" = "aiida_workgraph.orm.workgraph:WorkGraphNode"
+
+[project.entry-points."aiida_workgraph.task"]
+"aiida" = "aiida_workgraph.tasks:task_list"
+
+[project.entry-points."aiida_workgraph.property"]
+"aiida" = "aiida_workgraph.properties.built_in:property_list"
+
+[project.entry-points."aiida_workgraph.socket"]
+"aiida" = "aiida_workgraph.sockets.built_in:socket_list"
+
+
+[tool.flit.sdist]
+exclude = [
+    "docs/",
+    "tests/",
+    "aiida_workgraph/web/frontend/node_modules/",
+    "aiida_workgraph/widget/node_modules/",
+]
+
+
+[tool.pylint.format]
+max-line-length = 120
