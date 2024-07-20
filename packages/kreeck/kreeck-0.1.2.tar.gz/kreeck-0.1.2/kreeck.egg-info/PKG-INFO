@@ -1,0 +1,170 @@
+Metadata-Version: 2.1
+Name: kreeck
+Version: 0.1.2
+Summary: A tool to track Git contributions, generate detailed reports, and motivate contributors.
+Home-page: https://github.com/kreeckacademy/kreeeckAnalyser
+Author: Kreeck
+Author-email: dave@kreeck.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+Requires-Dist: GitPython
+Requires-Dist: pandas
+Requires-Dist: matplotlib
+Requires-Dist: python-dotenv
+Requires-Dist: tqdm
+Requires-Dist: requests
+
+# Kreeck - Git Contribution Analyser
+
+Kreeck is a powerful tool designed to help developers and project managers track Git contributions, generate detailed reports, and motivate contributors through gamification. Whether you are managing a large open-source project or a small team, Kreeck provides insightful analytics to enhance collaboration and productivity.
+
+## Features
+
+### 1. Commit Frequency Analysis
+
+- **Visualize Commit Activity**: Generate charts that display commit frequency over time, helping you identify peak activity periods.
+- **Highlight Active Contributors**: See which contributors are most active and during what times.
+
+### 2. File Type Contributions
+
+- **Analyze Contributions by File Type**: Break down contributions by file types such as Python, JavaScript, HTML, etc.
+- **Identify Specialized Contributions**: Understand which contributors are working on specific parts of the project.
+
+### 3. Commit Messages Analysis
+
+- **Pattern and Keyword Analysis**: Analyze commit messages for common patterns and keywords.
+- **Sentiment Analysis**: Gauge the sentiment of commit messages to understand the team’s mood and focus.
+
+### 4. Top Commits
+
+- **Identify Significant Commits**: Highlight the most significant commits based on the number of lines changed or important keywords.
+- **Detailed Commit Breakdown**: Provide a detailed view of the top commits and their impact on the project.
+
+### 5. Gamification
+
+- **Motivate Contributors**: Introduce gamification elements like badges and leaderboards to motivate contributors.
+- **Recognize Achievements**: Award badges (e.g., Gold, Silver, Bronze) based on the number of lines contributed.
+
+### 6. Integration with CI/CD
+
+- **Automate Report Generation**: Integrate with CI/CD pipelines to run analysis automatically after each build.
+- **Real-time Insights**: Provide real-time insights into contributions and code quality.
+
+### 7. Historical Comparison
+
+- **Track Progress Over Time**: Compare current contribution data with historical data to show trends and progress.
+- **Identify Long-term Contributors**: Highlight long-term contributors and changes in contribution patterns.
+
+## Installation
+
+To install Kreeck, use pip:
+
+```bash
+pip install kreeck
+
+
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [Unreleased]
+
+## Version 0.1.0.6
+
+### Enhancements:
+1. **Contribution Analysis Functionality:**
+   - Improved `analyse_file_type_contributions` function to include known file types and handle unknown file types better.
+   - Added processing logic for file types without extensions.
+   - Improved error handling and consistency in file type detection.
+
+2. **Historical Comparison:**
+   - Enhanced the `create_historical_comparison` function to generate historical data from commits for GitHub repositories.
+   - Removed dependency on local storage for historical data in GitHub repositories.
+   - Added in-memory visualization for current contributions in GitHub repositories.
+
+### CI/CD Improvements:
+1. **PyPI Deployment Workflow:**
+   - Created a new GitHub Actions workflow specifically for deployment to PyPI.
+   - Workflow triggers on push to the `deployment` branch.
+   - Added automatic version incrementing in `setup.py`.
+   - Included steps to build the package and upload to PyPI using `twine`.
+
+### Dependencies:
+1. **Package Installations:**
+   - Added installation steps for necessary dependencies such as `GitPython`, `matplotlib`, `python-dotenv`, `tqdm`, `requests`, `pandas`, `setuptools`, `wheel`, and `twine` in the workflow file.
+
+### Bug Fixes:
+1. **Module Not Found:**
+   - Fixed the `ModuleNotFoundError: No module named 'pandas'` by adding `pandas` to the list of dependencies in the workflow.
+
+2. **OSError: Invalid Argument:**
+   - Resolved the error by ensuring that file paths are handled correctly, particularly for GitHub URLs.
+
+
+
+
+## [0.1.0.5] - 2024-06-12
+### Added
+- GitHub repository visibility check to handle private and public repositories.
+- Instructions for users to run analysis locally for private repositories.
+- Progress bar for Git operations using `tqdm`.
+- Commit frequency chart with date format `YY-MM-DD`.
+
+### Changed
+- Improved handling of GitHub API requests with authentication using personal access token.
+- Updated email report functionality to handle both local and remote repositories.
+
+### Fixed
+- Fixed issue with GitHub API returning 404 for non-existent or inaccessible repositories.
+
+
+## [0.1.0.4] - 2024-06-12
+### Added
+- New `info` command to display information about available commands and usage.
+- Enhanced CLI with user-friendly command descriptions and examples.
+
+### Changed
+- Improved error handling for unsupported commands.
+- Updated CLI help messages for better navigation.
+
+### Fixed
+- Correctly handle `Commit` objects and dictionary structures for local and remote repositories.
+- Bug fix for handling empty repositories.
+
+## [0.1.0.3] - 2024-06-12
+### Added
+- Support for analyzing GitHub URLs.
+- Progress bars for all operations using `tqdm`.
+- Enhanced email reporting with environment variable configuration.
+- Function to handle both local repositories and GitHub URLs.
+
+### Changed
+- Improved date formatting for commit frequency charts to `YY-MM-DD`.
+- Output contributions directly to the terminal for remote repositories.
+
+### Fixed
+- Bug fix for handling empty repositories.
+- Correctly handle `Commit` objects and dictionary structures for local and remote repositories.
+
+## [0.1.0.2] - 2024-06-11
+### Added
+- Initial implementation of Git contribution analysis.
+- Markdown report generation for contributions.
+- Commit frequency chart creation.
+- Analysis of contributions by file type.
+- Commit message analysis.
+- Identification of top commits.
+- Gamification elements such as badges.
+- Historical comparison placeholder.
+
+## [0.1.0.1] - 2024-06-11
+### Added
+- Initial setup and project scaffolding.
+- Basic CLI structure and command handling.
+- Environment variable support with `.env` configuration.
+- Basic email sending functionality for reports.
