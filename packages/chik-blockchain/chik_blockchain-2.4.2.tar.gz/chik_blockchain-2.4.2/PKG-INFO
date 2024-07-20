@@ -1,0 +1,129 @@
+Metadata-Version: 2.1
+Name: chik-blockchain
+Version: 2.4.2
+Summary: Chik blockchain full node, farmer, timelord, and wallet.
+Home-page: https://chiknetwork.com/
+Author: Mariano Sorgente
+Author-email: admin@chiknetwork.com
+License: Apache License
+Project-URL: Source, https://github.com/Chik-Network/chik-blockchain/
+Project-URL: Changelog, https://github.com/Chik-Network/chik-blockchain/blob/main/CHANGELOG.md
+Keywords: chik blockchain node
+Requires-Python: >=3.8.1, <4
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiofiles==23.2.1
+Requires-Dist: anyio==4.3.0
+Requires-Dist: boto3==1.34.114
+Requires-Dist: chikvdf==1.1.4
+Requires-Dist: chikbip158==1.5.1
+Requires-Dist: chikpos==2.0.4
+Requires-Dist: klvm==0.9.10
+Requires-Dist: klvm_tools==0.4.9
+Requires-Dist: chik_rs==0.9.0
+Requires-Dist: klvm-tools-rs==0.1.40
+Requires-Dist: aiohttp==3.9.4
+Requires-Dist: aiosqlite==0.20.0
+Requires-Dist: bitstring==4.1.4
+Requires-Dist: colorama==0.4.6
+Requires-Dist: colorlog==6.8.2
+Requires-Dist: concurrent-log-handler==0.9.25
+Requires-Dist: cryptography==42.0.5
+Requires-Dist: filelock==3.14.0
+Requires-Dist: importlib-resources==6.4.0
+Requires-Dist: keyring==25.1.0
+Requires-Dist: PyYAML==6.0.1
+Requires-Dist: setproctitle==1.3.3
+Requires-Dist: sortedcontainers==2.4.0
+Requires-Dist: click==8.1.3
+Requires-Dist: dnspython==2.6.1
+Requires-Dist: watchdog==4.0.0
+Requires-Dist: dnslib==0.9.24
+Requires-Dist: typing-extensions==4.11.0
+Requires-Dist: zstd==1.5.5.1
+Requires-Dist: packaging==24.0
+Requires-Dist: psutil==5.9.4
+Requires-Dist: hsmk==0.3.2
+Provides-Extra: dev
+Requires-Dist: build==1.2.1; extra == "dev"
+Requires-Dist: coverage==7.5.3; extra == "dev"
+Requires-Dist: diff-cover==9.0.0; extra == "dev"
+Requires-Dist: pre-commit==3.5.0; python_version < "3.9" and extra == "dev"
+Requires-Dist: pre-commit==3.7.1; python_version >= "3.9" and extra == "dev"
+Requires-Dist: py3createtorrent==1.2.0; extra == "dev"
+Requires-Dist: pylint==3.2.2; extra == "dev"
+Requires-Dist: pytest==8.1.1; extra == "dev"
+Requires-Dist: pytest-cov==5.0.0; extra == "dev"
+Requires-Dist: pytest-mock==3.14.0; extra == "dev"
+Requires-Dist: pytest-xdist==3.6.1; extra == "dev"
+Requires-Dist: pyupgrade==3.15.2; extra == "dev"
+Requires-Dist: twine==5.1.0; extra == "dev"
+Requires-Dist: isort==5.13.2; extra == "dev"
+Requires-Dist: flake8==7.0.0; extra == "dev"
+Requires-Dist: mypy==1.10.0; extra == "dev"
+Requires-Dist: black==24.4.2; extra == "dev"
+Requires-Dist: lxml==5.2.2; extra == "dev"
+Requires-Dist: aiohttp_cors==0.7.0; extra == "dev"
+Requires-Dist: pyinstaller==6.7.0; extra == "dev"
+Requires-Dist: types-aiofiles==23.2.0.20240311; extra == "dev"
+Requires-Dist: types-cryptography==3.3.23.2; extra == "dev"
+Requires-Dist: types-pyyaml==6.0.12.20240311; extra == "dev"
+Requires-Dist: types-setuptools==70.0.0.20240524; extra == "dev"
+Provides-Extra: upnp
+Requires-Dist: miniupnpc==2.2.2; extra == "upnp"
+Provides-Extra: legacy-keyring
+Requires-Dist: keyrings.cryptfile==1.3.9; extra == "legacy-keyring"
+
+# Chik-Blockchain
+
+**Chik** is a modern community-centric green cryptocurrency based on a proof-of-space-and-time consensus algorithm. 
+
+All premined coins(21000000XCK) haved been send to burn address(2024-05-10):
+xck1qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqm6ksjy75z0
+
+For more information, see our website and downloads at <a href="https://www.chiknetwork.com">Chik Network</a>.
+<p>You can learn more in the Chik Wiki: <a href="https://github.com/Chik-Network/chik-blockchain/wiki/Chik-Blockchain-Wiki">Quick Start Guide</a></p>
+<p>Discord Channel: (https://discord.gg/SNbcMMvNBE).</p>
+
+<p>Full Node List Here:<a href="https://alltheblocks.net/chik/peers" rel="nofollow"> Full Node IP's</a></p>
+<p>Port: 9678</p>
+
+<h1>Windows Installer</h1>
+<p>Download the Windows installer (exe) or Zip file - <a href="https://github.com/Chik-Network/chik-blockchain/releases" rel="nofollow">Chik Blockchain Windows</a></p>
+<p>As the Chik code signing certificate is new you will likely have to ask to keep the download and when you run the installer, you will have to choose "More Info" and "Run Anyway" to be able to run the installer. There is no need to use the command line. Some Windows antivirus applications are seeing the download as a false positive. You can see the entire source code and build method here, so we think it's safe for you to ask those tools to ignore it. Running the installer while plotting on a previous version will stop your plotting process, so be careful.</p>
+
+<h1>Ubuntu/Debian Install</h1>
+<p>sudo apt-get update</p>
+<p>sudo apt-get upgrade -y</p>
+<p># Install Git</p>
+<p>sudo apt install git -y</p>
+<p># Checkout the source and install</p>
+<p>git clone https://github.com/Chik-Network/chik-blockchain.git --recurse-submodules</p>
+<p>cd chik-blockchain</p>
+<p>sh install.sh</p>
+<p>. ./activate</p>
+<p>chik init</p>
+<p>#add your plot directories</p>
+<p>chik plots add -d /yourplotpath</p>
+<p>chik start farmer</p>
+<p># The GUI requires you have Ubuntu Desktop or a similar windowing system installed.<p>
+<p># You can not install and run the GUI as root</p>
+<p>cd /home/'yourusername'/chik-blockchain/</p>
+<p>. ./activate</p>
+<p>sh install-gui.sh</p>
+<p>cd chik-blockchain-gui</p>
+<p>npm run electron &</p>
+
+<h1>Ubuntu/Debian Update</h1>
+<p># Stop all chik processes</p>
+<p># Delete your 'chik-blockchain' folder, not your '.chik' folder</p>
+<p># Clone 'chik-blockchain'</p>
+<p>chik stop -d all</p>
+<p>rm -rf /home/'yourusername'/chik-blockchain</p>
+<p>git clone https://github.com/Chik-Network/chik-blockchain.git --recurse-submodules</p>
+<p>cd chik-blockchain</p>
+<p>sh install.sh</p>
+<p>. ./activate</p>
+<p>chik init</p>
+<p>chik start farmer</p>
+<p>*Note, If you receive errors during the installation process, your system is missing dependencies. In this case, thank you for trying :)</p>
