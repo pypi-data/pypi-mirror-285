@@ -1,0 +1,40 @@
+Metadata-Version: 2.1
+Name: fourier-dhx
+Version: 0.0.2
+Summary: A smart sdk for fourier dexterous hand example package
+Author: Fei liu, Jinglue Hang
+Author-email: jinglue.hang@fftai.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
+# Fourier_dhx.sdk
+
+This repository provides a guidance for Fourier Dexterous Hand SDK python package. VERSION : "0.0.0.1".
+We provide a sdk that can control Fourier Dexterous Hand and Inspire Hand.
+
+### Getting Started
+```
+pip install fourier-dhx
+```
+
+### Use
+```
+from fourier_dhx.sdk.DexHand import *
+
+if __name__ == "__main__":
+    ip = "192.168.137.39"
+    dexhand = DexHand(ip)
+    dexhand.calibration()
+    time.sleep(0.1)
+    dexhand.set_angle(0, [10, 10, 10, 10, 5, 10]) # set hand close angles
+    time.sleep(1)
+    angle = dexhand.get_angle() # get hand angles
+    print(angle)
+    time.sleep(0.1)
+    dexhand.set_angle(0, [0, 0, 0, 0, 0, 0]) # set hand open angles
+```
+
