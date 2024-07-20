@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "just-rag"
+version = "0.3.0"
+description = "Just do RAG without pain."
+readme = "README.md"
+authors = ["Samuel <samuelint@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "<=3.12.4,>=3.10"
+langchain = "^0.2.7"
+langgraph = "^0.1.8"
+chromadb = "^0.5.4"
+langchain-openai = "^0.1.16"
+langchain-anthropic = "^0.1.20"
+langchain-community = "^0.2.7"
+
+pydantic-settings = { version = "^2.3.4", optional = false }
+
+pypdf = { version = "^4.3.0", optional = false }
+unstructured = { version = "^0.14.10", optional = false }
+markdown = { version = "^3.6", optional = false }
+langchain-huggingface = "^0.0.3"
+
+
+[tool.poetry.dev-dependencies]
+pytest = "^8.2.2"
+pytest-watch = "^4.2.0"
+pytest-asyncio = "^0.23.7"
+decoy = "^2.1.1"
+wikipedia = "^1.4.0"
+python-dotenv = "^1.0.1"
+langchain-llamacpp-chat-model = "0.2.2"
+
+[tool.poetry.extras]
+universal_loader = ["pypdf", "unstructured", "markdown"]
+
+
+[[tool.poetry.source]]
+name = "llama-cpp-python"
+url = "https://abetlen.github.io/llama-cpp-python/whl/metal"
+priority = 'secondary'
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
