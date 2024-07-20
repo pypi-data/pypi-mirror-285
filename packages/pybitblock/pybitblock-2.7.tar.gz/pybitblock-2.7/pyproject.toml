@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "pybitblock"
+version = "2.7"
+description = "ℙ𝕪𝔹𝕃𝕆ℂ𝕂 𝕚𝕥𝕤 𝕒 𝔹𝕚𝕥𝕔𝕠𝕚𝕟 𝔻𝕒𝕤𝕙𝕓𝕠𝕒𝕣𝕕 𝕨𝕚𝕥𝕙 ℂ𝕪𝕡𝕙𝕖𝕣𝕡𝕦𝕟𝕜 𝕒𝕖𝕤𝕥𝕙𝕖𝕥𝕚𝕔."
+license="MIT"
+authors = ["curly60e <curly60e@piserver.xyz>", "SN"]
+readme="README.md"
+repository="https://github.com/curly60e/pyblock"
+homepage="https://github.com/curly60e/pyblock"
+
+[tool.poetry.dependencies]
+python = "3.12.4"
+art = "5.3"
+qrcode = "7.3.1"
+psutil = "5.9.6"
+simplejson = "3.17.6"
+certifi = "2024.7.4"
+chardet = "4.0.0"
+idna = "3.7"
+python-gnupg = "0.4.7"
+sseclient-py = "1.7.2"
+urllib3 = "1.26.19"
+xmltodict = "0.12.0"
+python-cfonts = "1.5.2"
+termcolor = "1.1.0"
+pycoingecko = "2.2.0"
+protobuf = "3.18.3"
+six = "1.15.0"
+robohash = "1.1"
+Pillow = "10.3.0"
+numpy = "1.24.4"
+googleapis-common-protos = "1.52.0"
+pdfminer = "20191125"
+typer = "0.4.0"
+jq = "1.6"
+html2text = "2020.1.16"
+pdf2text = "1.0.0"
+pdf2txt = "0.7.14"
+embit = "0.6.1"
+requests = "2.32.0"
+
+
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.7.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+pyblock = "pybitblock.console:main"
