@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "earthkit-time"
+version = "0.1.3"
+requires-python = ">= 3.8"
+description = "Date and time manipulation routines for the use of weather data"
+license = {file = "LICENSE"}
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = ["pyyaml"]
+
+[project.optional-dependencies]
+test = [
+    "pytest >= 8.1",
+]
+
+[project.scripts]
+earthkit-climdates = "earthkit.time.cli.climatology:main"
+earthkit-dateseq = "earthkit.time.cli.sequence:main"
+earthkit-date = "earthkit.time.cli.date:main"
+
+[project.urls]
+Homepage = "https://github.com/ecmwf/earthkit-time/"
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+minversion = "8.1"
+addopts = "--doctest-modules"
+testpaths = [
+    "src",
+    "tests",
+]
+consider_namespace_packages = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"earthkit.time.data" = ["*/*.yaml"]
