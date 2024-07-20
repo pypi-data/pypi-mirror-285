@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "ten-drops"
+version = "1.0.3"
+description = "A ten drops game written in pygame-ce."
+authors = ["chyok <chyok@hotmail.com>"]
+maintainers = ["chyok <chyok@hotmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/chyok/ten-drops"
+repository = "https://github.com/chyok/ten-drops"
+packages = [{include = "ten_drops"}]
+include = ["ten_drops/asset"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pygame-ce = "^2.5.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+ten-drops = "ten_drops.cli:run"
