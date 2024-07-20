@@ -1,0 +1,34 @@
+<div class="columns py-0">
+    <div class="column is-12">
+        <div class="notification is-danger is-light">
+            <p>{{ form.non_field_errors }}</p>
+            {% for inline_form in form.inline_forms %}
+                <p>{{ inline_form.non_field_errors }}</p>
+            {% endfor %}
+            {% if form.save_error %}
+                <p>{{ form.save_error|safe }}</p>
+                <p>Error ID: {{ form.save_error_id }}</p>
+            {% endif %}
+            {% for f in form %}
+                {% if f.errors %}
+                    <label>
+                        <span class="is-underlined">{{ f.label_tag }}</span>
+                        <span class="is-size-7">{{ f.errors }}</span>
+                    </label>
+                {% endif %}
+            {% endfor %}
+            {% for formset in form.inline_forms %}
+                {% for inline_form in formset %}
+                    {% for field in inline_form %}
+                        {% if field.errors %}
+                            <label>
+                                <span class="is-underlined">{{ field.label_tag }}</span>
+                                <span class="is-size-7">{{ field.errors }}</span>
+                            </label>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+</div>

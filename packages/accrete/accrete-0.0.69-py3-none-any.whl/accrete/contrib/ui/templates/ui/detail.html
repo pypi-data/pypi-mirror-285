@@ -1,0 +1,37 @@
+{% extends 'ui/layout.html' %}
+{% load i18n %}
+{% load accrete_ui %}
+
+{% block messages %}
+    {% if messages %}
+        <div class="columns is-desktop">
+            <div class="column is-8">
+                {% for message in messages %}
+                    <div class="columns py-0">
+                        <div class="column is-12">
+                            <div class="notification {{ message|message_class }} is-light">
+                                <p>{{ message }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <div class="columns is-desktop m-0">
+        <div class="column p-0 is-8-desktop">
+            <div class="box mt-2">
+                {% block detail_content %}{% endblock %}
+            </div>
+        </div>
+        <div class="column is-4">
+            <nav class="">
+                {% block info_panel %}
+                {% endblock %}
+            </nav>
+        </div>
+    </div>
+{% endblock %}
