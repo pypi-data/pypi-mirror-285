@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- This file is part of the cashbook-module from m-ds for Tryton.
+The COPYRIGHT file at the top level of this repository contains the
+full copyright notices and license terms. -->
+<form col="2">
+    <label name="name"/>
+    <field name="name"/>
+
+    <notebook colspan="2">
+        <page string="General Information" id="general" col="4">
+            <label name="parent"/>
+            <field name="parent"/>
+            <field name="childs" colspan="4"/>
+        </page>
+        <page string="Cashbooks" name="cashbooks" col="1">
+            <field name="cashbooks"/>
+        </page>
+    </notebook>
+    <field name="company" invisible="1"/>
+
+</form>
