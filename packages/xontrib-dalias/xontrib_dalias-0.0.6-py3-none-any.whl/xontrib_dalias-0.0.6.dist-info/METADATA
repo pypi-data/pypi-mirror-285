@@ -1,0 +1,130 @@
+Metadata-Version: 2.1
+Name: xontrib-dalias
+Version: 0.0.6
+Summary: Library of decorator aliases for the xonsh shell.
+Author-email: anki-code <a@a.a>
+License: MIT License
+        
+        Copyright (c) 2024, a
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Homepage, https://github.com/anki-code/xontrib-dalias
+Project-URL: Documentation, https://github.com/anki-code/xontrib-dalias/blob/master/README.md
+Project-URL: Code, https://github.com/anki-code/xontrib-dalias
+Project-URL: Issue tracker, https://github.com/anki-code/xontrib-dalias/issues
+Platform: any
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: System :: Shells
+Classifier: Topic :: System :: System Shells
+Classifier: Topic :: Terminals
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: xonsh >=0.18.2
+Provides-Extra: dev
+Requires-Dist: pytest >=7.0 ; extra == 'dev'
+Provides-Extra: dict
+Requires-Dist: demjson3 ; extra == 'dict'
+Provides-Extra: yaml
+Requires-Dist: pyyaml ; extra == 'yaml'
+
+<p align="center">
+Library of decorator aliases (daliases) for the xonsh shell.
+</p>
+
+<p align="center">
+If you like the idea click ⭐ on the repo and <a href="https://twitter.com/intent/tweet?text=Nice%20xontrib%20for%20the%20xonsh%20shell!&url=https://github.com/anki-code/xontrib-dalias" target="_blank">tweet</a>.
+</p>
+
+
+## Installation
+
+To install use pip:
+
+```xsh
+xpip install xontrib-dalias
+# or
+xpip install 'xontrib-dalias[dict,yaml]'  # Extra decorators.
+```
+Load:
+```xsh
+xontrib load dalias
+```
+
+## Usage
+
+### Transform output to object
+
+Default decorators:
+
+* `@lines` - return list of lines.
+* `@json` - json to Python `dict`.
+* `@path` - string to [`pathlib.Path`](https://docs.python.org/3/library/pathlib.html).
+
+Extra decorators:
+```xsh
+xpip install 'xontrib-dalias[dict,yaml]'
+```
+
+* `@dict` - dict-like object (json, JavaScript object, Python dict) to Python `dict`. 
+* `@yaml` - YAML to Python `dict`.
+
+### Examples
+```xsh
+$(@lines ls /)
+# ['/bin', '/etc', '/home']
+
+$(@json echo '{"a":1}')  # Try with `curl` ;)
+# dict({"a":1})
+
+docker inspect @($(@json docker ps --format json)['ID'])
+# Container info
+
+$(@path which xonsh)
+# Path('/path/to/xonsh')
+
+$(@path which xonsh).parent
+# Path('/path/to')
+
+
+aliases['ydig'] = '@yaml dig +yaml'  # Update `dig` via `brew install bind` to have `+yaml`.
+y = $(ydig google.com)
+y[0]['type']
+# 'MESSAGE'
+```
+
+### Error handling
+
+Default decorators:
+* `@err` - set `$RAISE_SUBPROC_ERROR=True` for the command.
+* `@noerr` - set `$RAISE_SUBPROC_ERROR=False` for the command.
+
+Examples:
+```xsh
+$RAISE_SUBPROC_ERROR = True  # General environment.
+if ![@noerr ls nononofile]:  # Do not raise exception in case of error.
+    echo file 
+```
+
+## Credits
+
+This package was created with [xontrib template](https://github.com/xonsh/xontrib-template).
