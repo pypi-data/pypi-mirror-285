@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "plexutils"
+version = "1.1.0"
+description = "tools for plex admins"
+authors = ["Felix Rizzolli <felix.rizzolli@outlook.de>"]
+maintainers = ["Felix Rizzolli <felix.rizzolli@outlook.de>"]
+readme = "README.md"
+license = "GPL-3.0"
+classifiers = [
+    "Programming Language :: Python :: 3.9",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Topic :: Utilities",
+]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+tvdb-v4-official = "^1.1.0"
+pyyaml = "^6.0.1"
+furo = "^2024.5.6"
+
+[project.urls]
+Repository = "https://github.com/FelixRizzolli/PlexUtils.git"
+Changelog = "https://github.com/FelixRizzolli/PlexUtils/blob/master/CHANGELOG.md"
+
+[tool.poetry.scripts]
+plexutils = "plexutils.__main__:main"
+generate-authors-md = "scripts.generate_authors_md:main"
+generate-test-data = "scripts.generate_test_data:generate_test_data"
+generate-docs = "scripts.generate_docs:generate_docs"
+compile-messages = "scripts.compile_messages:compile_messages"
+latest-version = "scripts.changelog:print_current_version"
+changes = "scripts.changelog:print_change"
+test-coverage = "scripts.tests:run_test_coverage"
+tests = "scripts.tests:run_tests"
+lint = "scripts.lint:lint"
+
+[tool.poetry.group.dev.dependencies]
+coverage = "^7.5.1"
+pylint = "^3.2.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+mypy = "^1.10.0"
+toml = "^0.10.2"
+types-toml = "^0.10.8.20240310"
+types-pyyaml = "^6.0.12.20240311"
+sphinx = "^7.3.7"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
