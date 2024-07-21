@@ -1,0 +1,51 @@
+Metadata-Version: 2.3
+Name: condax
+Version: 0.2.3
+Summary: Install and run applications packaged with conda in isolated environments
+Project-URL: Homepage, https://github.com/mariusvniekerk/condax
+Project-URL: Documentation, https://mariusvniekerk.github.io/condax/
+Author-email: Marius van Niekerk <marius.v.niekerk@gmail.com>
+License-Expression: MIT
+License-File: LICENSE-MIT
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: System :: Installation/Setup
+Requires-Python: >=3.7
+Requires-Dist: click
+Requires-Dist: ensureconda
+Requires-Dist: importlib-metadata; python_version < '3.8.0'
+Requires-Dist: pydantic-settings
+Requires-Dist: pydantic>=2
+Requires-Dist: pyyaml
+Requires-Dist: requests
+Requires-Dist: typer
+Requires-Dist: userpath
+Description-Content-Type: text/markdown
+
+# condax
+
+[![Docs](https://img.shields.io/badge/docs-mkdocs-informational)](https://mariusvniekerk.github.io/condax/)
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mariusvniekerk/condax/Python%20package)](https://github.com/mariusvniekerk/condax/actions?query=workflow%3A%22Python+package%22)
+[![Licence: MIT](https://img.shields.io/github/license/mariusvniekerk/condax)](https://github.com/mariusvniekerk/condax/blob/master/LICENSE-MIT)
+[![PyPI](https://img.shields.io/pypi/v/condax)](https://pypi.org/project/condax)
+[![code-style Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://https://github.com/psf/black)
+
+
+Condax is inpired by the excellent [pipx](https://github.com/pipxproject/pipx), and attempts to do something similar, just using conda thus lifting the constraints of only packaging python things.
+
+## Installation
+
+condax is distributed on [PyPI](https://pypi.org) as a universal
+wheel and is available on Linux and macOS and supports
+Python 3.5+ and PyPy.
+
+```bash
+$ pip install condax
+```
+
+## License
+
+condax is distributed under the terms of the
+[MIT License](https://choosealicense.com/licenses/mit).
