@@ -1,0 +1,44 @@
+port: 7890
+socks-port: 7891
+redir-port: 7892
+tproxy-port: 7893
+allow-lan: true
+bind-address: '*'
+mode: rule
+log-level: info
+ipv6: false
+external-controller: 0.0.0.0:9090
+# external-ui: folder
+secret: ""
+hosts:
+
+dns:
+  enable: true
+  ipv6: false
+  listen: :53
+  enhanced-mode: redir-host
+  default-nameserver:
+    - 8.8.8.8
+    - 8.8.4.4
+  nameserver:
+    - 8.8.8.8
+    - 8.8.4.4
+  fallback:
+    - tls://dns.rubyfish.cn:853
+  fallback-filter:
+    geoip: true
+    ipcidr:
+      - 240.0.0.0/4
+      - 0.0.0.0/32
+proxies:
+  - name: "local_lan_proxy"
+    type: socks5
+    server: 192.168.43.1
+    port: 7894
+
+proxy-providers:
+
+proxy-groups:
+
+rules:
+  - MATCH,local_lan_proxy
