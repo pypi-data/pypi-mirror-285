@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0-standalone.html). -->
+<odoo>
+    <!-- Trial Balance -->
+
+    <data noupdate="1">
+        <record id="sequence_client_trial_balance" model="ir.sequence">
+            <field name="name">Trial Balance</field>
+            <field name="code">trial_balance</field>
+            <field name="padding">6</field>
+            <field name="prefix">ATB/%(range_year)s/</field>
+            <field eval="1" name="number_next" />
+            <field eval="1" name="number_increment" />
+            <field name="use_date_range" eval="1" />
+        </record>
+    </data>
+
+    <!-- General Audit -->
+
+    <data noupdate="1">
+        <record id="sequence_general_audit" model="ir.sequence">
+            <field name="name">General Report</field>
+            <field name="code">general_audit</field>
+            <field name="padding">4</field>
+            <field name="prefix">AGA/%(year)s/</field>
+            <field eval="1" name="number_next" />
+            <field eval="1" name="number_increment" />
+        </record>
+    </data>
+
+    <!-- Adjustment Entry -->
+
+    <data noupdate="1">
+        <record id="sequence_adjustment_entry" model="ir.sequence">
+            <field name="name">Adjustment Entry</field>
+            <field name="code">AAE</field>
+            <field name="padding">4</field>
+            <field name="prefix">AAE/%(year)s/</field>
+            <field eval="1" name="number_next" />
+            <field eval="1" name="number_increment" />
+        </record>
+    </data>
+
+    <!-- Client Account Mapping -->
+
+    <data noupdate="1">
+        <record id="sequence_client_account_mapping" model="ir.sequence">
+            <field name="name">Client Account Mapping</field>
+            <field name="code">client_account_mapping</field>
+            <field name="padding">6</field>
+            <field name="prefix">CAM/%(range_year)s/</field>
+            <field eval="1" name="number_next" />
+            <field eval="1" name="number_increment" />
+            <field name="use_date_range" eval="1" />
+        </record>
+    </data>
+</odoo>

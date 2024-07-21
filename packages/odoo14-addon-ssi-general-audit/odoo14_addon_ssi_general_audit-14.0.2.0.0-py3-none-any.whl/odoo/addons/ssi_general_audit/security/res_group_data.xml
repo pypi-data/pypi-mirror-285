@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+<odoo>
+<record id="client_account_group_group" model="res.groups">
+    <field name="name">Client Account Group</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="client_account_type_group" model="res.groups">
+    <field name="name">Client Account Type</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="client_account_group" model="res.groups">
+    <field name="name">Client Account</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="client_account_type_set_group" model="res.groups">
+    <field name="name">Client Account Type Set</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="general_audit_worksheet_type_category_group" model="res.groups">
+    <field name="name">General Audit Worksheet Type Category</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="general_audit_worksheet_type_group" model="res.groups">
+    <field name="name">General Audit Worksheet Type</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<record id="general_audit_worksheet_conclusion_group" model="res.groups">
+    <field name="name">General Audit Worksheet Conclusion</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+
+<record id="trial_balance_computation_item_group" model="res.groups">
+    <field name="name">Trial Balance Computation Item</field>
+    <field
+            name="category_id"
+            ref="ssi_accountant.accountant_configurator_module_category"
+        />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<!-- Workflow: General Audit -->
+<record id="general_audit_viewer_group" model="res.groups">
+    <field name="name">Viewer</field>
+    <field name="category_id" ref="general_audit_workflow_module_category" />
+</record>
+
+<record id="general_audit_user_group" model="res.groups">
+    <field name="name">User</field>
+    <field name="category_id" ref="general_audit_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('general_audit_viewer_group'))]" />
+</record>
+
+<record id="general_audit_validator_group" model="res.groups">
+    <field name="name">Validator</field>
+    <field name="category_id" ref="general_audit_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('general_audit_user_group'))]" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<!-- Data Ownership: General Audit -->
+<record id="general_audit_company_group" model="res.groups">
+    <field name="name">Company</field>
+    <field name="category_id" ref="general_audit_data_module_category" />
+</record>
+
+<record id="general_audit_company_child_group" model="res.groups">
+    <field name="name">Company and All Child Companies</field>
+    <field name="category_id" ref="general_audit_data_module_category" />
+    <field name="implied_ids" eval="[(4, ref('general_audit_company_group'))]" />
+</record>
+
+<record id="general_audit_all_group" model="res.groups">
+    <field name="name">All</field>
+    <field name="category_id" ref="general_audit_data_module_category" />
+    <field name="implied_ids" eval="[(4, ref('general_audit_company_child_group'))]" />
+</record>
+
+<!-- Workflow: Trial Balance -->
+<record id="trial_balance_viewer_group" model="res.groups">
+    <field name="name">Viewer</field>
+    <field name="category_id" ref="trial_balance_workflow_module_category" />
+</record>
+
+<record id="trial_balance_user_group" model="res.groups">
+    <field name="name">User</field>
+    <field name="category_id" ref="trial_balance_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('trial_balance_viewer_group'))]" />
+</record>
+
+<record id="trial_balance_validator_group" model="res.groups">
+    <field name="name">Validator</field>
+    <field name="category_id" ref="trial_balance_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('trial_balance_user_group'))]" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<!-- Data Ownership: Trial Balance -->
+<record id="trial_balance_company_group" model="res.groups">
+    <field name="name">Company</field>
+    <field name="category_id" ref="trial_balance_data_module_category" />
+</record>
+
+<record id="trial_balance_company_child_group" model="res.groups">
+    <field name="name">Company and All Child Companies</field>
+    <field name="category_id" ref="trial_balance_data_module_category" />
+    <field name="implied_ids" eval="[(4, ref('trial_balance_company_group'))]" />
+</record>
+
+<record id="trial_balance_all_group" model="res.groups">
+    <field name="name">All</field>
+    <field name="category_id" ref="trial_balance_data_module_category" />
+    <field name="implied_ids" eval="[(4, ref('trial_balance_company_child_group'))]" />
+</record>
+
+<!-- Workflow: Adjustment Entry -->
+<record id="adjustment_entry_viewer_group" model="res.groups">
+    <field name="name">Viewer</field>
+    <field name="category_id" ref="adjustment_entry_workflow_module_category" />
+</record>
+
+<record id="adjustment_entry_user_group" model="res.groups">
+    <field name="name">User</field>
+    <field name="category_id" ref="adjustment_entry_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('adjustment_entry_viewer_group'))]" />
+</record>
+
+<record id="adjustment_entry_validator_group" model="res.groups">
+    <field name="name">Validator</field>
+    <field name="category_id" ref="adjustment_entry_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('adjustment_entry_user_group'))]" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<!-- Data Ownership: Adjustment Entry -->
+<record id="adjustment_entry_company_group" model="res.groups">
+    <field name="name">Company</field>
+    <field name="category_id" ref="adjustment_entry_data_module_category" />
+</record>
+
+<record id="adjustment_entry_company_child_group" model="res.groups">
+    <field name="name">Company and All Child Companies</field>
+    <field name="category_id" ref="adjustment_entry_data_module_category" />
+    <field name="implied_ids" eval="[(4, ref('adjustment_entry_company_group'))]" />
+</record>
+
+<record id="adjustment_entry_all_group" model="res.groups">
+    <field name="name">All</field>
+    <field name="category_id" ref="adjustment_entry_data_module_category" />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('adjustment_entry_company_child_group'))]"
+        />
+</record>
+
+<!-- Workflow: Client Account Mapping -->
+<record id="client_account_mapping_viewer_group" model="res.groups">
+    <field name="name">Viewer</field>
+    <field name="category_id" ref="client_account_mapping_workflow_module_category" />
+</record>
+
+<record id="client_account_mapping_user_group" model="res.groups">
+    <field name="name">User</field>
+    <field name="category_id" ref="client_account_mapping_workflow_module_category" />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('client_account_mapping_viewer_group'))]"
+        />
+</record>
+
+<record id="client_account_mapping_validator_group" model="res.groups">
+    <field name="name">Validator</field>
+    <field name="category_id" ref="client_account_mapping_workflow_module_category" />
+    <field name="implied_ids" eval="[(4, ref('client_account_mapping_user_group'))]" />
+    <field
+            name="users"
+            eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"
+        />
+</record>
+
+<!-- Data Ownership: Client Account Mapping -->
+<record id="client_account_mapping_company_group" model="res.groups">
+    <field name="name">Company</field>
+    <field name="category_id" ref="client_account_mapping_data_module_category" />
+</record>
+
+<record id="client_account_mapping_company_child_group" model="res.groups">
+    <field name="name">Company and All Child Companies</field>
+    <field name="category_id" ref="client_account_mapping_data_module_category" />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('client_account_mapping_company_group'))]"
+        />
+</record>
+
+<record id="client_account_mapping_all_group" model="res.groups">
+    <field name="name">All</field>
+    <field name="category_id" ref="client_account_mapping_data_module_category" />
+    <field
+            name="implied_ids"
+            eval="[(4, ref('client_account_mapping_company_child_group'))]"
+        />
+</record>
+</odoo>

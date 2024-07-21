@@ -1,0 +1,119 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0-standalone.html). -->
+<odoo>
+
+    <record id="client_account_view_search" model="ir.ui.view">
+        <field name="name">client_account - search</field>
+        <field name="model">client_account</field>
+        <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="type_id" />
+                    <field name="group_id" />
+                    <field name="normal_balance" />
+                    <field name="partner_id" />
+                    <filter
+                        name="dom_debit"
+                        string="Debit"
+                        domain="[('normal_balance','=','dr')]"
+                    />
+                    <filter
+                        name="dom_credit"
+                        string="Credit"
+                        domain="[('normal_balance','=','cr')]"
+                    />
+                    <group name="group_main">
+                        <filter
+                            name="grp_partner_id"
+                            string="Partner"
+                            context="{'group_by':'partner_id'}"
+                        />
+                        <filter
+                            name="grp_group_id"
+                            string="Account Group"
+                            context="{'group_by':'group_id'}"
+                        />
+                        <filter
+                            name="grp_type_id"
+                            string="Account Type"
+                            context="{'group_by':'type_id'}"
+                        />
+                        <filter
+                            name="grp_normal_balance"
+                            string="Normal Balance"
+                            context="{'group_by':'normal_balance'}"
+                        />
+                    </group>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="client_account_view_tree" model="ir.ui.view">
+        <field name="name">client_account - tree</field>
+        <field name="model">client_account</field>
+        <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_tree"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='code']" position="before">
+                    <field name="sequence" widget="handle" />
+                </xpath>
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="type_id" />
+                    <field name="group_id" />
+                    <field name="normal_balance" />
+                    <field name="partner_id" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="client_account_view_form" model="ir.ui.view">
+        <field name="name">client_account - form</field>
+        <field name="model">client_account</field>
+        <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_form"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='code']" position="after">
+                    <field name="sequence" />
+                    <field name="partner_id" />
+                    <field name="type_id" />
+                    <field name="group_id" />
+                    <field name="normal_balance" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="client_account_action" model="ir.actions.act_window">
+        <field name="name">Accounts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">client_account</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="client_account_menu"
+        name="Accounts"
+        parent="menu_configuration_trial_balance"
+        action="client_account_action"
+        sequence="130"
+        groups="client_account_group"
+    />
+
+</odoo>

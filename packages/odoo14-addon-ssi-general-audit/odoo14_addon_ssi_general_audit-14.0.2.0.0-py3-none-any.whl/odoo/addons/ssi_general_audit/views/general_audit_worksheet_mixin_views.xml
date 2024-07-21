@@ -1,0 +1,96 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0-standalone.html). -->
+<odoo>
+
+    <record id="general_audit_worksheet_mixin_view_search" model="ir.ui.view">
+        <field name="name">general_audit_worksheet_mixin form</field>
+        <field name="model">general_audit_worksheet_mixin</field>
+        <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_search"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data />
+        </field>
+    </record>
+
+    <record id="general_audit_worksheet_mixin_view_tree" model="ir.ui.view">
+        <field name="name">general_audit_worksheet_mixin tree</field>
+        <field name="model">general_audit_worksheet_mixin</field>
+        <field name="mode">primary</field>
+        <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_tree"
+        />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="reviewer_id" />
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="general_audit_id" />
+                    <field name="type_id" invisible="1" />
+                    <field name="partner_id" />
+                    <field name="date_start" />
+                    <field name="date_end" />
+                    <field name="conclusion_id" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="general_audit_worksheet_mixin_view_form" model="ir.ui.view">
+        <field name="name">general_audit_worksheet_mixin form</field>
+        <field name="model">general_audit_worksheet_mixin</field>
+        <field name="mode">primary</field>
+        <field
+            name="inherit_id"
+            ref="ssi_transaction_mixin.mixin_transaction_view_form"
+        />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//group[@name='footer']" position="after">
+                    <group name="conclusion" colspan="4" col="2">
+                        <field
+                            name="conclusion_id"
+                            domain="[('id','in',allowed_conclusion_ids)]"
+                        />
+                        <field name="conclusion" colspan="2" nolabel="1" />
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="general_audit_id" />
+                    <field name="accountant_id" />
+                    <field name="partner_id" />
+                    <field name="title" />
+                    <field name="type_id" readonly="1" force_save="1" />
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="parent_type_id" invisible="1" />
+                    <field name="account_type_set_id" invisible="1" />
+                    <field name="currency_id" invisible="1" />
+                    <field
+                        name="allowed_conclusion_ids"
+                        widget="many2many_tags"
+                        invisible="1"
+                    />
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <xpath expr="//group[@name='header_right']" position="inside">
+                    <field name="date_start" invisible="1" />
+                    <field name="date_end" invisible="1" />
+                    <field name="interim_date_start" invisible="1" />
+                    <field name="interim_date_end" invisible="1" />
+                    <field name="previous_date_start" invisible="1" />
+                    <field name="previous_date_end" invisible="1" />
+                    <field name="user_id" />
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

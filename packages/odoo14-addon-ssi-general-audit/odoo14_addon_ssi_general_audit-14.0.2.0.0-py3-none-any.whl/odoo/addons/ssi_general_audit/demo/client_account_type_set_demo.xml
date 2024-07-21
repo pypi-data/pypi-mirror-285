@@ -1,0 +1,256 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0-standalone.html). -->
+<odoo>
+
+    <record id="demo_trading_set" model="client_account_type_set">
+        <field name="name">Trading &amp; Service</field>
+        <field name="code">T001</field>
+    </record>
+
+    <!-- Total Asset -->
+    <record
+        id="demo_trading_set_computation_001"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_001" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- Total Liability -->
+    <record
+        id="demo_trading_set_computation_002"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_007" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- Net Asset -->
+    <record
+        id="demo_trading_set_computation_003"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_002" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- Working Capital -->
+    <record
+        id="demo_trading_set_computation_004"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_009" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- Revenue -->
+    <record
+        id="demo_trading_set_computation_005"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_003" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- COR -->
+    <record
+        id="demo_trading_set_computation_006"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_004" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- EBITDA -->
+    <record
+        id="demo_trading_set_computation_007"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_006" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- EBIT -->
+    <record
+        id="demo_trading_set_computation_008"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_008" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- EBT -->
+    <record
+        id="demo_trading_set_computation_009"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_005" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <!-- EAT -->
+    <record
+        id="demo_trading_set_computation_010"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_006" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_011"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_011" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_012"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_012" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_013"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_013" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_014"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_014" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_015"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_015" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_016"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_016" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_017"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_017" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_018"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_018" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_019"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_019" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_020"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_020" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_021"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_021" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_022"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_022" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_023"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_023" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_024"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_024" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_025"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_025" />
+        <field name="use_default" eval="1" />
+    </record>
+
+    <record
+        id="demo_trading_set_computation_026"
+        model="client_account_type.computation_item"
+    >
+        <field name="account_type_set_id" ref="demo_trading_set" />
+        <field name="computation_id" ref="computation_item_026" />
+        <field name="use_default" eval="1" />
+    </record>
+
+</odoo>

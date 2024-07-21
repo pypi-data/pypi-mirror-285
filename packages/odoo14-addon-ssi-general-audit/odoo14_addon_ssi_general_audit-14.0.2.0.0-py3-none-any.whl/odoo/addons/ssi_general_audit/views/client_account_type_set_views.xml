@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0-standalone.html). -->
+<odoo>
+
+    <record id="client_account_type_set_view_search" model="ir.ui.view">
+        <field name="name">client_account_type_set - search</field>
+        <field name="model">client_account_type_set</field>
+        <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_search"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data />
+        </field>
+    </record>
+
+    <record id="client_account_type_set_view_tree" model="ir.ui.view">
+        <field name="name">client_account_type_set - tree</field>
+        <field name="model">client_account_type_set</field>
+        <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_tree"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data />
+        </field>
+    </record>
+
+    <record id="client_account_type_set_view_form" model="ir.ui.view">
+        <field name="name">client_account_type_set - form</field>
+        <field name="model">client_account_type_set</field>
+        <field
+            name="inherit_id"
+            ref="ssi_master_data_mixin.mixin_master_data_view_form"
+        />
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//page[@name='note']" position="before">
+                    <page name="account_type_set" string="Account Types">
+                        <group name="account_type_set_1" colspan="4" col="2">
+                            <field name="detail_ids" nolabel="1" colspan="2" />
+                        </group>
+                    </page>
+                    <page name="computation" string="Computation">
+                        <field name="computation_ids" colspan="1" col="2" nolabel="1">
+                            <tree>
+                                <field name="computation_id" />
+                                <field name="use_default" />
+                            </tree>
+                            <form>
+                                <group name="computation_form" colspan="4" col="2">
+                                    <field name="computation_id" />
+                                    <field name="use_default" widget="boolean_toggle" />
+                                    <field name="python_code" widget="ace" />
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="client_account_type_set_action" model="ir.actions.act_window">
+        <field name="name">Account Type Sets</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">client_account_type_set</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="client_account_type_set_menu"
+        name="Account Type Sets"
+        parent="menu_configuration_trial_balance"
+        action="client_account_type_set_action"
+        sequence="150"
+        groups="client_account_type_set_group"
+    />
+
+</odoo>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2022 OpenSynergy Indonesia
+     Copyright 2022 PT. Simetri Sinergi Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl-3.0-standalone.html). -->
+<odoo>
+    <menuitem
+        id="menu_general_audit"
+        name="General Audit"
+        web_icon="ssi_general_audit,static/description/icon.png"
+        sequence="50"
+    />
+
+    <menuitem
+        id="menu_general_audit_risk_assesment"
+        name="Risk Assesment"
+        parent="menu_general_audit"
+        sequence="110"
+    />
+
+    <menuitem
+        id="menu_general_audit_risk_responses"
+        name="Risk Responses"
+        parent="menu_general_audit"
+        sequence="120"
+    />
+
+    <menuitem
+        id="menu_general_audit_completion_reporting"
+        name="Completion &amp; Reporting"
+        parent="menu_general_audit"
+        sequence="130"
+    />
+
+    <menuitem
+        id="menu_general_audit_report"
+        name="Report"
+        parent="menu_general_audit"
+        sequence="980"
+    />
+
+    <menuitem
+        id="menu_general_audit_configuration"
+        name="Configuration"
+        parent="menu_general_audit"
+        sequence="990"
+    />
+
+
+    <menuitem
+        id="menu_configuration_general_audit"
+        name="General Audit"
+        sequence="110"
+        parent="menu_general_audit_configuration"
+    />
+
+    <menuitem
+        id="menu_configuration_trial_balance"
+        name="Trial Balance"
+        sequence="120"
+        parent="menu_general_audit_configuration"
+    />
+
+    <menuitem
+        id="menu_configuration_worksheet"
+        name="Worksheet"
+        sequence="130"
+        parent="menu_general_audit_configuration"
+    />
+
+
+
+</odoo>
