@@ -1,0 +1,100 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "\"\"\"\n",
+    "构建VOC数据集，结构如下：\n",
+    "/\n",
+    "images/\n",
+    "    val/\n",
+    "    train/\n",
+    "    test/\n",
+    "labels/\n",
+    "    val/\n",
+    "    train/\n",
+    "    test/\n",
+    "\"\"\"\n",
+    "import os\n",
+    "# import re\n",
+    "# we read the list files and extract the image file names without extension\n",
+    "def get_fnames_from_list(lst_path):\n",
+    "    basenames = []\n",
+    "    lst_txt = open(lst_path, 'r')\n",
+    "    lines = lst_txt.readlines()\n",
+    "    for line in lines:\n",
+    "        jpg_str = (line.replace(\"\\\\\", \"/\")).split()[0]\n",
+    "        basename = os.path.basename(jpg_str)\n",
+    "        basename_no_ext = os.path.splitext(basename)[0]\n",
+    "        # print(basename_no_ext)\n",
+    "        basenames.append(basename_no_ext)\n",
+    "    return basenames\n",
+    "\n",
+    "# 数据集标签\n",
+    "train_bnames = get_fnames_from_list(\"./datasets/hat_person/train_list.txt\")\n",
+    "test_bnames = get_fnames_from_list(\"./datasets/hat_person/test_list.txt\")\n",
+    "val_bnames = get_fnames_from_list(\"./datasets/hat_person/val_list.txt\")\n",
+    "\n",
+    "\n",
+    "# 输出目录\n",
+    "# create the image directory and its sub folders\n",
+    "# ImageDir/LabelsDir\n",
+    "# --train\n",
+    "# --val\n",
+    "# --test\n",
+    "img_train_path = \"./datasets/hat_person/yolo_dataset/images/train/\"\n",
+    "img_test_path = \"./datasets/hat_person/yolo_dataset/images/test/\"\n",
+    "img_val_path = \"./datasets/hat_person/yolo_dataset/images/val/\"\n",
+    "label_train_path = \"./datasets/hat_person/yolo_dataset/labels/train/\"\n",
+    "label_test_path = \"./datasets/hat_person/yolo_dataset/labels/test/\"\n",
+    "label_val_path = \"./datasets/hat_person/yolo_dataset/labels/val/\"\n",
+    "\n",
+    "import shutil\n",
+    "# create a specified part of the dataset\n",
+    "# create the target_path folder, \n",
+    "# then move the files specified by bnames in the source path into the target path\n",
+    "def create_dataset_folder(target_path, source_path, ext, bnames):\n",
+    "    if not os.path.exists(target_path):\n",
+    "        os.makedirs(target_path)\n",
+    "    for bname in bnames:\n",
+    "        source_file = source_path + bname + ext\n",
+    "        if os.path.exists(source_file):\n",
+    "            shutil.copy(source_file, target_path)\n",
+    "\n",
+    "# 图像存储位置、标签（txt文件）存储位置\n",
+    "img_source_path = \"./datasets/hat_person/JPEGImages/\"\n",
+    "img_ext = \".jpg\"\n",
+    "create_dataset_folder(img_train_path, img_source_path, img_ext, train_bnames)\n",
+    "create_dataset_folder(img_test_path, img_source_path, img_ext, test_bnames)\n",
+    "create_dataset_folder(img_val_path, img_source_path, img_ext, val_bnames)\n",
+    "txt_source_path = \"./datasets/hat_person/yolo_Annotations/\"\n",
+    "txt_ext = \".txt\"\n",
+    "create_dataset_folder(label_train_path, txt_source_path, txt_ext, train_bnames)\n",
+    "create_dataset_folder(label_test_path, txt_source_path, txt_ext, test_bnames)\n",
+    "create_dataset_folder(label_val_path, txt_source_path, txt_ext, val_bnames)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3.7.13 ('yolo')",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "name": "python",
+   "version": "3.7.13"
+  },
+  "orig_nbformat": 4,
+  "vscode": {
+   "interpreter": {
+    "hash": "16e2de7ec682fc3ab5066967c6aab251353c5b7be3dac1c3e5faaae13b44f4e6"
+   }
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
