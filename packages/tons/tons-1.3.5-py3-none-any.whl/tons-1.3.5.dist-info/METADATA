@@ -1,0 +1,160 @@
+Metadata-Version: 2.1
+Name: tons
+Version: 1.3.5
+Summary: TON Stash - secure TON wallet
+Author: tonfactory.org
+Keywords: TON,wallet,TON wallet,blockchain,security,safety,cryptowallet,crypto
+Classifier: Programming Language :: Python :: 3
+Classifier: Environment :: Console
+Classifier: Environment :: Other Environment
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: Financial and Insurance Industry
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Natural Language :: English
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Topic :: Adaptive Technologies
+Classifier: Topic :: Office/Business :: Financial
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: appdirs ==1.4.4
+Requires-Dist: aiohttp ==3.8.4
+Requires-Dist: bitarray ==2.7.6
+Requires-Dist: certifi >=2017.4.17
+Requires-Dist: cffi ==1.15.1
+Requires-Dist: click ==8.1.4
+Requires-Dist: colorama ==0.4.6
+Requires-Dist: cryptography ==38.0.3
+Requires-Dist: fe25519 ==1.4.2
+Requires-Dist: ge25519 ==1.4.3
+Requires-Dist: graphql-query ==1.1.1
+Requires-Dist: inquirer ==3.1.3
+Requires-Dist: prettytable ==3.8.0
+Requires-Dist: pycparser ==2.21
+Requires-Dist: pydantic ==1.10.11
+Requires-Dist: pynacl ==1.5.0
+Requires-Dist: python-dateutil ==2.8.2
+Requires-Dist: pyyaml ==6.0
+Requires-Dist: requests ==2.31.0
+Requires-Dist: tvm-valuetypes ==0.0.10
+Requires-Dist: typing-extensions ==4.7.1
+Requires-Dist: gql ==3.4.1
+Requires-Dist: yubikey-manager ==5.1.1
+Requires-Dist: websockets ==11.0.3
+
+# Tons
+
+[![PyPI](https://img.shields.io/pypi/v/tons?color=blue)](https://pypi.org/project/tons/)
+[![Downloads](https://static.pepy.tech/badge/tons)](https://pepy.tech/project/tons)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/tons)](https://pypi.org/project/tons/)
+
+
+# Documentation
+
+You can find [installation guide](https://tonfactory.github.io/tons-docs/installation) 
+and all available features in our [docs](https://tonfactory.github.io/tons-docs/).
+
+
+
+# Introduction
+
+**tons** is a cross-platform wallet application that maintains wallets in the TON network
+for both desktops and servers. Works with Windows/Mac/Linux.
+
+**tons** has different UIs:
+
+- [tons-gui](#tons-gui)
+- [tons-interactive](#tons-interactive)
+- [tons-cli](#tons-cli)
+
+
+**tons** uses specific filesystem architecture that is maintained by the application.
+```
+.tons
+├── config.yaml
+├── whitelist.json
+├── keystores
+│   ├── *.keystore
+```
+
+
+## User interfaces
+
+### tons-gui
+
+Graphic user interface is the most intuitive and convenient way to work with your assets.
+
+![tons-gui](https://tonfactory.github.io/tons-docs/assets/images/introduction-b9e3fe5662fd3fbff8996ca607800448.png)
+
+
+
+
+### tons-interactive
+
+*tons-interactive* is a convenient interface to control your assets through terminal.
+
+```bash
+$ tons-interactive
+[✓] Pick command: Keystores
+[✓] Pick command: Open keystore
+[✓] Choose keystore to use: 🔒 personal.keystore
+[?] Pick command [personal.keystore]: List wallets
+ > List wallets
+   Transfer
+   Advanced Transfer
+   Whitelist
+   Tonconnect v2
+   DNS
+   Jetton
+   ...
+```
+
+
+### tons-cli
+
+*tons* has a batch mode interface that allows you to write automatic scripts.
+
+To get all available subcommands and flags run a command with an '-h' flag
+```bash
+$ tons -h
+Usage: tons [OPTIONS] COMMAND [ARGS]...
+
+Options:
+  --version      Show the version and exit.
+  -c, --config   Use specific config.yaml file
+  -h, --help     Show this message and exit.
+
+Commands:
+  config      Control config parameters (check README.md for all fields...
+  contract    Operate with contracts
+  dev         Development tools
+  dns         Operate with DNS
+  init        Initialize .tons workdir in a current directory
+  keystore    Operate with keystores
+  tonconnect  Operate with TonConnect
+  wallet      Operate with wallets
+  whitelist   Operate with whitelist contacts
+```
+
+Example: get list of all wallets from a keystore
+```bash
+$ tons wallet list -v
+| Name  | Version | WC |                     Address                      | Comment | State  | Balance |
+|:------|:-------:|:--:|:------------------------------------------------:|:--------|:------:|--------:|
+| dev   |   v3r2  | 0  | EQBxWbjry61lk0dU_8viG9M_e5x9VGOJaI9ZhOrn6vcIp7Sm | None    | Active |    13.1 |
+| prod  |   v4r2  | 0  | EQCkNipaz2C3Md-tXVBcD3E4yv8EKqMzZ41QQtsM4IdFnKP5 | None    | Uninit |     0.0 |
+| Total |         |    |                                                  |         |        |    13.1 |
+```
+# License
+
+The code and data files in this distribution are licensed under the terms of the GNU General Public License version 3 
+as published by the Free Software Foundation. See https://www.gnu.org/licenses/ for a copy of this license.
