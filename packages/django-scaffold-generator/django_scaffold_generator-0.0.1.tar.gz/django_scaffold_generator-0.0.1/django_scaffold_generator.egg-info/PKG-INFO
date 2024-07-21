@@ -1,0 +1,62 @@
+Metadata-Version: 2.1
+Name: django-scaffold-generator
+Version: 0.0.1
+Summary: Ruby on Rails like Scaffolding Provider for Django
+Home-page: https://github.com/iamswaroopp/django-scaffold-generator
+Download-URL: https://github.com/iamswaroopp/django-scaffold-generator/archive/0.0.1.zip
+Author: Swaroop P
+Author-email: iamswaroopp@gmail.com
+License: mit
+Project-URL: Bug Reports, https://github.com/iamswaroopp/django-scaffold-generator/issues
+Keywords: django,developement,scaffold_generator,startapp,rapid,rad,rapid application developmentpython
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Software Development :: Libraries :: Application Frameworks
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Framework :: Django
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: django
+
+# Django Scaffold Generator
+
+This projects aim to provide Ruby on Rails like scaffolding on Django framework.
+
+### Usage
+
+```
+
+python manage.py generatescaffold <app_name> <ModelName> "<field1>:<Field1Type>" "<field2>:<Field2Type>"
+
+```
+
+
+
+### Example:
+
+```
+
+python manage.py generatescaffold test_app TestModel "name:CharField" "description:TextField"
+
+```
+
+### Supported Fields
+
+Refer `scaffold_generator/defaults.py:DEFAULT_FIELDS`
+
+### License
+
+This project is licensed under the MIT License - see the [License File](License.txt) file for details
+
+### Credits
+
+- https://github.com/modocache/django-generate-scaffold
+- https://github.com/tokyodevs/django3scaffold
