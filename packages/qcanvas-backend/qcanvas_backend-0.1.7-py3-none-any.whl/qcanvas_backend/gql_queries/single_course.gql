@@ -1,0 +1,6 @@
+# qenerate: plugin=pydantic_v1
+
+query SingleCourse($course_id: ID!, $detailed: Boolean!)
+{
+    course(id:$course_id) { ... CanvasCourseData }
+}
