@@ -1,0 +1,64 @@
+[tool.poetry]
+name = "relax-py"
+version = "0.6.1"
+description = ""
+authors = ["crpier <crpier42@gmail.com>"]
+readme = "README.md"
+packages = [
+  {include = "relax"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.12.2"
+starlette = "^0.31.1"
+typing-extensions = "^4.8.0"
+watchfiles = "^0.21.0"
+uvicorn = {extras = ["standard"], version = "^0.29.0"}
+pydantic-settings = "^2.3.4"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.3"
+black = "^23.10.1"
+isort = "^5.12.0"
+mypy = "^1.6.1"
+pytest = "^7.4.3"
+pydantic = "^2.6.4"
+mkdocs-material = "^9.5.18"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+extend-select = ["F", "E", "W", "C90", "I", "N", "UP", "YTT", "ANN", "S", "BLE", "FBT", "B", "A", "COM", "C4", "DTZ", "T10", "EM", "EXE", "ISC", "ICN", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "TID", "TCH", "ARG", "PTH", "ERA", "PD", "PGH", "PL", "TRY", "RUF"]
+ignore = [
+"A001", # allowing shading python builtin
+"A002", # let me shadow the "id" function
+"A003", # Allow me to use the "id" field
+"ANN101", # No need for type annotation on `self`
+"ANN401", # allow Any's
+# TODO: refactor some time
+"C901", # let me have a complex function
+"I001", # Let black/isort handle unsorted imports
+"ISC001",
+"N801", # allow classes to not have CamelCase name
+"PGH003", # let me use # type: ignore
+"PLR0913", # let me have lots of params in func signature
+"SLF001", # allow using private member
+"FBT001", # allow boolean args with default values
+"FBT002", # same thing I guess?
+"ANN102", # don't make me annotate cls
+]
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "ANN201"]
+
+
+
+[tool.isort]
+profile = "black"
+
+[[tool.mypy.overrides]]
+module = ["icecream", "sqlite_fts4"]
+ignore_missing_imports = "true"
