@@ -1,0 +1,76 @@
+# SPDX-FileCopyrightText: 2021 Jeff Epler
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Test leapseconddata
+
+on:
+  push:
+  pull_request:
+  release:
+    types: [published]
+  check_suite:
+    types: [rerequested]
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - uses: actions/checkout@v4
+
+    - name: Install deps
+      run: python -mpip install -r requirements-dev.txt
+
+    - name: Build HTML docs
+      run: make html
+
+  test:
+    strategy:
+      matrix:
+        python-version:
+        - '3.9'
+        - '3.10'
+        - '3.11'
+        - '3.12'
+        - '3.13.0-alpha.0 - 3.13'
+        - 'pypy-3.9'
+        os-version:
+        - 'ubuntu-latest'
+        include:
+          - os-version: 'macos-latest'
+            python-version: '3.x'
+          - os-version: 'windows-latest'
+            python-version: '3.x'
+
+    env:
+      PYTHON: ${{ matrix.python-version }}
+
+    runs-on: ${{ matrix.os-version }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install deps
+      run: python -mpip install -r requirements-dev.txt
+
+    - name: Check stubs
+      if: (startsWith(matrix.python-version, '3.12') && startswith(matrix.os-version, 'ubuntu-'))
+      run: make mypy
+
+    - name: Test
+      run: python -mcoverage run --branch -m unittest testleapseconddata.py && python -mcoverage report --fail-under=100 && python -mcoverage xml
+
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: pre-commit/action@v3.0.1
