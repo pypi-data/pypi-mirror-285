@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smufolib"
+version = "0.2.0"
+dependencies = [
+    "fontParts",
+    "tqdm",
+]
+requires-python = ">=3.10"
+authors = [
+    {name = "Knut Nergaard", email = "knut.nergaard@gmail.com"}
+]
+
+description = "FontParts based library for SMuFL font scripting"
+readme = "README.rst"
+license = {file = "LICENSE.txt"}
+keywords = [
+    "music notation",
+    "font design",
+    "SMuFL",
+    "UFO",
+    "FontParts"
+    ]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3 :: Only",
+    "Operating System :: OS Independent"
+]
+[tool.setuptools]
+include-package-data = true
+
+[project.urls]
+Homepage = "https://github.com/knutnergaard/SMufoLib"
+
+[project.scripts]
+check-anchors = "bin.checkAnchors:main"
+clean-font = "bin.cleanFont:main"
+generate-metadata = "bin.generateMetadata:main"
+import-anchors = "bin.importAnchors:main"
+calculate-engraving-defaults = "bin.calculateEngravingDefaults:main"
+import-id = "bin.importID:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smufolib*", "bin*"]
