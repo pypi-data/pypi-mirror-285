@@ -1,0 +1,95 @@
+[build-system]
+requires = ["maturin>=1.6,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "evalica"
+license = "Apache-2.0"
+description = "Evalica, your favourite evaluation toolkit."
+keywords = [
+    "Bradley-Terry",
+    "Elo",
+    "PageRank",
+    "eigenvector",
+    "evaluation",
+    "leaderboard",
+    "pairwise comparisons",
+    "ranking",
+    "rating",
+    "statistics",
+]
+requires-python = "~= 3.8"
+dependencies = ["numpy>=1.16.0", "pandas"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+    "Typing :: Typed",
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+dev = [
+    "hypothesis[numpy]",
+    "mypy",
+    "nbqa",
+    "notebook",
+    "pandas-stubs",
+    "plotly",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "twine",
+]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+[project.scripts]
+evalica = "evalica.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/dustalov/evalica"
+Documentation = "https://dustalov.github.io/evalica/"
+Download = "https://pypi.org/project/evalica/#files"
+
+[tool.coverage.report]
+exclude_also = [
+    "if TYPE_CHECKING:",
+]
+
+[tool.maturin]
+python-source = "python"
+
+[tool.mypy]
+ignore_missing_imports = true
+plugins = ["numpy.typing.mypy_plugin"]
+strict = true
+
+[tool.nbqa.addopts]
+ruff = [
+    "--ignore=B018", # useless-expression
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D",       # pydocstyle
+    "ERA001",  # commented-out-code
+    "FIX002",  # line-contains-todo
+    "PLR0913", # too-many-arguments
+    "S101",    # assert
+    "TD002",   # missing-todo-author
+    "TD003",   # missing-todo-link
+]
