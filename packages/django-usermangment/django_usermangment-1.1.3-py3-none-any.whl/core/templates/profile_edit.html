@@ -1,0 +1,69 @@
+{% extends 'layouts/box.html' %}
+{% load django_bootstrap5 %}
+{% block title %}
+    edit profile
+{% endblock %}
+
+
+{% block content %}
+
+{%  if onboarding %}
+    <h2 class="mb-4">Complete your Profile</h2>
+    {% else %}
+    <h2 class="mb-4">Edit your Profile</h2>
+
+{% endif %}
+
+
+<div class="text-center flex flex-col items-center">
+    <img id="avatar" class="w-36 h-36 rounded-full object-cover my-4" src="{{ user.profile.avatar }}" />
+    <div class="text-center max-w-md">
+        <h2 id="displayname">{{ user.profile.name |default:"" }}</h2>
+        <div class="text-gray-400 mb-2 -mt-3">@{{ user.username }}</div>
+    </div>
+</div>
+<form method="POST" enctype="multipart/form-data">
+     {% csrf_token %}
+
+     {% bootstrap_form form layout=layout size=size %}
+     {% bootstrap_button button_type="submit" content="Submit"  %}
+
+    {% if onboarding %}
+    <a class="button button-gray ml-1" href="{% url 'home' %}">Skip</a>
+    {% else %}
+    <a class="button button-gray ml-1" href="{{ request.META.HTTP_REFERER }}">Cancel</a>
+    {% endif %}
+
+
+
+</form>
+
+
+
+
+<script>
+
+    // This updates the avatar
+    const fileInput = document.querySelector('input[type="file"]');
+
+    fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    const image = document.querySelector('#avatar');
+
+    if (file && file.type.includes('image')) {
+        const url = URL.createObjectURL(file);
+        image.src = url;
+    }
+    });
+
+    // This updates the name
+    const display_nameInput = document.getElementById('id_display_name');
+    const display_nameOutput = document.getElementById('displayname');
+
+    display_nameInput.addEventListener('input', (event) => {
+        display_nameOutput.innerText = event.target.value;
+    });
+
+</script>
+
+{% endblock %}

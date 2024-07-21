@@ -1,0 +1,71 @@
+{% extends 'layouts/box.html' %}
+{% load django_bootstrap5 %}
+{% block title %}
+    profile
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="max-w-lg mx-auto flex flex-col items-center pt-20 px-4">
+    <img class="w-36 h-36 rounded-full object-cover mb-4" src="{{ profile.avatar }}" />
+    <div class="text-center">
+        <h1>{{ profile.name }}</h1>
+        <div class="text-gray-400 mb-2 -mt-3">@{{ profile.user.username }}</div>
+        {% if profile.bio %}
+        <div class="mt-8 hyphens-auto">{{ profile.bio |linebreaksbr }}</div>
+        {% endif %}
+        {% if profile.location %}
+        <div class="mt-4 text-gray-400">{{ profile.location }}</div>
+        {% endif %}
+        {% if profile.website %}
+        <div class="mt-4 text-gray-400">
+            <a href="{{ profile.website }}" class="underline">{{ profile.website }}</a>
+            {% endif %}
+        {% if profile.twitter %}
+
+        <a href="https://twitter.com/{{ profile.twitter }}" class="ml-2">
+            <img class="w-6 h-6" src="https://img.icons8.com/ios-glyphs/30/000000/twitter.png"/>
+        </a>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+    <a href="{%  url 'edit_profile' %}" class="mt-4 button button-gray">Edit Profile</a>
+    {% endif %}
+
+    </div>
+</div>
+
+
+{##}
+{#    <section id="blog" class="blog">#}
+{#        <div class="container" >#}
+{##}
+{#          <div class="row">#}
+{##}
+{#            <div class="col-lg-12 entries" data-aos="fade-up">#}
+{#                        <h2>Welcome, {{ user.username }} Profile</h2>#}
+{#                        <p>Username: {{ user.username }}</p>#}
+{#                        <p>Email: {{ user.email }}</p>#}
+{#                        <p>First Name: {{ user.first_name }}</p>#}
+{#                        <p>Last Name: {{ user.last_name }}</p>#}
+{#                        <p>Is Active: {{ user.is_active }}</p>#}
+{##}
+{#                        <a href="{% url 'logout' %}">Logout</a>#}
+{##}
+{#                 <form method='post' class="from">#}
+{#                     {% csrf_token %}#}
+{##}
+{#                     {% bootstrap_form form layout=layout size=size %}#}
+{#                     {% bootstrap_button button_type="submit" content="update"  %}#}
+{##}
+{#                 </form>#}
+{##}
+{##}
+{#            </div><!-- End blog entries list -->#}
+{#          </div>#}
+{##}
+{#        </div>#}
+{#      </section><!-- End Blog Section -->#}
+
+{% endblock %}
