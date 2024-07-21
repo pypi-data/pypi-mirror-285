@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package strique.model.db.store;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "com.strique.model.db.store";
+option java_outer_classname = "PlanDetailsProto";
+
+// Next Id : 5
+// A protobuf to store Payment details object.
+message PlanDetails {
+  string stripe_customer_id = 1;
+
+  string plan_id = 2;
+
+  string subscription_id = 3;
+
+  // date value in epoch
+  optional google.protobuf.Timestamp plan_cancelled_at = 4;
+}
+

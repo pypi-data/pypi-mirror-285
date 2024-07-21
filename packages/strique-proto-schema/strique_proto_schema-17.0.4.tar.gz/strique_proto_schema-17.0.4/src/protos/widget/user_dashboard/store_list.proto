@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package strique.model.widget.user_dashboard;
+
+import "types/currency/currency.proto";
+import "types/media/media.proto";
+import "db/store/store.proto";
+import "constants/ui/render_type.proto";
+import "constants/ui/sorting_direction.proto";
+
+option java_package = "com.strique.model.widget.user_dashboard";
+option java_outer_classname = "StoreListProto";
+
+// Next Id: 2
+// Proto definition for Store List Data.
+message StoreListData {
+    // List of records for this widget.
+    repeated StoreListRecord records = 1;
+}
+
+// Next Id: 12
+// Proto definition for a single record of Store List.
+message StoreListRecord {
+  // Store details 
+  types.Media store = 1;
+
+  // Status of the store
+  db.store.Store.StoreStatus status = 2;
+
+  // Blended spend of the store
+  types.Currency blended_spend = 3;
+
+  // Blended revenue of the store
+  types.Currency blended_revenue = 4;
+
+  // Ecom revenue of the store
+  types.Currency ecom_revenue = 5;
+
+  // Blended return on ad spend of the store
+  string blended_return_on_ad_spend = 6;
+
+  // Number of purchases of the store
+  uint64 puchases = 7;
+
+  // Cost per purchase of the store
+  types.Currency cost_per_purchase = 8;
+
+  // Conversion rate of the store
+  float conversion_rate = 9;
+
+  // Total add to carts of the store
+  uint64 total_add_to_carts = 10;
+
+  // Total checkouts of the store
+  uint64 total_checkouts = 11;
+}
+
+// Next Id: 3
+// Proto definition for Store List Configuration.
+message StoreListConfig {
+    // Next Id: 12
+    // Enumeration of possible columns in the Store List table.
+    enum Column {
+      COLUMN_UNKNOWN = 0;
+      COLUMN_STORE = 1;
+      COLUMN_STATUS = 2;
+      COLUMN_BLENDED_SPEND = 3;
+      COLUMN_BLENDED_REVENUE = 4;
+      COLUMN_ECOM_REVENUE = 5;
+      COLUMN_BLENDED_RETURN_ON_AD_SPEND = 6;
+      COLUMN_PURCHASES = 7;
+      COLUMN_COST_PER_PURCHASE = 8;
+      COLUMN_CONVERSION_RATE = 9;
+      COLUMN_TOTAL_ADD_TO_CARTS = 10;
+      COLUMN_TOTAL_CHECKOUTS = 11;
+    }
+
+    // Next Id: 7
+    // Configuration for the table displayed in the Store List.
+    message TableConfig {
+        // Specifies the order of columns in the table.
+        repeated Column column_order = 1;
+
+        // Specifies columns to be hidden in the table.
+        repeated Column column_hidden = 2;
+
+        // Specifies the default column used for sorting.
+        Column default_sorted_column = 3;
+
+        // Specifies the sorting direction.
+        constants.ui.SortingDirection sorting_direction = 4;
+
+        // Indicates whether to display the total row in the table.
+        bool show_total = 5;
+
+        // Indicates whether to display the subtotal row in the table.
+        bool show_subtotal = 6;
+    }
+
+    // Specifies the type of rendering for the widget.
+    constants.ui.RenderType render_type = 1;
+
+    // Configuration for the table displayed in the widget.
+    TableConfig table_config = 2;
+}
