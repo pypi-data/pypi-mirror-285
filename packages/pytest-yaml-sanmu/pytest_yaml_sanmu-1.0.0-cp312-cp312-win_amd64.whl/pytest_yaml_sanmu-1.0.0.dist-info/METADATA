@@ -1,0 +1,282 @@
+Metadata-Version: 2.1
+Name: pytest-yaml-sanmu
+Version: 1.0.0
+Summary: Pytest plugin for generating test cases with YAML. In test cases, you can use markers, fixtures, variables, and even call Python functions.
+Author-email: dongfangtianyu <7629022+dongfangtianyu@users.noreply.github.com>
+Requires-Python: ~=3.12
+Requires-Dist: Jinja2~=3.1.4
+Requires-Dist: allure-pytest>=2.13.5
+Requires-Dist: jsonschema~=4.21.1
+Requires-Dist: pydantic<3,>=2.0
+Requires-Dist: pytest~=8.2.2
+Requires-Dist: pyyaml-include~=1.3.1
+Requires-Dist: pyyaml~=6.0.1
+Project-URL: Homepage, https://github.com/dongfangtianyu/pytest-yaml-sanmu
+Description-Content-Type: text/markdown
+
+# pytest-yaml-sanmu
+
+Pytest plugin for generating test cases with YAML. 
+In test cases, you can use markers, fixtures, variables, and even call Python functions.
+
+
+
+
+
+## Require
+
+```
+python~=3.12
+pytest~=8.2
+pyyaml~=6.0
+pyyaml-include~=1.3.1
+```
+
+
+
+
+
+
+## Install
+```
+pip install pytest-yaml-sanmu
+```
+
+
+
+## Config
+
+```ini
+# pytest.ini
+
+[pytest]
+# To execute YAML files starting with "test_"
+run_yaml_case = 1 
+```
+
+
+
+## Usage
+
+### 1. Write tests
+
+```yaml
+# test_api.yaml
+
+test: fetch baidu # Each test case has a name
+steps:                 # Each test case has multiple steps
+
+  - request:           # steps 1: send request
+      method: get
+      url: https://www.baidu.com
+
+  - response:          # steps 2: assert response
+      status_code: 200
+      text: "*baidu*"
+
+```
+
+
+### 2. Write Hook
+
+```python
+# conftest.py
+
+import requests
+import responses_validator
+
+
+def pytest_yaml_run_step(item):
+    step = item.current_step
+    request = step.get('request')
+    response = step.get('response')
+
+    if request:
+        print(f'url={request["url"]}')
+        item.resp = requests.request(**request)
+
+    if response:
+        responses_validator.validator(item.resp, **response)
+
+    return True
+
+```
+
+
+
+
+
+
+### 3. Run pytest
+
+```
+(.venv) ~/pytest-yaml-demo>pytest
+================== test session starts ==================
+platform win32 -- Python 3.12.2, pytest-8.2.2, pluggy-1.5.0
+rootdir: ~/pytest-yaml-demo
+configfile: pytest.ini
+plugins: allure-pytest-2.13.5, yaml-0.3.0.dev3
+collected 1 item                                                                                 
+
+test_api.yaml .                            [100%]
+
+================== 1 passed in 0.22s ================== 
+```
+
+
+
+### 4.  More tests
+
+
+
+```yaml
+# tests/test_mark_parametrize.yaml
+
+test: parametrize
+mark:
+  - parametrize:
+      - n
+      - [1,2,3]
+steps:
+  - request:
+      method: get
+      url: https://baidu.com?o=${n}
+
+```
+
+
+
+
+
+```yaml
+# tests/test_ddt.yaml
+test: ddt
+mark:
+  - parametrize:
+      - n
+      - !include ddt_n.yaml
+steps:
+  - request:
+      method: get
+      url: https://baidu.com?o=${n}
+
+```
+
+
+
+```yaml
+# tests/test_mark_skip.yaml
+
+test: skip
+mark:
+  - skip
+steps:
+  - request:
+      method: get
+      url: https://www.baidu.com
+
+```
+
+
+
+```yaml
+# tests/test_mark_usefixtures_values.yaml
+test: usefixtures
+mark:
+  - usefixtures:
+      - base_url
+steps:
+  - request:
+      method: get
+      url: ${base_url}/abc.html
+```
+
+
+
+## FeedBack
+
+WeChat: `python_sanmu`
+
+
+
+## Changelog
+
+
+
+### v1.0.0 (2024-07-20)
+
+- **feat**: Added a configuration to ignore errors when the variable file does not exist
+- **chore**: Updated GitHub Actions
+
+### v0.5.0 (2024-07-07)
+
+- **feat**: Support for defining local variables in YAML
+- **feat**: Support for defining global variables in YAML and Python
+- **feat**: Added four configuration items to specify global variable files
+- **feat**: Support for using Jinja2 in `mark`
+- **fix**: Provided `try_call` function to output `undefined` when a function is not defined, suppressing errors
+- **fix**: Provided `str` filter to convert any variable to a string format compatible with YAML
+
+### v0.4.0 (2024-05-04)
+
+- **refactor**: `test` -> `name`
+- **feat**: Allowed saving local variables for items and automatically injecting them into `item.current_step`. Local variables are cleared before each item execution
+- **feat**: Used Jinja2 for variable and function loading
+- **fix**: Fixed `self.usefixtures` not working
+- **chore**: Cleaned files before and after compilation
+- **docs**: Added usage examples (`pytest.ini`, `conftest.py`, `test_abc.yaml`)
+
+### v0.3.0 (2024-04-20)
+
+- **feat**: Implemented `mark.parametrize` and `mark.usefixture` natively, supporting fixture parameterization
+- **feat**: Compiled to binary files
+- **fix**: Fixed JSONSchema errors
+- **fix**: Fixed type errors
+- **chore**: Updated YAML case schema
+- **chore**: Locked `pytest` dependency to `~ =8.1.1`
+- **chore**: Set `requires-python = ">=3.12"`
+
+### v0.2.6 (2024-04-07)
+
+- **feat**: Made `schema` importable as a property
+- **feat**: Validated YAML against case file requirements using `jsonschema`
+- **chore**: Considering removal of Pydantic in the future and providing more detailed error messages
+- **fix**: Fixed error in `schema.yaml`
+- **chore**: Locked `pyyaml-include` to `~ =1.3.1`
+- **chore**: Used OIDC for publishing to PyPI
+- **chore**: Updated GitHub Actions version
+
+### v0.2.4 (2023-11-29)
+
+- **feat**: YAML files support `!include`, searching from the **current file directory** instead of `cwd` #1
+- **feat**: Import `yaml_funcs` only upon instantiation to allow reuse by other modules
+
+### v0.2.3 (2023-07-03)
+
+- **feat**: Plugin is disabled by default; must be enabled via `ini` configuration
+- **feat**: Used YAML as the plugin name
+- **feat**: Display YAML in `pytest_report_header` instead of `yaml-sanmu`
+- **fix**: `yaml.dump` should not alter content order
+- **deps**: `pydantic>=2.0`
+
+### v0.2.0 (2023-03-10)
+
+- **feat**: Support for user-defined marks
+- **feat**: Support for `pytest` marks without parameters
+- **feat**: Support for `pytest` marks with parameters (positional only)
+- **feat**: Support for `mark.parametrize`
+- **feat**: Support for `mark.usefixtures`
+- **feat**: Built-in templates, supporting function calls
+- **feat**: Explicitly display YAML content when a test case fails
+- **feat**: Ability to mark steps with Allure
+- **chore**: Published to PyPI via GitHub Actions
+
+### v0.1.0 (2023-02-08)
+
+- **feat**: Recognized YAML files as pytest test cases
+
+
+
+
+
+
