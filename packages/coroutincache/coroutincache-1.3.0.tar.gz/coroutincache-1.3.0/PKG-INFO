@@ -1,0 +1,63 @@
+Metadata-Version: 2.1
+Name: coroutincache
+Version: 1.3.0
+Summary: The Simple library for corutine cache
+Home-page: https://github.com/G2048/AioCache
+License: MIT
+Author: IX
+Author-email: borntokill.ix@gmail.com
+Requires-Python: >=3.5
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Description-Content-Type: text/markdown
+
+## Description
+
+This is simple cache for corutines with a ttl parameter.
+
+It have been make for corutines what getting a large data volume for over external api request.
+
+## Installation
+```python
+pip install coroutincache
+```
+
+## Simple usage:
+
+```python
+import asyncio
+
+from fastapi import FastAPI
+
+from LogSettings import get_logger
+from coroutincache import asyncache
+
+logger = get_logger('consolemode')
+app = FastAPI()
+
+
+@asyncache(ttl=20)
+async def load_from_api(params=None):
+    await asyncio.sleep(3)
+    logger.debug(f'LOAD FROM API')
+    return [{'namespace': 'A1'}, {'namespace': 'A2'}, {'namespace': 'A3'}]
+
+
+@app.get("/")
+async def root():
+    result = await load_from_api(32)
+    logger.info(f'Result: {result}')
+    return result
+
+```
+
+## License
+This project is licensed under the MIT License - see the [MIT LICENSE](https://opensource.org/license/mit) file for details.
