@@ -1,0 +1,96 @@
+Metadata-Version: 2.3
+Name: explainable
+Version: 0.5.0
+Summary: Visualise complex data structures in real time
+Project-URL: Homepage, https://github.com/numan-ai/explainable
+Project-URL: Documentation, https://example.com
+Project-URL: Repository, https://github.com/numan-ai/explainable.git
+Project-URL: Issues, https://github.com/numan-ai/explainable/issues
+Project-URL: Changelog, https://github.com/numan-ai/explainable/blob/master/CHANGELOG.md
+Author-email: Numan Team <kostya@numan.ai>
+Maintainer-email: Numan Team <kostya@numan.ai>
+License: MIT License
+        
+        Copyright (c) 2024 Numan
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+License-File: LICENSE
+Keywords: data structures,debug,debugger,debugging,explainable,visualisation
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Classifier: Topic :: Scientific/Engineering :: Artificial Intelligence
+Classifier: Topic :: Software Development
+Classifier: Topic :: Software Development :: Debuggers
+Requires-Python: >=3.7
+Requires-Dist: websockets>=12.0
+Description-Content-Type: text/markdown
+
+# Explainable
+
+[![PyPI version](https://img.shields.io/pypi/v/explainable.svg)](https://pypi.org/project/explainable/)
+
+Explainable is a project for visualising complex data structures in real time with minimal effort.
+This project was created by [Numan Team](https://numan.ai/).
+
+## Installation
+
+```sh
+pip install -U explainable
+```
+
+## Usage
+
+```python
+import time
+
+import explainable
+
+# start the server
+explainable.init()
+
+# create your data
+lst = [0, 1, 2]
+
+# start observing
+lst = explainable.observe("view1", lst)
+
+# change your data
+while True:
+  lst[0] += 1
+  lst[1] -= 1
+
+  time.sleep(1)
+```
+
+Currently supported data structures:
+- dataclass
+- list
+- dict
+
+## Requirements
+
+Python 3.7 or higher.
