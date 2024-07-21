@@ -1,0 +1,260 @@
+from ultralytics import YOLO
+model = YOLO('/root/ultralytics/ultralytics/cfg/models/v8/yolov8.yaml').load("yolov8n.pt")
+result=model.train(data='/root/autodl-tmp/train', epochs=30,batch=4)
+
+results1=model.train(data='\site-packages\ultralytics\cfg\datasets\mydata.yaml', epochs=100,batch=4, imgsz=640)
+
+# 评估模型在验证集上的性能
+metrics = model.val(save_json=True)
+metrics.box.map  # map50-95
+metrics.box.map50  # map50
+metrics.box.map75  # map75
+metrics.box.maps  # a list contains map50-95 of each category
+
+# ---------- 加载模型 ----------
+model = YOLO('runs/detect/train3/weights/best.pt')  
+# ---------- 模型评估 ----------
+model.val(data='coco128.yaml')
+————————————————
+
+# 使用模型对图片进行目标检测
+import cv2
+from PIL import Image
+from ultralytics import YOLO
+model = YOLO("model.pt")
+results = model.predict(source="/folder/", show=True)  
+
+# from PIL
+im1 = Image.open("bus.jpg")
+results = model.predict(source=im1, save=True)  # save plotted images
+
+# from ndarray
+im2 = cv2.imread("bus.jpg")
+results = model.predict(source=im2, save=True, save_txt=True)  # save predictions as labels
+
+# 将模型导出
+success = model.export(format='onnx')
+
+#预测代码
+model = YOLO('yolov8n-cls.pt')
+results = model("best.pt")
+print(results[0].names)
+# 对结果进行处理
+for result in results:
+    probs = result.probs
+    print(probs)
+
+========================
+from ultralytics import YOLO
+
+# Load a models
+model = YOLO("D:\MyProject\yolov8s.pt")  # load a pretrained model (recommended for training)
+
+# Use the model
+model.train(data="D:\MyProject\data\myData.yaml", epochs=3)  # train the model
+metrics = model.val()  # evaluate model performance on the validation set
+results = model("https://ultralytics.com/images/bus.jpg")  # predict on an image
+path = model.export(format="onnx")  # export the model to ONNX format
+
+===============================
+自动标注
+from pathlib import Path
+from ultralytics import SAM, YOLO
+import torch
+
+# 定义图像数据路径
+img_data_path = 'ultralytics/assets'
+
+# 定义检测模型和SAM模型的路径
+det_model="yolov8n.pt"
+sam_model="mobile_sam.pt"
+
+# 根据CUDA是否可用选择设备
+device = '0' if torch.cuda.is_available() else 'cpu'
+
+# 定义输出目录，默认为None
+# 输出路径
+output_dir = None
+
+# 初始化检测模型和SAM模型
+det_model = YOLO(det_model)
+sam_model = SAM(sam_model)
+
+# 获取图像数据路径
+data = Path(img_data_path)
+
+# 如果输出目录未定义，则生成默认的输出目录
+if not output_dir:
+    output_dir = data.parent / f"{data.stem}_auto_annotate_labels"
+    # 创建输出目录
+    Path(output_dir).mkdir(exist_ok=True, parents=True)
+
+# 对图像数据进行检测
+det_results = det_model(data, stream=True, device=device)
+
+# 遍历检测结果
+for result in det_results:
+    # 获取类别ID
+    class_ids = result.boxes.cls.int().tolist()  # noqa
+    # 如果有检测到物体
+    if len(class_ids):
+        # 获取检测框坐标
+        boxes = result.boxes.xyxy  # Boxes object for bbox outputs
+        # 使用SAM模型进行分割
+        sam_results = sam_model(result.orig_img, bboxes=boxes, verbose=False, save=False, device=device)
+        # 获取分割结果
+        segments = sam_results[0].masks.xyn  # noqa
+        # 为每个图像生成标注文件
+        with open(f"{Path(output_dir) / Path(result.path).stem}.txt", "w") as f:
+            # 遍历每个分割区域
+            for i in range(len(segments)):
+                s = segments[i]
+                # 如果分割区域为空，则跳过
+                if len(s) == 0:
+                    continue
+                # 将分割区域坐标转换为字符串格式
+                segment = map(str, segments[i].reshape(-1).tolist())
+                # 写入标注信息
+                f.write(f"{class_ids[i]} " + " ".join(segment) + "\n")
+======================================
+names:
+  0: person
+  1: bicycle
+  2: car
+  3: motorcycle
+  4: airplane
+  5: bus
+  6: train
+  7: truck
+  8: boat
+  9: traffic light
+  10: fire hydrant
+  11: stop sign
+  12: parking meter
+  13: bench
+  14: bird
+  15: cat
+  16: dog
+  17: horse
+  18: sheep
+  19: cow
+  20: elephant
+  21: bear
+  22: zebra
+  23: giraffe
+  24: backpack
+  25: umbrella
+  26: handbag
+  27: tie
+  28: suitcase
+  29: frisbee
+  30: skis
+  31: snowboard
+  32: sports ball
+  33: kite
+  34: baseball bat
+  35: baseball glove
+  36: skateboard
+  37: surfboard
+  38: tennis racket
+  39: bottle
+  40: wine glass
+  41: cup
+  42: fork
+  43: knife
+  44: spoon
+  45: bowl
+  46: banana
+  47: apple
+  48: sandwich
+  49: orange
+  50: broccoli
+  51: carrot
+  52: hot dog
+  53: pizza
+  54: donut
+  55: cake
+  56: chair
+  57: couch
+  58: potted plant
+  59: bed
+  60: dining table
+  61: toilet
+  62: tv
+  63: laptop
+  64: mouse
+  65: remote
+  66: keyboard
+  67: cell phone
+  68: microwave
+  69: oven
+  70: toaster
+  71: sink
+  72: refrigerator
+  73: book
+  74: clock
+  75: vase
+  76: scissors
+  77: teddy bear
+  78: hair drier
+  79: toothbrush
+==============================================
+预测
+from ultralytics import YOLO
+
+# Load a model
+model = YOLO("yolov8n.pt")  # pretrained YOLOv8n model
+
+# Run batched inference on a list of images
+results = model(["im1.jpg", "im2.jpg"])  # return a list of Results objects
+
+# Process results list
+for result in results:
+    boxes = result.boxes  # Boxes object for bounding box outputs
+    masks = result.masks  # Masks object for segmentation masks outputs
+    keypoints = result.keypoints  # Keypoints object for pose outputs
+    probs = result.probs  # Probs object for classification outputs
+    obb = result.obb  # Oriented boxes object for OBB outputs
+    result.show()  # display to screen
+    result.save(filename="result.jpg")  # save to disk
+=======================
+帧
+import cv2
+import os
+videos_src_path = r'D:\shipincunfang'  # 提取图片的视频文件夹
+videos_save_path = r'D:\shipincunfang'  # 保存图片的路径
+videos = os.listdir(videos_src_path)  # 用于返回指定的文件夹包含的文件或文件夹的名字的列表。
+videos = filter(lambda x: x.endswith('mp4'), videos)  # 将mp4文件读进来，可改为avi等格式
+for each_video in videos:
+    frame_count = 10
+ 
+    # 得到每个文件夹的名字, 并指定每一帧的保存路径
+ 
+    each_video_name, _ = each_video.split('.')
+ 
+    os.mkdir(videos_save_path + '/' + each_video_name)
+ 
+    each_video_save_full_path = os.path.join(videos_save_path, each_video_name) + '/'
+ 
+    # 得到完整的视频路径
+    each_video_full_path = os.path.join(videos_src_path, each_video)
+    # 用OpenCV一帧一帧读取出来
+ 
+    cap = cv2.VideoCapture(each_video_full_path)
+ 
+    success = True
+ 
+    while (success):
+ 
+        success, frame = cap.read()
+ 
+        print('Read a new frame: ', success)
+        params = []
+        params.append(1)
+        # if len(frame) > 0:
+        # if success:
+        if frame is not None and frame_count % 3 == 0:  # 每？帧取一帧图片保存下来，可以自己修改
+            cv2.imwrite(each_video_save_full_path + each_video_name + "_%d.jpg" % frame_count, frame, params)
+            print(frame_count)
+        frame_count = frame_count + 1
+    cap.release()
