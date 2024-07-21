@@ -1,0 +1,30 @@
+[project]
+name = "labelme_stats"
+version = "1.0.4"
+authors = [{ name = "Bryt", email = "bryt.xin.li@gmail.com" }]
+description = "Labelme statistics"
+readme = "README.md"
+requires-python = ">=3.6"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = []
+
+[project.scripts]
+labelme-count-label = "labelme_stats.cli:entry"
+
+[project.urls]
+Homepage = "https://github.com/xin-at-marathon/pypi"
+Issues = "https://github.com/xin-at-marathon/pypi/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
