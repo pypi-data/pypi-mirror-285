@@ -1,0 +1,93 @@
+Metadata-Version: 2.1
+Name: FAImageGen
+Version: 0.1.0
+Summary: Python SDK for ImageGen
+Home-page: https://github.com/FotographerAI/ImageGen-sdk/
+Author: Saliou Kane
+Author-email: saliou@fotographer.ai
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# InstantLight-sdk
+
+## Installation
+
+Install the SDK using pip:
+
+```bash
+pip install FAImageGen
+```
+
+## Usage
+
+Hereâ€™s an example of how to use the InstantLight SDK to make an API call and handle the response:
+
+```bash
+# InstantLight-sdk
+
+## Installation
+
+Install the SDK using pip:
+
+```bash
+pip install FAImageGen
+```
+
+## Usage
+
+Hereâ€™s an example of how to use the InstantLight SDK to make an API call and handle the response:
+
+```bash
+from ImageGen import ImageGen
+from PIL import Image
+import base64
+from io import BytesIO
+
+# Initialize the SDK
+sdk = ImageGen(
+    base_url='https://api.fotographer.ai/Image-gen',
+    api_key='your_api_key',
+    email='your_email@example.com'
+)
+
+# Convert images to base64
+def image_to_base64(image_path):
+    with Image.open(image_path) as img:
+        buffered = BytesIO()
+        img.save(buffered, format="PNG")
+        return base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+# Prepare the image data
+image_path = 'path_to_image.png'
+prompt = 'your_prompt_here'
+
+# Make the API call
+response = sdk.image_generation.get_image_gen(image_path, prompt)
+
+# Print the response keys for debugging
+print("Response Keys:", response.keys())
+
+# Print the keys at all levels of the response for debugging
+for key, value in response.items():
+    if isinstance(value, dict):
+        print(f"Response[{key}] Keys: {value.keys()}")
+
+# Save the image and mask image if they exist in the response
+if 'image' in response:
+    image_data = response['image']
+    image_bytes = base64.b64decode(image_data)
+    image = Image.open(BytesIO(image_bytes))
+    image.save("output_image.png")
+    print("Image retrieved and saved as output_image.png.")
+else:
+    print("Response does not contain 'image'")
+
+```
+
+Make sure to update `your_api_key` and `your_email@example.com` with the actual values in the example usage section.
+
+
