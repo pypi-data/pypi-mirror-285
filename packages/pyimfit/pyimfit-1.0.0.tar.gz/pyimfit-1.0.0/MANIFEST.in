@@ -1,0 +1,10 @@
+# Specification of additional files to include in sdist build.
+# By default, the standard set of files are automatically included; here, we specify
+# additional things
+include pyimfit/*.pyx
+include pyimfit/*.pxd
+recursive-include prebuilt *
+recursive-include libimfit *.h
+recursive-include extra_libs *
+exclude libimfit/libimfit.a
+include README_pyimfit.md

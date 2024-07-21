@@ -1,0 +1,11 @@
+# Pip requirements.txt file for PyImfit, including for testing
+# numpy 2.0 breaks some of the Cython-generated .cpp code (even though we're using Cython 3.0)
+numpy<2.0
+scipy
+pytest
+requests
+
+# stuff to avoid possible conflicts involving Sphinx and docutils-0.18 on readthedocs.org
+sphinx<4.0
+sphinx_rtd_theme==0.5.1
+docutils<0.18

@@ -1,0 +1,1027 @@
+PLAN:
+
+** GENERAL/FUTURE TO-DO
+
+[ ] Add indications of n_iterations to FitResult output in case of NM or DE fits
+
+    solverResults.GetNFunctionEvals
+
+    -- currently, FitResult.nIter = -1 when they succeed
+    fitting.py: Imfit.nIter
+        self._modelObjectWrapper.nIter
+       _modelObjectWrapper is set up by _setupModel
+        self._modelObjectWrapper = ModelObjectWrapper(...)
+
+    pyimfit_lib.pyx: ModelObjectWrapper class
+from .imfit_lib cimport Convolver, ModelObject, SolverResults, DispatchToSolver
+    cdef SolverResults *_solverResults
+    cdef mp_result *_fitResult
+
+    fit() method:
+        if mode == 'LM':
+            self._fitResult = self._solverResults.GetMPResults()
+            if self._solverResults.ErrorsPresent():
+                self._solverResults.GetErrors(self._fitErrorsVect)
+
+    @property
+    def nIter(self):
+        if self.fittedLM:
+            return self._fitResult.niter
+        else:
+            return -1
+
+    [x] Add retrieval and storage of nFuncEvals in Imfit class
+    [x] Add code to print out nFuncEvals
+
+    [ ] Figure out how to retain number of iterations/generations when NM or DE fit is done
+        and save it in the FitResult object.
+
+
+[X] Add ftol keyword to fitting.py --
+    Imfit.fit and Imfit.doFit
+
+
+[X] Fix bug in trying to use PointSource-type (PSF interpolation) functios
+	[X] I. Modify ModelObjectWrapper.__init__() to accept optional PSF & normalization flag
+
+		If PSF and flag are non-None, ModelObjectWrapper.__init__() should call setPSF()
+		*before* calling ModelObjectWrapper._addFunctions()
+
+	[X] II. Move code from ModelObjectWrapper.setPSF() into ModelObjectWrapper.__init__();
+	delete ModelObjectWrapper.setPSF()
+
+	[X] III. Modify Imfit._setupModel() so that it initializes ModelObjectWrapper with
+	new interface, including PSF.
+		np.asarray(self._psf), self._normalizePSF
+
+	[X] IV. Modify Imfit._setupModel() to remove call to self._modelObjectWrapper.setPSF()
+
+    [X] Run pytest test_imfit.py to see if test passes
+
+    [X] Modify ModelDescription to include reporting if it contains PointSource-type functions
+        -- attribute hasPointSources [bool]
+        [X] Add tests to test_descriptions.py
+        [X] Write code to pass tests
+
+    [X] Add error-checking to catch and report if we try to instantiate Imfit object when
+    model has PointSource and we didn't supply one (raise TypeError)
+        [X] Write test (in test_imfit.py) to check this
+
+        [X] Write code in Imfit.__init__ to make test pass
+
+
+[ ] Modify various methods in Imfit class to check whether _modelObjectWrapper has been
+    instantiated or not.
+
+
+    ** Update GitHub access to new methodology
+        [X] Visit GitHub web page
+        [X]1. Generate Personal Authenticaion Token [PAT] (& copy to pword file)
+            https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token
+        [X]2. Update Keychain Access
+            A. Delete current github.com "internet password" entry in Keychain Access
+                https://docs.github.com/en/free-pro-team@latest/github/using-git/updating-credentials-from-the-macos-keychain
+                -- this is the password storage for command-line access via git-credential-osxkeychain
+                (see "Access Control" tab for this entry)
+                -- do *not* modify any of the "Web form password" entries -- these are what
+                Safari, etc. use!
+            B. Force new storage of PAT in keychain
+                https://docs.github.com/en/free-pro-team@latest/github/using-git/caching-your-github-credentials-in-git
+                (Note that "$ git config --get credential.helper" confirms that osxkeychain is already set)
+
+
+
+    ** New Update: Update code to use Imfit v1.8
+
+        [X] Build and test new Mac Python version
+            [x] Update imfit submodule
+                [x] Update submodule
+                    $ cd ~/coding/pyimfit
+                    $ git submodule update --remote --merge
+
+                [x] Checkout v1.8
+                    $ cd imfit
+                    $ git checkout tags/v1.8
+                    $ cd ..
+                    $ git commit -a -m "Set Imfit submodule to release v1.8"
+                    $ git push
+
+            [x] Build updated libimfit
+                A. [mac] cd imfit
+                B. [mac] scons --clang-openmp libimfit.a
+                C. [mac] cp libimfit.a ../prebuilt/macos
+                # copy updated Imfit C++ header files
+                D. [mac] cd .. ; ./update_from_imfit.sh
+
+            [X] Build and test pyimfit on Mac
+                [X] Changed AddFunctions() in v1.8
+                    -- now includes functionLabelList input parameter
+                    [X] Update imfit_lib.pxd to handle changed AddFunctions
+                    [X] Update pyimfit_lib.pyx to handle changed AddFunctions
+
+                    [X] Update Python code to handle changed AddFunctions
+                        -- e.g., pass in labels when initializing FunctionDescription objects?
+                        [x] Update code in descriptions.py
+                        [x] Update code that reads in config files to check for and add
+                            function labels
+
+            [ ] Build and test pyimfit on Linux VM
+                   -- howto_new_distribution.txt
+                [X] Find notes on building on Linux VM
+                [X] Build new libimfit.a on Linux VM
+                    -- [opt]2. Generate updated libimfit.a for Linux [VM: ubuntu64-16_dev], IF NECESSARY
+
+
+                [ ] Build new release on Linux VM
+                    -- 4. Do new "develop" install and run tests on Linux VM
+
+
+    ** New Update: Make build for Python 3.12
+        howto_new_distribution.txt
+
+        [X] Install Python 3.12
+            [X] Install Python
+            [X] Install necessary libraries via pip
+
+        [ ] Add Python 3.12 as an option for GitHub Actions testing workflow
+
+        [ ] Upload new version to pip staging area
+
+        [ ] Email announcement to Imfit mailing list
+
+        [ ] Email announcement to AstroPy mailing list
+
+        [ ] Announce on Facebook Python-Astronomy group
+
+        [ ] Announce on Twitter?
+
+        [ ] Announce on Bluesky?
+
+        [ ] Announce on Facebook Astrostatistics group
+
+
+    ** New Update: Make build for Python 3.10
+        howto_new_distribution.txt
+
+        [X] Install Python 3.10
+            [X] Install Python
+            [X] Install necessary libraries via pip
+
+        [X] Add Python 3.10 as an option for GitHub Actions testing workflow
+
+        [X] Upload new version to pip staging area
+
+        [ ] Email announcement to Imfit mailing list
+
+        [ ] Email announcement to AstroPy mailing list
+
+        [ ] Announce on Facebook Python-Astronomy group
+
+        [ ] Announce on Facebook Astrostatistics group
+
+
+    ** Alternate outputs for best-fit parameter values
+        https://github.com/perwin/pyimfit/issues/2
+
+        [x] Brainstorm alternate output
+            -- return ModelDescription object
+            -- return list of single-function-set dicts
+            OR: return dict containing single-function-set dicts, so we can optionally
+            have labels for each function set as the keys (e.g., corresponding to FunctionSetDescription.name)
+                Default case: 'fs0', 'fs1', etc. as function-set names
+                Note that ModelObject stores its function sets as as List[FunctionSetDescription]
+
+        Possible outline for model-as-dict
+            'options': optionsDict or None
+            'function_sets': list of function-set-dicts
+
+                function-set-dict -- dict
+                    'name': str or None [default]  [--> FunctionSetDescription.name]
+                    'X0'
+                    'Y0'
+                    'function_list': list of function-dicts
+
+                        function-dict -- OrderedDict
+                            'name': <function name>' ("Exponential", etc.)
+                            'label' : str or None [default]
+                            'parameters' : parameters-dict
+
+                            parameters-dict -- OrderedDict
+                                '<parameter-name>': parameter-value
+                                OR '<parameter-name>': [parameter-value, "fixed"]
+                                OR '<parameter-name>': [parameter-value, lower-limit, upper-limit]
+                                etc.
+
+        [x] Code to generate FunctionDescription object from function-dict
+            -- FunctionDescription.dict_to_FunctionDescription
+                [x] Add test code to test_descriptions.py
+                [x] Add static class function DictToFunction() to FunctionDescription class
+                [x] Update code till tests pass
+                [x] Update code-with-parameter-limits till tests pass
+        [x] Code to generate FunctionSetDescription object from function-set-dict
+                [x] Add test code to test_descriptions.py
+                [x] Add static class function DictToFunctionSet() to FunctionSetDescription class
+                [x] Update code till tests pass
+                [x] Update code-with-parameter-limits till tests pass
+        [x] Code to generate ModelDescription object from model-as-dict
+                [x] Add test code to test_descriptions.py
+                [x] Add static class function DictToFunctionSet() to FunctionSetDescription class
+                [x] Update code till tests pass
+                [x] Update code-with-parameter-limits till tests pass
+
+        [x] Code to generate parameter-info list from Parameter object
+            --- getParamInfoList
+                returns e.g. [33.4] or [33.4, 0.0, 100.0] or [33.4, 'fixed']
+                [x] Add test to test_descriptions.py for ParameterDescription.getParamInfoList()
+                [x] Write code till test passes
+
+        [x] Code to generate function-as-dict from FunctionDescription object
+            --- getFunctionAsDict
+                [x] Add test to test_descriptions.py for FunctionDescription.getFunctionAsDict()
+                [x] Write code till test passes
+
+        [x] Code to generate function-set-as-dict from FunctionSetDescription object
+            --- getFuncSetAsDict
+                [x] Add test to test_descriptions.py for FunctionSetDescription.getFuncSetAsDict()
+                [x] Write code till test passes
+
+        [x] Code to generate model-as-dict from ModelDescription object
+            --- getModelAsDict
+                [x] Add test to test_descriptions.py for ModelDescription.getModelAsDict()
+                [x] Write code till test passes
+
+        [x] Convert "name" to "label" in FunctionSetDescription code
+                [x] update code
+                [x] Fix code so that test_descriptions.py passes
+
+        [x] Clean up config.parse_config() so that it *doesn't* auto-generate "fs{0}" (e.g., "fs0")
+            function-set names
+                [x] Convert "fs{0}" name-generation to "" generation
+                [x] Fix any tests that fail
+
+        [x] Code to output dict-based models from Imfit object
+            -- new method for Imfit (original suggestion was to alter getRawParameters() output;
+            probably better to have a new method)
+            getModelAsDict() method
+                [x] Check for current code (or lack thereof) for outputting models
+                [x] Write unit test to output dict version of model (test_fitting.py)
+
+        [x] Code to instantiate Imfit object with model-dict
+            -- imfit_fitter = Imfit(model_dict)
+            [x] Write unit test(s) for this
+            [x] Modify Imfit.__init__ so unit test passes
+
+        [ ] Write documentation for dict-based models
+            -- overview [somewhere in "Specifying a model"]
+            [x] Look at current docs to see where this would go
+            [x] Add 1-sentence mention of model dicts to "For Those Already Familiar with Imfit"
+            [x] Add new subsection inside "Specify the model (and its parameters)" describing dicts
+            [x] Add mention of Imfit.getModelAsDict() to "Inspecting the results of a fit" subsection
+
+
+    * Possible bug in Imfit.getModelImage
+        Working in /Users/erwin/Beleriand/build/psf_matching_experiments/notes_for_psf-matching.txt
+        In [40]: psfMod = pyimfit.Imfit(pyimfit.ModelDescription.load(fdir+"config_psf_narrow.dat"))
+        In [44]: psfimage = psfMod.getModelImage(shape=(35,35))
+            ==> segmentation fault!
+            [ ] This seems to happen when we enter the first OpenMP code section in
+            ModelObject::CreateModelObject()
+        BUT note that this segfault does *not* happend in test_fitting.py !
+
+
+    * Figure out fix for handling makeimage-style image generation
+        Three levels/stages:
+            0. Instantiate Imfit instance
+                -- optionally supply PSF, subsampling flag, zero point
+            1. Instantiate ModelObjectWrapper *without* image size
+                -- can then be used for e.g. getModelFluxes()
+            2. Specify image size (e.g. via loadData)
+
+        -- Currently, we ignore NCOLS/NROWS image-description parameters in a config file
+        (config.py) [that is, we load and store the values, but otherwise ignore them]
+        -- Remember that model-image size combines with PSF size to set the internal model-image array,
+        so it's not something that can be easily changed
+        -- Ideally, we want some way to specify image size via NCOLS/NROWS image-description parameters,
+        as is currently done by makeimage
+            -- right now, the only way to specify image size is
+ 	        1. Load an image (ModelObjectWrapper.loadData) to set model image size = data image
+ 	        (e.g., via Imfit.loadData())
+	        OR
+	        2. Use ModelObjectWrapper.getModelImage()
+	        One can call Imfit.getModelImage(shape=xxx), but only *once* (subsequent calls
+	        that include a shape specification raise errors).
+	    In ModelObjectWrapper, the loadData() and setupModelImage() methods are the only way
+	    to specify the image size
+
+
+    * Packaging:
+        * Make Python package (ignore Imfit library compilation for now)
+            [x] Make text file summarizing how to compile/build package in current form
+
+        * Test upload to TestPyPI and installation
+            [x] Make virtualenv
+            [x] Trial upload of wheel
+            [x] Trial installation in virtualenv
+
+        * Update README.md
+            -- Will be seen on Github
+
+        * Update/flesh out README_pyimfit.md
+            -- Will be seen on PyPI
+
+        * Include compilation of Imfit library
+            [x] Look up notes on how to include Cython compilation in a package build
+
+            http://martinsosic.com/development/2016/02/08/wrapping-c-library-as-python-module.html#summary
+
+        * Figure out how to install cython and scons as part of general installation
+            https://stackoverflow.com/questions/54117786/add-numpy-get-include-argument-to-setuptools-without-preinstalled-numpy
+
+            [X] cython
+                -- needed for cythonize in setup.py and for actual processing of .pyx into .cpp
+                (possibly later we could relax this, by generating the .cpp files and making
+                them part of the repo/distribution)
+            [x] scons
+                Need to locally/temporarily install scons as a Python package *and* have
+                access to the "scons" binary
+            [x] Figure out how to *remove* general SCons installation
+                -- right now, if we download the precompiled binary version from test.pypi.org,
+                it installs scons (in addition to pyimfit)
+
+
+        * Test compilation in virtualenv with different compilers
+            [x] Write notes/script to set up new virtualenv with bare essentials
+            [x] Write notes/script for making clean setup of pyimfit
+                -- scons -c on imfit subdir
+                -- rm build/*, etc.
+            [x] Write notes/script
+
+            [x] Test with GCC-9
+
+            [-] Test with Homebrew llvm
+
+            [x] Write code to pass in user-specified CXX, CC to scons for building libimfit.a
+
+        * Test installation on Linux
+            [x] Test installation on Ubuntu 16 VM
+
+
+    * Documentation:
+        [x] Check how to set up doc input files for readthedocs
+
+            [x] Look up how to do Sphinx setup/quickstart (e.g., how to generate setup.py file)
+            [x] Do Sphinx setup/quickstart
+
+            [x] Test Sphinx documentation generation
+
+       [x] Make basic how-to/summary files (useful for me)
+        [x] Basic summary .rst file
+            -- the main pieces
+            -- how to assemble a model
+            -- how to do a fit
+            -- how to look at the results
+
+       [X] Add mention/example of how to include/use PSF images and mask images
+       [X] Add mention/example of how to do bootstrap resampling
+
+       [ ] Add API documentation
+            To make this work, we need to create files in api_ref_local/, such as descriptions.rst
+            files in docs/api_ref/, which are generated via lines in make_docs.sh, e.g.:
+            ./convert_apidoc_html.py ./_build/html/api_ref_local/descriptions.html ./api_ref/descriptions_base.html
+            -- modify api_ref/api_index.rst to include more files
+            [ ] Add documentation file for config.py
+            [X] Add documentation file for descriptions.py
+            [ ] Add documentation file for imfit_funcs.py
+            [ ] Add documentation file for utils.py
+
+    * Rework package to make it astropy-compatible
+
+    * [X] Decide on consistent use of "function set" vs "function block"
+
+
+[x] Rationalize handling of masks and MaskedArray in fitting.Imfit.loadData
+    [x]1. We should check that mask has same shape as data image *before*
+    we call _composemask
+    [x]2. Rationalize processing of mask
+
+[ ] Feedback options
+    [x] Option to print feedback from Levenberg-Marquardt
+    [x] Option to print feedback from Nelder-Mead
+    [x] Option to print feedback from DE
+    [x] Option to print feedback from bootstrap-resampling
+    [ ] Option in doFit() to print a fit summary at the end
+        -- automatically printed when verbose=1 or 2?
+        [x] check how fitting functions in scipy (and astropy?) return things
+        -- scipy.optimize.minimize returns a slightly modified dict class called OptimizeResult (basically just
+        allowing keys to be accessed as attributes
+        [x] Separate public method in Imfit class which returns fit summary (called by doFit())
+            [x] Write unit test
+                [x] Error if fit not terminated
+                [x] Basic fit result
+            [x] Write stub function
+        **CURRENT**
+        [x] Finish adding entries to getFit
+            -- NFEV?
+            -- NPEGGED?
+            -- solver name
+            -- solver status (and string translation?)
+            -- parameter uncertainties in L-M case?
+
+    Scipy.optimize.minimize output
+        Optimization terminated successfully.
+            Current function value: 0.000000
+            Iterations: 339
+            Function evaluations: 571
+        https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.OptimizeResult.html#scipy.optimize.OptimizeResult
+
+Imfit output -- LM:
+*** mpfit status = 1 -- SUCCESS: Convergence in fit-statistic value.
+  CHI-SQUARE = 66932.392040    (63421 DOF)
+  INITIAL CHI^2 = 712278.469657
+        NPAR = 7
+       NFREE = 7
+     NPEGGED = 0
+     NITER = 13
+      NFEV = 98
+
+Reduced Chi^2 = 1.055366
+AIC = 66946.393806, BIC = 67009.795665
+
+Imfit output -- NM:
+Nelder-Mead Simplex: status = 3 -- SUCCESS: ftol_rel or ftol_abs reached
+
+  CHI-SQUARE = 66932.392242
+  NFEV = 557
+
+Reduced Chi^2 = 1.055366
+AIC = 66946.394008, BIC = 67009.795867
+
+
+
+EXAMPLE OF USE INSIDE AN OPTIMIZER CLASS/METHOD:
+
+    result = OptimizeResult(fun=fval, nit=iterations, nfev=fcalls[0],
+                            status=warnflag, success=(warnflag == 0),
+                            message=msg, x=x, final_simplex=(sim, fsim))
+
+
+
+[x] Add method to Imfit class to return list of parameter names in bootstrap-output form
+    -- e.g., ["X0_1", "Y0_1", "PA_1", etc.]
+    -- same as headers generated by ModelObject::GetParamHeader
+    -- simple enough that we can probably get away with coding it in Python
+    [x] Write tests for getNumberedParameterNames
+    [x] Write code to pass tests
+    [x] Write code (test_boodtrap.py) to check for returned parameter names
+    [x] Add option to Imfit.runBootstrap() to return parameter names
+
+
+[ ] Investigate mechanisms for allowing user to halt/cancel a fit (or image-generation, or
+bootstrap resampling) in process
+    https://stackoverflow.com/questions/21550418/how-to-interrupt-native-extension-code-without-killing-the-interpreter
+
+
+[ ] Fix broken SimpleModelDescription
+    -- currently, if we create a "blank" SimpleModelDescription, we cannot add a FunctionSetDescription
+    to it
+    -- ideally, we should be able to instantiate SimpleModelDescription using
+        a) an existing ModelDescription instance (with one function set)
+        b) an existing FunctionSetDescription instance
+        b) a single-entry list/tuple of FunctionSetDescription instances
+    -- we should also be able to set the x0 and y0 values
+    [ ] Create some tests in test_descriptions.py for how SimpleModelDescription should act
+        [x] Write test(s) instantiating from existing ModelDescription
+            [x] Basic test
+            [x] Test that we raise exception for case of input ModelDescription with 2+ function sets
+        [x] Write test(s) instantiating from existing FunctionSetDescription
+        [x] Write test(s) instantiating from existing FunctionDescription
+        [ ] Write test(s) modifying x0, y0
+
+    [X] Add test of replaceOptions method (ModelDescription)
+    [X] Add test of nParameters value (SimpleModelDescription)
+
+[X] Add ability to get list of image-function names
+    -- instantiate a list of string when module is imported?
+    [X] Decide which module to put this in
+
+[X] Add ability to get list of image-function parameters
+
+
+[x] Improvements/fixes to Imfit class
+    [x] getModelImage -- allow user to specify new parameter vector
+        makeimage_main.cpp:
+            theModel->CreateModelImage(paramsVect);
+            theModel->GetModelImageVector()
+
+        [x] Add ability to specify optional/new parameter vector to ModelObjectWrapper
+            -- Note that computeFitStatistic already allows this
+            -- do we want to permanently update the internal parameter vector,
+            or just temporarily?
+        [x] Add keyword option for specifying new parameter array to Imfit.getModelImage()
+    [x] Set up testing of Imfit.getModelImage(newParameters)
+        [x] Write test code for FlatSky component, varying I_0 value
+
+    [x] getModelFluxes and getModelMagnitudes -- ditto
+        [x] Write unit tests
+        [x] Modify ModelObjectWrapper.getModelFluxes to allow optional parameter vector
+        [x] Modify ModelObjectWrapper.getModelMagnitudes to allow optional parameter vector
+
+    [x] Catch possible error where user specifies alternate shape for model image
+    via getModelImage when Imfit object already has that specified (e.g., via loadData)
+        [x] Write unit test in test_fitting.py to catch this
+
+
+[ ] Processing of makeimage config files
+    -- We would like to be able to tell PyImfit to read a makeimage config file and set
+    up the model accordingly, *including* the image dimensions (if supplied)
+
+
+[ ] LATER: handle resizing of model image and/or new
+    -- This will require changing Imfit to allow resizing, new data, etc.
+    Alternately (and probably simpler), this will require allowing Imfit to
+    discard the old ModelObjectWrapper and properly initialize a new one
+    -- Note that self._dataSet records if we have called loadData, and thus whether or
+    not a data image, etc. (including image size) has been added
+    [ ] Resizing of model image
+    [ ] Changing image-description parameters
+    [ ] Changing PSF image(s)
+    [ ] Changing data image (can include resizing of model image)
+
+
+[x] Computation of total and individual-function fluxes, magnitudes
+    -- e.g., equivalent of makeimage --print-fluxes
+    -- option/method: total flux only (with zero point as optional parameter)
+    -- option/method: fluxes for individual functions (with zero point as optional parameter)
+    [x] Create unit-test file
+    [x] Create preliminary unit tests
+    [x] Write code to pass unit tests
+
+
+[x] Method to save best-fit parameters (e.g., in Imfit object) to imfit/makeimage-compatible output
+    file
+    -- We should actually be able to do two things
+        1. Save best-fit parameters to something like a standard imfit best-fit output file
+        2. Save a model to something like a standard imfit config file (including GAIN, etc.)
+            -- e.g., if we construct a model in Python, and then want to save it to a file
+
+    [x] Check to see if code for this already exists [no]
+    [x] Add code to ModelDescription to save model description to file
+        [x] Add code to ParameterDescription to output formatted string
+            [x] Add code to unit test (test_description.py)
+            [x] Write code to pass test
+        [x] Add code to ParameterDescription to output formatted string w/ optional errors (no limit info)
+            [x] Add code to unit tests (test_description.py) -- no errors
+            [x] Add code to unit tests (test_description.py) -- with errors
+            [x] Write code to pass tests
+        [x] Add code to FunctionDescription to output list of formatted strings
+            [x] Add code to unit test (test_description.py)
+            [x] Write code to pass test
+        [x] Add code to FunctionDescription to output list of formatted strings w/ optional errors (no limit info)
+            [x] Add code to unit tests (test_description.py) -- no errors
+            [x] Add code to unit tests (test_description.py) -- with errors
+            [x] Write code to pass tests
+        [x] Add code to FunctionSetDescription to output list of formatted strings
+            [x] Add code to unit test (test_description.py)
+            [x] Write code to pass test
+        [x] Add code to FunctionSetDescription to output list of formatted strings w/ optional errors (no limit info)
+            [x] Add code to unit test (test_description.py) -- no errors
+            [x] Add code to unit test (test_description.py) -- with errors (or noLimits=True)
+            [x] Write code to pass test
+        [x] Add code to save ModelDescription as imfit config file (GAIN, parameter limits, etc.)
+            [x] Add code to unit test (test_description.py)
+            [x] Write code to pass test
+        [x] Add code to save ModelDescription as imfit output file (no GAIN, etc.; should include
+            parameter errors, if they exist)
+    [x] Add code to Imfit to do same (should call method on internal
+        e.g., use getModelDescription(), then pass parameters to the resulting ModelDescription object
+            [x] Test Imfit.saveCurrentModelToFile()
+                [x] Test saving model prior to fit
+                [x] Run fit with NM (no parameter errors)
+                [x] Run fit with LM (parameter errors)
+            [x] includeImageOptions=True doesn't actually save image options if they're provided
+            in the Imfit.fit method
+            -- OK, the problem is:
+                1. How do we save keyword values passed in when .fit() or .loadData() [called by fit]
+                are called (currently, these are passed on to _modelObjectWrapper.loadData)
+                2. ModelDescription.getStringDescription needs to be able to
+    [x] Add code for updating ModelDescription option within Imfit
+        -- use ModelDescription.updateOptions()
+        [x] Write _updateModelDescription
+            [x] Write unit test for Imfit._updateModelDescription
+            [x] Write code to pass test
+        [x] Test to see if Imfit.saveCurrentModelToFile() correctly saves user-supplied image options
+
+
+[ ] Experiment with building using shared libraries
+    -- See notes in notes_on_packaging.txt [delocate for macOS, auditwheel for Linux]
+            https://stackoverflow.com/questions/47042483/how-to-build-and-distribute-a-python-cython-package-that-depends-on-third-party
+    [ ] Experiment with inserting shared libraries into Linux wheel
+        [ ] Build wheel under Linux
+            [ ] Download distribution onto Linux VM
+                $ git clone --recurse-submodules https://github.com/perwin/pyimfit.git pyimfit
+                $ cd pyimfit
+            [ ] Build binary wheel
+                $ python3 setup.py bdist_wheel
+            [ ] Use auditwheel to copy shared libraries into wheel
+
+
+[X] We need the following internal flag variables in Imfit:
+	has-FinalSetupForFitting-been-called?
+		_finalSetupDone
+	has-fit-been-done? (converged *or* terminated)
+		_fitDone
+	has-fit-statistic-been-computed?
+		_fitStatComputed
+
+	Currently, Imfit has the following *properties*:
+		.fitConverged = return self._modelObjectWrapper.fitConverged
+			= [ModelObjectWrapper] return (self._fitStatus > 0) and (self._fitStatus < 5)
+		.fitTerminated = return self._modelObjectWrapper.fitTerminated
+			= [ModelObjectWrapper] return self._fitStatus >= 5
+
+	In ModelObjectWrapper
+		_fitStatus = int, initially 0; then = return value from DispatchToSolver
+
+[X] Imfit.doFit method
+	-- specifies which solver to use
+	-- initiates the fit
+
+	[X] doFit method
+    def doFit( self, solver='LM' ):
+        if solver not in ['LM', 'NM', 'DE']:
+            raise Exception('Invalid solver name: {0}'.format(solver))
+        self._modelObjectWrapper.fit(verbose=self._verboseLevel, mode=solver)
+        if not self.fitError:
+            self._fitDone = True
+            self._fitStatComputed = True
+
+	[X] Modify ModelObjectWrapper.fit
+		-- *remove* self._model.FinalSetupForFitting() call
+
+	[X] ModelObjectWrapper.doFinalSetup method
+		-- if NOT _finalSetupDone: calls ModelObject::FinalSetupForFitting
+
+[X] Imfit.loadData method
+	-- optional PSF data
+		-- set this first!
+	-- loads data and image-description parameters and fit-statistic selection
+	-- calls FinalSetupForFitting
+	[X] Main refactoring (don't include PSF option)
+
+	[X] Modify ModelObjectWrapper.loadData
+		-- status = self._model.FinalSetupForFitting() right at the end
+		-- set internal _finalSetupDone flag
+
+	[X] Add PSF option
+
+[X] Refactor existing Imfit.fit method to call .loadData and then .doFit
+	[X] Refactor
+	[X] Run unit & regression tests
+
+
+[x] Test use of PSF convolution in computation of fit statistics and fitting
+    PSF convolution in test_fitting_and_fitstatistic.py is currently not working!
+    -- Problem is: PSF image is *not* being normalized?
+    Normalization w/in C++ imfit (setup_model_object.cpp):
+    status = newModelObj->AddPSFVector(nPixels_psf, nColumns_psf, nRows_psf, psfPixels,
+    									options->normalizePSF);
+
+    Normalization in pyimfit
+       def setPSF(self, np.ndarray[np.double_t, ndim=2, mode='c'] psf):
+        self._model.AddPSFVector(n_cols_psf * n_rows_psf, n_cols_psf, n_rows_psf, &self._psfData[0])
+
+    def _setupModel(self):
+           if self._psf is not None:
+            self._modelObjectWrapper.setPSF(np.asarray(self._psf))
+
+    [x] Add normalize option/keyword to Imfit class
+        [x] Add as property with default value = True
+
+        [x] Modify Imfit._setupModel to include normalize flag value as input to setPSF
+
+        [x] Modify ModelObjectWrapper.setPSF to accept normalization flag and pass it on
+        to ModelObject::AddPSFVector
+
+        [x] Run tests in test_fitting_and_fitstatistic.py
+
+        [x] Add option for specifying *no* PSF normalization
+            -- should be sample place we pass in the PSF image!
+
+
+
+
+[ ] Modify Imfit: add ability to change parameter *values*
+	[x]-- necessary if we want to use Imfit to get fit statistic *without* running
+	a fit
+	-- useful if user wants to re-run a fit with different starting parameters
+	-- for now: we want to be able to supply a list/ndarray of parameter *values*,
+	without touching the parameter limits
+	-- Two modes:
+		[x]1. Pass parameter values to ModelObject::GetFitStatistic
+		2. Update the parameter values in Imfit object (for future fits)
+
+	Current ModelObjectWrapper.getFitStatistic(mode) does this:
+    def getFitStatistic( self, mode='none' ):
+        cdef double fitstat
+        if self.fittedLM: -- i.e., if there was a successful fit with LM
+            fitstat = self._fitResult.bestnorm
+        else:
+            fitstat = self._model.GetFitStatistic(self._paramVect)
+
+	[and then returns a modified value -- e.g., reduced, AIC, BIC -- depending
+	on value of "mode"]
+
+	[X] New method in ModelObjectWrapper
+	computeFitStatistic( self, parameterVector=None ):
+		[ type for parameterVector = np.ndarray[np.double_t, ndim=1, mode='c'] ?]
+		if parameterVictor is None:
+			fitstat = self._model.GetFitStatistic(self._paramsVect)
+		else:
+			# possibly convert parameterVector to double *
+			fitstat = self._model.GetFitStatistic(parameterVector)
+
+	[X] Corresponding method for Imfit
+
+	[X] Add extra unit tests
+
+
+	Basically, we need to update ModelObjectWrapper._paramVect
+
+	[ ] Updating of current parameter vector in ModelObjectWrapper:
+		[ ] Quick and dirty modification:
+			[ ] Add .updateParameterValues method to ModelObjectWrapper
+				-- should update ModelObjectWrapper._paramVect
+			[ ] Add .updateParameterValues method to Imfit
+				-- should call ModelObjectWrapper._paramVect on self._modelObjectWrapper
+
+
+	MAYBE LATER:
+	[ ] Check to see if there's a way to modify parameter values in an existing
+	ModelDescription instance
+
+	[ ] Modify ParameterDescription
+		[ ] Change "value" property so we can set it as well as read it
+
+	[ ] Modify ModelDescription
+		[ ] ModelDesription.updateParameterValues
+
+	[ ] Modify Imfit to allow updating of parameter values
+		-- i.e., call
+
+[X] Test whether we can call Imfit.fitStatistic w/o running fit
+
+
+
+** [X] ADD OVERSAMPLED-PSF SUPPORT TO PYIMFIT
+
+In current imfit/makeimage code, this is done in SetupModelObject
+
+  [[ *after* PSF vector is added, if any ]]
+
+  [[ *after* adding data image [or specifying model image size in makeimage mode] ]]
+    -- this also makes sense from the standpoint of wanting to have the data/model
+    image dimensions so we can tell if the oversampling regions are within the image
+
+  if (options->psfOversampling) {
+    for (int i = 0; i < (int)psfOversampleInfoVect.size(); i++) {
+      status = newModelObj->AddOversampledPsfInfo(psfOversampleInfoVect[i]);
+      if (status < 0) {
+        fprintf(stderr, "*** ERROR: Failure in ModelObject::AddOversampledPsfInfo!\n\n");
+  	    exit(-1);
+      }
+    }
+  }
+
+
+So we need a way of creating PsfOversamplingInfo objects, and passing pointers
+to them
+    We need to add PsfOversamplingInfo to ModelObjectWrapper, via Imfit
+    -- PsfOversamplingInfo can only be added to ModelObject
+        1. *After* data image added (or model image setup):
+            nDataColumns and nDataRows must already be set
+        2. *After* PSF image (if any) has been added
+
+    Current way to do this is via keyword in call to ModelObjectWrapper.loadData()
+        psf_oversampling_list
+
+    [X] Add declaration of PsfOversamplingInfo to imfit_lib.pxd
+
+    [X] Figure out when we need to or can add psf oversampling info to ModelObject
+        *After* data image added (or model image setup):
+            nDataColumns and nDataRows must already be set
+        *After* PSF image (if any) has been added
+
+    [X] Add keyword parameter for oversampling-info objects to ModelObjectWrapper.
+
+    [X] Add wrapper method around ModelObject::AddOversampledPsfInfo to ModelObjectWrapper
+
+    [X] Make unit/regression test for use of PSF oversampling
+
+    [ ] Add some kind of wrapper/factory function so we can make PsfOversampling objects
+    *without* having to explicitly call FixImage first
+        -- Because PsfOversampling is defined with a __cinit__ (in pyimfit_lib.pyx) and
+        an explicity format for its input PSF-image array, the input must be in proper
+        (little-endian) format *before* we call PsfOversampling()
+
+    [ ] Add preliminary PSF oversampling documenation
+
+    [ ] Later: add separate method to Imfit class allowing user to pass in
+    just the oversampling info?
+
+
+ModelObjectWrapper:
+    cdef addOversamplingInfo(self, PsfOversampling oversamplingInfo):
+
+
+    keyword in loadData:
+       psf_oversampling_list : list of PsfOversampling
+            List of PsfOversampling objects, describing oversampling regions, PSFs,
+            and oversampling scales.
+
+
+
+
+=====================================
+
+HOWTO unit testing, regression testing, etc.:
+
+We can manually run the tests via
+$ cd pyimfit/pyimfit/tests
+$ pytest
+
+Currently, these test must be run from within the test/ subdirectory, since they rely
+on local relative file paths to get at the data in pyimfit/pyimfit/data/ -- so if you
+do something like "cd pyimfit ; pytest" or "cd pymfit ; pytest pyimfit/tests", the
+tests will fail because the paths to the data files in data/ will be wrong....
+
+We can also set up a daemon process that monitors pyimfit/pyimfit/ and its subdirectories
+for any changes to files, and re-runs "pytest" via the "conttest" script
+(original at https://github.com/eigenhombre/continuous-testing-helper; modified version
+in ~/python)
+
+$ cd pyimfit/pyimfit
+$ ~/python/conttest.py "cd tests ; pytest"
+OR:
+$ cd pyimfit/pyimfit/tests
+$ ~/python/conttest.py --dir=.. "pytest"
+
+
+(Ctrl-C will kill the conttest process)
+
+(Note that the options of a ".conttest-excludes" file in the same directory which tells
+conttest to ignore a set of subdirectories doesn't seem to work -- but the only subdirectories
+in pyimfit/pyimfit are __pycache__/ and data/, and arguably we *should* monitor those,
+so it's not really a problem.)
+
+
+
+
+
+
+* As a reminder, imfit does the following, in this order
+1. Creates ModelObject and loads data, error, mask, PSF, image-description info
+(via SetupModelObject)
+	Adds PSF *first*, then adds data, etc. [because when we add data with
+	AddImageDataVector, SetupModelImage is then automatically called, and
+	the internal model-image dimensions are determined, and so *if* we're
+	using a PSF, its dimensions need to already be in place]
+	
+
+2. Adds image functions to ModelObject (via AddFunctions)
+
+[I *believe* that 1 and 2 can be done in either order...]
+
+3. ModelObject->FinalSetupForFitting()
+
+[then we add info about parameter, etc.]
+
+
+    imfit_fitter = Imfit(model_desc)
+    imfit_fitter.loadData(image_ic3478, gain=4.725, read_noise=4.3, original_sky=130.14)
+
+
+* pyimfit currently works this way
+1. Instantiate Imfit object, storing the input ModelDescription and PSF data
+    ex: imfit_fitter = Imfit(model_desc)
+    ex: imfit_fitter = Imfit(model_desc, psfImage)
+
+2. Supply image data (and image-description info, like gain)
+    ex: imfit_fitter.loadData(image_ic3478, gain=4.725, read_noise=4.3, original_sky=130.14)
+
+3. Call Imfit.fit, which
+	A. calls _setupModel(), which instantiates ModelObjectWrapper object, 
+	passing it the ModelDescription
+	Then, inside ModelObjectWrapper, we do
+		self._model = new ModelObject()
+        self._model.SetDebugLevel(debug_level)
+        self._model.SetVerboseLevel(verbose_level)
+        self._addFunctions(self._modelDescr, subsampling=subsampling, verbose=verbose_level)
+        self._paramSetup(self._modelDescr)
+        
+    Then, PSF data (if any) is passed to ModelObjectWrapper object via
+    	self._modelObjectWrapper.setPSF(np.asarray(self._psf))
+
+	B. Sends data, etc. to ModelObjectWrapper object via
+		self._modelObjectWrapper.loadData(image, error, mask, **kwargs)
+		
+	C. Calls FinalSetupForFitting *and* initiates the fit via
+		self._modelObjectWrapper.fit(verbose=self._verboseLevel, mode=mode)
+
+So, in conceptual summary
+	1. Create ModelObject and add functions (and param info)
+	2. Add PSF
+	3. Add data
+	4. FinalSetupForFitting()
+	5. Run fit
+
+
+model_object.cpp:
+/* ---------------- PUBLIC METHOD: SetupModelImage -------------------- */
+// Called by AddImageDataVector(); can also be used by itself in make-image
+// mode. Tells ModelObject to allocate space for the model image.
+// Note that if PSF convolution is being done, then AddPSFVector() must be
+// called *before* this method.
+
+
+
+supply data
+supply PSF
+	==> call FinalSetupForFitting
+
+supply PSF
+supply data
+	==> call FinalSetupForFitting
+
+supply data (not using PSF)
+	==> ??
+
+Why we might want to supply PSF *first*, separate from data image, etc.
+	-- What if user wants to re-run fit with updated mask image?
+	-- What if user wants to re-run fit with changed image section?
+
+
+1. Add doFinalSetup method to Imfit (and ModelObjectWrapper)
+
+2. Modify ModelObjectWrapper.fit so that it checks to see if ModelObject::FinalSetupForFitting
+has already been called; if not, 
+
+
+
+PROBLEMS:
+
+When user calls Imfit.fitStatistic, .reducedFitStatistic, .AIC, or .BIC
+	-- Do we re-compute the fit statistic?
+	-- What if fit statistic already exists?
+
+
+Imfit.fit(...)
+        self._modelObjectWrapper.loadData(image, error, mask, **kwargs)
+        self._dataSet = True
+        self._modelObjectWrapper.fit(verbose=self._verboseLevel, mode=mode)
+
+    @property
+    def fitStatistic(self):
+        """
+        The :math:`\\chi^2`, Poisson MLR, or Cash statistic of the fit.
+        """
+        return self._modelObjectWrapper.getFitStatistic(mode='none')
+
+
+ModelObjectWrapper:
+    def fit( self, double ftol=1e-8, int verbose=-1, mode='LM', seed=0 ):
+        cdef int solverID
+        cdef string solverName
+        status = self._model.FinalSetupForFitting()
+        if status < 0:
+            raise Exception('Failure in ModelObject::FinalSetupForFitting().')
+
+NOTE that getFitStatistic method currently does *not* check to see if
+FinalSetupForFitting was actually called!
+	So one could plausibly call ModelObjectWrapper.loadData and then call
+	ModelObjectWrapper.getFitStatistic -- without ModelObject::FinalSetupForFitting
+	having been called!
+	
+	Currently, the code for Imfit does not allow this, because it does not allow
+	the --fitstat-only mode (that is, Imfit.fit() loads the data *and* runs the
+	fit, and there is no other way to load the data...)
+	
+	
+REFACTORING:
+
+So what we need is a method for Imfit class which
+	-- loads data and image-description parameters and fit-statistic selection
+	-- calls FinalSetupForFitting
+
+and a separate method which initiates the actual fit
+	-- specifies which solver to use
+	-- initiates the fit
+
+We need to modify ModelObjectWrapper
+	1. loadData method should probably call
+		status = self._model.FinalSetupForFitting()
+	right at the end
+	2. loadData should set an internal flag indicating that FinalSetupForFitting
+	*has* been called
+	
+	3. fit method should *not* call self._model.FinalSetupForFitting()
+

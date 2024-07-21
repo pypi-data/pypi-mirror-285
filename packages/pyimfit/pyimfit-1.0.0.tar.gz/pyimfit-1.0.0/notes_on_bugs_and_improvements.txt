@@ -1,0 +1,124 @@
+* (Newer) Problems with missing symbols when importing pyimfit into Python session:
+
+Similar to the problem below, EXCEPT that the missing symbols had something to do with
+C++ string functions.
+
+The solution was to redo the compilation of libimfit.a, forcing the use of clang++ (since that's
+what gets used by setuptools when setup.py is executed). The problem I had was apparently that
+the clang-compiled C++ code from Cython did not want to talk to the GCC-compiled version of
+libmimfit.a.
+
+https://stackoverflow.com/questions/72764375/symbol-not-found-using-dlopen-in-python
+"I found the problem. I was mixing compilers, using clang for the BlockSci code and gcc in pybind11 to bind
+the C++ code with Python."
+
+
+* Problems with missing symbols when importing pyimfit into Python session -- Github CI
+
+At one point (late June 2024), the Github CI action was failing at the "test import" stage with"
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/runner/work/pyimfit/pyimfit/pyimfit/__init__.py", line 4, in <module>
+    from .pyimfit_lib import convolve_image, make_imfit_function, ModelObjectWrapper  # type: ignore
+ImportError: /home/runner/work/pyimfit/pyimfit/pyimfit/pyimfit_lib.cpython-39-x86_64-linux-gnu.so: undefined symbol: _Z12AddFunctionsP11ModelObjectRKSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS7_EERS9_RS1_IiSaIiEEbiRS1_ISt3mapIS7_S7_St4lessIS7_ESaISt4pairIKS7_S7_EEESaISN_EERKS1_IbSaIbEE
+
+It's not clear to me whether this was a mismatched-compiler issue, or some change in
+how AddFunctions was declared between the previous compilation of the Linux version
+of libifmit.a and now.
+
+This was fixed by using a recompiled version of libimfit.a, generated on a Linux VM.
+
+
+
+* Problems with missing symbols when importing pyimfit into Python session:
+
+In trying to use the updated version of PyImfit (v0.12, based on Imfit v1.9),
+I encountered the following when trying to import pyimfit into a Python
+session:
+
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/Users/erwin/coding/pyimfit/pyimfit/__init__.py", line 4, in <module>
+    from .pyimfit_lib import convolve_image, make_imfit_function, ModelObjectWrapper  # type: ignore
+ImportError: dlopen(/Users/erwin/coding/pyimfit/pyimfit/pyimfit_lib.cpython-310-darwin.so, 0x0002): symbol not found in flat namespace (__Z20GetPhysicalCoreCountv)
+
+The missing symbol is a mangled form of GetPhysicalCoreCount, which is in the new (in v1.9)
+count_cpu_cores.cpp code in Imfit. Since convolver.cpp uses that function, it needs to be
+in the library (libimfit.a) file.
+
+The problem turned out to be that the compiled object code for that file -- count_cpu_cores.o --
+was *not* in the list of object files to be incorporated into libimfit.a inside SConstruct.
+Modifying the base_for_lib_objstring string in SConstruct to add "count_cpu_cores" fixed the problem.
+
+(Note that the SConstruct file in the current Imfit repo already had that modification, but
+the Github version and the version inside the pyimfit directory did *not*; this has been
+fixed.)
+
+
+
+* Problem with attribute access:
+
+Problem encountered in writing unit tests for read_function_set()
+
+pytest code calls:
+	return not hasattr(obj, "__name__") and not callable(obj)
+
+hasattr(obj, "__name__") is clearly supposed to return either True or False;
+what actually happens is that we get
+	KeyError: 'Function __name__ not found.'
+
+
+From Python docs:
+hasattr(object, name)
+The arguments are an object and a string. The result is True if the
+string is the name of one of the object’s attributes, False if not.
+(This is implemented by calling getattr(object, name) and seeing whether
+it raises an AttributeError or not.)
+
+getattr(object, name[, default])
+Return the value of the named attribute of object. name must be a
+string. If the string is the name of one of the object’s attributes, the
+result is the value of that attribute. For example, getattr(x, 'foobar')
+is equivalent to x.foobar. If the named attribute does not exist,
+default is returned if provided, otherwise AttributeError is raised.
+
+From elsewhere in Python docs
+[https://docs.python.org/3/reference/datamodel.html#customizing-attribute-access]:
+object.__getattr__(self, name)
+Called when the default attribute access fails with an AttributeError
+(either __getattribute__() raises an AttributeError because name is not
+an instance attribute or an attribute in the class tree for self; or
+__get__() of a name property raises AttributeError). This method should
+either return the (computed) attribute value or raise an AttributeError
+exception.
+
+
+The problem is that Andre has, in the *Description classes (models.py), redefined
+the __getattr__ method as
+	def __getattr__(self, attr):
+		return self[attr]
+which translates to
+	def __getattr__(self, attr):
+		return self.__getitem__(attr)
+and since he's redefined __getitem__ to always raise a KeyError if <attr> is not
+found in the internal _parameters (or _functions or _functionSets) lists, then
+KeyError is returned when hasattr asks about "__name__".  And since hasattr is
+only expecting AttributeError, things fail.
+
+
+CONCLUSION:
+We need to rewrite Andre's approach for adding function or parameter names to
+the *Description objects so that they respect the standard Python conventions
+(e.g., returning AttributeError instead of KeyError when a nonexistent attribute
+name is used).
+
+E.g., use direct modifictions of <classname>.__dict__ as we did for datautils.py
+
+
+* How is Andre's SimpleModelDescription supposed to work? What are the
+attributes the use is expected to use?
+
+
+
+

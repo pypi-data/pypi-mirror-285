@@ -1,0 +1,113 @@
+WARNING: This is primarily intended for personal use by PE within my local copy
+of the repository; it is *not* a general guideline for building the docs.
+
+
+The general logic of our current approach is as follows:
+
+A. We use Sphinx to generate pretty HTML files for the online documentation,
+including using the numpy-interpreted autodoc commands (mostly in the .rst files
+in api_ref_local/) to generate documentation from the docstrings in the Python files.
+
+B. We extract the useful bits of the API-related HTML files (which Sphinx puts
+in _build/html/api_ref_local/) and put them in minimal HTML files in api_ref/.
+
+C. We re-run Sphinx to generate new HTML files; this time, the output files
+in _build/html/api_ref/ will incorporate the updated bits of API-related HTML.
+
+(This is because stage A does *not* work properly on readthedocs.org, because
+the autodoc commands require that Sphinx be able to import the pyimfit package,
+and this can't be done on readthedocs.org. So the basic .rst files in api_ref/
+pull in the local HTML files, rather than running autodoc commands as the
+.rst files in api_ref_local/ do.)
+
+D. We commit the changes to the local git repo, then push the changes to GitHub,
+where readthedocs.org will grab the new copy and generate *its* version of the
+HTML.
+
+
+
+GENERAL WORKFLOW OUTLINE:
+
+1. Update Markdown files; use BBEdit Markup->Preview to check on how it looks
+while editing them.
+
+2. Update rST files if needed: index.rst; api_ref/api_index.rst, other
+api-related .rst files in that directory.
+
+3. IF one or more the Jupyter notebook files have been updated, generate a markdown versions
+with
+   $ jupyter nbconvert pyimfit_emcee.ipynb --to markdown
+   $ jupyter nbconvert pyimfit_bootstrap_BtoT.ipynb --to markdown
+
+4. Generate rST versions of the Markdown files (by running convert_md_to_rst.sh
+script), generate the Sphinx HTML files, extract the apidoc-generated bits of
+HTML and copy them into files in api_ref/, and then re-run the HTML generation:
+
+    $ cd docs
+	$ ./make_docs.sh
+
+View the resulting docs in a web browser pointed at
+	file:///Users/erwin/coding/pyimfit/docs/_build/html/index.html
+
+5. Commit the changes, upload to github
+    $ git commit -a -m "Updated documentation"      [or something like that]
+    $ git push
+
+    This *should* automatically trigger a new build on readthedocs; check the
+    readthedocs status badge (on the PyImfit README page) to see if it worked.
+
+
+
+GETTING THIS TO WORK ON READTHEDOCS
+
+Currently, this only partly works -- specifically, the autodoc functions fail to
+bring in any of the docstring-based stuff. This is, according to the "raw" version
+of the readthedocs build log (look for "v:latest" pop-up menu near bottom of
+sidebar --> "On Read the Docs" --> Build; click on latest build, then click
+on "View raw"), because the various import statements fail with messages like
+
+    WARNING: autodoc: failed to import module 'pyimfit.descriptions'; the following exception was raised:
+    No module named 'pyimfit.pyimfit_lib'
+
+Apparently the problem is that we need to build the extension module...
+
+We may have to generate static autodoc-equivalent .rst files instead of trying
+to use the autodoc commands (the idea being that we can save these somewhere, reference
+them in the *index.rst files, and let readthedocs process the .rst files)
+    https://pythonhosted.org/sphinxcontrib-restbuilder/  [not updated since 2018]
+    https://github.com/sphinx-contrib/restbuilder
+    https://pypi.org/project/sphinxcontrib-restbuilder/
+
+    (This crashed with some mysterious error related to a bad key for a docutils dict;
+    evidently,
+
+(Or maybe there's some way to create alternate modules that don't import pyimfit_lib?)
+
+Basically, there seems to be NO WAY of doing this, other than perhaps getting Linux-binary
+installation via pip working [which I currently cannot do]. There is no way to get
+readthedocs to install pyimfit (since readthedocs runs things inside of Ubuntu Docker
+images), and no way to get Sphinx to pre-generate suitable .rst output, and no way
+to get Sphinx to include HTML files in toctrees.
+
+POSSIBLE APPROACH -- use the monkey-patching idea (see pyimfit/docs/extract_rst.py) to generate
+preliminary API .rst files, then run them through a script to prep them for Sphinx
+processing.
+
+CURRENT APPROACH: as described above, we locally generate good HTML files from the autodoc
+commands in the .rst files of api_ref_local/; the relevant bits of HTML are extracted
+from _build/html/api_ref_local/ and copied into minimal HTML files in api_ref/. Then,
+when we re-run Sphinx, the .rst files in api_ref/ incorporate the minimal HTML.
+
+
+
+JUPYTER NOTEBOOK
+
+For some reason, tools like xxx and even "jupyter nbconvert --to rst" produced rst (and then
+HTML) with all subheads at level 1, resulting in all subheads appearing in the index.html
+file at the top level.
+
+What *does* work:
+1. Convert notebook to markdown
+   $ jupyter nbconvert --to markdown
+2. Convert the markdown version of the notebook to rst using our standard "convert_md_to_rst.sh"
+script
