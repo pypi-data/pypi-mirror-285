@@ -1,0 +1,78 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "poetry-core>=1.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pygico-imagegen"
+version = "0.1.5"
+description = "Python, GIMP, and ComfyUI based image generation and text addition tool"
+authors = [{name = "Your Name", email = "your.email@example.com"}]
+requires-python = ">=3.8.1"
+license = {text = "MIT"}
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+dependencies = [
+    "pygimp-labs>=0.2.1,<0.3.0",
+    "pillow>=10.4.0,<11.0.0",
+    "requests>=2.32.3,<3.0.0",
+    "python-dotenv>=1.0.1,<2.0.0",
+    "loguru>=0.7.2,<0.8.0",
+    "litellm>=1.41.25,<2.0.0",
+    "pydantic-settings>=2.3.4,<3.0.0",
+]
+
+[tool.poetry]
+# Poetry will use the [project] section for most metadata
+packages = [{include = "pygico_imagegen"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pygimp-labs = "^0.2.1"
+pillow = "^10.4.0"
+requests = "^2.32.3"
+python-dotenv = "^1.0.1"
+loguru = "^0.7.2"
+litellm = "^1.41.25"
+pydantic-settings = "^2.3.4"
+
+[tool.poetry.group.dev.dependencies]
+python = "^3.8"
+pygimp-labs = {path = "C:/Prj/PyGIMP", develop = true}
+pytest = "^8.2.2"
+black = "^24.4.2"
+isort = "^5.13.2"
+mypy = "^1.11.0"
+flake8 = "^7.1.0"
+sphinx = "^7.4.6"
+sphinx-rtd-theme = "^2.0.0"
+
+[tool.poetry.scripts]
+pygico-imagegen = "pygico_imagegen.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["pygico_imagegen*"]
+exclude = ["tests*"]
+
+
+[project.scripts]
+pygico-imagegen = "pygico_imagegen.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort",
+    "mypy",
+    "flake8",
+    "sphinx",
+    "sphinx-rtd-theme",
+]
