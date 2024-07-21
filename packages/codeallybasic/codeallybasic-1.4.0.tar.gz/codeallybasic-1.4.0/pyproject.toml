@@ -1,0 +1,30 @@
+[build-system]
+requires = ['setuptools', 'wheel']
+build-backend = "setuptools.build_meta"
+
+[project]
+name='codeallybasic'
+dynamic = ["version"]
+description = 'Humberto`s Basic Common Code'
+readme = "README.md"
+license = {text = 'GNU AFFERO GENERAL PUBLIC LICENSE'}
+authors = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
+maintainers = [{name = 'Humberto A. Sanchez II', email = 'Humbert.A.Sanchez.II@gmail.com'}]
+keywords = ['pyut', 'python',]
+
+dependencies = [
+  'Deprecated==1.2.14',
+]
+
+[project.urls]
+Repository = 'https://github.com/hasii2011/code-ally-basic'
+
+
+[tool.setuptools.packages.find]
+where = ['src']
+
+[tool.setuptools.package-data]
+codeallybasic = ['py.typed']
+
+[tool.setuptools.dynamic]
+version = {attr = 'codeallybasic.__version__'}
