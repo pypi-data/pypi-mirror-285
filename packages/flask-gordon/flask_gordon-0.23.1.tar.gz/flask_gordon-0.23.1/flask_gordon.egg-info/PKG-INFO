@@ -1,0 +1,67 @@
+Metadata-Version: 2.1
+Name: flask-gordon
+Version: 0.23.1
+Summary: Flask, Celery, and SQLAlchemy blueprints, routes, middlewares and extensions.
+Author-email: Julien Lecomte <julien@lecomte.at>
+License: MIT
+Project-URL: Homepage, https://gitlab.com/cappysan/python/flask-gordon
+Project-URL: Documentation, https://cappysan.gitlab.io/python/flask-gordon
+Project-URL: Source code, https://gitlab.com/cappysan/python/flask-gordon
+Project-URL: Bug tracker, https://gitlab.com/cappysan/python/flask-gordon/-/issues
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Internet :: WWW/HTTP :: HTTP Servers
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Application
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Middleware
+Classifier: Topic :: Internet :: WWW/HTTP :: WSGI :: Server
+Classifier: Framework :: Flask
+Classifier: Development Status :: 4 - Beta
+Classifier: Programming Language :: Python :: 3 :: Only
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: flask<3.0.0
+Requires-Dist: werkzeug<3.0.0
+Requires-Dist: pyyaml
+Requires-Dist: torxtools>=1.0.4
+Provides-Extra: celery
+Requires-Dist: celery[redis]; extra == "celery"
+Provides-Extra: dev
+Requires-Dist: playwright; extra == "dev"
+Requires-Dist: pytest; extra == "dev"
+Requires-Dist: pytest-flask; extra == "dev"
+Requires-Dist: pytest-playwright; extra == "dev"
+Requires-Dist: responses; extra == "dev"
+
+[![license](https://img.shields.io/badge/license-MIT-brightgreen)](https://spdx.org/licenses/MIT.html)
+[![documentation](https://img.shields.io/badge/documentation-html-informational)](https://cappysan.docs.gitlab.io/python/flask-gordon)
+[![pipelines](https://gitlab.com/cappysan/flask-gordon/badges/master/pipeline.svg)](https://gitlab.com/cappysan/flask-gordon/pipelines)
+[![coverage](https://gitlab.com/cappysan/flask-gordon/badges/master/coverage.svg)](https://flask-gordon.docs.cappysan.dev/coverage/index.html)
+
+# Flask Gordon
+
+Flask blueprint, route, and middleware extensions.
+
+## Installation from PyPI
+
+You can install the latest version from PyPI package repository.
+
+~~~bash
+python3 -mpip install -U flask-gordon
+~~~
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+## Locations
+
+  * Documentation: [https://flask-gordon.docs.cappysan.dev](https://flask-gordon.docs.cappysan.dev)
+  * Website: [https://gitlab.com/cappysan/flask-gordon](https://gitlab.com/cappysan/flask-gordon)
+  * PyPi: [https://pypi.org/project/flask-gordon](https://pypi.org/project/flask-gordon)
