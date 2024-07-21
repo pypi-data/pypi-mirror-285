@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: xmlpatcher
+Version: 1.0.3
+Summary: A convenient library for patching XML files with XPath.
+Author-email: Bip901 <74911767+Bip901@users.noreply.github.com>
+Project-URL: Homepage, https://github.com/Bip901/xmlpatcher
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: lxml <5,>=4.9.3
+
+# XML Patcher
+
+[![Latest release on pypi.org](https://img.shields.io/pypi/v/xmlpatcher.svg)](https://pypi.org/project/xmlpatcher/)
+
+A convenient library for patching XML files with XPath.
+
+Usage example:
+
+```python
+from xmlpatcher import XMLDocument
+from xmlpatcher.patches import SetValue, Remove
+
+document = XMLDocument("./example.xml")
+document.patch(
+    SetValue("/Book/@color", "red"),
+    Remove("/Book/Page[1]")
+)
+document.save()
+```
+
+The above code will transform this file:
+
+```xml
+<Book color="blue">
+    <Page>Welcome</Page>
+    <Page>Goodbye</Page>
+</Book>
+```
+
+Into this:
+
+```xml
+<Book color="red">
+    <Page>Goodbye</Page>
+</Book>
+```
