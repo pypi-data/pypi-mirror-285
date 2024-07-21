@@ -1,0 +1,205 @@
+# --------------------------------------------------------------------------------------------------------------
+# /home/rx/fe_0318/runningz/res/_cache_/dump/vwap_678_2017_2022_seed_6.dict
+[2021]
+2017: [i=1500] [IC] ic=0.1070, icpn=0.0161, icpm=0.0474, icpn_q20=0.0109 [IR] ic=1.28, icpn=0.50, icpm=0.54, icpn_q20=0.36
+[2022]
+2017: [i=1500] [IC] ic=0.1191, icpn=0.0142, icpm=0.0468, icpn_q20=0.0092
+2010: [i=1500] [IC] ic=0.1172, icpn=0.0156, icpm=0.0486, icpn_q20=0.0105
+
+# -------------------------------------------------------------------------------------------------------------- 2022 drop
+# [RZ][13:44:18] runningz/fe/fe_eval.py:43 -> [+] cols_fea = 678 -> 638
+# LGB
+# python -u fe_eval.py --path /home/rx/fe_0318/runningz/res/_cache_/dump/vwap_678_2017_2022_seed_6.dict --label vwap 0 1 --model lgb
+[i=100 ] score = 0.1832 | ic=0.1171, icpn=0.0129, icpm=0.0452, icpn_q20=0.0081 | ic=1.33, icpn=0.40, icpm=0.41, icpn_q20=0.27 | corr=0.1192, cos=0.1190
+[i=200 ] score = 0.1864 | ic=0.1180, icpn=0.0134, icpm=0.0463, icpn_q20=0.0086 | ic=1.33, icpn=0.41, icpm=0.43, icpn_q20=0.29 | corr=0.1204, cos=0.1222
+[i=300 ] score = 0.1884 | ic=0.1183, icpn=0.0140, icpm=0.0470, icpn_q20=0.0091 | ic=1.33, icpn=0.42, icpm=0.44, icpn_q20=0.30 | corr=0.1208, cos=0.1228
+[i=400 ] score = 0.1890 | ic=0.1183, icpn=0.0143, icpm=0.0471, icpn_q20=0.0094 | ic=1.33, icpn=0.42, icpm=0.44, icpn_q20=0.30 | corr=0.1208, cos=0.1229
+[i=500 ] score = 0.1902 | ic=0.1182, icpn=0.0147, icpm=0.0476, icpn_q20=0.0097 | ic=1.33, icpn=0.43, icpm=0.45, icpn_q20=0.31 | corr=0.1207, cos=0.1228
+[i=600 ] score = 0.1912 | ic=0.1182, icpn=0.0150, icpm=0.0481, icpn_q20=0.0099 | ic=1.33, icpn=0.43, icpm=0.46, icpn_q20=0.31 | corr=0.1208, cos=0.1228
+[i=700 ] score = 0.1924 | ic=0.1183, icpn=0.0153, icpm=0.0486, icpn_q20=0.0101 | ic=1.33, icpn=0.44, icpm=0.46, icpn_q20=0.32 | corr=0.1209, cos=0.1230
+[i=800 ] score = 0.1928 | ic=0.1183, icpn=0.0155, icpm=0.0488, icpn_q20=0.0102 | ic=1.34, icpn=0.44, icpm=0.47, icpn_q20=0.32 | corr=0.1210, cos=0.1229
+[i=900 ] score = 0.1934 | ic=0.1183, icpn=0.0157, icpm=0.0491, icpn_q20=0.0104 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.32 | corr=0.1210, cos=0.1229
+[i=1000] score = 0.1933 | ic=0.1182, icpn=0.0157, icpm=0.0489, icpn_q20=0.0105 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1209, cos=0.1229
+[i=1100] score = 0.1936 | ic=0.1182, icpn=0.0159, icpm=0.0491, icpn_q20=0.0105 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.32 | corr=0.1209, cos=0.1228
+[i=1200] score = 0.1938 | ic=0.1181, icpn=0.0160, icpm=0.0491, icpn_q20=0.0106 | ic=1.34, icpn=0.45, icpm=0.48, icpn_q20=0.33 | corr=0.1208, cos=0.1227
+[i=1300] score = 0.1940 | ic=0.1181, icpn=0.0161, icpm=0.0492, icpn_q20=0.0107 | ic=1.34, icpn=0.45, icpm=0.48, icpn_q20=0.33 | corr=0.1207, cos=0.1227
+[i=1400] score = 0.1941 | ic=0.1180, icpn=0.0161, icpm=0.0492, icpn_q20=0.0107 | ic=1.34, icpn=0.45, icpm=0.48, icpn_q20=0.33 | corr=0.1207, cos=0.1226
+[i=1500] score = 0.1940 | ic=0.1179, icpn=0.0161, icpm=0.0491, icpn_q20=0.0108 | ic=1.34, icpn=0.45, icpm=0.48, icpn_q20=0.33 | corr=0.1206, cos=0.1225
+[+] dump, path_output = /home/rx/project_0318/output, name = lgb_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20221231
+
+# MLP
+[i=1,1 ] score = 0.1729 | ic=0.1094, icpn=0.0132, icpm=0.0412, icpn_q20=0.0091 | ic=1.36, icpn=0.41, icpm=0.42, icpn_q20=0.31 | corr=0.1106, cos=0.1070
+[i=2,1 ] score = 0.1826 | ic=0.1081, icpn=0.0164, icpm=0.0465, icpn_q20=0.0115 | ic=1.35, icpn=0.53, icpm=0.54, icpn_q20=0.42 | corr=0.1097, cos=0.1059
+[i=3,1 ] score = 0.1671 | ic=0.1169, icpn=0.0090, icpm=0.0354, icpn_q20=0.0057 | ic=1.57, icpn=0.38, icpm=0.39, icpn_q20=0.26 | corr=0.1184, cos=0.1204
+[i=4,1 ] score = 0.1775 | ic=0.1175, icpn=0.0115, icpm=0.0407, icpn_q20=0.0078 | ic=1.57, icpn=0.48, icpm=0.49, icpn_q20=0.37 | corr=0.1189, cos=0.1167
+[i=5,1 ] score = 0.1728 | ic=0.1142, icpn=0.0124, icpm=0.0383, icpn_q20=0.0079 | ic=1.46, icpn=0.41, icpm=0.42, icpn_q20=0.29 | corr=0.1154, cos=0.1175
+[i=6,1 ] score = 0.1687 | ic=0.1113, icpn=0.0118, icpm=0.0378, icpn_q20=0.0078 | ic=1.45, icpn=0.47, icpm=0.50, icpn_q20=0.35 | corr=0.1130, cos=0.1125
+[i=7,1 ] score = 0.1652 | ic=0.1138, icpn=0.0101, icpm=0.0351, icpn_q20=0.0062 | ic=1.57, icpn=0.41, icpm=0.43, icpn_q20=0.28 | corr=0.1148, cos=0.1160
+[i=8,1 ] score = 0.1686 | ic=0.1097, icpn=0.0124, icpm=0.0389, icpn_q20=0.0076 | ic=1.41, icpn=0.49, icpm=0.51, icpn_q20=0.34 | corr=0.1109, cos=0.1066
+[i=9,1 ] score = 0.1776 | ic=0.1155, icpn=0.0125, icpm=0.0421, icpn_q20=0.0075 | ic=1.51, icpn=0.54, icpm=0.55, icpn_q20=0.37 | corr=0.1165, cos=0.1045
+[i=10,1] score = 0.1692 | ic=0.1086, icpn=0.0133, icpm=0.0393, icpn_q20=0.0080 | ic=1.38, icpn=0.51, icpm=0.52, icpn_q20=0.36 | corr=0.1096, cos=0.0874
+[i=1,2 ] score = 0.1729 | ic=0.1094, icpn=0.0132, icpm=0.0412, icpn_q20=0.0091 | ic=1.36, icpn=0.41, icpm=0.42, icpn_q20=0.31 | corr=0.1106, cos=0.1070
+[i=2,2 ] score = 0.1818 | ic=0.1114, icpn=0.0150, icpm=0.0448, icpn_q20=0.0106 | ic=1.38, icpn=0.47, icpm=0.48, icpn_q20=0.38 | corr=0.1127, cos=0.1089
+[i=3,2 ] score = 0.1815 | ic=0.1162, icpn=0.0132, icpm=0.0432, icpn_q20=0.0090 | ic=1.49, icpn=0.48, icpm=0.49, icpn_q20=0.36 | corr=0.1178, cos=0.1181
+[i=4,2 ] score = 0.1748 | ic=0.1185, icpn=0.0104, icpm=0.0390, icpn_q20=0.0069 | ic=1.58, icpn=0.44, icpm=0.45, icpn_q20=0.32 | corr=0.1200, cos=0.1207
+[i=5,2 ] score = 0.1781 | ic=0.1174, icpn=0.0120, icpm=0.0405, icpn_q20=0.0081 | ic=1.53, icpn=0.45, icpm=0.46, icpn_q20=0.34 | corr=0.1188, cos=0.1199
+[i=6,2 ] score = 0.1745 | ic=0.1146, icpn=0.0124, icpm=0.0395, icpn_q20=0.0080 | ic=1.48, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1161, cos=0.1172
+[i=7,2 ] score = 0.1704 | ic=0.1145, icpn=0.0111, icpm=0.0374, icpn_q20=0.0073 | ic=1.53, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1161, cos=0.1180
+[i=8,2 ] score = 0.1708 | ic=0.1139, icpn=0.0115, icpm=0.0381, icpn_q20=0.0073 | ic=1.50, icpn=0.46, icpm=0.48, icpn_q20=0.33 | corr=0.1151, cos=0.1141
+[i=9,2 ] score = 0.1765 | ic=0.1145, icpn=0.0127, icpm=0.0416, icpn_q20=0.0078 | ic=1.47, icpn=0.52, icpm=0.54, icpn_q20=0.37 | corr=0.1156, cos=0.1075
+[i=10,2] score = 0.1772 | ic=0.1143, icpn=0.0131, icpm=0.0417, icpn_q20=0.0081 | ic=1.46, icpn=0.53, icpm=0.54, icpn_q20=0.38 | corr=0.1153, cos=0.0981
+[i=1,3 ] score = 0.1729 | ic=0.1094, icpn=0.0132, icpm=0.0412, icpn_q20=0.0091 | ic=1.36, icpn=0.41, icpm=0.42, icpn_q20=0.31 | corr=0.1106, cos=0.1070
+[i=2,3 ] score = 0.1818 | ic=0.1114, icpn=0.0150, icpm=0.0448, icpn_q20=0.0106 | ic=1.38, icpn=0.47, icpm=0.48, icpn_q20=0.38 | corr=0.1127, cos=0.1089
+[i=3,3 ] score = 0.1809 | ic=0.1150, icpn=0.0133, icpm=0.0433, icpn_q20=0.0093 | ic=1.45, icpn=0.45, icpm=0.46, icpn_q20=0.35 | corr=0.1164, cos=0.1154
+[i=4,3 ] score = 0.1820 | ic=0.1178, icpn=0.0127, icpm=0.0429, icpn_q20=0.0086 | ic=1.52, icpn=0.48, icpm=0.49, icpn_q20=0.37 | corr=0.1193, cos=0.1188
+[i=5,3 ] score = 0.1763 | ic=0.1183, icpn=0.0111, icpm=0.0395, icpn_q20=0.0073 | ic=1.55, icpn=0.43, icpm=0.44, icpn_q20=0.32 | corr=0.1198, cos=0.1213
+[i=6,3 ] score = 0.1774 | ic=0.1168, icpn=0.0121, icpm=0.0404, icpn_q20=0.0080 | ic=1.52, icpn=0.47, icpm=0.48, icpn_q20=0.35 | corr=0.1184, cos=0.1205
+[i=7,3 ] score = 0.1735 | ic=0.1155, icpn=0.0117, icpm=0.0387, icpn_q20=0.0075 | ic=1.51, icpn=0.45, icpm=0.46, icpn_q20=0.32 | corr=0.1169, cos=0.1189
+[i=8,3 ] score = 0.1719 | ic=0.1141, icpn=0.0117, icpm=0.0386, icpn_q20=0.0074 | ic=1.49, icpn=0.47, icpm=0.49, icpn_q20=0.34 | corr=0.1156, cos=0.1174
+[i=9,3 ] score = 0.1756 | ic=0.1157, icpn=0.0120, icpm=0.0404, icpn_q20=0.0075 | ic=1.52, icpn=0.50, icpm=0.51, icpn_q20=0.35 | corr=0.1169, cos=0.1127
+[i=10,3] score = 0.1763 | ic=0.1138, icpn=0.0130, icpm=0.0415, icpn_q20=0.0081 | ic=1.45, icpn=0.52, icpm=0.54, icpn_q20=0.37 | corr=0.1149, cos=0.1023
+[+] dump, path_output = /home/rx/project_0318/output, name = mlp_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20221231
+
+# -------------------------------------------------------------------------------------------------------------- 2022 all
+# LGB
+[i=100 ] score = 0.1840 | ic=0.1173, icpn=0.0130, icpm=0.0457, icpn_q20=0.0081 | ic=1.35, icpn=0.41, icpm=0.43, icpn_q20=0.28 | corr=0.1194, cos=0.1190
+[i=200 ] score = 0.1863 | ic=0.1179, icpn=0.0135, icpm=0.0464, icpn_q20=0.0086 | ic=1.34, icpn=0.41, icpm=0.43, icpn_q20=0.29 | corr=0.1202, cos=0.1219
+[i=300 ] score = 0.1881 | ic=0.1182, icpn=0.0140, icpm=0.0470, icpn_q20=0.0090 | ic=1.34, icpn=0.42, icpm=0.44, icpn_q20=0.30 | corr=0.1205, cos=0.1225
+[i=400 ] score = 0.1886 | ic=0.1181, icpn=0.0143, icpm=0.0470, icpn_q20=0.0092 | ic=1.33, icpn=0.42, icpm=0.44, icpn_q20=0.30 | corr=0.1205, cos=0.1225
+[i=500 ] score = 0.1897 | ic=0.1182, icpn=0.0146, icpm=0.0474, icpn_q20=0.0095 | ic=1.33, icpn=0.43, icpm=0.45, icpn_q20=0.30 | corr=0.1205, cos=0.1226
+[i=600 ] score = 0.1904 | ic=0.1181, icpn=0.0149, icpm=0.0477, icpn_q20=0.0097 | ic=1.33, icpn=0.43, icpm=0.45, icpn_q20=0.31 | corr=0.1205, cos=0.1226
+[i=700 ] score = 0.1910 | ic=0.1181, icpn=0.0151, icpm=0.0479, icpn_q20=0.0098 | ic=1.34, icpn=0.44, icpm=0.46, icpn_q20=0.31 | corr=0.1206, cos=0.1226
+[i=800 ] score = 0.1921 | ic=0.1181, icpn=0.0154, icpm=0.0484, icpn_q20=0.0102 | ic=1.34, icpn=0.44, icpm=0.47, icpn_q20=0.32 | corr=0.1206, cos=0.1226
+[i=900 ] score = 0.1928 | ic=0.1180, icpn=0.0156, icpm=0.0487, icpn_q20=0.0105 | ic=1.34, icpn=0.44, icpm=0.47, icpn_q20=0.33 | corr=0.1206, cos=0.1226
+[i=1000] score = 0.1929 | ic=0.1179, icpn=0.0157, icpm=0.0487, icpn_q20=0.0105 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1205, cos=0.1224
+[i=1100] score = 0.1927 | ic=0.1177, icpn=0.0157, icpm=0.0487, icpn_q20=0.0105 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1203, cos=0.1223
+[i=1200] score = 0.1929 | ic=0.1177, icpn=0.0158, icpm=0.0487, icpn_q20=0.0107 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1203, cos=0.1223
+[i=1300] score = 0.1930 | ic=0.1177, icpn=0.0159, icpm=0.0487, icpn_q20=0.0107 | ic=1.34, icpn=0.45, icpm=0.47, icpn_q20=0.33 | corr=0.1203, cos=0.1222
+[i=1400] score = 0.1933 | ic=0.1177, icpn=0.0160, icpm=0.0489, icpn_q20=0.0108 | ic=1.34, icpn=0.45, icpm=0.48, icpn_q20=0.33 | corr=0.1203, cos=0.1222
+[i=1500] score = 0.1932 | ic=0.1176, icpn=0.0160, icpm=0.0488, icpn_q20=0.0109 | ic=1.34, icpn=0.45, icpm=0.48, icpn_q20=0.33 | corr=0.1202, cos=0.1221
+[+] dump, path_output = /home/rx/project_0318/output, name = lgb_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20221231_678
+# MLP
+[i=1,1 ] score = 0.1394 | ic=0.1055, icpn=0.0070, icpm=0.0228, icpn_q20=0.0041 | ic=1.34, icpn=0.21, icpm=0.22, icpn_q20=0.14 | corr=0.1075, cos=0.1087
+[i=2,1 ] score = 0.1603 | ic=0.1110, icpn=0.0098, icpm=0.0324, icpn_q20=0.0071 | ic=1.46, icpn=0.28, icpm=0.29, icpn_q20=0.22 | corr=0.1129, cos=0.1137
+[i=3,1 ] score = 0.1699 | ic=0.1061, icpn=0.0139, icpm=0.0394, icpn_q20=0.0105 | ic=1.36, icpn=0.47, icpm=0.48, icpn_q20=0.40 | corr=0.1077, cos=0.1086
+[i=4,1 ] score = 0.1815 | ic=0.1097, icpn=0.0141, icpm=0.0471, icpn_q20=0.0106 | ic=1.53, icpn=0.55, icpm=0.55, icpn_q20=0.47 | corr=0.1110, cos=0.1117
+[i=5,1 ] score = 0.1868 | ic=0.1182, icpn=0.0132, icpm=0.0471, icpn_q20=0.0084 | ic=1.59, icpn=0.60, icpm=0.61, icpn_q20=0.47 | corr=0.1193, cos=0.1207
+[i=6,1 ] score = 0.1822 | ic=0.1183, icpn=0.0122, icpm=0.0437, icpn_q20=0.0081 | ic=1.61, icpn=0.61, icpm=0.60, icpn_q20=0.48 | corr=0.1195, cos=0.1202
+[i=7,1 ] score = 0.1888 | ic=0.1192, icpn=0.0135, icpm=0.0472, icpn_q20=0.0088 | ic=1.60, icpn=0.67, icpm=0.68, icpn_q20=0.54 | corr=0.1207, cos=0.1052
+[i=8,1 ] score = 0.1781 | ic=0.1154, icpn=0.0125, icpm=0.0425, icpn_q20=0.0076 | ic=1.53, icpn=0.59, icpm=0.60, icpn_q20=0.44 | corr=0.1169, cos=0.1164
+[i=9,1 ] score = 0.1777 | ic=0.1143, icpn=0.0124, icpm=0.0430, icpn_q20=0.0080 | ic=1.62, icpn=0.60, icpm=0.61, icpn_q20=0.45 | corr=0.1157, cos=0.1171
+[i=10,1] score = 0.1758 | ic=0.1154, icpn=0.0119, icpm=0.0410, icpn_q20=0.0076 | ic=1.61, icpn=0.58, icpm=0.59, icpn_q20=0.44 | corr=0.1164, cos=0.1183
+[i=1,2 ] score = 0.1394 | ic=0.1055, icpn=0.0070, icpm=0.0228, icpn_q20=0.0041 | ic=1.34, icpn=0.21, icpm=0.22, icpn_q20=0.14 | corr=0.1075, cos=0.1087
+[i=2,2 ] score = 0.1519 | ic=0.1095, icpn=0.0085, icpm=0.0282, icpn_q20=0.0057 | ic=1.41, icpn=0.25, icpm=0.25, icpn_q20=0.18 | corr=0.1116, cos=0.1124
+[i=3,2 ] score = 0.1699 | ic=0.1118, icpn=0.0120, icpm=0.0373, icpn_q20=0.0087 | ic=1.44, icpn=0.38, icpm=0.39, icpn_q20=0.30 | corr=0.1138, cos=0.1160
+[i=4,2 ] score = 0.1784 | ic=0.1100, icpn=0.0143, icpm=0.0434, icpn_q20=0.0107 | ic=1.46, icpn=0.51, icpm=0.52, icpn_q20=0.44 | corr=0.1116, cos=0.1139
+[i=5,2 ] score = 0.1878 | ic=0.1167, icpn=0.0138, icpm=0.0478, icpn_q20=0.0095 | ic=1.58, icpn=0.58, icpm=0.59, icpn_q20=0.48 | corr=0.1179, cos=0.1200
+[i=6,2 ] score = 0.1870 | ic=0.1196, icpn=0.0128, icpm=0.0462, icpn_q20=0.0084 | ic=1.61, icpn=0.62, icpm=0.62, icpn_q20=0.50 | corr=0.1208, cos=0.1227
+[i=7,2 ] score = 0.1871 | ic=0.1198, icpn=0.0129, icpm=0.0459, icpn_q20=0.0085 | ic=1.61, icpn=0.63, icpm=0.64, icpn_q20=0.51 | corr=0.1211, cos=0.1225
+[i=8,2 ] score = 0.1860 | ic=0.1186, icpn=0.0132, icpm=0.0457, icpn_q20=0.0084 | ic=1.57, icpn=0.64, icpm=0.65, icpn_q20=0.51 | corr=0.1201, cos=0.1214
+[i=9,2 ] score = 0.1813 | ic=0.1166, icpn=0.0127, icpm=0.0439, icpn_q20=0.0081 | ic=1.57, icpn=0.61, icpm=0.61, icpn_q20=0.46 | corr=0.1180, cos=0.1183
+[i=10,2] score = 0.1800 | ic=0.1164, icpn=0.0123, icpm=0.0432, icpn_q20=0.0081 | ic=1.62, icpn=0.60, icpm=0.61, icpn_q20=0.46 | corr=0.1176, cos=0.1192
+[i=1,3 ] score = 0.1394 | ic=0.1055, icpn=0.0070, icpm=0.0228, icpn_q20=0.0041 | ic=1.34, icpn=0.21, icpm=0.22, icpn_q20=0.14 | corr=0.1075, cos=0.1087
+[i=2,3 ] score = 0.1519 | ic=0.1095, icpn=0.0085, icpm=0.0282, icpn_q20=0.0057 | ic=1.41, icpn=0.25, icpm=0.25, icpn_q20=0.18 | corr=0.1116, cos=0.1124
+[i=3,3 ] score = 0.1607 | ic=0.1107, icpn=0.0102, icpm=0.0328, icpn_q20=0.0070 | ic=1.42, icpn=0.32, icpm=0.33, icpn_q20=0.24 | corr=0.1128, cos=0.1146
+[i=4,3 ] score = 0.1758 | ic=0.1128, icpn=0.0128, icpm=0.0409, icpn_q20=0.0093 | ic=1.49, icpn=0.44, icpm=0.45, icpn_q20=0.36 | corr=0.1147, cos=0.1165
+[i=5,3 ] score = 0.1838 | ic=0.1148, icpn=0.0139, icpm=0.0452, icpn_q20=0.0099 | ic=1.52, icpn=0.55, icpm=0.56, icpn_q20=0.46 | corr=0.1163, cos=0.1183
+[i=6,3 ] score = 0.1878 | ic=0.1185, icpn=0.0133, icpm=0.0470, icpn_q20=0.0090 | ic=1.60, icpn=0.60, icpm=0.60, icpn_q20=0.49 | corr=0.1198, cos=0.1214
+[i=7,3 ] score = 0.1890 | ic=0.1203, icpn=0.0131, icpm=0.0470, icpn_q20=0.0086 | ic=1.61, icpn=0.63, icpm=0.64, icpn_q20=0.51 | corr=0.1215, cos=0.1229
+[i=8,3 ] score = 0.1863 | ic=0.1194, icpn=0.0129, icpm=0.0455, icpn_q20=0.0084 | ic=1.59, icpn=0.63, icpm=0.63, icpn_q20=0.51 | corr=0.1208, cos=0.1229
+[i=9,3 ] score = 0.1860 | ic=0.1185, icpn=0.0132, icpm=0.0458, icpn_q20=0.0085 | ic=1.59, icpn=0.64, icpm=0.64, icpn_q20=0.50 | corr=0.1199, cos=0.1219
+[i=10,3] score = 0.1814 | ic=0.1171, icpn=0.0126, icpm=0.0436, icpn_q20=0.0081 | ic=1.59, icpn=0.60, icpm=0.61, icpn_q20=0.46 | corr=0.1184, cos=0.1193
+[+] dump, path_output = /home/rx/project_0318/output, name = mlp_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20221231_678
+
+
+# -------------------------------------------------------------------------------------------------------------- 2023 drop
+# LGB
+[i=100 ] score = 0.1352 | ic=0.0954, icpn=0.0071, icpm=0.0286, icpn_q20=0.0040 | ic=1.01, icpn=0.30, icpm=0.31, icpn_q20=0.21 | corr=0.0936, cos=0.0918
+[i=200 ] score = 0.1351 | ic=0.0958, icpn=0.0072, icpm=0.0281, icpn_q20=0.0040 | ic=1.02, icpn=0.30, icpm=0.31, icpn_q20=0.20 | corr=0.0940, cos=0.0950
+[i=300 ] score = 0.1338 | ic=0.0954, icpn=0.0072, icpm=0.0273, icpn_q20=0.0039 | ic=1.02, icpn=0.30, icpm=0.31, icpn_q20=0.19 | corr=0.0935, cos=0.0949
+[i=400 ] score = 0.1335 | ic=0.0951, icpn=0.0073, icpm=0.0270, icpn_q20=0.0041 | ic=1.02, icpn=0.30, icpm=0.31, icpn_q20=0.20 | corr=0.0930, cos=0.0947
+[i=500 ] score = 0.1328 | ic=0.0945, icpn=0.0074, icpm=0.0267, icpn_q20=0.0042 | ic=1.02, icpn=0.30, icpm=0.31, icpn_q20=0.20 | corr=0.0925, cos=0.0942
+[i=600 ] score = 0.1320 | ic=0.0940, icpn=0.0074, icpm=0.0263, icpn_q20=0.0042 | ic=1.03, icpn=0.30, icpm=0.31, icpn_q20=0.20 | corr=0.0919, cos=0.0937
+[i=700 ] score = 0.1311 | ic=0.0935, icpn=0.0074, icpm=0.0260, icpn_q20=0.0042 | ic=1.03, icpn=0.29, icpm=0.30, icpn_q20=0.19 | corr=0.0914, cos=0.0933
+[i=800 ] score = 0.1300 | ic=0.0931, icpn=0.0073, icpm=0.0254, icpn_q20=0.0042 | ic=1.03, icpn=0.29, icpm=0.30, icpn_q20=0.19 | corr=0.0910, cos=0.0929
+[i=900 ] score = 0.1292 | ic=0.0927, icpn=0.0073, icpm=0.0251, icpn_q20=0.0041 | ic=1.02, icpn=0.28, icpm=0.30, icpn_q20=0.19 | corr=0.0906, cos=0.0925
+[i=1000] score = 0.1284 | ic=0.0924, icpn=0.0073, icpm=0.0247, icpn_q20=0.0040 | ic=1.02, icpn=0.28, icpm=0.30, icpn_q20=0.18 | corr=0.0904, cos=0.0923
+[i=1100] score = 0.1282 | ic=0.0922, icpn=0.0073, icpm=0.0246, icpn_q20=0.0041 | ic=1.03, icpn=0.28, icpm=0.29, icpn_q20=0.18 | corr=0.0903, cos=0.0922
+[i=1200] score = 0.1275 | ic=0.0920, icpn=0.0072, icpm=0.0242, icpn_q20=0.0040 | ic=1.03, icpn=0.28, icpm=0.29, icpn_q20=0.18 | corr=0.0901, cos=0.0920
+[i=1300] score = 0.1267 | ic=0.0917, icpn=0.0071, icpm=0.0238, icpn_q20=0.0040 | ic=1.03, icpn=0.27, icpm=0.29, icpn_q20=0.18 | corr=0.0898, cos=0.0918
+[i=1400] score = 0.1260 | ic=0.0916, icpn=0.0071, icpm=0.0235, icpn_q20=0.0039 | ic=1.03, icpn=0.27, icpm=0.29, icpn_q20=0.17 | corr=0.0897, cos=0.0917
+[i=1500] score = 0.1254 | ic=0.0915, icpn=0.0070, icpm=0.0231, icpn_q20=0.0038 | ic=1.03, icpn=0.27, icpm=0.28, icpn_q20=0.17 | corr=0.0896, cos=0.0916
+[+] dump, path_output = /home/rx/project_0318/output, name = lgb_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20231231_638
+
+# MLP
+[i=1,1 ] score = 0.1276 | ic=0.0887, icpn=0.0080, icpm=0.0256, icpn_q20=0.0053 | ic=1.04, icpn=0.28, icpm=0.28, icpn_q20=0.21 | corr=0.0889, cos=0.0905
+[i=2,1 ] score = 0.1220 | ic=0.0878, icpn=0.0073, icpm=0.0221, icpn_q20=0.0048 | ic=1.07, icpn=0.27, icpm=0.28, icpn_q20=0.20 | corr=0.0880, cos=0.0888
+[i=3,1 ] score = 0.1173 | ic=0.0834, icpn=0.0077, icpm=0.0216, icpn_q20=0.0046 | ic=0.96, icpn=0.24, icpm=0.25, icpn_q20=0.16 | corr=0.0834, cos=0.0791
+[i=4,1 ] score = 0.1181 | ic=0.0892, icpn=0.0061, icpm=0.0192, icpn_q20=0.0035 | ic=1.10, icpn=0.23, icpm=0.24, icpn_q20=0.15 | corr=0.0892, cos=0.0910
+[i=5,1 ] score = 0.1306 | ic=0.0929, icpn=0.0075, icpm=0.0256, icpn_q20=0.0045 | ic=1.05, icpn=0.33, icpm=0.35, icpn_q20=0.23 | corr=0.0930, cos=0.0926
+[i=6,1 ] score = 0.1326 | ic=0.0940, icpn=0.0077, icpm=0.0259, icpn_q20=0.0049 | ic=1.12, icpn=0.35, icpm=0.36, icpn_q20=0.25 | corr=0.0941, cos=0.0831
+[i=7,1 ] score = 0.1084 | ic=0.0852, icpn=0.0053, icpm=0.0154, icpn_q20=0.0025 | ic=1.06, icpn=0.19, icpm=0.20, icpn_q20=0.09 | corr=0.0848, cos=0.0809
+[i=8,1 ] score = 0.1246 | ic=0.0901, icpn=0.0071, icpm=0.0234, icpn_q20=0.0040 | ic=1.07, icpn=0.32, icpm=0.33, icpn_q20=0.20 | corr=0.0897, cos=0.0892
+[i=9,1 ] score = 0.1259 | ic=0.0929, icpn=0.0065, icpm=0.0228, icpn_q20=0.0038 | ic=1.14, icpn=0.31, icpm=0.33, icpn_q20=0.20 | corr=0.0930, cos=0.0946
+[i=10,1] score = 0.1223 | ic=0.0906, icpn=0.0062, icpm=0.0222, icpn_q20=0.0033 | ic=1.16, icpn=0.33, icpm=0.35, icpn_q20=0.20 | corr=0.0904, cos=0.0923
+[i=1,2 ] score = 0.1276 | ic=0.0887, icpn=0.0080, icpm=0.0256, icpn_q20=0.0053 | ic=1.04, icpn=0.28, icpm=0.28, icpn_q20=0.21 | corr=0.0889, cos=0.0905
+[i=2,2 ] score = 0.1270 | ic=0.0895, icpn=0.0078, icpm=0.0246, icpn_q20=0.0051 | ic=1.06, icpn=0.28, icpm=0.29, icpn_q20=0.21 | corr=0.0897, cos=0.0911
+[i=3,2 ] score = 0.1225 | ic=0.0874, icpn=0.0076, icpm=0.0225, icpn_q20=0.0049 | ic=1.02, icpn=0.26, icpm=0.27, icpn_q20=0.18 | corr=0.0876, cos=0.0864
+[i=4,2 ] score = 0.1199 | ic=0.0878, icpn=0.0070, icpm=0.0211, icpn_q20=0.0040 | ic=1.03, icpn=0.24, icpm=0.25, icpn_q20=0.15 | corr=0.0879, cos=0.0886
+[i=5,2 ] score = 0.1271 | ic=0.0928, icpn=0.0069, icpm=0.0233, icpn_q20=0.0041 | ic=1.08, icpn=0.29, icpm=0.30, icpn_q20=0.19 | corr=0.0928, cos=0.0944
+[i=6,2 ] score = 0.1340 | ic=0.0949, icpn=0.0077, icpm=0.0264, icpn_q20=0.0049 | ic=1.09, icpn=0.34, icpm=0.36, icpn_q20=0.25 | corr=0.0950, cos=0.0897
+[i=7,2 ] score = 0.1242 | ic=0.0913, icpn=0.0069, icpm=0.0219, icpn_q20=0.0041 | ic=1.11, icpn=0.28, icpm=0.29, icpn_q20=0.18 | corr=0.0911, cos=0.0837
+[i=8,2 ] score = 0.1196 | ic=0.0891, icpn=0.0065, icpm=0.0204, icpn_q20=0.0037 | ic=1.07, icpn=0.26, icpm=0.27, icpn_q20=0.16 | corr=0.0887, cos=0.0865
+[i=9,2 ] score = 0.1280 | ic=0.0931, icpn=0.0070, icpm=0.0239, icpn_q20=0.0041 | ic=1.11, icpn=0.32, icpm=0.34, icpn_q20=0.21 | corr=0.0930, cos=0.0946
+[i=10,2] score = 0.1268 | ic=0.0930, icpn=0.0065, icpm=0.0233, icpn_q20=0.0040 | ic=1.16, icpn=0.33, icpm=0.35, icpn_q20=0.23 | corr=0.0929, cos=0.0946
+[i=1,3 ] score = 0.1276 | ic=0.0887, icpn=0.0080, icpm=0.0256, icpn_q20=0.0053 | ic=1.04, icpn=0.28, icpm=0.28, icpn_q20=0.21 | corr=0.0889, cos=0.0905
+[i=2,3 ] score = 0.1270 | ic=0.0895, icpn=0.0078, icpm=0.0246, icpn_q20=0.0051 | ic=1.06, icpn=0.28, icpm=0.29, icpn_q20=0.21 | corr=0.0897, cos=0.0911
+[i=3,3 ] score = 0.1258 | ic=0.0890, icpn=0.0078, icpm=0.0240, icpn_q20=0.0051 | ic=1.04, icpn=0.27, icpm=0.28, icpn_q20=0.19 | corr=0.0891, cos=0.0894
+[i=4,3 ] score = 0.1225 | ic=0.0889, icpn=0.0072, icpm=0.0219, icpn_q20=0.0045 | ic=1.05, icpn=0.26, icpm=0.26, icpn_q20=0.17 | corr=0.0890, cos=0.0898
+[i=5,3 ] score = 0.1254 | ic=0.0909, icpn=0.0072, icpm=0.0228, icpn_q20=0.0044 | ic=1.04, icpn=0.27, icpm=0.28, icpn_q20=0.18 | corr=0.0910, cos=0.0913
+[i=6,3 ] score = 0.1309 | ic=0.0943, icpn=0.0073, icpm=0.0248, icpn_q20=0.0044 | ic=1.10, icpn=0.31, icpm=0.33, icpn_q20=0.21 | corr=0.0944, cos=0.0932
+[i=7,3 ] score = 0.1282 | ic=0.0929, icpn=0.0072, icpm=0.0236, icpn_q20=0.0045 | ic=1.09, icpn=0.30, icpm=0.32, icpn_q20=0.21 | corr=0.0928, cos=0.0879
+[i=8,3 ] score = 0.1263 | ic=0.0919, icpn=0.0071, icpm=0.0230, icpn_q20=0.0043 | ic=1.10, icpn=0.30, icpm=0.31, icpn_q20=0.20 | corr=0.0917, cos=0.0867
+[i=9,3 ] score = 0.1237 | ic=0.0914, icpn=0.0066, icpm=0.0217, icpn_q20=0.0038 | ic=1.10, icpn=0.28, icpm=0.30, icpn_q20=0.18 | corr=0.0912, cos=0.0919
+[i=10,3] score = 0.1278 | ic=0.0931, icpn=0.0068, icpm=0.0239, icpn_q20=0.0040 | ic=1.13, icpn=0.33, icpm=0.35, icpn_q20=0.22 | corr=0.0929, cos=0.0948
+[+] dump, path_output = /home/rx/project_0318/output, name = mlp_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20231231_638
+
+
+[i=1,1 ] score = 0.1103 | ic=0.0878, icpn=0.0042, icpm=0.0154, icpn_q20=0.0030 | ic=1.15, icpn=0.14, icpm=0.15, icpn_q20=0.10 | corr=0.0882, cos=0.0847
+[i=2,1 ] score = 0.1049 | ic=0.0793, icpn=0.0058, icpm=0.0154, icpn_q20=0.0044 | ic=0.97, icpn=0.14, icpm=0.14, icpn_q20=0.11 | corr=0.0786, cos=0.0804
+[i=3,1 ] score = 0.1225 | ic=0.0863, icpn=0.0077, icpm=0.0231, icpn_q20=0.0054 | ic=1.12, icpn=0.27, icpm=0.28, icpn_q20=0.21 | corr=0.0867, cos=0.0887
+[i=4,1 ] score = 0.1145 | ic=0.0860, icpn=0.0062, icpm=0.0183, icpn_q20=0.0041 | ic=1.06, icpn=0.18, icpm=0.19, icpn_q20=0.13 | corr=0.0856, cos=0.0842
+[i=5,1 ] score = 0.1197 | ic=0.0883, icpn=0.0066, icpm=0.0212, icpn_q20=0.0036 | ic=1.15, icpn=0.29, icpm=0.30, icpn_q20=0.18 | corr=0.0883, cos=0.0894
+[i=6,1 ] score = 0.1277 | ic=0.0944, icpn=0.0068, icpm=0.0225, icpn_q20=0.0041 | ic=1.11, icpn=0.27, icpm=0.28, icpn_q20=0.18 | corr=0.0943, cos=0.0868
+[i=7,1 ] score = 0.1269 | ic=0.0945, icpn=0.0063, icpm=0.0225, icpn_q20=0.0036 | ic=1.08, icpn=0.27, icpm=0.28, icpn_q20=0.17 | corr=0.0942, cos=0.0946
+[i=8,1 ] score = 0.1331 | ic=0.0913, icpn=0.0089, icpm=0.0273, icpn_q20=0.0056 | ic=1.09, icpn=0.35, icpm=0.36, icpn_q20=0.25 | corr=0.0907, cos=0.0842
+[i=9,1 ] score = 0.1203 | ic=0.0903, icpn=0.0064, icpm=0.0203, icpn_q20=0.0034 | ic=1.16, icpn=0.26, icpm=0.27, icpn_q20=0.15 | corr=0.0902, cos=0.0885
+[i=10,1] score = 0.1324 | ic=0.0933, icpn=0.0078, icpm=0.0263, icpn_q20=0.0050 | ic=1.11, icpn=0.36, icpm=0.37, icpn_q20=0.24 | corr=0.0931, cos=0.0921
+[i=1,2 ] score = 0.1103 | ic=0.0878, icpn=0.0042, icpm=0.0154, icpn_q20=0.0030 | ic=1.15, icpn=0.14, icpm=0.15, icpn_q20=0.10 | corr=0.0882, cos=0.0847
+[i=2,2 ] score = 0.1103 | ic=0.0854, icpn=0.0051, icpm=0.0159, icpn_q20=0.0038 | ic=1.07, icpn=0.14, icpm=0.15, icpn_q20=0.10 | corr=0.0853, cos=0.0866
+[i=3,2 ] score = 0.1153 | ic=0.0848, icpn=0.0067, icpm=0.0191, icpn_q20=0.0048 | ic=1.05, icpn=0.19, icpm=0.20, icpn_q20=0.14 | corr=0.0847, cos=0.0867
+[i=4,2 ] score = 0.1202 | ic=0.0878, icpn=0.0069, icpm=0.0208, icpn_q20=0.0047 | ic=1.09, icpn=0.22, icpm=0.23, icpn_q20=0.16 | corr=0.0877, cos=0.0886
+[i=5,2 ] score = 0.1190 | ic=0.0887, icpn=0.0064, icpm=0.0199, icpn_q20=0.0040 | ic=1.12, icpn=0.22, icpm=0.23, icpn_q20=0.15 | corr=0.0885, cos=0.0883
+[i=6,2 ] score = 0.1268 | ic=0.0934, icpn=0.0068, icpm=0.0227, icpn_q20=0.0040 | ic=1.14, icpn=0.29, icpm=0.30, icpn_q20=0.19 | corr=0.0934, cos=0.0907
+[i=7,2 ] score = 0.1293 | ic=0.0955, icpn=0.0067, icpm=0.0232, icpn_q20=0.0039 | ic=1.11, icpn=0.27, icpm=0.29, icpn_q20=0.18 | corr=0.0954, cos=0.0922
+[i=8,2 ] score = 0.1329 | ic=0.0945, icpn=0.0078, icpm=0.0259, icpn_q20=0.0047 | ic=1.10, icpn=0.32, icpm=0.33, icpn_q20=0.22 | corr=0.0941, cos=0.0916
+[i=9,2 ] score = 0.1299 | ic=0.0922, icpn=0.0079, icpm=0.0251, icpn_q20=0.0048 | ic=1.13, icpn=0.32, icpm=0.33, icpn_q20=0.22 | corr=0.0919, cos=0.0879
+[i=10,2] score = 0.1288 | ic=0.0933, icpn=0.0073, icpm=0.0241, icpn_q20=0.0042 | ic=1.14, icpn=0.31, icpm=0.32, icpn_q20=0.19 | corr=0.0932, cos=0.0918
+[i=1,3 ] score = 0.1103 | ic=0.0878, icpn=0.0042, icpm=0.0154, icpn_q20=0.0030 | ic=1.15, icpn=0.14, icpm=0.15, icpn_q20=0.10 | corr=0.0882, cos=0.0847
+[i=2,3 ] score = 0.1103 | ic=0.0854, icpn=0.0051, icpm=0.0159, icpn_q20=0.0038 | ic=1.07, icpn=0.14, icpm=0.15, icpn_q20=0.10 | corr=0.0853, cos=0.0866
+[i=3,3 ] score = 0.1163 | ic=0.0875, icpn=0.0060, icpm=0.0186, icpn_q20=0.0042 | ic=1.10, icpn=0.17, icpm=0.19, icpn_q20=0.13 | corr=0.0876, cos=0.0890
+[i=4,3 ] score = 0.1170 | ic=0.0866, icpn=0.0066, icpm=0.0193, icpn_q20=0.0045 | ic=1.06, icpn=0.19, icpm=0.20, icpn_q20=0.14 | corr=0.0863, cos=0.0876
+[i=5,3 ] score = 0.1216 | ic=0.0891, icpn=0.0069, icpm=0.0212, icpn_q20=0.0045 | ic=1.12, icpn=0.24, icpm=0.25, icpn_q20=0.17 | corr=0.0891, cos=0.0901
+[i=6,3 ] score = 0.1240 | ic=0.0920, icpn=0.0066, icpm=0.0212, icpn_q20=0.0042 | ic=1.13, icpn=0.24, icpm=0.25, icpn_q20=0.16 | corr=0.0918, cos=0.0896
+[i=7,3 ] score = 0.1285 | ic=0.0947, icpn=0.0067, icpm=0.0231, icpn_q20=0.0040 | ic=1.13, icpn=0.29, icpm=0.30, icpn_q20=0.19 | corr=0.0946, cos=0.0931
+[i=8,3 ] score = 0.1330 | ic=0.0954, icpn=0.0076, icpm=0.0254, icpn_q20=0.0047 | ic=1.11, icpn=0.31, icpm=0.32, icpn_q20=0.21 | corr=0.0951, cos=0.0909
+[i=9,3 ] score = 0.1309 | ic=0.0941, icpn=0.0075, icpm=0.0248, icpn_q20=0.0046 | ic=1.12, icpn=0.31, icpm=0.32, icpn_q20=0.21 | corr=0.0938, cos=0.0916
+[i=10,3] score = 0.1322 | ic=0.0935, icpn=0.0080, icpm=0.0259, icpn_q20=0.0048 | ic=1.13, icpn=0.33, icpm=0.34, icpn_q20=0.22 | corr=0.0933, cos=0.0904
+[+] dump, path_output = /home/rx/project_0318/output, name = mlp_vwap_678_2017_2022_seed_6_vwap_0_1_20100101_20231231_678
+
+
+
+
+
+
+

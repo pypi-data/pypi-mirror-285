@@ -1,0 +1,108 @@
+RUN
+
+---------------------------------------- model_name = LGBModel ----------------------------------------
+[+] model_name = LGBModel
+[+] train
+[2023/03/18 23:35:24] mem_cur = 4.14GB = 4,447,272,960
+[2023/03/18 23:35:24] mem_max = 4.14GB = 4,447,272,960
+[+] kwargs = {'params_id': 'params_1', 'n_boost': 10, 'show_info': True, 'verbose': 10, 'free_Xy': True}
+[+] params = {'seed': 777, 'objective': 'regression', 'metric': 'rmse', 'n_jobs': 63, 'verbosity': -1, 'learning_rate': 0.01, 'num_leaves': 255, 'max_depth': -1, 'feature_fraction': 0.5, 'bagging_fraction': 0.5}
+[+] X_train.shape = (10000000, 100)
+[+] X_valid.shape = (10, 100)
+[+] dtrain before
+[2023/03/18 23:35:24] mem_cur = 4.14GB = 4,447,272,960
+[2023/03/18 23:35:24] mem_max = 4.14GB = 4,447,272,960
+[+] dtrain after
+[2023/03/18 23:35:24] mem_cur = 4.14GB = 4,447,272,960
+[2023/03/18 23:35:24] mem_max = 4.14GB = 4,447,272,960
+[10]    valid_0's rmse: 0.290136
+[+] predict
+[2023/03/18 23:36:02] mem_cur = 1.39GB = 1,488,838,656
+[2023/03/18 23:36:02] mem_max = 5.59GB = 6,006,554,624
+[+] score = 0.2901363524579272
+[+] get_df_imp
+        imp  col
+0  1.000000  x93
+1  0.958093  x26
+2  0.940076  x45
+3  0.907728  x91
+4  0.869287  x76
+[+] dump
+[+] load
+[+] done
+[2023/03/18 23:36:02] mem_cur = 1.39GB = 1,496,346,624
+[2023/03/18 23:36:02] mem_max = 5.59GB = 6,006,554,624
+score = 0.2901
+
+---------------------------------------- model_name = CATModel ----------------------------------------
+[+] model_name = CATModel
+[+] train
+[2023/03/18 23:36:08] mem_cur = 4.14GB = 4,447,563,776
+[2023/03/18 23:36:08] mem_max = 4.14GB = 4,447,563,776
+[+] kwargs = {'params_id': 'params_1', 'n_boost': 10, 'show_info': True, 'verbose': 10, 'free_Xy': True}
+[+] params = {'task_type': 'CPU', 'random_seed': 777, 'loss_function': 'RMSE', 'eval_metric': 'RMSE', 'thread_count': 63, 'learning_rate': 0.01, 'depth': 8, 'bagging_temperature': 0.2}
+[+] X_train.shape = (10000000, 100)
+[+] X_valid.shape = (10, 100)
+[+] dtrain before
+[2023/03/18 23:36:08] mem_cur = 4.14GB = 4,447,563,776
+[2023/03/18 23:36:08] mem_max = 4.14GB = 4,447,563,776
+[+] dtrain after
+[2023/03/18 23:36:16] mem_cur = 6.36GB = 6,828,810,240
+[2023/03/18 23:36:16] mem_max = 6.50GB = 6,974,898,176
+TBB Warning: The number of workers is currently limited to 7. The request for 62 workers is ignored. Further requests for more workers will be silently ignored until the limit changes.
+
+0:      learn: 0.2886423        total: 1.7s     remaining: 15.3s
+9:      learn: 0.2886414        total: 16.1s    remaining: 0us
+[+] predict
+[2023/03/18 23:36:56] mem_cur = 4.95GB = 5,318,045,696
+[2023/03/18 23:36:56] mem_max = 6.75GB = 7,246,053,376
+[+] score = 0.2901017554160193
+[+] get_df_imp
+        imp  col
+0  1.000000  x31
+1  0.939533  x35
+2  0.929553  x19
+3  0.893136  x84
+4  0.734997  x10
+[+] dump
+[+] load
+[+] done
+[2023/03/18 23:36:56] mem_cur = 4.95GB = 5,319,192,576
+[2023/03/18 23:36:56] mem_max = 6.75GB = 7,246,053,376
+score = 0.2901
+
+---------------------------------------- model_name = XGBModel ----------------------------------------
+[+] model_name = XGBModel
+[+] train
+[2023/03/18 23:37:07] mem_cur = 4.14GB = 4,447,068,160
+[2023/03/18 23:37:07] mem_max = 4.14GB = 4,447,068,160
+[+] kwargs = {'params_id': 'params_1', 'n_boost': 10, 'show_info': True, 'verbose': 10, 'free_Xy': True}
+[+] params = {'random_state': 777, 'objective': 'reg:linear', 'eval_metric': 'rmse', 'nthread': 63, 'verbosity': 0, 'learning_rate': 0.01, 'max_depth': 8, 'subsample': 0.8, 'colsample_bytree': 0.8}
+[+] X_train.shape = (10000000, 100)
+[+] X_valid.shape = (10, 100)
+[+] dtrain before
+[2023/03/18 23:37:08] mem_cur = 4.14GB = 4,447,068,160
+[2023/03/18 23:37:08] mem_max = 4.14GB = 4,447,072,256
+[+] dtrain after
+[2023/03/18 23:37:22] mem_cur = 11.78GB = 12,647,542,784
+[2023/03/18 23:37:22] mem_max = 11.78GB = 12,647,542,784
+[0]     valid-rmse:0.29010
+[9]     valid-rmse:0.29009
+[+] predict
+[2023/03/18 23:38:21] mem_cur = 1.85GB = 1,982,357,504
+[2023/03/18 23:38:21] mem_max = 11.78GB = 12,647,542,784
+[+] score = 0.29009438257919173
+[+] get_df_imp
+        imp  col
+0  1.000000   x0
+1  0.955556  x31
+2  0.933333  x12
+3  0.911111   x4
+4  0.822222  x72
+[+] dump
+[+] load
+[+] done
+[2023/03/18 23:38:21] mem_cur = 1.85GB = 1,983,172,608
+[2023/03/18 23:38:21] mem_max = 11.78GB = 12,647,542,784
+score = 0.2901
+
