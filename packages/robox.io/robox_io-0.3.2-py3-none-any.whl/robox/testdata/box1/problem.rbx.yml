@@ -1,0 +1,33 @@
+---
+name: "test-problem"
+timeLimit: 1000
+memoryLimit: 256
+generators:
+  - name: "gen1"
+    path: "gen1.cpp"
+  - name: "gen2"
+    path: "gen2.cpp"
+validator:
+  path: "validator.cpp"
+testcases:
+  - name: "gen1"
+    testcaseGlob: "tests/*.in"
+    generators:
+      - name: "gen1"
+      - name: "gen2"
+        args: "424242"
+    generatorScript:
+      path: "genScript.py"
+solutions:
+  - path: "sol.cpp"
+    outcome: "ac"
+  - path: "wa.sol.cpp"
+    outcome: "fail"
+  - path: "re.sol.cpp"
+    outcome: "rte"
+  - path: "tle.sol.cpp"
+    outcome: "tle"
+  - path: "tle-and-incorrect.sol.cpp"
+    outcome: "tle"
+  - path: "hard-tle.sol.cpp"
+    outcome: "tle+rte"  # Will RTE in Stupid, TLE in isolate
