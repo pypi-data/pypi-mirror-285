@@ -1,0 +1,42 @@
+%import .line_item (line_item)
+
+?start: ledes_1998b_file
+
+// LEDES1998B[]
+// INVOICE_DATE|INVOICE_NUMBER|...|CLIENT_MATTER_ID[]
+// 20240209|ABC-123|...|CM-500[]
+ledes_1998b_file: LEDES1998B header_row line_item+
+
+header_row: header_invoice_date _PIPE header_invoice_number _PIPE header_client_id _PIPE header_law_firm_matter_id _PIPE header_invoice_total _PIPE header_billing_start_date _PIPE header_billing_end_date _PIPE header_invoice_description _PIPE header_line_item_number _PIPE header_exp_fee_inv_adj_type _PIPE header_line_item_number_of_units _PIPE header_line_item_adjustment_amount _PIPE header_line_item_total _PIPE header_line_item_date _PIPE header_line_item_task_code _PIPE header_line_item_expense_code _PIPE header_line_item_activity_code _PIPE header_timekeeper_id _PIPE header_line_item_description _PIPE header_law_firm_id _PIPE header_line_item_unit_cost _PIPE header_timekeeper_name _PIPE header_timekeeper_classification _PIPE header_client_matter_id _LINE_ENDING
+
+header_invoice_date: "INVOICE_DATE"
+header_invoice_number: "INVOICE_NUMBER"
+header_client_id: "CLIENT_ID"
+header_law_firm_matter_id: "LAW_FIRM_MATTER_ID"
+header_invoice_total: "INVOICE_TOTAL"
+header_billing_start_date: "BILLING_START_DATE"
+header_billing_end_date: "BILLING_END_DATE"
+header_invoice_description: "INVOICE_DESCRIPTION"
+header_line_item_number: "LINE_ITEM_NUMBER"
+header_exp_fee_inv_adj_type: "EXP/FEE/INV_ADJ_TYPE"
+header_line_item_number_of_units: "LINE_ITEM_NUMBER_OF_UNITS"
+header_line_item_adjustment_amount: "LINE_ITEM_ADJUSTMENT_AMOUNT"
+header_line_item_total: "LINE_ITEM_TOTAL"
+header_line_item_date: "LINE_ITEM_DATE"
+header_line_item_task_code: "LINE_ITEM_TASK_CODE"
+header_line_item_expense_code: "LINE_ITEM_EXPENSE_CODE"
+header_line_item_activity_code: "LINE_ITEM_ACTIVITY_CODE"
+header_timekeeper_id: "TIMEKEEPER_ID"
+header_line_item_description: "LINE_ITEM_DESCRIPTION"
+header_law_firm_id: "LAW_FIRM_ID"
+header_line_item_unit_cost: "LINE_ITEM_UNIT_COST"
+header_timekeeper_name: "TIMEKEEPER_NAME"
+header_timekeeper_classification: "TIMEKEEPER_CLASSIFICATION"
+header_client_matter_id: "CLIENT_MATTER_ID"
+
+LEDES1998B: "LEDES1998B[]"
+_PIPE: "|"
+_LINE_ENDING: "[]" // Every line has to end with []
+
+%import common.WS
+%ignore WS
