@@ -1,0 +1,93 @@
+Metadata-Version: 2.1
+Name: rumorz
+Version: 0.1.4
+Summary: Rumorz.io official Python SDK
+Author-email: Othmane Zoheir <othmane@rumorz.io>
+Project-URL: Homepage, https://github.com/rumorz-ai/rumorz-sdk
+Project-URL: Issues, https://github.com/rumorz-ai/rumorz-sdk/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: requests
+
+
+<p align="center">
+    <img src="https://svgur.com/i/18SB.svg" alt="Rumorz Logo" width="150"/>
+</p>
+
+# 🚀 Rumorz Python SDK
+
+Access a real-time knowledge graph of financial markets. Rumorz' AI agents
+read the news 24/7 so you don't have to and extract 
+relevant insights and analytics for investors, traders and developers.
+
+We provide an easy interface to access real-time knowledge and 
+analytics on financial assets, companies, people, organizations and place. 
+
+We only cover cryptomarkets for now but will expand to stocks and other asset classes over time.
+
+## 🛠️ Install
+
+```bash
+pip install rumorz
+```
+
+## 🔒 API Access
+
+Sign up for an account on [Rumorz](rumorz.io) and generate an API key 
+
+## ✅ Live features
+- **Graph screener**: a ranking of all entities in the Rumorz Graph by social metrics 
+
+## 🚀 Upcoming features
+- **Summaries and market updates**: Get real-time market updates and summaries 
+of events over any timeframe
+- **Search**: find financial assets, companies or people in the Rumorz Graph
+- **Entity level news**: get real-time and historical news for any entity
+- **AI workflows**: automate summaries, reports and alerts 
+
+
+## 📚 Use cases
+
+- Market monitoring and alerts
+- Investment and Trading strategies
+- Financial research, analysis and alpha generation
+- Data source for AI Agents and RAG based applications
+- Social media bot development: Telegram, Discord, Twitter/X etc.
+- Workflow automation: emails, PDFs, reports etc.
+
+
+## 🌐 Coverage
+
+We track and extract knowledge and analytics from 100s of websites and 
+news articles in real-time. Rumorz covers cryptocurrencies to start with, 
+but will expand to Stocks and other asset classes based on user
+demand.
+
+
+# 🚀 How to
+
+```python
+from rumorz.client import RumorzClient
+from rumorz.enums import Lookback, ScreenerValues, EntityType
+
+API_KEY = "<YOUR_API_KEY>"
+rumorz = RumorzClient(api_key=API_KEY)
+
+# Rank financial assets by social metrics
+assets_screener = rumorz.graph.get_screener(
+    lookback=Lookback.SEVEN_DAYS,
+    screener_values=ScreenerValues.CHG,
+    entity_type_filter=EntityType.FINANCIAL_ASSET
+)
+
+# Rank people by social metrics
+person_screener = rumorz.graph.get_screener(
+    lookback=Lookback.SEVEN_DAYS,
+    screener_values=ScreenerValues.CHG,
+    entity_type_filter=EntityType.PERSON
+)
+```
