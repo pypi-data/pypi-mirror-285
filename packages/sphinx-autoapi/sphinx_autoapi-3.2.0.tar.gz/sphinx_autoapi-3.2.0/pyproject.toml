@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=46.4.0"]
+build-backend = "setuptools.build_meta"
+
+[[tool.mypy.overrides]]
+module = "astroid.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "autoapi.documenters"
+ignore_errors = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.towncrier]
+directory = "docs/changes"
+filename = "CHANGELOG.rst"
+package = "autoapi"
+title_format = "v{version} ({project_date})"
+underlines = ["-", "^", "\""]
