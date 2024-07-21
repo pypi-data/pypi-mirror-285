@@ -1,0 +1,160 @@
+{
+    "$id": "data-config-schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "CSMAR Data Configuration Schema",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "vender": {
+            "type": "string",
+            "description": "the data source provider name"
+        },
+        "meta_table": {
+            "type": "string",
+            "description": "the table name to stored meta info on cloud"
+        },
+        "data_type": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "data type from oss,api,csv...",
+                    "enum": [
+                        "oss"
+                    ]
+                },
+                "location": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "file location,oss location or api location"
+                }
+            },
+            "required": [
+                "type",
+                "location"
+            ]
+        },
+        "data_versions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string"
+                    },
+                    "versions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "version for the current source, same to source location's subfolder"
+                        }
+                    }
+                },
+                "required": [
+                    "source",
+                    "versions"
+                ]
+            }
+        },
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string"
+                    },
+                    "target_table": {
+                        "type": "string",
+                        "description": "target ods table name, default to ods_{vender}_{source} if ignored."
+                    },
+                    "source_name": {
+                        "type": "string"
+                    },
+                    "meta": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "col_order": {
+                                    "type": "integer"
+                                },
+                                "col_name": {
+                                    "type": "string"
+                                },
+                                "col_type": {
+                                    "type": "string"
+                                },
+                                "col_name_desc": {
+                                    "type": "string"
+                                },
+                                "col_unit": {
+                                    "type": "string"
+                                },
+                                "col_desc": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "col_order",
+                                "col_name",
+                                "col_name_desc"
+                            ]
+                        }
+                    }
+                },
+                "required": [
+                    "source",
+                    "source_name",
+                    "meta"
+                ]
+            }
+        },
+        "matrix": {
+            "type": "array",
+            "description": "define the selected source ods table columns for import into matrix varible table.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "source": {
+                        "type": "string"
+                    },
+                    "target_code_prefix": {
+                        "type": "string"
+                    },
+                    "source_col_prefix": {
+                        "type": [
+                            "string",
+                            "array"
+                        ]
+                    },
+                    "eff_date_col": {
+                        "type": "string"
+                    },
+                    "filter": {
+                        "type": "string"
+                    },
+                    "firm_col": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "source",
+                    "source_col_prefix",
+                    "eff_date_col",
+                    "firm_col"
+                ]
+            }
+        }
+    },
+    "required": [
+        "$schema",
+        "vender",
+        "meta_table",
+        "data_type",
+        "data_versions",
+        "data"
+    ]
+}
