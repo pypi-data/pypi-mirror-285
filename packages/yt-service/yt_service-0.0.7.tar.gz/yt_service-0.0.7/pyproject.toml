@@ -1,0 +1,32 @@
+[project]
+name = "yt-service"
+description = "yt-dlp service"
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT License" }
+authors = [{ name = "Seven", email = "1162584980@qq.com" }]
+dynamic = ["version", "dependencies"]
+
+classifiers = [
+    "Topic :: Utilities",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent"
+]
+
+[project.scripts]
+yt-service = "ytservice.service:start_server"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = { attr = "ytservice.version.VERSION" }
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.packages.find]
+include = ["ytservice*"]
+
+#[tool.black]
+#extend_exclude = "ytservice/contrib/"
