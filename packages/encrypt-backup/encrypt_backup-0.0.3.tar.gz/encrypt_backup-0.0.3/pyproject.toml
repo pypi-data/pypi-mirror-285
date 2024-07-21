@@ -1,0 +1,23 @@
+[project]
+name = "encrypt-backup"
+version = "0.0.3"
+authors = [
+  { name="MouseRider", email="pyu@bapi.eu.org" },
+]
+dependencies =[
+    "cryptography",
+    "curl_cffi"
+]
+description = "A small program for encrypting and decrypting backup files, and generating RSA keys"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+
+# 构建后端，默认为 Hatchling
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
