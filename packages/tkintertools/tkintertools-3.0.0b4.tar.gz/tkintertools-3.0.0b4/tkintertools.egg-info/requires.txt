@@ -1,0 +1,27 @@
+
+[full]
+matplotlib>=3.9.0
+pillow>=10.0.0
+
+[full:platform_system != "Darwin"]
+darkdetect==0.8.0
+
+[full:platform_system == "Darwin"]
+darkdetect[macos-listener]==0.8.0
+
+[full:platform_system == "Windows"]
+pywinstyles==1.8
+hPyT==1.3.2
+win32material==1.0.6
+
+[suggest]
+pillow>=10.0.0
+
+[suggest:platform_system != "Darwin"]
+darkdetect==0.8.0
+
+[suggest:platform_system == "Darwin"]
+darkdetect[macos-listener]==0.8.0
+
+[suggest:platform_system == "Windows"]
+pywinstyles==1.8
