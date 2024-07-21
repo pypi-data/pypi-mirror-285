@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "superdirtpy"
+version = "0.7.0"
+description = "superdirtpy is a client library for Super Dirt written in python."
+authors = ["inaba1115 <inaba1115@gmail.com>"]
+readme = "README.md"
+homepage = "https://github.com/inaba1115"
+repository = "https://github.com/inaba1115/superdirtpy"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+python-osc = "^1.8.3"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+isort = "^5.13.2"
+flake8 = "^7.0.0"
+mypy = "^1.10.0"
+
+[tool.poetry.group.examples.dependencies]
+numpy = "^1.26.4"
+lark = "^1.1.9"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
