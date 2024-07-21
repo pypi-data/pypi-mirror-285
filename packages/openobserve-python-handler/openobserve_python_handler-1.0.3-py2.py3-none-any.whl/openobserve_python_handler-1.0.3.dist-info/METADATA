@@ -1,0 +1,18 @@
+Metadata-Version: 2.1
+Name: openobserve-python-handler
+Version: 1.0.3
+Summary: Logging handler to send logs to your OpenObserve service
+Home-page: https://github.com/digithrone/openobserve-python-handler
+Author: digithrone
+Maintainer: digithrone
+License: Apache License 2
+Keywords: logging handler
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: Programming Language :: Python :: 3.11
+License-File: LICENSE
+Requires-Dist: requests >=2.27.0
+Requires-Dist: protobuf >=3.20.2
+Provides-Extra: opentelemetry-logging
+Requires-Dist: opentelemetry-instrumentation-logging ==0.46b0 ; extra == 'opentelemetry-logging'
+
