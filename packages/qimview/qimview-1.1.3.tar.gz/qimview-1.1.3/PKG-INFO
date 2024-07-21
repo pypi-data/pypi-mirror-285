@@ -1,0 +1,50 @@
+Metadata-Version: 2.1
+Name: qimview
+Version: 1.1.3
+Summary: Library for multiple image visualization and comparison
+Author-email: Karl Krissian <karl.krissian@gmail.com>
+Project-URL: Homepage, https://github.com/qimview/qimview
+Project-URL: Wiki, https://github.com/qimview/qimview/wiki
+Project-URL: Bug Tracker, https://github.com/qimview/qimview/issues
+Project-URL: API, https://qimview.github.io/qimview/
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+Requires-Dist: numpy>=1.21.0
+Requires-Dist: opencv_python>=4.2
+Requires-Dist: psutil>=5.8.0
+Requires-Dist: PyOpenGL>=3.1.5
+Requires-Dist: PySide6>=6.5.2
+Requires-Dist: PySide6_Addons>=6.5.1.1
+Requires-Dist: PySide6_Essentials>=6.5.1.1
+Requires-Dist: simplejpeg>=1.4.0
+Requires-Dist: PyAV
+Provides-Extra: extra
+Requires-Dist: rawpy>=0.16.0; extra == "extra"
+Requires-Dist: python_vlc>=3.0.11115; extra == "extra"
+Requires-Dist: PyTurboJPEG>=1.4.1; extra == "extra"
+Requires-Dist: PyOpenGL_accelerate; extra == "extra"
+
+# Description
+_qimview_ (qt-based image view) is a set of classes that are designed to visualize and compare images. 
+It uses Python as the main language, and include some code in C++ or OpenGL shading language.
+Main features are:
+* **image reader**: read type image format (like jpeg and png) and also raw image format (bayer images)
+* **image cache**: save image reading/uncompressing time by loading previously read image into a buffer
+* **image viewer**: different image viewers are available
+  * QT based without OpenGL
+  * OpenGL based 
+* image viewer can have many **features**:
+  * zomm/pan
+  * display cursor and image information
+  * display histogram
+* **multiple image viewer** to compare a set of images
+* **video viewer** is experimental and based on python vlc binding
+* image **filters** can be applied:
+  * black/white level
+  * saturation
+  * white balance
+
