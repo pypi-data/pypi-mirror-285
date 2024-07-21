@@ -1,0 +1,515 @@
+% Copyright 2015-2017 Dan Foreman-Mackey and the co-authors listed below.
+
+\documentclass[modern, letterpaper]{aastex61}
+
+\pdfoutput=1
+
+\include{vc}
+
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{natbib}
+\usepackage{multirow}
+\bibliographystyle{aasjournal}
+
+% Matrix fix:
+% http://tex.stackexchange.com/questions/317824/letter-c-appearing-inside-pmatrix-environment-with-aastex
+%\makeatletter
+%\def\env@matrix{\hskip -\arraycolsep\let\@ifnextchar\new@ifnextchar\array{*{\c@MaxMatrixCols}c}}
+%\makeatother
+
+% Column spacing in matrix
+% http://tex.stackexchange.com/questions/275725/adjusting-separation-between-matrix-entries
+\setlength\arraycolsep{25pt}
+
+% Projects:
+\newcommand{\project}[1]{\textsf{#1}}
+
+\newcommand{\foreign}[1]{\emph{#1}}
+\newcommand{\etal}{\foreign{et\,al.}}
+\newcommand{\etc}{\foreign{etc.}}
+\newcommand{\ie}{\foreign{i.e.}}
+
+\newcommand{\figureref}[1]{\ref{fig:#1}}
+\newcommand{\Figure}[1]{Figure~\figureref{#1}}
+\newcommand{\figurelabel}[1]{\label{fig:#1}}
+
+\newcommand{\Table}[1]{Table~\ref{tab:#1}}
+\newcommand{\tablelabel}[1]{\label{tab:#1}}
+
+\renewcommand{\eqref}[1]{\ref{eq:#1}}
+\newcommand{\Eq}[1]{Equation~(\eqref{#1})}
+\newcommand{\eq}[1]{\Eq{#1}}
+\newcommand{\eqalt}[1]{Equation~\eqref{#1}}
+\newcommand{\eqlabel}[1]{\label{eq:#1}}
+
+\newcommand{\sectionname}{Section}
+\newcommand{\sectref}[1]{\ref{sect:#1}}
+\newcommand{\Sect}[1]{\sectionname~\sectref{#1}}
+\newcommand{\sect}[1]{\Sect{#1}}
+\newcommand{\sectalt}[1]{\sectref{#1}}
+\newcommand{\App}[1]{Appendix~\sectref{#1}}
+\newcommand{\app}[1]{\App{#1}}
+\newcommand{\sectlabel}[1]{\label{sect:#1}}
+
+\newcommand{\T}{\ensuremath{\mathrm{T}}}
+\newcommand{\dd}{\ensuremath{\,\mathrm{d}}}
+\newcommand{\unit}[1]{{\ensuremath{\,\mathrm{#1}}}}
+\newcommand{\bvec}[1]{{\ensuremath{\boldsymbol{#1}}}}
+\DeclareMathOperator*{\argmax}{argmax}
+
+% TO DOS
+\newcommand{\todo}[3]{{\color{#2}\emph{#1}: #3}}
+\newcommand{\dfmtodo}[1]{\todo{DFM}{red}{#1}}
+
+\newcommand{\response}[1]{{\color{blue}#1}}
+
+\begin{document}
+\sloppy\sloppypar\raggedbottom\frenchspacing
+
+\title{Gaussian processes in astronomy}
+
+\correspondingauthor{Daniel Foreman-Mackey}
+\email{foreman.mackey@gmail.com}
+
+\author[0000-0002-9328-5652]{Daniel Foreman-Mackey}
+\affiliation{Center for Computational Astrophysics, Flatiron Institute, New York, NY}
+\affiliation{NASA Sagan Fellow; Astronomy Department, University of Washington, Seattle, WA}
+
+\begin{abstract}\noindent
+
+Gaussian Processes are a class of statistical models that are broadly applied
+in the astronomical literature.
+This paper provides a pedagogical introduction to the mathematical foundation
+for these models and motivates the use in astrophysics.
+We also provide some examples, a discussion of the limitations of GP models,
+and present some methods for scaling GPs to large datasets.
+
+\end{abstract}
+
+\keywords{%
+ %methods: data analysis
+ %---
+ %methods: statistical
+ %---
+ %asteroseismology
+ %---
+ %stars: rotation
+ %---
+ %planetary systems
+}
+
+\section{Introduction}
+
+Outline:
+
+\begin{enumerate}
+
+\item Intro: history, motivation, some examples, etc.
+
+\item Example: fitting a line to data, the effects of correlated noise
+
+\item Formalism: prior over function space, prediction, etc.
+
+\item Examples: list some examples from the literature (linear models, noise,
+    model, etc.)
+
+\item Issues: outliers, computational cost
+
+\item Scaling: approximate and exact methods
+
+\end{enumerate}
+
+Gaussian Processes (GPs) are a class of stochastic models that have been used
+in the astronomical literature for more than a century\footnote{The Dutch
+astronomer T.~N.~Thiele has been credited as one of the earliest users of
+GPs in 1880 \citep{Lauritzen:1981}.}, but as probabilistic methods for data
+analysis become more popular, these methods have seen a resurgence over the
+past decade.
+Outside of the astronomy, there is a rich literature in statistics, computer
+science, and other fields discussing the implementation and use of GPs as a
+computational tool.
+The quintessential reference is the textbook \emph{Gaussian Processes for
+Machine Learning} \citep{Rasmussen:2006} and much of the discussion in this
+paper draws from this reference, but a clear pedagogical introduction---with
+astronomers in mind---is lacking in the literature.
+The goal of this paper is to fill this gap and enable more astronomers to
+confidently use GPs in their work, or confidently justify not using them.
+We also summarize some of the important developments from other fields and
+discuss their implications for GPs in astronomy.
+
+A useful way of thinking about GP models is that they are an extension of more
+traditional regression methods where we fit for the parameters of a
+deterministic function by minimizing the (scaled) residuals between the model
+predictions and the observations.
+When using GPs, we model both the \emph{mean function} (as before) and the
+\emph{covariance function}.
+This intuitive generalization allows us to take into account stochastic
+effects like correlated noise or model misspecification.
+If this isn't clear, don't worry because we will return to more specific
+examples in the following pages.
+
+\section{Motivating example: Fitting a line to data}
+
+To motivate our discussion, let's start with the classic data analysis
+problem: fitting a line to data.\footnote{A detailed discussion of this
+problem can be found elsewhere \citep{Hogg:2010}.}
+In this example, we have simulated a dataset using a linear model, but we have
+also introduced some correlated noise (more on this shortly).
+The data are shown in SOMEFIGURE with the ``true'' linear model superimposed.
+In this case, we are interested in placing constraints on the parameters of
+this linear model (slope $m$ and intercept $b$) conditioned on the observed
+set of $N$ data points ${\{x_n,\,y_n,\,\sigma_n\}}_{n=1}^N$.
+A typical way of doing this inference would be to compute the weighted linear
+least squares solution \citep[see][for example]{Hogg:2010,Ivezic:2014}.
+This solution is plotted as the SOMECOLOR contour in SOMEFIGURE.\footnote{It
+is worth noting that for this example, we have assumed improper uniform priors
+on $m$ and $b$, and the contours are the ``one-sigma'' credible intervals on
+the resulting posterior.}
+
+
+\section{Notation}
+
+\section{Probabilistic inference}
+
+To start, let's consider the general problem of fitting a model to data.
+Whether you are a frequentist or a Bayesian, the key quantity of interest in
+any fitting procedure is the likelihood function
+\begin{eqnarray}
+\mathcal{L}(\bvec{\theta}) &=& p(D\,|\,\bvec{\theta})
+\end{eqnarray}
+where $D$ represents the data and $\bvec{\theta}$ are the parameters of the
+model.
+The right-hand side of this equation can be read as ``the probability of a
+dataset $D$ given a specific set of model parameters $\bvec{\theta}$.''
+More formally, this is the probability density function (pdf) for $D$
+\emph{conditioned} on $\bvec{\theta}$.
+It is important to remember that this is a pdf \emph{over datasets}.
+This means that
+\begin{eqnarray}
+\int p(D\,|\,\bvec{\theta}) \dd D &=& 1
+\end{eqnarray}
+but
+\begin{eqnarray}
+    \int p(D\,|\,\bvec{\theta}) \dd \bvec{\theta} &\ne& 1 \quad.
+\end{eqnarray}
+
+It is our job as scientists to specify the model~--~and, hence, the likelihood
+function~--~that we want to fit.
+Once we have specified this pdf, there are two main ways to make inferences
+about the model parameters $\bvec{\theta}$ based on a given dataset.
+The first method is to maximize the likelihood to find a point estimate of the
+``best-fit'' parameters.
+This can be written as
+\begin{eqnarray}
+\bvec{\theta}^* = \argmax_{\bvec{\theta}} \mathcal{L}(\bvec{\theta})
+\end{eqnarray}
+where $\bvec{\theta}^*$ are the ``maximum likelihood'' parameters and the
+$\argmax$ operator indicates that we are finding the value of $\bvec{\theta}$
+that maximizes $\mathcal{L}(\bvec{\theta})$.
+In practice, this maximization must usually be performed numerically using a
+non-linear optimization routine.
+
+To quantify the uncertainties on our constraints on the model parameters or
+marginalize over our uncertainty in some nuisance parameters, we can quantify
+the posterior pdf for $\bvec{\theta}$
+\begin{eqnarray}
+p(\bvec{\theta}\,|\,D) &=&
+    \frac{p(\bvec{\theta})\,p(D\,|\,\bvec{\theta})}{p(D)} \quad.
+\end{eqnarray}
+As above, we can read the left-hand side of this equation as ``the probability
+of the parameters conditioned on the data.''
+In practice, this pdf is usually obtained by drawing samples from
+$p(\bvec{\theta}\,|\,D)$ using a numerical method like Markov chain Monte
+Carlo (MCMC).
+In this case, we must specify the likelihood function and, additionally, the
+prior pdf $p(\bvec{\theta})$.
+
+The point here is that the likelihood function is the key ingredient in any
+model fitting context.
+In fact, some people (including this author) would argue that the likelihood
+function is as much part of the model as your code that computes the physics
+of your system.
+The following sections present some of the commonly made assumptions about the
+likelihood function for astronomical data analysis, and then derive the
+Gaussian process (GP) likelihood as a generalization of the standard
+equations.
+In \sect{corr-noise}, we derive the likelihood function for a GP model
+(\eqalt{gp-loglike}) and the key point is that this function is probably a
+\emph{drop-in replacement} for the likelihood that you're currently using.
+
+\section{The Gaussian likelihood}
+
+In this section, we derive the likelihood function that is most commonly used
+for astronomical data analysis and discuss this choice in the context of
+probabilistic data analysis.
+It is not uncommon for astronomers to compute and minimize something that we
+refer to as ``chi-squared'' $\chi^2$, the sum of normalized squared residuals.
+This section demonstrates that this is equivalent to maximizing a likelihood
+function derived under a restrictive set of assumptions.
+This will then allow us, in the next section, to generalize this procedure.
+
+It is commonly assumed that a set of data points with error bars represent
+independent measurements with Gaussian uncertainties of known variance.
+Under this assumption, for a model $f(\bvec{x};\,\bvec{\theta})$, the
+likelihood for a single data point $y_n$ measured at coordinates $\bvec{x}_n$
+with error bar $\sigma_n$ is
+\begin{eqnarray}
+p(y_n\,|\,\bvec{x}_n,\,\sigma_n,\,\bvec{\theta}) &=&
+    \frac{1}{\sqrt{2\,\pi\,{\sigma_n}^2}}\,\exp\left(
+    -\frac{1}{2}\,\frac{{[y_n-f(\bvec{x};\,\bvec{\theta})]}^2}{{\sigma_n}^2}
+    \right) \quad.
+\end{eqnarray}
+Therefore, the joint likelihood for a set of $N$ data points ${\{\bvec{x}_n,\,
+y_n,\, \sigma_n\}}_{n=1}^N$ is
+\begin{eqnarray}\eqlabel{ind-like}
+p(\{y_n\}\,|\,\{\bvec{x}_n,\,\sigma_n\},\,\bvec{\theta}) &=&
+    \prod_{n=1}^N\frac{1}{\sqrt{2\,\pi\,{\sigma_n}^2}}\,\exp\left(
+    -\frac{1}{2}\,\frac{{[y_n-f(\bvec{x};\,\bvec{\theta})]}^2}{{\sigma_n}^2}
+    \right) \quad.
+\end{eqnarray}
+It is common practice to work with the natural logarithm of this quantity
+instead of the likelihood directly.
+Taking the logarithm of \eq{ind-like}, we find
+\begin{eqnarray}\eqlabel{ind-loglike}
+\log p(\{y_n\}\,|\,\{\bvec{x}_n,\,\sigma_n\},\,\bvec{\theta}) &=&
+    -\frac{1}{2}\,\sum_{n=1}^N\left[
+    \frac{{[y_n-f(\bvec{x};\,\bvec{\theta})]}^2}{{\sigma_n}^2}
+    +\log {(2\,\pi\,{\sigma_n}^2)}
+    \right]\quad.
+\end{eqnarray}
+It is worth qualitatively considering the roles of the two terms in
+\eq{ind-loglike} because this discussion will come up repeatedly throughout
+this paper.
+The first term within the square brackets is what is commonly referred to as
+``$\chi^2$'' in the astronomy literature and it quantifies the
+``goodness-of-fit'' of the model.
+The second term quantifies the specificity of the model and penalizes overly
+general models.
+For fixed uncertainties $\{\sigma_n\}$, this second term is a constant with
+respect to the parameters $\bvec{\theta}$ and maximizing the log-likelihood in
+\eq{ind-loglike} is equivalent to minimizing $\chi^2$.
+In other words, calculating $\chi^2$ requires assuming that the uncertainties
+are independent Gaussians with known variance.
+
+This more general formulation of the Gaussian likelihood function will come in
+handy for our derivation of GP modeling shortly, but let's start with a
+concrete example where minimizing $\chi^2$ is not sufficient.
+It is not uncommon for uncertainties on astronomical quantities to be
+underestimated or unknown.
+In this case, we must fit for a parametric representation of the uncertainties
+simultaneously with the model $f(\bvec{x};\,\bvec{\theta})$.
+To do this, we might include another parameter, we'll call it $s$, to quantify
+the amount by which the uncertainties are underestimated.
+In this case, the likelihood becomes
+\begin{eqnarray}\eqlabel{jitter-loglike}
+\log p(\{y_n\}\,|\,\{\bvec{x}_n,\,\sigma_n\},\,\bvec{\theta},\,s) &=&
+    -\frac{1}{2}\,\sum_{n=1}^N\left[
+    \frac{{[y_n-f(\bvec{x};\,\bvec{\theta})]}^2}{{\sigma_n}^2 + s^2}
+    +\log {(2\,\pi\,[{\sigma_n}^2+s^2])}
+    \right]
+\end{eqnarray}
+and we can now use this to fit for both $\bvec{\theta}$ and $s$.
+
+\section{A Gaussian process as a model of correlated noise}
+\sectlabel{corr-noise}
+
+One way to motivate the definition of a GP is to think of it as a model of
+correlated noise.
+The derive this, we start by re-writing \eq{ind-loglike} as a matrix equation
+\begin{eqnarray}\eqlabel{ind-loglike-matrix}
+\log p(\{y_n\}\,|\,\{\bvec{x}_n,\,\sigma_n\},\,\bvec{\theta}) &=&
+    -\frac{1}{2}\,{\bvec{r}_\bvec{\theta}}^\T\,K^{-1}\,{\bvec{r}_\bvec{\theta}}
+    -\frac{1}{2}\,\log\det K
+    -\frac{N}{2}\,\log(2\,\pi)
+\end{eqnarray}
+where $\bvec{r}_\bvec{\theta}$ is the residual vector
+\begin{eqnarray}
+{\bvec{r}_\bvec{\theta}}^\T = \left(\begin{array}{ccc}
+    y_1 - f(\bvec{x}_1;\,\bvec{\theta}) & \cdots &
+    y_N - f(\bvec{x}_N;\,\bvec{\theta})
+\end{array}\right)
+\end{eqnarray}
+and $K$ is the ``covariance matrix'' that is, in this case, diagonal
+\begin{eqnarray}\eqlabel{diag-cov}
+K = \left(\begin{array}{ccc}
+    {\sigma_1}^2 & 0 & 0 \\
+    0 & \ddots & 0 \\
+    0 & 0 & {\sigma_N}^2
+\end{array}\right) \quad.
+\end{eqnarray}
+Noting that, for a diagonal matrix like this $K$, the inverse is
+\begin{eqnarray}
+K^{-1} = \left(\begin{array}{ccc}
+    1/{\sigma_1}^2 & 0 & 0 \\
+    0 & \ddots & 0 \\
+    0 & 0 & 1/{\sigma_N}^2
+\end{array}\right) \quad.
+\end{eqnarray}
+and the log-determinant is
+\begin{eqnarray}
+    \log\det K &=& \log \prod_{n=1}^N {\sigma_n}^2 \\
+    &=& \sum_{n=1}^N \log{\sigma_n}^2 \quad,
+\end{eqnarray}
+we can see that \eq{ind-loglike} and \eq{ind-loglike-matrix} are equivalent.
+
+You might remember that, in the previous section, we assumed that the data
+points are independent.
+This assumption is expressed by the fact that the covariance matrix in
+\eq{diag-cov} is diagonal~--~all the off-diagonal elements are zero.
+In order to take correlated noise into account, we introduce non-zero
+off-diagonal elements in the covariance $K$.
+The $n,\,m$-th entry in the $N \times N$ matrix $K$ quantifies the covariance
+between data points $n$ and $m$.
+If we have some method of \emph{estimating} this covariance \foreign{a
+priori}~--~much like how we often assume that we can estimate the diagonal
+elements of this matrix~--~we can fill in this matrix $K$ and evaluate
+\eq{ind-loglike-matrix} with this new, dense $K$.
+However, it is often hard to estimate these covariances reliably and we will,
+instead, fit for them.
+In practice, we probably don't want to add the $N\,(N-3)/2 \sim N^2$
+parameters that would be needed to fit for each entry in this matrix directly.
+Instead, we parameterize this covariance using a functional form where the
+$n,\,m$-th element of the matrix is given by
+\begin{eqnarray}\eqlabel{kernel}
+K_{n,\,m} &=& {\sigma_n}^2\,\delta_{n,\,m} +
+    k(\bvec{x}_n,\,\bvec{x}_m;\,\bvec{\alpha})
+\end{eqnarray}
+where $\delta_{n,\,m}$ is the Kronecker delta, and $k(\bvec{x}_n,\,\bvec{x}_m;
+\,\bvec{\alpha})$ is a function~--~parameterized by $\bvec{\alpha}$~--~that
+captures the covariance between the data points $\bvec{x}_n$ and $\bvec{x}_m$.
+This function $k(\bvec{x}_n,\,\bvec{x}_m;\,\bvec{\alpha})$ goes by a few names
+in the literature, the most common of which are ``covariance function'' or
+``kernel function''.
+Throughout this paper, we will refer to this function as the covariance
+function.
+To indicate that the covariance matrix is now parameterized by
+$\bvec{\alpha}$, we will typeset it as $K_\bvec{\alpha}$ and the
+log-likelihood function becomes
+\begin{eqnarray}\eqlabel{gp-loglike}
+\log p(\{y_n\}\,|\,\{\bvec{x}_n,\,\sigma_n\},\,\bvec{\theta},\,\bvec{\alpha})
+    &=&
+    -\frac{1}{2}\,{\bvec{r}_\bvec{\theta}}^\T\,{K_\bvec{\alpha}}^{-1}\,
+        {\bvec{r}_\bvec{\theta}}
+    -\frac{1}{2}\,\log\det K_\bvec{\alpha}
+    -\frac{N}{2}\,\log(2\,\pi) \quad.
+\end{eqnarray}
+
+It is worth noting that the case of independent data points
+(\eqalt{ind-loglike-matrix}) is a special (restrictive) case of
+\eq{gp-loglike} where
+\begin{eqnarray}
+k(\bvec{x}_n,\,\bvec{x}_m;\,\bvec{\alpha}) &=& 0 \quad.
+\end{eqnarray}
+In the case of GPs, we relax this assumption and choose a more flexible
+covariance function that approximates the real covariance structure in the
+data generation process.
+If we fit this GP model to a dataset where the data are actually independent
+and the diagonal variances ${\sigma_n}^2$ are correctly estimated, the second
+term in \eq{gp-loglike} will drive the covariance function to zero and
+correctly capture the fact that the data are independent.
+
+One of the touchiest subjects in GP modeling is the choice of covariance
+function and we will return to a detailed discussion of this in \dfmtodo{SOME
+SECTION}, but first, let's consider a concrete example.
+
+\section{Kernel functions}
+
+Any kernel function used for GP modeling must be positive semi-definite.
+If this is not satisfied, the covariance matrix will not be invertible and the
+determinant will be zero or negative, giving a likelihood of zero.
+This requirement can also be written informally as
+\begin{eqnarray}
+    \int k(\bvec{x},\,\bvec{x}^\prime)\,f(\bvec{x})\,f(\bvec{x}^\prime)\,
+    p(\bvec{x})\dd \bvec{x} \, p(\bvec{x}^\prime)\dd \bvec{x}^\prime
+    \ge 0
+\end{eqnarray}
+for all finite functions $f(\bvec{x})$.
+This property is generally hard to prove for a new kernel function so the
+standard practice is to use sums and products of common functions that have
+been proved to be valid.
+Most common functions are discussed in Chapter~4 of \citet{Rasmussen:2006}.
+Just like any model selection problem, there are few different methods of
+choosing the kernel and some of these might be better than others depending on
+the goals of the user.
+Sometimes, the choice can be motivated using physics and the parameters of the
+model can then be interpreted in this same framework.
+In other cases, the GP model might just be acting as an effective model.
+For these situations, it is generally useful to demonstrate quantitatively
+that the results of your inference are not sensitive to your choice of kernel.
+It is also possible to compare different kernel functions using standard model
+comparison techniques like Bayes factors, cross validation, or information
+criteria.
+
+
+
+
+
+
+- an example: linear fit
+- prediction: interpolation and extrapolation
+- kernel choice
+- outliers
+- examples: exoplanet transit fitting, radial velocity fitting, emulation,
+- practical considerations: scaling,
+
+
+\subsection{Code availability}
+
+Alongside this paper, we have released a well-tested and documented open
+source software package that implements the method and all of the examples
+discussed in these pages.
+This software is available on GitHub
+\url{https://github.com/dfm/george}\footnote{This version of the paper was
+generated with git commit \texttt{\githash} (\gitdate).} and Zenodo
+\dfmtodo{ADD ZENODO}, and it is made available under the MIT license.
+
+\acknowledgments
+It is a pleasure to thank
+for helpful discussions informing the ideas and code presented here.
+
+This work was performed in part under contract with the Jet Propulsion
+Laboratory (JPL) funded by NASA through the Sagan Fellowship Program executed
+by the NASA Exoplanet Science Institute.
+
+%This research made use of the NASA \project{Astrophysics Data System} and the
+%NASA Exoplanet Archive.
+%The Exoplanet Archive is operated by the California Institute of Technology,
+%under contract with NASA under the Exoplanet Exploration Program.
+
+%This paper includes data collected by the \kepler\ Mission. Funding for the
+%\kepler\ Mission is provided by the NASA Science Mission directorate.
+%We are grateful to the entire \kepler\ team, past and present.
+%These data were obtained from the Mikulski Archive for Space Telescopes
+%(MAST).
+%STScI is operated by the Association of Universities for Research in
+%Astronomy, Inc., under NASA contract NAS5-26555.
+%Support for MAST is provided by the NASA Office of Space Science via grant
+%NNX13AC07G and by other grants and contracts.
+
+%This research made use of Astropy, a community-developed core Python package
+%for Astronomy \citep{Astropy-Collaboration:2013}.
+
+\facility{Kepler}
+\software{%
+     %\project{AstroPy} \citep{Astropy-Collaboration:2013},
+     %\project{corner.py} \citep{Foreman-Mackey:2016},
+     %\project{Eigen} \citep{Guennebaud:2010},
+     %\project{emcee} \citep{Foreman-Mackey:2013},
+     %\project{george} \citep{Ambikasaran:2016},
+     %\project{Julia} \citep{Bezanzon:2012},
+     %\project{LAPACK} \citep{Anderson:1999},
+     %\project{matplotlib} \citep{Hunter:2007},
+     %\project{numpy} \citep{Van-Der-Walt:2011},
+     %\project{transit} \citep{Foreman-Mackey:2016a},
+     %\project{scipy} \citep{Jones:2001}.
+}
+
+%\vspace{5ex}
+%\appendix
+
+\bibliography{george}
+
+\end{document}
