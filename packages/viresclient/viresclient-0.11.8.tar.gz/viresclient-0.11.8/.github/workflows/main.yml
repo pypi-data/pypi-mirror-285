@@ -1,0 +1,40 @@
+name: main
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [ staging, master ]
+
+jobs:
+  pre-commit:
+    name: Format
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+    - uses: pre-commit/action@v3.0.0
+      with:
+        extra_args: --hook-stage manual --all-files
+
+  checks:
+    name: Check Python ${{ matrix.python-version }} on ${{ matrix.runs-on }}
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        runs-on: [ubuntu-22.04, macos-13, windows-2022]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install package
+      run: python -m pip install .[test]
+    - name: Configure token access
+      run: |
+        viresclient set_token "https://vires.services/ows" ${{ secrets.VIRES_TOKEN_SWARM }}
+        viresclient set_default_server https://vires.services/ows
+    - name: Test package
+      run: python -m pytest -ra
