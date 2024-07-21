@@ -1,0 +1,55 @@
+[pytest]
+addopts =
+    --alluredir=allure-results
+    --clean-alluredir
+
+log_cli = 0 
+log_file = ./.logs/test.log
+log_file_level = info
+log_file_format   = %(levelname)-8s %(asctime)s [%(name)s:%(lineno)s]  : %(message)s
+log_file_date_format  = %Y-%m-%d %H:%M:%S
+
+result_log_level_verbose = info
+result_log_level_separator = warning
+
+disable_test_id_escaping_and_forfeit_all_rights_to_community_support = true
+
+xlsx_meta_column_name = 关键字
+
+run_yaml_case = 1
+yaml_mark_can_use_vars = True
+yaml_steps_can_use_vars = True
+yaml_global_variable_paths =
+    sanmu_vars.yaml
+    sanmu_vars.py
+yaml_global_variable_paths_ignore_if_non_existent = True
+
+filterwarnings =
+    ignore::pytest.PytestAssertRewriteWarning
+    ignore::UserWarning
+
+[sanmu]
+vars_file = sanmu_vars.yaml
+vars_save = yes
+
+allure_path = allure
+allure_report = ./report
+allure_show = no
+
+qywx_url = https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=2c253bf4-6412-4f0e-bc7e-5e0f3216bc24
+dingding_url = https://oapi.dingtalk.com/robot/send?access_token=3905a29983f849fc3c6e9728eb1996cfadfefe7e1cab511c506edd3ee89f5200
+dingding_secret = SEC51f562f1c05967c13d40907fd495585132fa180af76fb6ef0a61f4f682cd87c2
+
+
+[sanmu_ui]
+driver_type= chrome
+wait_poll = 0.1
+wait_max = 5
+touch_css = background: #71b95ea1; border: 2px solid red;
+force_click = no
+screenshot_step = yes
+screenshot_error = yes
+screenshot_playback = yes
+
+[sanmu_api]
+base_url = http://api.fbi.com:9225/rest-v2/
