@@ -1,0 +1,55 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synphage"
+version = "0.2.4"
+authors = [
+  { name="Virginie Grosboillot", email="vestalisvirginis@gmail.com" },
+]
+license = {file = "LICENSE"}
+description = "Python library for plotting synteny diagram for phage and bacterial sequences."
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "dagster >= 1.7.12",
+    "dagster-webserver >= 1.7.12",
+    "biopython >= 1.83",
+    "reportlab >= 4.1.0",
+    "rlPyCairo >= 0.3.0",
+    "cuallee >= 0.13.1",
+    "pandas >= 2.2.1",
+    "duckdb >= 0.10.0",
+    "polars >= 1.0.0",
+    "pyarrow >= 15.0.0",
+    "requests >= 2.31.0",
+    "pycairo == 1.26.1",
+    "svgutils == 0.3.4",
+    "cairosvg == 2.7.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "black==24.4.2",
+  "mypy",
+  "flake8",
+]
+test = [
+  "pytest",
+  "pytest-cov",
+  "coverage",
+]
+all = [
+  "synphage[dev,test]"
+]
+
+
+[project.urls]
+"Homepage" = "https://github.com/vestalisvirginis/synphage"
+"Bug Tracker" = "https://github.com/vestalisvirginis/synphage"
