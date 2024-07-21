@@ -1,0 +1,54 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "papass"
+authors = [{name = "Reinhard Stahn"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">= 3.10"
+dynamic = ["version", "description"]
+classifiers = ["License :: OSI Approved :: MIT License"]
+dependencies = [
+    "click",
+]
+
+[project.urls]
+source = "https://github.com/rainij/papass"
+
+[project.scripts]
+papass = "papass.__main__:cli"
+
+[project.optional-dependencies]
+dev = [
+    "hypothesis",
+    "mypy",
+    "pytest",
+    "ruff",
+]
+dev-pylsp = [
+    "python-lsp-server",
+    "python-lsp-ruff",
+    "pylsp-mypy",
+    "pylsp-rope",
+]
+
+[tool.pytest.ini_options]
+addopts = "--doctest-modules --hypothesis-profile dev"
+testpaths = [
+    "src",  # For doctest
+    "tests",
+]
+
+[tool.ruff]
+line-length = 90
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["F", "I"]
+
+[tool.mypy]
+check_untyped_defs = true
