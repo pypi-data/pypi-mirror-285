@@ -1,0 +1,83 @@
+Metadata-Version: 2.1
+Name: glassesTools
+Version: 1.6.0
+Summary: Tools for processing wearable eye tracker recordings.
+Home-page: https://github.com/dcnieho/glassesTools
+Author: Diederick Niehorster
+Author-email: diederick_c.niehorster@humlab.lu.se
+License: MIT License
+        
+        Copyright (c) 2022-2024 Diederick Niehorster
+        
+        Permission is hereby granted, free of charge, to any person obtaining a copy
+        of this software and associated documentation files (the "Software"), to deal
+        in the Software without restriction, including without limitation the rights
+        to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+        copies of the Software, and to permit persons to whom the Software is
+        furnished to do so, subject to the following conditions:
+        
+        The above copyright notice and this permission notice shall be included in all
+        copies or substantial portions of the Software.
+        
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+        IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+        FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+        AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+        LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+        OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+        SOFTWARE.
+        
+Project-URL: Source Code, https://github.com/dcnieho/glassesTools
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: numpy<2.0.0
+Requires-Dist: pandas
+Requires-Dist: polars[pandas]
+Requires-Dist: msgpack
+Requires-Dist: imgui_bundle==1.5.2
+Requires-Dist: opencv-python-headless==4.10.0.82
+Requires-Dist: ffpyplayer
+Requires-Dist: natsort
+Provides-Extra: gui
+Requires-Dist: imgui_bundle==1.3.0; extra == "gui"
+
+[![Downloads](https://static.pepy.tech/badge/glassestools)](https://pepy.tech/project/glassestools)
+[![PyPI Latest Release](https://img.shields.io/pypi/v/glassesTools.svg)](https://pypi.org/project/glassesTools/)
+[![image](https://img.shields.io/pypi/pyversions/glassesTools.svg)](https://pypi.org/project/glassesTools/)
+
+# GlassesTools v1.6.0
+Tools for processing wearable eye tracker recordings.
+
+If you use this package or any of the code in this repository, please cite:<br>
+[Niehorster, D.C., Hessels, R.S., Benjamins, J.S., Nyström, M. and Hooge, I.T.C. (2023). GlassesValidator:
+A data quality tool for eye tracking glasses. Behavior Research Methods. doi: 10.3758/s13428-023-02105-5](https://doi.org/10.3758/s13428-023-02105-5)
+
+
+# API
+
+### glassesTools.importing
+|function|inputs|description|
+| --- | --- | --- |
+|`get_recording_info()`|<ol><li>[`source_dir`](#common-input-arguments)</li><li>`device`: `glassesTools.eyetracker.EyeTracker`</li></ol>|Determine if provided path contains a recording/recordings made with the specified eye tracker (`device`) and if so, get info about these recordings.|
+|`do_import()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`device`: `glassesTools.eyetracker.EyeTracker`</li><li>`rec_info`</li></ol>|Import the specified recording to `output_dir`. Either `device` or `rec_info` must be specified. Does nothing if directory does not contain a recording made with the specified eye tracker.|
+|  |  |  |
+|`adhawk_mindlink()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li><li>`cam_cal_file`: OpenCV XML file containing a camera calibration to be used when processing this recording. Optional. If not provided a default calibration provided by AdHawk is used.</li></ol>|Import an AdHawk MindLink recording to a subdirectory of `output_dir`. Does nothing if directory does not contain an AdHawk MindLink recording. `rec_info` is optional.|
+|`pupil_core()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li></ol>|Import a Pupil Core recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a Pupil Core recording. `rec_info` is optional.|
+|`pupil_invisible()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li></ol>|Import a Pupil Invisible recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a Pupil Invisible recording. `rec_info` is optional.|
+|`pupil_neon()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li></ol>|Import a Pupil Neon recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a Pupil Neon recording. `rec_info` is optional.|
+|`SeeTrue_STONE()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li><li>`cam_cal_file`: OpenCV XML file containing a camera calibration to be used when processing this recording. Optional. If not provided a default calibration provided by SeeTrue is used.</li></ol>|Import a SeeTrue recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a SeeTrue recording. `rec_info` is optional.|
+|`SMI_ETG()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li></ol>|Import a SMI ETG recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a SMI ETG 1 or 2 recording. `rec_info` is optional.|
+|`tobii_G2()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li></ol>|Import a Tobii Pro Glasses 2 recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a Tobii Pro Glasses 2 recording. `rec_info` is optional.|
+|`tobii_G3()`|<ol><li>[`output_dir`](#common-input-arguments)</li><li>[`source_dir`](#common-input-arguments)</li><li>`rec_info`</li></ol>|Import a Tobii Pro Glasses 3 recording to a subdirectory of `output_dir`. Does nothing if directory does not contain a Tobii Pro Glasses 3 recording. `rec_info` is optional.|
+
+
+### Common input arguments
+|argument|description|
+| --- | --- |
+|`source_dir`|Path to directory containing one (or for some eye trackers potentially multiple) eye tracker recording(s) as stored by the eye tracker's recording hardware or software.|
+|`working_dir`, or `output_dir`|Path to a glassesValidator recording directory. In the case of output_dir, it is the directory the functions in `glassesTools.importing` will import the recording to.|
