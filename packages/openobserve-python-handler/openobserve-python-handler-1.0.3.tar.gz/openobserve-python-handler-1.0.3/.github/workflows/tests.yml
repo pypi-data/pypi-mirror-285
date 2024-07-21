@@ -1,0 +1,17 @@
+name: CI Tests
+on:
+  push:
+    branches:
+      - main
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-python@v3.0.0
+        with:
+          python-version: '3.11'
+      - name: Install tox
+        run: pip install tox
+      - name: Run tox
+        run: python -m tox
