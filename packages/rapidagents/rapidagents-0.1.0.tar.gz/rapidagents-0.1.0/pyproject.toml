@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "rapidagents"
+version = "0.1.0"
+description = "A simple framework for building AI agents"
+authors = ["JHart96 <jordan.da.hart@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [
+    { include = "rapidagents", from = "." }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+llm = "^0.15"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
