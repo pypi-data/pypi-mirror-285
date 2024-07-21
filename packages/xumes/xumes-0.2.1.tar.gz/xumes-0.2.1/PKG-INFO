@@ -1,0 +1,48 @@
+Metadata-Version: 2.1
+Name: xumes
+Version: 0.2.1
+Summary: A game testing tool.
+Author-email: Vincent Mastain <vincentmastain@gmail.com>
+Project-URL: homepage, https://github.com/mastainvin/Xumes
+Project-URL: bug-tracker, https://github.com/mastainvin/Xumes/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: gymnasium>=0.28.1
+Requires-Dist: numpy>=1.23.5
+Requires-Dist: sb3_contrib>=2.0.0a1
+Requires-Dist: stable_baselines3>=2.0.0a1
+Requires-Dist: requests>=2.30.0
+Requires-Dist: statsmodels>=0.14.0
+Requires-Dist: gherkin-official>=24.1.0
+Requires-Dist: multiprocess>=0.70.14
+Requires-Dist: furo
+Requires-Dist: click>=8.1.7
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: tensorboard>=2.14.0
+Requires-Dist: torchvision>=0.18.1
+Requires-Dist: pygame
+Requires-Dist: imitation
+Requires-Dist: sphinx_copybutton
+
+# Xumes
+
+Xumes is a game testing tool designed to be used on top of games without the need to modify the game sources. It provides a framework for observing and interacting with game elements, training models, and conducting tests. For the moment, only the Godot framework has an implemented module for interacting with Xumes. So for the moment, the documentation will be focus on the implementation with godot.
+
+<!--- Please check the [documentation](https://xumes.readthedocs.io/en/latest/) for more information. --->
+
+## Framework usage
+
+The framework is based on the BDD methodology, that's means that two type of files are needed to be write for conducting tests. Those file are the `feature` files and the `steps` files.
+
+The following diagram illustrates the architecture of the framework:
+
+![framework schema](https://github.com/mastainvin/Xumes/assets/61213519/7eadf335-4e8d-4797-9d83-98304a78f275)
+
+
+## Installation
+
+TODO

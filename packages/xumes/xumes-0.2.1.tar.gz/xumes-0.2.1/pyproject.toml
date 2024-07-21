@@ -1,0 +1,43 @@
+[project]
+name = "xumes"
+version = "0.2.1"
+authors = [
+  { name = "Vincent Mastain", email = "vincentmastain@gmail.com" },
+]
+description = "A game testing tool."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "gymnasium>=0.28.1",
+  "numpy>=1.23.5",
+  "sb3_contrib>=2.0.0a1",
+  "stable_baselines3>=2.0.0a1",
+  "requests>=2.30.0",
+  "statsmodels>=0.14.0",
+  "gherkin-official>=24.1.0",
+  "multiprocess>=0.70.14",
+  "furo",
+  "click>=8.1.7",
+  "tabulate>=0.9.0",
+  "tensorboard>=2.14.0",
+  "torchvision>=0.18.1",
+  "pygame",
+  "imitation",
+  "sphinx_copybutton",
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel", "twine"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+homepage = "https://github.com/mastainvin/Xumes"
+bug-tracker = "https://github.com/mastainvin/Xumes/issues"
+
+[project.scripts]
+xumes = "xumes.core.xumes_cli:cli"
