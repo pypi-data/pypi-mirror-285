@@ -1,0 +1,236 @@
+apt-get update 
+apt-get install git-lfs
+git init
+git lfs install
+nvidia-smi
+
+pip install ultralytics 
+pip install llamafactory
+pip install jieba
+pip install nltk
+pip install rouge-chinese
+#pip install bitsandbytes
+
+vi dataset_info.json
+
+{
+  "test": {
+"file_name": "/root/data/test.json"
+  },
+  "train": {
+    "file_name": "/root/data/train.json"
+  },
+  "val": {
+    "file_name": "/root/data/val.json"
+  }
+}
+
+cp dataset_info.json /root/autodl-tmp/llm-train/
+
+llamafactory-cli webui
+
+#训练
+llamafactory-cli train \
+    --stage sft \
+    --do_train True \
+    --model_name_or_path /root/sutodl-tmp/AI-ModelScope/gemma-2b \
+    --preprocessing_num_workers 16 \
+    --finetuning_type lora \
+    --template default \
+    --flash_attn auto \
+    --dataset_dir /root/autodl-tmp/llm-train/ \
+    --dataset test \
+    --cutoff_len 500 \
+    --learning_rate 5e-05 \
+    --num_train_epochs 1.0 \
+    --max_samples 1000 \
+    --per_device_train_batch_size 1 \
+    --gradient_accumulation_steps 3 \
+    --lr_scheduler_type cosine \
+    --max_grad_norm 1.0 \
+    --logging_steps 5 \
+    --save_steps 100 \
+    --warmup_steps 0 \
+    --optim adamw_torch \
+    --packing False \
+    --report_to none \
+    --output_dir saves/Gemma-2B/lora/train_4 \
+    --fp16 True \
+    --plot_loss True \
+    --ddp_timeout 180000000 \
+    --include_num_input_tokens_seen True \
+    --lora_rank 8 \
+    --lora_alpha 16 \
+    --lora_dropout 0 \
+    --lora_target all \
+    --val_size 0.1 \
+    --eval_strategy steps \
+    --eval_steps 100 \
+--per_device_eval_batch_size 1
+
+#验证
+llamafactory-cli train \
+    --stage sft \
+    --model_name_or_path /root/sutodl-tmp/AI-ModelScope/gemma-2b \
+    --preprocessing_num_workers 16 \
+    --finetuning_type lora \
+    --template default \
+    --flash_attn auto \
+    --dataset_dir /root/autodl-tmp/llm-train/ \
+    --dataset val \
+    --cutoff_len 1024 \
+    --max_samples 100 \
+    --per_device_eval_batch_size 1 \
+    --predict_with_generate True \
+    --max_new_tokens 512 \
+    --top_p 0.7 \
+    --temperature 0.95 \
+    --output_dir saves/Gemma-2B/lora/eval_2024-07-13-19-57-54 \
+    --do_predict True \
+    --adapter_name_or_path /root/sutodl-tmp/saves/Gemma-2B/lora/train_3/
+
+#合并导出
+llamafactory-cli export \
+    --model_name_or_path /media/codingma/LLM/llama3/Meta-Llama-3-8B-Instruct \
+    --adapter_name_or_path ./saves/LLaMA3-8B/lora/sft  \
+    --template llama3 \
+    --finetuning_type lora \
+    --export_dir megred-model-path \
+    --export_size 2 \
+    --export_device cpu \
+    --export_legacy_format False
+==========================================
+pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+pip install modelscope addict datasets==2.16.0 oss2 accelerate transformers sentencepiece tiktoken
+=============================================
+from modelscope import snapshot_download
+model_dir = snapshot_download('qwen/CodeQwen1.5-7B-Chat',cache_dir='/root/autodl-tmp/')
+CodeQwen1___5-7B-Chat
+================================================
+#文件vi test.py
+from transformers import AutoTokenizer
+from modelscope import AutoModelForCausalLM
+device = "cuda" # the device to load the model onto
+
+model = AutoModelForCausalLM.from_pretrained(
+    "/root/autodl-tmp/qwen/CodeQwen1___5-7B-Chat",
+    torch_dtype="auto",
+    device_map="auto"
+)
+tokenizer = AutoTokenizer.from_pretrained("/root/autodl-tmp/qwen/CodeQwen1___5-7B-Chat")
+
+prompt = "我有一个回归任务，有一个csv数据集，共5列特征，第六列为目标值，使用sklearn，请按照 7:3 切分训练集、测试集，用随机森林做一个回归预测模型，并进行一次参数调优，然后将模型保存在当前目录下，并预测new.csv文件中第六列的目标值，最后对此回归模型进行评价"
+messages = [
+    {"role": "system", "content": "用python写代码实现如下功能"},
+    {"role": "user", "content": prompt}
+]
+text = tokenizer.apply_chat_template(
+    messages,
+    tokenize=False,
+    add_generation_prompt=True
+)
+model_inputs = tokenizer([text], return_tensors="pt").to(device)
+
+generated_ids = model.generate(
+    model_inputs.input_ids,
+    max_new_tokens=16000
+)
+generated_ids = [
+    output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
+]
+
+response = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+print(response)
+
+=========================================
+from modelscope import snapshot_download
+model_dir = snapshot_download('ZhipuAI/glm-4-9b-chat',cache_dir='/root/autodl-tmp/')
+==================================
+#CHATGLM
+pip install tiktoken
+
+import os
+import torch
+from threading import Thread
+from transformers import AutoTokenizer, StoppingCriteria, StoppingCriteriaList, TextIteratorStreamer, AutoModel
+
+MODEL_PATH = os.environ.get('MODEL_PATH', '/root/autodl-tmp/ZhipuAI/glm-4-9b-chat')
+
+tokenizer = AutoTokenizer.from_pretrained(
+    MODEL_PATH,
+    trust_remote_code=True,
+    encode_special_tokens=True
+)
+
+model = AutoModel.from_pretrained(
+    MODEL_PATH,
+    trust_remote_code=True,
+    # attn_implementation="flash_attention_2", # Use Flash Attention
+    # torch_dtype=torch.bfloat16, #using flash-attn must use bfloat16 or float16
+    device_map="auto").eval()
+
+
+class StopOnTokens(StoppingCriteria):
+    def __call__(self, input_ids: torch.LongTensor, scores: torch.FloatTensor, **kwargs) -> bool:
+        stop_ids = model.config.eos_token_id
+        for stop_id in stop_ids:
+            if input_ids[0][-1] == stop_id:
+                return True
+        return False
+
+
+if __name__ == "__main__":
+    history = []
+    max_length = 8192
+    top_p = 0.8
+    temperature = 0.6
+    stop = StopOnTokens()
+
+    print("Welcome to the GLM-4-9B CLI chat. Type your messages below.")
+    while True:
+        user_input = input("\nYou: ")
+        if user_input.lower() in ["exit", "quit"]:
+            break
+        history.append([user_input, ""])
+
+        messages = []
+        for idx, (user_msg, model_msg) in enumerate(history):
+            if idx == len(history) - 1 and not model_msg:
+                messages.append({"role": "user", "content": user_msg})
+                break
+            if user_msg:
+                messages.append({"role": "user", "content": user_msg})
+            if model_msg:
+                messages.append({"role": "assistant", "content": model_msg})
+        model_inputs = tokenizer.apply_chat_template(
+            messages,
+            add_generation_prompt=True,
+            tokenize=True,
+            return_tensors="pt"
+        ).to(model.device)
+        streamer = TextIteratorStreamer(
+            tokenizer=tokenizer,
+            timeout=60,
+            skip_prompt=True,
+            skip_special_tokens=True
+        )
+        generate_kwargs = {
+            "input_ids": model_inputs,
+            "streamer": streamer,
+            "max_new_tokens": max_length,
+            "do_sample": True,
+            "top_p": top_p,
+            "temperature": temperature,
+            "stopping_criteria": StoppingCriteriaList([stop]),
+            "repetition_penalty": 1.2,
+            "eos_token_id": model.config.eos_token_id,
+        }
+        t = Thread(target=model.generate, kwargs=generate_kwargs)
+        t.start()
+        print("GLM-4:", end="", flush=True)
+        for new_token in streamer:
+            if new_token:
+                print(new_token, end="", flush=True)
+                history[-1][1] += new_token
+
+        history[-1][1] = history[-1][1].strip()

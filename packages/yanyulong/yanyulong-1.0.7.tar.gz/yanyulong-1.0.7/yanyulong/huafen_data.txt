@@ -1,0 +1,158 @@
+import os
+import random
+import shutil
+
+# 输入文件夹路径和划分比例
+folder_path = input("请输入文件夹路径：")
+train_ratio = float(input("请输入训练集比例："))
+
+# 检查文件夹是否存在
+if not os.path.exists(folder_path):
+    print("文件夹不存在！")
+    exit()
+
+# 获取所有jpg和txt文件
+jpg_files = [file for file in os.listdir(folder_path) if file.endswith(".jpg")]
+txt_files = [file for file in os.listdir(folder_path) if file.endswith(".txt")]
+
+# 检查文件数量是否相等
+if len(jpg_files) != len(txt_files):
+    print("图片和标签数量不匹配！")
+    exit()
+
+# 打乱文件顺序
+random.shuffle(jpg_files)
+
+# 划分训练集和验证集
+train_size = int(len(jpg_files) * train_ratio)
+train_jpg = jpg_files[:train_size]
+train_txt = [file.replace(".jpg", ".txt") for file in train_jpg]
+val_jpg = jpg_files[train_size:]
+val_txt = [file.replace(".jpg", ".txt") for file in val_jpg]
+
+# 创建文件夹和子文件夹
+if not os.path.exists("images/train"):
+    os.makedirs("images/train")
+if not os.path.exists("images/val"):
+    os.makedirs("images/val")
+if not os.path.exists("labels/train"):
+    os.makedirs("labels/train")
+if not os.path.exists("labels/val"):
+    os.makedirs("labels/val")
+
+# 复制文件到目标文件夹
+for file in train_jpg:
+    shutil.copy(os.path.join(folder_path, file), "images/train")
+for file in train_txt:
+    shutil.copy(os.path.join(folder_path, file), "labels/train")
+for file in val_jpg:
+    shutil.copy(os.path.join(folder_path, file), "images/val")
+for file in val_txt:
+    shutil.copy(os.path.join(folder_path, file), "labels/val")
+
+
+print("处理完成！")
+
+========================mask
+import copy
+import cv2
+import os
+import shutil
+import numpy as np
+
+
+path = "你的mask路径  /Dataset/mask"
+files = os.listdir(path)
+for file in files:
+    name = file.split('.')[0]
+    file_path = os.path.join(path,name+'.png')
+    img = cv2.imread(file_path)
+    # img = cv2.imread(path)
+    H,W=img.shape[0:2]
+    print(H,W)
+
+    #img1 = cv2.imread("F:/Deep_Learning/Model/YOLOv8_Seg/Dataset/images/20160222_080933_361_1.jpg")
+
+    gray_img = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    ret,bin_img = cv2.threshold(gray_img,0,255,cv2.THRESH_BINARY+cv2.THRESH_OTSU)
+    cnt,hit = cv2.findContours(bin_img,cv2.RETR_TREE,cv2.CHAIN_APPROX_TC89_KCOS)
+
+    #cv2.drawContours(img1,cnt,-1,(0,255,0),5)
+
+    cnt = list(cnt)
+    f = open("标签保存路径 Dataset/labels/{}.txt".format(file.split(".")[0]), "a+")
+    for j in cnt:
+        result = []
+        pre = j[0]
+        for i in j:
+            if abs(i[0][0] - pre[0][0]) > 1 or abs(i[0][1] - pre[0][1]) > 1:# 在这里可以调整间隔点，我设置为1
+                pre = i
+                temp = list(i[0])
+                temp[0] /= W
+                temp[1] /= H
+                result.append(temp)
+
+                #cv2.circle(img1,i[0],1,(0,0,255),2)
+
+        print(result)
+        print(len(result))
+
+        # if len(result) != 0:
+
+        if len(result) != 0:
+            f.write("0 ")
+            for line in result:
+                line = str(line)[1:-2].replace(",","")
+                # print(line)
+                f.write(line+" ")
+            f.write("\n")
+    f.close()
+================================mask
+pip install keras_segmentation
+from keras_segmentation.models.unet import vgg_unet
+
+model = vgg_unet(n_classes=51 ,  input_height=416, input_width=608  )
+
+model.train(
+    train_images =  "dataset1/images_prepped_train/",
+    train_annotations = "dataset1/annotations_prepped_train/",
+    checkpoints_path = "/tmp/vgg_unet_1" , epochs=5
+)
+
+out = model.predict_segmentation(
+    inp="dataset1/images_prepped_test/0016E5_07965.png",
+    out_fname="/tmp/out.png"
+)
+
+import matplotlib.pyplot as plt
+plt.imshow(out)
+
+# evaluating the model 
+print(model.evaluate_segmentation( inp_images_dir="dataset1/images_prepped_test/"  , annotations_dir="dataset1/annotations_prepped_test/" ) )
+=========
+python -m keras_segmentation train \
+ --checkpoints_path="path_to_checkpoints" \
+ --train_images="dataset1/images_prepped_train/" \
+ --train_annotations="dataset1/annotations_prepped_train/" \
+ --val_images="dataset1/images_prepped_test/" \
+ --val_annotations="dataset1/annotations_prepped_test/" \
+ --n_classes=50 \
+ --input_height=320 \
+ --input_width=640 \
+ --model_name="vgg_unet"
+=======
+python -m keras_segmentation predict \
+ --checkpoints_path="path_to_checkpoints" \
+ --input_path="dataset1/images_prepped_test/" \
+ --output_path="path_to_predictions"
+========视频预测
+python -m keras_segmentation predict_video \
+ --checkpoints_path="path_to_checkpoints" \
+ --input="path_to_video" \
+ --output_file="path_for_save_inferenced_video" \
+ --display
+======获取iou
+python -m keras_segmentation evaluate_model \
+ --checkpoints_path="path_to_checkpoints" \
+ --images_path="dataset1/images_prepped_test/" \
+ --segs_path="dataset1/annotations_prepped_test/"
