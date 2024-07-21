@@ -1,0 +1,13 @@
+digraph {
+	graph [compound=false concentrate=false rankdir=TB ranksep=0.4]
+	basic_action [label="basic_action(): dict" shape=box style=rounded]
+	input__user_input [label="input: user_input" shape=oval style=dashed]
+	input__user_input -> basic_action
+	pydantic_action [label="pydantic_action(dict): pydantic_field" shape=box style=rounded]
+	langchain_action [label="langchain_action(pydantic_field): lc_doc" shape=box style=rounded]
+	terminal_action [label="terminal_action(lc_doc): " shape=box style=rounded]
+	basic_action -> terminal_action [label="dict['foo'] == 0" style=dashed]
+	basic_action -> pydantic_action [style=solid]
+	pydantic_action -> langchain_action [style=solid]
+	langchain_action -> terminal_action [style=solid]
+}
