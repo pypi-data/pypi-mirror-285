@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "clovers-leafgame"
+version = "0.1.11"
+description = ""
+authors = ["KarisAya <1048827424@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pydantic = "^2.7.0"
+mplfinance = "^0.12.10b0"
+clovers = {extras = ["all"], version = "^0.1.10"}
+clovers-apscheduler = "^0.1.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
