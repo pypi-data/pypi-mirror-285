@@ -1,0 +1,49 @@
+[build-system]
+requires = ["maturin>=1.1,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "ceylon"
+requires-python = ">=3.7"
+description = "Ceylon is an advanced multi-agent platform specifically developed for Ceylon Aritficial Intelligence."
+readme = { file = "README.md", content-type = "text/markdown" }
+license = { file = "LICENSE" }
+keywords = ["Aritifical Intelligence", "Multi Agent Systems", "CEYLON", "Ceylon Aritficial Intelligence."]
+dynamic = []
+version = "0.14.7"
+classifiers = [
+    "Programming Language :: Rust",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "langchain==0.2.6",
+    "langchain-community==0.2.6",
+    "networkx==3.3",
+    "pydantic==2.7.4",
+    "langchain==0.2.6",
+    "ollama==0.2.1",
+    "openai==1.35.7",
+]
+
+[project.urls]
+Homepage = "https://ceylon.ai"
+Documentation = "https://ceylon.ai"
+Repository = "https://github.com/ceylonai/ceylon"
+Issues = "https://github.com/ceylonai/ceylon/issues"
+Changelog = "https://github.com/ceylonai/ceylon/blob/master/CHANGELOG.md"
+
+[tool]
+
+[tool.maturin]
+manifest-path = "bindings/ceylon/Cargo.toml"
