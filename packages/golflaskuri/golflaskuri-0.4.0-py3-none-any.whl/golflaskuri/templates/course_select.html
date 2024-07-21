@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Kenttävalinta</title>
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <script defer data-domain="golf.atk.works" src="https://vakoilu.atk.works/js/script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h1>Valitse kenttä</h1>
+    <form action="/" method="get">
+        {% for player in players %}
+            {% set hcp_var = player.name + '_hcp' %}
+            <label for="{{ hcp_var }}">{{ player.name|capitalize }}:</label>
+            <input type="number" id="{{ hcp_var }}" step="0.1" name="{{ hcp_var }}" value="{{ player.hcp }}">
+        {% endfor %}
+        <label for="course_name">Course:</label>
+        <select id="course_name" name="course_name">
+            <option value="" disabled selected>Valitse kenttä</option>
+            {% for course in courses|sort(attribute='name') %}
+                <option value="{{ course.name }}">{{ course.name }}</option>
+            {% endfor %}
+        </select><br>
+        <input type="submit" value="Lähetä">
+      </form> 
+      <a href="/">Nollaa</a>
+    </body>
+    <footer>
+        <p>This site does not use any cookies</p>
+        <p>© ATK Works 2024</p>
+    </footer>
+</html>
