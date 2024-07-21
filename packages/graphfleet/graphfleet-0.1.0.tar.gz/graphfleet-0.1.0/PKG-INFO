@@ -1,0 +1,158 @@
+Metadata-Version: 2.1
+Name: graphfleet
+Version: 0.1.0
+Summary: Build upon GraphRAG, provide a quick solution setup and is part of the overall Qredence System like AgenticFleet and FleetUI
+License: MIT
+Author: Zachary
+Author-email: zachary@qredence.ai
+Requires-Python: >=3.10,<3.13
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: aiofiles (>=24.1.0,<25.0.0)
+Requires-Dist: aiolimiter (>=1.1.0,<2.0.0)
+Requires-Dist: at (>=0.0.3,<0.0.4)
+Requires-Dist: azure-identity (>=1.17.1,<2.0.0)
+Requires-Dist: azure-search-documents (>=11.4.0,<12.0.0)
+Requires-Dist: azure-storage-blob (>=12.19.0,<13.0.0)
+Requires-Dist: datashaper (>=0.0.49,<0.0.50)
+Requires-Dist: devtools (>=0.12.2,<0.13.0)
+Requires-Dist: environs (>=11.0.0,<12.0.0)
+Requires-Dist: fastparquet (>=2024.2.0,<2025.0.0)
+Requires-Dist: graspologic (>=3.4.1,<4.0.0)
+Requires-Dist: jupyter (>=1.0.0,<2.0.0)
+Requires-Dist: jupyter-contrib-nbextensions (>=0.7.0,<0.8.0)
+Requires-Dist: lancedb (>=0.10.0,<0.11.0)
+Requires-Dist: nest-asyncio (>=1.6.0,<2.0.0) ; platform_system == "Windows"
+Requires-Dist: networkx (>=3,<4)
+Requires-Dist: nltk (==3.8.1)
+Requires-Dist: numba (==0.60.0)
+Requires-Dist: numpy (>=1.25.2,<2.0.0)
+Requires-Dist: openai (>=1.35.7,<2.0.0)
+Requires-Dist: pyaml-env (>=1.2.1,<2.0.0)
+Requires-Dist: pydantic (>=2,<3)
+Requires-Dist: python-dotenv (>=1.0.0,<2.0.0)
+Requires-Dist: pyyaml (>=6.0.1,<7.0.0)
+Requires-Dist: rich (>=13.6.0,<14.0.0)
+Requires-Dist: scipy (==1.12.0)
+Requires-Dist: swifter (>=1.4.0,<2.0.0)
+Requires-Dist: tenacity (>=8.5.0,<9.0.0)
+Requires-Dist: textual (>=0.72.0,<0.73.0)
+Requires-Dist: tiktoken (>=0.7.0,<0.8.0)
+Requires-Dist: typing-extensions (>=4.12.2,<5.0.0)
+Requires-Dist: uvloop (>=0.19.0,<0.20.0) ; platform_system != "Windows"
+Requires-Dist: yfiles-jupyter-graphs (>=1.7.3,<2.0.0)
+Description-Content-Type: text/markdown
+
+# Overview
+![image](https://github.com/user-attachments/assets/c3ca5ec8-1bbf-4a9c-988e-e7f5100ea5d5)
+
+GraphFleet is based for now from the great  [GraphRAG from Microsoft](https://github.com/microsoft/graphrag) is an advanced implementation of GraphRAG (Retrieval Augmented Generation using Graph structures), designed to enhance large language models' ability to reason about complex information and private datasets. GraphFleet will gradually adopts its own path to fullfilled our roadmap at Qredence.
+
+## GraphFleet
+
+GraphFleet uses knowledge graphs to provide substantial improvements in question-and-answer performance when reasoning about complex information. It addresses limitations of traditional RAG approaches by:
+
+1. Connecting disparate pieces of information through shared attributes.
+2. Structured, hierarchical approach to Retrieval Augmented Generation
+3. Knowledge graph extraction from raw text
+4. Community hierarchy building
+5. Hierarchical summarization
+6. Enhanced reasoning capabilities for LLMs on private datasets
+3. (Soon) Improve the structure of the overall repository.
+4. (Soon) Add our dedicated prompts for the indexing & queriying, more vectordatabase
+5. (Soon) Add pull requests features
+6. (Soon) Provide an User Interface and a quicker way of starting GraphFleet locally
+7. (Soon) Access GraphFleet among our set of solution through a secure and enterprise ready Azure Cloud hosting version. [Join the waitlist now](https://forms.office.com/e/9cHKxgrQgV)
+8. And way more... 👀
+
+## Key Features
+
+- Structured, hierarchical approach to Retrieval Augmented Generation
+- Knowledge graph extraction from raw text
+- Community hierarchy building
+- Hierarchical summarization
+- Enhanced reasoning capabilities for LLMs on private datasets
+
+## Getting Started
+
+### Prerequisites
+
+- Python 3.10+
+- Poetry (for dependency management)
+
+### Installation
+
+1. Clone the repository:
+```
+git clone https://github.com/Qredence/GraphFleet.git
+cd GraphFleet
+```
+
+
+2. Install dependencies using Poetry:
+
+```
+poetry shell
+```
+
+```
+poetry install
+```
+
+### Usage
+
+1. Setting up your settings:
+
+```
+cd graphfleet
+```
+
+- Set up the necessary environment variables in the `.env.example` file and change the name to .env.
+The required ones being :
+
+```
+# Base LLM Settings
+GRAPHRAG_API_KEY="your_api_key"
+GRAPHRAG_API_BASE="http://<domain>.openai.azure.com" # For Azure OpenAI Users
+GRAPHRAG_API_VERSION="api_version" # For Azure OpenAI Users
+
+# Text Generation Settings
+GRAPHRAG_LLM_TYPE="azure_openai_chat" # or openai_chat
+GRAPHRAG_LLM_DEPLOYMENT_NAME="gpt-4-turbo-preview"
+GRAPHRAG_LLM_MODEL_SUPPORTS_JSON=True
+
+# Text Embedding Settings
+GRAPHRAG_EMBEDDING_TYPE="azure_openai_embedding" # or openai_embedding
+GRAPHRAG_LLM_DEPLOYMENT_NAME="text-embedding-3-small"
+
+# Data Mapping Settings
+GRAPHRAG_INPUT_TYPE="text"
+```
+
+
+- Open `settings.yaml` and fill the parameter you wish to fill according to your needs.
+
+
+2. Run the indexing process:
+
+```
+python -m graphrag.index --root ./graphfleet
+```
+
+
+3. Perform queries in local mode or global mode depending on your usecase learn more in the [GraphRAG documentation](https://microsoft.github.io/graphrag/posts/query/overview/):
+For local query mode :
+
+```
+python -m graphrag.query --root ./graphfleet --method local "What are the key features of GraphRAG ??"
+```
+
+For Global query mode :
+
+```
+python -m graphrag.query --root ./graphfleet --method global "What are the top main features of GraphRAG"
+```
+
