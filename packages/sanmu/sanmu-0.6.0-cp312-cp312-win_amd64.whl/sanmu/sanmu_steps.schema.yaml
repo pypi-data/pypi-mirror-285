@@ -1,0 +1,190 @@
+items:
+  anyOf:
+    - properties:
+        allure_epic:
+          type: string
+      required:
+        - allure_epic
+      type: object
+    - properties:
+        allure_feature:
+          type: string
+      required:
+        - allure_feature
+      type: object
+    - properties:
+        allure_story:
+          type: string
+      required:
+        - allure_story
+      type: object
+    - properties:
+        allure_title:
+          type: string
+      required:
+        - allure_title
+      type: object
+    - properties:
+        allure_step:
+          type: string
+      required:
+        - allure_step
+      type: object
+    - properties:
+        request:
+          properties:
+            allow_redirects:
+              type: boolean
+            cookies:
+              type: object
+            data:
+              anyOf:
+                - type: string
+                - type: object
+            headers:
+              properties:
+                Authorization:
+                  type: string
+                X-Requested-With:
+                  type: string
+              type: object
+            json:
+              type: object
+            files:
+              type: object
+            method:
+              type: string
+            params:
+              type: object
+            timeout:
+              type: integer
+            url:
+              type: string
+            verify:
+              type: boolean
+          required:
+            - method
+            - url
+          type: object
+      required:
+        - request
+      type: object
+    - properties:
+        extract:
+          patternProperties:
+            .*:
+              items: false
+              maxItems: 3
+              minItems: 2
+              prefixItems:
+                - enum:
+                    - status_code
+                    - headers
+                    - cookies
+                    - text
+                    - json
+                    - url
+                    - str
+                - type: string
+                - type: number
+              type: array
+          type: object
+      required:
+        - extract
+      type: object
+    - properties:
+        validate:
+          type: object
+          minItems: 1
+          patternProperties:
+            .*:
+              anyOf:
+                - type: string
+                - type: number
+                - type: object
+                  properties:
+                    value:
+                      type: string
+                    mode:
+                      type: string
+                  required:
+                    - value
+                    - mode
+                    - msg
+      required:
+        - validate
+      type: object
+
+    - properties:
+        response:
+          properties:
+            status_code:
+              anyOf:
+                - type: integer
+                  minimum: 100
+                  maximum: 599
+                - type: string
+            headers:
+              type: object
+              minItems: 1
+              patternProperties:
+                .*:
+                  anyOf:
+                    - type: string
+                    - type: number
+                    - type: object
+                      properties:
+                        value:
+                          type: string
+                        mode:
+                          type: string
+                      required:
+                        - value
+                        - mode
+                        - msg
+            text:
+              anyOf:
+                - type: string
+                - type: number
+                - type: object
+                  properties:
+                    value:
+                      type: string
+                    mode:
+                      type: string
+                  required:
+                    - value
+                    - mode
+                    - msg
+            json:
+              anyOf:
+                - type:
+                    - object
+                    - array
+                    - number
+                    - string
+                    - boolean
+                    - 'null'
+
+                - type: object
+                  properties:
+                    value:
+                      type:
+                        - object
+                        - array
+                        - number
+                        - string
+                        - boolean
+                    mode:
+                      type: string
+                  required:
+                    - value
+                    - mode
+                    - msg
+
+          required:
+            - status_code
+          type: object
+      required:
+        - response
+      type: object
