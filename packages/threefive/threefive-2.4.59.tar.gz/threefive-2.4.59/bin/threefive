@@ -1,0 +1,240 @@
+#!/usr/bin/python3
+
+"""
+threefive command line SCTE35 decoder.
+
+"""
+
+
+import sys
+from time import sleep
+from threefive import Stream, print2, decode, version
+import cProfile
+
+REV = "\033[7m"
+NORM = "\033[27m"
+
+
+class SupaStream(Stream):
+
+    def _parse_scte35(self, pkt, pid):
+        print2(pkt)
+        super()._parse_scte35(pkt, pid)
+
+
+def mk_sidecar(cue):
+    """
+    mk_sidecar generates a sidecar file with the SCTE-35 Cues
+    """
+    pts = 0.0
+    with open("sidecar.txt", "a") as sidecar:
+        cue.show()
+        if cue.packet_data.pts:
+            pts = cue.packet_data.pts
+        data = f"{pts},{cue.encode()}\n"
+        sidecar.write(data)
+
+
+HELP = f"""
+
+threefive can parse a SCTE-35 Cue in Base64, Hex, or Integer format.
+
+threefive can also parse SCTE-35 in MPEGTS streams
+from local files, over HTTP(S), UDP unicast or UDP multicast.
+
+{REV} use like this {NORM}
+
+   {REV} base64: {NORM}
+
+        threefive '/DAWAAAAAAAAAP/wBQb+AKmKxwAACzuu2Q=='
+
+    {REV} threefive writes all info to stderr:{NORM}
+
+     if you want to page or parse the output, use 2>&1 .
+
+        threefive '/DAWAAAAAAAAAP/wBQb+AKmKxwAACzuu2Q==' 2>&1 | grep "event_id'
+
+
+    {REV} hex: {NORM}
+
+       threefive '0xfc301600000000000000fff00506fe00a98ac700000b3baed9'
+
+    {REV} files: {NORM}
+
+        threefive myvideo.ts
+
+        threefive video1.ts video2.ts
+
+    {REV} stdin: {NORM}
+
+        cat myvideo.ts | threefive
+
+    {REV} http(s): {NORM}
+
+        threefive https://futzu.com/xaa.ts
+
+
+    {REV} udp: {NORM}
+
+        threefive udp://127.0.0.1:3535
+
+    {REV}multicast:{NORM}
+
+        threefive udp://@235.35.3.5:3535
+
+{REV} keywords {NORM}
+
+{REV}show the version of threefive:{NORM}
+
+        threefive version
+
+{REV}show the pids,programs and streams in an MPEGTS container:{NORM}
+
+        threefive show video.ts
+
+{REV}show raw SCTE-35 packets from MPEGTS video stream:{NORM}
+
+        threefive packets video.ts
+
+{REV}parse a stream,
+write PID,PTS pairs of the video to stdout:{NORM}
+
+        threefive pts video.ts
+
+{REV}parse a stream,
+write raw video to stdout,
+write SCTE-35 to stderr,
+write pts,scte35 cue pairsto sidecar.txt:{NORM}
+
+        threefive proxy https://example.com/video.ts
+
+{REV}parse a stream,
+write pts, SCTE-35 cue pairs to the file sidecar.txt:{NORM}
+
+        threefive sidecar https://example.com/video.ts
+
+{REV}show this help:{NORM}
+
+        threefive help
+
+"""
+
+
+def print_help():
+    """
+    print_help checks sys.argv for the word help
+    and displays the help if found
+    """
+    print2(HELP)
+    sys.exit()
+
+
+def print_version():
+    """
+    version_chk checks for the version keyword.
+
+    """
+    print2(f"{version}")
+    sys.exit()
+
+
+print_map = {
+    "help": print_help,
+    "version": print_version,
+}
+
+
+#   #   #
+
+
+def no_op(cue):
+    """
+    no_op is just a dummy func to pass to Stream.decode()
+    to suppress output.
+    """
+    return cue
+
+
+def packet_chk(arg):
+    """
+    packet_chk checks for the packet keyword
+    and displays SCTE-35 packets if present.
+    """
+    supa = SupaStream(arg)
+    supa.decode()
+
+
+def proxy_chk(arg):
+    """
+    proxy_chk checks for the proxy keyword
+    and proxies the stream to stdout if present.
+    proxy_chk also writes pts,cue pairs to sidecar.txt
+    """
+    strm = Stream(arg)
+    strm.proxy(func=mk_sidecar)
+
+
+def pts_chk(arg):
+    strm = Stream(arg)
+    strm.show_pts()
+
+
+def show_chk(arg):
+    """
+    show_chk checks for the show keyword
+    and displays the streams if present.
+    """
+    strm = Stream(arg)
+    strm.show()
+
+
+def sidecar_chk(arg):
+    """
+    sidecar_chk checks for the sidecar keyword and
+    generates a sidecar file if present.
+    """
+    strm = Stream(arg)
+    strm.decode(func=mk_sidecar)
+
+
+func_map = {
+    "pts": pts_chk,
+    "show": show_chk,
+    "packets": packet_chk,
+    "proxy": proxy_chk,
+    "sidecar": sidecar_chk,
+}
+
+
+def chk_print_map():
+    """
+    chk_print_map checks for print_map.keys() in sys.argv
+    """
+    for key in print_map.keys():
+        if key in sys.argv:
+            print_map[key]()
+            sys.exit()
+
+
+def chk_func_map():
+    """
+    chk_func_map checks for func_map.keys() in sys.argv
+    """
+    for key in func_map.keys():
+        if key in sys.argv:
+            sys.argv.remove(key)
+            for arg in sys.argv[1:]:
+                print2(f"\n\n {arg}\n")
+                sleep(1)
+                func_map[key](arg)
+            sys.exit()
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        chk_print_map()
+        chk_func_map()
+        for arg in sys.argv[1:]:
+            decode(arg)
+    else:
+        decode(sys.stdin.buffer)
