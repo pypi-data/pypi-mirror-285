@@ -1,0 +1,451 @@
+Metadata-Version: 2.1
+Name: synphage
+Version: 0.2.4
+Summary: Python library for plotting synteny diagram for phage and bacterial sequences.
+Author-email: Virginie Grosboillot <vestalisvirginis@gmail.com>
+License: Apache License
+                                   Version 2.0, January 2004
+                                http://www.apache.org/licenses/
+        
+           TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+        
+           1. Definitions.
+        
+              "License" shall mean the terms and conditions for use, reproduction,
+              and distribution as defined by Sections 1 through 9 of this document.
+        
+              "Licensor" shall mean the copyright owner or entity authorized by
+              the copyright owner that is granting the License.
+        
+              "Legal Entity" shall mean the union of the acting entity and all
+              other entities that control, are controlled by, or are under common
+              control with that entity. For the purposes of this definition,
+              "control" means (i) the power, direct or indirect, to cause the
+              direction or management of such entity, whether by contract or
+              otherwise, or (ii) ownership of fifty percent (50%) or more of the
+              outstanding shares, or (iii) beneficial ownership of such entity.
+        
+              "You" (or "Your") shall mean an individual or Legal Entity
+              exercising permissions granted by this License.
+        
+              "Source" form shall mean the preferred form for making modifications,
+              including but not limited to software source code, documentation
+              source, and configuration files.
+        
+              "Object" form shall mean any form resulting from mechanical
+              transformation or translation of a Source form, including but
+              not limited to compiled object code, generated documentation,
+              and conversions to other media types.
+        
+              "Work" shall mean the work of authorship, whether in Source or
+              Object form, made available under the License, as indicated by a
+              copyright notice that is included in or attached to the work
+              (an example is provided in the Appendix below).
+        
+              "Derivative Works" shall mean any work, whether in Source or Object
+              form, that is based on (or derived from) the Work and for which the
+              editorial revisions, annotations, elaborations, or other modifications
+              represent, as a whole, an original work of authorship. For the purposes
+              of this License, Derivative Works shall not include works that remain
+              separable from, or merely link (or bind by name) to the interfaces of,
+              the Work and Derivative Works thereof.
+        
+              "Contribution" shall mean any work of authorship, including
+              the original version of the Work and any modifications or additions
+              to that Work or Derivative Works thereof, that is intentionally
+              submitted to Licensor for inclusion in the Work by the copyright owner
+              or by an individual or Legal Entity authorized to submit on behalf of
+              the copyright owner. For the purposes of this definition, "submitted"
+              means any form of electronic, verbal, or written communication sent
+              to the Licensor or its representatives, including but not limited to
+              communication on electronic mailing lists, source code control systems,
+              and issue tracking systems that are managed by, or on behalf of, the
+              Licensor for the purpose of discussing and improving the Work, but
+              excluding communication that is conspicuously marked or otherwise
+              designated in writing by the copyright owner as "Not a Contribution."
+        
+              "Contributor" shall mean Licensor and any individual or Legal Entity
+              on behalf of whom a Contribution has been received by Licensor and
+              subsequently incorporated within the Work.
+        
+           2. Grant of Copyright License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              copyright license to reproduce, prepare Derivative Works of,
+              publicly display, publicly perform, sublicense, and distribute the
+              Work and such Derivative Works in Source or Object form.
+        
+           3. Grant of Patent License. Subject to the terms and conditions of
+              this License, each Contributor hereby grants to You a perpetual,
+              worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+              (except as stated in this section) patent license to make, have made,
+              use, offer to sell, sell, import, and otherwise transfer the Work,
+              where such license applies only to those patent claims licensable
+              by such Contributor that are necessarily infringed by their
+              Contribution(s) alone or by combination of their Contribution(s)
+              with the Work to which such Contribution(s) was submitted. If You
+              institute patent litigation against any entity (including a
+              cross-claim or counterclaim in a lawsuit) alleging that the Work
+              or a Contribution incorporated within the Work constitutes direct
+              or contributory patent infringement, then any patent licenses
+              granted to You under this License for that Work shall terminate
+              as of the date such litigation is filed.
+        
+           4. Redistribution. You may reproduce and distribute copies of the
+              Work or Derivative Works thereof in any medium, with or without
+              modifications, and in Source or Object form, provided that You
+              meet the following conditions:
+        
+              (a) You must give any other recipients of the Work or
+                  Derivative Works a copy of this License; and
+        
+              (b) You must cause any modified files to carry prominent notices
+                  stating that You changed the files; and
+        
+              (c) You must retain, in the Source form of any Derivative Works
+                  that You distribute, all copyright, patent, trademark, and
+                  attribution notices from the Source form of the Work,
+                  excluding those notices that do not pertain to any part of
+                  the Derivative Works; and
+        
+              (d) If the Work includes a "NOTICE" text file as part of its
+                  distribution, then any Derivative Works that You distribute must
+                  include a readable copy of the attribution notices contained
+                  within such NOTICE file, excluding those notices that do not
+                  pertain to any part of the Derivative Works, in at least one
+                  of the following places: within a NOTICE text file distributed
+                  as part of the Derivative Works; within the Source form or
+                  documentation, if provided along with the Derivative Works; or,
+                  within a display generated by the Derivative Works, if and
+                  wherever such third-party notices normally appear. The contents
+                  of the NOTICE file are for informational purposes only and
+                  do not modify the License. You may add Your own attribution
+                  notices within Derivative Works that You distribute, alongside
+                  or as an addendum to the NOTICE text from the Work, provided
+                  that such additional attribution notices cannot be construed
+                  as modifying the License.
+        
+              You may add Your own copyright statement to Your modifications and
+              may provide additional or different license terms and conditions
+              for use, reproduction, or distribution of Your modifications, or
+              for any such Derivative Works as a whole, provided Your use,
+              reproduction, and distribution of the Work otherwise complies with
+              the conditions stated in this License.
+        
+           5. Submission of Contributions. Unless You explicitly state otherwise,
+              any Contribution intentionally submitted for inclusion in the Work
+              by You to the Licensor shall be under the terms and conditions of
+              this License, without any additional terms or conditions.
+              Notwithstanding the above, nothing herein shall supersede or modify
+              the terms of any separate license agreement you may have executed
+              with Licensor regarding such Contributions.
+        
+           6. Trademarks. This License does not grant permission to use the trade
+              names, trademarks, service marks, or product names of the Licensor,
+              except as required for reasonable and customary use in describing the
+              origin of the Work and reproducing the content of the NOTICE file.
+        
+           7. Disclaimer of Warranty. Unless required by applicable law or
+              agreed to in writing, Licensor provides the Work (and each
+              Contributor provides its Contributions) on an "AS IS" BASIS,
+              WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+              implied, including, without limitation, any warranties or conditions
+              of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+              PARTICULAR PURPOSE. You are solely responsible for determining the
+              appropriateness of using or redistributing the Work and assume any
+              risks associated with Your exercise of permissions under this License.
+        
+           8. Limitation of Liability. In no event and under no legal theory,
+              whether in tort (including negligence), contract, or otherwise,
+              unless required by applicable law (such as deliberate and grossly
+              negligent acts) or agreed to in writing, shall any Contributor be
+              liable to You for damages, including any direct, indirect, special,
+              incidental, or consequential damages of any character arising as a
+              result of this License or out of the use or inability to use the
+              Work (including but not limited to damages for loss of goodwill,
+              work stoppage, computer failure or malfunction, or any and all
+              other commercial damages or losses), even if such Contributor
+              has been advised of the possibility of such damages.
+        
+           9. Accepting Warranty or Additional Liability. While redistributing
+              the Work or Derivative Works thereof, You may choose to offer,
+              and charge a fee for, acceptance of support, warranty, indemnity,
+              or other liability obligations and/or rights consistent with this
+              License. However, in accepting such obligations, You may act only
+              on Your own behalf and on Your sole responsibility, not on behalf
+              of any other Contributor, and only if You agree to indemnify,
+              defend, and hold each Contributor harmless for any liability
+              incurred by, or claims asserted against, such Contributor by reason
+              of your accepting any such warranty or additional liability.
+        
+           END OF TERMS AND CONDITIONS
+        
+           APPENDIX: How to apply the Apache License to your work.
+        
+              To apply the Apache License to your work, attach the following
+              boilerplate notice, with the fields enclosed by brackets "[]"
+              replaced with your own identifying information. (Don't include
+              the brackets!)  The text should be enclosed in the appropriate
+              comment syntax for the file format. We also recommend that a
+              file or class name and description of purpose be included on the
+              same "printed page" as the copyright notice for easier
+              identification within third-party archives.
+        
+           Copyright [yyyy] [name of copyright owner]
+        
+           Licensed under the Apache License, Version 2.0 (the "License");
+           you may not use this file except in compliance with the License.
+           You may obtain a copy of the License at
+        
+               http://www.apache.org/licenses/LICENSE-2.0
+        
+           Unless required by applicable law or agreed to in writing, software
+           distributed under the License is distributed on an "AS IS" BASIS,
+           WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+           See the License for the specific language governing permissions and
+           limitations under the License.
+        
+Project-URL: Homepage, https://github.com/vestalisvirginis/synphage
+Project-URL: Bug Tracker, https://github.com/vestalisvirginis/synphage
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: dagster >=1.7.12
+Requires-Dist: dagster-webserver >=1.7.12
+Requires-Dist: biopython >=1.83
+Requires-Dist: reportlab >=4.1.0
+Requires-Dist: rlPyCairo >=0.3.0
+Requires-Dist: cuallee >=0.13.1
+Requires-Dist: pandas >=2.2.1
+Requires-Dist: duckdb >=0.10.0
+Requires-Dist: polars >=1.0.0
+Requires-Dist: pyarrow >=15.0.0
+Requires-Dist: requests >=2.31.0
+Requires-Dist: pycairo ==1.26.1
+Requires-Dist: svgutils ==0.3.4
+Requires-Dist: cairosvg ==2.7.1
+Provides-Extra: all
+Requires-Dist: synphage[dev,test] ; extra == 'all'
+Provides-Extra: dev
+Requires-Dist: black ==24.4.2 ; extra == 'dev'
+Requires-Dist: mypy ; extra == 'dev'
+Requires-Dist: flake8 ; extra == 'dev'
+Provides-Extra: test
+Requires-Dist: pytest ; extra == 'test'
+Requires-Dist: pytest-cov ; extra == 'test'
+Requires-Dist: coverage ; extra == 'test'
+
+# synphage
+
+Pipeline to create phage genome synteny graphics from genbank files
+
+This library provides an intuitive tool to create synteny graphics highlighting the conserved genes between multiple genome sequences.  
+This tool is primarily designed to work with phage genomes or other short sequences of interest, although it works with bacterial genomes as well.
+
+Despite numerous synteny tools available on the market, this tool has been conceived because none of the available tools allows to visualise gene conservation in multiple sequences at one glance (as typically cross-links are drawn only between two consecutive sequences for a better readability).
+
+As a result `synphage` was born. 
+
+In addition to show conserved genes across multiple sequences, the originality of this library stands in the fact that when working on the same set of genomes the initial blast and computation need to be run only once. Multiple graphics can then be generated from these data, comparing all the genomes or only a set of genomes from the analysed dataset. Moreover, the generated data is also available to the user as a table, where individual genes or groups of genes can easily be checked by name for conservation or uniqueness in the other genomes.
+
+
+## Stats 
+[![PyPI version](https://badge.fury.io/py/synphage.svg)](https://badge.fury.io/py/synphage)
+[![ci](https://github.com/vestalisvirginis/synphage/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/vestalisvirginis/synphage/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/github/vestalisvirginis/synphage/graph/badge.svg?token=HX32HRFS3V)](https://codecov.io/github/vestalisvirginis/synphage)
+[![](https://img.shields.io/pypi/dm/synphage.svg?style=popout-square)](https://pypi.org/project/synphage/)
+[![License](https://img.shields.io/github/license/vestalisvirginis/synphage.svg?style=popout-square)](https://opensource.org/licenses/Apache-2.0)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+
+## Install
+
+`synphage` is available via pip install or as docker image.
+
+
+### Via pip 
+```bash
+pip install synphage
+```
+
+
+### Via docker
+```bash
+docker pull vestalisvirginis/synphage:latest
+```
+
+
+### Additional dependencies
+
+synphage relies on one non-python dependency that need to be manually installed when synphage is installed with pip:
+- [Blast+](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/) >= 2.12.0   
+```bash
+apt update
+apt install -y ncbi-blast+
+```
+
+
+## Usage
+
+### Setup 
+
+synphage requires:
+- to specify a folder path where the  `genbank` folder will be present and where generated data will be stored;
+- a `genbank` folder populated with genbank files (`.gb` and  `.gbk` extension are accepted);
+- a `sequences.csv` file containing the file name and orientation of the sequences to plot.
+
+
+**Warning**: Genbank file names should not contain spaces.
+
+
+#### Path setup
+
+```bash
+export DATA_DIR=<path_to_data_folder>
+```
+
+**Note:** For docker users, this path is defaulted to `/data`.
+
+#### CSV file
+
+```txt
+genome_1.gb,0
+genome_2.gb,1
+genome_3.gb,0
+```
+
+
+### Running Synphage
+
+`synphage` uses [Dagster](https://dagster.io). In order to run synphage jobs, you need to start dagster first.
+
+
+#### Starting Dagster
+
+Set up the environment variable DAGSTER_HOME in order to keep a trace of your previous run. For more information, see [Dagster documentation](https://docs.dagster.io/deployment/dagster-instance). 
+
+```bash
+export DAGSTER_HOME=<dagster_home_directory>
+
+dagster dev -h 0.0.0.0 -p 3000 -m synphage
+```
+
+
+#### Running the jobs
+
+The current software is structured in four different jobs.
+ - `blast` : create the blastn of each sequences against each sequences (results -> gene_identity folder)
+ - `transform` : create three tables from the blastn results and genbank files (results -> tables)
+ - `plot` : create the synteny graph (results -> synteny)
+
+**Note:** Different synteny plots can be generated from the same set of genomes. In this case the two first jobs only need to be run once and the third job (`plot`) can be triggered separately for each graphs.
+
+
+`[2024-01-11]`   ✨ __New feature!__   to simplify the addition of new sequences into the genbank folder
+ - `download` : download genomes to be analysed from the NCBI database 
+
+
+## Output
+
+synphage's output consists of three main parquet files and the synteny graph. However all the data generated by the synphage pipeline are made available in your workng directory.
+
+### Generated data architecture
+
+```
+.
+├── <path_to_data_folder>/
+│   ├── download/
+│   ├── genbank/
+│   ├── fs/
+│   ├── gene_identity/
+│   │   ├── fasta/
+│   │   ├── blastn_database/
+│   │   └── blastn/
+│   ├── tables/
+│   │   ├── blastn.parquet
+│   │   ├── locus_and_gene.parquet
+│   │   └── uniqueness.parquet
+│   └── synteny/
+│      ├── colour_table.parquet
+│      └── synteny_graph.svg
+└── ...
+```
+
+
+### Tables
+
+The `tables` folder contains the three main parquet files generated by the `transform` job of synphage.   
+1. `blastn.parquet` contains the collection of the best match for each locus tag/gene against each genomes. The percentage of identity between two genes/loci are then used for calculating the plot cross-links between the sequences.
+1. `locus_and_gene.parquet` contains the full list of `locus tag` and corresponding `gene` names when available for all the genomes in the genbank folder. If the genbank file only contains `CDS`, the locus tag and gene value are replaced by the protein identifyer `protein_id`.
+1. `uniqueness.parquet` combined both previous data tables in one, allowing the user to quickly know how many matches their gene(s) of interest has/have retrieved. These data are then used to compute the colour code used for the synteny plot. The result of the computation is recorded in the `colour_table.parquet`. This file is over-written between each `plot` run. 
+
+
+### Synteny plot
+
+The `synteny plot` is generated as `.svg file` and `.png file`, and contains the sequences indicated in the sequences.csv file. The genes are colour-coded according to their abundance (percentage) among the plotted sequences. The cross-links between each consecutive sequence indicates the percentage or similarities between those two sequences.
+
+
+#### Plotting config options
+
+Field Name | Description | Default Value
+ ------- | ----------- | ----
+`title` | Generated plot file title | synteny_plot
+`colours` | Gene identity colour bar | ["#fde725", "#90d743", "#35b779", "#21918c", "#31688e", "#443983", "#440154"] 
+`gradient` | Nucleotide identity colour bar | #B22222
+`graph_shape` | Linear or circular representation | linear
+`graph_pagesize` | Output document format | A4
+`graph_fragments` | Number of fragments | 1
+`graph_start` | Sequence start | 1
+`graph_end` | Sequence end | length of the longest genome
+
+
+### Genbank file download
+
+The `download` allow to download sequences of interest into the genbank folder to be subsequently processed by the software.
+
+
+#### Requirement
+
+Connection to the NCBI databases requires user's `email` and `api_key`.
+```bash
+export EMAIL=user.email@email.com
+export API_KEY=UserApiKey
+```
+
+#### Query config options
+
+Field Name | Description | Default Value
+ ------- | ----------- | ----
+`search_key` | Keyword(s) for NCBI query | Myoalterovirus
+`database` | Database identifier | nuccore
+
+
+## Roadmap
+
+- ~~[x] create config options for the plot at run time~~
+- ~~[x] integrate the NCBI search~~
+- [ ] implement blastp 
+- [ ] create possibility to add ref sequence with special colour coding
+- [ ] create interactive plot 
+- [ ] Help us in a discussion?
+
+
+## Contributing 
+
+We accept different types of contributions, including some that don't require you to write a single line of code. For detailed instructions on how to get started with our project, see [CONTRIBUTING](CONTRIBUTING.md) file.
+
+
+## Authors
+- [vestalisvirginis](https://github.com/vestalisvirginis) / Virginie Grosboillot / 🇫🇷 
+
+
+## License
+Apache License 2.0
+Free for commercial use, modification, distribution, patent use, private use.
+Just preserve the copyright and license.
+
+
+> Made with ❤️ in Ljubljana 🇸🇮
