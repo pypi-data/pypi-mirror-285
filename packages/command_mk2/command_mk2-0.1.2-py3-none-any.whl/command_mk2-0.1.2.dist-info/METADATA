@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: command_mk2
+Version: 0.1.2
+Summary: Custom version of Command filter for aiogram 3
+Home-page: https://github.com/AbstractiveNord/CommandMk2
+License: MIT
+Keywords: aiogram,filter,command,commandmk2,command_mk2
+Author: Aleksandr Antonov
+Requires-Python: >=3.10,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Dist: aiogram (>=3.0.0b5,<4.0.0)
+Project-URL: Documentation, https://commandmk2.readthedocs.io/en/latest/
+Project-URL: Repository, https://github.com/AbstractiveNord/CommandMk2
+Description-Content-Type: text/markdown
+
+### Filter CommandMk2 Aiogram 3
+
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+---
+
+Improved command filter
+
+```python
+class RestrictModel(BaseModel):
+    period: date
+    reason: Optional[str]
+
+
+@router.message(CommandMk2('ban {period} {reason}', response_model=RestrictModel, response_model_name='vars'))
+async def ban_user(message: Message, period: date, reason: Optional[str]):
+    ...
+```
+---
+
+Diff:
+
+- Command arguments parsing, not just leaving single string like built-in aiogram filter
+- Command arguments separation and validation using Pydantic model.
+
+---
+Doc is [available here](https://commandmk2.readthedocs.io/en/latest/index.html)
+
